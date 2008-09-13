@@ -1,10 +1,10 @@
 <? 
 # database connection scripts
 # the next 4 lines you can modify
-$dbhost = '';
-$dbusername = '';
-$dbpasswd = '';
-$database_name = '';
+$dbhost = 'localhost';
+$dbusername = 'clinic';
+$dbpasswd = 'likes69';
+$database_name = 'cm_test';
 
 #under here, don't touch!
 $connection = mysql_pconnect("$dbhost","$dbusername","$dbpasswd") 
