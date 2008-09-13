@@ -4,7 +4,7 @@ Below are instructions on how to install ClinicCases on a typical webserver.  If
 
 REQUIREMENTS:
 1. Unix type webserver (e.g. Apache)
-2. Mysql
+2. Mysql .
 3. PHP version 4 or higher
 
 STEPS
