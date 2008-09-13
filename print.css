@@ -1,0 +1,1161 @@
+html, body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, iframe,fieldset, a { margin: 0; padding: 0; border: 0; }
+
+/* Styles specific to print */
+img
+{
+display:none;
+
+}
+
+table
+{
+empty-cells:hide;
+
+}
+
+#response_panel table
+{width:100%;}
+
+#response_panel table td
+{width:50%;}
+
+#response_panel table img
+{display:block;}
+
+#response_panel table input
+{display:none;}
+
+
+
+#folders img
+{
+display:block;
+
+}
+
+#docs_menu
+{
+display:none;
+
+}
+
+#print_title
+{
+display:block;
+
+}
+
+
+#time_form
+{
+
+display:none;
+}
+
+div
+{background-image:url();}
+
+#msg_options
+{
+display:none;
+
+}
+
+#bar
+{
+display:none;
+}
+
+#journal_substance
+{
+width:96%;
+margin:auto;
+margin-top:7%;
+
+background-color:white;
+border:1px solid black;
+text-align:left;
+}
+
+#doer
+{
+display:none;
+
+}
+
+
+
+#utilities_work input
+{display:none;}
+
+#content
+{
+position:relative;
+width:94%;
+height:89%;
+background-color:white;
+margin:auto;
+z-index:1;
+}
+
+#window1
+{
+position:absolute;
+margin:0px;
+
+left:2px;
+top:5px;
+width:99.4%;
+height:98%;
+background-color:rgb(255, 255, 204);
+
+}
+
+/* End */
+
+
+
+body
+{
+background-color:rgb(195, 217, 255);
+text-align:center;
+font-family:garamond, georgia, times, serif;
+}
+
+h1
+{
+font-family:garamond, georgia, times, serif;
+font-size:30pt;
+text-align:left;
+color:blue;
+
+}
+
+
+h3
+{
+font-family:garamond, georgia, times, serif;
+font-size:18pt;
+text-align:left;
+color:blue;
+font-weight:normal;
+font-style:normal;
+}
+
+h4
+{
+font-family:garamond, georgia, times, serif;
+font-size:12pt;
+color:black;
+font-weight:bold;
+}
+
+
+h5
+{
+font-family:garamond, georgia, times, serif;
+font-size:13pt;
+text-align:left;
+color:blue;
+font-weight:bold;
+
+}
+
+#menus
+{
+height:18px;
+width:94%;
+margin:auto;
+background:rgb(195, 217, 255);
+text-align:right;
+font-size:11pt; 
+color:black;
+font-family:garamond, times, serif;
+}
+
+
+
+#nav_container
+{
+position:relative;
+width:94%;
+height:37px;
+background-color:rgb(195, 217, 255);
+margin:auto;
+}
+
+
+
+html>body #content
+{
+position:relative;
+width:94%;
+height:89%;
+background-color:white;
+margin:auto;
+
+border: 1px dotted rgb(0, 0, 128);
+
+}
+
+#nav
+{
+position:absolute;
+top:0px;
+left:0px;
+width:150px;
+height:100%;
+background-color:gray;
+
+}
+
+
+UL {list-style-type: none;}
+LI {margin-bottom:20px;margin-top:20px;}
+
+UL.fr {list-style-top:circle;}
+LI.fr {margin-left:15px;margin-bottom:20px;margin-top:20px;}
+
+
+/* Styles specific to At a Glance page */
+
+
+#messaging
+{
+width:97%;
+height:39%;
+overflow:auto;
+border:2px ridge rgb(195, 217, 255);
+
+background-color:white;
+margin:1% auto 0% auto;
+}
+
+#messaging_menu
+{
+background-color:rgb(195, 217, 255);
+width:100%;
+height:34px;
+padding-left:5px;
+text-align:left;
+
+
+}
+
+html>body #messaging_menu
+{
+background-color:rgb(195, 217, 255);
+width:99.4%;
+height:34px;
+padding-left:5px;
+text-align:left;
+}
+
+
+.box
+{
+width:40%;
+height:40%;
+overflow:auto;
+border:2px ridge rgb(195, 217, 255);
+background-color:white;
+margin-left:2%;
+margin-bottom:2%;
+margin-top:2%;
+
+}
+
+.box_menu
+{
+background-color:rgb(195, 217, 255);
+width:100%;
+height:34px;
+padding-left:5px;
+text-align:left;
+color:white;
+font-weight:bold;
+
+
+
+}
+
+html>body .box
+{
+width:40%;
+height:40%;
+overflow:auto;
+border:2px ridge rgb(195, 217, 255);
+background-color:white;
+margin-left:2%;
+margin-bottom:2%;
+margin-top:2%;
+}
+
+html>body .box_menu
+{
+background-color:rgb(195, 217, 255);
+width:98.5%;
+height:34px;
+padding-left:5px;
+text-align:left;
+color:white;
+font-weight:bold;
+
+
+}
+
+
+
+
+
+
+#messaging_window{
+position:absolute;
+top:2px;
+left:20px;
+width:80%;
+height:90%;
+background-color:white;
+z-index:5;
+border:6px ridge rgb(195, 217, 255);
+}
+
+#recent_activity
+{
+height:26%;
+width:97%;
+border:2px ridge rgb(195, 217, 255);
+
+margin-top:1.5%;
+overflow:auto;
+background-color:white;
+
+}
+
+
+html>body #recent_activity
+{
+height:26%;
+width:97%;
+border:2px ridge rgb(195, 217, 255);
+
+margin:1% auto 0% auto;
+background-color:white;
+overflow:auto;
+}
+
+#upcoming_events
+{
+height:26%;
+width:97%;
+border:2px ridge rgb(195, 217, 255);
+margin-top:1.5%;
+background-color:white;
+overflow:auto;
+}
+
+html>body #upcoming_events
+{
+height:26%;
+width:97%;
+border:2px ridge rgb(195, 217, 255);
+margin:1% auto 0% auto;
+background-color:white;
+overflow:auto;
+}
+
+/* CSS for autocomplete */
+ #autocomplete,#autocomplete2 {
+      position:absolute;
+      width:250px;
+      background-color:white;
+      border:1px solid #888;
+      margin:0px;
+      padding:0px;
+      z-index:5;
+    }
+    #autocomplete ul,#autocomplete2 ul {
+      list-style-type:none;
+      margin:0px;
+      padding:0px;
+    }
+    #autocomplete ul li.selected,#autocomplete2 ul li.selected { background-color: rgb(240, 240, 240);}
+    #autocomplete ul li,#autocomplete2 ul li {
+      list-style-type:none;
+      display:block;
+      margin:0;
+      padding:2px;
+      height:32px;
+      cursor:pointer;
+    } 
+
+/* End css for autocomplete */
+
+
+
+/* End At a  */
+
+/* Admin enter new cases page */
+html>body #new_case
+{
+
+float:left;
+width:47%;
+height:96%;
+padding:10px;
+text-align:left;
+border-right:2px dotted gray;
+
+}
+
+#new_case
+{
+float:left;
+width:50%;
+height:97%;
+padding:5px;
+text-align:left;
+}
+
+#new_case label
+{
+display:block;
+float:left;
+width:100px;
+margin-left:10px;
+
+}
+
+#new_case p
+{margin:10px;}
+
+html>body #new_case_right
+{
+text-align:left;
+padding:10px;
+width:48%;
+height:100%;
+float:right;
+}
+#new_case_right
+{
+text-align:left;
+padding:5px;
+width:50%;
+height:100%;
+float:right;
+}
+
+#new_case_right label
+{
+display:block;
+float:left;
+width:100px;
+margin-left:10px;
+
+}
+
+#new_case_right p
+{margin:10px;}
+
+
+
+
+/* End */
+#window1
+{
+position:absolute;
+margin:0px;
+
+left:2px;
+top:5px;
+width:99.4%;
+height:98%;
+background-color:rgb(255, 255, 204);
+z-index:2;
+border:2px ridge rgb(195, 217, 255);
+overflow:auto;
+}
+
+html>body #window1
+{
+margin:0px;
+width:98.8%;
+height:97%;
+background-color:rgb(255, 255, 204);
+z-index:2;
+border:1px ridge #bbf;
+}
+
+#display_cases
+{
+width:99%;
+margin:auto;
+border:2px dotted rgb(192,192,192);
+}
+
+
+html>body #display_cases
+{
+
+width:99%;
+margin:auto;
+border:1px dotted black;
+}
+/* Specific to journals */
+#journal_container
+{
+width:95%;
+margin-left:2.5%;
+margin-right:2.5%;
+height:90%;
+border:1px solid black;
+
+}
+
+html>body #journal_container
+{
+width:95%;
+margin-left:2.5%;
+margin-right:2.5%;
+height:90%;
+border:1px solid black;
+overflow:auto;
+
+
+}
+
+
+
+/* Styles specific to cm.cases.single.php */
+#single_menu
+{
+width:77%;
+height:33px;
+background-color:rgb(255, 255, 204);
+text-align:left;
+float:right;
+padding-top:8px;
+
+}
+
+
+html>body #single_menu
+{
+width:77%;
+height:33px;
+background-color:rgb(255, 255, 204);
+text-align:left;
+float:right;
+padding-top:8px;
+
+}
+
+
+
+
+#close
+{
+position:absolute;top:8px;right:8px;z-index:2;
+}
+
+#case_single_side
+{
+width:21%;
+height:96%;
+text-align:left;
+background-color:white;
+float:left;
+padding-top:5px;
+padding-left:5px;
+border:2px dotted rgb(224,224,224);
+margin-left:.5%;
+margin-top:1%;
+margin-right:.5%;
+}
+
+html>body #case_single_side
+{
+width:20.3%;
+height:94.5%;
+text-align:left;
+background-color:white;
+float:left;
+padding-top:.6%;
+padding-left:5px;
+border:1px dotted rgb(224,224,224);
+margin-left:1%;
+margin-top:1%;
+}
+
+
+#case_single_main
+{
+
+width:76%;
+height:93%;
+float:right;
+border:2px dotted rgb(224,224,224);
+margin-right:5px;
+/* Below deals with ie z-index bug */
+position:relative;
+z-index:3;
+
+
+
+}
+
+html>body #case_single_main
+{
+
+width:76%;
+height:91.5%;
+float:right;
+border:1px dotted black;
+margin-right:10px;
+margin-left:1px;
+
+
+
+}
+
+
+
+#timer
+{
+width:50%;
+height:10%;
+
+
+
+}
+
+fieldset
+{
+border:1px dotted black;
+margin-left:5px;
+}
+
+legend
+{
+background-color:white;
+padding-left:5px;
+padding-right:5px;
+}
+
+#time_form_table td
+{
+padding-left:10px;
+padding-right:10px;
+
+
+
+}
+
+#contact_info
+{
+display:inline;
+margin-top:-25px;
+margin-left: 10px;
+text-align:left;
+height:100%;
+width:40%;
+border: 1px solid red;
+
+}
+
+
+#case_activity
+{
+width:100%;
+height:100%;
+
+text-align:left;
+overflow:auto;
+background-color:white;
+/* This is in here to deal with IE z-index bug */
+position:relative;
+z-index:3;
+}
+
+#edit_space
+{
+position:absolute;
+left:300px;
+top:300px;
+width:300px;
+height:300px;
+background:yellow;
+z-index:3;
+
+
+}
+
+#case_act_menu
+{
+display:none;
+}
+
+/* End */
+/* Styles specific to Documents section */
+#case_docs
+{
+width:99%;
+height:33%;
+border:1px solid black;
+text-align:left;
+}
+
+#docs_menu
+{
+background-color:rgb(255, 255, 204);
+width:100%;
+height:35px;
+
+
+}
+
+#trash
+{
+position:absolute;
+right:20px;
+top:.7%;
+width:50px;
+height:30px;
+}
+
+
+html>body #trash
+{
+position:absolute;
+right:20px;
+top:8%;
+width:50px;
+height:30px;
+
+}
+
+
+
+
+.folder_x
+{
+width:100px;
+height:150px;
+text-align:center;
+float:left;
+
+
+}
+
+
+#uploader
+{
+position:absolute;
+left:10px;
+top:20px;
+z-index:3001;
+width:40%;
+height:40%;
+margin-top:6px;
+border:3px ridge #bbf;
+background-color:white;
+}
+
+#uploader_frame
+{
+width:100%;
+
+
+}
+
+
+/* Styles for Students Page */
+.students
+{
+width:18%;
+height:160px;
+float:left;
+margin:5px;
+background: url(images/student_bg.jpg) no-repeat center;
+
+}
+
+#students_top
+{
+width:98.5%;
+height:50%;
+padding-top:10px;
+overflow:auto;
+}
+#students_cases
+{
+width:98.5%;
+height:44%;
+overflow:auto;
+border-top:2px dotted rgb(195, 217, 255);
+
+}
+
+/* End */
+
+/* Style for Student Details */
+
+
+#container
+{
+width:99%;
+height:47%;
+}
+
+html>body #container
+{
+width:100%;
+height:48%;
+margin-bottom:2%
+}
+
+#photo
+{
+width:30%;
+height:95%;
+text-align:left;
+padding:0px 0px 0px 15px;
+border:1px dotted gray;
+float:left;
+margin-top:11px;
+overflow:auto;
+background-color:rgb(195, 217, 255);
+
+}
+
+html>body #photo
+{
+width:28%;
+height:100%;
+text-align:left;
+padding:0px 0px 0px 5px;
+border:1px dotted gray;
+float:left;
+margin-top:10px;
+margin-left:1%;
+margin-right:1%;
+
+}
+
+
+
+#detail_activity
+{
+float:right;
+width:69%;
+height:95%;
+margin-top:10px;
+text-align:left;
+background-color:white;
+overflow:auto;
+border:1px dotted gray;
+}
+
+html>body #detail_activity
+{
+float:right;
+width:68%;
+height:100%;
+margin-left:0%;
+margin-right:1%;
+margin-top:10px;
+text-align:left;
+border:1px dotted gray;
+background-color:white;
+overflow:auto;
+}
+
+#detail_cases
+{
+width:98%;
+height:25%;
+overflow:auto;
+border:1px dotted gray;
+margin-top:1%;
+background-color:white;
+}
+
+html>body #detail_cases
+{
+width:98%;
+height:22%;
+overflow:auto;
+border:1px dotted gray;
+margin-left:1%;
+margin-right:1%;
+margin-top:1%;
+background-color:white;
+}
+
+
+
+#detail_events
+{
+width:99%;
+height:25%;
+overflow:auto;
+background-color:white;
+margin-top:1%;
+border:1px dotted gray;
+
+}
+
+
+html>body #detail_events
+{
+width:98%;
+margin-left:1%;
+margin-right:1%;
+height:24%;
+overflow:auto;
+background-color:white;
+border:1px dotted gray;
+
+}
+
+
+
+
+
+/* Style for contacts */
+#contacts_menu
+{
+display:none;
+
+}
+
+
+
+#add_event
+{
+
+
+
+width:100%;
+height:150px;
+
+background-color:rgb(255, 255, 204);
+border-bottom: 3px ridge rgb(195, 217, 255);
+
+}
+
+
+
+
+thead 
+{background-color:rgb(128, 128, 128);font-weight:bold;color:rgb(228,228,228);}
+
+
+
+
+
+input
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:black; 
+}
+
+input.small
+{
+font-family:garamond, georgia, times, serif;
+font-size:10pt;
+color:black; 
+
+}
+select.gray
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:rgb(224, 224, 224);
+}
+
+select
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:black;
+}
+textarea
+{
+font-family:garamond, georgia, times, serif;
+font-size:12pt;
+color:black;
+border:1px solid black;
+
+
+}
+
+
+label
+{
+font-family:garamond, georgia, times, serif;
+font-size:10pt;
+color:rgb(128, 128, 128);
+}
+
+label.msg
+{
+font-family:garamond, georgia, times, serif;
+font-size:10pt;
+color:rgb(128, 128, 128);
+float:left;
+width:100px;
+
+}
+
+
+.inactive
+{color:rgb(224, 224, 224); }
+
+button
+{
+
+font-size:14pt;
+}
+
+.submit_image
+{
+margin-bottom:-7px;
+margin-right:20px; 
+}
+
+html>body .submit_image
+{
+margin-bottom:-12px;
+margin-right:20px;
+}
+
+.print_image
+{
+margin-bottom:-7px;
+margin-right:0px;
+margin-left:10px; 
+}
+
+html>body .print_image
+{
+margin-bottom:-10px;
+margin-right:0px;
+margin-left:10px;
+}
+
+/* Style for casenotes */
+.casenotedesc
+{
+
+
+}
+
+a.nav {font-size:30pt; color:black;font-family:garamond, times, serif;text-decoration:none;}
+a.nav:hover {font-size:30pt;color:green;font-family:garamond, times, serif;text-decoration:none;}
+
+a.menu {font-size:10pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.menu:hover {font-size:10pt;color:red;font-family:garamond, times, serif;text-decoration:none;}
+
+
+a.theader {font-weight:bold;color:rgb(228,228,228);text-decoration:underline;}
+a.theader:hover {font-weight:bold;color:red;text-decoration:underline;}
+
+a.singlenav{font-size:12pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.singlenav:hover{font-size:12pt; color:blue;font-family:garamond, times, serif;text-decoration:underline;}
+
+a.folder {text-decoration:none;}
+a.folder:hover {text-decoration:underline;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
