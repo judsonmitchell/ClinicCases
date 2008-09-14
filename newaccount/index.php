@@ -138,7 +138,7 @@ $admin = $zz[email];
 </div>
 <div id="right" style="float:right;width:55%;height:94%;border-left: 1px dashed gray;padding-top:1.5%;">
 <center>
-<form name="newAccount" id="newAccount" action="index.php" method="post">
+<form name="newAccount" id="newAccount" action="index.php" method="post" onSubmit="return valAcct();">
 <table width="35%">
 <tr><td><label for "first_name">First Name <span style="color:red;font-size:10pt;">*</span></label></td><td><input type="text" id="first_name" name="first_name"></td></tr>
 <tr><td><label for "last_name">Last Name <span style="color:red;font-size:10pt;">*</span></label></td><td><input type="text" id="last_name" name="last_name"></td></tr>
