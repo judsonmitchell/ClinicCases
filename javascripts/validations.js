@@ -109,4 +109,15 @@ return true;
 
 }
 
+function valAcct()
+{
+	if (document.getElementById('first_name').value == '' || document.getElementById('last_name').value == '' || document.getElementById('email').value == '')
+		{alert('One of the required fields is blank.  Please review the form and add the necessary information.');return false;}
+	else
+		{return true;}
+	
+	
+	
+}
+
 
