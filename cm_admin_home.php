@@ -29,6 +29,8 @@ include './classes/format_dates_and_times.class.php';
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
 <script src="scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+<script src="./javascripts/validations.js" type="text/javascript"></script>
+
 <script src="./javascripts/spread.js" type="text/javascript"></script>
 <script src="javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script>
