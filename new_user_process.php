@@ -78,21 +78,33 @@ $query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`ema
 
 $message = "You ClinicCases.com account has been activated.  Your username is $username and your temporary password is $password2.  Please make sure to change your password after you log in by clicking the Utilities Tab.";
 $subject = "ClinicCases.com: Your Account is Activated";
-$to = $email;
+$to = $_POST[email];
 $headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
-   "Reply-To: no-reply@" . $_SERVER[HTTP_HOST] . "\r\n" .
+   "Reply-To: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
    "X-Mailer: PHP/" . phpversion();
 mail($to,$subject,$message,$headers);
 
 /* This moves the picture from images_tmp to people and assigns the correct id.  Note that the temporary password is used as the unique identifier, so no md5 password here.  Md5 hash can be done when the user changes the password */
 
+
+
 $fix_pic = mysql_query("SELECT `id` FROM `cm_users` WHERE `password` = '$password3' LIMIT 1");
 $res = mysql_fetch_array($fix_pic);
 $target = $res[id];
+
+/* This checks if the user has uploaded a picture; if not, then the default icon is used */
+
+
 $old_pic = "images_tmp/" . $temp_id . ".jpg";
+
+if (file_exists($old_pic))
+{
 $new_pic = "people/". $target . ".jpg";
 copy($old_pic,$new_pic);
 unlink($old_pic);
+}
+else
+{$new_pic = "people/no_picture.png";}
 if ($res[picture_url])
 {$target2 = $res[picture_url];}
 else
