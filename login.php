@@ -2,7 +2,7 @@
 session_start();
 
 include 'db.php';
-
+/* Nb */
 $username = $_POST['username'];
 $password = md5($_POST['password']);
 
