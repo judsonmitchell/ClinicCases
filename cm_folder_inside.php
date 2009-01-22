@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'db.php';
-include 'date_format_with_time.php';
+include './classes/format_dates_and_times.class.php';
 $case_id = $_GET['case_id'];
 $folder = $_GET['folder'];
 echo <<<MENU
