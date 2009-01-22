@@ -135,7 +135,7 @@ echo <<<DATA
 <p><LABEL FOR "address1">Address</LABEL><INPUT TYPE="text" name = "address1" id="address1" size="35"></p>
 <p><LABEL FOR "address2">Address 2</LABEL><INPUT TYPE="text" name = "address2" id="address2" size="35"></p>
 <p><LABEL FOR "city">City</LABEL><INPUT TYPE="text" name = "city" id="city" size="35"></p>
-<p><LABEL FOR "state">State</LABEL><INPUT TYPE="text" name = "state" id="state" size="35" value="LA"></p>
+<p><LABEL FOR "state">State</LABEL><INPUT TYPE="text" name = "state" id="state" size="35" value=" "></p>
 <p><LABEL FOR "zip">Zip Code</LABEL><INPUT TYPE="text" name = "zip" id="zip" size="10"></p>
 <p><LABEL FOR "phone1">Phone 1</LABEL><INPUT TYPE="text" name = "phone1" id="phone1" size="35"></p>
 <p><LABEL FOR "phone2">Phone 2</LABEL><INPUT TYPE="text" name = "phone2" id="phone2" size="35"></p>
