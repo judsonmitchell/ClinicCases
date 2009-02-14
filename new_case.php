@@ -53,10 +53,9 @@ mail($email_to,$subject,$body,$headers);
 /* End */
 
 echo <<<RESPONSE
-<span id="close"><a href="#" onclick="createTargets('work_space','work_space');sendDataGetAndStripe('cm_cases_table.php?view=open');Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close"><a href="#" onclick="location.href='cm_admin_cases.php';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 Done.
 RESPONSE;
-
 
 if (mysql_num_rows($conflicts_query)>0)
 {
@@ -115,7 +114,7 @@ echo <<<DATA
 DATA;
 $year = date(Y);
 
-echo "$year" . "-"; 
+echo "$year" . "-";
 createCaseNo();
 echo <<<DATA
 </div></p>
