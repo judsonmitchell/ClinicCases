@@ -2,9 +2,9 @@
 # database connection scripts
 # the next 4 lines you can modify
 $dbhost = 'localhost';
-$dbusername = '';
-$dbpasswd = '';
-$database_name = '';
+$dbusername = 'cliniccases';
+$dbpasswd = 'likes69';
+$database_name = 'cc_testing';
 
 #under here, don't touch!
 $connection = mysql_pconnect("$dbhost","$dbusername","$dbpasswd")
