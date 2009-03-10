@@ -7,6 +7,8 @@ REQUIREMENTS:
 1. Unix type webserver (e.g. Apache)
 2. Mysql
 3. PHP version 4 or higher
+4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
+5. GD libraries for php (optional; used for resizing photos)
 
 STEPS
 
