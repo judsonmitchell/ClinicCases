@@ -102,7 +102,7 @@ $sender_name = "$x[first_name] $x[last_name]";
 
 
 $sms_message = "Preview:  " . substr($body_mod,0,50) . "...";
-$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . "Please log on to http://" . $_SERVER[HTTP_HOST] . "to view or http://" . $_SERVER[HTTP_HOST] . "cliniccases/mobile from a mobile browser." ;
+$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . $sms_message . "\r\n" . "Please log on to http://" . $_SERVER[HTTP_HOST] . "to view or http://" . $_SERVER[HTTP_HOST] . "cliniccases/mobile from a mobile browser." ;
 $subject = "ClinicCases Message from $sender_name";
 
 $email_to = "$d[email]";
