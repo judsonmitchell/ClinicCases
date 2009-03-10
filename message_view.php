@@ -23,16 +23,16 @@ while ($line = mysql_fetch_array($msg, MYSQL_ASSOC)) {
 
     }
 ECHO <<<MESSAGE
-To:  
+To:
 MESSAGE;
 getName($d[to]);
 ECHO <<<MESSAGE
-<br>From:  
+<br>From:
 MESSAGE;
 getName($d[from]);
 ECHO <<<MESSAGE
 <br>Subject:  $d[subject]<br>
-Date:   
+Date:
 MESSAGE;
 formatDate($d[time_sent]);
 ECHO <<<MESSAGE
@@ -122,7 +122,7 @@ else
 <input type="hidden" name="assoc_case" value="<?php echo $d[assoc_case] ?>" >
 <input type="hidden" name="re_interior" value="yes">
 <table align="center">
-<tr><td><input type="button" value="Send" onClick="sendDataGetDoNothing('message_read.php?id=<?php echo $d[id] ?>');Effect.Fade('messaging_window');createTargets('<?php 
+<tr><td><input type="button" value="Send" onClick="sendDataGetDoNothing('message_read.php?id=<?php echo $d[id] ?>');Effect.Fade('messaging_window');createTargets('<?php
 /* Again, the situation where this script is called from cm_cases_single instead of at a glance */
 if (isset($_GET[interior]))
 {$update_place = "case_activity";}
@@ -143,7 +143,7 @@ if ($_SESSION['class'] == 'prof')
 
 <div id="reply" style="display:none;">
 <form id="replyForm">
-<textarea cols="100" rows="5" name="body" onFocus="this.value='';">Your Reply Here</textarea>
+<textarea cols="100" rows="5" name="body"> </textarea>
 <?php
 if (empty($d[thread_id]))
 {echo "<input type=\"hidden\" name=\"thread_id\" value=\"$d[id]\">";}
@@ -167,7 +167,7 @@ echo "<input type='hidden' name='re_interior' value='yes'";
 
 ?>
 <table align="center">
-<tr><td><input type="button" value="Send" onClick="sendDataGetDoNothing('message_read.php?id=<?php echo $d[id] ?>');Effect.Fade('messaging_window');createTargets('<?php 
+<tr><td><input type="button" value="Send" onClick="sendDataGetDoNothing('message_read.php?id=<?php echo $d[id] ?>');Effect.Fade('messaging_window');createTargets('<?php
 /* Again, the situation where this script is called from cm_cases_single instead of at a glance */
 if (isset($_GET[interior]))
 {$update_place = "case_activity";}
@@ -186,7 +186,7 @@ if ($_SESSION['class'] == 'prof')
 </tr></table>
 </form>
 </div>
-<div id="msg_options" style="position:absolute;bottom:5px;left:5px;width:100%;height:30px;"><a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply');return false;">Reply</a>     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>     <?php 
+<div id="msg_options" style="position:absolute;bottom:5px;left:5px;width:100%;height:30px;"><a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply');return false;">Reply</a>     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>     <?php
 
 
 if ($d[archive] !='yes' & !isset($_GET[interior])){
@@ -213,11 +213,11 @@ ARCHOPT;
 }
 ?>
 </div>
-<span id="close"><a href="#" onclick="sendDataGetDoNothing('message_read.php?id=<?php echo $id ?>&ieyoursuck=<?php echo $rand ?>');<?php 
+<span id="close"><a href="#" onclick="sendDataGetDoNothing('message_read.php?id=<?php echo $id ?>&ieyoursuck=<?php echo $rand ?>');<?php
 if (isset($_GET[interior]))
 {echo "createTargets('case_activity','case_activity');sendDataGet('message_roll.php?case_id=$_GET[case_id]')";}
 elseif ($d[archive] == 'yes')
 {echo "createTargets('message_roll','message_roll');sendDataGet('message_roll.php?ieyousuck=$rand&archive=y')";}
-else 
+else
 {echo "createTargets('message_roll','message_roll');sendDataGet('message_roll.php?ieyousuck=$rand')";}?>;Effect.Shrink('messaging_window');updater('updater.php?type=messages','msg_notifier');return false;" alt="Close this Window" title="Close this Window"><img src="images/cancel_small_blue.png" border="0"></a></span>
 <img src="images/onload_tricker.gif" onLoad="goLookup();">
