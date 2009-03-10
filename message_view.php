@@ -99,7 +99,7 @@ MESSAGE;
 <label class="msg" for "to_full">Forward To:</label><input type="text"  id="to_full" name="to_full" size="35">
 <input type="hidden" id="to" name="to">
 <div id="autocomplete" style="display:none;"></div>
-<textarea cols="100" rows="5" name="body">
+<textarea cols="60" rows="5" name="body">
 
 
 --- Forwarded Message originally sent by <?php getName($d[from])?> on <?php formatDate($d[time_sent]) ?> ---
@@ -143,7 +143,7 @@ if ($_SESSION['class'] == 'prof')
 
 <div id="reply" style="display:none;">
 <form id="replyForm">
-<textarea cols="100" rows="5" name="body"> </textarea>
+<textarea cols="60" rows="5" name="body"> </textarea>
 <?php
 if (empty($d[thread_id]))
 {echo "<input type=\"hidden\" name=\"thread_id\" value=\"$d[id]\">";}
