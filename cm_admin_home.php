@@ -112,7 +112,9 @@ new Ajax.PeriodicalUpdater('message_roll', 'message_roll.php', {
  ?>
  
  <table width="800px"><tr>
- <td width="35px"><img src="<?php echo $ph[picture_url]; ?>" width="32" height="32" border="0"></td><td><span class="name"><?php echo $ph[first_name] . ' ' . $ph[last_name]; ?></span> <strong>at a Glance</strong></td><td><span id="msg_notifier"><b><?php echo $n; ?></b></span>  new messages</td><td>Last Login: <?php formatDate($log[timestamp]); ?>  </td></tr>
+ <td width="35px"><img src="<?php echo $ph[picture_url]; ?>" width="32" height="32" border="0"></td><td><span class="name"><?php echo $ph[first_name] . ' ' . $ph[last_name]; ?></span> <strong>at a Glance</strong></td><td><span id="msg_notifier"><b><?php echo $n; ?></b></span>  new messages</td><td>Last Login:  <?php if (mysql_num_rows($last_login) < 1)
+	{echo "Never.  Welcome!";}
+	else{formatDate($log[timestamp]);} ?>   </td></tr>
  </table>
  
 </div>
