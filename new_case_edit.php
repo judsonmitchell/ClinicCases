@@ -9,11 +9,31 @@ if ($_POST)
 $update_adverse = mysql_query("UPDATE `cm_adverse_parties` SET `name` = '$_POST[adverse]' WHERE `id` = '$_POST[adverse_id]' LIMIT 1");
 
 $update = mysql_query("UPDATE `cm` SET `first_name` = '$_POST[first_name]', `last_name` = '$_POST[last_name]', `case_type` = '$_POST[case_type]', `professor` = '$_POST[professor]', `professor2` = '$_POST[professor2]',`address1` = '$_POST[address1]', `address2` = '$_POST[address2]', `city` = '$_POST[city]', `state` = '$_POST[state]', `zip` = '$_POST[zip]', `phone1` = '$_POST[phone1]', `phone2` = '$_POST[phone2]', `phone3` = '$_POST[phone3]', `dob`= '$_POST[dob]', `ssn` = '$_POST[ssn]', `gender` = '$_POST[gender]', `race` = '$_POST[race]', `judge` = '$_POST[judge]', `pl_or_def` = '$_POST[pl_or_def]', `court`= '$_POST[court]', `section` = '$_POST[section]', `ct_case_no` = '$_POST[ct_case_no]',`case_name` = '$_POST[case_name]' WHERE `id` = '$_POST[id]' LIMIT 1");
+
+
+if ($_SESSION['class'] == 'admin')
+{
+
 echo <<<NOTIFIER
 <div id="notifier" style="width:100%;height:20px;color:red;font-weight:bold;text-align:center;margin-top:5%;">Case Edited</div>
 <span id="close"><a href="#" onclick="location.href='cm_admin_cases.php';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 NOTIFIER;
+}
 
+else
+{
+	echo <<<NOTIFIER
+<div id="notifier" style="width:100%;height:20px;color:red;font-weight:bold;text-align:center;margin-top:5%;">Case Edited</div>
+<span id="close"><a href="#" onclick="location.href='cm_cases.php?direct=
+NOTIFIER;
+echo $_POST[id];
+echo <<<NOTIFIER
+';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+NOTIFIER;
+	
+	
+	
+}
 die;
 
 
