@@ -306,23 +306,18 @@ if ($_SESSION['class'] == 'prof')
 $limiter = "AND `date_close` = ''";
 if ($_SESSION['class'] == 'student')
 {
-$stu_cases = mysql_query("SELECT * FROM `cm_cases_students` WHERE `username` = '$_SESSION[login]' AND `status` = 'active'");
+$result = mysql_query("SELECT cm.id,cm.date_open,cm.date_close,cm.first_name,cm.last_name,cm.case_type,cm.professor,cm.dispo,cm_cases_students.case_id,cm_cases_students.username FROM `cm` , `cm_cases_students` WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' $limiter ORDER BY cm.last_name");
 
 ECHO <<<HEADER
 <thead><tr><td colspan="9" style="background:url(images/grade_gray_small.jpg) repeat-x;color:black;"><b>
 HEADER;
 
-ECHO mysql_num_rows($stu_cases);
+ECHO mysql_num_rows($result);
 ECHO <<<HEADER
 
 </b> cases found.</td></tr><tr><td><a class='theader' href="#" onClick = "theSort('first_name','ASC');return false;" title="Sort by this column" alt="Sort by this column" >First Name</a></td><td><a class='theader' href="#" onClick = "theSort('last_name','ASC');return false;" title="Sort by this column" alt="Sort by this column">Last Name</a></td><td><a class='theader' href="#" onClick = "theSort('date_open','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Open</a></td><td><a class='theader' href="#" onClick = "theSort('date_close','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Close</a></td><td><a class = 'theader' href="#" onClick = "theSort('case_type','ASC');return false;" title="Sort by this column" alt="Sort by this column">Case Type</a></td><td><a class='theader' href="#" onClick = "theSort('dispo','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Disposition</a></td><td><a class='theader' href="#" onClick = "theSort('professor','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Professor</a></td><td></td></tr></thead><tbody>
 HEADER;
 
-
-while ($w = mysql_fetch_array($stu_cases))
-{
-
-$result = mysql_query("SELECT * FROM `cm` WHERE `id` = '$w[case_id]' $limiter ORDER BY `last_name`");
 
 while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
     $i=0;
@@ -354,7 +349,7 @@ ROWS;
 
 
 }
-}
+
 }
 
 else
