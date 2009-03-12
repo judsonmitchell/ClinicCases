@@ -45,7 +45,7 @@ $result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '$_SESSION[logi
 }
 elseif ($_SESSION['class'] == 'student')
 {
-$result = mysql_query("SELECT cm.id,cm.date_open,cm.date_close,cm.first_name,cm.last_name,cm.case_type,cm.professor,cm.dispo,cm_cases_students.case_id,cm_cases_students.username FROM `cm` , `cm_cases_students` WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' $limiter ORDER BY cm.last_name $newsortdir");
+$result = mysql_query("SELECT cm.id,cm.date_open,cm.date_close,cm.first_name,cm.last_name,cm.case_type,cm.professor,cm.dispo,cm_cases_students.case_id,cm_cases_students.username FROM `cm` , `cm_cases_students` WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' $limiter ORDER BY $choose_sort $newsortdir");
 }
 else
 {
