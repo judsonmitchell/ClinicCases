@@ -71,7 +71,7 @@ HEADER;
 if (isset($searchterm))
 {
 echo <<<CLEAR
-<tr><td colspan="8"><div id="clearer" style="width:100%;height:20px;background-color:#C3D9FF;text-align:center;"><a href="cm_admin_users">Clear Search Results</a></div></td></tr>
+<tr><td colspan="8"><div id="clearer" style="width:100%;height:20px;background-color:#C3D9FF;text-align:center;"><a href="cm_admin_users.php">Clear Search Results</a></div></td></tr>
 CLEAR;
 
 }
