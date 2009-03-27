@@ -109,7 +109,7 @@ ECHO "</select>";
 
 <br><br>
 <label class="msg" for "body">Message</label>
-<textarea cols="100" rows="15" id="body" name="body"></textarea>
+<textarea cols="75" rows="15" id="body" name="body"></textarea>
 
 <img src="images/onload_tricker.gif" onLoad="goLookup();goLookup2();">
 
