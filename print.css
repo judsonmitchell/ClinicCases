@@ -13,6 +13,11 @@ empty-cells:hide;
 
 }
 
+td
+{
+vertical-align:top;
+}
+
 #response_panel table
 {width:100%;}
 
