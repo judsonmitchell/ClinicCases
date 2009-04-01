@@ -1,4 +1,4 @@
-<?php 
+<?php
 include '../db.php';
 
 /* This finds out if the selected professor uses case management, journals, or both */
@@ -32,7 +32,7 @@ require_once ( 'class.captcha_x.php');
 $captcha = &new captcha_x ();
 if ( ! $captcha->validate ( $_POST[captcha])) {
     echo '<p><center><br>The text you entered in the security field is incorrect.  Please try again.<b><br><a href="#" onClick="history.back();">Go Back</a></center></p>';die;
-} 
+}
 else {
 
 
@@ -54,8 +54,21 @@ $username = strtolower($username_first_part) . strtolower($last_name);
 $case_pref = get_prof_case_prefs($_POST[assigned_prof]);
 $journal_pref = get_prof_journal_prefs($_POST[assigned_prof]);
 /* This should be changed to md5 */
-$secure_password = md5($_POST[password]);
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`class`,`new`,`username`,`password`,`assigned_prof`,`timezone_offset`,`pref_case`,`pref_journal`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile','$home_phone','student','yes','$username','$secure_password','$_POST[assigned_prof]','$_POST[timezone]','$case_pref','$journal_pref')");
+$secure_password_clean = mysql_real_escape_string($_POST[password]);
+$secure_password = md5($secure_password_clean);
+$first_name=mysql_real_escape_string($first_name);
+$last_name=mysql_real_escape_string($last_name);
+$email=mysql_real_escape_string($_POST[email]);
+$mobile=mysql_real_escape_string($mobile);
+$home_phone=mysql_real_escape_string($home_phone);
+$username=mysql_real_escape_string($username);
+$assigned_prof=mysql_real_escape_string($_POST[assigned_prof]);
+$timezone=mysql_real_escape_string($_POST[timezone]);
+
+
+
+
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`class`,`new`,`username`,`password`,`assigned_prof`,`timezone_offset`,`pref_case`,`pref_journal`) VALUES (NULL,'$first_name','$last_name','$email','$mobile','$home_phone','student','yes','$username','$secure_password','$assigned_prof','$timezone','$case_pref','$journal_pref')");
 
 if (mysql_error($connection))
 {
@@ -86,7 +99,7 @@ echo <<<RESP
 <html>
 <head>
 <title>Set Up Your Account - ClinicCases</title>
-<link rel="stylesheet" href="cm.css" type="text/css"> 
+<link rel="stylesheet" href="cm.css" type="text/css">
 </head>
 <body>
 <div id="content" style="margin-top:25px;">
