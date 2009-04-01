@@ -3,8 +3,9 @@ session_start();
 
 include 'db.php';
 /* Nb */
-$username = $_POST['username'];
-$password = md5($_POST['password']);
+$username = mysql_real_escape_string($_POST['username']);
+$password_clean = mysql_real_escape_string($_POST['password']);
+$password = md5($password_clean);
 
 $ip = $_SERVER['REMOTE_ADDR'];
 $remember = $_POST['remember'];
@@ -50,11 +51,11 @@ $_SESSION['pref_journal'] = $pref_journal;
 $_SESSION['pref_case'] = $pref_case;
 if(isset($_POST['remember'])){
       setcookie("cc_user", $_SESSION['login'], time()+60*60*24*100, "/");
-    
+
       }
 
 
-      
+
 switch ($class) {
 case "prof":
     header('Location: cm_home.php');
