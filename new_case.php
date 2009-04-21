@@ -9,6 +9,10 @@ if ($_POST)
 $new_client= $_POST[first_name] . " " . $_POST[last_name];
 $conflicts_query = mysql_query("SELECT * FROM `cm_adverse_parties` WHERE MATCH (name) AGAINST ('$new_client')");
 
+//Problem here is that the new adverse party must also be checked against the complete client list (all clients in cm).
+//?  $split
+// SELECT * FROM `cm` WHERE `first_name` LIKE '%$adv_fname%' AND WHERE `%ast_name` LIKE '%$adv_lname%'
+
 
 
 if(!empty($_POST[adverse]))
