@@ -46,8 +46,8 @@ $sender_name = "$x[first_name] $x[last_name]";
 
 
 
-$sms_message = "Preview:  " . substr($body_mod,0,50) . "...";
-$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . "Please log on to http://" . $_SERVER[HTTP_HOST] . "/cliniccases to view or http://" . $_SERVER[HTTP_HOST] . "/cliniccases/mobile from a mobile browser." ;
+$sms_message = "Preview:  " . substr($_POST[body],0,50) . "...";
+$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . "Please log on to http://" . $_SERVER[HTTP_HOST] . "to view or http://" . $_SERVER[HTTP_HOST] . "cliniccases/mobile from a mobile browser." ;
 $subject = "ClinicCases Message from $sender_name";
 $sms_to = "$d[mobile_phone]@teleflip.com";
 $email_to = "$d[email]";
@@ -58,18 +58,13 @@ mail($email_to,$subject,$email_message,$headers);
 
 if ($_POST[sms] == 'on')
 {
-/* Because teleflip no longer exists, we need to put in an array of likely US mail- sms domains and run a loop through all of them; will produce 6 SMSs, only one of which will hit, but that's the only solution I can think of */
-$domains[] = "$d[mobile_phone]@txt.att.net,$d[mobile_phone]@message.alltel.com,$d[mobile_phone]@tmomail.net,$d[mobile_phone]@vtext.com,$d[mobile_phone]@messaging.nextel.com,$d[mobile_phone]@messaging.sprintpcs.com";
-
-foreach ($domains as $sms_to)
-{	
 mail($sms_to,$subject,$sms_message,$headers);
 }
 
 }
 }
 }
-}
+
 /* This is if no group is selected */
 else
 {
@@ -106,10 +101,8 @@ $sender_name = "$x[first_name] $x[last_name]";
 
 
 
-$sms_message = "Preview:  " . substr($body_mod,0,50) . "...";
-
+$sms_message = "Preview:  " . substr($_POST[body],0,50) . "...";
 $email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . $sms_message . "\r\n" . "Please log on to http://" . $_SERVER[HTTP_HOST] . " to view or http://" . $_SERVER[HTTP_HOST] . "cliniccases/mobile from a mobile browser." ;
->>>>>>> .r313
 $subject = "ClinicCases Message from $sender_name";
 
 $email_to = "$d[email]";
