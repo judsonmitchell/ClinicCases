@@ -1,0 +1,537 @@
+html, body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, iframe,fieldset, a { margin: 0; padding: 0; border: 0; }
+
+body
+{
+background-color:rgb(195, 217, 255);
+text-align:center;
+font-family:garamond, georgia, times, serif;
+}
+
+h1
+{
+font-family:garamond, georgia, times, serif;
+font-size:30pt;
+text-align:left;
+color:blue;
+
+}
+
+
+h3
+{
+font-family:garamond, georgia, times, serif;
+font-size:18pt;
+text-align:left;
+color:blue;
+font-weight:normal;
+
+}
+
+h4
+{
+font-family:garamond, georgia, times, serif;
+font-size:12pt;
+
+color:black;
+font-weight:normal;
+
+
+
+}
+
+
+#menus
+{
+height:18px;
+width:94%;
+margin:auto;
+background:rgb(195, 217, 255);
+text-align:right;
+}
+
+#nav_container
+{
+position:relative;
+width:94%;
+height:37px;
+background-color:rgb(195, 217, 255);
+margin:auto;
+}
+
+#content
+{
+position:relative;
+width:94%;
+height:94%;
+background-color:white;
+margin:auto;
+border:2px dotted rgb(192,192,192);
+
+
+}
+
+html>body #content
+{
+position:relative;
+width:94%;
+height:94%;
+background-color:white;
+margin:auto;
+
+border: 1px dotted rgb(0, 0, 128);
+
+}
+
+#nav
+{
+position:absolute;
+top:0px;
+left:0px;
+width:150px;
+height:100%;
+background-color:gray;
+
+}
+
+
+UL {list-style-type: none;}
+LI {margin-bottom:20px;margin-top:20px;}
+
+
+#window1
+{
+position:absolute;
+margin:0px;
+
+left:2px;
+top:5px;
+width:99.4%;
+height:98%;
+background-color:rgb(255, 255, 204);
+z-index:2;
+border:2px ridge rgb(195, 217, 255);
+
+}
+
+html>body #window1
+{
+margin:0px;
+width:98.8%;
+height:97%;
+background-color:rgb(255, 255, 204);
+z-index:2;
+border:1px ridge #bbf;
+}
+
+#display_cases
+{
+width:99%;
+margin:auto;
+border:2px dotted rgb(192,192,192);
+}
+
+
+html>body #display_cases
+{
+
+width:99%;
+margin:auto;
+border:1px dotted black;
+}
+/* Styles specific to cm.cases.single.php */
+#single_menu
+{
+width:77%;
+height:33px;
+background-color:rgb(255, 255, 204);
+text-align:left;
+float:right;
+padding-top:8px;
+
+}
+
+
+html>body #single_menu
+{
+width:77%;
+height:33px;
+background-color:rgb(255, 255, 204);
+text-align:left;
+float:right;
+padding-top:8px;
+
+}
+
+
+
+
+#close
+{
+position:absolute;top:8px;right:8px;z-index:2;
+}
+
+#case_single_side
+{
+width:21%;
+height:96%;
+text-align:left;
+background-color:white;
+float:left;
+padding-top:5px;
+padding-left:5px;
+border:2px dotted rgb(224,224,224);
+margin-left:.5%;
+margin-top:1%;
+margin-right:.5%;
+}
+
+html>body #case_single_side
+{
+width:20.3%;
+height:94.5%;
+text-align:left;
+background-color:white;
+float:left;
+padding-top:.6%;
+padding-left:5px;
+border:1px dotted rgb(224,224,224);
+margin-left:1%;
+margin-top:1%;
+}
+
+
+#case_single_main
+{
+position:relative;
+width:76%;
+height:93%;
+float:right;
+border:2px dotted rgb(224,224,224);
+margin-right:5px;
+
+
+
+
+}
+
+html>body #case_single_main
+{
+position:relative;
+width:76%;
+height:91.5%;
+float:right;
+border:1px dotted black;
+margin-right:10px;
+margin-left:1px;
+
+
+
+}
+
+
+
+#timer
+{
+width:50%;
+height:10%;
+
+
+
+}
+
+fieldset
+{
+border:1px dotted black;
+margin-left:5px;
+}
+
+legend
+{
+background-color:white;
+padding-left:5px;
+padding-right:5px;
+}
+
+#time_form_table td
+{
+padding-left:10px;
+padding-right:10px;
+
+
+
+}
+
+#contact_info
+{
+display:inline;
+margin-top:-25px;
+margin-left: 10px;
+text-align:left;
+height:100%;
+width:40%;
+border: 1px solid red;
+
+}
+
+#case_activity
+{
+width:100%;
+height:100%;
+
+text-align:left;
+overflow:auto;
+background-color:white;
+}
+
+#edit_space
+{
+position:absolute;
+left:300px;
+top:300px;
+width:300px;
+height:300px;
+background:yellow;
+z-index:3;
+
+
+}
+
+/* End */
+/* Styles specific to Documents section */
+#case_docs
+{
+width:99%;
+height:33%;
+border:1px solid black;
+text-align:left;
+}
+
+#docs_menu
+{
+background-color:rgb(255, 255, 204);
+width:99%;
+height:35px;
+padding-left:5px;
+}
+
+.folder_x
+{
+width:100px;
+height:150px;
+text-align:center;
+float:left;
+
+
+}
+
+
+#uploader
+{
+position:absolute;
+left:10px;
+top:20px;
+z-index:3001;
+width:40%;
+height:40%;
+margin-top:6px;
+border:3px ridge #bbf;
+background-color:white;
+}
+
+#uploader_frame
+{
+width:100%;
+
+
+}
+
+
+/* Styles for Students Page */
+.students
+{
+width:24%;
+height:33%;
+border:1px solid black;
+float:right
+
+}
+
+
+/* Style for contacts */
+#contacts_menu
+{
+background-color:rgb(255, 255, 204);
+width:99.3%;
+height:35px;
+padding-left:5px;
+
+}
+
+
+
+
+thead 
+{background-color:rgb(128, 128, 128);font-weight:bold;color:rgb(228,228,228);}
+
+input
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:black; 
+}
+
+input.small
+{
+font-family:garamond, georgia, times, serif;
+font-size:10pt;
+color:black; 
+
+}
+select.gray
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:rgb(224, 224, 224);
+}
+
+select
+{
+font-family:garamond, georgia, times, serif;
+font-size:14pt;
+color:black;
+}
+textarea
+{
+font-family:garamond, georgia, times, serif;
+font-size:12pt;
+color:black;
+border:1px solid black;
+
+
+}
+
+
+label
+{
+font-family:garamond, georgia, times, serif;
+font-size:10pt;
+color:rgb(128, 128, 128);
+
+
+}
+.inactive
+{color:rgb(224, 224, 224); }
+
+button
+{
+
+font-size:14pt;
+}
+
+.submit_image
+{
+margin-bottom:-7px;
+margin-right:20px; 
+}
+
+html>body .submit_image
+{
+margin-bottom:-12px;
+margin-right:20px;
+}
+
+a.nav {font-size:30pt; color:black;font-family:garamond, times, serif;text-decoration:none;}
+a.nav:hover {font-size:30pt;color:green;font-family:garamond, times, serif;text-decoration:none;}
+
+a.menu {font-size:10pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.menu:hover {font-size:10pt;color:red;font-family:garamond, times, serif;text-decoration:none;}
+
+
+a.theader {font-weight:bold;color:rgb(228,228,228);text-decoration:underline;}
+a.theader:hover {font-weight:bold;color:red;text-decoration:underline;}
+
+a.singlenav{font-size:12pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.singlenav:hover{font-size:12pt; color:blue;font-family:garamond, times, serif;text-decoration:underline;}
+
+a.folder {text-decoration:none;}
+a.folder:hover {text-decoration:underline;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

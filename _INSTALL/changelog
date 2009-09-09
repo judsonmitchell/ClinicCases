@@ -1,0 +1,43 @@
+ClinicCases - Online Case Management for Law School Clinics
+http://www.cliniccases.com
+Copyright 2007-2009 R. Judson Mitchell, Jr. 
+
+LICENSE
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; 
+either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; 
+if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ClinicCases 5 changelog
+
+New Features
+
+*	Better conflicts checking algorithim - admin and professor now notified of potential conflicts 
+*	Added fields: email, notes, middle initial, referral
+*	Ability for admin to customize/configure the courts, case types, dispositions, and referral fields
+*	Improved layout for Utilities and Preferences
+*	Update to scriptaculous 1.8.2
+*	New advanced case search added
+*	Ability to sort case search results added
+*	Improved input validations for new cases and new students
+*	Messages windows now draggable
+*	Ability to print a individual casenote
+*	Improved Upload - fewer clicks, more user friendly UI
+*	Better journal interface for professors; ability to see read/unread journals or to view by student.  Numerous other interface improvements.
+*	Ability to enter student evaluation notes;improved Student view for professors;
+*	New wiki-like feature which allows editing and uploading of information within classes.
+*	Can now send to and cc multiple recipients in messages.
+*	Starring of messages added
+*	Ability to see sent, archived, and starred messages
+*	Ical support added for Upcoming Events
+
+Bugfixes
+
+*	Correct timezone on new user sign up, regardless of server location.
+*	Fixed class configuration bug
+*	Numerous others....

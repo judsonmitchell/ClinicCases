@@ -1,0 +1,28 @@
+Release Notes
+ClinicCases Beta 5
+http://www.cliniccases.com
+For more information contact: Judson Mitchell, judsonmitchell AT gmail.com
+
+License: GNU General Public License v2
+----------------------------------------------
+New Features
+*	New advanced case search added
+*	New wiki-like feature which allows editing and uploading of information within classes.
+*	Ability to sort case search results added
+
+Changes and Bug Fixes
+
+*	Better conflicts checking algorithim - admin and professor now notified of potential conflicts
+*	Added fields: email, notes, middle initial, referral
+*	Ability for admin to customize/configure the courts, case types, dispositions, and referral fields
+*	Improved layout for Utilities and Preferences
+*	Update to scriptaculous 1.8.2
+*	Improved input validations for new cases and new students
+*	Messages windows now draggable
+*	Ability to print a individual casenote
+*	Improved Upload - fewer clicks, more user friendly UI
+*	Better journal interface for professors; ability to see read/unread journals or to view by student.  Numerous other interface improvements.
+*	Ability to enter student evaluation notes;improved Student view for professors;
+*	Correct timezone on new user sign up, regardless of server location.
+*	Fixed class configuration bug
+*	Numerous others....

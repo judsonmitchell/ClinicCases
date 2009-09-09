@@ -1,0 +1,2 @@
+59 23 * * sun [...YOUR SERVER INFO HERE]/weekly_report.php
+30 17 * * * [YOUR SERVER INFO HERE]/cm/rss_create.php
