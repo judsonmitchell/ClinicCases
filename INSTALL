@@ -1,0 +1,60 @@
+INSTALL
+
+Below are instructions on how to install ClinicCases on a typical webserver.  
+sIf you need help, please go to our forums at http://www.cliniccases.com/forums.
+
+REQUIREMENTS:
+1. Unix type webserver (e.g. Apache)
+2. Mysql
+3. PHP version 4 or higher
+4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
+5. GD libraries for php (optional; used for resizing photos)
+
+STEPS
+
+1. Upload the compressed source file to your webserver and unzip.
+
+2. CHMOD 777 the directories 'people', 'docs' and 'images_tmp'
+
+3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
+and select "Import."  Import the file CC.sql.  Your database should now be setup with 
+18 tables. [There are other ways to do this, but this should work best for most users].
+
+4. Edit db.php to reflect your database settings.
+
+5. In order for the autosave to work in fckeditor (the student journal entry 
+dialog), you must also edit fckeditor/editor/fckeditor/saveadapter/config.php 
+to reflect your database settings.
+
+6. [optional] In order for cron jobs to work [a weekly email to report 
+to professors and a journal rss feed], you must insert your server 
+path into cron.txt and update your crontab.
+
+
+GETTING STARTED
+
+A default account should have been created with the user/pass admin/admin.  (PLEASE DELETE 
+THIS ACCOUNT AFTER YOU HAVE CONFIGURED CLINICCASES.  IMPORTANT!).  Navigate to index.php 
+in your browser and login using this account.  Get started by click the users tab and adding 
+users.  The best thing to do is to add professors and adminstrators first.  Students can 
+get accounts by navigating to ./newaccount/index.php and submitting their information there.  
+he adminstrator will then receive notification of this student signup and can authorize 
+students using the New Users dialog on the At A Glance screen.
+
+After this, add cases via the cases tab.  You must be logged in as an adminstrator to do this.  
+
+Migrating existing cases from another case management system may take some expertise.  
+Either contact your IT department or go to the forums for assistance.  Three Pipe Problem, LLC 
+(mitchell@threepipeproblem.com) is happy to this, along with customization and support) for a fee.
+
+Please note that three of the tables in the database will have to be edited using a sql tool 
+(e.g. phpmyadimin).  Eventually, ClinicCases will have a dialog to do this.  The tables are:
+
+cm_case_types - this is the list of the types of cases your clinic handles (criminal, family, 
+immigration, etc.). This information will vary from clinic to clinic. 
+
+cm_dispos - this is for the closing codes your clinic uses when a file is closed 
+(e.g., Needs Met, Withdrew, Judgment granted, etc.). Again, these will vary from clinic to clinic.
+
+cm_contacts_types - this categorizes contacts in a case according to their role.  
+A good starter list might be "Opposing Counsel, Client, Witness, Expert."

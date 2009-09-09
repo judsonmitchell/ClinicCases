@@ -1,0 +1,5 @@
+background blue - rgb(195, 217, 255)
+darker blue - blue
+heavy gray - rgb(128, 128, 128)
+the yellow - rgb(255, 255, 102)
+the red
