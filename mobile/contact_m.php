@@ -69,7 +69,7 @@ $r = mysql_fetch_object($q);
 	{echo "office: <a href='tel:" . $r->office_phone . "'>" . $r->office_phone . "</a><br>" ;}
 
 	if(!empty($r->home_phone))
-	{echo "home: <a href='tel:" . $r->office_phone . "'>" . $r->office_phone . "</a><br>" ;}
+	{echo "home: <a href='tel:" . $r->home_phone . "'>" . $r->home_phone . "</a><br>" ;}
 
 	//end phone type for users
 
