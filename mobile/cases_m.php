@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 if (!$_SESSION){echo "You must be logged in to view this page.";die;}
 include '../db.php';
@@ -17,20 +17,21 @@ else
 <body>
 <h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
 <a href="cm_home_m.php">Main Menu</a><br>
-<strong>Your Cases</strong>
+<strong>Your Open Cases</strong>
 <ul>
 <?php
-if ($_SESSION['class'] = 'student')
+if ($_SESSION['class'] == "student")
 {
+
 $query = mysql_query("SELECT cm.* , cm_cases_students.case_id,cm_cases_students.username FROM cm, cm_cases_students
-WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' AND cm.date_close = ' ' ORDER BY cm.last_name ASC");	
+WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' AND cm.date_close = ' ' ORDER BY cm.last_name ASC");
 
 //$query = mysql_query(" SELECT * FROM cm JOIN cm_cases_students ON cm.id = cm_cases_students.case_id
 //WHERE cm_cases_students.username = '$_SESSION[login]';");
 
 while ($r = mysql_fetch_array($query))
 {
-	
+
 echo "<li><a href='case_single_m.php?id=$r[id]'>$r[first_name] $r[last_name]</a></li>";
 
 }
@@ -41,12 +42,13 @@ if (mysql_num_rows($query)<1)
 else
 
 {
-$query = mysql_query("SELECT * FROM `cm` WHERE `date_close` = ' ' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]' ");	
+
+$query = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]' ");
 
 
 while ($r = mysql_fetch_array($query))
 {
-echo "<li>$r[first_name]</li>";
+echo "<li><a href='case_single_m.php?id=$r[id]'>$r[first_name] $r[last_name]</a></li>";
 
 }
 if (mysql_num_rows($query)<1)
