@@ -20,7 +20,7 @@ include '../db.php';
 if ($_SESSION['class'] == 'prof')
 	{
 		//Get an array of all case ids from open cases
-		$q = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]'");
+		$q = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]' ORDER BY `last_name` ASC");
 
 		while ($r = mysql_fetch_array($q))
 			{
@@ -28,9 +28,24 @@ if ($_SESSION['class'] == 'prof')
 			}
 		}
 
+		else
+
+		{
+			//is a student
+
+			$q = mysql_query("SELECT cm.* , cm_cases_students.case_id,cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' AND cm.date_close = ' ' ORDER BY `cm.last_name` ASC");
+
+			while ($r = mysql_fetch_array($q))
+			{
+				$case_id_array[] = $r[cm.id];
+			}
+		}
+
+
+
 
 		//Get all client contact info
-
+print_r($case_id_array);echo $_SESSION[login] . " " . $_SESSION['class'];
 		foreach  ($case_id_array as $v)
 		{
 
@@ -75,7 +90,7 @@ if ($_SESSION['class'] == 'prof')
 		echo "</p><p>Active ClinicCases Users matching \"$_GET[searchterm]\"</p><p class=\"result\">
 ";
 
-		$users = mysql_query("SELECT * FROM `cm_users` WHERE `status` = 'active' AND `first_name` LIKE '%$_GET[searchterm]%' OR `last_name` LIKE '%$_GET[searchterm]%'");
+		$users = mysql_query("SELECT * FROM `cm_users` WHERE `status` = 'active' AND `first_name` LIKE '%$_GET[searchterm]%' OR `last_name` LIKE '%$_GET[searchterm]%' ORDER BY `last_name` ASC");
 
 		while ($d = mysql_fetch_array($users))
 		{
