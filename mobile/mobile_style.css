@@ -3,13 +3,25 @@ body
 background-color:rgb(195, 217, 255);
 
 font-family:garamond, georgia, times, serif;
+font-size:12pt;
 }
 
 h1
 {
 font-size:14pt;
 color:blue;
+}
 
+.no
+{
+margin-left:25px;
+font-style:italic;
+font-size:10pt;
+}
 
+.result
+{
+
+margin-left:25px;
 
 }
