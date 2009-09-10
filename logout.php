@@ -1,8 +1,10 @@
-<?php 
+<?php
 session_start();
 include 'db.php';
 $kill_log = mysql_query("UPDATE `cm_logs` SET `session_id` = '' WHERE `session_id` = '$_COOKIE[PHPSESSID]' LIMIT 1");
-unset($_SESSION['login']); 
+unset($_SESSION['login']);
+unset($_SESSION['class']);
+
 session_destroy();
 
 ?>
