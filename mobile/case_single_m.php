@@ -14,10 +14,9 @@ include '../classes/format_dates_and_times.class.php';
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a> | <a href="cases_m.php">Back</a><br>
-<br>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
 
+<a href="cm_home_m.php">Main Menu</a> > <a href="cases_m.php">Results</a> >
 <strong><?PHP echo $r->first_name . ' ' . $r->last_name; ?> </strong><br>
 <p>Latest Activity</p>
 <table>

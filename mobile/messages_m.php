@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include '../db.php';
 include '../get_name.php';
@@ -13,8 +13,8 @@ else
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a><br>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<a class="nav" href="cm_home_m.php">Main Menu</a> >
 <strong>Messages</strong>
 <ul>
 <?php
@@ -22,7 +22,7 @@ $query = mysql_query("SELECT * FROM `cm_messages` WHERE `to` = '$_SESSION[login]
 while ($r = mysql_fetch_array($query))
 {
 echo <<<ITEM
-<li><a href="message_display_m.php?id=$r[id]">$r[subject]</a>, from 
+<li><a href="message_display_m.php?id=$r[id]">$r[subject]</a>, from
 ITEM;
 getName($r[from]);
 ECHO <<<ITEM
@@ -35,12 +35,12 @@ ITEM;
 ?>
 </ul>
 <CENTER>
-<?php 
-$new_start = $start + 8; 
+<?php
+$new_start = $start + 8;
 $newer = $start - 8;
 if ($start > 0)
 {echo <<<BACK
-<a href="messages_m.php?s=$newer">>>>Newer</a>   | 
+<a href="messages_m.php?s=$newer">>>>Newer</a>   |
 BACK;
 }
 

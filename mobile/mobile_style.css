@@ -25,3 +25,9 @@ font-size:10pt;
 margin-left:25px;
 
 }
+
+a{font-size:12pt;}
+a:hover{background-color:white;}
+
+a.nav{font-size:12pt;}
+a.nav:hover{background-color:white;}

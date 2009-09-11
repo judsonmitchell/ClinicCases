@@ -25,8 +25,8 @@ $r = mysql_fetch_object($q);
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a>| <a href="#" onClick="history.back(1);return false;">Go Back</a><br><br>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<a class="nav" href="cm_home_m.php">Main Menu</a> > <a class="nav"  href="#" onClick="history.back(1);return false;">Results</a> >
 
 <?php if (!empty($r->picture_url))
 		echo "<img src='../". $r->picture_url . "' border='0' width=20 height=20>"; ?>

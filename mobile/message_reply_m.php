@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include '../db.php';
 include '../get_name.php';
@@ -34,8 +34,8 @@ while ($line = mysql_fetch_array($query, MYSQL_ASSOC)) {
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a> > <a href="messages_m.php">Message List</a> > <a href="message_display_m.php?id=<?php echo $message; ?>">View Origninal Message</a><br>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<a class="nav"  href="cm_home_m.php">Main Menu</a> > <a class="nav"  href="messages_m.php">Message List</a> > <a href="message_display_m.php?id=<?php echo $message; ?>">View Origninal Message</a><br>
 <?php
 if ($_POST)
 {

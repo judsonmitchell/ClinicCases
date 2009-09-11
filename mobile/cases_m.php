@@ -15,9 +15,8 @@ else
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a><br>
-<strong>Your Open Cases</strong>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<a href="cm_home_m.php">Main Menu</a> > <strong>Your Open Cases</strong>
 <ul>
 <?php
 if ($_SESSION['class'] == "student")
