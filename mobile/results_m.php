@@ -53,7 +53,13 @@ if ($_SESSION['class'] == 'prof')
 			$b = mysql_fetch_object($cases);
 
 			IF ($b->id)
-			{echo "<a href='contact_m.php?type=client&id=$b->id'> $b->first_name $b->last_name</a>";}
+			{
+				if ($_GET[chooser] == 'address')
+				{$target = "contact_m.php?type=client&id=$b->id";}
+				else
+				{$target = "case_single_m.php?id=$b->id";}
+
+				echo "<a href='$target'> $b->first_name $b->last_name</a>";}
 			//increments if there are resutls
 			if (mysql_num_rows($cases) > 0)
 			{$num_results_b = 1;echo "<br>";}
@@ -64,6 +70,12 @@ if ($_SESSION['class'] == 'prof')
 				if ($num_results_b != 1){echo "<p class='no'>No results found.</p>";}
 
 		//Get all case contact info
+
+		if ($_GET[chooser] == 'address')
+		{
+
+
+
 
 		echo "</P><p>Case Contacts in Open Cases matching \"$_GET[searchterm]\"</P><p class=\"result\">
 ";
@@ -103,7 +115,7 @@ if ($_SESSION['class'] == 'prof')
 
 
 
-
+}
 		?>
 </p>
 </body>
