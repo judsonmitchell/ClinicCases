@@ -2,6 +2,7 @@
 session_start();
 if (!$_SESSION){echo "You must be logged in to view this page.";die;}
 include '../db.php';
+include '../classes/format_dates_and_times.class.php';
 
 	$get_client = mysql_query("SELECT * FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
 	$r = mysql_fetch_object($get_client);
@@ -18,31 +19,24 @@ include '../db.php';
 <br>
 
 <strong><?PHP echo $r->first_name . ' ' . $r->last_name; ?> </strong><br>
+<p>Latest Activity</p>
+<table>
 <?php
-	if (!empty($r->address1))
-	{echo $r->address1 . "<br>";}
-
-	if(!empty($r->address2))
-	{echo $r->address2 . "<br";}
-
-	if(!empty($r->city))
-	{echo $r->city . ",";}
-
-	if(!empty($r->state))
-	{echo $r->state . " ";}
-
-	if(!empty($r->zip))
-	{echo $r->zip . "<br>";}
-
-	if(!empty($r->phone1))
-	{echo "ph1:<a href='tel:" . $r->phone1 . "'>" . $r->phone1 . "</a><br>" ;}
-
-	if(!empty($r->phone2))
-	{echo "ph2:<a href='tel:" . $r->phone2 . "'>" . $r->phone2 . "</a><br>" ;}
-
-	if(!empty($r->email))
-	{echo "<a href='mailto:" . $r->email . "'>" . $r->email . "</a><br>" ;}
+	$q = mysql_query("SELECT * FROM `cm_case_notes` WHERE `case_id` = '$_GET[id]' ORDER BY `date` desc LIMIT 0,5");
+	while ($r = mysql_fetch_array($q))
+		{
+			echo "<tr><td valign='top'>" . formatDate2($r[date]) . "</td><td>$r[description]</td><td valign='top'>$r[username]</td></tr>";
+		}
+		if (mysql_num_rows($q)<1)
+		{echo "<p class='none'>No results found.</p>";}
+?>
+</table>
+<P>Upcoming Events</p>
+<table>
+<?php
 
 
-	?>
-
+?>
+</table>
+</body>
+</html>
