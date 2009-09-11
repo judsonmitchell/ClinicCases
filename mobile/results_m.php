@@ -13,6 +13,7 @@ include '../db.php';
 <h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
 <a href="cm_home_m.php">Main Menu</a><br><br>
 
+
 <strong>Search Results</strong>
 <p>Clients in Open Cases matching "<?php echo $_GET[searchterm]; ?>"<p>
 <p class="result">
@@ -32,20 +33,19 @@ if ($_SESSION['class'] == 'prof')
 
 		{
 			//is a student
-
-			$q = mysql_query("SELECT cm.* , cm_cases_students.case_id,cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' AND cm.date_close = ' ' ORDER BY `cm.last_name` ASC");
+			$q = mysql_query("SELECT cm.id AS test , cm_cases_students.case_id,cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username = '$_SESSION[login]' AND cm.date_close = ' ' ");
 
 			while ($r = mysql_fetch_array($q))
 			{
-				$case_id_array[] = $r[cm.id];
+				$case_id_array[] = $r[test];
 			}
+
 		}
 
 
 
 
 		//Get all client contact info
-print_r($case_id_array);echo $_SESSION[login] . " " . $_SESSION['class'];
 		foreach  ($case_id_array as $v)
 		{
 
