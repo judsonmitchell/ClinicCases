@@ -26,7 +26,7 @@ $r = mysql_fetch_object($q);
 </head>
 <body>
 <h1>ClinicCases <span style="color:gray;font-style:italic;">Mobile</span></h1>
-<a href="cm_home_m.php">Main Menu</a><br><br>
+<a href="cm_home_m.php">Main Menu</a>| <a href="#" onClick="history.back(1);return false;">Go Back</a><br><br>
 
 <?php if (!empty($r->picture_url))
 		echo "<img src='../". $r->picture_url . "' border='0' width=20 height=20>"; ?>
