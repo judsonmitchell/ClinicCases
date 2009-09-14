@@ -6,18 +6,20 @@ include '../classes/format_dates_and_times.class.php';
 
 if ($_POST)
 {
-$do_reply = mysql_query("INSERT INTO `cm_messages`  (`id` ,`thread_id` ,`to` ,`from` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive` ,`temp_id`
+$do_reply = mysql_query("INSERT INTO `cm_messages`  (`id` ,`thread_id` ,`to` ,`from` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive`
 ) VALUES (
-NULL , '$_POST[thread_id]', '$_POST[to]', '$_POST[from]', '$_POST[subject]', '$_POST[body]', '$_POST[assoc_case]',CURRENT_TIMESTAMP , '', '', '');");
+NULL , '$_POST[thread_id]', '$_POST[to]', '$_POST[from]', '$_POST[subject]', '$_POST[body]', '$_POST[assoc_case]',CURRENT_TIMESTAMP , '', '');");
 
 
 
 
 }
 
+if ($_POST)
+{$message = $_POST[orig_msg];}
+else
+{$message = $_GET[id];}
 
-
-$message = $_GET[id];
 $query = mysql_query("SELECT * FROM `cm_messages` WHERE `id` = '$message' LIMIT 1");
 while ($line = mysql_fetch_array($query, MYSQL_ASSOC)) {
     $i=0;
@@ -57,6 +59,7 @@ Subject: Re: <?php echo $d[subject]; ?>
 <input type="hidden" name="from" value="<?php echo $d[to]; ?>">
 <input type="hidden" name="assoc_case" value="<?php echo $d[assoc_case]; ?>">
 <input type="hidden" name="subject" value="<?php echo $d[subject]; ?>">
+<input type="hidden" name="orig_msg" value="<?php echo $_GET[id]; ?>">
 <input type="submit" value="Send">
 </center>
 </form>

@@ -14,7 +14,7 @@ if (!$_SESSION){echo "You must be logged in to view this page.";die;}
 
 
 
-<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png" border="0"></a></p>
 <P><form name="search_form" method="get" action="results_m.php"><strong>Search:</strong>
 <select id="chooser" name="chooser">
 <option value="address">Contact Information</option>

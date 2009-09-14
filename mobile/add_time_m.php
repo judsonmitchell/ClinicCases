@@ -10,5 +10,5 @@ include '../db.php';
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png" border="0"></a></p>
 <a class="nav"  href="cm_home_m.php">Main Menu</a> > <strong>Add Time</strong>

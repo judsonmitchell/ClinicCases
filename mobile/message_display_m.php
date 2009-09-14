@@ -20,11 +20,11 @@ while ($line = mysql_fetch_array($query, MYSQL_ASSOC)) {
 <link rel="stylesheet" href="mobile_style.css" type="text/css">
 </head>
 <body>
-<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"></a></p>
+<p><a href="cm_home_m.php"><img src="../images/logo_mobile.png" border="0"></a></p>
 <a class="nav"  href="cm_home_m.php">Main Menu</a> > <a class="nav"  href="messages_m.php">Message List</a><br>
 <strong>Message from <?php getName($d[from]); ?></strong><br>
 Subject: <?php echo $d[subject]; ?><br>
-Date: <?php formatDateHuman($d[time_sent]); ?><br><br>
+Date: <?php formatServerTime($d[time_sent]); ?><br><br>
 
 <?php echo stripslashes($d[body]); ?>
 <br>
