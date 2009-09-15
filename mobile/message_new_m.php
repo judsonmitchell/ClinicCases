@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!$_SESSION)
+{die("You must be logged in to view this page.");}
+
 include '../db.php';
 include '../classes/get_names.php';
 
@@ -36,10 +39,10 @@ echo <<<MSG
 <p>$_POST[body]</p>
 
 MSG;
-DIE;
 
 
 
+die;
 
 }
 
@@ -84,4 +87,4 @@ foreach ($recips as $z)
 <textarea name="body" cols="40" rows="15"></textarea>
 </p>
 <input type="hidden" name="from" value="<?php echo $_SESSION[login]; ?>">
-<p><input type="submit" value="Send">  <input type="button" value="Cancel" onClick="history.back(1);return false;">
+<p><input type="submit" value="Send">  <input type="button" value="Cancel" onClick="location.href='messages_m.php';">

@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!$_SESSION)
+{die("You must be logged in to view this page.");}
+
 include '../db.php';
 include '../classes/get_names.php';
 

@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!$_SESSION)
+{die("You must be logged in to view this page.");}
+
 include '../db.php';
 include '../get_name.php';
 if (isset($_GET[s]))
@@ -19,7 +22,7 @@ else
 <p><a href="add_recipients_m.php">Create New Message</a></p>
 <ul>
 <?php
-$query = mysql_query("SELECT * FROM `cm_messages` WHERE `to` = '$_SESSION[login]' ORDER BY `time_sent` desc LIMIT $start,8");
+$query = mysql_query("SELECT * FROM `cm_messages` WHERE `to` LIKE '%$_SESSION[login]%' OR `ccs` LIKE '%$_SESSION[login]%' ORDER BY `time_sent` desc LIMIT $start,8");
 while ($r = mysql_fetch_array($query))
 {
 echo <<<ITEM
