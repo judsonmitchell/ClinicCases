@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!$_SESSION)
+{die("You must be logged in to view this page.");}
+
 include 'db.php';
 $body_mod_a = addslashes($_POST[body]);
 $body_mod = nl2br($body_mod_a);
@@ -24,38 +27,38 @@ if ($_POST[group] == 'All Students')
 $send_to_group = mysql_query("$group_query");
 	while ($result = mysql_fetch_array($send_to_group))
 		{
-			
-			$tos_list .=  $result[username] . ","; 
+
+			$tos_list .=  $result[username] . ",";
 		}
 
 $tos = substr($tos_list,0,-1);
 
 }
 
-//This is if no group is selected 
+//This is if no group is selected
 else
 {
 	$tos = substr($_POST[to],0,-1);
 }
-	
-	$ccs = substr($_POST[cc1],0,-1);
-	
 
-	
+	$ccs = substr($_POST[cc1],0,-1);
+
+
+
 		$send_msg = mysql_query("INSERT INTO `cm_messages` (`id`,`thread_id`,`to`,`from`,`ccs`,`subject`,`body`,`assoc_case`) VALUES (NULL,'$_POST[thread_id]','$tos','$_POST[from]','$ccs','$_POST[subject]','$body_mod','$_POST[assoc_case]')");
 
 			if (empty($_POST[thread_id]))
 				{
 					$lst_id = mysql_insert_id();
 					$set_thread = mysql_query("UPDATE `cm_messages` SET `thread_id` = '$lst_id' WHERE `id` = '$lst_id' LIMIT 1");
-				
+
 
 				}
-	
-	
-	
-		
-//Now, we shove the to parties and cc parties into one array for the sending of notifications.		
+
+
+
+
+//Now, we shove the to parties and cc parties into one array for the sending of notifications.
 
 if (empty($ccs))//There are no cc's
 	{$all = $tos;}
@@ -92,7 +95,7 @@ foreach ($all_array as $recips)
 	   'X-Mailer: PHP/' . phpversion();
 
 	mail($email_to,$subject,$email_message,$headers);
-	
+
 	if ($_POST[sms] == 'on')
 			{
 
