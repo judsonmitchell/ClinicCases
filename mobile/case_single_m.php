@@ -19,12 +19,12 @@ include '../classes/format_dates_and_times.class.php';
 <a href="cm_home_m.php">Main Menu</a> > <a href="cases_m.php">Results</a> >
 <strong><?PHP echo $r->first_name . ' ' . $r->last_name; ?> </strong><br>
 <p>Latest Activity</p>
-<table>
+<table style="border:2px solid white;">
 <?php
 	$q = mysql_query("SELECT * FROM `cm_case_notes` WHERE `case_id` = '$_GET[id]' ORDER BY `date` desc LIMIT 0,5");
 	while ($r = mysql_fetch_array($q))
 		{
-			echo "<tr><td valign='top'>" . formatDate2($r[date]) . "</td><td>$r[description]</td><td valign='top'>$r[username]</td></tr>";
+			echo "<tr><td  style='border-bottom:2px solid white;'valign='top' >" . formatDate2($r[date]) . "</td><td  style='border-bottom:2px solid white;'>$r[description]</td><td  style='border-bottom:2px solid white;' valign='top'>$r[username]</td></tr>";
 		}
 		if (mysql_num_rows($q)<1)
 		{echo "<p class='none'>No results found.</p>";}

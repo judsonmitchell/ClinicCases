@@ -29,7 +29,7 @@ else
 </head>
 <body>
 <p><a href="cm_home_m.php"><img src="../images/logo_mobile.png"  border="0"></a></p>
-<center>
+
 <strong>Please login</strong>.<br>
 <div id="status" style="color:red;display:<?PHP ECHO $toggle_display; ?>">Your username or password is incorrect.  Please try again.</div>
 

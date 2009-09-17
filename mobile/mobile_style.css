@@ -26,6 +26,13 @@ margin-left:25px;
 
 }
 
+.small_gray
+{
+font-size:10pt;
+color:gray;
+
+}
+
 a{font-size:12pt;}
 a:hover{background-color:white;}
 
