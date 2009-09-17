@@ -205,11 +205,11 @@ if ($_SESSION['class'] == 'prof')
 $reply_all_array = explode(",",$all);
 foreach ($reply_all_array as $u)
 	{
-		
+		if (!empty($u))
+		{
 		$fetch = new get_names; $nme = $fetch->get_users_name($u);
 				$tolist2 .= $nme . ", ";
-		//getName($u);
-		//echo "  ";
+		}
 	}
 
 	echo substr($tolist2,0,-2);
@@ -304,7 +304,19 @@ new Ajax.Updater('messages_container','message_send.php',{evalScripts:true,metho
 </form>
 </div>
 
-<div id="msg_options"><a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply');return false;">Reply</a>     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply_all');return false;">Reply All</a>     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');return false;">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>     
+<div id="msg_options"><a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply');return false;">Reply</a>
+<?php 
+//here we find if there is more than one recipient possible to the reply; if so, we add reply all option
+$no_recips = count($reply_all_array);
+if ($no_recips > 1)
+{
+echo<<<RA
+<a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply_all');return false;">Reply All</a>
+RA;
+}
+?>
+
+     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');return false;">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>     
 <?php
 //Test to find out if this message is in the archive
  if(stristr($d[archive], $_SESSION[login]))
