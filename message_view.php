@@ -66,8 +66,8 @@ echo $from;
 					$cclist .=  $ccnme . ", ";
 
 				}
-	
-	echo substr($cclist,0,-2); 
+
+	echo substr($cclist,0,-2);
 
 		}
 ECHO <<<MESSAGE
@@ -305,27 +305,29 @@ new Ajax.Updater('messages_container','message_send.php',{evalScripts:true,metho
 </div>
 
 <div id="msg_options"><a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply');return false;">Reply</a>
-<?php 
+<?php
 //here we find if there is more than one recipient possible to the reply; if so, we add reply all option
 $no_recips = count($reply_all_array);
-if ($no_recips > 1)
+if ($no_recips > 3)
 {
 echo<<<RA
 <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('reply_all');return false;">Reply All</a>
 RA;
 }
+
+
 ?>
 
-     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');return false;">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>     
+     <a href="#" onClick="Effect.Fade('msg_options');Effect.Appear('forward');return false;">Forward</a>     <a href="#" onClick="printDiv('messaging_window');return false;">Print</a>
 <?php
 //Test to find out if this message is in the archive
  if(stristr($d[archive], $_SESSION[login]))
- 	{$archive_status = "yes";} 
- 	
- 	
+ 	{$archive_status = "yes";}
+
+
  	//Test to find out if this message is starred
  if(stristr($d[starred], $_SESSION[login]))
- 	{$starred_status = "yes";} 
+ 	{$starred_status = "yes";}
 
 if (empty($archive_status) & !isset($_GET[interior])){
 
