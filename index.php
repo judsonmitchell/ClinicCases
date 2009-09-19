@@ -41,20 +41,22 @@ else
 <body>
 <div id="content" style="margin-top:25px;">
 <!-- Left Side -->
-<table width="100%" height="100%" border="0">
-<tr><td valign="top" style="width:30%;background-color:rgb(255,255,204);text-align:center;">
-
-<!-- Right Side -->
 
 
-<div id="left_wrapper" style="width:100%;height:70%;">
+<div id="right_wrapper1" style="width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;">
+<img src="images/logo.png" id="logo" style="margin-top:9%">
+
+
+<h4>Case Management Software</h4>
+<p><?php echo $CC_program_name; ?></p>
+<center>
 <div id="status" style="color:red;display:<?PHP ECHO $toggle_display; ?>">Your username or password is incorrect.  Please try again.</div>
 
 <div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact your clinic's adminstrator for more information.</div>
 
 <div id="status3" style="color:red;display:<?PHP ECHO $toggle_display3; ?>">Your session has expired.  Please log in again.</div>
-
-<form name = "getin" id="getin" action="login.php" method="post" style="margin-top:20%">
+</center>
+<form name = "getin" id="getin" action="login.php" method="post" style="margin-top:5%">
 
 <label for "username">Username</label><br><input type="text" id = "username" name="username" style="color:black;" value = "<?php if (isset($_COOKIE['cc_user'])){$cookie_value = $_COOKIE['cc_user'];echo $cookie_value;} ?>"><br>
 <label for "password">Password</label><br><input type="password" id = "password" name="password" style="color:black;"><br>
@@ -64,7 +66,7 @@ else
 <div style="margin-top:30px"><a href="#" onClick="$('forgot').show();return false">Forgot username or password?</a></div>
 
 
-<div id="forgot" style="background-color:rgb(255, 255, 204);margin-top:15px;width:99%;height:30%;display:none;">
+<div id="forgot" style="background-color:rgb(255, 255, 204);margin-top:15px;width:99%;height:18%;display:none;">
 <p>Please provide your email address and your information will be sent to you.</p>
 <input type = "text" id = "email" name="email" style="color:black;"><br>
 <a href="#" onClick = "createTargets('forgot','forgot');sendDataGet('forgot_password.php?email=' + document.getElementById('email').value);return false;"><img src="images/check_yellow.png" border="0" style="margin-top:15px;"></a>
@@ -74,41 +76,12 @@ else
 
 </div>
 </div>
-</td>
-<td style="width:70%;height:100%;">
 
 
 
-<table width="100%" height="100%" border=0>
-<tr>
-<td  valign="top" id = "ls" style="width:50%;text-align:center;">
-<div id="right_wrapper1" style="width:100%;height:65%;padding-top:20%;">
-<img src="images/logo.png" id="logo" >
 
 
-<h4>Case Management Software</h4>
-<center>
-<ul style="list-style-type: circle;">
-<li class="fr">Online case management specially designed for law school clinics.</li>
-<li class="fr">Students, professors and administrators can access case information from any internet-connected computer.</li>
-<li class="fr">AJAX-powered application, easy to use.</li>
-</ul>
-<a href="http://www.cliniccases.com/forums">Community Forum</a><br>
-<a href="http://cliniccases.googlecode.com">Source Code</a><br>
-<a href="Release_Notes_Beta_5.txt" target="_new">Release Notes, Beta5</a>
-</div>
-</div>
-</td>
-<td  valign="top" id = "rs" style="width:50%;text-align:center;">
-<div id="right_wrapper2" style="width:100%;height:60%;padding-top:35%;">
-<img id="collage" src="images/collage.jpg" border="0">
 
-
-</center>
-</div>
-</td></tr></table>
-</td></tr></table>
-</div>
 <?php include 'footer.php'; ?>
 
 
