@@ -18,7 +18,7 @@ STEPS - New Installation
 
 3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
 and select "Import."  Import the file CC.sql.  Your database should now be setup with 
-19 tables. [There are other ways to do this, but this should work best for most users].
+18 tables. [There are other ways to do this, but this should work best for most users].
 
 4. Edit _CONFIG.php to reflect your database settings and other settings.
 
