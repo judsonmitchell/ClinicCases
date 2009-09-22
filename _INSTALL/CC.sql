@@ -150,7 +150,7 @@ CREATE TABLE `cm_case_types` (
 --
 
 CREATE TABLE `cm_contacts` (
-  `id` int(10) NOT NULL auto_increment,
+  `id` int(10) NOT NULL auto_increment,contact
   `first_name` varchar(100) NOT NULL default '',
   `last_name` varchar(100) NOT NULL default '',
   `type` varchar(50) NOT NULL default '',
@@ -173,11 +173,23 @@ CREATE TABLE `cm_contacts` (
 -- Table structure for table `cm_contacts_types`
 --
 
-CREATE TABLE `cm_contacts_types` (
+CREATE TABLE IF NOT EXISTS `cm_contacts_types` (
   `id` int(7) NOT NULL auto_increment,
   `type` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `cm_contacts_types`
+--
+
+INSERT INTO `cm_contacts_types` (`id`, `type`) VALUES
+(1, 'Witness'),
+(2, 'Opposing Counsel'),
+(3, 'Opposing Party'),
+(4, 'Client Relative/Friend'),
+(5, 'Expert'),
+(6, 'Other');
 
 -- --------------------------------------------------------
 
