@@ -236,11 +236,11 @@ Recent Activity</h5><div style="float:right;margin-right:10px;"><table style="wi
 <?php
 if ($_SESSION['class'] == 'student')
 {
-$show_notes = mysql_query("SELECT  * FROM `cm_case_notes` , `cm_cases_students` WHERE cm_case_notes.username = '$_SESSION[login]' AND cm_cases_students.username = '$_SESSION[login]' AND cm_case_notes.case_id = cm_cases_students.case_id  ORDER BY `date` DESC LIMIT 10");
+$show_notes = mysql_query("SELECT  * FROM `cm_case_notes` , `cm_cases_students` WHERE cm_case_notes.username = '$_SESSION[login]' AND cm_cases_students.username = '$_SESSION[login]' AND cm_case_notes.case_id = cm_cases_students.case_id  ORDER BY `date` DESC LIMIT 20");
 }
 if ($_SESSION['class'] == 'prof')
 {
-$show_notes = mysql_query("SELECT * FROM `cm_case_notes` WHERE `prof` = '$_SESSION[login]' ORDER BY `date` DESC LIMIT 10");
+$show_notes = mysql_query("SELECT * FROM `cm_case_notes` WHERE `prof` = '$_SESSION[login]' ORDER BY `date` DESC LIMIT 20");
 
 }
 
