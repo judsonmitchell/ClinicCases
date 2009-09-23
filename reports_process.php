@@ -468,7 +468,7 @@ case "student_time":
 			 $GphpChart->add_labels('x',array_keys($my_array4)); 
 			 $GphpChart->add_labels('x',array_values($time_array4)); 
 			
-			// $GphpChart->width = 800;
+			$GphpChart->width = 800;
 			  $GphpChart->set_bar_width(60,2);
 			   $GphpChart->height= 400;
 			 echo $GphpChart->get_Image_String();
