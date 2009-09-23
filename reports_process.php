@@ -340,7 +340,7 @@ $begin_fmt = formatDate2($begin);
 		$GphpChart->add_data(array_values($my_array)); 
 		$GphpChart->add_labels('x',array_keys($my_array));
 		$GphpChart->add_labels('y',array_values($times_array));
-		//$GphpChart->width = 400;
+		$GphpChart->width = 400;
 		
 			   echo "<span style='float:right;'>";
 			   echo $GphpChart->get_Image_String();
