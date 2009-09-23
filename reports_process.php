@@ -185,7 +185,7 @@ case "single_student":
 			 $GphpChart->add_data(array_values($my_array)); // adding values
 			 $GphpChart->add_labels('x',array_keys($my_array)); // adding x labels (horizontal axis)
 			 $GphpChart->add_labels('x',array_values($time_array)); // adding y labels (left axis)
-			//$GphpChart->width = 800;
+			$GphpChart->width = 800;
 			  $GphpChart->set_bar_width(60,2);
 			 echo $GphpChart->get_Image_String(); // and showing the image
 			 
@@ -375,7 +375,7 @@ case "student_time":
 			 $GphpChart->add_data(array_values($my_array)); // adding values
 			 $GphpChart->add_labels('x',array_keys($my_array)); // adding x labels (horizontal axis)
 			 $GphpChart->add_labels('x',array_values($time_array)); // adding y labels (left axis)
-			//$GphpChart->width = 800;
+			$GphpChart->width = 800;
 			  $GphpChart->set_bar_width(60,2);
 			 echo $GphpChart->get_Image_String(); // and showing the image
 			 
@@ -403,7 +403,7 @@ case "student_time":
 			 $GphpChart->add_labels('x',array_keys($my_array2)); // adding x labels (horizontal axis)
 			 $GphpChart->add_labels('x',array_values($time_array2)); // adding y labels (left axis)
 			
-			 //$GphpChart->width = 1000;
+			 $GphpChart->width = 1000;
 			  $GphpChart->set_bar_width(60,2);
 			   $GphpChart->height= 400;
 			 echo $GphpChart->get_Image_String();
