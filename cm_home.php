@@ -38,6 +38,8 @@ include './classes/format_dates_and_times.class.php';
 <title>At A Glance - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="./javascripts/print.js" type="text/javascript"></script>
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="./javascripts/validations.js" type="text/javascript"></script>
@@ -180,7 +182,7 @@ if ($_SESSION['class'] == 'prof')
 
 var check = confirm('Do you want to send all messages to the archive?');
 
-if (check == true){new Ajax.Updater('messages_container','message_roll.php',{evalScripts:true,method:'post',parameters:{archive_all:'yes'}}); updater('updater.php?type=messages','msg_notifier');return false;} 
+if (check == true){new Ajax.Updater('messages_container','message_roll.php',{evalScripts:true,method:'post',parameters:{archive_all:'yes'}}); updater('updater.php?type=messages','msg_notifier');return false;}
 
 else {return false;}">Archive All</a></td>
 <td>View:</td>

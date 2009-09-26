@@ -11,6 +11,8 @@ if (!$_SESSION)
 <title>Students - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="tabs_scripts.js" type="text/javascript"></script>
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
 <script src="scriptaculous/src/scriptaculous.js" type="text/javascript"></script>

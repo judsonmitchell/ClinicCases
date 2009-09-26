@@ -28,6 +28,8 @@ $log_this = mysql_query("INSERT INTO `cm_logs` (`id`,`username`,`timestamp`,`ip`
 <title>Users - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
 <script src="scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
 <script src="./javascripts/FormProtector.js" type="text/javascript"></script>

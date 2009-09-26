@@ -9,17 +9,17 @@ include_once 'classes/format_dates_and_times.class.php';
 include_once 'classes/get_names.php';
 
 //These are page-specific functions for creating the post view
- 
+
 function get_photo($username)
 	{
-		
+
 		$q = mysql_query("SELECT `picture_url`,`username` FROM `cm_users` WHERE `username` = '$username' LIMIT 1");
 		$qq = mysql_fetch_object($q);
 		echo "<img src = '$qq->picture_url' border='0' width=32 height=32>";
-		
-		
+
+
 	}
-	
+
 function list_attachments($id)
 	{
 		$a = mysql_query("SELECT `id`,`attachment` FROM `cm_board` WHERE `id` = '$id' LIMIT 1");
@@ -27,13 +27,13 @@ function list_attachments($id)
 		$list = explode('|',$aa->attachment);
 			foreach ($list as $item)
 				{
-					
+
 					echo "<a class='small' href='docs/" . $item . "' target='new'>$item</a>     ";
-					
+
 				}
-		
+
 	}
-	
+
 function shorten($string)
 	{
 		$br = explode(" ", $string);
@@ -54,6 +54,8 @@ function shorten($string)
 <title>Board - ClinicCases</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="./javascripts/validations.js" type="text/javascript"></script>
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
@@ -70,44 +72,44 @@ new Ajax.PeriodicalUpdater('session_info', 'session_keep_alive.php', {
     frequency: 300
   });
 
-	
+
 	//Hash to get the start value for paging
 
 	pager = new Hash({end:'-10'});
-	
+
 	//Loads the first ten posts
 	Event.observe(window, 'load', function() {
 	new Ajax.Updater('psts', 'board_refresh.php', {evalScripts:true, method:'post',parameters:{begin_value:pager.get('end')}});
 	})
-	
+
 	//Checks for new posts
 	<?php $x =  date("Y-m-d H:i:s", time()); ?>
 	lTime = new Hash({time:'<?php echo $x;?>'});
 	refresh = new PeriodicalExecuter(function(){
 		new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,method:'post',parameters:{time:lTime.get('time')},insertion: 'top'});
-		
+
 		},300);
-		
-		
+
+
 	 //Infinite Scroll
 	 Event.observe(window, 'load', function(event) {
 Event.observe('frame','scroll',function(){
-	
+
 	p = this.cumulativeScrollOffset();
-	
+
 	t = $('psts').getHeight();
-	
+
 	//This will demonstrate the multiple firing in IE and Opera.  See below.
 	//alert('you have scrolled');
 	if (p.top / t > .40)
 	{
-	
+
 	//Unfixed bug.  In IE and Opera, if you use mousewheel to scroll, it will fire this multiple times, putting 2 and 3 copies of the new data in the scroll window. FF,Safari,Chrome are OK. Event.stop(event) does not fix this.
-		
+
 		new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,method:'post',parameters:{begin_value:pager.get('end')},insertion: 'bottom'});
-		
-		
-		
+
+
+
 	}
 
 })
@@ -125,15 +127,15 @@ Event.observe('frame','scroll',function(){
 		if ( parent.frames[i].FCK )
 		parent.frames[i].FCK.UpdateLinkedField();
 	  }
-	  
+
 	}
 	var FckUpdate = new getFckValue();
-	
+
 	function getNumComments(id)
 	{
 		new Ajax.Request('board_display_comments.php',{parameters:{comment_no:'yes',post_id:id},onSuccess: function(transport){$('comments_notify_' +id).innerHTML = transport.responseText;}});
 	}
-		
+
 
 
 </script>
@@ -239,12 +241,12 @@ onSuccess:function(){
 			$('notifications').update('Post Added');
 			Effect.Fade($('notifications'),{duration:3.0})
 			return false;
-			
+
 			}
 });return false"><img src="./images/check_yellow.png" border="0" ></a></td><td> <a href="#" title="Cancel" alt="Cancel" onClick="
 	var check = confirm('Are you sure you want to abandon this post?');
 	if (check == true)
-		{	
+		{
 			new Ajax.Request('board_delete.php',{method:'post',parameters:{id:$F('post_id'),del_type:'cancel'}});
 			fp.resetAlrt();
 			$('new_post').reset();

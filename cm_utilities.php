@@ -9,6 +9,8 @@ if (!$_SESSION)
 <title>Utilities - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="./javascripts/validations.js" type="text/javascript"></script>
 <script src="./javascripts/table_stripe.js" type="text/javascript"></script>

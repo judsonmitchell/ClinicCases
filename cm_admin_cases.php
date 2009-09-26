@@ -10,6 +10,7 @@ if (!$_SESSION)
 <title>Cases - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet" href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="./javascripts/print.js" type="text/javascript"></script>
@@ -375,7 +376,7 @@ if ($_SESSION['class'] == 'prof')
 //The autocompleter for advanced search
 
 ajac = new Ajax.Autocompleter("searchterm", "autocomplete_case", "cm_cases_lookup.php", {method: 'get', callback:function(){return 'searchterm=' + $F('searchterm') + '&searchfield=' + $F('searchfield') + '&view='  + $F('view_chooser');}, afterUpdateElement:function(){
-	
+
 	$('autocomplete_case').style.display='none';
 	new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:{searchfield:$F('searchfield'),searchterm:$F('searchterm'),view:$F('view_chooser')}});
 }});

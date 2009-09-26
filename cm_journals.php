@@ -11,6 +11,8 @@ if (!$_SESSION)
 <title>Journals - ClinicCases.com</title>
 <link rel="stylesheet" href="cm.css" type="text/css">
 <link rel="stylesheet"  href="cm_tabs.css" type="text/css">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="./javascripts/print.js" type="text/javascript"></script>
 <script src="./javascripts/validations.js" type="text/javascript"></script>
