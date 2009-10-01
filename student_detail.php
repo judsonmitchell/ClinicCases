@@ -85,7 +85,7 @@ echo <<<ACTIVITY
 
 <div style="width:100%;height:90px;background:url(images/grade.jpg) repeat-x;">
 <TABLE WIDTH="99%">
-<TR><TD WIDTH="15%" STYLE="PADDING-RIGHT:3.5%;" valign="top">
+<TR onmouseover="this.style.cursor='pointer';"  onclick="location.href='cm_cases.php?direct=$e[case_id]';return false;" alt="Click to View Case" title="Click to View Case"><TD WIDTH="15%" STYLE="PADDING-RIGHT:3.5%;" valign="top">
 ACTIVITY;
 
 formatDateNoTime($e[date]);
@@ -161,7 +161,7 @@ ECHO <<<EVENT
 
 <TABLE WIDTH="99%">
 
-<TR><TD WIDTH="15%" valign="top"
+<TR onmouseover="this.style.cursor='pointer';"  onclick="location.href='cm_cases.php?direct=$f[case_id]';return false;" alt="Click to View Case" title="Click to View Case"><TD WIDTH="15%" valign="top"
 
 EVENT;
 
@@ -234,7 +234,7 @@ while ($loop2 = mysql_fetch_array($case_info))
 ECHO <<<CASES
 <div style="width:99%;height:30px;background:url(images/grade_small.jpg) repeat-x;">
 <TABLE width="99%">
-<TR><TD WIDTH = "25%">
+<TR onmouseover="this.style.cursor='pointer';" onclick="location.href='cm_cases.php?direct=$loop2[id]';return false;" alt="Click to View Case" title="Click to View Case"><TD WIDTH = "25%">
 CASES;
 formatCaseNo($loop2[id]);
 ECHO <<<CASES
