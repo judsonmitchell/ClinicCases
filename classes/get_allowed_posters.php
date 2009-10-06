@@ -40,9 +40,9 @@ function get_allowed_posters($username)
 						{$allowed[] = $c[username];}
 
 				//get the admins
-				//$d = mysql_query("SELECT `username`,`class`,`status` FROM `cm_users` WHERE `class` = 'admin' AND `status` = 'active'");
-					//while ($e = mysql_fetch_array($d))
-						//{$allowed[] = $e[username];}
+				$d = mysql_query("SELECT `username`,`class`,`status` FROM `cm_users` WHERE `class` = 'admin' AND `status` = 'active'");
+					while ($e = mysql_fetch_array($d))
+						{$allowed[] = $e[username];}
 
 				//then, of course add yourself
 				$allowed[] = $username;
@@ -63,9 +63,9 @@ function get_allowed_posters($username)
 					{$allowed[] = $i[username];}
 
 				//now get the admins
-				//$j = mysql_query("SELECT `username`,`class` FROM `cm_users` WHERE `class` = 'admin'");
-					//while ($k = mysql_fetch_array($j))
-						//{$allowed[] = $k[username];}
+				$j = mysql_query("SELECT `username`,`class` FROM `cm_users` WHERE `class` = 'admin'");
+					while ($k = mysql_fetch_array($j))
+						{$allowed[] = $k[username];}
 
 				$flist = makeList($allowed);
 				return $flist;
