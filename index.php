@@ -43,7 +43,7 @@ else
 <!-- Left Side -->
 
 
-<div id="wrapper1" style="width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;">
+<div id="wrapper1">
 <img src="images/logo.png" id="logo" style="margin-top:9%">
 
 
