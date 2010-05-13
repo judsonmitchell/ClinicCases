@@ -208,7 +208,7 @@ echo <<<LIST
 <TABLE WIDTH="100%">
 <TR><TD width="40%"><B>$d[first_name] $d[last_name]<B></TD><TD width="20%"><LABEL>Professor:</LABEL> $d[assigned_prof]</TD><TD width="25%">  <LABEL>Date Applied:</LABEL>
 LIST;
-formatDate2($d[date_created]);
+formatDate($d[date_created]);
 ECHO <<<LIST
 </TD><TD width="15%"><div id="status_$d[id]"><a href="#" onClick="createTargets('status_$d[id]','status_$d[id]');sendDataGet('activate_user.php?id=$d[id]');return false;" alt="Activate User" title="Activate User"><img src="images/accept.png" border="0"></a>
 
