@@ -150,7 +150,7 @@ CREATE TABLE `cm_case_types` (
 --
 
 CREATE TABLE `cm_contacts` (
-  `id` int(10) NOT NULL auto_increment,contact
+  `id` int(10) NOT NULL auto_increment,
   `first_name` varchar(100) NOT NULL default '',
   `last_name` varchar(100) NOT NULL default '',
   `type` varchar(50) NOT NULL default '',
