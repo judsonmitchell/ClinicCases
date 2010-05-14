@@ -28,14 +28,21 @@ return $journals;
 /* Processes form */
 if ($_POST)
 {
-require_once ( 'class.captcha_x.php');
-$captcha = &new captcha_x ();
-if ( ! $captcha->validate ( $_POST[captcha])) {
-    echo '<p><center><br>The text you entered in the security field is incorrect.  Please try again.<b><br><a href="#" onClick="history.back();">Go Back</a></center></p>';die;
-}
-else {
+	//do captcha
+	require_once ( 'class.captcha_x.php');
+	$captcha = &new captcha_x ();
+		
+		if ( ! $captcha->validate ( $_POST[captcha])) {
+			echo '<p><center><br>The text you entered in the security field is incorrect.  Please try again.<b><br><a href="#" onClick="history.back(-1);">Go Back</a></center></p>';die;}
 
+		//make sure email is unique 
+		$email=mysql_real_escape_string($_POST[email]);
+		$email_query = mysql_query("SELECT `email` from `cm_users` WHERE `email` = '$email'");
+		
+		if (mysql_num_rows($email_query)>0)
+			{echo "<p><center>An account with this email address already exists. If you have lost your username or password, <a href='../index.php'>go the login page</a> and click on 'Forgot username or password'.</center></p>";die;}
 
+//create account
 
 $first_name = ucfirst($_POST[first_name]);
 $last_name = ucfirst($_POST[last_name]);
@@ -43,10 +50,10 @@ $last_name = ucfirst($_POST[last_name]);
 $num = $_POST[mobile_phone];
 $forbidden = array(" " , "(" ,")" ,"-", ".");
 $mobile = str_replace($forbidden,'',$num);
-
 $num2 = $_POST[home_phone];
 $forbidden2 = array(" " , "(" ,")" ,"-", ".");
 $home_phone = str_replace($forbidden2,'',$num2);
+
 /* Format username */
 $username_first_part = substr($first_name,0,2);
 $username = strtolower($username_first_part) . strtolower($last_name);
@@ -69,6 +76,7 @@ $timezone_offset = abs(date(Z) / 3600) - $timezone;
 
 
 
+
 $query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`class`,`new`,`username`,`password`,`assigned_prof`,`timezone_offset`,`pref_case`,`pref_journal`) VALUES (NULL,'$first_name','$last_name','$email','$mobile','$home_phone','student','yes','$username','$secure_password','$assigned_prof','$timezone_offset','$case_pref','$journal_pref')");
 
 if (mysql_error($connection))
@@ -81,19 +89,23 @@ $query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`ema
 
 $alert_admin = mysql_query("SELECT `email` FROM `cm_users` WHERE `class` = 'admin'");
 while ($r = mysql_fetch_array($alert_admin))
-{
-$message = "A new user, $first_name $last_name, has applied for access to ClinicCases.  Please review the application and activate the user.";
-$subject = "New ClinicCases User";
+	{
+		//advise the adminstrator that there is a new signup
+		$message = "A new user, $first_name $last_name, has applied for access to ClinicCases.  Please review the application and activate the user.";
+		$subject = "New ClinicCases User";
+		$to = $r['email'];
+		$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
+		   "Reply-To: no-reply@" . $_SERVER[HTTP_HOST] . "\r\n" .
+		   "X-Mailer: PHP/" . phpversion();
+		mail($to,$subject,$message,$headers);
 
-$to = $r['email'];
-
-$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
-   "Reply-To: no-reply@" . $_SERVER[HTTP_HOST] . "\r\n" .
-   "X-Mailer: PHP/" . phpversion();
-mail($to,$subject,$message,$headers);
-
-
-}
+		//tell the student happens next 
+		$message2 = "Your request for a ClinicCases account has been submitted.  Your request for an account must first be approved by your clinic's administrator.  Once your request is approved, you will receive an email advising you of your username and password.  If you do not receive this message soon, please contact your clinic's adminstrator at $CC_admin_email.";
+		$subject2 = "ClinicCases: Your Account Request";
+		$to2 = $email;
+		mail($to2,$subject2,$message2,$headers);
+		  
+	}
 
 echo <<<RESP
 
@@ -120,7 +132,7 @@ Thanks for applying, $first_name.  Your information will be forwarded to the adm
 RESP;
 DIE;
 }
-}
+
 ?>
 <html>
 <head>
@@ -139,7 +151,7 @@ DIE;
 
 </head>
 <body>
-<div id="content" style="margin-top:1.5%;">
+<div id="content" style="min-height:600px;margin-top:1.5%;">
 <div id="left" style="float:left;width:42%;margin-top:40px;margin-left:15px;">
 
 <h1>Set Up Your <br>ClinicCases Account</h1>
