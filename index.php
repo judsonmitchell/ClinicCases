@@ -52,7 +52,7 @@ else
 <center>
 <div id="status" style="color:red;display:<?PHP ECHO $toggle_display; ?>">Your username or password is incorrect.  Please try again.</div>
 
-<div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact your clinic's adminstrator for more information.</div>
+<div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact <a href="mailto:<?php echo $CC_admin_email; ?>">your clinic's adminstrator</a> for more information.</div>
 
 <div id="status3" style="color:red;display:<?PHP ECHO $toggle_display3; ?>">Your session has expired.  Please log in again.</div>
 </center>
