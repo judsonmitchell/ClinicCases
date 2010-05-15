@@ -100,7 +100,7 @@ while ($r = mysql_fetch_array($alert_admin))
 		mail($to,$subject,$message,$headers);
 
 		//tell the student happens next 
-		$message2 = "Your request for a ClinicCases account has been submitted.  Your request for an account must first be approved by your clinic's administrator.  Once your request is approved, you will receive an email advising you of your username and password.  If you do not receive this message soon, please contact your clinic's adminstrator at $CC_admin_email.";
+		$message2 = "Your request for a ClinicCases account has been submitted.  Your request for an account must first be approved by your clinic's administrator.  Once your request is approved, you will receive an email advising you of your username and password.  If you do not receive this message soon, please check the spam folder in your email to see if the message is there and then 2) contact your clinic's adminstrator at $CC_admin_email.";
 		$subject2 = "ClinicCases: Your Account Request";
 		$to2 = $email;
 		mail($to2,$subject2,$message2,$headers);
