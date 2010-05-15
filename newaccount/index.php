@@ -1,5 +1,7 @@
 <?php
 include '../db.php';
+include '../classes/url_key_generator.php';
+
 
 /* This finds out if the selected professor uses case management, journals, or both */
 function get_prof_case_prefs($prof)
@@ -73,11 +75,13 @@ $assigned_prof=mysql_real_escape_string($_POST[assigned_prof]);
 $timezone=mysql_real_escape_string($_POST[timezone]);
 
 $timezone_offset = abs(date(Z) / 3600) - $timezone;
+//Create private key
+$key = alphanumericPass();
 
 
 
 
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`class`,`new`,`username`,`password`,`assigned_prof`,`timezone_offset`,`pref_case`,`pref_journal`) VALUES (NULL,'$first_name','$last_name','$email','$mobile','$home_phone','student','yes','$username','$secure_password','$assigned_prof','$timezone_offset','$case_pref','$journal_pref')");
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`class`,`new`,`username`,`password`,`assigned_prof`,`timezone_offset`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$email','$mobile','$home_phone','student','yes','$username','$secure_password','$assigned_prof','$timezone_offset','$case_pref','$journal_pref','$key')");
 
 if (mysql_error($connection))
 {
@@ -124,7 +128,7 @@ echo <<<RESP
 </div>
 <div id="right" style="float:right;width:55%;border-left: 1px dashed gray;height:100%">
 <p style="margin-top:40px;font-weight:bold;padding:10px;">
-Thanks for applying, $first_name.  Your information will be forwarded to the adminstrator who will then activate your account.  Please watch for an email confirming your account activation soon.</p>
+Thanks for applying, $first_name.  Your information will be forwarded to the adminstrator who will then activate your account.  You should receive an email shortly confirming your request.  If you do not, please check your spam folder.</p>
 </DIV>
 </DIV>
 </BODY>
