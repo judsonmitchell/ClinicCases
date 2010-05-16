@@ -9,7 +9,7 @@ if (!$_SESSION)
 
 if ($_POST)
 {
-/* This is to unset the timer on cookie , so you can navigate away from the page without the warning */
+// This is to unset the timer on cookie , so you can navigate away from the page without the warning 
 $date = $_POST['date'];
 
 if (isset($date))
@@ -18,7 +18,9 @@ $datebreak = explode("/",$date);
 $month = $datebreak[0];
 $day = $datebreak[1];
 $year = $datebreak[2];
-$new_date = "'" . "$year" . "-" . "$month" . "-" . "$day" . " " . "00:00:00" . "'";
+//this "time" is added so that the sort will be correct if you insert time on the same day.
+$time_part = date('G:i:s');
+$new_date = "'" . "$year" . "-" . "$month" . "-" . "$day" . " " .  $time_part . "'";
 }
 else
 {$new_date = "NOW()";}
