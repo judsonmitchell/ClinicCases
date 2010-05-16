@@ -133,14 +133,14 @@ if (!empty($searchterm))
 
                      if (!empty($searchfield))
                 {
-                    $result = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `$searchfield` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter OR `professor2` = '$_SESSION[login]' AND `$searchfield` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter ORDER BY $choose_sort $newsortdir ");
+                    $result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `$searchfield` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter ORDER BY $choose_sort $newsortdir ");
                     }
 
                 else
 
                {
                 //otherwise a simple name search
-                $result = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `first_name` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter OR `professor` = '$_SESSION[login]' AND `last_name` LIKE '%$searchterm%' $limiter OR `professor2` ='$_SESSION[login]' AND `first_name` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter OR `professor2` = '$_SESSION[login]' AND `last_name` LIKE '%$searchterm%' $limiter ORDER BY $choose_sort $newsortdir");
+                $result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `first_name` LIKE CONVERT( _utf8 '%$searchterm%' USING latin1 ) $limiter OR `professor` LIKE '%$_SESSION[login]%' AND `last_name` LIKE '%$searchterm%' $limiter ORDER BY $choose_sort $newsortdir");
                }
                break;
 
@@ -174,7 +174,7 @@ else {
           	break;
 
             case 'prof':
-            $result = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' $limiter OR `professor2` = '$_SESSION[login]' $limiter ORDER BY $choose_sort $newsortdir");
+            $result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' $limiter ORDER BY $choose_sort $newsortdir");
             break;
 
             case 'admin':
