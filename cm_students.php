@@ -109,13 +109,13 @@ if (mysql_num_rows($get_students) < 1)
 <p><i>Drag case file to student to assign.</P>
 <?php
 
-$get_limit = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `date_close` = '' OR `professor2` = '$_SESSION[login]' AND `date_close` = ''");
+$get_limit = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ");
 
 $dingo = mysql_num_rows($get_limit);
 $limit = round($dingo / 2);
 
 echo "<table width=\"100%\"><tr><td>";
-$get_cases = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `date_close` = '' OR `professor2` = '$_SESSION[login]' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT 0, $limit");
+$get_cases = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT 0, $limit");
 while ($line = mysql_fetch_array($get_cases, MYSQL_ASSOC)) {
     $i=0;
     foreach ($line as $col_value) {
@@ -130,7 +130,7 @@ CASELIST;
 }
 echo "</td><td>";
 $increment_limit = $limit +1;
-$get_cases2 = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `date_close` = '' OR `professor2` = '$_SESSION[login]' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT $limit, $dingo");
+$get_cases2 = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT $limit, $dingo");
 while ($line = mysql_fetch_array($get_cases2, MYSQL_ASSOC)) {
     $i=0;
     foreach ($line as $col_value) {
