@@ -1,0 +1,18 @@
+TO DO FOR CC6
+Started 5/13/2010
+
+* We are making the email unique.  So, must find a work around for two professors issue (you can't have two accounts now).  Also, must be sure that sign up works properly, so they don't go around trying to set up new accounts on fail.
+
+		Issue breakdown:
+		* Multiple professors able to be assigned to one case and can see all case notes by students and other profs
+		* Student has multiple professors and can see all the cases assigned to him by all profs.
+		* Journals - you can choose which prof to send an individual journal to.
+
+* New directory structure for documents docs>[date]>[username].  Script will move pre-cc6 documents to a pre-cc6 directory.  This structure will go for docs as well as board attachments.  Gets rid of need to change file name.  If you did this by time [or unique folder name] as well, might be able to introduce versioning.
+ http://superuser.com/questions/66331/what-is-the-maximum-number-of-folders-allowed-in-a-folder-in-linux
+
+* Google Docs and Dropbox integration.
+
+* Use Google Docs viewer to preview docs? [security?]. This would be nice with versioning feature.
+
+* First view prof sees is left column student > cases working on > last activity.  Then can switch to cases>students>assign
