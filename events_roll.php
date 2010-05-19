@@ -103,7 +103,7 @@ if (mysql_num_rows($get_events)<1)
 }
 else
 {
-$show_events = mysql_query("SELECT * FROM `cm_events`  WHERE `prof` = '$_SESSION[login]' AND `archived` = 'n' ORDER BY `date_due` DESC LIMIT 20");
+$show_events = mysql_query("SELECT * FROM `cm_events`  WHERE `prof` LIKE '%$_SESSION[login]%' AND `archived` = 'n' ORDER BY `date_due` DESC LIMIT 20");
 while ($line = mysql_fetch_array($show_events, MYSQL_ASSOC)) {
     $i=0;
     foreach ($line as $col_value) {
