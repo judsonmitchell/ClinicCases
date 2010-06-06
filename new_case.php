@@ -265,7 +265,7 @@ ECHO <<<DATA
 <p><label for "pl_or_def">Client is:</label><select name="pl_or_def" id="pl_or_def"><option value="Defendant">Defendant</option><option value="Plaintiff">Plaintiff</option><option value="Other">Other</option></select>
 </p>
 <p><label for "adverse">Adverse Parties (place each name on a new line)</label><textarea name="adverse" id="adverse" cols="41" rows="5"></textarea></p>
-<p><label for "professor">Professor:</label><select name="professor" id="professor"><option value="">Please Select</option>
+<p><label for "professor">Professor:</label><select multiple="multiple" size="2" name="professor" id="professor">
 DATA;
 
 	//get the list of professors
@@ -281,23 +281,7 @@ DATA;
 ECHO <<<DATA
 
 </select></p>
-<p><label for "professor2">Professor 2:</label><select name="professor2" id="professor2"><option value="" selected="selected">None</option>
-DATA;
 
-	//Get the professor list again in case two professors are handling case
-	$get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
-	WHILE ($result2 = mysql_fetch_array($get_prof))
-	{
-	$prof= $result2['last_name'];
-	$prof_user = $result2['username'];
-	echo "<option value=\"$prof_user\">$prof</option> ";
-	}
-	$date_open = date('Y-m-d');
-
-
-
-ECHO <<<DATA
-</select></p>
 <p><label for "referral">Referral</label><select name="referral" id="referral"><option value="None" selected="selected">None</option>
 DATA;
 
