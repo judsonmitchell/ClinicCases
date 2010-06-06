@@ -464,7 +464,7 @@ ROWS;
 else
 {
 
-$result = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' $limiter OR `professor2` = '$_SESSION[login]' $limiter ORDER BY `last_name`");
+$result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' $limiter ORDER BY `last_name`");
 ECHO <<<HEADER
 <thead><tr><td colspan="9" style="background:url(images/grade_gray_small.jpg) repeat-x;color:black;"><b>
 HEADER;

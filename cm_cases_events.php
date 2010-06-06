@@ -142,15 +142,16 @@ NOTIFY;
 <div id="add_event" style="display:none;">
 
 <form id="eventForm" name="eventForm">
-<table width="99%"><tr><td></td><td><label for "date_due">When does<br>it happen?</label></td><td><label for "responsible">Who is<br>responsible?</label></td><td><label for "task">What is it?</label></td><td></td><td></td></tr>
+<table width="99%" ><tr><td></td><td><label for "date_due">When does it happen?</label></td><td><label for "responsible">Who is<br>responsible?</label></td><td><label for "task">What is it?</label></td><td></td><td></td></tr>
 
 <tr>
-<td valign="center" align="right">
+<td valign="center" align="center">
 <input type="text" id="datedue<?php echo $date; ?>" name="date_due" size="10" style="border:0px;background-color:rgb(255, 255, 204);"></td><td align="center"  valign="center">
 
 <a id="cal2" href="#" onClick="scwShow(datedue<?php echo $date; ?>,scwID('cal2'));return false;" alt="Click to Select Date" title="Click to Select Date"><img src="images/calendar.png" border="0"></a>
 
 </td><td  valign="center">
+<div style="width:160px; height:60px; overflow:scroll; overflow-y: scroll; overflow-x:hidden;">
 <?php
 $get_responsibles = mysql_query("SELECT * FROM `cm_cases_students` WHERE `case_id` = '$id' AND `status` = 'active'");
 while ($line = mysql_fetch_array($get_responsibles, MYSQL_ASSOC)) {
@@ -167,29 +168,28 @@ echo <<<LIST
 LIST;
 }
 
-$get_professor = mysql_query("SELECT `professor`,`professor2` FROM `cm` WHERE `id` = '$id' LIMIT 1");
-while ($r = mysql_fetch_array($get_professor))
+$get_professor = mysql_query("SELECT `professor` FROM `cm` WHERE `id` = '$id' LIMIT 1");
+$prof = mysql_fetch_object($get_professor);
+//strip last comma
+$prof_str = substr($prof->professor,0,-1);
+$profs_all = explode(',',$prof_str);
+foreach ($profs_all as $prof_name)
 {
-$prof = $r['professor'];
-$prof2 = $r['professor2'];
-$get_prof_name = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof' OR `username` = '$prof2' LIMIT 1");
-while ($r2 = mysql_fetch_array($get_prof_name))
-{
-
-echo "<input type='hidden' name='prof' id='prof' value='$prof'><input type=\"checkbox\" id = \"$r2[username]\" name=\"$r2[username]\"  onChange=\"modRes('$r2[username]');\">$r2[first_name] $r2[last_name]";
-
-}
-
+	$get_prof_name = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof_name' LIMIT 1");
+	$r2 = mysql_fetch_object($get_prof_name);
+	echo "<input type='hidden' name='prof' id='prof' value='$prof_str'><input type=\"checkbox\" id = \"$r2->username\" name=\"$r2->username\"  onChange=\"modRes('$r2->username');\">$r2->first_name $r2->last_name<br>";
+	
+	
 }
 
 
 ?>
 
-
+</div>
 
 </td><td>
 <input type="hidden" id="collect" name="collect">
-<textarea name="task" id="tasker" cols="35" rows="2"></textarea></td><td  valign="center">
+<textarea name="task" id="tasker" cols="30" rows="4"></textarea></td><td  valign="center">
 <a href="#" onClick="var check = checkEvent('datedue<?php echo $date; ?>');if (check==true){Effect.BlindUp('add_event');createTargets('case_activity','case_activity');sendDataPost('cm_cases_events.php?id=<?php echo $id ?>','eventForm');updateLeftSide('<?php echo $id ?>','event');return false}" alt="Add This Event" title="Add This Event"><img src="images/check_yellow.png" border="0"></a></td><td  valign="center"><a title="Cancel " alt="Cancel" href="#" onClick="Effect.BlindUp('add_event');return false;"><img src="images/cancel_small.png" border="0"></a></td></tr></table>
 <input type="hidden" value="<?php echo $id ?>" name="case_id">
 
@@ -282,12 +282,12 @@ ECHO <<<CONTENTS
 $e[status]
 </td>
 <td valign="top" width="15%"><input type="hidden" id="set_by" value="$e[set_by]">
-<div style="height:20px;width:100%;text-align:right"><a href="#" alt="Edit this Event" title="Edit this Event" onClick="var checkit = checkAuth('$_SESSION[login]');if (checkit == true){createTargets('add_event','add_event');sendDataGet('event_edit.php?event_id=$e[id]&case_id=$e[case_id]&ieyousuck=$rand');Effect.BlindDown('add_event');return false;} else {return false;};"><img src="images/calendar_edit.png" border="0"></a><a href="#" alt="Delete this Event" title="Delete this Event" onClick="var checkit = checkAuth('$_SESSION[login]','$_SESSION[class]');if (checkit == true){var check = confirm('Are you sure you want to delete all records of this event? If you just want to mark this event as done, click cancel and then click the cocktail glass on the right.');if (check == true){createTargets('case_activity','case_activity');sendDataGet('event_delete.php?event_id=$e[id]&case_id=$e[case_id]');}else {return false}} else {return false;};"><img src="images/calendar_delete.png" border="0" style="margin-left:10px;"></a>
+<div style="height:20px;width:100%;text-align:right"><a href="#" alt="Edit this Event" title="Edit this Event" onClick="var checkit = checkAuth('$_SESSION[login]','$_SESSION[class]');if (checkit == true){createTargets('add_event','add_event');sendDataGet('event_edit.php?event_id=$e[id]&case_id=$e[case_id]&ieyousuck=$rand');Effect.BlindDown('add_event');return false;} else {return false;};"><img src="images/pencil.png" border="0"></a><a href="#" alt="Delete this Event" title="Delete this Event" onClick="var checkit = checkAuth('$_SESSION[login]','$_SESSION[class]');if (checkit == true){var check = confirm('Are you sure you want to delete all records of this event? If you just want to mark this event as done, click cancel and then click the check on the right.');if (check == true){createTargets('case_activity','case_activity');sendDataGet('event_delete.php?event_id=$e[id]&case_id=$e[case_id]');}else {return false}} else {return false;};"><img src="images/cross.png" border="0" style="margin-left:10px;"></a>
 CONTENTS;
 if ($e[status] == 'Pending')
 {
 ECHO <<<SUBCONTENTS
-<a href="#" alt="Mark As Done" title="Mark As Done" onClick="var check = confirm('Mark this event as done?');if (check == true){createTargets('case_activity','case_activity');sendDataGet('event_done.php?event_id=$e[id]&case_id=$id');return false;}else {return false}"><img src="images/drink.png" border="0" style="margin-left:10px;"></a>
+<a href="#" alt="Mark As Done" title="Mark As Done" onClick="var check = confirm('Mark this event as done?');if (check == true){createTargets('case_activity','case_activity');sendDataGet('event_done.php?event_id=$e[id]&case_id=$id');return false;}else {return false}"><img src="images/tick.png" border="0" style="margin-left:10px;"></a>
 SUBCONTENTS;
 }
 ECHO <<<CONTENTS
