@@ -22,8 +22,14 @@ if (empty($col_value))
 if (!$_GET[interior])
 {
 	
+	if ($_SESSION['class'] == 'admin')
+	{$url = "cm_admin_cases.php";}
+	else
+	{$url = "cm_cases.php";}
+	
+	
 echo <<<CLOSE
-<span id="close"><a href="#" onclick="Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close"><a href="#" onclick="location.href='$url';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 CLOSE;
 	
 }
@@ -112,19 +118,15 @@ if (mysql_num_rows($get_adverse)<1)
 
 $get_this_prof = mysql_query("SELECT `professor` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
 $x = mysql_fetch_array($get_this_prof);
-echo $x[professor];
+$pr = $x[professor];
+$prof_str = substr($pr,0,-1);
+
+echo $prof_str;
 ?>
 </div></p>
 
 
-<p><label for "professor2">Professor2:</label><div style="font-size:12pt;">
-<?php
 
-$get_this_prof = mysql_query("SELECT `professor2` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
-$x = mysql_fetch_array($get_this_prof);
-echo $x[professor2];
-?>
-</div></p>
 <br>
 <p><label for "notes">Notes</label><div style="font-size:12pt;"><?php echo $d[notes]?></div></p>
 

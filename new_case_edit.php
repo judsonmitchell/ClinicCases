@@ -8,7 +8,15 @@ if ($_POST)
 {
 $update_adverse = mysql_query("UPDATE `cm_adverse_parties` SET `name` = '$_POST[adverse]' WHERE `id` = '$_POST[adverse_id]' LIMIT 1");
 
-$update = mysql_query("UPDATE `cm` SET `first_name` = '$_POST[first_name]', `m_initial` = '$_POST[m_initial]',`last_name` = '$_POST[last_name]', `case_type` = '$_POST[case_type]', `professor` = '$_POST[professor]', `professor2` = '$_POST[professor2]',`address1` = '$_POST[address1]', `address2` = '$_POST[address2]', `city` = '$_POST[city]', `state` = '$_POST[state]', `zip` = '$_POST[zip]', `phone1` = '$_POST[phone1]', `phone2` = '$_POST[phone2]', `email` = '$_POST[email]', `dob`= '$_POST[dob]', `ssn` = '$_POST[ssn]', `gender` = '$_POST[gender]', `race` = '$_POST[race]', `judge` = '$_POST[judge]', `pl_or_def` = '$_POST[pl_or_def]', `court`= '$_POST[court]', `section` = '$_POST[section]', `ct_case_no` = '$_POST[ct_case_no]',`case_name` = '$_POST[case_name]', `notes` = '$_POST[notes]' WHERE `id` = '$_POST[id]' LIMIT 1");
+//This is to explode the professor array
+	
+		foreach ($_POST['professor'] as $pp)
+		{
+			$prof_list .= $pp . ",";
+		}
+
+
+$update = mysql_query("UPDATE `cm` SET `first_name` = '$_POST[first_name]', `m_initial` = '$_POST[m_initial]',`last_name` = '$_POST[last_name]', `case_type` = '$_POST[case_type]', `professor` = '$prof_list', `address1` = '$_POST[address1]', `address2` = '$_POST[address2]', `city` = '$_POST[city]', `state` = '$_POST[state]', `zip` = '$_POST[zip]', `phone1` = '$_POST[phone1]', `phone2` = '$_POST[phone2]', `email` = '$_POST[email]', `dob`= '$_POST[dob]', `ssn` = '$_POST[ssn]', `gender` = '$_POST[gender]', `race` = '$_POST[race]', `judge` = '$_POST[judge]', `pl_or_def` = '$_POST[pl_or_def]', `court`= '$_POST[court]', `section` = '$_POST[section]', `ct_case_no` = '$_POST[ct_case_no]',`case_name` = '$_POST[case_name]', `notes` = '$_POST[notes]' WHERE `id` = '$_POST[id]' LIMIT 1");
 
 
 
@@ -167,44 +175,35 @@ $adverse_id = $w[id];
 </textarea></p>
 <input type="hidden" name="adverse_id" value="<?php echo $adverse_id;   ?>">
 <input type="hidden" name="id" value="<?php echo $_GET[id] ?>">
-<p><label for "professor">Professor:</label><select name="professor" id="professor">
+<p><label for "professor">Professor:</label><select multiple="multiple" name="professor[]" id="professor">
 <?php
-$get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
-WHILE ($result2 = mysql_fetch_array($get_prof))
-{
-$prof= $result2['last_name'];
-$prof_user = $result2['username'];
-$get_this_prof = mysql_query("SELECT `professor` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
-$x = mysql_fetch_array($get_this_prof);
-if ($prof_user == $x[professor])
-{echo "<option value=\"$prof_user\" selected=\"selected\">$prof</option>";}
-else
-{echo "<option value=\"$prof_user\">$prof</option>";}
 
+//this gets the list of profs on this case
+$case_profs = mysql_query("SELECT `professor` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
+$result2 = mysql_fetch_array($case_profs);
+$arr = explode(",",$result2['professor']);
+
+//this gets the list of all profs
+$all_profs = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
+	while ($result  = mysql_fetch_array($all_profs))
+		{
+			if (in_array($result[username],$arr))
+				{echo "<option value=\"$result[username]\" selected=selected>$result[last_name]</option>";
+			
+			
+				}
+				else
+				{echo "<option value=\"$result[username]\">$result[last_name]</option>";
+				}
+
+
+	
+	
 }
 
 ?>
 </select></p>
 
-<p><label for "professor2">Professor 2:</label><select name="professor2" id="professor2">
-<option value='' selected="selected">None</option>
-<?php
-$get_prof2 = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
-WHILE ($result2 = mysql_fetch_array($get_prof2))
-{
-$prof2= $result2['last_name'];
-$prof_user2 = $result2['username'];
-$get_this_prof2 = mysql_query("SELECT `professor2` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
-$x = mysql_fetch_array($get_this_prof2);
-if ($prof_user2 == $x[professor2])
-{echo "<option value=\"$prof_user2\" selected=\"selected\">$prof2</option>";}
-else
-{echo "<option value=\"$prof_user2\">$prof2</option>";}
-
-}
-
-?>
-</select></p>
 <p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="5"><?php echo $d[notes]?></textarea></p>
 
 <p><center><input type="button" value="Save Changes" onClick="var ncval = newCaseVal();if (ncval == true){
