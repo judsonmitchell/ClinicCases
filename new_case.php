@@ -27,6 +27,14 @@ if ($_POST)
 		}
 
 	}
+	
+	//This is to explode the professor array
+	
+	
+		foreach ($_POST['professor'] as $pp)
+		{
+			$prof_list .= $pp . ",";
+		}
 
 	//Insert New Client Data
 	$put_in = mysql_query("
@@ -37,7 +45,7 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `last_name` = '$_POST[last_name]',
 `date_open` = '$_POST[date_open]',
 `case_type` = '$_$_POST[case_type]',
-`professor` = '$_POST[professor]',
+`professor` = '$prof_list',
 `address1` = '$_POST[address1]',
 `address2` = '$_POST[address2]',
 `city` = '$_POST[city]',
@@ -265,7 +273,7 @@ ECHO <<<DATA
 <p><label for "pl_or_def">Client is:</label><select name="pl_or_def" id="pl_or_def"><option value="Defendant">Defendant</option><option value="Plaintiff">Plaintiff</option><option value="Other">Other</option></select>
 </p>
 <p><label for "adverse">Adverse Parties (place each name on a new line)</label><textarea name="adverse" id="adverse" cols="41" rows="5"></textarea></p>
-<p><label for "professor">Professor:</label><select multiple="multiple" size="2" name="professor" id="professor">
+<p><label for "professor">Professor:</label><select multiple="multiple" size="2" name="professor[]" id="professor">
 DATA;
 
 	//get the list of professors
