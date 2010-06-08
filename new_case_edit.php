@@ -129,6 +129,7 @@ $get_types = mysql_query("SELECT * FROM `cm_case_types` ORDER BY `type` ASC");
 <p><LABEL FOR "case_name">Case Title</LABEL><INPUT TYPE="text" name = "case_name" id="case_name" size="30" value="<?php echo $d[case_name]; ?>"></p>
 
 <P><LABEL FOR "court">Court</label><select name="court" id="court" style="font-size:12pt">
+<option value="">Please Select</option>
 <?php
 $get_courts = mysql_query("SELECT * FROM `cm_courts` ORDER BY `court` ASC");
 WHILE ($result = mysql_fetch_array($get_courts))
