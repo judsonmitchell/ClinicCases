@@ -124,24 +124,25 @@ die;
 
 
 //The case opening form
+//create new case number
+	$new_no = new openCase();
+	$x = $new_no->createCaseNo();
+	$year = date(Y);
+	
 echo <<<DATA
-<span id="close"><a href="#" onclick="Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close"><a href="#" onclick="new Ajax.Request('case_number_delete.php',{method:'get',parameters:{clinic_id:'$x[0]'}, onSuccess: function(response){\$('notifications').style.display = 'inline';\$('notifications').update('Case Cancelled');	Effect.Fade(\$('notifications'),{duration:3.0})}
+}
+)
+;Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 <FORM id="newCaseForm">
 <div id="main">
 
 <DIV ID="new_case">
 <P>
 <LABEL>New Case No:</label><div style="font-weight:bold;font-size:14pt;">
-
 DATA;
-
-	//create new case number
-	$new_no = new openCase();
-	$x = $new_no->createCaseNo();
-	$year = date(Y);
 	echo "$year" . "-" . $x[0];
-
-echo <<<DATA
+ECHO <<<DATA
 </div></p>
 
 <input type="hidden" name="clinic_id" value="$x[0]">
