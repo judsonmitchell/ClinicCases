@@ -89,7 +89,7 @@ echo "<li><a href=\"cm_journals.php\"><span id=\"tab2\">Journals</span></a></li>
 <div id ="students_top">
 <?php
 
-$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active' ORDER BY `last_name` ASC");
+$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active' ORDER BY `last_name` ASC");
 while ($line = mysql_fetch_array($get_students, MYSQL_ASSOC)) {
     $i=0;
     foreach ($line as $col_value) {

@@ -8,7 +8,13 @@ include './classes/format_dates_and_times.class.php';
 /* Attempt to put in a post */
 if ($_POST)
 {
-$update_query = mysql_query("UPDATE `cm_users` SET `first_name` = '$_POST[first_name]',`last_name` = '$_POST[last_name]',`email` = '$_POST[email]',`mobile_phone` = '$_POST[mobile_phone]',`office_phone` = '$_POST[office_phone]',`home_phone` = '$_POST[home_phone]',`status` = '$_POST[status]',`class` = '$_POST[class]',`assigned_prof` = '$_POST[assigned_prof]' WHERE `id` = '$_POST[user_id]' LIMIT 1");
+	
+	foreach ($_POST['professor'] as $pp)
+			{
+				$assigned_prof .= $pp . ",";
+			}
+	
+$update_query = mysql_query("UPDATE `cm_users` SET `first_name` = '$_POST[first_name]',`last_name` = '$_POST[last_name]',`email` = '$_POST[email]',`mobile_phone` = '$_POST[mobile_phone]',`office_phone` = '$_POST[office_phone]',`home_phone` = '$_POST[home_phone]',`status` = '$_POST[status]',`class` = '$_POST[class]',`assigned_prof` = '$assigned_prof' WHERE `id` = '$_POST[user_id]' LIMIT 1");
 
 $id = $_POST['user_id'];
 }
@@ -71,7 +77,8 @@ echo <<<PAGE
 PAGE;
 if ($d["class"] == 'student')
 {
-echo "<tr><td>Assigned Professor:</td><td class='tdata'>$d[assigned_prof]</td><td></td><td></td></tr>";
+	$pr_sub = substr($d[assigned_prof],0,-1);
+echo "<tr><td>Assigned Professor(s):</td><td class='tdata'>$pr_sub</td><td></td><td></td></tr>";
 
 }
 echo "</table>";

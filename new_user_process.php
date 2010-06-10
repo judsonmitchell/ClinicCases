@@ -4,6 +4,7 @@ if (!$_SESSION)
 {header('Location: index.php');die;}
 include 'db.php';
 include './classes/url_key_generator.php';
+include './classes/get_prof_prefs.php';
 
 
 function generatePassword ($length = 8)
@@ -36,31 +37,6 @@ function generatePassword ($length = 8)
   return $password;
 
 }
-
-
-function get_prof_case_prefs($prof)
-{
-$find_out = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof' LIMIT 1");
-$res = mysql_fetch_array($find_out);
-if ($res[pref_case] == 'on')
-{$cases = 'on';}
-else
-{$cases = '';}
-return $cases;
-}
-
-function get_prof_journal_prefs($prof)
-{
-$find_out2 = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof' LIMIT 1");
-$res2 = mysql_fetch_array($find_out2);
-if ($res2[pref_journal] == 'on')
-{$journals = 'on';}
-else
-{$journals = '';}
-return $journals;
-
-}
-
 
 
 if ($_POST)
@@ -98,18 +74,23 @@ $key = alphanumericPass();
 //If user is a student, get professor prefs
 if ($_POST['class'] = 'student')
 	{
-		$case_pref = get_prof_case_prefs($_POST[assigned_prof]);
-		$journal_pref = get_prof_journal_prefs($_POST[assigned_prof]);
+		foreach ($_POST['assigned_prof'] as $pp)
+			{
+				$assigned_prof .= $pp . ",";
+			}
+
+		$case_pref = get_prof_case_prefs($assigned_prof);
+		$journal_pref = get_prof_journal_prefs($assigned_prof);
 		
 		}
 
 
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username','$password3','$timezone_offset','$_POST[status]','$case_pref','$journal_pref','$key')");
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$assigned_prof','$username','$password3','$timezone_offset','$_POST[status]','$case_pref','$journal_pref','$key')");
 
 if (mysql_error($connection))
 {
 $username_mod = $username . rand(1,3);
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username_mod','$password3','$_POST[timezone]','$_POST[status]','$case_pref','$journal_pref','$key')");
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$assigned_prof','$username_mod','$password3','$_POST[timezone]','$_POST[status]','$case_pref','$journal_pref','$key')");
 
 }
 
