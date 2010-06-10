@@ -13,7 +13,7 @@ if (!empty($_POST[group]))
 
 
 if ($_POST[group] == 'All Your Students')
-{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'";}
+{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active'";}
 
 if ($_POST[group] == 'All Professors')
 {$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active'";}
