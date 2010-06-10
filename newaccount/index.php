@@ -1,31 +1,9 @@
 <?php
 include '../db.php';
 include '../classes/url_key_generator.php';
+include '../classes/get_prof_prefs.php';
 
 
-/* This finds out if the selected professor uses case management, journals, or both */
-function get_prof_case_prefs($prof)
-{
-$find_out = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof' LIMIT 1");
-$res = mysql_fetch_array($find_out);
-if ($res[pref_case] == 'on')
-{$cases = 'on';}
-else
-{$cases = '';}
-return $cases;
-}
-
-function get_prof_journal_prefs($prof)
-{
-$find_out2 = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$prof' LIMIT 1");
-$res2 = mysql_fetch_array($find_out2);
-if ($res2[pref_journal] == 'on')
-{$journals = 'on';}
-else
-{$journals = '';}
-return $journals;
-
-}
 
 /* Processes form */
 if ($_POST)
@@ -44,6 +22,14 @@ if ($_POST)
 		if (mysql_num_rows($email_query)>0)
 			{echo "<p><center>An account with this email address already exists. If you have lost your username or password, <a href='../index.php'>go the login page</a> and click on 'Forgot username or password'.</center></p>";die;}
 
+//Make professor array into CSV
+
+foreach ($_POST['assigned_prof'] as $pp)
+{
+$assigned_prof .= $pp . ",";
+}
+
+
 //create account
 
 $first_name = ucfirst($_POST[first_name]);
@@ -60,8 +46,8 @@ $home_phone = str_replace($forbidden2,'',$num2);
 $username_first_part = substr($first_name,0,2);
 $username = strtolower($username_first_part) . strtolower($last_name);
 
-$case_pref = get_prof_case_prefs($_POST[assigned_prof]);
-$journal_pref = get_prof_journal_prefs($_POST[assigned_prof]);
+$case_pref = get_prof_case_prefs($assigned_prof);
+$journal_pref = get_prof_journal_prefs($assigned_prof);
 
 $secure_password_clean = mysql_real_escape_string($_POST[password]);
 $secure_password = md5($secure_password_clean);
@@ -71,7 +57,6 @@ $email=mysql_real_escape_string($_POST[email]);
 $mobile=mysql_real_escape_string($mobile);
 $home_phone=mysql_real_escape_string($home_phone);
 $username=mysql_real_escape_string($username);
-$assigned_prof=mysql_real_escape_string($_POST[assigned_prof]);
 $timezone=mysql_real_escape_string($_POST[timezone]);
 
 $timezone_offset = abs(date(Z) / 3600) - $timezone;
@@ -176,9 +161,9 @@ DIE;
 <tr><td><label for "email">Password (at least 6 characters) <span style="color:red;font-size:10pt;">*</span></label></td><td><input type="password" id="password" name="password" onBlur="if ($('password').value.length < 6){alert('Your password must be at least six characters in length');$('password').value='';}"></td>
 <tr><td><label for "confirm">Type again to confirm <span style="color:red;font-size:10pt;">*</span></label></td><td><input type="password" id="confirm_password" onBlur = "var target1 = document.getElementById('password'); var target2 = document.getElementById('confirm_password'); if ( target1.value != target2.value){alert('The passwords you entered do not match.  Please re-enter.');target1.value = '';target2.value=''; }"></td></tr>
 
-<tr><td><label for "prof">Your Professor <span style="color:red;font-size:10pt;">*</span></label></td><td style="text-align:left;">
-<select name="assigned_prof" id="prof">
-<option value = '' selected="selected">Please Select</option>
+<tr><td><label for "prof">Your Professor(s) <span style="color:red;font-size:10pt;">*</span></label></td><td style="text-align:left;">
+<select multiple="multiple" name="assigned_prof[]" id="prof" style="height:75px;">
+
 <?php
 $get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active' ORDER BY `last_name` asc");
 while ($result = mysql_fetch_array($get_prof))
@@ -206,7 +191,7 @@ echo "<option value='$prof_user'>$prof</option>";
 </select>
 </td></tr>
 <tr><td>
-<img src="server.php" onclick="javasript:this.src='server.php?'+Math.random();" ><br><span style="font-size:10pt;color:red">Can't read? Click on image.</span></td>
+<img src="server.php" onclick="javasript:this.src='server.php?'+Math.random();" ><br><span style="font-size:10pt;color:red">Can't read it? Click on image.</span></td>
 <td><input name="captcha" id="captcha" type="text" value="Enter Text in Graphic" onFocus="this.value='';"/></td></tr>
 <tr><td></td><td><input name="submit" type="submit" value="Submit" style="margin-left:10px;width:80px;"></td></tr>
 </table>
