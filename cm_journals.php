@@ -3,6 +3,7 @@ session_start();
 include 'db.php';
 include './classes/format_dates_and_times.class.php';
 
+
 if (!$_SESSION)
 {header('Location: index.php?login_error=3');}
  ?>
@@ -19,6 +20,27 @@ if (!$_SESSION)
 <script src="./javascripts/table_stripe.js" type="text/javascript"></script>
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
 <script src="scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+
+function setCookie( name, value, expires, path, domain, secure ) {
+	var today = new Date();
+	today.setTime( today.getTime() );
+	if ( expires ) {
+		expires = expires * 1000 * 60 * 60 * 24;
+	}
+	var expires_date = new Date( today.getTime() + (expires) );
+	document.cookie = name+'='+escape( value ) +
+		( ( expires ) ? ';expires='+expires_date.toGMTString() : '' ) + //expires.toGMTString()
+		( ( path ) ? ';path=' + path : '' ) +
+		( ( domain ) ? ';domain=' + domain : '' ) +
+		( ( secure ) ? ';secure' : '' );
+}
+</script>
+
+
+
+
 
 <script>
 
@@ -122,7 +144,7 @@ echo <<<SELECT
 <option value = "read">Read Journals</options>
 <optgroup label="--By Student--">
 SELECT;
-$by_student = mysql_query("SELECT * FROM `cm_users` WHERE `class`= 'student' and `assigned_prof` = '$_SESSION[login]' and `status` = 'active' ORDER BY `last_name` ASC");
+$by_student = mysql_query("SELECT * FROM `cm_users` WHERE `class`= 'student' and `assigned_prof` LIKE '%$_SESSION[login]%' and `status` = 'active' ORDER BY `last_name` ASC");
 	while ($b = mysql_fetch_array($by_student))
 	{
 		echo "<option value=\"$b[username]\">$b[first_name] $b[last_name]</option>";
