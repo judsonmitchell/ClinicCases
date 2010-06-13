@@ -84,7 +84,7 @@ $temp_id = $_COOKIE[journal_temp_id];
 					return 'Error with query: ' . $query . ', error returned: ' . mysql_error();
 				}
 
-				if (!($result = mysql_query("INSERT INTO cm_journals (id, username, professor,text,date_added,temp_id) values (NULL,'$_SESSION[login]','$_SESSION[assigned_prof]','" . $text . "',NOW(),'$temp_id');")))
+				if (!($result = mysql_query("INSERT INTO cm_journals (id, username, professor,text,date_added,temp_id) values (NULL,'$_SESSION[login]','$_COOKIE[prof_choice]','" . $text . "',NOW(),'$temp_id');")))
 				{
 					return 'Error with query: error returned: ' . mysql_error();
 				}
