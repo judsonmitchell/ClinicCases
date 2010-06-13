@@ -31,7 +31,7 @@ ECHO <<<REPORTER
 <select name="student" id="student" onChange="router('date_choose2');">
 <option>Choose Student Name</option>
 REPORTER;
-$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'");
+$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active'");
 while ($r = mysql_fetch_array($get_students))
 {
 echo "<option value='$r[username]'>$r[first_name] $r[last_name]</option>";
