@@ -10,25 +10,25 @@ STARTING THE MULTI PROFESSOR CHANGE
 	/bin/grep -nHIF -- assigned_prof (in directory: /var/www/cc6_svn/)
 	XX add_time.php:31:$prof = $_SESSION['assigned_prof']; FIXED IN LINES 44-50
 	XX cm_admin_home.php:209:<TR><TD width="40%"><B>$d[first_name] $d[last_name]<B></TD><TD width="20%"><LABEL>Professor:</LABEL> $d[assigned_prof]</TD><TD width="25%">  <LABEL>Date Applied:</LABEL> XX SHOULD NOT BE AFFECTED
-	cm_journals.php:125:$by_student = mysql_query("SELECT * FROM `cm_users` WHERE `class`= 'student' and `assigned_prof` = '$_SESSION[login]' and `status` = 'active' ORDER BY `last_name` ASC");
+	XX cm_journals.php:125:$by_student = mysql_query("SELECT * FROM `cm_users` WHERE `class`= 'student' and `assigned_prof` = '$_SESSION[login]' and `status` = 'active' ORDER BY `last_name` ASC");
 	XX cm_students.php:92:$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active' ORDER BY `last_name` ASC");
-	XXcm_users_view.php:11:$update_query = mysql_query("UPDATE `cm_users` SET `first_name` = '$_POST[first_name]',`last_name` = '$_POST[last_name]',`email` = '$_POST[email]',`mobile_phone` = '$_POST[mobile_phone]',`office_phone` = '$_POST[office_phone]',`home_phone` = '$_POST[home_phone]',`status` = '$_POST[status]',`class` = '$_POST[class]',`assigned_prof` = '$_POST[assigned_prof]' WHERE `id` = '$_POST[user_id]' LIMIT 1");
-	XXcm_users_view.php:74:echo "<tr><td>Assigned Professor:</td><td class='tdata'>$d[assigned_prof]</td><td></td><td></td></tr>";
-	journal_new.php:22:$the_prof = $r2['assigned_prof'];
+	XX cm_users_view.php:11:$update_query = mysql_query("UPDATE `cm_users` SET `first_name` = '$_POST[first_name]',`last_name` = '$_POST[last_name]',`email` = '$_POST[email]',`mobile_phone` = '$_POST[mobile_phone]',`office_phone` = '$_POST[office_phone]',`home_phone` = '$_POST[home_phone]',`status` = '$_POST[status]',`class` = '$_POST[class]',`assigned_prof` = '$_POST[assigned_prof]' WHERE `id` = '$_POST[user_id]' LIMIT 1");
+	XX cm_users_view.php:74:echo "<tr><td>Assigned Professor:</td><td class='tdata'>$d[assigned_prof]</td><td></td><td></td></tr>";
+	XX journal_new.php:22:$the_prof = $r2['assigned_prof'];
 	XXX login.php:20:$assigned_prof = $r['assigned_prof']; XX SHOULD NOT BE AFFECTED
 	XXX login.php:45:$_SESSION['assigned_prof'] = $assigned_prof; SHOULD NOT BE AFFECTED
 	XX message_send.php:16:{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'";}
 	XXX new_user.php:40:<LABEL FOR "assigned_prof">Professor</label>
 	XXX new_user.php:41:<select name="assigned_prof" id="assigned_prof"><option value="">Please Select</option>
-	XXnew_user_process.php:101:		$case_pref = get_prof_case_prefs($_POST[assigned_prof]);
+	XX new_user_process.php:101:		$case_pref = get_prof_case_prefs($_POST[assigned_prof]);
 	XX new_user_process.php:102:		$journal_pref = get_prof_journal_prefs($_POST[assigned_prof]);
 	XX new_user_process.php:107:$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username','$password3','$timezone_offset','$_POST[status]','$case_pref','$journal_pref','$key')");
 	XX new_user_process.php:112:$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username_mod','$password3','$_POST[timezone]','$_POST[status]','$case_pref','$journal_pref','$key')");
-	pref_config_change.php:9:$update = mysql_query("UPDATE `cm_users` SET `pref_journal` = '$_POST[pref_journals]', `pref_case` = '$_POST[pref_case]' WHERE `assigned_prof` = '$_SESSION[login]'");
-	reports.php:34:$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'");
-	student_detail.php:49:$get_prof_name = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$d[assigned_prof]' LIMIT 1");
+	XX pref_config_change.php:9:$update = mysql_query("UPDATE `cm_users` SET `pref_journal` = '$_POST[pref_journals]', `pref_case` = '$_POST[pref_case]' WHERE `assigned_prof` = '$_SESSION[login]'");
+	XX reports.php:34:$get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'");
+	xx student_detail.php:49:$get_prof_name = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$d[assigned_prof]' LIMIT 1");
 	XX user_edit.php:32:case "assigned_prof":
 	XX user_edit.php:88:genSelect($d[assigned_prof],'assigned_prof','assigned_prof');
-	weekly_report.php:24:  $get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$r[username]' AND `status` = 'active' ORDER BY `last_name`");
+	XX weekly_report.php:24:  $get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$r[username]' AND `status` = 'active' ORDER BY `last_name`");
 	Search completed with 22 matches.
 
