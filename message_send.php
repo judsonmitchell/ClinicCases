@@ -7,29 +7,53 @@ include 'db.php';
 $body_mod_a = addslashes($_POST[body]);
 $body_mod = nl2br($body_mod_a);
 
+//If option to message all users on a particular case is requested, this function determines their usernames.
+function get_all_on_case($case_id)
 
+	{
+		$get_profs = mysql_query("SELECT * FROM `cm` WHERE `id` = '$_POST[assoc_case]' LIMIT 1");
+		$get_students = mysql_query("SELECT * FROM `cm_cases_students` WHERE `case_id` = '$_POST[assoc_case]' AND `status` = 'active'");
+		
+		while ($a = mysql_fetch_object($get_profs))
+			{$targets = $a->professor;}
+		
+		while ($b = mysql_fetch_object($get_students))
+			{$targets .= $b->username . ",";}
+			
+		return $targets;	
+	
+	}
+	
 if (!empty($_POST[group]))
 {
 
+	if ($_POST[group] == 'All on this Case' || $_POST[group] == 'All on a Case')
+	
+	{$tos_list = get_all_on_case($_POST[assoc_case]);}
 
-if ($_POST[group] == 'All Your Students')
-{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active'";}
-
-if ($_POST[group] == 'All Professors')
-{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active'";}
-
-if ($_POST[group] == 'All Users')
-{$group_query = "SELECT * FROM `cm_users` WHERE `status` = 'active'";}
-
-if ($_POST[group] == 'All Students')
-{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'student' AND `status` = 'active'";}
-
-$send_to_group = mysql_query("$group_query");
-	while ($result = mysql_fetch_array($send_to_group))
+		else
 		{
+			if ($_POST[group] == 'All Your Students')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active'";}
 
-			$tos_list .=  $result[username] . ",";
-		}
+			if ($_POST[group] == 'All Professors')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active'";}
+
+			if ($_POST[group] == 'All Users')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `status` = 'active'";}
+
+			if ($_POST[group] == 'All Students')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'student' AND `status` = 'active'";}
+
+
+
+			$send_to_group = mysql_query("$group_query");
+				while ($result = mysql_fetch_array($send_to_group))
+					{
+
+						$tos_list .=  $result[username] . ",";
+					}
+			}
 
 $tos = substr($tos_list,0,-1);
 
