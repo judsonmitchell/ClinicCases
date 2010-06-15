@@ -30,10 +30,10 @@ STARTING THE MULTI PROFESSOR CHANGE
 	XX user_edit.php:32:case "assigned_prof":
 	XX user_edit.php:88:genSelect($d[assigned_prof],'assigned_prof','assigned_prof');
 	XX weekly_report.php:24:  $get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$r[username]' AND `status` = 'active' ORDER BY `last_name`");
-	./classes/get_allowed_posters.php:38:				$b = mysql_query("SELECT `username`, `assigned_prof`,`status` FROM `cm_users` where `assigned_prof` = '$username' AND `status` = 'active'");
-	./classes/get_allowed_posters.php:56:				$f = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `username` = '$username' LIMIT 1");
-	./classes/get_allowed_posters.php:58:					$allowed[] = $g[assigned_prof];
-	./classes/get_allowed_posters.php:61:				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` = '$g[assigned_prof]'");
-	./mobile/login_m.php:19:$assigned_prof = $r['assigned_prof'];
-	./mobile/login_m.php:44:$_SESSION['assigned_prof'] = $assigned_prof;
-	./mobile/add_time_m.php:19:	$query = mysql_query("INSERT INTO `cm_case_notes` (id,case_id,date,time,description,username,prof) VALUES (NULL,'$_POST[case_id]','$_POST[date]','$time','$_POST[description]','$_SESSION[login]','$_SESSION[assigned_prof]')");
+	XX ./classes/get_allowed_posters.php:38:				$b = mysql_query("SELECT `username`, `assigned_prof`,`status` FROM `cm_users` where `assigned_prof` = '$username' AND `status` = 'active'");
+	XX ./classes/get_allowed_posters.php:56:				$f = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `username` = '$username' LIMIT 1");
+	XX ./classes/get_allowed_posters.php:58:					$allowed[] = $g[assigned_prof];
+	XX ./classes/get_allowed_posters.php:61:				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` = '$g[assigned_prof]'");
+	XX ./mobile/login_m.php:19:$assigned_prof = $r['assigned_prof'];
+	XX ./mobile/login_m.php:44:$_SESSION['assigned_prof'] = $assigned_prof;
+	XX./mobile/add_time_m.php:19:	$query = mysql_query("INSERT INTO `cm_case_notes` (id,case_id,date,time,description,username,prof) VALUES (NULL,'$_POST[case_id]','$_POST[date]','$time','$_POST[description]','$_SESSION[login]','$_SESSION[assigned_prof]')");
