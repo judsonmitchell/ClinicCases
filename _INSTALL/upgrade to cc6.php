@@ -10,7 +10,8 @@ $get_profs = mysql_query("SELECT `id`,`professor`,`professor2` from `cm`");
 
 while ($r = mysql_fetch_array($get_profs))
 	{
-		$data = $r[professor] . ',' . $r[professor2];
+		//note that the last comma is needed b/c scripts assume a trailing comma:
+		$data = $r[professor] . ',' . $r[professor2] . ',';
 		$update = mysql_query("UPDATE `cm` SET `professor` = '$data' WHERE `id` = '$r[id]' LIMIT 1");	
 		
 	}
