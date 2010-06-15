@@ -35,7 +35,7 @@ function get_allowed_posters($username)
 
 			case "prof":
 				//get your students
-				$b = mysql_query("SELECT `username`, `assigned_prof`,`status` FROM `cm_users` where `assigned_prof` = '$username' AND `status` = 'active'");
+				$b = mysql_query("SELECT `username`, `assigned_prof`,`status` FROM `cm_users` where `assigned_prof` LIKE  '%$username%' AND `status` = 'active'");
 					while ($c = mysql_fetch_array($b))
 						{$allowed[] = $c[username];}
 
@@ -55,10 +55,15 @@ function get_allowed_posters($username)
 				//get your professor
 				$f = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `username` = '$username' LIMIT 1");
 					$g = mysql_fetch_array($f);
-					$allowed[] = $g[assigned_prof];
-
+					//array to break up multiple professors; trim trailing comma
+					$plist = explode(",",substr($g[assigned_prof],0,-1));
+					foreach ($plist as $v)
+					{
+						$allowed[] = $v;
+					}	
+					
 				//get you and your classmates
-				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` = '$g[assigned_prof]'");
+				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` LIKE '%$g[assigned_prof]%'");
 					while ($i = mysql_fetch_array($h))
 					{$allowed[] = $i[username];}
 
