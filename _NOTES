@@ -1,4 +1,10 @@
+15.06.2010 12:59:27
+
+Does upgrade script need to add a trailing comma to all data in professor field in cm table?
+
 06.10.2010 09:50:21
+
+
 STARTING THE MULTI PROFESSOR CHANGE
 	DB FIELDS EFFECTED:
 	cm_users --> assigned_prof
