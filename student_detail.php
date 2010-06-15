@@ -52,7 +52,7 @@ ECHO <<<DETAIL
 DETAIL;
 
 	$gnames = new get_names; 
-	$prof_array = explode(",",$d[assigned_prof]);
+	$prof_array = explode(",",substr($d[assigned_prof],0,-1));
 
 		foreach ($prof_array as $v1)
 			{
