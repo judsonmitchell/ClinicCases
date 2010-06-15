@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db.php';
+include './classes/get_names.php';
 
 
 $sort = $_GET['sort'];
@@ -274,7 +275,16 @@ $new_date_close = "$month_c" . "/" . "$day_c" . "/" . "$year_c";}
 else
 {$new_date_close = "";}
 
-
+//format prof names
+$plist = explode(",",substr($d[professor],0,-1));
+					foreach ($plist as $v)
+					{
+						$p = new get_names;$px = $p->get_users_name_initial($v); 
+						$prof_str .= $px . ", ";
+					}	
+					
+	//take out trailing comma
+	$prof_str_clip = substr($prof_str,0,-2);
 echo <<<ROWS
 
 <tr title="Click to View Case" alt="Click to View Case"  onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;">
@@ -287,7 +297,7 @@ IF ($_SESSION['class'] == 'admin')
 }
 
 echo <<<ROWS
-<td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$d[professor]</td>
+<td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td>
 ROWS;
 if ($_SESSION['class'] != 'student')
 {
@@ -300,7 +310,8 @@ EDITER;
 
 
 ECHO "</tr>";
-
+//reset the prof string and run through the loop again.
+$prof_str = '';
 
 }
 

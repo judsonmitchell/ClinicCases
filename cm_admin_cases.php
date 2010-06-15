@@ -1,8 +1,10 @@
 <?php
 session_start();
-include 'db.php';
 if (!$_SESSION)
 {header('Location: index.php');}
+
+include 'db.php';
+include './classes/get_names.php';
 
  ?>
 <html>
@@ -299,8 +301,8 @@ $$("tr").invoke("observe", "click", function(e) {
 
 <form style="display:inline;" id="search_form" name="search_form" onSubmit="new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:Form.serialize('search_form')});return false;">
 
-View: <select id = "view_chooser" name = "view" onFocus = "this.style.color = 'black';" onChange="new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:{view:$('view_chooser').value},onLoading:function(){$('work_space').innerHTML = '<img src=images/wait.gif border=0>';
-},onComplete:function(){$('searchterm').value='Enter Search Term'}});">
+View: <select id = "view_chooser" name = "view" onFocus = "this.style.color = 'black';" onChange="new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:{view:$('view_chooser').value},onLoading:function(){$('notifications').style.display='block';$('notifications').update('Loading...');
+},onSuccess:function(){Effect.Fade('notifications',{duration:1});$('searchterm').value='Enter Search Term';}});">
 
 <option value = "open" <?php
 if ($_SESSION['class'] == 'prof')
@@ -426,16 +428,24 @@ $month = $get_date_close[1];
 $day = $get_date_close[2];
 $year = $get_date_close[0];
 $new_date_close = "$month" . "/" . "$day" . "/" . "$year";}
-
-$prof_str = substr($d[professor],0,-1);
-
+//format prof names
+$plist = explode(",",substr($d[professor],0,-1));
+					foreach ($plist as $v)
+					{
+						$p = new get_names;$px = $p->get_users_name_initial($v); 
+						$prof_str .= $px . ", ";
+					}	
+					
+	//take out trailing comma
+	$prof_str_clip = substr($prof_str,0,-2);
 echo <<<ROWS
 
-<tr  title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;"><td>$d[clinic_id]</td><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str</td>
+<tr  title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;"><td>$d[clinic_id]</td><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td>
 <td><a class="nobubble" href="#" title="Edit this Case" alt="Edit this Case " onClick="createTargets('window1','window1');sendDataGet('new_case_edit.php?id=$d[id]');Effect.Grow('window1');document.getElementById('view_chooser').style.display = 'none';return false;"><img src="images/report_edit.png" border="0"></a></td></tr>
 ROWS;
 
-
+//reset the prof string and run through the loop again.
+$prof_str = '';
 }
 
 ?>
