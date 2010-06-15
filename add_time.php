@@ -39,12 +39,19 @@ $time = $hours_into_seconds + $minutes_into_seconds;
 }
 
 
-//A query is needed here to deal with multi-professor issue.  The question is: on this case into which the student is entering time, which professors are on this case?  If one, put in one, if two or more, put csv of all professors
-
-$profs_q = mysql_query("SELECT `id`,`professor` FROM `cm` WHERE `id` = '$case_id' LIMIT 1;");
-$profs_q2 = mysql_fetch_object($profs_q);
-$profs = $profs_q2->professor;
-
+//If this script is being called from casenote_noncase.php, the prof value is already there
+if ($_POST[id] == 'NC')
+	
+	{$profs = $_POST[professor];}
+	
+	else
+	
+		//If not, a query is needed here to deal with multi-professor issue.  The question is: on this case into which the student is entering time, which professors are on this case?  If one, put in one, if two or more, put csv of all professors
+		{
+			$profs_q = mysql_query("SELECT `id`,`professor` FROM `cm` WHERE `id` = '$case_id' LIMIT 1;");
+			$profs_q2 = mysql_fetch_object($profs_q);
+			$profs = $profs_q2->professor;
+		}
 
 $query = mysql_query("INSERT INTO `cm_case_notes` (id,case_id,date,time,description,username,prof) VALUES (NULL,'$case_id',$new_date,'$time','$description','$username','$profs')");
 
