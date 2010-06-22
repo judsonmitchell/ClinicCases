@@ -9,7 +9,7 @@ copy($old,$new);
 unlink($old);
 $new_pic_tn = "people/tn_" . $target .".jpg";
 
-createthumb($new_pic,'/people/tn_' .  $new_pic_tn,30,30);
+createthumb($new_pic,'/people/tn_' .  $new_pic_tn,32,32);
 
 /* do a check to see if database needs to be updated */
 $query = mysql_query("SELECT * FROM `cm_users` WHERE `id` = '$temp_id' LIMIT 1");

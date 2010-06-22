@@ -122,7 +122,7 @@ $new_pic = "people/". $target . ".jpg";
 $new_pic_tn = "people/tn_" . $target .".jpg";
 copy($old_pic,$new_pic);
 unlink($old_pic);
-createthumb($new_pic, $new_pic_tn,30,30);
+createthumb($new_pic, $new_pic_tn,32,32);
 }
 else
 {$new_pic = "people/no_picture.png";}
