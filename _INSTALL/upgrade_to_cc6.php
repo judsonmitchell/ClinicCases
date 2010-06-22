@@ -7,7 +7,7 @@ include '../classes/thumbnail_generator.php';
 
 //get the assigned professor names from professor and professor 2
 
-/*
+
 $get_profs = mysql_query("SELECT `id`,`professor`,`professor2` from `cm`");
 
 //loop through the array, putting all values in professor in a comma seperated list.
@@ -31,8 +31,8 @@ $delete_col = mysql_query("ALTER TABLE `cm` DROP COLUMN `professor2`");
 if (mysql_errno($connection)) { 
   $error = "Sorry, there was an error deleting the second professor field.  Maybe this will help: MySQL error ".mysql_errno($connection).": ". mysql_error($connection)."\n<br>When executing:<br>\n$delete_col\n<br>"; die;
 }
-echo "Assigned Professors updated....<br>";
-*/
+echo "Assigned Professors updated....<br>Creating thumbnails<br>";
+
 
 
 
@@ -43,7 +43,7 @@ if ($pics[0]!='')
 	foreach ($pics as $p)
 	{
 		//echo '../people/' . $p . ' AND ' . '../people/tn_' . $p . '</br>';
-		createthumb('../people/'.$p,'../people/tn_'.$p,30,30);
+		createthumb('../people/'.$p,'../people/tn_'.$p,32,32);
 	}
 }
 
