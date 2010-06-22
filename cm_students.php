@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'db.php';
 if (!$_SESSION)
 {header('Location: index.php?login_error=3');}
-
- ?>
+include 'db.php';
+include './classes/get_faces.php';
+?>
 
 <html>
 <head>
@@ -98,7 +98,7 @@ while ($line = mysql_fetch_array($get_students, MYSQL_ASSOC)) {
         $i++;
 
     }
-echo "<div id=\"stud_$d[id]\" class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img src='$d[picture_url]' border=0 onLoad=\"Droppables.add('stud_$d[id]', {onDrop:function(element,dropon){createTargets('notifier','notifier');sendDataGet('students_assign.php?username=$d[username]&first_name=$d[first_name]&last_name=$d[last_name]&case_id=' + element.id);element.style.backgroundColor='#eaeaea';}});
+echo "<div id=\"stud_$d[id]\" class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img id=\"pic_stud_$d[id]\" src='$d[picture_url]' border=0 onLoad=\"Droppables.add('pic_stud_$d[id]', {onDrop:function(element,dropon){createTargets('notifier','notifier');sendDataGet('students_assign.php?username=$d[username]&first_name=$d[first_name]&last_name=$d[last_name]&case_id=' + element.id);element.style.backgroundColor='#eaeaea';new Ajax.Updater('facebar_' + element.id,'./classes/get_faces.php',{evalScripts:true,method:'get',parameters:{id:element.id}});}});
 \"></a><br>$d[first_name] $d[last_name]</div>";
 }
 if (mysql_num_rows($get_students) < 1)
@@ -106,7 +106,7 @@ if (mysql_num_rows($get_students) < 1)
 ?>
 </div>
 <div id="students_cases">
-<p><i>Drag case file to student to assign.</P>
+<p><i>Drag case file to student to assign.</i></p>
 <?php
 
 $get_limit = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ");
@@ -114,7 +114,9 @@ $get_limit = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[
 $dingo = mysql_num_rows($get_limit);
 $limit = round($dingo / 2);
 
-echo "<table width=\"100%\"><tr><td>";
+echo "<table width=\"100%\"><tr><td width='50%'>
+
+";
 $get_cases = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT 0, $limit");
 while ($line = mysql_fetch_array($get_cases, MYSQL_ASSOC)) {
     $i=0;
@@ -125,10 +127,13 @@ while ($line = mysql_fetch_array($get_cases, MYSQL_ASSOC)) {
 
     }
 echo <<<CASELIST
-<div id="$d[id]" ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';">$d[first_name] $d[last_name] $d[case_type]</div>
+<table width=\"100%\" border=0><tr style="width:100%;border:1px solid #E6E6FA;height:60px;"><td><div id="$d[id]"  ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type])</div></td><td><div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
+$facebar = get_faces($d[id],'var');
+echo $facebar;
+echo "</div></td></tr></table>";
 }
-echo "</td><td>";
+echo "</td><td width='50%'>";
 $increment_limit = $limit +1;
 $get_cases2 = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ORDER BY `last_name` ASC LIMIT $limit, $dingo");
 while ($line = mysql_fetch_array($get_cases2, MYSQL_ASSOC)) {
@@ -139,9 +144,16 @@ while ($line = mysql_fetch_array($get_cases2, MYSQL_ASSOC)) {
         $i++;
 
     }
+    
+   
+    
 echo <<<CASELIST
-<div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';">$d[first_name] $d[last_name] $d[case_type]</div>
+<table width=\"100%\" border=0><tr style="width:100%;border:1px solid #E6E6FA;height:60px;"><td><div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type]) </div></td><td>	<div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
+$facebar = get_faces($d[id],'var');
+echo $facebar;
+echo "</div></td></tr></table>";
+
 
 }
 if (mysql_num_rows($get_cases2) < 1)
@@ -165,6 +177,5 @@ echo "</td></tr></table>";
 <div id = "bug" style="display:none;">
 </div>
 
-</script>
 </body>
 </html>
