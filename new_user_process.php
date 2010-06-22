@@ -5,6 +5,7 @@ if (!$_SESSION)
 include 'db.php';
 include './classes/url_key_generator.php';
 include './classes/get_prof_prefs.php';
+include './classes/thumbnail_generator.php';
 
 
 function generatePassword ($length = 8)
@@ -72,7 +73,7 @@ $timezone_offset = abs(date(Z) / 3600) - $_POST[timezone];
 //Generate private key
 $key = alphanumericPass();
 //If user is a student, get professor prefs
-if ($_POST['class'] = 'student')
+if ($_POST['class'] == 'student')
 	{
 		foreach ($_POST['assigned_prof'] as $pp)
 			{
@@ -118,8 +119,10 @@ $old_pic = "images_tmp/" . $temp_id . ".jpg";
 if (file_exists($old_pic))
 {
 $new_pic = "people/". $target . ".jpg";
+$new_pic_tn = "people/tn_" . $target .".jpg";
 copy($old_pic,$new_pic);
 unlink($old_pic);
+createthumb($new_pic, $new_pic_tn,30,30);
 }
 else
 {$new_pic = "people/no_picture.png";}

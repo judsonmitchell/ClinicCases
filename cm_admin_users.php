@@ -174,10 +174,12 @@ $day = $get_date_open[2];
 $year = $get_date_open[0];
 $new_date_created = "$month" . "/" . "$day" . "/" . "$year";
 
+$thumb = explode('/',$d[picture_url]);
+$thumb_target = $thumb[0] . '/tn_' . $thumb[1];
 
 echo <<<ROWS
 
-<tr  title="Click to View/Edit User" alt="Click to View/Edit User" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_users_view.php?id=$d[id]');document.getElementById('view_chooser').style.visibility = 'hidden';return false;"><td><img src="$d[picture_url]" height=35 width=35></td><td>$d[last_name]</td><td>$d[first_name]</td><td>$d[class]</td><td>$new_date_created</td><td id="deac$d[id]">$d[status]</td>
+<tr  title="Click to View/Edit User" alt="Click to View/Edit User" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_users_view.php?id=$d[id]');document.getElementById('view_chooser').style.visibility = 'hidden';return false;"><td><img src="$thumb_target"></td><td>$d[last_name]</td><td>$d[first_name]</td><td>$d[class]</td><td>$new_date_created</td><td id="deac$d[id]">$d[status]</td>
 <td ><a href="#" class="nobubble" onClick="createTargets('deac$d[id]','deac$d[id]');sendDataGet('user_change_status.php?id=$d[id]');return false;" title="Click this to either activate an inactive user or inactivate an active user" alt="Click this to either activate an inactive user or inactivate an active user">Change Status</a></td></tr>
 ROWS;
 
