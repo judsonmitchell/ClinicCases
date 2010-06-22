@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include_once 'db.php';
 
 $check = mysql_query("SELECT * FROM `cm_cases_students` WHERE `case_id` = '$_GET[case_id]' AND `username` = '$_GET[username]'");
 $r = mysql_fetch_array($check);
