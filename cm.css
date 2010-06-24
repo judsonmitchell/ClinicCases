@@ -84,8 +84,8 @@ margin:auto;
 position:absolute;
 top:10px;
 z-index:99;
-left:40%;
-width:200px;
+left:34%;
+width:400px;
 height:40px;
 color:red;
 font-weight:bold;
@@ -950,6 +950,9 @@ border-top:2px dotted rgb(195, 217, 255);
 
 }
 
+#students_cases a.tooltip span {padding:2px 3px; margin-left:15px;margin-top:-35px; width:200px;}
+
+#students_cases a.tooltip p{font-size:8pt;color:black;}
 /* End */
 
 /* Style for Student Details */
@@ -1437,7 +1440,6 @@ background-color:white;
 border:7px solid rgb(195, 217, 255);
 margin-left:1%;
 }
-
 
 
 
