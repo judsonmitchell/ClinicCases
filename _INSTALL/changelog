@@ -23,6 +23,7 @@ New Features
 *	Journals can now be submitted to more than one professor
 *	An unlimited number of professors and students can work on a single case.
 *	Ability to easily message everybody working on a given case added.
+*	Students page improved to show at a glance which students are on a case and to easily unassign a student
 
 Bugfixes
 
@@ -30,6 +31,7 @@ Bugfixes
 
 TO DO
 
+* Need two packages: one for install, one for upgrade.  Upgrade package will leave Docs and People folders alone and will also include upgrade script.
 
 * New directory structure for documents docs>[date]>[username].  Script will move pre-cc6 documents to a pre-cc6 directory.  This structure will go for docs as well as board attachments.  Gets rid of need to change file name.  If you did this by time [or unique folder name] as well, might be able to introduce versioning.
  http://superuser.com/questions/66331/what-is-the-maximum-number-of-folders-allowed-in-a-folder-in-linux
