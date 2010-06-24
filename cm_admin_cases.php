@@ -324,8 +324,8 @@ if ($_SESSION['class'] == 'prof')
 <option value="date_open">Date Open</option>
 <option value="date_close">Date Close</option>
 <option value="case_type">Case Type</option>
-<option value="professor">Professor 1</option>
-<option value="professor2">Professor 2</option>
+<option value="professor">Professor</option>
+
 <option value="address1">Address 1</option>
 <option value="address 1">Address 2</option>
 <option value="city">City</option>
