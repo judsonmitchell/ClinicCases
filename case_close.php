@@ -75,14 +75,19 @@ echo <<<CLOSEFORM
 
 <div style="margin:5% 20% 5% 20%">
 <FORM id = "closer">
-<label for "date_close" class="msg" style="width:125px;">Date Closed      <a id="cal" href="#" onClick="scwShow(date_close,scwID('cal'));return false;" alt="Click to Select Date" title="Click to Select Date"><img src="images/calendar_no_bg.png" border="0"></a></label>
+<table style="width:200px;border:0px;">
+<tr>
+<td style="width:40px;"><div style="width:150px"><label for "date_close" class="msg">Date Closed</label></td>
+<td><input type = "text" name="date_close" id="date_close" value="$date">
 
-<input type = "text" name="date_close" id="date_close" value="$date">
+<span style="display:inline"><a id="cal" href="#" onClick="scwShow(date_close,scwID('cal'));return false;" alt="Click to Select Date" title="Click to Select Date"><img src="images/calendar_no_bg.png" border="0"></a></span>
 
-<input type = "hidden" name="id" value="$d[id]">
-<br><br>
-<label for "dispo_choose" class="msg">Select Disposition</label>
-<select id="dispo_choose" name="dispo" onChange="var el = document.getElementById('dispo');el.value = this.value;">
+<input type = "hidden" name="id" value="$d[id]"></div>
+<br>
+</td></tr>
+
+<tr><td><label for "dispo_choose" class="msg">Select Disposition</label></td>
+<td><select id="dispo_choose" name="dispo" onChange="var el = document.getElementById('dispo');el.value = this.value;">
 <option value= "" selected=selected>Please Select</option>
 CLOSEFORM;
 $dispos = mysql_query("SELECT `dispo` FROM `cm_dispos` ORDER BY `dispo` ASC");
@@ -95,15 +100,19 @@ echo "<option value='$r[dispo]'>$r[dispo]</option>";
 ECHO "<OPTION VALUE='Other'>OTHER</OPTION> ";
 echo <<<CLOSEFORM
 </select>
+<br><br>
 <INPUT TYPE="hidden" name="dispo" id="dispo">
 <INPUT TYPE="hidden" name="prof" id="prof" value="$d[professor]">
 <INPUT TYPE="hidden" name="first_name" id="first_name" value="$d[first_name]">
 <INPUT TYPE="hidden" name="last_name" id="last_name" value="$d[last_name]">
 
-<br /><br />
-<label for "close_notes" class="msg">Notes, if any</label>
-<textarea name="close_notes" id="close_notes" cols="30" rows="5"></textarea>
-<br><br>
+</td></tr>
+<tr><td valign=top>
+<label for "close_notes" class="msg">Notes, if any</label></td>
+<td>
+<textarea name="close_notes" id="close_notes" style="width:400px;height:300px;"></textarea>
+</td></tr>
+</table>
 <center>
 <a href="#" title="Close the Case" alt="Close the Case" onClick="createTargets('case_activity','case_activity');sendDataPost('case_close.php','closer');return false;"><img src="images/check.png" border = "0"></a>
 </form>
