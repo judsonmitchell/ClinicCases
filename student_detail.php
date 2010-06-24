@@ -19,7 +19,7 @@ include './classes/format_case_number.php';
 		
 echo <<<DETAIL
 
-<span id="close" style="right:35px;"><a href="#" onclick="Effect.Shrink('window1');return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close" style="right:35px;"><a href="#" onclick="Effect.Shrink('window1');location.href='cm_students.php';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 
 <div id="photo">
 <h3>$d[first_name] $d[last_name]</h3>
@@ -253,7 +253,12 @@ echo "Inactive</td>";
 else
 {
 echo <<<CASES
-<a href="#"  alt="Click Take Student Off of Case" title="Click to Take Student Off of Case" onClick="var check=confirm('Do you wish to remove $d[first_name] $d[last_name] from the $loop2[first_name] $loop2[last_name] case?');if (check == true){createTargets('reply_$loop2[id]','reply_$loop2[id]');sendDataGet('student_remove_from_case.php?case_id=$loop2[id]&username=$d[username]');}">Unassign</a></td>
+<a class="nobubble" href="#"  alt="Click Take Student Off of Case" title="Click to Take Student Off of Case" onClick="var check=confirm('Do you wish to remove $d[first_name] $d[last_name] from the $loop2[first_name] $loop2[last_name] case?');if (check == true){
+	
+	new Ajax.Updater('notifications','student_remove_from_case.php',{method:'get',parameters:{case_id:'$loop2[id]',username:'$d[username]'},onSuccess:function(){\$('reply_$loop2[id]').update('Inactive');} })
+	
+	
+	};return false;">Unassign</a></td>
 CASES;
 }
 echo "</tr></table></div>";
@@ -335,6 +340,17 @@ Event.observe('eval_body','click', function(event){
 	})
 
 
+$$("a.nobubble").invoke("observe", "click", function(e) {
+
+	Event.stop(e);
+})
+
+
+$$("tr").invoke("observe", "click", function(e) {
+
+	Event.stop(e);
+})
 </script>
+
 
 
