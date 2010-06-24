@@ -3,7 +3,9 @@ session_start();
 if (!$_SESSION)
 {header('Location: index.php?login_error=3');}
 include 'db.php';
+include './classes/format_dates_and_times.class.php';
 include './classes/get_faces.php';
+
 ?>
 
 <html>
@@ -52,6 +54,12 @@ new Ajax.PeriodicalUpdater('session_info', 'session_keep_alive.php', {
     frequency: 300
   });
 
+document.observe("dom:loaded", function() {
+  // initially hide all containers for tab content
+  $$('span.s_tooltip').invoke('hide');
+});
+
+
 </script>
 
 </head>
@@ -98,7 +106,16 @@ while ($line = mysql_fetch_array($get_students, MYSQL_ASSOC)) {
         $i++;
 
     }
-echo "<div id=\"stud_$d[id]\" class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img id=\"pic_stud_$d[id]\" src='$d[picture_url]' border=0 onLoad=\"Droppables.add('pic_stud_$d[id]', {onDrop:function(element,dropon){createTargets('notifier','notifier');sendDataGet('students_assign.php?username=$d[username]&first_name=$d[first_name]&last_name=$d[last_name]&case_id=' + element.id);element.style.backgroundColor='#eaeaea';new Ajax.Updater('facebar_' + element.id,'./classes/get_faces.php',{evalScripts:true,method:'get',parameters:{id:element.id}});}});
+echo "<div id=\"stud_$d[id]\" class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img id=\"pic_stud_$d[id]\" src='$d[picture_url]' border=0 onLoad=\"Droppables.add('pic_stud_$d[id]', 
+
+{onDrop:
+	function(element,dropon)
+		{
+			
+			new Ajax.Updater('notifications','students_assign.php',{method:'get',parameters:{username:'$d[username]',first_name:'$d[first_name]',last_name:'$d[last_name]',case_id:element.id}});
+			
+			element.style.backgroundColor='#eaeaea';
+		new Ajax.Updater('facebar_' + element.id,'./classes/get_faces.php',{evalScripts:true,method:'get',parameters:{id:element.id}});}});
 \"></a><br>$d[first_name] $d[last_name]</div>";
 }
 if (mysql_num_rows($get_students) < 1)
@@ -127,7 +144,7 @@ while ($line = mysql_fetch_array($get_cases, MYSQL_ASSOC)) {
 
     }
 echo <<<CASELIST
-<table width=\"100%\" border=0><tr style="width:100%;border:1px solid #E6E6FA;height:60px;"><td><div id="$d[id]"  ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type])</div></td><td><div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
+<table width=\"100%\" ><tr style="width:100%;height:60px;"><td><div id="$d[id]"  ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type])</div></td><td><div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
 $facebar = get_faces($d[id],'var');
 echo $facebar;
@@ -148,7 +165,7 @@ while ($line = mysql_fetch_array($get_cases2, MYSQL_ASSOC)) {
    
     
 echo <<<CASELIST
-<table width=\"100%\" border=0><tr style="width:100%;border:1px solid #E6E6FA;height:60px;"><td><div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type]) </div></td><td>	<div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
+<table width=\"100%\" border=0><tr style="width:100%;height:60px;"><td><div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type]) </div></td><td>	<div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
 $facebar = get_faces($d[id],'var');
 echo $facebar;
