@@ -111,11 +111,13 @@ foreach ($all_array as $recips)
 
 	$sms_message = "Preview:  " . substr($_POST[body],0,50) . "...";
 	$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . $sms_message . "\r\n" . "Please log on to " . $CC_base_url . " to view or " . $CC_base_url . "mobile from a mobile browser." ;
-	$subject = "ClinicCases Message from $sender_name";
+	
+	//Change here to take out the extra /r.  PHP apparently adds an extra /r when sending which causes a "554 Failed: Malformed MIME header (in reply to end of DATA command))" error when sending to some servers.  Full discussion here:http://jeremygustafson.blogspot.com/2010/02/red-condor-visi-bouncing-emails-with.html
+	$subject = "ClinicCases Message from $sender_name" . "\n";
 
-	$email_to = "$d[email]";
-	$headers = 'From: ' . $CC_default_email . "\r\n" .
-	   'Reply-To: ' . $CC_default_email . "\r\n" .
+	$email_to = "$d[email]" . "\n";
+	$headers = 'From: ' . $CC_default_email . "\n" .
+	   'Reply-To: ' . $CC_default_email . "\n" .
 	   'X-Mailer: PHP/' . phpversion();
 
 	mail($email_to,$subject,$email_message,$headers);
