@@ -6,12 +6,17 @@ $folder_name = $_GET['folder_name'];
 $case_id = $_GET['case_id'];
 /* This to delete files off of server */
 $unlink_query = mysql_query("SELECT * FROM `cm_documents` WHERE `folder` = '$folder_name' AND `case_id` = '$case_id' AND `url` != ''");
+
+shell_exec('chmod 777 docs');
+
 while ($r = mysql_fetch_array($unlink_query))
 {
 $doc = $r['url'];
 unlink($doc);
 
 }
+
+shell_exec('chmod 644 docs');
 
 /* This to delete document database entry */
 
