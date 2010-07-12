@@ -41,7 +41,6 @@ if($_POST){
 
                 if ($_FILES['docfile']['size'] < $allowed_size)
                 {
-					shell_exec('chmod 777 docs');
 					
                 $now = date("YmdHis");
                 $unixtime = time();
@@ -58,10 +57,8 @@ if($_POST){
                 $result=MYSQL_QUERY("INSERT INTO `cm_documents` (`id` ,`name` ,`url`,`folder`,`username` , `case_id`,`date_modified`)VALUES (NULL , '$newfilename','$new','$chosen_folder','$_SESSION[login]','$case_id',NULL)");
                  if (!connection)
   {
-  shell_exec('chmod 644 docs');
   die(mysql_error());
   }
-				 shell_exec('chmod 644 docs');
                  echo "Document Uploaded";
 
                 }

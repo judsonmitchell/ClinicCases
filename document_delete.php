@@ -16,10 +16,8 @@ while ($r = mysql_fetch_array($get_file_url))
     if ( $prefix !== 'http')
     {
   
-	shell_exec('chmod 777 docs');
-    unlink($r[url]);
-    shell_exec('chmod 644 docs');
-
+		unlink($r[url]);
+  
     }
     
 }
