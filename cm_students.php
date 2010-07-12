@@ -144,7 +144,7 @@ while ($line = mysql_fetch_array($get_cases, MYSQL_ASSOC)) {
 
     }
 echo <<<CASELIST
-<table width=\"100%\" ><tr style="width:100%;height:60px;"><td><div id="$d[id]"  ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type])</div></td><td><div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
+<table width=\"100%\" ><tr style="width:100%;height:60px;"><td><div id="$d[id]"  ><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[last_name], $d[first_name]</a> ($d[case_type])</div></td><td><div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
 $facebar = get_faces($d[id],'var');
 echo $facebar;
@@ -165,7 +165,7 @@ while ($line = mysql_fetch_array($get_cases2, MYSQL_ASSOC)) {
    
     
 echo <<<CASELIST
-<table width=\"100%\" border=0><tr style="width:100%;height:60px;"><td><div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[first_name] $d[last_name]</a> ($d[case_type]) </div></td><td>	<div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
+<table width=\"100%\" border=0><tr style="width:100%;height:60px;"><td><div id="$d[id]"><img src="images/folder_very_small.png" border="0" onLoad="new Draggable('$d[id]',{snap:false,revert:true});this.style.cursor='move';"><a href="cm_cases.php?direct=$d[id]" target=_new>$d[last_name], $d[first_name]</a> ($d[case_type]) </div></td><td>	<div id = 'facebar_$d[id]' style='display:inline;margin-left:10px;'>
 CASELIST;
 $facebar = get_faces($d[id],'var');
 echo $facebar;
