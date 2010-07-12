@@ -51,6 +51,9 @@ echo $cs_no;
 <LABEL FOR "fname">First Name</label><div style="font-size:12pt;"><?php echo $d[first_name] ?></div>
 </p>
 <p>
+<LABEL FOR "fname">Middile Initial</label><div style="font-size:12pt;"><?php echo $d[m_initial] ?></div>
+</p>
+<p>
 <LABEL FOR "lname">Last Name</label><div style="font-size:12pt;"><?php echo $d[last_name] ?></div>
 </p>
 <p><LABEL FOR "address1">Address</LABEL><div style="font-size:12pt;"><?php echo $d[address1] ?></div></p>
