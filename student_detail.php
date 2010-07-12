@@ -17,9 +17,14 @@ include './classes/format_case_number.php';
 		}
 		}
 		
+		if ($_SESSION['class'] == 'admin')
+		{$tg_url = 'cm_admin_students.php';}
+		else
+		{$tg_url = 'cm_students.php';}
+		
 echo <<<DETAIL
 
-<span id="close" style="right:35px;"><a href="#" onclick="Effect.Shrink('window1');location.href='cm_students.php';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close" style="right:35px;"><a href="#" onclick="Effect.Shrink('window1');location.href='$tg_url';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 
 <div id="photo">
 <h3>$d[first_name] $d[last_name]</h3>
