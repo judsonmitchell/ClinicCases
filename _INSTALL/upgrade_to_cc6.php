@@ -27,10 +27,7 @@ while ($r = mysql_fetch_array($get_profs))
 		
 	}
 
-	//error
-	if (mysql_errno($connection)) { 
-	  $error = "Sorry, there was an error updating the professor fields.  Maybe this will help: MySQL error ". mysql_errno($connection).": ". mysql_error($connection)."\n<br>When executing:<br>\n$get_profs\n<br>";die;
-	}
+	
 
 
 
@@ -39,13 +36,13 @@ while ($r = mysql_fetch_array($get_profs))
 
 $delete_col = mysql_query("ALTER TABLE `cm` DROP COLUMN `professor2`");
 	
-	//error
-	if (mysql_errno($connection)) { 
-	  $error = "Sorry, there was an error deleting the second professor field.  Maybe this will help: MySQL error ".mysql_errno($connection).": ". mysql_error($connection)."\n<br>When executing:<br>\n$delete_col\n<br>"; die;
-	}
+	
 echo "Assigned Professors updated....<br>Creating thumbnails<br>";
 
 
+//add opened_by field
+
+$add = mysql_query("ALTER TABLE  `cm` ADD  `opened_by` VARCHAR( 50 ) NOT NULL");
 
 
 $pics=directory('../people/','jpg,JPG,JPEG,jpeg');
@@ -60,7 +57,25 @@ if ($pics[0]!='')
 }
 
 
+echo "Thumbnails created.<br>";
 
+//Update users for multiple assigned profs
 
-echo "Thumbnails created.</br>";
+$mp = mysql_query("SELECT `assigned_prof`,`id`,`class` FROM `cm_users` WHERE `class` = 'student'");
+	while ($mp2 = mysql_fetch_array($mp))
+	{
+		$replace = $mp2['assigned_prof'] . ',';
+		$upd = mysql_query("UPDATE `cm_users` SET `assigned_prof` = '$replace' WHERE `id` = '$mp2[id]' LIMIT 1");
+	}
+	
+	echo "User db updated.<br>";
+	
+	//error
+	if (mysql_errno($connection)) { 
+	  $error = "Sorry, there was an error completing the upgrade.  Maybe this will help: MySQL error ".mysql_errno($connection).": ". mysql_error($connection); 
+	  die;
+		}
+		ELSE
+		 {echo "Upgrade complete.";}
+	
 ?>
