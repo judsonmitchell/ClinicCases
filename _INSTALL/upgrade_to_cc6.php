@@ -5,7 +5,7 @@ include '../classes/thumbnail_generator.php';
 
 //This script is to facilitate an upgrade to cc6.  It assumes you are running ClinicCases 5
 
-//get the assigned professor names from professor and professor 2
+//get the assigned professor names from professor and professor  2
 
 echo "Updating the professors field...<br>";
 

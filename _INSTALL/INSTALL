@@ -9,24 +9,23 @@ REQUIREMENTS:
 3. PHP version 4 or higher
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
 5. GD libraries for php (optional; used for resizing photos)
+6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
 
 STEPS - New Installation
 
 1. Upload the compressed source file to your webserver and unzip.
 
-2. CHMOD 644 the directory 'docs'.  Ensure that the owner of these directories is the username of your webserver (with Apache, this is 'www-data'), e.g. chown www-data docs.  This is important for file security.
+2.  CHMOD 777 'images_tmp', 'people', 'docs'
 
-3.  CHMOD 777 'images_tmp', 'people'
-
-4. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
+3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
 and select "Import."  Import the file CC.sql.  Your database should now be setup with 
 18 tables. [There are other ways to do this, but this should work best for most users].
 
-5. Edit _CONFIG.php to reflect your database settings and other settings.
+4. Edit _CONFIG.php to reflect your database settings and other settings.
 
-6. Run the script create_private_urls.php in the INSTALL directory.  Delete script when finished.
+5. Run the script create_private_urls.php in the INSTALL directory.  Delete script when finished.
 
-7. [optional] In order for cron jobs to work [a weekly email to report 
+6. [optional] In order for cron jobs to work [a weekly email to report 
 to professors and a journal rss feed], you must insert your server 
 path into cron.txt and update your crontab.
 
@@ -34,7 +33,6 @@ path into cron.txt and update your crontab.
 
 STEPS - Updgrade from ClinicCases 5 to ClinicCases 6
 
-1. CHMOD 644 the directory 'docs'.  Ensure that the owner of these directories is the user of your webserver (with Apache, this is 'www-data'), e.g. chown www-data docs.  This is important for file security.
 1. Unzip all files in cm5 package to your target directory, overwriting old files.
 2. Run DB_upgrade_from_cc3_to_cc5.sql in the _INSTALL directory using mysql/phpmyadmin.
 3. Run update_db_for_cc5.php in the _INSTALL directory.
