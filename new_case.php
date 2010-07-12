@@ -65,7 +65,9 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `ct_case_no` = '$_POST[ct_case_no]',
 `case_name` = '$_POST[case_name]',
 `notes` = '$_POST[notes]',
-`referral` = '$_POST[referral]' WHERE `id` = '$_POST[id]' LIMIT 1 ;
+`referral` = '$_POST[referral]', 
+`opened_by` = '$_POST[opened_by]'
+WHERE `id` = '$_POST[id]' LIMIT 1 ;
 
 	");
 
@@ -307,6 +309,7 @@ ECHO <<<DATA
 </select></p>
 <p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="5"></textarea></p>
 <input type="hidden" name="date_open" value="$date_open">
+<input type="hidden" name="opened_by" value="$_SESSION[login]">
 <p><center><input type="button" value="Add Case" onClick="var ncval = newCaseVal();if (ncval == true){createTargets('window1','window1');sendDataPost('new_case.php','newCaseForm');return false;}"></center></p>
 
 </DIV></form>

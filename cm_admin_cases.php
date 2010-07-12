@@ -349,6 +349,7 @@ if ($_SESSION['class'] == 'prof')
 <option value="close_code">Closing Code</option>
 <option value="close_notes">Closing Notes</option>
 <option value="referral">Referral Source</option>
+<option value="opened_by">Opened By:</option>
 
 
 
@@ -403,7 +404,7 @@ $result = mysql_query("SELECT * FROM `cm`  $limiter ORDER BY `last_name`");
 <div id = "work_space" style="width:99.8%;height:90%;overflow:auto;">
 <div id="the_info" style="width:100%;height:30px;display:none;"></div>
 <table id = "display_cases">
-<thead><tr><td colspan="9" style="background:url(images/grade_gray_small.jpg) repeat-x;color:black;"><b><?php echo mysql_num_rows($result); ?></b> cases found.</td></tr><tr><td><a class='theader' href="#" onClick = "theSort('clinic_id','ASC');return false;" title="Sort by this column" alt="Sort by this column" >Case No.</td><td><a class='theader' href="#" onClick = "theSort('first_name','ASC');return false;" title="Sort by this column" alt="Sort by this column" >First Name</td><td><a class='theader' href="#" onClick = "theSort('last_name','ASC');return false;" title="Sort by this column" alt="Sort by this column">Last Name</td><td><a class='theader' href="#" onClick = "theSort('date_open','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Open</td><td><a class='theader' href="#" onClick = "theSort('date_close','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Close</td><td><a class = 'theader' href="#" onClick = "theSort('case_type','ASC');return false;" title="Sort by this column" alt="Sort by this column">Case Type</a></td><td><a class='theader' href="#" onClick = "theSort('dispo','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Disposition</td><td><a class='theader' href="#" onClick = "theSort('professor','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Professor</td><td></td></tr></thead><tbody>
+<thead><tr><td colspan="10" style="background:url(images/grade_gray_small.jpg) repeat-x;color:black;"><b><?php echo mysql_num_rows($result); ?></b> cases found.</td></tr><tr><td><a class='theader' href="#" onClick = "theSort('clinic_id','ASC');return false;" title="Sort by this column" alt="Sort by this column" >Case No.</td><td><a class='theader' href="#" onClick = "theSort('first_name','ASC');return false;" title="Sort by this column" alt="Sort by this column" >First Name</td><td><a class='theader' href="#" onClick = "theSort('last_name','ASC');return false;" title="Sort by this column" alt="Sort by this column">Last Name</td><td><a class='theader' href="#" onClick = "theSort('date_open','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Open</td><td><a class='theader' href="#" onClick = "theSort('date_close','ASC');return false;" title="Sort by this column" alt="Sort by this column">Date Close</td><td><a class = 'theader' href="#" onClick = "theSort('case_type','ASC');return false;" title="Sort by this column" alt="Sort by this column">Case Type</a></td><td><a class='theader' href="#" onClick = "theSort('dispo','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Disposition</td><td><a class='theader' href="#" onClick = "theSort('professor','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Professor</td><td><a class='theader' href="#" onClick = "theSort('opened_by','ASC');return false;"  title="Sort by this column" alt="Sort by this column">Opened By</a></td><td></td></tr></thead><tbody>
 <?php
 
 
@@ -438,9 +439,16 @@ $plist = explode(",",substr($d[professor],0,-1));
 					
 	//take out trailing comma
 	$prof_str_clip = substr($prof_str,0,-2);
+	if ($d[opened_by])
+	{
+		$open_name = new get_names;$op_nm = $open_name->get_users_name_initial($d[opened_by]);
+	}
+	else
+	{$op_nm="";}
+	
 echo <<<ROWS
 
-<tr  title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;"><td>$d[clinic_id]</td><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td>
+<tr  title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;"><td>$d[clinic_id]</td><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td><td>$op_nm</td>
 <td><a class="nobubble" href="#" title="Edit this Case" alt="Edit this Case " onClick="createTargets('window1','window1');sendDataGet('new_case_edit.php?id=$d[id]');Effect.Grow('window1');document.getElementById('view_chooser').style.display = 'none';return false;"><img src="images/report_edit.png" border="0"></a></td></tr>
 ROWS;
 

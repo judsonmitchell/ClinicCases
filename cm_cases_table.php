@@ -190,7 +190,7 @@ else {
 
 //This puts the right number of columns in the header rows
 if ($_SESSION['class'] == 'admin')
-	{$colspan = "9";}
+	{$colspan = "10";}
 		else {$colspan = "8";}
 
 echo <<<HEADER
@@ -219,7 +219,21 @@ if ($_SESSION['class'] == 'admin')
 
 ECHO <<<HEADER
 
-<td><a class='theader' href="#" onClick = "theSortResults('first_name','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column" >First Name</td><td><a class='theader' href="#" onClick = "theSortResults('last_name','$newsortdir','$searchterm','$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Last Name</td><td><a class='theader' href="#" onClick = "theSortResults('date_open','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Date Open</td><td><a class='theader' href="#" onClick = "theSortResults('date_close','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Date Close</td><td><a class = 'theader' href="#" onClick = "theSortResults('case_type','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Case Type</a></td><td><a class='theader' href="#" onClick = "theSortResults('dispo','$newsortdir','$searchterm', '$searchfield');return false;"  title="Sort by this column" alt="Sort by this column">Disposition</td><td><a class='theader' href="#" onClick = "theSortResults('professor','$newsortdir','$searchterm', '$searchfield');return false;"  title="Sort by this column" alt="Sort by this column">Professor</td>
+<td><a class='theader' href="#" onClick = "theSortResults('first_name','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column" >First Name</td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('last_name','$newsortdir','$searchterm','$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Last Name</td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('date_open','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Date Open</td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('date_close','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Date Close</td>
+
+<td><a class = 'theader' href="#" onClick = "theSortResults('case_type','$newsortdir','$searchterm', '$searchfield');return false;" title="Sort by this column" alt="Sort by this column">Case Type</a></td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('dispo','$newsortdir','$searchterm', '$searchfield');return false;"  title="Sort by this column" alt="Sort by this column">Disposition</td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('professor','$newsortdir','$searchterm', '$searchfield');return false;"  title="Sort by this column" alt="Sort by this column">Professor</td>
+
+<td><a class='theader' href="#" onClick = "theSortResults('opened_by','$newsortdir','$searchterm', '$searchfield');return false;"  title="Sort by this column" alt="Sort by this column">Opened By</td>
 HEADER;
 
 
@@ -285,6 +299,12 @@ $plist = explode(",",substr($d[professor],0,-1));
 					
 	//take out trailing comma
 	$prof_str_clip = substr($prof_str,0,-2);
+	if ($d[opened_by])
+	{
+		$open_name = new get_names;$op_nm = $open_name->get_users_name_initial($d[opened_by]);
+	}
+	else
+	{$op_nm="";}
 echo <<<ROWS
 
 <tr title="Click to View Case" alt="Click to View Case"  onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';return false;">
@@ -299,6 +319,15 @@ IF ($_SESSION['class'] == 'admin')
 echo <<<ROWS
 <td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td>
 ROWS;
+
+if ($_SESSION['class'] == 'admin')
+{
+echo <<<EDITER
+<td>$op_nm</td>
+EDITER;
+	
+}
+
 if ($_SESSION['class'] != 'student')
 {
 echo <<<EDITER

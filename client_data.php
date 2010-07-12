@@ -2,6 +2,7 @@
 session_start();
 include 'db.php';
 include './classes/format_case_number.php';
+include './classes/get_names.php';
 $get_case_d = mysql_query("SELECT * FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
 while ($line = mysql_fetch_array($get_case_d, MYSQL_ASSOC)) {
     $i=0;
@@ -122,6 +123,13 @@ $pr = $x[professor];
 $prof_str = substr($pr,0,-1);
 
 echo $prof_str;
+if ($d[opened_by])
+	{
+		$open_name = new get_names;$op_nm = $open_name->get_users_name_initial($d[opened_by]);
+	}
+	else
+	{$op_nm="";}
+
 ?>
 </div></p>
 
@@ -129,7 +137,7 @@ echo $prof_str;
 
 <br>
 <p><label for "notes">Notes</label><div style="font-size:12pt;"><?php echo $d[notes]?></div></p>
-
+<p><label for "opened_by">Opened By:</label><div style="font-size:12pt;"><?php echo $op_nm; ?></div></p>
 <br /><br />
 
 <?php
