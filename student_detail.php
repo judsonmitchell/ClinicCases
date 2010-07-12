@@ -314,7 +314,7 @@ function onItemHover(e)
             {
                 var item = Event.element(e);
 
-                item.setStyle({ color : 'red',textDecoration:'underline' });
+                item.setStyle({ color : 'white',textDecoration:'underline' });
 
             }
 
@@ -322,7 +322,7 @@ function onItemUnHover(e)
             {
                 var item = Event.element(e);
 
-                item.setStyle({ color : 'white',textDecoration:'none' });
+                item.setStyle({ color : 'blue',textDecoration:'none' });
 
             }
 
