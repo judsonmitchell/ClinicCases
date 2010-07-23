@@ -231,7 +231,7 @@ ECHO <<<DATA
 <LABEL FOR "DOB">DOB (mm/dd/yyyy)</LABEL><INPUT TYPE="text" name = "dob" id="DOB" size="10"></td><td><LABEL FOR "ssn" style="width:40px;">SSN</label><input type="text" name="ssn" id="ssn" size="11"></td></tr></table></p>
 <p>
 <table><tr><td>
-<LABEL FOR "gender">Gender</label><select name="gender" id="gender"><option value="M">Male</option><option value="F">Female</option></select></td><td><LABEL FOR "race" style="width:40px;">Race</label><select name="race" id="race"><option value="">Select</option><option value="AA">African-American</option><option value="H">Hispanic</option><option value="W">White</option><option value="O">Other</option></select></td></tr></table></p>
+<LABEL FOR "gender">Gender</label><select name="gender" id="gender"><option value="M">Male</option><option value="F">Female</option><option value="U">Unknown</option></select></td><td><LABEL FOR "race" style="width:40px;">Race</label><select name="race" id="race"><option value="">Select</option><option value="AA">African-American</option><option value="H">Hispanic</option><option value="W">White</option><option value="O">Other</option><option value="U">Unknown</option></select></td></tr></table></p>
 
 </DIV>
 </div>
