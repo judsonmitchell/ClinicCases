@@ -78,7 +78,16 @@ echo $cs_no;
 
 </td></tr></table></p>
 
+<p>
+<table><tr><td  style="margin:0px;padding:0px;">
+<LABEL FOR "income">Income</label><div style="font-size:12pt;">
+<?php echo $d[income]; ?></div>
 
+</td><td><LABEL FOR "per" style="width:40px;">per:</label>
+<div style="font-size:12pt;"><?php echo $d[per]; ?></div>
+
+
+</td></tr></table></p>
 
 
 
