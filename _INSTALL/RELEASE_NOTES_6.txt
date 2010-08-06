@@ -1,0 +1,14 @@
+Release Notes
+ClinicCases Beta 6
+http://www.cliniccases.com
+For more information contact: Judson Mitchell, judsonmitchell AT gmail.com
+
+License: GNU General Public License v2
+----------------------------------------------
+New Features
+*	Now allows for an unlimited number of professors to be assigned to a single student and vice versa.
+*	Improved display of students assigned to cases
+
+Changes and Bug Fixes
+
+SEE CHANGELOG FOR A COMPLETE LISTING OF CHANGES AND BUG FIXES.

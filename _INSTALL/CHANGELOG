@@ -1,0 +1,425 @@
+r652 | judsonmitchell | 2010-08-06 10:34:33 -0500 (Fri, 06 Aug 2010) | 1 line
+
+update version number.
+------------------------------------------------------------------------
+r651 | judsonmitchell | 2010-08-06 10:34:15 -0500 (Fri, 06 Aug 2010) | 1 line
+
+add income and "is form" fields to db.
+------------------------------------------------------------------------
+r650 | judsonmitchell | 2010-08-06 10:31:51 -0500 (Fri, 06 Aug 2010) | 1 line
+
+add income select
+------------------------------------------------------------------------
+r649 | judsonmitchell | 2010-08-06 10:31:39 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Add link to possibly conflicted cases on post report.
+------------------------------------------------------------------------
+r648 | judsonmitchell | 2010-08-06 10:30:40 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Fix problem with conflict checker where a trailing new line is entered.  Add link to possibly conflicted cases on post report.
+------------------------------------------------------------------------
+r647 | judsonmitchell | 2010-08-06 10:29:45 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Add a "income" fields to new cases.
+------------------------------------------------------------------------
+r646 | judsonmitchell | 2010-08-06 10:29:09 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Add a "income" fields to new cases.
+------------------------------------------------------------------------
+r645 | judsonmitchell | 2010-08-06 10:28:40 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Changes to allow posting of a "forms" category to board.
+------------------------------------------------------------------------
+r644 | judsonmitchell | 2010-08-06 10:27:11 -0500 (Fri, 06 Aug 2010) | 1 line
+
+Changes to allow posting of a "forms" category to board.
+------------------------------------------------------------------------
+r643 | judsonmitchell | 2010-07-23 10:38:15 -0500 (Fri, 23 Jul 2010) | 1 line
+
+Fix bug where scrolling down Students page and then clicking causes detail to window to be invisible.
+------------------------------------------------------------------------
+r642 | judsonmitchell | 2010-07-23 10:03:07 -0500 (Fri, 23 Jul 2010) | 1 line
+
+Add "unknown" gender option, per request.  That's Pat!
+------------------------------------------------------------------------
+r641 | judsonmitchell | 2010-07-12 12:41:32 -0500 (Mon, 12 Jul 2010) | 1 line
+
+add change to cm_users "assigned_prof" field for upgrade.
+------------------------------------------------------------------------
+r640 | judsonmitchell | 2010-07-12 12:40:20 -0500 (Mon, 12 Jul 2010) | 1 line
+
+Add middle initial field.
+------------------------------------------------------------------------
+r639 | judsonmitchell | 2010-07-12 12:39:49 -0500 (Mon, 12 Jul 2010) | 1 line
+
+Fix error where when admin looks at students details and then closes pages, is redirected to cm_students.php instead of cm_admin_students.php
+------------------------------------------------------------------------
+r638 | judsonmitchell | 2010-07-12 11:49:33 -0500 (Mon, 12 Jul 2010) | 1 line
+
+darken headers on accordion, per request.
+------------------------------------------------------------------------
+r637 | judsonmitchell | 2010-07-12 11:49:12 -0500 (Mon, 12 Jul 2010) | 1 line
+
+darken headers on accordion, per request.
+------------------------------------------------------------------------
+r636 | judsonmitchell | 2010-07-12 10:55:57 -0500 (Mon, 12 Jul 2010) | 1 line
+
+List client names by last name first in Students view, per request of Prof. Molina.
+------------------------------------------------------------------------
+r635 | judsonmitchell | 2010-07-12 10:52:55 -0500 (Mon, 12 Jul 2010) | 1 line
+
+Allows for the new field 'opened_by' to see which admin opened a case.
+------------------------------------------------------------------------
+r634 | judsonmitchell | 2010-07-12 10:04:33 -0500 (Mon, 12 Jul 2010) | 1 line
+
+removed instructions regarding chmod for document folder as it introduced regressions.
+------------------------------------------------------------------------
+r633 | judsonmitchell | 2010-07-12 10:03:52 -0500 (Mon, 12 Jul 2010) | 1 line
+
+removed chmod call for document folder as it introduced regressions.
+------------------------------------------------------------------------
+r632 | judsonmitchell | 2010-07-09 06:00:11 -0500 (Fri, 09 Jul 2010) | 1 line
+
+Allow script to temporarily change directory mode to 777 and then return it to 644.  Improves security of docs directory
+------------------------------------------------------------------------
+r631 | judsonmitchell | 2010-07-09 05:55:07 -0500 (Fri, 09 Jul 2010) | 1 line
+
+Allow script to temporarily change directory mode to 777 and then return it to 644.  Improves security of docs directory
+------------------------------------------------------------------------
+r630 | judsonmitchell | 2010-07-09 05:32:59 -0500 (Fri, 09 Jul 2010) | 1 line
+
+Change instruction to set docs directory to 644
+------------------------------------------------------------------------
+r629 | judsonmitchell | 2010-07-09 05:32:35 -0500 (Fri, 09 Jul 2010) | 1 line
+
+Change instruction to set docs directory to 644
+------------------------------------------------------------------------
+r628 | judsonmitchell | 2010-07-09 05:31:27 -0500 (Fri, 09 Jul 2010) | 1 line
+
+Allow script to temporarily change directory mode to 777 and then return it to 644.  Improves security of docs directory
+------------------------------------------------------------------------
+r627 | judsonmitchell | 2010-07-08 05:45:06 -0500 (Thu, 08 Jul 2010) | 1 line
+
+Fix to message send to avoid php bug which causes mail sent to some servers to return a "554 Failed: Malformed MIME header (in reply to end of DATA command))" error.
+------------------------------------------------------------------------
+r626 | judsonmitchell | 2010-06-25 11:40:53 -0500 (Fri, 25 Jun 2010) | 1 line
+
+correction to upgrade script when updating professor fields
+------------------------------------------------------------------------
+r625 | judsonmitchell | 2010-06-24 12:27:21 -0500 (Thu, 24 Jun 2010) | 1 line
+
+Increase size of note field in case close.  Resolves http://code.google.com/p/cliniccases/issues/detail?id=1 item 5
+------------------------------------------------------------------------
+r624 | judsonmitchell | 2010-06-24 11:55:31 -0500 (Thu, 24 Jun 2010) | 1 line
+
+Remove professor 2 field on advanced search
+------------------------------------------------------------------------
+r623 | judsonmitchell | 2010-06-24 11:47:58 -0500 (Thu, 24 Jun 2010) | 1 line
+
+Add script to generate student thumbnails next to case file on Students page
+------------------------------------------------------------------------
+r622 | judsonmitchell | 2010-06-24 11:47:00 -0500 (Thu, 24 Jun 2010) | 1 line
+
+Updates to changelog
+------------------------------------------------------------------------
+r621 | judsonmitchell | 2010-06-24 11:44:56 -0500 (Thu, 24 Jun 2010) | 1 line
+
+changes to integrate this script with new Students page.
+------------------------------------------------------------------------
+r620 | judsonmitchell | 2010-06-24 11:44:19 -0500 (Thu, 24 Jun 2010) | 1 line
+
+changes to integrate this script with new Students page.
+------------------------------------------------------------------------
+r619 | judsonmitchell | 2010-06-24 11:43:24 -0500 (Thu, 24 Jun 2010) | 1 line
+
+Major changes to allow for thumbnails of assigned students to appear next to the case and to add a hovering tooltip which allows for unassigning students.
+------------------------------------------------------------------------
+r618 | judsonmitchell | 2010-06-24 11:41:50 -0500 (Thu, 24 Jun 2010) | 1 line
+
+added css for hover tooltip on Students page
+------------------------------------------------------------------------
+r617 | judsonmitchell | 2010-06-22 06:06:03 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Add function for retrieving a single thumbnail.
+------------------------------------------------------------------------
+r616 | judsonmitchell | 2010-06-22 05:58:36 -0500 (Tue, 22 Jun 2010) | 1 line
+
+change thumbnail size to 32px x 32px for sake of uniformity.
+------------------------------------------------------------------------
+r615 | judsonmitchell | 2010-06-22 05:56:52 -0500 (Tue, 22 Jun 2010) | 1 line
+
+change thumbnail size to 32px x 32px for sake of uniformity.
+------------------------------------------------------------------------
+r614 | judsonmitchell | 2010-06-22 05:55:59 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Add thumbnail function to at a glance page
+------------------------------------------------------------------------
+r613 | judsonmitchell | 2010-06-22 05:39:50 -0500 (Tue, 22 Jun 2010) | 1 line
+
+add include_once
+------------------------------------------------------------------------
+r612 | judsonmitchell | 2010-06-22 05:37:00 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Allows prof to easily see what students are on a case and to remove individual students from a case with a single click.
+------------------------------------------------------------------------
+r611 | judsonmitchell | 2010-06-22 05:33:49 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Changes to accomodate new thumbnail system.
+------------------------------------------------------------------------
+r610 | judsonmitchell | 2010-06-22 05:30:39 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Generates face thumbnail when new user is added.
+------------------------------------------------------------------------
+r609 | judsonmitchell | 2010-06-22 05:29:48 -0500 (Tue, 22 Jun 2010) | 1 line
+
+function for getting face thumbnails on students screen.
+------------------------------------------------------------------------
+r608 | judsonmitchell | 2010-06-22 05:28:51 -0500 (Tue, 22 Jun 2010) | 1 line
+
+Create thumbnails of all user images currently on the system for upgrade
+------------------------------------------------------------------------
+r607 | judsonmitchell | 2010-06-21 17:35:16 -0500 (Mon, 21 Jun 2010) | 1 line
+
+New image for background, deleting assigned students.
+------------------------------------------------------------------------
+r606 | judsonmitchell | 2010-06-21 12:16:13 -0500 (Mon, 21 Jun 2010) | 1 line
+
+Generic picture for new thumbnail feature.
+------------------------------------------------------------------------
+r605 | judsonmitchell | 2010-06-15 16:49:40 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Updates to changelog
+------------------------------------------------------------------------
+r604 | judsonmitchell | 2010-06-15 16:49:00 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Allow for multiple professors when adding time on mobile.
+------------------------------------------------------------------------
+r603 | judsonmitchell | 2010-06-15 16:47:58 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Find the right users for board posts now that we have multiple professors
+------------------------------------------------------------------------
+r602 | judsonmitchell | 2010-06-15 16:45:49 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Enables sending a message to every user assigned to a given case.
+------------------------------------------------------------------------
+r601 | judsonmitchell | 2010-06-15 16:45:15 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Enables sending a message to every user assigned to a given case.
+------------------------------------------------------------------------
+r600 | judsonmitchell | 2010-06-15 16:44:30 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Change validation to permit messaging all users assigned to a given case.
+------------------------------------------------------------------------
+r599 | judsonmitchell | 2010-06-15 13:00:11 -0500 (Tue, 15 Jun 2010) | 1 line
+
+changes to notes.
+------------------------------------------------------------------------
+r598 | judsonmitchell | 2010-06-15 12:58:01 -0500 (Tue, 15 Jun 2010) | 1 line
+
+remove trailing comma before making professor array.
+------------------------------------------------------------------------
+r597 | judsonmitchell | 2010-06-15 12:54:57 -0500 (Tue, 15 Jun 2010) | 1 line
+
+changes to notes.
+------------------------------------------------------------------------
+r596 | judsonmitchell | 2010-06-15 12:54:08 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Shows which professor non-case time is credited to.
+------------------------------------------------------------------------
+r595 | judsonmitchell | 2010-06-15 12:53:06 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Now reflects which professor or professors are assigned to a case.
+------------------------------------------------------------------------
+r594 | judsonmitchell | 2010-06-15 12:52:23 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Allows student with multiple professors to select to which professor the non-case time goes.
+------------------------------------------------------------------------
+r593 | judsonmitchell | 2010-06-15 12:51:22 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Change wording on error message.  It reflected a two-hour timeout which is not implimented.
+------------------------------------------------------------------------
+r592 | judsonmitchell | 2010-06-15 12:50:20 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Change to handle assigned professor if this is case from the non-case time form.
+------------------------------------------------------------------------
+r591 | judsonmitchell | 2010-06-15 11:33:28 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Change to professor names in case tables to make them full names rather than usernames; change to view chooser, using notifications block to avoid a bug in onSuccess using prototype.
+------------------------------------------------------------------------
+r590 | judsonmitchell | 2010-06-15 10:07:11 -0500 (Tue, 15 Jun 2010) | 1 line
+
+Add a trailing comma to professor field for upgrade script.
+------------------------------------------------------------------------
+r589 | judsonmitchell | 2010-06-13 16:27:15 -0500 (Sun, 13 Jun 2010) | 1 line
+
+changes to notes.
+------------------------------------------------------------------------
+r588 | judsonmitchell | 2010-06-13 16:06:59 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Allows students to submit journals to different professors depending on preference.
+------------------------------------------------------------------------
+r587 | judsonmitchell | 2010-06-13 16:05:56 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Change to allow for multiple professors for a single student.
+------------------------------------------------------------------------
+r586 | judsonmitchell | 2010-06-13 16:03:23 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Change to allow for multiple professors for a single student.
+------------------------------------------------------------------------
+r585 | judsonmitchell | 2010-06-13 16:02:12 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Read the professor receiving the journal from a cookie, not the session variables.
+------------------------------------------------------------------------
+r584 | judsonmitchell | 2010-06-13 16:00:46 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Add a function to return the profs first initial and last name.
+------------------------------------------------------------------------
+r583 | judsonmitchell | 2010-06-13 15:59:18 -0500 (Sun, 13 Jun 2010) | 1 line
+
+changes to notes.
+------------------------------------------------------------------------
+r582 | judsonmitchell | 2010-06-13 09:07:20 -0500 (Sun, 13 Jun 2010) | 1 line
+
+Modify change of preferences for multi-professor scenario.
+------------------------------------------------------------------------
+r581 | judsonmitchell | 2010-06-10 12:46:01 -0500 (Thu, 10 Jun 2010) | 1 line
+
+Changes to impliment the multiple professors supervising one student situation (add select multiple)
+------------------------------------------------------------------------
+r580 | judsonmitchell | 2010-06-10 12:44:55 -0500 (Thu, 10 Jun 2010) | 1 line
+
+rewrote function to support multiple professors and put it in seperate file.
+------------------------------------------------------------------------
+r579 | judsonmitchell | 2010-06-10 12:43:57 -0500 (Thu, 10 Jun 2010) | 1 line
+
+Changes to impliment the multiple professors supervising one student situation.
+------------------------------------------------------------------------
+r578 | judsonmitchell | 2010-06-10 12:42:59 -0500 (Thu, 10 Jun 2010) | 1 line
+
+delete unnecessary file
+------------------------------------------------------------------------
+r577 | judsonmitchell | 2010-06-10 12:42:15 -0500 (Thu, 10 Jun 2010) | 1 line
+
+Temporary file
+------------------------------------------------------------------------
+r576 | judsonmitchell | 2010-06-10 10:22:15 -0500 (Thu, 10 Jun 2010) | 1 line
+
+Implimenting multiple professors on one student: send message to all your students also includes students you share with another professor.
+------------------------------------------------------------------------
+r575 | judsonmitchell | 2010-06-10 10:19:00 -0500 (Thu, 10 Jun 2010) | 1 line
+
+Implimenting multiple professors on one student: before time is entered, query is done to determine which professor or professors are assigned to the case.
+------------------------------------------------------------------------
+r574 | judsonmitchell | 2010-06-08 07:46:48 -0500 (Tue, 08 Jun 2010) | 1 line
+
+deletes new case number if user decides to cancel case entry.
+------------------------------------------------------------------------
+r573 | judsonmitchell | 2010-06-08 05:29:44 -0500 (Tue, 08 Jun 2010) | 2 lines
+
+fixed defaulting  to first listed court on edit. 
+http://code.google.com/p/cliniccases/issues/detail?id=1
+------------------------------------------------------------------------
+r572 | judsonmitchell | 2010-06-08 05:25:59 -0500 (Tue, 08 Jun 2010) | 2 lines
+
+fixed defaulting  to first listed court on edit. 
+http://code.google.com/p/cliniccases/issues/detail?id=1
+------------------------------------------------------------------------
+r571 | judsonmitchell | 2010-06-07 13:09:28 -0500 (Mon, 07 Jun 2010) | 1 line
+
+More changes to impliment multiple professors on a single case.  (Add select multiple, array loop, etc).
+------------------------------------------------------------------------
+r570 | judsonmitchell | 2010-06-07 11:28:50 -0500 (Mon, 07 Jun 2010) | 1 line
+
+multiple professor list added to form.  array is converted into CSV.
+------------------------------------------------------------------------
+r569 | judsonmitchell | 2010-06-06 11:37:46 -0500 (Sun, 06 Jun 2010) | 1 line
+
+added select multiple for professors
+------------------------------------------------------------------------
+r568 | judsonmitchell | 2010-06-06 10:02:55 -0500 (Sun, 06 Jun 2010) | 1 line
+
+Changelog update.
+------------------------------------------------------------------------
+r567 | judsonmitchell | 2010-06-06 09:54:58 -0500 (Sun, 06 Jun 2010) | 1 line
+
+Changes to events and cases for single professor field.
+------------------------------------------------------------------------
+r566 | judsonmitchell | 2010-05-19 08:13:55 -0500 (Wed, 19 May 2010) | 1 line
+
+add fuzzy search on prof for events.
+------------------------------------------------------------------------
+r565 | judsonmitchell | 2010-05-19 05:39:10 -0500 (Wed, 19 May 2010) | 1 line
+
+delete icons that are no longer used in events.
+------------------------------------------------------------------------
+r564 | judsonmitchell | 2010-05-19 05:33:29 -0500 (Wed, 19 May 2010) | 1 line
+
+replace icons in events to make function clearer
+------------------------------------------------------------------------
+r563 | judsonmitchell | 2010-05-17 05:57:20 -0500 (Mon, 17 May 2010) | 1 line
+
+lists of db changes/to do
+------------------------------------------------------------------------
+r562 | judsonmitchell | 2010-05-16 18:27:09 -0500 (Sun, 16 May 2010) | 1 line
+
+removed professor2 insert when adding new case.
+------------------------------------------------------------------------
+r561 | judsonmitchell | 2010-05-16 18:25:53 -0500 (Sun, 16 May 2010) | 1 line
+
+removed professor2 lookup and replace with fuzzy search on professor field.
+------------------------------------------------------------------------
+r560 | judsonmitchell | 2010-05-16 18:09:59 -0500 (Sun, 16 May 2010) | 1 line
+
+added a time to case notes that are inputed using the form.  This will make the case notes sort properly for activity that is all  on the same day.
+------------------------------------------------------------------------
+r559 | judsonmitchell | 2010-05-16 16:10:19 -0500 (Sun, 16 May 2010) | 1 line
+
+Starting upgrade to CC6 script.  This part removes the professor2 field and puts all professors on a case in a comma seperated list.
+------------------------------------------------------------------------
+r558 | judsonmitchell | 2010-05-16 08:49:33 -0500 (Sun, 16 May 2010) | 1 line
+
+Removed references to professor 2 and insert the fuzzy search for professor field.  This is for the new feature where unlimited professors can be assigned to a single case.
+------------------------------------------------------------------------
+r556 | judsonmitchell | 2010-05-15 07:09:14 -0500 (Sat, 15 May 2010) | 1 line
+
+When student requests an account, a private key is generated and the class prefs of the student's professor are added.
+------------------------------------------------------------------------
+r555 | judsonmitchell | 2010-05-15 07:07:22 -0500 (Sat, 15 May 2010) | 1 line
+
+When admin adds a user, a private key is generated and, if the user is a student, the class prefs of the student's professor are added.
+------------------------------------------------------------------------
+r554 | judsonmitchell | 2010-05-15 06:25:50 -0500 (Sat, 15 May 2010) | 1 line
+
+fixed error in account activation email.  "Utilites" tab changed to "Prefs"
+------------------------------------------------------------------------
+r553 | judsonmitchell | 2010-05-15 06:18:58 -0500 (Sat, 15 May 2010) | 1 line
+
+advise user to check spam folder if the admin. confirmation email does not arrive.
+------------------------------------------------------------------------
+r551 | judsonmitchell | 2010-05-14 13:45:50 -0500 (Fri, 14 May 2010) | 1 line
+
+Added no_picture.png to /people directory
+------------------------------------------------------------------------
+r550 | judsonmitchell | 2010-05-13 19:32:28 -0500 (Thu, 13 May 2010) | 1 line
+
+added an email to student to confirm receipt of the new account request.
+------------------------------------------------------------------------
+r549 | judsonmitchell | 2010-05-13 19:00:41 -0500 (Thu, 13 May 2010) | 1 line
+
+added mailto to error message 2 "your clinic's adminstrator"
+------------------------------------------------------------------------
+r548 | judsonmitchell | 2010-05-13 18:57:34 -0500 (Thu, 13 May 2010) | 1 line
+
+fixed incorrect function reference formatDate so that date now shows in Date Applied field
+------------------------------------------------------------------------
+r547 | judsonmitchell | 2010-05-13 16:27:04 -0500 (Thu, 13 May 2010) | 1 line
+
+added wrapper1 style
+------------------------------------------------------------------------
+r546 | judsonmitchell | 2010-05-13 16:26:14 -0500 (Thu, 13 May 2010) | 1 line
+
+removed inline style for wrapper1
+------------------------------------------------------------------------
+r545 | judsonmitchell | 2010-05-13 15:44:57 -0500 (Thu, 13 May 2010) | 1 line
+
+fixed error in sql (removed word "contact" on line 153
