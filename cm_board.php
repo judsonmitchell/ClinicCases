@@ -62,7 +62,7 @@ function shorten($string)
 <script src="scriptaculous/src/scriptaculous.js" type="text/javascript"></script>
 <script src="./javascripts/ajaxUpload.js" type="text/javascript"></script>
 <script src="./javascripts/FormProtector.js" type="text/javascript"></script>
-<script type="text/javascript" src="./javascripts/print.js"/></script>
+<script type="text/javascript" src="./javascripts/print.js"></script>
 
 
 <script>
@@ -198,7 +198,10 @@ TABS;
 
 <div class="box_menu">
 <p style = "margin-left:15px">
-<a href="#" onClick="new Ajax.Request('board_create_new_post.php',{method:'get', onSuccess: function(transport) {$('post_id').value=transport.responseText;}});$('frame').scrollTop = '0';Effect.BlindDown('poster');return false;">New Post</a>
+<a href="#" onClick="new Ajax.Request('board_create_new_post.php',{method:'get', onSuccess: function(transport) {$('post_id').value=transport.responseText;}});$('frame').scrollTop = '0';Effect.BlindDown('poster');return false;">New Post</a>  
+  | <span id="filter"> <a href="#" onClick="	pager = new Hash({end:'-10'});
+new Ajax.Updater('psts', 'board_refresh.php', {evalScripts:true, method:'post',parameters:{forms_only:'y',begin_value:pager.get('end')}});$('filter').update('<a href=\'#\' onclick=\'window.location.reload();\'>Show All</a>');return false;">Show Forms Only</a>
+</span>
 </p>
 </div>
 
@@ -212,7 +215,7 @@ TABS;
 <table width="800px" border="0" align="center">
 <tr><td valign="top" width="550px">
 <form name="new_post" id="new_post">
-<label>Title</label><br><input name = "title" id = "title" type="text" style="width:500px;"><br></br>
+<label>Title</label><br><input name = "title" id = "title" type="text" style="width:500px;"><br>
 <input type="hidden" name="post_id" id="post_id">
 
 
@@ -226,8 +229,8 @@ $oFCKeditor->Height = '300px' ;
 $oFCKeditor->Create();
 ?>
 <table width="300px" align="center">
-<tr><td><label>Locked</label><input type="checkbox" name="locked" id="locked" checked></td><td>
-<a href="#" alt="Submit" title="Submit" onClick="FckUpdate.UpdateEditorFormValue();new Ajax.Request('board_update_post.php',{method:'post',parameters:{post_id:$F('post_id'),title:$F('title'),pbody:$F('pbody'),locked:$F('locked')},
+<tr><td><label>Is a form</label><input type="checkbox" name="isform" id="isform"></td><td><label>Locked</label><input type="checkbox" name="locked" id="locked" checked></td><td>
+<a href="#" alt="Submit" title="Submit" onClick="FckUpdate.UpdateEditorFormValue();new Ajax.Request('board_update_post.php',{method:'post',parameters:{post_id:$F('post_id'),title:$F('title'),pbody:$F('pbody'),locked:$F('locked'),isform:$F('isform')},
 onSuccess:function(){
 			new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,parameters:{begin_value:'-10'}});
 			fp.resetAlrt();
