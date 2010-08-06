@@ -65,19 +65,29 @@ $user_posts = get_allowed_posters($_SESSION[login]);
 		}
 	$set_start = $begin + 10;
 	
-if (isset($_POST[time]))
+if (isset($_POST[time])):
 //we are just looking for new posts
-	{
+	
 		
 		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `created` > '$_POST[time]' AND `is_comment` = '' ");
 		
-	}
-else
-	{
+	
+	
+elseif (isset($_POST[forms_only])):
+//we only want to view forms
+	
+		
+		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `is_form` = 'on' ORDER BY `created` DESC LIMIT $set_start,$num_rows_to_view");		
+		
+	
+	
+	else:
+	
+	
 //we are viewing all posts and updating the scroller		
 		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `is_comment` = '' ORDER BY `created` DESC LIMIT $set_start,$num_rows_to_view");
 	
-	}	
+	endif;	
 	
 	
 	WHILE ($z = mysql_fetch_array($q))

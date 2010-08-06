@@ -45,7 +45,7 @@ elseif ($_POST[edit]):
 `body` = '$_POST[pbody]',
 `last_modified` = NOW( ) ,
 `last_modified_by` = '$_SESSION[login]',
-`locked` = '$_POST[locked]' 
+`locked` = '$_POST[locked]', `is_form` = '$_POST[isform]'
 WHERE `id` = '$_POST[post_id]' LIMIT 1 ;");
 
 	
@@ -59,7 +59,7 @@ $update = mysql_query("UPDATE `cm_board` SET `title` = '$_POST[title]',
 `created_by` = '$_SESSION[login]',
 `created` = NOW( ) ,
 `last_modified` = NOW( ) ,
-`locked` = '$_POST[locked]' 
+`locked` = '$_POST[locked]', `is_form` = '$_POST[isform]'
 WHERE `id` = '$_POST[post_id]' LIMIT 1 ;");
 
 
