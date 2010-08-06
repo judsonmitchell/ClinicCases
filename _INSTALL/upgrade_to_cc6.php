@@ -7,6 +7,12 @@ include '../classes/thumbnail_generator.php';
 
 //get the assigned professor names from professor and professor  2
 
+echo "Making db changes...<br />";
+
+$add_field = mysql_query("ALTER TABLE  `cm_board` ADD  `is_form` VARCHAR( 10 ) NOT NULL AFTER  `locked`");
+$add_income = mysql_query("ALTER TABLE  `cm` ADD  `income` INT( 50 ) NOT NULL AFTER  `race` ,
+ADD  `per` VARCHAR( 15 ) NOT NULL AFTER  `income`");
+
 echo "Updating the professors field...<br>";
 
 $get_profs = mysql_query("SELECT `id`,`professor`,`professor2` from `cm`") or die("Query failed with error: ".mysql_error());
