@@ -17,7 +17,7 @@ $update_adverse = mysql_query("UPDATE `cm_adverse_parties` SET `name` = '$_POST[
 		}
 
 
-$update = mysql_query("UPDATE `cm` SET `first_name` = '$_POST[first_name]', `m_initial` = '$_POST[m_initial]',`last_name` = '$_POST[last_name]', `case_type` = '$_POST[case_type]', `professor` = '$prof_list',`address1` = '$_POST[address1]', `address2` = '$_POST[address2]', `city` = '$_POST[city]', `state` = '$_POST[state]', `zip` = '$_POST[zip]', `phone1` = '$_POST[phone1]', `phone2` = '$_POST[phone2]', `email` = '$_POST[email]', `dob`= '$_POST[dob]', `ssn` = '$_POST[ssn]', `gender` = '$_POST[gender]', `race` = '$_POST[race]', `judge` = '$_POST[judge]', `pl_or_def` = '$_POST[pl_or_def]', `court`= '$_POST[court]', `section` = '$_POST[section]', `ct_case_no` = '$_POST[ct_case_no]',`case_name` = '$_POST[case_name]', `notes` = '$_POST[notes]' WHERE `id` = '$_POST[id]' LIMIT 1");
+$update = mysql_query("UPDATE `cm` SET `first_name` = '$_POST[first_name]', `m_initial` = '$_POST[m_initial]',`last_name` = '$_POST[last_name]', `case_type` = '$_POST[case_type]', `professor` = '$prof_list', `address1` = '$_POST[address1]', `address2` = '$_POST[address2]', `city` = '$_POST[city]', `state` = '$_POST[state]', `zip` = '$_POST[zip]', `phone1` = '$_POST[phone1]', `phone2` = '$_POST[phone2]', `email` = '$_POST[email]', `dob`= '$_POST[dob]', `ssn` = '$_POST[ssn]', `gender` = '$_POST[gender]', `race` = '$_POST[race]', `income` = '$_POST[income]',`per` = '$_POST[per]',`judge` = '$_POST[judge]', `pl_or_def` = '$_POST[pl_or_def]', `court`= '$_POST[court]', `section` = '$_POST[section]', `ct_case_no` = '$_POST[ct_case_no]',`case_name` = '$_POST[case_name]', `notes` = '$_POST[notes]' WHERE `id` = '$_POST[id]' LIMIT 1");
 
 
 	
@@ -94,6 +94,13 @@ $get_case_d = mysql_query("SELECT * FROM `cm` WHERE `id` = '$id_value' LIMIT 1")
 
 <?php
 genSelect($d[race],'race','race');
+?>
+
+</td></tr></table></p>
+<p>
+<table><tr><td><LABEL FOR "income">Income</label><input type="text" name="income" id="income" size="10" value="<?php echo $d[income]; ?>"></td><td><LABEL FOR "per" style="width:40px;">per:</label>
+<?php
+	genSelect($d[per],'per','per');
 ?>
 
 </td></tr></table></p>
