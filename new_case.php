@@ -10,12 +10,23 @@ if ($_POST)
 	$new_client= $_POST[first_name] . " " . $_POST[last_name];
 	$checker = new openCase;
 	if (!empty($_POST[adverse]))
-	{$adverse_array = explode("\n",$_POST[adverse]);}
+	{
+		//remove any trailing new line characters
+		$new_line_test = strrpos($_POST[adverse], "\n");
+		if ($new_line_test == TRUE)
+		{			
+			$adverse = substr($_POST[adverse],0,-1);
+			$adverse_array = explode("\n",$adverse);
+			}
+		else
+		{
+		$adverse_array = explode("\n",$_POST[adverse]);
+		}
+		
 	$conflict_string = $checker->checkConflicts($new_client, $adverse_array);
 
 	//Insert Adverse Party Data
-	if(!empty($_POST[adverse]))
-	{
+	
 	$adverse = strtoupper($_POST[adverse]);
 	$names = explode("\n",$adverse);
 	$case_id = $_POST[clinic_id];
@@ -37,9 +48,7 @@ if ($_POST)
 		}
 
 	//Insert New Client Data
-	$put_in = mysql_query("
-
-UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
+	$put_in = mysql_query("UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `first_name` = '$_POST[first_name]',
 `m_initial` = '$_POST[m_initial]',
 `last_name` = '$_POST[last_name]',
@@ -58,6 +67,8 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `dob` = '$_POST[dob]',
 `gender` = '$_POST[gender]',
 `race` = '$_POST[race]',
+`income` = '$_POST[income]',
+`per` = '$_POST[per]',
 `judge` = '$_POST[judge]',
 `pl_or_def` = '$_POST[pl_or_def]',
 `court` = '$_POST[court]',
@@ -67,9 +78,7 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `notes` = '$_POST[notes]',
 `referral` = '$_POST[referral]', 
 `opened_by` = '$_POST[opened_by]'
-WHERE `id` = '$_POST[id]' LIMIT 1 ;
-
-	");
+WHERE `id` = '$_POST[id]' LIMIT 1 ;");
 
 
 
@@ -233,6 +242,9 @@ ECHO <<<DATA
 <table><tr><td>
 <LABEL FOR "gender">Gender</label><select name="gender" id="gender"><option value="M">Male</option><option value="F">Female</option><option value="U">Unknown</option></select></td><td><LABEL FOR "race" style="width:40px;">Race</label><select name="race" id="race"><option value="">Select</option><option value="AA">African-American</option><option value="H">Hispanic</option><option value="W">White</option><option value="O">Other</option><option value="U">Unknown</option></select></td></tr></table></p>
 
+<p>
+<table><tr><td><LABEL FOR "income">Income</label><input type="text" name="income" id="income" size="10"></td><td><LABEL FOR "per" style="width:40px;">per:</label><select name="per" id="per"><option value="year">Year</option><option value="month">Month</option><option value="week">Week</option></select></td></tr></table></p>
+
 </DIV>
 </div>
 <DIV ID="new_case_right">
@@ -307,7 +319,7 @@ DATA;
 
 ECHO <<<DATA
 </select></p>
-<p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="5"></textarea></p>
+<p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="8"></textarea></p>
 <input type="hidden" name="date_open" value="$date_open">
 <input type="hidden" name="opened_by" value="$_SESSION[login]">
 <p><center><input type="button" value="Add Case" onClick="var ncval = newCaseVal();if (ncval == true){createTargets('window1','window1');sendDataPost('new_case.php','newCaseForm');return false;}"></center></p>
