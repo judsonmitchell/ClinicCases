@@ -383,3 +383,10 @@ CREATE TABLE IF NOT EXISTS `cm_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=386 ;
+
+--
+-- Dumping data for table `cm_users`
+--
+
+INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`, `office_phone`, `home_phone`, `class`, `username`, `password`, `assigned_prof`, `picture_url`, `timezone_offset`, `status`, `new`, `date_created`, `pref_case`, `pref_journal`, `pref_case_prof`, `evals`, `private_key`) VALUES
+(386, 'Admin', 'Test', '', '', '', '', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', 'people/no_picture.png', '1', 'active', '', '2010-08-08 13:44:28', 'on', '', 'on', '', '');
