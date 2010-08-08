@@ -23,21 +23,17 @@ and select "Import."  Import the file CC.sql.  Your database should now be setup
 
 4. Edit _CONFIG.php to reflect your database settings and other settings.
 
-5. Run the script create_private_urls.php in the INSTALL directory.  Delete script when finished.
-
-6. [optional] In order for cron jobs to work [a weekly email to report 
+5. [optional] In order for cron jobs to work [a weekly email to report 
 to professors and a journal rss feed], you must insert your server 
 path into cron.txt and update your crontab.
 
-8.  Delete the _INSTALL directory.
+6.  Delete the _INSTALL directory.
 
 STEPS - Updgrade from ClinicCases 5 to ClinicCases 6
 
-1. Unzip all files in cm5 package to your target directory, overwriting old files.
-2. Run DB_upgrade_from_cc3_to_cc5.sql in the _INSTALL directory using mysql/phpmyadmin.
-3. Run update_db_for_cc5.php in the _INSTALL directory.
-4. Edit _CONFIG.php to reflect your database settings and other settings.
-5. Delete the _INSTALL directory
+1. Unzip all files in ClinicCases6 package to your target directory, overwriting old files.
+2. Run upgrade_to_cc6.php
+3. Delete the _INSTALL directory
 
 
 GETTING STARTED
@@ -47,7 +43,7 @@ THIS ACCOUNT AFTER YOU HAVE CONFIGURED CLINICCASES.  IMPORTANT!).  Navigate to i
 in your browser and login using this account.  Get started by click the users tab and adding 
 users.  The best thing to do is to add professors and adminstrators first.  Students can 
 get accounts by navigating to ./newaccount/index.php and submitting their information there.  
-he adminstrator will then receive notification of this student signup and can authorize 
+The adminstrator will then receive notification of this student signup and can authorize 
 students using the New Users dialog on the At A Glance screen.
 
 After this, add cases via the cases tab.  You must be logged in as an adminstrator to do this.  
