@@ -6,6 +6,9 @@ Does upgrade script need to add a trailing comma to all data in professor field 
 
 
 STARTING THE MULTI PROFESSOR CHANGE
+
+	NEED A SCRIPT TO ADD TRAILING COMMA TO EXISTING ASSIGNED_PROF FIELDS.
+
 	DB FIELDS EFFECTED:
 	cm_users --> assigned_prof
 	cm_case_notes --> prof

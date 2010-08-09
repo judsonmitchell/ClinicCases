@@ -74,5 +74,7 @@ function checkConflicts($new_client_name,$new_adverse_name)
 
 
 }
+
+
 }
 ?>
