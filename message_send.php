@@ -7,29 +7,53 @@ include 'db.php';
 $body_mod_a = addslashes($_POST[body]);
 $body_mod = nl2br($body_mod_a);
 
+//If option to message all users on a particular case is requested, this function determines their usernames.
+function get_all_on_case($case_id)
 
+	{
+		$get_profs = mysql_query("SELECT * FROM `cm` WHERE `id` = '$_POST[assoc_case]' LIMIT 1");
+		$get_students = mysql_query("SELECT * FROM `cm_cases_students` WHERE `case_id` = '$_POST[assoc_case]' AND `status` = 'active'");
+		
+		while ($a = mysql_fetch_object($get_profs))
+			{$targets = $a->professor;}
+		
+		while ($b = mysql_fetch_object($get_students))
+			{$targets .= $b->username . ",";}
+			
+		return $targets;	
+	
+	}
+	
 if (!empty($_POST[group]))
 {
 
+	if ($_POST[group] == 'All on this Case' || $_POST[group] == 'All on a Case')
+	
+	{$tos_list = get_all_on_case($_POST[assoc_case]);}
 
-if ($_POST[group] == 'All Your Students')
-{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` = '$_SESSION[login]' AND `status` = 'active'";}
-
-if ($_POST[group] == 'All Professors')
-{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active'";}
-
-if ($_POST[group] == 'All Users')
-{$group_query = "SELECT * FROM `cm_users` WHERE `status` = 'active'";}
-
-if ($_POST[group] == 'All Students')
-{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'student' AND `status` = 'active'";}
-
-$send_to_group = mysql_query("$group_query");
-	while ($result = mysql_fetch_array($send_to_group))
+		else
 		{
+			if ($_POST[group] == 'All Your Students')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$_SESSION[login]%' AND `status` = 'active'";}
 
-			$tos_list .=  $result[username] . ",";
-		}
+			if ($_POST[group] == 'All Professors')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active'";}
+
+			if ($_POST[group] == 'All Users')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `status` = 'active'";}
+
+			if ($_POST[group] == 'All Students')
+			{$group_query = "SELECT * FROM `cm_users` WHERE `class` = 'student' AND `status` = 'active'";}
+
+
+
+			$send_to_group = mysql_query("$group_query");
+				while ($result = mysql_fetch_array($send_to_group))
+					{
+
+						$tos_list .=  $result[username] . ",";
+					}
+			}
 
 $tos = substr($tos_list,0,-1);
 
@@ -87,11 +111,13 @@ foreach ($all_array as $recips)
 
 	$sms_message = "Preview:  " . substr($_POST[body],0,50) . "...";
 	$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . $sms_message . "\r\n" . "Please log on to " . $CC_base_url . " to view or " . $CC_base_url . "mobile from a mobile browser." ;
-	$subject = "ClinicCases Message from $sender_name";
+	
+	//Change here to take out the extra /r.  PHP apparently adds an extra /r when sending which causes a "554 Failed: Malformed MIME header (in reply to end of DATA command))" error when sending to some servers.  Full discussion here:http://jeremygustafson.blogspot.com/2010/02/red-condor-visi-bouncing-emails-with.html
+	$subject = "ClinicCases Message from $sender_name" . "\n";
 
-	$email_to = "$d[email]";
-	$headers = 'From: ' . $CC_default_email . "\r\n" .
-	   'Reply-To: ' . $CC_default_email . "\r\n" .
+	$email_to = "$d[email]" . "\n";
+	$headers = 'From: ' . $CC_default_email . "\n" .
+	   'Reply-To: ' . $CC_default_email . "\n" .
 	   'X-Mailer: PHP/' . phpversion();
 
 	mail($email_to,$subject,$email_message,$headers);

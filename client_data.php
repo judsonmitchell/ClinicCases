@@ -2,6 +2,7 @@
 session_start();
 include 'db.php';
 include './classes/format_case_number.php';
+include './classes/get_names.php';
 $get_case_d = mysql_query("SELECT * FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
 while ($line = mysql_fetch_array($get_case_d, MYSQL_ASSOC)) {
     $i=0;
@@ -22,8 +23,14 @@ if (empty($col_value))
 if (!$_GET[interior])
 {
 	
+	if ($_SESSION['class'] == 'admin')
+	{$url = "cm_admin_cases.php";}
+	else
+	{$url = "cm_cases.php";}
+	
+	
 echo <<<CLOSE
-<span id="close"><a href="#" onclick="Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close"><a href="#" onclick="location.href='$url';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 CLOSE;
 	
 }
@@ -42,6 +49,9 @@ echo $cs_no;
 
 <p>
 <LABEL FOR "fname">First Name</label><div style="font-size:12pt;"><?php echo $d[first_name] ?></div>
+</p>
+<p>
+<LABEL FOR "fname">Middile Initial</label><div style="font-size:12pt;"><?php echo $d[m_initial] ?></div>
 </p>
 <p>
 <LABEL FOR "lname">Last Name</label><div style="font-size:12pt;"><?php echo $d[last_name] ?></div>
@@ -68,7 +78,16 @@ echo $cs_no;
 
 </td></tr></table></p>
 
+<p>
+<table><tr><td  style="margin:0px;padding:0px;">
+<LABEL FOR "income">Income</label><div style="font-size:12pt;">
+<?php echo $d[income]; ?></div>
 
+</td><td><LABEL FOR "per" style="width:40px;">per:</label>
+<div style="font-size:12pt;"><?php echo $d[per]; ?></div>
+
+
+</td></tr></table></p>
 
 
 
@@ -112,22 +131,25 @@ if (mysql_num_rows($get_adverse)<1)
 
 $get_this_prof = mysql_query("SELECT `professor` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
 $x = mysql_fetch_array($get_this_prof);
-echo $x[professor];
+$pr = $x[professor];
+$prof_str = substr($pr,0,-1);
+
+echo $prof_str;
+if ($d[opened_by])
+	{
+		$open_name = new get_names;$op_nm = $open_name->get_users_name_initial($d[opened_by]);
+	}
+	else
+	{$op_nm="";}
+
 ?>
 </div></p>
 
 
-<p><label for "professor2">Professor2:</label><div style="font-size:12pt;">
-<?php
 
-$get_this_prof = mysql_query("SELECT `professor2` FROM `cm` WHERE `id` = '$_GET[id]' LIMIT 1");
-$x = mysql_fetch_array($get_this_prof);
-echo $x[professor2];
-?>
-</div></p>
 <br>
 <p><label for "notes">Notes</label><div style="font-size:12pt;"><?php echo $d[notes]?></div></p>
-
+<p><label for "opened_by">Opened By:</label><div style="font-size:12pt;"><?php echo $op_nm; ?></div></p>
 <br /><br />
 
 <?php

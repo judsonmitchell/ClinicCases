@@ -1,11 +1,14 @@
 <?php
 session_start();
-include 'db.php';
+
 
 if (!$_SESSION)
 {header('Location: index.php');}
 else
 {
+include 'db.php';
+include 'classes/get_faces.php';
+
 /* check if this is first visit to this page in session. If it is, log it.*/
 $check_visit = mysql_query("SELECT * FROM `cm_logs` WHERE `session_id` = '$_COOKIE[PHPSESSID]'");
 if (mysql_num_rows($check_visit)<1)
@@ -125,7 +128,9 @@ $$("a.nobubble").invoke("observe", "click", function(e) {
  ?>
 
  <table width="800px"><tr>
- <td width="35px"><img src="<?php echo $ph[picture_url]; ?>" width="32" height="32" border="0"></td><td><span class="name"><?php echo $ph[first_name] . ' ' . $ph[last_name]; ?></span> <strong>at a Glance</strong></td><td><span id="msg_notifier"><b><?php echo $n; ?></b></span>  new messages</td><td>Last Login:  <?php if (mysql_num_rows($last_login) < 1)
+  <?php $thumb_target = get_thumb($_SESSION['login']); ?>
+
+ <td width="35px"><img src="<?php echo $thumb_target; ?>" border="0"></td><td><span class="name"><?php echo $ph[first_name] . ' ' . $ph[last_name]; ?></span> <strong>at a Glance</strong></td><td><span id="msg_notifier"><b><?php echo $n; ?></b></span>  new messages</td><td>Last Login:  <?php if (mysql_num_rows($last_login) < 1)
 	{echo "Never.  Welcome!";}
 	else{formatDate($log[timestamp]);} ?>   </td></tr>
  </table>
@@ -208,7 +213,7 @@ echo <<<LIST
 <TABLE WIDTH="100%">
 <TR><TD width="40%"><B>$d[first_name] $d[last_name]<B></TD><TD width="20%"><LABEL>Professor:</LABEL> $d[assigned_prof]</TD><TD width="25%">  <LABEL>Date Applied:</LABEL>
 LIST;
-formatDate2($d[date_created]);
+formatDate($d[date_created]);
 ECHO <<<LIST
 </TD><TD width="15%"><div id="status_$d[id]"><a href="#" onClick="createTargets('status_$d[id]','status_$d[id]');sendDataGet('activate_user.php?id=$d[id]');return false;" alt="Activate User" title="Activate User"><img src="images/accept.png" border="0"></a>
 

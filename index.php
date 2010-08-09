@@ -43,7 +43,7 @@ else
 <!-- Left Side -->
 
 
-<div id="wrapper1" style="width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;">
+<div id="wrapper1">
 <img src="images/logo.png" id="logo" style="margin-top:9%">
 
 
@@ -52,7 +52,7 @@ else
 <center>
 <div id="status" style="color:red;display:<?PHP ECHO $toggle_display; ?>">Your username or password is incorrect.  Please try again.</div>
 
-<div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact your clinic's adminstrator for more information.</div>
+<div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact <a href="mailto:<?php echo $CC_admin_email; ?>">your clinic's adminstrator</a> for more information.</div>
 
 <div id="status3" style="color:red;display:<?PHP ECHO $toggle_display3; ?>">Your session has expired.  Please log in again.</div>
 </center>

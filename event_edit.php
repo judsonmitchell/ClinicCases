@@ -10,12 +10,23 @@ $ajax_hack = time();
 
 function who($event_id,$case_id)
 {
+	//get everybody who could be responsible for an event
 $get_all_responsibles = mysql_query("SELECT cm.professor,cm_cases_students.username FROM `cm`,`cm_cases_students` WHERE cm.id = '$case_id' AND cm_cases_students.case_id = '$case_id' AND cm_cases_students.status = 'active'");
 while ($line = mysql_fetch_array($get_all_responsibles))
 {
 
 $all_student_array[] = $line['username'];
-$professor_array[] = $line['professor'];
+
+//split professors into array
+//remove last comma
+$pr1 = substr($line['professor'],0,-1);
+$pr2 = explode(',',$pr1);
+foreach ($pr2 as $it)
+{
+	
+	$professor_array[] = $it;
+}
+
 $prof = array_unique($professor_array);
 
 
@@ -24,7 +35,7 @@ $all_responsibles_array = array_merge($all_student_array,$prof);
 
 
 
-
+//get who is currently responsible
 
 $get_current_resp = mysql_query("SELECT `username` FROM `cm_events_responsibles` WHERE `event_id` = '$event_id'");  
 while ($r = mysql_fetch_assoc($get_current_resp))
@@ -35,7 +46,7 @@ $current_array[] = $r['username'];
 }
 
 
-
+//find out who is not responsible now
 $not_resp = array_diff($all_responsibles_array,$current_array);
 
 
@@ -88,19 +99,21 @@ $date_due = $res['date_due'];
 <tr>
 <td valign="center" align="right">
 <input type="text" id="datedue<?php echo $ajax_hack; ?>" name="date_due" size="10" style="border:0px;background-color:rgb(255, 255, 204);" value="
-<?php formatDateHuman($date_due); ?>"></td><td align="center"  valign="center">
+<?php $d = sqlToDateAsVar($date_due) ;echo $d;?>"></td><td align="center"  valign="center">
 
 <a id="cal2" href="#" onClick="scwShow(datedue<?php echo $ajax_hack; ?>,scwID('cal2'));return false;" alt="Click to Select Date" title="Click to Select Date"><img src="images/calendar.png" border="0"></a>
 </td><td  valign="center">
+<div style="width:160px; height:60px; overflow:scroll; overflow-y: scroll; overflow-x:hidden;">
+
 <?php
 who($event_id,$case_id);
 ?>
 
 
-
+</div>
 </td><td>
 
-<textarea name="task" id="tasker" cols="35" rows="2"><?php echo $task ?></textarea></td><td  valign="center">
+<textarea name="task" id="tasker" cols="30" rows="4"><?php echo $task ?></textarea></td><td  valign="center">
 <input type="hidden" value="<?php echo $event_id ?>" name="event_id">
 <input type="hidden" value="<?php echo $case_id ?>" name="case_id">
 <input type="hidden" name="edit" value="yes">

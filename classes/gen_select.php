@@ -7,9 +7,10 @@ function genSelect($target,$chosen_array,$select_name){
 echo "<select name=\"$select_name\" id=\"$select_name\">";
 
 /* arrays of the possible choices in all selects */
-$gender = array('M','F');
-$race =  array('AA','H','W','O');
+$gender = array('M','F','U');
+$race =  array('AA','H','W','O','U');
 $pl_or_def = array('Plaintiff','Defendant','Other');
+$per = array('Year','Month','Week');
 
 
 
@@ -20,6 +21,8 @@ $pl_or_def = array('Plaintiff','Defendant','Other');
 	$array = $race;break;
 	case "pl_or_def":
 	$array = $pl_or_def;break;
+	case "per":
+	$array = $per;break;
 	}
 
 		foreach ($array as $v)

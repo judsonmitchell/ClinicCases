@@ -16,7 +16,7 @@ $CC_base_url = "";
 //Your domain , e.g. http://www.yourserver.com
 $CC_domain = "";
 
-//Default email for ClinicCases notifications, e.g. no-reply@yourserver.com
+//Default email for ClinicCases notifications, e.g. no-reply@yourserver.co
 $CC_default_email = "";
 
 //Your Program Name, e.g. "Loyola Law Clinic"

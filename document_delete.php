@@ -16,9 +16,8 @@ while ($r = mysql_fetch_array($get_file_url))
     if ( $prefix !== 'http')
     {
   
-    unlink($r[url]);
-        
-
+		unlink($r[url]);
+  
     }
     
 }

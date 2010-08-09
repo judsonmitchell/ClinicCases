@@ -3,6 +3,7 @@ session_start();
 if (!$_SESSION)
 {header('Location: index.php?login_error=3');}
 include 'db.php';
+include './classes/get_names.php';
  ?>
 
 <html>
@@ -318,8 +319,8 @@ if ($_SESSION['class'] == 'prof')
 
 
 
-View: <select id = "view_chooser" name = "view" onFocus = "this.style.color = 'black';" onChange="new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:{view:$('view_chooser').value},onLoading:function(){$('work_space').innerHTML = '<img src=images/wait.gif border=0>';
-},onComplete:function(){$('searchterm').value='Enter Search Term'}});">
+View: <select id = "view_chooser" name = "view" onFocus = "this.style.color = 'black';" onChange="new Ajax.Updater('work_space','cm_cases_table.php',{evalScripts:true,method:'get',parameters:{view:$('view_chooser').value},onLoading:function(){$('notifications').style.display='block';$('notifications').update('Loading...');
+},onSuccess:function(){Effect.Fade('notifications',{duration:1});$('searchterm').value='Enter Search Term';}});">
 
 <option value = "open" <?php
 if ($_SESSION['class'] == 'prof')
@@ -341,8 +342,7 @@ if ($_SESSION['class'] == 'prof')
 <option value="date_open">Date Open</option>
 <option value="date_close">Date Close</option>
 <option value="case_type">Case Type</option>
-<option value="professor">Professor 1</option>
-<option value="professor2">Professor 2</option>
+<option value="professor">Professor</option>
 <option value="address1">Address 1</option>
 <option value="address 1">Address 2</option>
 <option value="city">City</option>
@@ -449,13 +449,26 @@ $month = $get_date_close[1];
 $day = $get_date_close[2];
 $year = $get_date_close[0];
 $new_date_close = "$month" . "/" . "$day" . "/" . "$year";}
+
+//format prof names
+$plist = explode(",",substr($d[professor],0,-1));
+					foreach ($plist as $v)
+					{
+						$p = new get_names;$px = $p->get_users_name_initial($v); 
+						$prof_str .= $px . ", ";
+					}	
+					
+	//take out trailing comma
+	$prof_str_clip = substr($prof_str,0,-2);
+
 echo <<<ROWS
 
-<tr title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';"><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$d[professor]</td><td><a class="nobubble" href="#" title="Edit Case Information" alt="Edit Case Informaton " onClick="createTargets('window1','window1');sendDataGet('new_case_edit.php?id=$d[id]');Effect.Grow('window1');document.getElementById('view_chooser').style.display = 'none';return false;" ><img src="images/report_edit.png" border="0"></a></td></tr>
+<tr title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';"><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td><td><a class="nobubble" href="#" title="Edit Case Information" alt="Edit Case Informaton " onClick="createTargets('window1','window1');sendDataGet('new_case_edit.php?id=$d[id]');Effect.Grow('window1');document.getElementById('view_chooser').style.display = 'none';return false;" ><img src="images/report_edit.png" border="0"></a></td></tr>
 ROWS;
 
 
-
+//reset the prof string and run through the loop again.
+$prof_str = '';
 
 }
 
@@ -464,7 +477,7 @@ ROWS;
 else
 {
 
-$result = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' $limiter OR `professor2` = '$_SESSION[login]' $limiter ORDER BY `last_name`");
+$result = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' $limiter ORDER BY `last_name`");
 ECHO <<<HEADER
 <thead><tr><td colspan="9" style="background:url(images/grade_gray_small.jpg) repeat-x;color:black;"><b>
 HEADER;
@@ -500,9 +513,20 @@ $month = $get_date_close[1];
 $day = $get_date_close[2];
 $year = $get_date_close[0];
 $new_date_close = "$month" . "/" . "$day" . "/" . "$year";}
+//format prof names
+$plist = explode(",",substr($d[professor],0,-1));
+					foreach ($plist as $v)
+					{
+						$p = new get_names;$px = $p->get_users_name_initial($v); 
+						$prof_str .= $px . ", ";
+					}	
+					
+	//take out trailing comma
+	$prof_str_clip = substr($prof_str,0,-2);
+
 echo <<<ROWS
 
-<tr title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';"><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$d[professor]</td>
+<tr title="Click to View Case" alt="Click to View Case" onmouseover="this.style.color='red';this.style.cursor='pointer'" onmouseout="this.style.color='black';" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGetAndStripeNoStatus2('cm_cases_single.php?id=$d[id]');document.getElementById('view_chooser').style.display = 'none';"><td>$d[first_name]</td><td>$d[last_name]</td><td>$new_date_open</td><td>$new_date_close</td><td>$d[case_type]</td><td>$d[dispo]</td><td>$prof_str_clip</td>
 ROWS;
 
 echo <<<EDITER
@@ -514,8 +538,11 @@ EDITER;
 
 ECHO "</tr>";
 if (mysql_num_rows($result) < 1)
-{echo "You have no assigned cases.";}
+{echo "You have no assigned cases.";};
+//reset the prof string and run through the loop again.
+$prof_str = '';
 }
+
 }
 ?>
 </tbody></table>

@@ -3,6 +3,10 @@ session_start();
 if (!$_SESSION)
 {header('Location: index.php');die;}
 include 'db.php';
+include './classes/url_key_generator.php';
+include './classes/get_prof_prefs.php';
+include './classes/thumbnail_generator.php';
+
 
 function generatePassword ($length = 8)
 {
@@ -36,10 +40,6 @@ function generatePassword ($length = 8)
 }
 
 
-
-
-
-
 if ($_POST)
 {
 
@@ -70,18 +70,32 @@ $temp_id = $_POST[temp_id];
 
 //Correct timezone
 $timezone_offset = abs(date(Z) / 3600) - $_POST[timezone];
+//Generate private key
+$key = alphanumericPass();
+//If user is a student, get professor prefs
+if ($_POST['class'] == 'student')
+	{
+		foreach ($_POST['assigned_prof'] as $pp)
+			{
+				$assigned_prof .= $pp . ",";
+			}
+
+		$case_pref = get_prof_case_prefs($assigned_prof);
+		$journal_pref = get_prof_journal_prefs($assigned_prof);
+		
+		}
 
 
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username','$password3','$timezone_offset','$_POST[status]')");
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$assigned_prof','$username','$password3','$timezone_offset','$_POST[status]','$case_pref','$journal_pref','$key')");
 
 if (mysql_error($connection))
 {
 $username_mod = $username . rand(1,3);
-$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$_POST[assigned_prof]','$username_mod','$password3','$_POST[timezone]','$_POST[status]')");
+$query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$assigned_prof','$username_mod','$password3','$_POST[timezone]','$_POST[status]','$case_pref','$journal_pref','$key')");
 
 }
 
-$message = "You ClinicCases account has been activated.  Your username is $username and your temporary password is $password2.  Please make sure to change your password after you log in by clicking the Utilities Tab.";
+$message = "You ClinicCases account has been activated.  Your username is $username and your temporary password is $password2.  Please make sure to change your password after you log in by clicking the Prefs Tab.";
 $subject = "ClinicCases: Your Account is Activated";
 $to = $_POST[email];
 $headers = "From: " . $CC_default_email . "\r\n" .
@@ -105,8 +119,10 @@ $old_pic = "images_tmp/" . $temp_id . ".jpg";
 if (file_exists($old_pic))
 {
 $new_pic = "people/". $target . ".jpg";
+$new_pic_tn = "people/tn_" . $target .".jpg";
 copy($old_pic,$new_pic);
 unlink($old_pic);
+createthumb($new_pic, $new_pic_tn,32,32);
 }
 else
 {$new_pic = "people/no_picture.png";}

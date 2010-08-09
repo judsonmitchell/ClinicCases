@@ -14,7 +14,18 @@ class get_names {
 			
 			
 		}
-	
+		
+		
+	function get_users_name_initial($username)
+		{
+			
+			$q = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$username' LIMIT 1");
+			$qq = mysql_fetch_object($q);
+			$real_name_init = substr($qq->first_name,0,1) . ". " . $qq->last_name;
+			return $real_name_init;
+			
+			
+		}
 	
 	
 	function get_clients_name($id)

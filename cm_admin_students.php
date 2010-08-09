@@ -43,8 +43,6 @@ function updateFields(element, selectedElement) {
 }
 
 Position.includeScrollOffsets = true;
-</script>
-<script>
 
 new Ajax.PeriodicalUpdater('session_info', 'session_keep_alive.php', {
     method: 'post',parameters:{sid:'<?php echo $_COOKIE[PHPSESSID]; ?>'},
@@ -52,6 +50,14 @@ new Ajax.PeriodicalUpdater('session_info', 'session_keep_alive.php', {
   });
 
 
+function positionWindow()
+	{
+		
+		var oset = $('window1').viewportOffset();
+		var num = Math.abs(oset[1]);
+		$('window1').setStyle({marginTop:num});
+		
+	}
 
 </script>
 </head>
@@ -94,7 +100,7 @@ while ($line = mysql_fetch_array($get_students, MYSQL_ASSOC)) {
         $i++;
 
     }
-echo "<div class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img src='$d[picture_url]' border=0></a><br>$d[first_name] $d[last_name]</div>";
+echo "<div class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');positionWindow();return false;\"><img src='$d[picture_url]' border=0></a><br>$d[first_name] $d[last_name]</div>";
 }
 
 ?>

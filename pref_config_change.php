@@ -6,7 +6,7 @@ include 'db.php';
 
 if ($_POST)
 {
-$update = mysql_query("UPDATE `cm_users` SET `pref_journal` = '$_POST[pref_journals]', `pref_case` = '$_POST[pref_case]' WHERE `assigned_prof` = '$_SESSION[login]'");
+$update = mysql_query("UPDATE `cm_users` SET `pref_journal` = '$_POST[pref_journals]', `pref_case` = '$_POST[pref_case]' WHERE `assigned_prof` LIKE '%$_SESSION[login]%'");
 
 $update2 = mysql_query("UPDATE `cm_users` SET `pref_journal` = '$_POST[pref_journals]', `pref_case` = '$_POST[pref_case]', `pref_case_prof` = '$_POST[pref_case_prof]' WHERE `username` = '$_SESSION[login]'");
 

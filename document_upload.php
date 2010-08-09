@@ -41,6 +41,7 @@ if($_POST){
 
                 if ($_FILES['docfile']['size'] < $allowed_size)
                 {
+					
                 $now = date("YmdHis");
                 $unixtime = time();
                 $newfilename = $_FILES['docfile']['name'];

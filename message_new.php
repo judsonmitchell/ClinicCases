@@ -4,19 +4,19 @@ if (!$_SESSION)
 {header('Location: index.php?login_error=3');}
 include 'db.php';
 
-
 ?>
 
 
 <div id="bar" style="width:100%;height:30px;background-color:rgb(195, 217, 255);" onMouseOver="this.style.cursor='pointer';"></div>
 
 
-<div id="close"><a href="#" onclick="fp.resetAlrt();Effect.Shrink('messaging_window');return false;" alt="Close this Window" title="Close this Window"><img src="images/cancel_small_blue.png" border="0"></a></div>
+<div id="close"><a href="#" onclick="fp.resetAlrt();Effect.Shrink('messaging_window');$(notifications).update('');return false;" alt="Close this Window" title="Close this Window"><img src="images/cancel_small_blue.png" border="0"></a></div>
 
 <div id = "msg_info" style="height:95%">
 <form id="sendForm">
 
 <label class ="msg" for "to">To</label><input type="text"  id="to_full" name="to_full" size="35"
+
 <?php
 if(isset($_GET[direct_full]))
 {
@@ -24,24 +24,47 @@ if(isset($_GET[direct_full]))
 echo " value=\"$_GET[direct_full]\"";
 }
 ?>
->
+
 <input type="hidden" id="to" name="to"
 <?php
 if(isset($_GET[direct]))
 {
 echo " value=\"$_GET[direct]\"";
 }
-?>
->
 
+echo ">";
+if(!isset($_GET[direct]))
 
-<select name="group" id="group" onChange="document.getElementById('to_full').value=this.value;allWarn();">
+{
+echo <<<DIRECT
+<select name="group" id="group" onChange="document.getElementById('to_full').value=this.value;allWarn();if(this.value == 'All on a Case'){\$(notifications).style.display='block';\$(notifications).update('Please Select a Case');\$(assoc_case).setStyle({backgroundColor:'red'});}">
 <option value="">Select Groups</option>
-<option value="All Your Students">All Your Students</option>
+DIRECT;
+
+	if (isset($_GET[case_id]))
+		{
+			echo "<option value=\"All on this Case\">All on this Case</option>";
+		}
+		
+			else
+			
+			{
+				echo "<option value=\"All on a Case\">All on a Case</option>";
+			}
+
+	if ($_SESSION['class'] == 'prof')
+		{
+			echo "<option value=\"All Your Students\">All Your Students</option>";
+		}
+		
+ECHO <<<DIRECT
 <option value="All Professors">All Professors</option>
 <option value="All Students">All Students</option>
 <option value="All Users">All Users</option>
 </select>
+DIRECT;
+}
+?>
 
 <div id="autocomplete" style="display: none"></div><br>
 
@@ -70,13 +93,13 @@ CASE;
 }
 else
 {
-echo "<select name=\"assoc_case\"><option value=\"\">No Case</option>";
+echo "<select name=\"assoc_case\" onChange=\"Effect.Fade($('notifications'),{duration:1.0});$(assoc_case).setStyle({backgroundColor:'green'});\"><option value=\"\">No Case</option>";
 
 /* Get all cases assigned to student */
 
 if ($_SESSION['class'] == 'student')
 	{
-	$get_cases = mysql_query("SELECT * FROM `cm_cases_students` WHERE `username` = '$_SESSION[login]'");
+	$get_cases = mysql_query("SELECT * FROM `cm_cases_students` WHERE `username` = '$_SESSION[login]' AND `status` = 'active'");
 	while ($j = mysql_fetch_array($get_cases))
 			{
 			$get_case_name = mysql_query("SELECT * FROM `cm` WHERE `id` = '$j[case_id]' AND `date_close` = '' ORDER BY `last_name` ASC");
@@ -88,7 +111,7 @@ if ($_SESSION['class'] == 'student')
 		else
 /* Get all cases assigned to professor */
 			{
-			$get_cases = mysql_query("SELECT * FROM `cm` WHERE `professor` = '$_SESSION[login]' AND `date_close` = '' OR `professor2` = '$_SESSION[login]' AND `date_close` = '' ORDER BY `last_name` ASC");
+			$get_cases = mysql_query("SELECT * FROM `cm` WHERE `professor` LIKE '%$_SESSION[login]%' AND `date_close` = '' ORDER BY `last_name` ASC");
 			while ($l = mysql_fetch_array($get_cases))
 				{
 					echo "<option value=\"$l[id]\">$l[last_name], $l[first_name]</option> ";

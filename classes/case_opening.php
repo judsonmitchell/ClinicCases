@@ -31,12 +31,14 @@ function checkConflicts($new_client_name,$new_adverse_name)
 		
 		while ($r = mysql_fetch_array($check_new_client))
 		{
-			$conflict = $r[name] . " was an ADVERSE PARTY in case number " . $r[clinic_id] ;
+			$conflict = $r[name] . " was an ADVERSE PARTY in case number <a target='_new' href='cm_cases.php?direct=$r[id]'>" . $r[clinic_id] . "</a>" ;
 			$conflicts_array[] = $conflict;
 		}
 		//this checks all new adverse parties against former clients
 		if (!empty($new_adverse_name))
 		{
+			//slice off trailing new lines
+			
 			
 		foreach ($new_adverse_name as $adv)
 			
@@ -47,7 +49,7 @@ function checkConflicts($new_client_name,$new_adverse_name)
 
 				while ($r = mysql_fetch_array($check_new_adverse))
 				{
-					$conflict = "We represented"  . " " . strtoupper($r[first_name]) . " " . strtoupper($r[last_name]) . " in a " . $r[case_type] . " case. Case Number: " . $r[clinic_id] ;
+					$conflict = "We represented"  . " " . strtoupper($r[first_name]) . " " . strtoupper($r[last_name]) . " in a " . $r[case_type] . " case. Case Number: <a target='_new' href='cm_cases.php?direct=$r[id]'>" . $r[clinic_id] . "</a>";
 					$conflicts_array[] = $conflict;
 				}
 			}
@@ -72,5 +74,7 @@ function checkConflicts($new_client_name,$new_adverse_name)
 
 
 }
+
+
 }
 ?>

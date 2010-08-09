@@ -21,7 +21,7 @@ while ($r = mysql_fetch_array($get_profs))
 {
 
 $body = "Here is your Monday Morning Report of student activity and upcoming events.\r\nYour Students' Activity for the last 7 days, rounded to the nearest hour:\n\n";
-  $get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` = '$r[username]' AND `status` = 'active' ORDER BY `last_name`");
+  $get_students = mysql_query("SELECT * FROM `cm_users` WHERE `assigned_prof` LIKE '%$r[username]%' AND `status` = 'active' ORDER BY `last_name`");
 
     while ($x = mysql_fetch_array($get_students))
     {

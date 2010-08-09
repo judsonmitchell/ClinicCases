@@ -84,8 +84,8 @@ margin:auto;
 position:absolute;
 top:10px;
 z-index:99;
-left:40%;
-width:200px;
+left:34%;
+width:400px;
 height:40px;
 color:red;
 font-weight:bold;
@@ -114,7 +114,7 @@ min-height:600px;
 
 }
 
-
+#wrapper1 {min-height:600px;width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;}
 #nav
 {
 position:absolute;
@@ -950,6 +950,9 @@ border-top:2px dotted rgb(195, 217, 255);
 
 }
 
+#students_cases a.tooltip span {padding:2px 3px; margin-left:15px;margin-top:-35px; width:200px;}
+
+#students_cases a.tooltip p{font-size:8pt;color:black;}
 /* End */
 
 /* Style for Student Details */
@@ -968,7 +971,7 @@ h2.accordion_toggle
 width:99%;
 height:20px;
 background-color:rgb(195, 217, 255);
-color:white;
+color:blue;
 font-size:12pt;
 border:1px groove gray;
 
@@ -1437,7 +1440,6 @@ background-color:white;
 border:7px solid rgb(195, 217, 255);
 margin-left:1%;
 }
-
 
 
 

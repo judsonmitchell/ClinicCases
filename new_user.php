@@ -37,8 +37,8 @@ echo <<<DATA
 
 <div id = "popout" style="display:none;">
 <p>
-<LABEL FOR "assigned_prof">Professor</label>
-<select name="assigned_prof" id="assigned_prof"><option value="">Please Select</option>
+<LABEL FOR "assigned_prof">Professor(s)</label>
+<select multiple="multiple" name="assigned_prof[]" id="prof" style="height:75px;">
 
 
 DATA;

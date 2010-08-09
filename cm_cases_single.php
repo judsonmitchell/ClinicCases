@@ -5,6 +5,8 @@ if (!$_SESSION)
 include 'db.php';
 include './classes/format_case_number.php';
 include './classes/format_dates_and_times.class.php';
+include './classes/get_names.php';
+
 
 
 $id = $_GET['id'];
@@ -73,6 +75,22 @@ if (mysql_num_rows($assigned_students)<1)
 ECHO <<<DISPLAY
 
 <br>
+<h4>Professor(s)</h4>
+
+DISPLAY;
+
+//format prof names
+$plist = explode(",",substr($d[professor],0,-1));
+					foreach ($plist as $v)
+					{
+						$p = new get_names;$px = $p->get_users_name_initial($v); 
+						$prof_str .= $px . "<BR> ";
+					}	
+					
+
+
+ECHO <<<DISPLAY
+$prof_str<br>
 <h4>Next Event</h4>
 DISPLAY;
 $get_event = mysql_query("SELECT * FROM `cm_events` WHERE `case_id` = '$id' and `status` = 'Pending' ORDER BY `date_due` ASC LIMIT 1");

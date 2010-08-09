@@ -29,8 +29,6 @@ $profs[$i++] = $r[username];
 switch($chosen_array){
 case "status": 
 $array = $status;break;
-case "assigned_prof":
-$array = $profs;break;
 case "class":
 $array = $class;break;
 
@@ -84,9 +82,30 @@ ECHO <<<PAGE
 PAGE;
 if ($d["class"] == 'student')
 {
-echo "<tr><td>Assigned Professor:</td><td class='tdata'>";
-genSelect($d[assigned_prof],'assigned_prof','assigned_prof');
-echo "</td><td></td><td></td></tr>";
+echo "<tr><td>Assigned Professor(s):</td><td class='tdata'><select multiple=\"multiple\" name=\"professor[]\" id=\"professor\" style=\"height:75px;\">";
+
+//this gets the list of profs this student is assigned to
+$student_profs = mysql_query("SELECT `assigned_prof`,`username` FROM `cm_users` WHERE `username` = '$d[username]' LIMIT 1");
+$result = mysql_fetch_array($student_profs);
+$arr = explode(",",$result['assigned_prof']);
+
+//this gets the list of all profs
+$all_profs = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
+        while ($result  = mysql_fetch_array($all_profs))
+                {
+                        if (in_array($result[username],$arr))
+                                {echo "<option value=\"$result[username]\" selected=selected>$result[last_name]</option>";
+                        
+                        
+                                }
+                                else
+                                {echo "<option value=\"$result[username]\">$result[last_name]</option>";
+                                }
+
+
+				}
+
+echo "</select></td><td></td><td></td></tr>";
 
 }
 echo "</table>";

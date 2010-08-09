@@ -10,12 +10,23 @@ if ($_POST)
 	$new_client= $_POST[first_name] . " " . $_POST[last_name];
 	$checker = new openCase;
 	if (!empty($_POST[adverse]))
-	{$adverse_array = explode("\n",$_POST[adverse]);}
+	{
+		//remove any trailing new line characters
+		$new_line_test = strrpos($_POST[adverse], "\n");
+		if ($new_line_test == TRUE)
+		{			
+			$adverse = substr($_POST[adverse],0,-1);
+			$adverse_array = explode("\n",$adverse);
+			}
+		else
+		{
+		$adverse_array = explode("\n",$_POST[adverse]);
+		}
+		
 	$conflict_string = $checker->checkConflicts($new_client, $adverse_array);
 
 	//Insert Adverse Party Data
-	if(!empty($_POST[adverse]))
-	{
+	
 	$adverse = strtoupper($_POST[adverse]);
 	$names = explode("\n",$adverse);
 	$case_id = $_POST[clinic_id];
@@ -27,18 +38,23 @@ if ($_POST)
 		}
 
 	}
+	
+	//This is to explode the professor array
+	
+	
+		foreach ($_POST['professor'] as $pp)
+		{
+			$prof_list .= $pp . ",";
+		}
 
 	//Insert New Client Data
-	$put_in = mysql_query("
-
-UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
+	$put_in = mysql_query("UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `first_name` = '$_POST[first_name]',
 `m_initial` = '$_POST[m_initial]',
 `last_name` = '$_POST[last_name]',
 `date_open` = '$_POST[date_open]',
 `case_type` = '$_$_POST[case_type]',
-`professor` = '$_POST[professor]',
-`professor2` = '$_POST[professor2]',
+`professor` = '$prof_list',
 `address1` = '$_POST[address1]',
 `address2` = '$_POST[address2]',
 `city` = '$_POST[city]',
@@ -51,6 +67,8 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `dob` = '$_POST[dob]',
 `gender` = '$_POST[gender]',
 `race` = '$_POST[race]',
+`income` = '$_POST[income]',
+`per` = '$_POST[per]',
 `judge` = '$_POST[judge]',
 `pl_or_def` = '$_POST[pl_or_def]',
 `court` = '$_POST[court]',
@@ -58,9 +76,9 @@ UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
 `ct_case_no` = '$_POST[ct_case_no]',
 `case_name` = '$_POST[case_name]',
 `notes` = '$_POST[notes]',
-`referral` = '$_POST[referral]' WHERE `id` = '$_POST[id]' LIMIT 1 ;
-
-	");
+`referral` = '$_POST[referral]', 
+`opened_by` = '$_POST[opened_by]'
+WHERE `id` = '$_POST[id]' LIMIT 1 ;");
 
 
 
@@ -117,24 +135,25 @@ die;
 
 
 //The case opening form
+//create new case number
+	$new_no = new openCase();
+	$x = $new_no->createCaseNo();
+	$year = date(Y);
+	
 echo <<<DATA
-<span id="close"><a href="#" onclick="Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
+<span id="close"><a href="#" onclick="new Ajax.Request('case_number_delete.php',{method:'get',parameters:{clinic_id:'$x[0]'}, onSuccess: function(response){\$('notifications').style.display = 'inline';\$('notifications').update('Case Cancelled');	Effect.Fade(\$('notifications'),{duration:3.0})}
+}
+)
+;Effect.Shrink('window1');document.getElementById('view_chooser').style.display = 'inline';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 <FORM id="newCaseForm">
 <div id="main">
 
 <DIV ID="new_case">
 <P>
 <LABEL>New Case No:</label><div style="font-weight:bold;font-size:14pt;">
-
 DATA;
-
-	//create new case number
-	$new_no = new openCase();
-	$x = $new_no->createCaseNo();
-	$year = date(Y);
 	echo "$year" . "-" . $x[0];
-
-echo <<<DATA
+ECHO <<<DATA
 </div></p>
 
 <input type="hidden" name="clinic_id" value="$x[0]">
@@ -221,7 +240,10 @@ echo <<<DATA
 <LABEL FOR "DOB">DOB (mm/dd/yyyy)</LABEL><INPUT TYPE="text" name = "dob" id="DOB" size="10"></td><td><LABEL FOR "ssn" style="width:40px;">SSN</label><input type="text" name="ssn" id="ssn" size="11"></td></tr></table></p>
 <p>
 <table><tr><td>
-<LABEL FOR "gender">Gender</label><select name="gender" id="gender"><option value="M">Male</option><option value="F">Female</option></select></td><td><LABEL FOR "race" style="width:40px;">Race</label><select name="race" id="race"><option value="">Select</option><option value="AA">African-American</option><option value="H">Hispanic</option><option value="W">White</option><option value="O">Other</option></select></td></tr></table></p>
+<LABEL FOR "gender">Gender</label><select name="gender" id="gender"><option value="M">Male</option><option value="F">Female</option><option value="U">Unknown</option></select></td><td><LABEL FOR "race" style="width:40px;">Race</label><select name="race" id="race"><option value="">Select</option><option value="AA">African-American</option><option value="H">Hispanic</option><option value="W">White</option><option value="O">Other</option><option value="U">Unknown</option></select></td></tr></table></p>
+
+<p>
+<table><tr><td><LABEL FOR "income">Income</label><input type="text" name="income" id="income" size="10"></td><td><LABEL FOR "per" style="width:40px;">per:</label><select name="per" id="per"><option value="year">Year</option><option value="month">Month</option><option value="week">Week</option></select></td></tr></table></p>
 
 </DIV>
 </div>
@@ -266,7 +288,7 @@ ECHO <<<DATA
 <p><label for "pl_or_def">Client is:</label><select name="pl_or_def" id="pl_or_def"><option value="Defendant">Defendant</option><option value="Plaintiff">Plaintiff</option><option value="Other">Other</option></select>
 </p>
 <p><label for "adverse">Adverse Parties (place each name on a new line)</label><textarea name="adverse" id="adverse" cols="41" rows="5"></textarea></p>
-<p><label for "professor">Professor:</label><select name="professor" id="professor"><option value="">Please Select</option>
+<p><label for "professor">Professor:</label><select multiple="multiple" size="2" name="professor[]" id="professor">
 DATA;
 
 	//get the list of professors
@@ -282,23 +304,7 @@ DATA;
 ECHO <<<DATA
 
 </select></p>
-<p><label for "professor2">Professor 2:</label><select name="professor2" id="professor2"><option value="" selected="selected">None</option>
-DATA;
 
-	//Get the professor list again in case two professors are handling case
-	$get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' ORDER BY `last_name` ASC");
-	WHILE ($result2 = mysql_fetch_array($get_prof))
-	{
-	$prof= $result2['last_name'];
-	$prof_user = $result2['username'];
-	echo "<option value=\"$prof_user\">$prof</option> ";
-	}
-	$date_open = date('Y-m-d');
-
-
-
-ECHO <<<DATA
-</select></p>
 <p><label for "referral">Referral</label><select name="referral" id="referral"><option value="None" selected="selected">None</option>
 DATA;
 
@@ -313,8 +319,9 @@ DATA;
 
 ECHO <<<DATA
 </select></p>
-<p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="5"></textarea></p>
+<p><label for "notes">Notes</label><textarea name="notes" id="notes" cols="41" rows="8"></textarea></p>
 <input type="hidden" name="date_open" value="$date_open">
+<input type="hidden" name="opened_by" value="$_SESSION[login]">
 <p><center><input type="button" value="Add Case" onClick="var ncval = newCaseVal();if (ncval == true){createTargets('window1','window1');sendDataPost('new_case.php','newCaseForm');return false;}"></center></p>
 
 </DIV></form>

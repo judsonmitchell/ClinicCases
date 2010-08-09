@@ -40,7 +40,7 @@ function checkTo()
 var to = document.getElementById('to');
 var toFull = document.getElementById('to_full');
 
-if (toFull.value == 'All Students' || toFull.value== 'All Professors' || toFull.value == 'All Your Students' || toFull.value == 'All Users')
+if (toFull.value == 'All Students' || toFull.value== 'All Professors' || toFull.value == 'All Your Students' || toFull.value == 'All Users' || toFull.value == 'All on this Case' || toFull.value == 'All on a Case')
 {
 return true;
 }
