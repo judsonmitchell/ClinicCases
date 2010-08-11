@@ -135,12 +135,15 @@ $pr = $x[professor];
 $prof_str = substr($pr,0,-1);
 
 echo $prof_str;
-if ($d[opened_by])
+
+//Apologize for the hackiness below.  Upshot is, if the None span has not been inserted by from line 14, then run the name function
+
+if (stristr($d[opened_by], '</span>') === FALSE)
 	{
 		$open_name = new get_names;$op_nm = $open_name->get_users_name_initial($d[opened_by]);
 	}
 	else
-	{$op_nm="";}
+	{$op_nm=$d[opened_by];}
 
 ?>
 </div></p>
