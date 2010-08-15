@@ -26,8 +26,8 @@ $update = mysql_query("UPDATE `cm_users` SET `password` = '$temp_pw2' WHERE `use
 $subject = "The information you requested from ClinicCases.com";
 $message = "Here is the information you requested from ClinicCases".  "\r\n" . "Your username is $username" .  "\r\n" . "For security purposes, you will have to reset your password.  Your temporary password is $temp_pw.  Once you login, you can go to the Preferences tab to change your password.";
 // Please go to the link below to do that." . "\r\n" . "http://" . "$_SERVER['HTTP_HOST']/cm/passwordreset.php?id";
-$headers = 'From: ' . $CC_default_email . "\r\n" .
-   'Reply-To: ' . $CC_default_email . "\r\n" .
+$headers = 'From: ' . $CC_default_email . "\n" .
+   'Reply-To: ' . $CC_default_email . "\n" .
    'X-Mailer: PHP/' . phpversion();
 mail($email,$subject,$message,$headers);
 echo "The information has been emailed to you.";
