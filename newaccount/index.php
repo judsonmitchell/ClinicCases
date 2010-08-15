@@ -13,7 +13,7 @@ if ($_POST)
 	$captcha = &new captcha_x ();
 		
 		if ( ! $captcha->validate ( $_POST[captcha])) {
-			echo '<p><center><br>The text you entered in the security field is incorrect.  Please try again.<b><br><a href="#" onClick="history.back(-1);">Go Back</a></center></p>';die;}
+			echo '<p><center><br>The text you entered in the security field is incorrect.  Please press the back button on your browser and try again.</p>';die;}
 
 		//make sure email is unique 
 		$email=mysql_real_escape_string($_POST[email]);
