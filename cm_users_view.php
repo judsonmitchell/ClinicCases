@@ -34,16 +34,16 @@ while ($line = mysql_fetch_array($get_student_info, MYSQL_ASSOC)) {
     }
     }
 
+$rand = rand(1,10000);
+$rand_img = $d[picture_url] . "?rand=" . $rand; 
 
 echo <<<PAGE
-
 <span id="close" style="right:15px;"><a href="#" onclick="Effect.Shrink('window1');document.getElementById('view_chooser').style.visibility='visible';return false;" alt="Close this Case Window" title="Close this Case Window"><img src="images/cancel_small.png" border="0"></a></span>
 <div id="user_container">
 <div id="straight_left">
 <h3>$d[first_name] $d[last_name]</h3>
 <table border="0" width="100%">
-<tr><td width="50%">
-<img src="$d[picture_url]" border="0"><br><a href="#" onClick="document.getElementById('picture_edit').style.display = 'block';return false;">Change Picture</a></td><td width="50%" align="center" valign="center">
+<tr><td width="50%"><img src="$rand_img" border="0"><br><a href="#" onClick="document.getElementById('picture_edit').style.display = 'block';return false;">Change Picture</a></td><td width="50%" align="center" valign="center">
 <div id="msg_notify" style="display:none;">
 
 </div>
