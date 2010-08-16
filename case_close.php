@@ -110,7 +110,7 @@ echo <<<CLOSEFORM
 <tr><td valign=top>
 <label for "close_notes" class="msg">Notes, if any</label></td>
 <td>
-<textarea name="close_notes" id="close_notes" style="width:400px;height:300px;"></textarea>
+<textarea name="close_notes" id="close_notes" style="width:400px;height:200px;"></textarea>
 </td></tr>
 </table>
 <center>
