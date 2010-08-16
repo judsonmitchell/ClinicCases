@@ -99,8 +99,8 @@ WHERE `id` = '$_POST[id]' LIMIT 1 ;");
 	$res2 = mysql_fetch_array($get_email);
 	$email_to = $res2[email];
 
-	$headers = 'From: ' . $CC_default_email . "\r\n" .
-   'Reply-To: ' . $CC_default_email . "\r\n" .
+	$headers = 'From: ' . $CC_default_email . "\n" .
+   'Reply-To: ' . $CC_default_email . "\n" .
    'X-Mailer: PHP/' . phpversion();
 
 	mail($email_to,$subject,$body_for_email,$headers);
