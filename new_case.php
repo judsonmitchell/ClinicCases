@@ -90,11 +90,9 @@ WHERE `id` = '$_POST[id]' LIMIT 1 ;");
 	//Email Strings
 	$subject = "$_POST[first_name] $_POST[last_name] case is opened.";
 	
-	$conflict_string_stz = nl2br($conflict_string);
+	$body = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system. " .  nl2br($conflict_string);
 	
-	$body = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system. " .  $conflict_string_stz;
-	
-	$body_for_email = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system. $conflict_string";
+	$body_for_email = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system." . strip_tags($conflict_string);
 
 
 	$notify = mysql_query("INSERT INTO `cm_messages` ( `id` ,`thread_id` ,`to` ,`from` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive`) VALUES (NULL,'','$prof_list_s','system','$subject','$body','',CURRENT_TIMESTAMP,'','')");
