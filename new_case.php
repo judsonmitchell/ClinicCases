@@ -23,7 +23,7 @@ if ($_POST)
 		$adverse_array = explode("\n",$_POST[adverse]);
 		}
 		
-	$conflict_string = $checker->checkConflicts($new_client, $adverse_array);
+	
 
 	//Insert Adverse Party Data
 	
@@ -39,6 +39,8 @@ if ($_POST)
 
 	}
 	
+	$conflict_string = $checker->checkConflicts($new_client, $adverse_array);
+	
 	//This is to explode the professor array
 	
 	
@@ -46,6 +48,8 @@ if ($_POST)
 		{
 			$prof_list .= $pp . ",";
 		}
+		
+		$prof_list_s = substr($prof_list,0,-1);
 
 	//Insert New Client Data
 	$put_in = mysql_query("UPDATE `cm` SET `clinic_id` = '$_POST[clinic_id]',
@@ -85,25 +89,33 @@ WHERE `id` = '$_POST[id]' LIMIT 1 ;");
 	//Notify Professor of Opening and Of Potential Conflicts
 	//Email Strings
 	$subject = "$_POST[first_name] $_POST[last_name] case is opened.";
-	$rand = rand();
+	
+	$conflict_string_stz = nl2br($conflict_string);
+	
+	$body = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system. " .  $conflict_string_stz;
+	
+	$body_for_email = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the ClinicCases system. $conflict_string";
 
-	$body = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the Clinic Cases system. " .  nl2br($conflict_string);
-	$body_for_email = "This is to notify you that the $_POST[first_name] $_POST[last_name] case has been opened in the Clinic Cases system. $conflict_string";
 
+	$notify = mysql_query("INSERT INTO `cm_messages` ( `id` ,`thread_id` ,`to` ,`from` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive`) VALUES (NULL,'','$prof_list_s','system','$subject','$body','',CURRENT_TIMESTAMP,'','')");
+	
+	
+	$get_id = mysql_insert_id();
+	
+	$upd = mysql_query("UPDATE `cm_messages` SET `thread_id` = '$get_id' WHERE `id` = '$get_id' LIMIT 1 ");
+	
+		foreach ($_POST['professor'] as $pv)
+		{
+			$get_email = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$pv' LIMIT 1");
+			$res2 = mysql_fetch_array($get_email);
+			$email_to = $res2[email];
 
-	$notify = mysql_query("INSERT INTO `cm_messages` ( `id` ,`thread_id` ,`to` ,`from` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive` ,`temp_id` ) VALUES (NULL,'','$_POST[professor]','system','$subject','$body','',CURRENT_TIMESTAMP,'','','$rand')");
-	$upd = mysql_query("UPDATE `cm_messages` SET `thread_id` = cm_messages.id WHERE `temp_id` = '$rand' LIMIT 1 ");
-	$del_upd = mysql_query("UPDATE `cm_messages` SET `temp_id` = '' WHERE `temp_id` = '$rand' LIMIT 1 ");
+			$headers = 'From: ' . $CC_default_email . "\n" .
+		   'Reply-To: ' . $CC_default_email . "\n" .
+		   'X-Mailer: PHP/' . phpversion();
 
-	$get_email = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$_POST[professor]' LIMIT 1");
-	$res2 = mysql_fetch_array($get_email);
-	$email_to = $res2[email];
-
-	$headers = 'From: ' . $CC_default_email . "\n" .
-   'Reply-To: ' . $CC_default_email . "\n" .
-   'X-Mailer: PHP/' . phpversion();
-
-	mail($email_to,$subject,$body_for_email,$headers);
+			mail($email_to,$subject,$body_for_email,$headers);
+		}
 	//End
 
 echo <<<RESPONSE
