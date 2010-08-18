@@ -49,7 +49,7 @@ function checkConflicts($new_client_name,$new_adverse_name)
 
 				while ($r = mysql_fetch_array($check_new_adverse))
 				{
-					$conflict = "We represented"  . " " . strtoupper($r[first_name]) . " " . strtoupper($r[last_name]) . " in a " . $r[case_type] . " case. Case Number: <a target='_new' href='cm_cases.php?direct=$r[id]'>" . $r[clinic_id] . "</a>";
+					$conflict = "We represented"  . " " . strtoupper($r[first_name]) . " " . strtoupper($r[last_name]) . " in a " . $r[case_type] . " case. Case Number: <a target=\'_new\' href=\'cm_cases.php?direct=$r[id]\'>" . $r[clinic_id] . "</a>";
 					$conflicts_array[] = $conflict;
 				}
 			}
