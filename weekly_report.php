@@ -9,8 +9,8 @@ $lastweek = strtotime("-1 week");
 $lastweek2 = date('Y-m-d H:i:s',$lastweek);
 $nextweek = strtotime("+1 week");
 $nextweek2 = date('Y-m-d H:i:s',$nextweek);
-$headers = "From: <" . $CC_default_email . ">" . "\r\n" .
-   "Reply-To: <" . $CC_default_email . "> ". "\r\n" .
+$headers = "From: <" . $CC_default_email . ">" . "\n" .
+   "Reply-To: <" . $CC_default_email . "> ". "\n" .
    "X-Mailer: PHP/" . phpversion();
 
 $subject = "ClinicCases.com: Your Monday Morning Report";
