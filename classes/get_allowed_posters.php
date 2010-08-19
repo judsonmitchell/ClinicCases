@@ -77,8 +77,8 @@ function get_allowed_posters($username)
 				break;
 
 			case "admin":
-			//for the moment, the policy is that admins only see posts by admins
-				$l = mysql_query("SELECT `username`,`class` FROM `cm_users` WHERE `class` = 'admin'");
+			//as of version 6, the policy is for admins to see everything.
+				$l = mysql_query("SELECT `username` FROM `cm_users` ");
 					while ($m = mysql_fetch_array($l))
 						{$allowed[] = $m[username];}
 
