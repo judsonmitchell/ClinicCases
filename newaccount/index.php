@@ -83,8 +83,8 @@ while ($r = mysql_fetch_array($alert_admin))
 		$message = "A new user, $first_name $last_name, has applied for access to ClinicCases.  Please review the application and activate the user.";
 		$subject = "New ClinicCases User";
 		$to = $r['email'];
-		$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
-		   "Reply-To: no-reply@" . $_SERVER[HTTP_HOST] . "\r\n" .
+		$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\n" .
+		   "Reply-To: no-reply@" . $_SERVER[HTTP_HOST] . "\n" .
 		   "X-Mailer: PHP/" . phpversion();
 		mail($to,$subject,$message,$headers);
 
