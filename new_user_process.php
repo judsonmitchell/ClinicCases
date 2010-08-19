@@ -98,8 +98,8 @@ $query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`ema
 $message = "You ClinicCases account has been activated.  Your username is $username and your temporary password is $password2.  Please make sure to change your password after you log in by clicking the Prefs Tab.";
 $subject = "ClinicCases: Your Account is Activated";
 $to = $_POST[email];
-$headers = "From: " . $CC_default_email . "\r\n" .
-   "Reply-To: " . $CC_default_email . "\r\n" .
+$headers = "From: " . $CC_default_email . "\n" .
+   "Reply-To: " . $CC_default_email . "\n" .
    "X-Mailer: PHP/" . phpversion();
 mail($to,$subject,$message,$headers);
 

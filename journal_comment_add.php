@@ -19,8 +19,8 @@ $to = $x[email];
 $subject = "Journal Comment - ClinicCases.com";
 list($date_correct) = formatDateAsVarHuman($r[date_added]);
 
-$headers = 'From: ' . $CC_default_email . "\r\n" .
-   'Reply-To: ' . $CC_default_email . "\r\n" .
+$headers = 'From: ' . $CC_default_email . "\n" .
+   'Reply-To: ' . $CC_default_email . "\n" .
    'X-Mailer: PHP/' . phpversion();
 $body = "Your professor has commented on your journal entry submitted $date_correct.\n\nComment:\n\n$_POST[comment_text]\n\n The full text of your journal and the comment is available on ClinicCases";
 mail($to,$subject,$body,$headers);

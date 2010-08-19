@@ -30,8 +30,8 @@ $upd = mysql_query("UPDATE `cm_messages` SET `thread_id` = cm_messages.id WHERE 
 
 $del_upd = mysql_query("UPDATE `cm_messages` SET `temp_id` = '' WHERE `temp_id` = '$rand' LIMIT 1 ");
 
-$headers = 'From: ' . $CC_default_email . "\r\n" .
-   'Reply-To: ' . $CC_default_email . "\r\n" .
+$headers = 'From: ' . $CC_default_email . "\n" .
+   'Reply-To: ' . $CC_default_email . "\n" .
    'X-Mailer: PHP/' . phpversion();
 
 $get_email = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$_SESSION[login]' LIMIT 1");

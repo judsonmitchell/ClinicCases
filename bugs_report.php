@@ -11,8 +11,8 @@ $z = mysql_fetch_array($get_email);
 
 $subject= "Bug Report on ClinicCases.com";
 $message = "A bug report from $z[first_name] $z[last_name]:  " . stripslashes($_POST[problem]) . "\nUserId: $z[id]" . "\nSession: $_POST[env_session]";
-$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n" .
-   "Reply-To: $z[email]" . "\r\n" .
+$headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\n" .
+   "Reply-To: $z[email]" . "\n" .
    "X-Mailer: PHP/" . phpversion();
 
 mail('judsonmitchell@gmail.com',$subject,$message,$headers);
