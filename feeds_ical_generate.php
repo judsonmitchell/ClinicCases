@@ -79,7 +79,7 @@ else
 			{
 	
 	
-			$show_events = mysql_query("SELECT * FROM `cm_events`  WHERE `prof` = '$user' AND `archived` = 'n' ORDER BY `date_due` DESC");
+			$show_events = mysql_query("SELECT * FROM `cm_events`  WHERE `prof` LIKE '%$user%' AND `archived` = 'n' ORDER BY `date_due` DESC");
 			while ($line = mysql_fetch_array($show_events, MYSQL_ASSOC)) {
 				$i=0;
 				foreach ($line as $col_value) {
