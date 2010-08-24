@@ -248,7 +248,7 @@ $show_notes = mysql_query("SELECT  * FROM `cm_case_notes` , `cm_cases_students` 
 }
 if ($_SESSION['class'] == 'prof')
 {
-$show_notes = mysql_query("SELECT * FROM `cm_case_notes` WHERE `prof` = '$_SESSION[login]' ORDER BY `date` DESC LIMIT 20");
+$show_notes = mysql_query("SELECT * FROM `cm_case_notes` WHERE `prof` LIKE '%$_SESSION[login]%' ORDER BY `date` DESC LIMIT 20");
 
 }
 
