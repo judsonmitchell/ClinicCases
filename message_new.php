@@ -24,7 +24,7 @@ if(isset($_GET[direct_full]))
 echo " value=\"$_GET[direct_full]\"";
 }
 ?>
-
+>
 <input type="hidden" id="to" name="to"
 <?php
 if(isset($_GET[direct]))
