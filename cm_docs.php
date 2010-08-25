@@ -37,7 +37,7 @@ else {return false;}
 
 <div id="url_menu" name="url_menu" style="display:none;">
 <form id="url_submit" name="url_submit">
-<label for "url">URL:</label><input type="text" id="url" name="url" onBlur="isUrl(this.value);">
+<label for "url">URL:</label><input type="text" id="url" name="url" onBlur="var uu = isUrl(this.value);if (uu == false){alert('URL must be a valid http https or ftp link:  http:\/\/example.com');}">
 <label for "title">Title:</label><input type="text" id="title" name="title">
 <input type="hidden" name="username" id="username" value="$_SESSION[login]">
 <input type="hidden" name="case_id" id="case_id" value="$id">
