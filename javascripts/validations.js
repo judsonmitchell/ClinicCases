@@ -230,19 +230,13 @@ return true;
 }
 
 //Validations for add document by url
-function isUrl(url)
+function isUrl(s)
 {
-
-	if (url.indexOf('http:\/\/') == -1)
-	{
-		$('url').style.background='yellow';
-		alert('URL must be a valid http link: \n http:\/\/example.com');
-		return false;}
-	else
-	{return true;}
-
-
+	var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+	return regexp.test(s);
 }
+
+
 function isTitle(title)
 {
 
