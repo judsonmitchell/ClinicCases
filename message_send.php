@@ -107,9 +107,9 @@ foreach ($all_array as $recips)
 	$x = mysql_fetch_array($get_sender_name);
 	$sender_name = "$x[first_name] $x[last_name]";
 
+		$prev = stripslashes($_POST[body]);
 
-
-	$sms_message = "Preview:  " . substr($_POST[body],0,50) . "...";
+	$sms_message = "Preview:  " . substr($prev,0,80) . "...";
 	$email_message = "You have a new message re: $_POST[subject] from $sender_name on the ClinicCases system." . "\r\n" . $sms_message . "\r\n" . "Please log on to " . $CC_base_url . " to view or " . $CC_base_url . "mobile from a mobile browser." ;
 	
 	//Change here to take out the extra /r.  PHP apparently adds an extra /r when sending which causes a "554 Failed: Malformed MIME header (in reply to end of DATA command))" error when sending to some servers.  Full discussion here:http://jeremygustafson.blogspot.com/2010/02/red-condor-visi-bouncing-emails-with.html
