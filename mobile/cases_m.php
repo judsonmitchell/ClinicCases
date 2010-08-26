@@ -42,7 +42,7 @@ else
 
 {
 
-$query = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]' ");
+$query = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` LIKE '%$_SESSION[login]%'");
 
 
 while ($r = mysql_fetch_array($query))
