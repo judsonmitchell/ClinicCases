@@ -106,13 +106,18 @@ while ($line = mysql_fetch_array($get_students, MYSQL_ASSOC)) {
         $i++;
 
     }
+    
+    //Add slashes to names with apostrophe's so as not to crash javascript
+    $fname_slash = addslashes($d[first_name]);
+    $lname_slash = addslashes($d[last_name]);
+    
 echo "<div id=\"stud_$d[id]\" class='students'><a title=\"Click for Student's Details\" alt=\"Click for Student's Details\" href=\"#\" onClick=\"new Ajax.Updater('window1','student_detail.php',{evalScripts:true,method:'get',parameters:{id:'$d[id]'}});Effect.Grow('window1');return false;\"><img id=\"pic_stud_$d[id]\" src='$d[picture_url]' border=0 onLoad=\"Droppables.add('pic_stud_$d[id]', 
 
 {onDrop:
 	function(element,dropon)
 		{
 			
-			new Ajax.Updater('notifications','students_assign.php',{method:'get',parameters:{username:'$d[username]',first_name:'$d[first_name]',last_name:'$d[last_name]',case_id:element.id}});
+			new Ajax.Updater('notifications','students_assign.php',{method:'get',parameters:{username:'$d[username]',first_name:'$fname_slash',last_name:'$lname_slash',case_id:element.id}});
 			
 			element.style.backgroundColor='#eaeaea';
 		new Ajax.Updater('facebar_' + element.id,'./classes/get_faces.php',{evalScripts:true,method:'get',parameters:{id:element.id}});}});
