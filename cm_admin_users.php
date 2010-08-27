@@ -129,7 +129,7 @@ $$("tr").invoke("observe", "click", function(e) {
 <div style="position:absolute;left:10px;top:5px;"><a href="#" onClick="Effect.Grow('window1');createTargets('window1','window1');sendDataGet('new_user.php');document.getElementById('view_chooser').style.display = 'none';return false;" alt="Add a New User" title="Add a New User"><img src="images/new_user.png" border="0"></a></div>
 <form name="user_form" id=
 "user_form" style="display:inline;" onSubmit="new Ajax.Updater('work_space','cm_admin_users_table.php',{evalScripts:true,method:'get',parameters:Form.serialize('user_form')});return false;"><input type = "text" width="35" value="Search By Name" id = "searchterm" name = "searchterm" onFocus = "this.value = '';this.style.color= 'black';" style="display:inline;">
-<a href="#" class="nobubble" onClick="createTargets('work_space','work_space');sendDataGetAndStripe('cm_admin_users_table.php?searchterm=' + document.getElementById('search').value);document.getElementById('choose_port').style.display = 'none';return false;"><img src="./images/check.png" border="0"  class = "submit_image"></a>
+<a href="#" class="nobubble" onClick="createTargets('work_space','work_space');sendDataGetAndStripe('cm_admin_users_table.php?searchterm=' + document.getElementById('searchterm').value);document.getElementById('choose_port').style.display = 'none';return false;"><img src="./images/check.png" border="0"  class = "submit_image"></a>
 </form>
 
 <span id="choose_port">
