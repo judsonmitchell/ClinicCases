@@ -3,6 +3,19 @@ include '../db.php';
 include '../classes/url_key_generator.php';
 include '../classes/get_prof_prefs.php';
 
+ function str_match( $str, $match )
+  {
+    $return = '';
+    if( eregi( '(.*)', $match, $class ) )
+    {
+      $match = '['.$regs[1].']';
+      for( $i=0; $i<strlen($str); $i++ )
+      if( ereg( '['.$class[1].']', $str[$i] ) )
+      $return .= $str{$i};
+      return $return;
+    }
+    else return false;
+  }
 
 
 /* Processes form */
@@ -43,8 +56,11 @@ $forbidden2 = array(" " , "(" ,")" ,"-", ".");
 $home_phone = str_replace($forbidden2,'',$num2);
 
 /* Format username */
-$username_first_part = substr($first_name,0,2);
-$username = strtolower($username_first_part) . strtolower($last_name);
+//accept only alpha characters
+$first_name_mod = str_match($first_name, 'a-zA-Z' );
+$last_name_mod = str_match($last_name, 'a-zA-Z');
+$username_first_part = substr($first_name_mod,0,2);
+$username = strtolower($username_first_part) . strtolower($last_name_mod);
 
 $case_pref = get_prof_case_prefs($assigned_prof);
 $journal_pref = get_prof_journal_prefs($assigned_prof);
