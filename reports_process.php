@@ -117,7 +117,7 @@ case "single_student":
 $sql = "SELECT `username`, `date`, SUM(time)  AS `numtotal` FROM `cm_case_notes` WHERE `date` BETWEEN '$begin' AND '$end' AND `username` = '$_POST[student]' GROUP BY `username`";
 break;
 case "all_students":
-$sql =  "SELECT `username`, `date`, SUM(time) AS `numtotal` FROM `cm_case_notes` WHERE `date` BETWEEN '$begin' AND '$end' AND `prof` = '$_SESSION[login]' GROUP BY `username` ORDER BY `numtotal` DESC";
+$sql =  "SELECT `username`, `date`, SUM(time) AS `numtotal` FROM `cm_case_notes` WHERE `date` BETWEEN '$begin' AND '$end' AND `prof` LIKE '%$_SESSION[login]%' GROUP BY `username` ORDER BY `numtotal` DESC";
 break;
 case "student_case":
 $sql = "students by case";
