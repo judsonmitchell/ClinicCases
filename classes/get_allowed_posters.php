@@ -63,7 +63,7 @@ function get_allowed_posters($username)
 					}	
 					
 				//get you and your classmates
-				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` LIKE '%$g[assigned_prof]%'");
+				$h = mysql_query("SELECT `username`,`assigned_prof` FROM `cm_users` WHERE `assigned_prof` LIKE '%$g[assigned_prof]%' AND `status` = 'active'");
 					while ($i = mysql_fetch_array($h))
 					{$allowed[] = $i[username];}
 
