@@ -56,12 +56,11 @@ return true;
 
 //This is for events, allows only person who set it to modify or delete it //
 
-function checkAuth(username,group)
+function checkAuth(username,group,setby)
 {
-var one = document.getElementById('set_by');
 var tgt = 'prof';
-if (one.value !== username  && group !== tgt)
-{alert('Sorry. Events can only be deleted or modified by the person who created them.');return false;}
+if (setby !== username  && group !== tgt)
+{alert('Sorry. Events can only be deleted or modified by the person who created them or by a professor.');return false;}
 else
 {return true;}
 
