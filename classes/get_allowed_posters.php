@@ -77,8 +77,8 @@ function get_allowed_posters($username)
 				break;
 
 			case "admin":
-			//as of version 6, the policy is for admins to see everything.
-				$l = mysql_query("SELECT `username` FROM `cm_users` ");
+			//New Policy: admins only see admins; otherwise poor signal to noise ratio
+				$l = mysql_query("SELECT `username` FROM `cm_users` WHERE `class` = 'admin' ");
 					while ($m = mysql_fetch_array($l))
 						{$allowed[] = $m[username];}
 
