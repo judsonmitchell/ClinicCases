@@ -21,7 +21,7 @@ include '../db.php';
 if ($_SESSION['class'] == 'prof')
 	{
 		//Get an array of all case ids from open cases
-		$q = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` = '$_SESSION[login]' OR `professor2` = '$_SESSION[login]' ORDER BY `last_name` ASC");
+		$q = mysql_query("SELECT * FROM `cm` WHERE `date_close` = '' AND `professor` LIKE '%$_SESSION[login]%' ORDER BY `last_name` ASC");
 
 		while ($r = mysql_fetch_array($q))
 			{
