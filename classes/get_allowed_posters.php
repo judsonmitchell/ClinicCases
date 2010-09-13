@@ -39,10 +39,10 @@ function get_allowed_posters($username)
 					while ($c = mysql_fetch_array($b))
 						{$allowed[] = $c[username];}
 
-				//Disable admins - signal to noise issue.
-				//$d = mysql_query("SELECT `username`,`class`,`status` FROM `cm_users` WHERE `class` = 'admin' AND `status` = 'active'");
-					//while ($e = mysql_fetch_array($d))
-						//{$allowed[] = $e[username];}
+				//get the admins
+				$d = mysql_query("SELECT `username`,`class`,`status` FROM `cm_users` WHERE `class` = 'admin' AND `status` = 'active'");
+					while ($e = mysql_fetch_array($d))
+						{$allowed[] = $e[username];}
 
 				//then, of course add yourself
 				$allowed[] = $username;
@@ -67,17 +67,17 @@ function get_allowed_posters($username)
 					while ($i = mysql_fetch_array($h))
 					{$allowed[] = $i[username];}
 
-				//Disable admins - signal to noise issue.
-				//$j = mysql_query("SELECT `username`,`class` FROM `cm_users` WHERE `class` = 'admin'");
-					//while ($k = mysql_fetch_array($j))
-						//{$allowed[] = $k[username];}
+				//now get the admins
+				$j = mysql_query("SELECT `username`,`class` FROM `cm_users` WHERE `class` = 'admin'");
+					while ($k = mysql_fetch_array($j))
+						{$allowed[] = $k[username];}
 
 				$flist = makeList($allowed);
 				return $flist;
 				break;
 
 			case "admin":
-			//If admin posts, everybody sees it.
+			//Admin see all
 				$l = mysql_query("SELECT `username` FROM `cm_users`");
 					while ($m = mysql_fetch_array($l))
 						{$allowed[] = $m[username];}
