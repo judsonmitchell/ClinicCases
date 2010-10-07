@@ -82,7 +82,7 @@ elseif (isset($_POST[forms_only])):
 elseif (isset($_POST[search])):
 // we are searching
 		$val = $_POST[search_val];
-		$q = mysql_query("SELECT * FROM `cm_board` WHERE `title` LIKE '%$val%' or `body` LIKE '%$val%' or `attachment` LIKE '%$val%'");
+		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `title` LIKE '%$val%' or  `created_by` IN ($user_posts) AND`body` LIKE '%$val%' or `created_by` IN ($user_posts) AND`attachment` LIKE '%$val%'");
 	
 	else:
 	
@@ -164,8 +164,9 @@ POST;
  		echo "<a href=\"#\" class=\"smallgray\" onClick=\"new Ajax.Updater('poster','board_edit_post.php',{evalScripts:true,parameters:{id:'$z[id]',begin_value:'$begin'},onComplete:function(){Effect.BlindDown($('poster'));$('frame').scrollTop = '0';}});return false;\">Edit</a>";
 	}
 	
+	//The original poster or the professor may only delete
 	
-	if ($z[created_by] == $_SESSION[login])
+	if ($z[created_by] == $_SESSION[login] OR $_SESSION['class'] == 'prof')
 	{
   		echo "  <a href=\"#\" class=\"smallgray\" onClick=\"var ask = confirm('Are you sure you want to delete your post?');if (ask==true){new Ajax.Request('board_delete_post.php',{parameters:{id:'$z[id]'},onSuccess:function(){\$('ps_$z[id]').hide();}});return false} else {return false;}\">Delete</a>";
 	}
