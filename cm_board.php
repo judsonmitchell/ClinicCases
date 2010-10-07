@@ -202,7 +202,10 @@ TABS;
   | <span id="filter"> <a href="#" onClick="	pager = new Hash({end:'-10'});
 new Ajax.Updater('psts', 'board_refresh.php', {evalScripts:true, method:'post',parameters:{forms_only:'y',begin_value:pager.get('end')}});$('filter').update('<a href=\'#\' onclick=\'window.location.reload();\'>Show All</a>');return false;">Show Forms Only</a>
 </span>
+|
+<form id="searcher"><input type="text" id="psearch" name="psearch" value="Search" size="30" onkeyup="new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,method:'post',parameters:{search:'y',search_val:$F('psearch')}})"></form>
 </p>
+
 </div>
 
 

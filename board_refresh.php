@@ -79,7 +79,10 @@ elseif (isset($_POST[forms_only])):
 		
 		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `is_form` = 'on' ORDER BY `created` DESC LIMIT $set_start,$num_rows_to_view");		
 		
-	
+elseif (isset($_POST[search])):
+// we are searching
+		$val = $_POST[search_val];
+		$q = mysql_query("SELECT * FROM `cm_board` WHERE `title` LIKE '%$val%' or `body` LIKE '%$val%' or `attachment` LIKE '%$val%'");
 	
 	else:
 	
