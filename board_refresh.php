@@ -82,7 +82,7 @@ elseif (isset($_POST[forms_only])):
 elseif (isset($_POST[search])):
 // we are searching
 		$val = $_POST[search_val];
-		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `title` LIKE '%$val%' or  `created_by` IN ($user_posts) AND`body` LIKE '%$val%' or `created_by` IN ($user_posts) AND`attachment` LIKE '%$val%'");
+		$q = mysql_query("SELECT * FROM `cm_board` WHERE `created_by` IN ($user_posts) AND `title` LIKE '%$val%' or  `created_by` IN ($user_posts) AND`body` LIKE '%$val%' or `created_by` IN ($user_posts) AND`attachment` LIKE '%$val%' ORDER BY `created` DESC ");
 	
 	else:
 	
@@ -231,7 +231,7 @@ POST;
 		if (!isset($_POST[time]))
 		{
 			if (mysql_num_rows($q)<1)
-		{echo "<span class='smallgray_nohref'>There are no posts at this time.</span>";}
+		{echo "<span class='smallgray_nohref'>No posts found.</span>";}
 		
 		
 		echo "<script>pager.update({end:'$set_start'});</script>";

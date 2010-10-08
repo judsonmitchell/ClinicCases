@@ -1158,6 +1158,13 @@ font-family:garamond, times, serif;
 
 }
 
+#psearch 
+{
+background-image:url('images/grade_gray2.jpg');
+background-repeat:repeat-x;
+
+
+}
 /* Style for contacts */
 #contacts_menu
 {

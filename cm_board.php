@@ -140,7 +140,12 @@ Event.observe('frame','scroll',function(){
 
 </script>
 </head>
-<body>
+<?php
+/*
+onload is IE 7 hack to stop initial focus on the search box
+*/
+?>
+<body onLoad="$('header').focus();">
 <div id="notifications"></div>
 <div id = "bug" style="display:none;">
 </div>
@@ -203,7 +208,7 @@ TABS;
 new Ajax.Updater('psts', 'board_refresh.php', {evalScripts:true, method:'post',parameters:{forms_only:'y',begin_value:pager.get('end')}});$('filter').update('<a href=\'#\' onclick=\'window.location.reload();\'>Show All</a>');return false;">Show Forms Only</a>
 </span>
  | 
-<input type="text" id="psearch" name="psearch" value="Search" size="30" onFocus="this.value=''" onkeyup="new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,method:'post',parameters:{search:'y',search_val:$('psearch').value}})">
+<input type="text" id="psearch" name="psearch" value="Search" size="30" onFocus="this.value='';this.style.backgroundImage='none'" onBlur="this.style.backgroundImage='url(images/grade_gray2.jpg)';this.style.backgroundRepeat='repeat-x';this.value='Search';" onkeyup="new Ajax.Updater('psts','board_refresh.php',{evalScripts:true,method:'post',parameters:{search:'y',search_val:$('psearch').value}})">
 </p>
 
 </div>
