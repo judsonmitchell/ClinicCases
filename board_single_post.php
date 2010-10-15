@@ -54,10 +54,10 @@ formatDate($z[created]);
 echo " by ";
 
 $data = new get_names;
-$data->get_users_name($z[created_by]);
+$nam = $data->get_users_name($z[created_by]);
 
 
-echo " </span></div>";
+echo "$nam</span></div>";
 	
 echo <<<POST
    <div id = "$z[id]">$z[body]</div>
