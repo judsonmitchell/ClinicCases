@@ -32,11 +32,25 @@ else
 <link rel="stylesheet" href="cm.css" type="text/css">
 <script src="./javascripts/ajax_scripts.js" type="text/javascript"></script>
 <script src="scriptaculous/lib/prototype.js" type="text/javascript"></script>
+<SCRIPT TYPE="text/javascript">
+<!--
+function submitenter(myfield,e)
+{
+var keycode;
+if (window.event) keycode = window.event.keyCode;
+else if (e) keycode = e.which;
+else return true;
 
-<style>
-
-
-</style>
+if (keycode == 13)
+   {
+   myfield.form.submit();
+   return false;
+   }
+else
+   return true;
+}
+//-->
+</SCRIPT>
 </head>
 <body>
 <div id="content" style="margin-top:25px;">
@@ -59,9 +73,10 @@ else
 <form name = "getin" id="getin" action="login.php" method="post" style="margin-top:5%">
 
 <label for "username">Username</label><br><input type="text" id = "username" name="username" style="color:black;" value = "<?php if (isset($_COOKIE['cc_user'])){$cookie_value = $_COOKIE['cc_user'];echo $cookie_value;} ?>"><br>
-<label for "password">Password</label><br><input type="password" id = "password" name="password" style="color:black;"><br>
+<label for "password">Password</label><br><input type="password" id = "password" name="password" style="color:black;"   onKeyPress="return submitenter(this,event)"><br>
+
+<a href="#" onClick = "document.getin.submit();return false;"><img src="./images/check_yellow.png" border="0" style="margin-top:15px;"></a><br>
 <label for "remember">Remember My Username</label><input type="checkbox" name="remember"  style="margin-top:8px;color:red;"><br>
-<a href="#" onClick = "document.getin.submit();return false;"><img src="./images/check_yellow.png" border="0" style="margin-top:15px;"></a>
 </form>
 <div style="margin-top:30px"><a href="#" onClick="$('forgot').show();return false">Forgot username or password?</a></div>
 
