@@ -39,6 +39,17 @@ class get_names {
 			
 		}
 	
+	function get_clients_name_by_casenum($case_id)
+		{
+			
+			$q = mysql_query("SELECT * FROM `cm` WHERE `clinic_id` = '$case_id' LIMIT 1");
+			$qq = mysql_fetch_object($q);
+			$real_name = $qq->first_name . " $qq->m_initial" . " $qq->last_name";
+			return $real_name;
+			
+			
+		}
+	
 	
 	
 	
