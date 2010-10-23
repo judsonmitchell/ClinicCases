@@ -25,9 +25,9 @@ function createRSS($type)
 			<rss version=\"2.0\"> 
 			<channel> 
 				<title>Student Journals - ClinicCases</title> 
-				<link>http://www.cliniccases.com</link> 
+				<link>" . $CC_base_url . "</link> 
 				<description>Notification of new student journal entries on ClinicCases</description> 
-				<copyright>(c) 2007, threepipeproblem.com, All rights reserved.</copyright> 
+				<copyright>(c) 2007-2010, threepipeproblem.com, All rights reserved.</copyright> 
 			";
 			
 					while($r = mysql_fetch_array($get_journals)) { 
@@ -39,7 +39,7 @@ function createRSS($type)
 						<item>
 							<title>$name - $date[0]</title>
 							
-					<link>http://www.cliniccases.com/cm_journals.php</link> 
+					<link>" . $CC_base_url . "/cm_journals.php</link> 
 							<description> <![CDATA[ $name submitted a journal on $date[0]. ]]> </description>				
 							
 							<pubDate>$r[date_added]</pubDate>
@@ -60,9 +60,9 @@ function createRSS($type)
 		<rss version=\"2.0\"> 
 		<channel> 
 			<title>Latest Activity - ClinicCases</title> 
-			<link>http://www.cliniccases.com</link> 
+			<link>" . $CC_base_url . "</link> 
 			<description>Notification of new case activity on ClinicCases</description> 
-			<copyright>(c) 2007, threepipeproblem.com, All rights reserved.</copyright> 
+			<copyright>(c) 2007-2010, threepipeproblem.com, All rights reserved.</copyright> 
 		";
 		
 			if ($rr->class == 'prof')
@@ -81,7 +81,7 @@ function createRSS($type)
 
 							$body.= "<item>
 								<title>$client_name Case - Activity by $student_name </title>
-								<link>http://www.cliniccases.com/cm_cases.php?direct=" . $ar['case_id'] . "</link> 
+								<link>" . $CC_base_url . "/cm_cases.php?direct=" . $ar['case_id'] . "</link> 
 								<description> <![CDATA[ $ar[description] ]]> </description>				
 								<pubDate>$ar[date]</pubDate>
 								</item>";
@@ -135,7 +135,7 @@ function createRSS($type)
 													
 													$body.= "<item>
 													<title>$client_name Case - Activity by $student_name </title>
-													<link>http://www.cliniccases.com/cm_cases.php?direct=" . $stu_qr['case_id'] . "</link> 
+													<link>" . $CC_base_url . "/cm_cases.php?direct=" . $stu_qr['case_id'] . "</link> 
 													<description> <![CDATA[ $stu_qr[description] ]]> </description>				
 													<pubDate>$stu_qr[date]</pubDate>
 													</item>";

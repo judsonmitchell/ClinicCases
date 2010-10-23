@@ -32,7 +32,20 @@ $r = mysql_fetch_object($get_current_key);
 <p class="smallgray_nohref">This is your private key which is used for web-based services (Google Calendar, etc) to access your account information, e.g. calendar and RSS feeds. Do not share it with anyone.  If you suspect that your key has been compromised, please reset it.</p>
 <br>
 <br>
-<p>Your Ical feed: <a target="_new" href="<?php echo $CC_base_url ?>feeds_ical_generate.php?sid=<?php echo $r->private_key; ?>"><?php echo $CC_base_url ?>feeds_ical_generate.php?sid=<?php echo $r->private_key; ?></a>
+<p>Your Ical feed of upcoming events: <a target="_new" href="<?php echo $CC_base_url ?>feeds_ical_generate.php?sid=<?php echo $r->private_key; ?>"><?php echo $CC_base_url ?>feeds_ical_generate.php?sid=<?php echo $r->private_key; ?></a></p>
+<br>
+<br>
+<p>Your RSS feed of case activity: <a target="_new" href="<?php echo $CC_base_url ?>rss_create.php?pkey=<?php echo $r->private_key; ?>"><?php echo $CC_base_url ?>rss_create.php?pkey=<?php echo $r->private_key; ?></a></p>
+
+<?php
+	if ($_SESSION['class'] == 'prof')
+	{
+echo "
+<br>
+<br>
+<p>Your RSS feed of journal entries: <a target=\"_new\" href=\"" . $CC_base_url . "rss_create.php?pkey=" . $r->private_key . "&type=journals\">" . $CC_base_url . "rss_create.php?pkey=$r->private_key&type=journals</a></p>";
+}
+?>
 <br>
 <br>
 <P>Your Private Key: <div id="key"><strong><?php echo  $r->private_key ?></strong></div></P>
