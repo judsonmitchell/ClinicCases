@@ -72,7 +72,7 @@ function createRSS($type)
 					while ($ar = mysql_fetch_array($cq))
 						{  
 							$client = new get_names;
-							$client_name = $client->get_clients_name($ar['id']);
+							$client_name = $client->get_clients_name($ar['case_id']);
 							
 							$student = new get_names;
 							$student_name = $student->get_users_name($ar['username']);

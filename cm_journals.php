@@ -88,7 +88,7 @@ if ($_SESSION['class'] == 'prof')
 </div>
 <div id="content" style="background-color:rgb(255,255,204);">
 <div id="choosers" style="width:95%;height:35px;text-align:left;margin: .25% 2.5% .25% 2.5%;">
- <table width="700px"><tr>
+ <table width="100%"><tr>
 
 <?php
 if ($_SESSION['class'] == 'student')
@@ -151,8 +151,11 @@ $by_student = mysql_query("SELECT * FROM `cm_users` WHERE `class`= 'student' and
 
 		}
 
+$get_pkey = mysql_query("SELECT `username`,`private_key` FROM `cm_users` WHERE `username` = '$_SESSION[login]' LIMIT 1");
+$gp = mysql_fetch_object($get_pkey);
+$pkey = $gp->private_key;
 
-echo"</optgroup></select></td></tr></table>";
+echo"</optgroup></select></td><td align=right><a alt=\"Get RSS feed of student journals\" title=\"Get RSS feed of student journals\" onMouseOver=\"this.style.cursor='hand'\" onClick=\"location.href='$CC_base_url/" . "rss_create.php?pkey=$pkey&type=journals'\"><img src=\"images/feed-icon-14x14.png\" border=\"0\"></a></td></tr></table>";
 }
 
 ?>

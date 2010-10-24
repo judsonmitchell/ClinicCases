@@ -226,7 +226,7 @@ if ($_SESSION['class']=='student')
 echo "Your ";
 }
 ?>
-Recent Activity</h5><div style="float:right;margin-right:10px;"><table style="width:240px;margin:0px"><tr><td>
+Recent Activity</h5><div style="float:right;margin-right:10px;"><table style="width:240px;margin:0px"><tr><td width=50%>
 
 <span id="t2a" style="display:block;">
 <a href="#" onclick="spread('recent_activity','messaging','upcoming_events');togg('t2b','t2a');return false;">Maximize</a>
@@ -236,7 +236,7 @@ Recent Activity</h5><div style="float:right;margin-right:10px;"><table style="wi
 <a href="#" onclick="unspread('recent_activity','messaging','upcoming_events');togg('t2a','t2b');return false;">Minimize</a>
 </span>
 
-</td></tr></table></div></div>
+</td><td align=right><a alt="Get RSS feed of latest case activity" title="Get RSS feed of latest case activity" onMouseOver="this.style.cursor='hand'" onClick="location.href='<?php echo $CC_base_url; ?>rss_create.php?pkey=<?php echo $ph[private_key]; ?>'"><img src="images/feed-icon-14x14.png" border="0"></a></td></tr></table></div></div>
 <TABLE WIDTH="100%">
 <tr><thead style="background-color:gray;font-size:8pt;"><td width="15%">Date</td><td width="15%">Student</td><td width="20%">Case Name</td><td width="10%">Time Spent</td><td width="40%">Activity</td></tr></thead></table>
 
@@ -302,7 +302,7 @@ if (mysql_num_rows($show_notes)<1)
 
 <div id="upcoming_events" style="overflow-x:hidden;overflow-y:hidden;">
 <div id="upcoming_events_menu">
-<h5 style="background-color:rgb(195, 217, 255);color:white;float:left; ">Upcoming Events</h5><div style="float:right;margin-right:10px;"><table style="width:240px;margin:0px"><tr><td>
+<h5 style="background-color:rgb(195, 217, 255);color:white;float:left; ">Upcoming Events</h5><div style="float:right;margin-right:10px;"><table style="width:240px;margin:0px;"><tr><td width=50%>
 <span id="t3a" style="display:block;">
 <a href="#" onclick="spread('upcoming_events','messaging','recent_activity');togg('t3b','t3a');return false;">Maximize</a>
 </span>
@@ -310,7 +310,7 @@ if (mysql_num_rows($show_notes)<1)
 <span id="t3b" style="display:none;">
 <a href="#" onclick="unspread('upcoming_events','messaging','recent_activity');togg('t3a','t3b');return false;">Minimize</a>
 </span>
-</td><td><a  alt="Your Ical Events Feed" title="Your Ical Events Feed" href="<?php echo $CC_base_url; ?>feeds_ical_generate.php?sid=<?php echo $ph[private_key]; ?>"><img src="images/ical.gif" border="0"></a></td></tr></table></div></div>
+</td><td align="right"><a  alt="Your Ical Events Feed" title="Your Ical Events Feed" onMouseOver="this.style.cursor='hand'"onClick = "location.href='<?php echo $CC_base_url; ?>feeds_ical_generate.php?sid=<?php echo $ph[private_key]; ?>'"><img src="images/ical.gif" border="0"></a></td></tr></table></div></div>
 
 <TABLE WIDTH="100%">
 <tr><thead style="background-color:gray;font-size:8pt;"><td width="10%">Date Due</td><td width="20%">Case Name</td><td width="10%">Status</td><td width="50%">To Be Done</td><td width="10%"></td></tr></thead></table>
