@@ -19,7 +19,7 @@ STEPS - New Installation
 
 3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
 and select "Import."  Import the file CC.sql.  Your database should now be setup with 
-18 tables. [There are other ways to do this, but this should work best for most users].
+19 tables. [There are other ways to do this, but this should work best for most users].
 
 4. Edit _CONFIG.php to reflect your database settings and other settings.
 
@@ -45,6 +45,8 @@ users.  The best thing to do is to add professors and adminstrators first.  Stud
 get accounts by navigating to ./newaccount/index.php and submitting their information there.  
 The adminstrator will then receive notification of this student signup and can authorize 
 students using the New Users dialog on the At A Glance screen.
+
+You should then define your case types (criminal, family law, etc), dispositions (closed, judgment granted, referred, etc) and courts by navigating to the Prefs tab and clicking Edit Menus.
 
 After this, add cases via the cases tab.  You must be logged in as an adminstrator to do this.  
 
