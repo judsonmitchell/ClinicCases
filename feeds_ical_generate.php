@@ -6,6 +6,10 @@ include_once 'classes/get_names.php';
 
 //Get the username from the private key
 $get_user = mysql_query("SELECT `username`,`private_key`,`class` FROM `cm_users` WHERE `private_key` = '$_GET[sid]' LIMIT 1");
+
+	if (mysql_num_rows($get_user)<1)
+	{die("No feed available.  Please check the URL for this feed by going to the Prefs tabs and clicking 'Private Key.'");}
+
 $g = mysql_fetch_object($get_user);
 $user = $g->username;
 

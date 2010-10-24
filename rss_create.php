@@ -11,6 +11,9 @@ function createRSS($type)
 	$pkey = $_GET['pkey'];
 	$get_user = mysql_query("SELECT `private_key`,`username`,`class` from `cm_users` where `private_key` = '$pkey' LIMIT 1");
 	
+	if (mysql_num_rows($get_user)<1)
+	{die("No feed available.  Please check the URL for this feed by going to the Prefs tabs and clicking 'Private Key.'");}
+	
 	$rr = mysql_fetch_object($get_user);
 	$usr = $rr->username;
 	
