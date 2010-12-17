@@ -8,31 +8,33 @@ $sort = $_GET['sort'];
 
 //This script is called from the js function, forcing the query to contain the searchterm when the sort is changed
 if ($_GET[force])
-    {
-    $searchterm = $_GET['sterm'];
-    $searchfield = $_GET['sfield'];
-    }
+	    {
+		    $searchterm = $_GET['sterm'];
+		    $searchfield = $_GET['sfield'];
+	    }
 
         else
             {
-                   $searchfield = $_GET['searchfield'];
-                   $searchterm = $_GET['searchterm'];
-                    }
+		   $searchfield = $_GET['searchfield'];
+		   $searchterm = $_GET['searchterm'];
+	    }
 
 
 //Direction of sort
 $sortdir = $_GET['sortdir'];
 
 if ($sortdir == "ASC")
-{$newsortdir = 'DESC';}
+	{$newsortdir = 'DESC';}
 if ($sortdir == "DESC")
-{$newsortdir = 'ASC';}
+	{$newsortdir = 'ASC';}
 if(!$sortdir)
-{$newsortdir = 'ASC';}
+	{$newsortdir = 'ASC';}
 
 //Show open, close, or all cases
 $view = $_GET['view'];
+
 //This deals with the situation with admin where there is nothing in the WHERE clause other than the date limiter (i.e., when it is called from "Clear Search Results")
+
 if ($_SESSION['class'] == 'admin'  and empty($searchterm))
 {
     if ($view == "closed")
