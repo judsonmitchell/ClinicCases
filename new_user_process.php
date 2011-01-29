@@ -94,6 +94,10 @@ $username_mod = $username . rand(1,3);
 $query = mysql_query("INSERT INTO `cm_users` (`id`,`first_name`,`last_name`,`email`,`mobile_phone`,`home_phone`,`office_phone`,`class`,`assigned_prof`,`username`,`password`,`timezone_offset`,`status`,`pref_case`,`pref_journal`,`private_key`) VALUES (NULL,'$first_name','$last_name','$_POST[email]','$mobile_phone','$home_phone','$_POST[office_phone]','$_POST[class]','$assigned_prof','$username_mod','$password3','$_POST[timezone]','$_POST[status]','$case_pref','$journal_pref','$key')");
 
 }
+if(isset($username_mod))
+{
+$username = $username_mod;
+}
 
 $message = "You ClinicCases account has been activated.  Your username is $username and your temporary password is $password2.  Please make sure to change your password after you log in by clicking the Prefs Tab.";
 $subject = "ClinicCases: Your Account is Activated";
