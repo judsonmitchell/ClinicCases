@@ -5,9 +5,10 @@ session_start();
 	
 		{
 			
-			//each supported tab corresponds with the name of a template file.
-			//$supported_tabs = array('Home','Cases','Students','Journals','Users','Board','Utilities','Prefs','Custom');
+			//Format the current tab by removing the php extension
+			$current_tab = substr($current,0,-4);
 			
+			//Determine which tabs the user sees depending on their group membership
 			switch($_SESSION['group']){
 				
 				case 'admin':
@@ -28,13 +29,23 @@ session_start();
 				
 			}
 			
+			//output the tabs
 			ob_start();
 			echo "<div id='tabs'><ul>";
 			
 			foreach ($group_tabs as $tab)
 			
 					{
-						echo "<li><a href='index.php?" . $tab . ".php'><span>$tab</span></a></li>";
+						if ($tab == $current_tab)
+						{
+							echo "<li id='current'><a href='index.php?" . $tab . ".php'><span>$tab</span></a></li>";
+						}
+						
+						else
+						
+						{
+							echo "<li><a href='index.php?" . $tab . ".php'><span>$tab</span></a></li>";
+						}
 						
 					}
 			
