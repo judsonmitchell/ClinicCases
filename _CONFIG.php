@@ -3,15 +3,15 @@
 
 //Information to access your mysql database
 $CC_dbhost = "localhost";
-$CC_dbusername = "root";
-$CC_dbpasswd = "likes69";
-$CC_database_name = "cc6_live";
+$CC_dbusername = "";
+$CC_dbpasswd = "";
+$CC_database_name = "";
 
 //Email address for the adminstrator who will deal with student questions
 $CC_admin_email = "jmitchel@loyno.edu";
 
 //Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
-$CC_base_url = "http://localhost/cc_exp/";
+$CC_base_url = "http://localhost/cc7/";
 
 //Your domain , e.g. http://www.yourserver.com
 $CC_domain = "http://localhost";
