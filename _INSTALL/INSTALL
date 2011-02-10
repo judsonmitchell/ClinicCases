@@ -1,0 +1,57 @@
+INSTALL
+
+Below are instructions on how to install ClinicCases on a typical webserver.  
+sIf you need help, please go to our forums at http://www.cliniccases.com/forums.
+
+REQUIREMENTS:
+1. Unix type webserver (e.g. Apache)
+2. Mysql
+3. PHP version 4 or higher
+4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
+5. GD libraries for php (optional; used for resizing photos)
+6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
+
+STEPS - New Installation
+
+1. Upload the compressed source file to your webserver and unzip.
+
+2.  CHMOD 777 'images_tmp', 'people', 'docs'
+
+3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
+and select "Import."  Import the file CC.sql.  Your database should now be setup with 
+19 tables. [There are other ways to do this, but this should work best for most users].
+
+4. Edit _CONFIG.php to reflect your database settings and other settings.
+
+5. [optional] In order for cron jobs to work [a weekly email to report 
+to professors and a journal rss feed], you must insert your server 
+path into cron.txt and update your crontab.
+
+6.  Delete the _INSTALL directory.
+
+STEPS - Updgrade from ClinicCases 5 to ClinicCases 6
+
+1. Unzip all files in ClinicCases6 package to your target directory, overwriting old files.
+2. Run upgrade_to_cc6.php
+3. Delete the _INSTALL directory
+
+
+GETTING STARTED
+
+A default account should have been created with the user/pass admin/admin.  (PLEASE DELETE 
+THIS ACCOUNT AFTER YOU HAVE CONFIGURED CLINICCASES.  IMPORTANT!).  Navigate to index.php 
+in your browser and login using this account.  Get started by click the users tab and adding 
+users.  The best thing to do is to add professors and adminstrators first.  Students can 
+get accounts by navigating to ./newaccount/index.php and submitting their information there.  
+The adminstrator will then receive notification of this student signup and can authorize 
+students using the New Users dialog on the At A Glance screen.
+
+You should then define your case types (criminal, family law, etc), dispositions (closed, judgment granted, referred, etc) and courts by navigating to the Prefs tab and clicking Edit Menus.
+
+After this, add cases via the cases tab.  You must be logged in as an adminstrator to do this.  
+
+Migrating existing cases from another case management system may take some expertise.  
+Either contact your IT department or go to the forums for assistance.  Three Pipe Problem, LLC 
+(mitchell@threepipeproblem.com) is happy to this, along with customization and support) for a fee.
+
+
