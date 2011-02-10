@@ -9,7 +9,7 @@
 			
 			
 			
-		}
+		})
 	</script>
 </head>
 <body>
