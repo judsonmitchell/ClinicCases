@@ -38,13 +38,13 @@ session_start();
 					{
 						if ($tab == $current_tab)
 						{
-							echo "<li id='current'><a href='index.php?" . $tab . ".php'><span>$tab</span></a></li>";
+							echo "<li id='current'><a href='index.php?i=?" . $tab . ".php'><span>$tab</span></a></li>";
 						}
 						
 						else
 						
 						{
-							echo "<li><a href='index.php?" . $tab . ".php'><span>$tab</span></a></li>";
+							echo "<li><a href='index.php?i=" . $tab . ".php'><span>$tab</span></a></li>";
 						}
 						
 					}
