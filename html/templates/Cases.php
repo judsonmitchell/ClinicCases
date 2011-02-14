@@ -1,16 +1,12 @@
-
 <!-- Jquery Calls Specific to this page -->
-	<script type="text/javascript">
-		
-		$(document).ready(function(){
-			
-			
-			
-			
-			
-			
-		}
-	</script>
+	<script src="lib/DataTables-1.7.5/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/js/TableTools.min.js"></script>
+
+	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/ColReorder/media/js/ColReorder.min.js"></script>
+
+	<script  src="html/js/Cases.js" type="text/javascript"></script>
+
 </head>
 <body>
 
@@ -21,14 +17,32 @@
 		<?php $t = tabs($_GET['i']); echo $t; ?>
 		
 		<div id="menus">
-			<img src="html/images/logo_small4.png">  <a class="menu" href="http://code.google.com/p/cliniccases/issues/entry" target="_new" >Report Problems</a> | <a class="menu" href="logout.php">Logout</a> | Status: <span id="session_info"><span style="color:red;">Offline</span></span>
+			
+			<?php include 'html/templates/Menus.php'; ?>
+
 		</div>
 
 	</div>
 
 	<div id="content">
 
-This is the cases file.
+		<table id="table_cases" class="display">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Date Open</th>
+					<th>Date Close</th>
+					<th>Case Type</th>
+					<th>Professor</th>
+					<th>Disposition</th>
+				</tr>
+				</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
 
 	</div>
 

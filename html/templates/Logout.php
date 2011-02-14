@@ -1,9 +1,12 @@
 <?php
 	session_start();
 	include '../../db.php';
-	unset($_SESSION['login']);
-	unset($_SESSION['class']);
+	include '../../lib/php/auth/log_write.php';
+	
+	write_log($_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
+	session_unset();
 	session_destroy();
+	
 ?>
 <html>
 	<head>

@@ -6,7 +6,7 @@
 			
 			function login_user()
 			{
-				$.post("lib/php/login.php", $("#getin").serialize(),function(data){
+				$.post("lib/php/auth/login.php", $("#getin").serialize(),function(data){
 					
 					var response = $.parseJSON(data);
 							if (response.login == 'true')
@@ -30,7 +30,7 @@
 			
 			$("#f_submit").live('click',function () {
 				event.preventDefault();
-				$.post("lib/php/forgot_password", {email:$("#email").val()}, function (data)
+				$.post("lib/php/auth/forgot_password", {email:$("#email").val()}, function (data)
 					{$("#forgot").html(data)}
 					)})
 					
