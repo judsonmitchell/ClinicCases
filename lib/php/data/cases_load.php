@@ -1,12 +1,13 @@
 <?php 
 session_start();
 include '../../../db.php';
+include 'time.php';
 
 	$user = $_SESSION['login'];
 	
 	switch($_SESSION['group'])
 		{
-			
+		
 		case 'prof':
 		$query = mysql_query("SELECT `id`, `first_name`,`last_name`,`date_open`,`date_close`,`case_type`,`professor`,`dispo` FROM `cm` WHERE `professor` LIKE '%$user%'");
 		break;
