@@ -60,7 +60,7 @@
 }
 
 .dataTables_filter {
-	width: 50%;
+	width: 40%;
 	float: left;
 	text-align: left;
 }
@@ -146,6 +146,7 @@ table.display tr.heading2 td {
 
 table.display td {
 	padding: 3px 10px;
+	text-align:left;
 }
 
 table.display td.center {
@@ -219,7 +220,7 @@ table.display tr.even.gradeU {
 
 
 tr.odd {
-	background-color: #E2E4FF;
+	background-color: #e0e0e0;
 }
 
 tr.even {
@@ -470,36 +471,36 @@ tr.even.gradeU td.sorting_3 {
 	background-color: #E6FF99;
 }
 
-.ex_highlight_row #example tr.even:hover {
-	background-color: #ECFFB3;
+tr.even:hover {
+	background-color: #FFFFCB;
 }
 
-.ex_highlight_row #example tr.even:hover td.sorting_1 {
-	background-color: #DDFF75;
+tr.even:hover td.sorting_1 {
+	background-color: #FFFFCB;
 }
 
-.ex_highlight_row #example tr.even:hover td.sorting_2 {
-	background-color: #E7FF9E;
+tr.even:hover td.sorting_2 {
+	background-color: #FFFFCB;
 }
 
-.ex_highlight_row #example tr.even:hover td.sorting_3 {
-	background-color: #E2FF89;
+tr.even:hover td.sorting_3 {
+	background-color: #FFFFCB;
 }
 
-.ex_highlight_row #example tr.odd:hover {
-	background-color: #E6FF99;
+tr.odd:hover {
+	background-color: #FFFFCB;
 }
 
-.ex_highlight_row #example tr.odd:hover td.sorting_1 {
-	background-color: #D6FF5C;
+tr.odd:hover td.sorting_1 {
+	background-color:  #FFFFCB;
 }
 
-.ex_highlight_row #example tr.odd:hover td.sorting_2 {
-	background-color: #E0FF84;
+tr.odd:hover td.sorting_2 {
+	background-color:  #FFFFCB;
 }
 
-.ex_highlight_row #example tr.odd:hover td.sorting_3 {
-	background-color: #DBFF70;
+tr.odd:hover td.sorting_3 {
+	background-color:  #FFFFCB;
 }
 
 
