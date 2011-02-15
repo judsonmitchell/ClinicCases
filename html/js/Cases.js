@@ -40,7 +40,7 @@ $(document).ready(function(){
 					null,
 					null
 					],
-					"sDom": 'f<"selector">Tilrtp',
+					"sDom": '<"top"f<"selector">Tl>irtp',
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf"
 							},
@@ -55,5 +55,7 @@ $(document).ready(function(){
 			var iId = aData[0];
 			alert(iId);
 		})
+		
+		$('.clicker').click(function(){event.preventDefault();$('.hide').toggle('slide',{direction:'right'},1000)});
 });
 
