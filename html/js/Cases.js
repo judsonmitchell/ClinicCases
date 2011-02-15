@@ -40,14 +40,14 @@ $(document).ready(function(){
 					null,
 					null
 					],
-					"sDom": 'RTfilrtp',
+					"sDom": 'f<"selector">Tilrtp',
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf"
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php'
 				});
 		
-		
+				$("div.selector").html('<select id="chooser"><option>Open Cases Only</option><option>Closed Cases Only</option><option>All Cases</option></select>');
 	
 		$('#table_cases tbody').click( function () {
 			var iPos = oTable.fnGetPosition( event.target.parentNode );
