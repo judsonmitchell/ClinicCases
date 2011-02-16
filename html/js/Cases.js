@@ -47,7 +47,7 @@ $(document).ready(function(){
 					"sAjaxSource": 'lib/php/data/cases_load.php'
 				});
 		
-				$("div.selector").html('<select id="chooser"><option>Open Cases Only</option><option>Closed Cases Only</option><option>All Cases</option></select>');
+				$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>');
 	
 		$('#table_cases tbody').click( function () {
 			var iPos = oTable.fnGetPosition( event.target.parentNode );
@@ -56,6 +56,26 @@ $(document).ready(function(){
 			alert(iId);
 		})
 		
-		$('.clicker').click(function(){event.preventDefault();$('.hide').toggle('slide',{direction:'right'},1000)});
+		$('#chooser').change(function(){
+			
+			switch ($(this).val())
+			{
+				case 'all':
+				oTable.fnFilter('',4);
+				break;
+				
+				case 'open':
+				oTable.fnFilter( '^$', 4, true, false );
+				break;
+				
+				case 'closed':
+				oTable.fnFilter( '^.+$', 4, true, false );
+				break;
+			}
+
+			});
+		
+		
+	oTable.fnFilter( '^$', 4, true, false );
 });
 
