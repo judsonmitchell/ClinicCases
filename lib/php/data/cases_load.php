@@ -53,8 +53,8 @@ include 'names.php';
 					{
 						$profs = explode(",",$result['professor']);
 						array_pop($profs);
-						array_walk($profs,'username_to_lastname');
-						$result['professor'] = implode(", ",$profs);
+						$lnames = array_map('username_to_lastname',$profs);
+						$result['professor'] = implode(", ",$lnames);
 					}
 					
 					
