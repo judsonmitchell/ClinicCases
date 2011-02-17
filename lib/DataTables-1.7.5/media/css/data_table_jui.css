@@ -74,7 +74,18 @@ div.dataTables_wrapper .ui-widget-header {
 	font-weight: normal;
 }
 
+/* JM adds */
+thead input {
+	margin: 0.5em 0;
+	width: 100%;
+	color: #444;
+}
 
+thead tr.advanced{
+display:none;
+}
+
+/*End JM adds */
 /*
  * Sort arrow icon positioning
  */
@@ -133,14 +144,15 @@ table.display thead th div.DataTables_sort_wrapper span {
 }
 
 .dataTables_filter {
-	width: 50%;
-	float: right;
-	text-align: right;
+	width: 26%;
+	float: left;
+	text-align: left;
 }
 
 .dataTables_info {
 	width: 50%;
 	float: left;
+	text-align:left;
 }
 
 .dataTables_paginate {
@@ -511,3 +523,5 @@ tr.even.gradeU td.sorting_3 {
 .ex_highlight #example tbody tr.odd:hover, #example tbody tr.odd td.highlighted {
 	background-color: #E6FF99;
 }
+
+.selector {width:30%;float:left;text-align:left;}
