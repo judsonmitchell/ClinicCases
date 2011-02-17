@@ -24,30 +24,43 @@ $(document).ready(function(){
 				});
 
 		oTable =	$('#table_cases').dataTable( {
+					"bJQueryUI": true,
 					"bProcessing": true,
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
 					"sScrollY": "400px",
 					"iDisplayLength": 50,
-					"aaSorting": [[ 2, "asc" ]],
+					"aaSorting": [[ 3, "asc" ]],
 					"aoColumns": [
 					{ "bSearchable": false, "bVisible":    false },
+					{"bVisible": false},
 					null,
 					null,
 					null,
 					null,
 					null,
 					null,
+					{"bVisible": false},
+					{"bVisible": false},
+					{"bVisible": false},
+					{"bVisible": false},
+					{"bVisible": false},
 					null
 					],
-					"sDom": '<"top"f<"selector">Tl>irtp',
+					"sDom": 'f<"selector">T<"clear"C>irtp',
+					"oColVis": {"aiExclude": [ 0 ]},
 					"oTableTools": {
-								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf"
+								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
+								"aButtons": [{
+									"sExtends":    "collection",
+									"sButtonText": "Print/Export",
+									"aButtons":    [ "csv", "xls", "pdf","print" ],
+									}]
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php'
 				});
 		
-				$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>');
+				$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
 	
 		$('#table_cases tbody').click( function () {
 			var iPos = oTable.fnGetPosition( event.target.parentNode );
@@ -61,21 +74,25 @@ $(document).ready(function(){
 			switch ($(this).val())
 			{
 				case 'all':
-				oTable.fnFilter('',4);
+				oTable.fnFilter('',5);
 				break;
 				
 				case 'open':
-				oTable.fnFilter( '^$', 4, true, false );
+				oTable.fnFilter( '^$', 5, true, false );
 				break;
 				
 				case 'closed':
-				oTable.fnFilter( '^.+$', 4, true, false );
+				oTable.fnFilter( '^.+$', 5, true, false );
 				break;
 			}
 
 			});
+		$('#set_advanced').click(function(){
+			event.preventDefault();
+			$('thead tr.advanced').toggle('slow')
+			})
 		
-		
-	oTable.fnFilter( '^$', 4, true, false );
+	oTable.fnFilter( '^$', 5, true, false );
+
 });
 
