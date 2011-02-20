@@ -325,7 +325,7 @@ tfoot input {
 	color: #444;
 }
 
-tfoot input.search_init {
+thead input.search_init {
 	color: #999;
 }
 
