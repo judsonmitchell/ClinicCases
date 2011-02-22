@@ -2,7 +2,6 @@
 
 var oTable;
 var asInitVals = new Array();
-var selectCols = Array('Case Type','Gender','Race','Disposition');
 
 //function to create selects for advanced search
 
@@ -70,7 +69,7 @@ $.fn.dataTableExt.oApi.fnGetColumnData = function ( oSettings, iColumn, bUnique,
 function fnCreateSelect( aData )
 {
 
-	var r='<select><option value=""></option>', i, iLen=aData.length;
+	var r='<select class="fltr_select"><option value=""></option>', i, iLen=aData.length;
 	for ( i=0 ; i<iLen ; i++ )
 	{
 		r += '<option value="'+aData[i]+'">'+aData[i]+'</option>';
@@ -164,15 +163,14 @@ $(document).ready(function(){
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php',
 					"fnInitComplete": function() {
-						i=-1;
-						$("thead tr.advanced th.addSelects").each(function(){
-							//colTitle = this.text();//wont work; need the previous sibling
-							i++
-							realIndex = oTable.fnGetColumnIndex(selectCols[i])
-							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(realIndex) );
-
+						//i=-1;
+						$("div.dataTables_scrollHeadInner thead th.addSelects").each(function(){
+							
+							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData($(this).attr('column')));		
+							
 							})
-
+							//Important: After the selects have been rendered, set visibilities.
+							
 						}	
 					
 				});
@@ -213,8 +211,11 @@ $(document).ready(function(){
 			
 //Code for advanced search using inputs
 		$("thead input").keyup(function () {
-			//oTable.fnFilter( this.value, $(this).attr('column') );
-			oTable.fnFilter( this.value, oTable.oApi._fnVisibleToColumnIndex( oTable.fnSettings(),$("thead input").index(this) ) );
+			
+			parent = $(this).parent();
+			colIndex = parent.attr('column');
+			oTable.fnFilter( this.value, $(this).attr('column') );
+			
 			
 			});
 			
@@ -246,15 +247,28 @@ $(document).ready(function(){
 	//When page loads, default filter is applied: open cases	
 	oTable.fnFilter( '^$', 5, true, false );
 	
+	//resizes the table whenever parent element size changes
+	$(window).bind('resize', function () {
+		oTable.fnAdjustColumnSizing();
+	} );
+	
 	//Provides filter for the selects
-	$("thead th.addSelects").each( function ( i ) {
-		$('select', this).change( function () {
-		oTable.fnFilter( $(this).val(), i );
-			})
+	//$("div.dataTables_scrollHeadInner thead th.addSelects").each( function ( i ) {
+		//realIndex = oTable.fnGetColumnIndex(selectCols[i])
+
+		//$('select', this).live( function () {
+		//oTable.fnFilter( this.val(), realIndex );
+			//})
+		//})
+
+	$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
+		parent = $(this).parent();
+		colIndex = parent.attr('column');
+		oTable.fnFilter(this.value,colIndex)
 		})
 		
 	
-			
+
 
 });
 
