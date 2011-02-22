@@ -69,14 +69,14 @@
 					<th><input type="text" name = "last_name" class="search_init" value="Search Last Name" column = "3"></th>
 					<th><input type="text" name = "date_open" class="search_init" value="Select Min Date" column = "4"></th>
 					<th><input type="text" name = "date_close" class="search_init" value="Select Max Date" column = "5"></th>
-					<th  class="addSelects"></th>
-					<th><input type="text" name = "professor" class="search_init" value="Search Professor" column = "6"></th>
-					<th><input type="text" name = "ssn" class="search_init" value="Search SSN" column = "7"></th>
-					<th><input type="text" name = "dob" class="search_init" value="Search DOB" column = "8"></th>
-					<th><input type="text" name = "age" class="search_init" value="Search Age" column = "9"></th>
-					<th class = "addSelects"></th>
-					<th class = "addSelects"></th>
-					<th class = "addSelects"></th>
+					<th  class="addSelects" column = "6"></th>
+					<th><input type="text" name = "professor" class="search_init" value="Search Professor" column = "7"></th>
+					<th><input type="text" name = "ssn" class="search_init" value="Search SSN" column = "8"></th>
+					<th><input type="text" name = "dob" class="search_init" value="Search DOB" column = "9"></th>
+					<th><input type="text" name = "age" class="search_init" value="Search Age" column = "10"></th>
+					<th class = "addSelects" column = "11"></th>
+					<th class = "addSelects" column = "12"></th>
+					<th class = "addSelects" column = "13"></th>
 					
 				</tr>
 				</thead>
