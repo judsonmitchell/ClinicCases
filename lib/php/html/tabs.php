@@ -38,7 +38,7 @@ session_start();
 					{
 						if ($tab == $current_tab)
 						{
-							echo "<li id='current'><a href='index.php?i=?" . $tab . ".php'><span>$tab</span></a></li>";
+							echo "<li id='current'><a href='index.php?i=" . $tab . ".php'><span>$tab</span></a></li>";
 						}
 						
 						else
