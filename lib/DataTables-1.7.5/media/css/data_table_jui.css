@@ -81,6 +81,10 @@ thead input {
 	color: #444;
 }
 
+thead select {
+	margin: 0.5em 0;
+}
+
 thead tr.advanced{
 display:none;
 }
