@@ -67,8 +67,26 @@
 					<th><input type="text" name="clinic_id" class="search_init" value="Case Number" column = "1"></th>
 					<th><input type="text" name= "first_name" class="search_init" value="Search First Name" column = "2"></th>
 					<th><input type="text" name = "last_name" class="search_init" value="Search Last Name" column = "3"></th>
-					<th><input type="text" name = "date_open" class="search_init" value="Select Min Date" column = "4"></th>
-					<th><input type="text" name = "date_close" class="search_init" value="Select Max Date" column = "5"></th>
+					<th class="complex">
+					
+						<select id="open_range">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">></option>
+							<option value="less"><</option>
+						</select>
+					
+						<input type="text" name = "date_open" id="date_open" class="search_init" value="" column = "4"></th>
+					
+					<th class="complex">
+					
+						<select id="close_range">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">></option>
+							<option value="less"><</option>
+						</select>
+					
+						<input type="text" name = "date_close" id="date_close" class="search_init" value="" column = "5"></th>
+					
 					<th  class="addSelects" column = "6"></th>
 					<th><input type="text" name = "professor" class="search_init" value="Search Professor" column = "7"></th>
 					<th><input type="text" name = "ssn" class="search_init" value="Search SSN" column = "8"></th>

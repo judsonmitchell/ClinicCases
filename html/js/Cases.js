@@ -2,6 +2,41 @@
 
 var oTable;
 var asInitVals = new Array();
+var defaultHiddenColumns = Array('0','1','8','9','10','11','12');//refers to header rows in cases.php
+
+//function to handle dates: search by date or search by date range
+//function dateRange(range,date)
+	//{	
+		//switch(range)
+		//{
+			//case '=':
+			//oTable.fnFilter( this.value, $("#date_open").attr('column'))
+			//break;
+					
+			//case '>':
+			
+				
+				 //oTable.fnDraw();	
+			//break;
+					
+			//case '<':
+				//$.fn.dataTableExt.afnFiltering.push(
+				//function( oSettings, aData, iDataIndex){ 
+
+					//if (aData[4] < date )
+						//{return true;}
+						//else
+						//{return false;}
+					//})
+			
+				 //oTable.fnDraw();						
+			//break;
+		//}
+		
+		
+		
+	//}
+
 
 //function to create selects for advanced search
 
@@ -140,38 +175,61 @@ $(document).ready(function(){
 					{"bVisible": false},
 					null,
 					null,
+					{"sWidth":"15%"},
+					{"sWidth":"15%"},
 					null,
 					null,
 					null,
 					null,
-					{"bVisible": false},
-					{"bVisible": false},
-					{"bVisible": false},
-					{"bVisible": false},
-					{"bVisible": false},
+					null,
+					null,
+					null,
 					null
 					],
-					"sDom": 'f<"selector">T<"clear"C>irtp',
+					"sDom": 'f<"selector">T<"clear"C>i<"reset">rtp',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true},
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
-								"aButtons": [{
+								"aButtons": [
+									{
 									"sExtends":    "collection",
 									"sButtonText": "Print/Export",
-									"aButtons":    [ "csv", "xls", "pdf","print" ],
-									}]
+									"aButtons":    [ 
+											{	"sExtends":"csv",
+												"mColumns":"visible"
+											},
+											
+											{	"sExtends":"xls",
+												"mColumns":"visible"
+											},
+											
+											{	"sExtends":"pdf",
+												"mColumns":"visible"
+											},
+											
+											{	"sExtends":"print",
+												"mColumuns":"visible",
+												"sInfo":"Use your browser's print function to print.  Press Esc when done."	
+												
+											}
+										]
+									 }
+									]
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php',
 					"fnInitComplete": function() {
-						//i=-1;
 						$("div.dataTables_scrollHeadInner thead th.addSelects").each(function(){
 							
-							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData($(this).attr('column')));		
-							
+							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData($(this).attr('column'),true,false,true));		
+
 							})
-							//Important: After the selects have been rendered, set visibilities.
 							
-						}	
+							//Important: After the selects have been rendered, set visibilities.  This allows the hidden selects to get the proper values.  See http://datatables.net/forums/comments.php?DiscussionID=3318
+							
+							for (var c in defaultHiddenColumns)
+							{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
+							
+						}
 					
 				});
 				
@@ -185,6 +243,7 @@ $(document).ready(function(){
 			alert(iId);
 		})
 		
+		//Change the case status select
 		$('#chooser').change(function(){
 			
 			switch ($(this).val())
@@ -203,13 +262,17 @@ $(document).ready(function(){
 			}
 
 			});
-			
+		
+		//Set css for advanced date function; make room for the operator selects 	
 		$('#set_advanced').click(function(){
-			event.preventDefault();
+			event.preventDefault();			
+			$(".complex").children().css('display','inline');	
+			$("#date_open , #date_close").css('width','60%');
 			$('thead tr.advanced').toggle('slow')
+			oTable.fnDraw();
 			})
 			
-//Code for advanced search using inputs
+		//Code for advanced search using inputs
 		$("thead input").keyup(function () {
 			
 			parent = $(this).parent();
@@ -239,9 +302,6 @@ $(document).ready(function(){
 				this.value = asInitVals[$("thead input").index(this)];
 			}
 			} );
-	
-
-
 		
 
 	//When page loads, default filter is applied: open cases	
@@ -252,23 +312,132 @@ $(document).ready(function(){
 		oTable.fnAdjustColumnSizing();
 	} );
 	
-	//Provides filter for the selects
-	//$("div.dataTables_scrollHeadInner thead th.addSelects").each( function ( i ) {
-		//realIndex = oTable.fnGetColumnIndex(selectCols[i])
-
-		//$('select', this).live( function () {
-		//oTable.fnFilter( this.val(), realIndex );
-			//})
-		//})
-
+	//Enable search via selects in advanced search
 	$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
 		parent = $(this).parent();
 		colIndex = parent.attr('column');
 		oTable.fnFilter(this.value,colIndex)
 		})
+	
+	//Add datepickers	
+	$(function() {
+		$( "#date_open" ).datepicker({	
+			changeMonth: true,
+			changeYear: true,		
+			onSelect:function(){
+					oTable.fnDraw();
+				}
+		})
+	});
+	
+	$(function() {
+		$( "#date_close" ).datepicker({
+			changeMonth: true,
+			changeYear: true,				
+			onSelect:function(){
+					oTable.fnDraw();
+				}
+		})		
+	});
+	
+
+	//Reset displayed data
+	function fnResetAllFilters() {
+		var oSettings = oTable.fnSettings();
 		
+		//reset advanced header selects
+		for(iCol = 0; iCol < oSettings.aoPreSearchCols.length; iCol++) {
+			oSettings.aoPreSearchCols[ iCol ].sSearch = '';
+		}
+		
+		//reset the main filter
+		oTable.fnFilter('');
+		
+		//reset the user display for inputs and selects
+		$("input").each(function(){this.value=''});
+		$("select").each(function(){this.selectedIndex='0'});
+		
+		//return to default open cases filter
+		oTable.fnFilter( '^$', 5, true, false );
+		
+		//return to default sort - Last Name
+		oTable.fnSort([3,'asc']);
+		
+		//redraw the table so that all columns line up
+		oTable.fnDraw();
+		
+		//reset the default values for advanced search
+		$("thead input").each( function (i) {
+			this.value = asInitVals[$("thead input").index(this)];
+			this.className = "search_init"
+			});
+		
+	}
+	
+	//Add the reset button
+	$(".reset").html("<button>Reset</button>");
+	$(".reset").click(function(){fnResetAllFilters()});
+	
 	
 
 
+
 });
+
+$.fn.dataTableExt.afnFiltering.push(
+	
+	function( oSettings, aData, iDataIndex){ 
+		
+		var opOperator = document.getElementById('open_range').value;
+		var clOperator = document.getElementById('close_range').value;
+		var opFieldRaw = document.getElementById('date_open').value;
+		var clFieldRaw = document.getElementById('date_close').value;		
+		var opRowRaw = aData[4];
+		var clRowRaw = aData[5];
+		
+		//date conversions
+		
+		var opField = opFieldRaw.substring(6,10) + opFieldRaw.substring(0,2)  + opFieldRaw.substring(3,5);
+		var clField = clFieldRaw.substring(6,10) + clFieldRaw.substring(0,2)  + clFieldRaw.substring(3,5);
+		var opRow = opRowRaw.substring(6,10) + opRowRaw.substring(0,2)  + opRowRaw.substring(3,5);
+		var clRow = clRowRaw.substring(6,10) + clRowRaw.substring(0,2)  + clRowRaw.substring(3,5);
+		
+			if ( opField == '' && clField == '' )
+				{
+					return true;
+				}
+			
+			else if (opField != '' && opOperator == 'equals' && opRow == opField )
+				{
+					return true;	
+				}
+				
+			else if (opField != '' && opOperator == 'greater' && opRow > opField)
+				{
+					return true;
+				}
+				
+			else if (opField != '' && opOperator == 'less' && opRow < opField)
+				{
+					return true;
+				}
+				
+			else if (clField != '' && clOperator == 'equals' && clRow == clField)
+				{
+					return true;
+				}
+				
+			else if (clField != '' && clOperator == 'greater' && clRow > clField)
+				{
+					return true;
+				}
+				
+			else if (clField != '' && clOperator == 'less' && clRow < clField)
+				{
+					return true;
+				}
+				
+				return false;
+		}
+	)
 
