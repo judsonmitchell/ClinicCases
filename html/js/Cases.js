@@ -266,12 +266,22 @@ $(document).ready(function(){
 		//Set css for advanced date function; make room for the operator selects 	
 		$('#set_advanced').click(function(){
 			event.preventDefault();			
-			$(".complex").children().css('display','inline');	
+			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 			$("#date_open , #date_close").css('width','60%');
 			$('thead tr.advanced').toggle('slow')
 			oTable.fnDraw();
 			})
 			
+		$('#addOpenRow , #addCloseRow').click(function(){
+			event.preventDefault();
+			$(this).text('AND IS');
+			$(".complex").children().css({'display' : 'inline','margin' : '0px'});	
+			$("#date_open_2 , #date_close_2").css({'width':'60%'});
+			$('thead tr.advanced_2').toggle('slow')
+			
+
+		})
+		
 		//Code for advanced search using inputs
 		$("thead input").keyup(function () {
 			
@@ -321,7 +331,7 @@ $(document).ready(function(){
 	
 	//Add datepickers	
 	$(function() {
-		$( "#date_open" ).datepicker({	
+		$( "#date_open , #date_close, #date_open_2, #date_close_2" ).datepicker({	
 			changeMonth: true,
 			changeYear: true,		
 			onSelect:function(){
@@ -330,15 +340,6 @@ $(document).ready(function(){
 		})
 	});
 	
-	$(function() {
-		$( "#date_close" ).datepicker({
-			changeMonth: true,
-			changeYear: true,				
-			onSelect:function(){
-					oTable.fnDraw();
-				}
-		})		
-	});
 	
 
 	//Reset displayed data
@@ -361,16 +362,16 @@ $(document).ready(function(){
 		oTable.fnFilter( '^$', 5, true, false );
 		
 		//return to default sort - Last Name
-		oTable.fnSort([3,'asc']);
+		oTable.fnSort([[3,'asc']]);
 		
 		//redraw the table so that all columns line up
 		oTable.fnDraw();
 		
 		//reset the default values for advanced search
-		$("thead input").each( function (i) {
-			this.value = asInitVals[$("thead input").index(this)];
-			this.className = "search_init"
-			});
+		//$("thead input").each( function (i) {
+			//this.value = asInitVals[$("thead input").index(this)];
+			//this.className = "search_init"
+			//});
 		
 	}
 	
@@ -389,54 +390,91 @@ $.fn.dataTableExt.afnFiltering.push(
 	function( oSettings, aData, iDataIndex){ 
 		
 		var opOperator = document.getElementById('open_range').value;
+		var opOperator2 = document.getElementById('open_range_2').value;
 		var clOperator = document.getElementById('close_range').value;
+		var clOperator2 = document.getElementById('close_range_2').value;
 		var opFieldRaw = document.getElementById('date_open').value;
-		var clFieldRaw = document.getElementById('date_close').value;		
+		var opFieldRaw2 = document.getElementById('date_open_2').value;
+		var clFieldRaw = document.getElementById('date_close').value;
+		var clFieldRaw2 = document.getElementById('date_close_2').value;		
 		var opRowRaw = aData[4];
 		var clRowRaw = aData[5];
 		
 		//date conversions
 		
 		var opField = opFieldRaw.substring(6,10) + opFieldRaw.substring(0,2)  + opFieldRaw.substring(3,5);
+		var opField2 = opFieldRaw2.substring(6,10) + opFieldRaw2.substring(0,2)  + opFieldRaw2.substring(3,5);
 		var clField = clFieldRaw.substring(6,10) + clFieldRaw.substring(0,2)  + clFieldRaw.substring(3,5);
+		var clField2 = clFieldRaw2.substring(6,10) + clFieldRaw2.substring(0,2)  + clFieldRaw2.substring(3,5);
 		var opRow = opRowRaw.substring(6,10) + opRowRaw.substring(0,2)  + opRowRaw.substring(3,5);
 		var clRow = clRowRaw.substring(6,10) + clRowRaw.substring(0,2)  + clRowRaw.substring(3,5);
 		
+			//Basic open field sorting
 			if ( opField == '' && clField == '' )
 				{
 					return true;
 				}
 			
-			else if (opField != '' && opOperator == 'equals' && opRow == opField )
+			else if (opField2 == '' && opOperator == 'equals' && opRow == opField )
 				{
 					return true;	
 				}
 				
-			else if (opField != '' && opOperator == 'greater' && opRow > opField)
+			else if (opField2 == '' && opOperator == 'greater' && opRow > opField)
 				{
 					return true;
 				}
 				
-			else if (opField != '' && opOperator == 'less' && opRow < opField)
+			else if (opField2 == '' && opOperator == 'less' && opRow < opField)
+				{
+					return true;
+				}
+			
+			//Basic closed field sorting	
+			else if (clField2 == '' && clOperator == 'equals' && clRow == clField)
 				{
 					return true;
 				}
 				
-			else if (clField != '' && clOperator == 'equals' && clRow == clField)
+			else if (clField2 == '' && clOperator == 'greater' && clRow > clField)
 				{
 					return true;
 				}
 				
-			else if (clField != '' && clOperator == 'greater' && clRow > clField)
+			else if (clField2 == '' && clOperator == 'less' && clRow < clField)
+				{
+					return true;
+				}
+			//Complex (two conditions) open field sorting
+			else if (opField2 != '' && opOperator == 'equals' && opRow == opField && opOperator2 == 'equals' && opRow == opField2)
+				{
+					return true;
+				}
+			
+			else if (opField2 != '' && opOperator == 'less' && opRow < opField && opOperator2 == 'greater' && opRow > opField2)
 				{
 					return true;
 				}
 				
-			else if (clField != '' && clOperator == 'less' && clRow < clField)
+			else if (opField2 !== '' && opOperator == 'greater' && opRow > opField && opOperator2 == 'less' && opRow < opField2)
+				{
+					return true;
+				}
+			//Complex (two conditions closed field sorting
+			else if (clField != '' && clOperator == 'equals' && clRow == clField && clOperator2 == 'equals' && clRow == clField2)
 				{
 					return true;
 				}
 				
+			else if (clField != '' && clOperator == 'greater' && clRow > clField && clOperator2 == 'less' && clRow < clField2)
+				{
+					return true;
+				}
+				
+			else if (clField != '' && clOperator == 'less' && clRow < clField && clOperator2 == 'greater' && clRow > clField2)
+				{
+					return true;
+				}
 				return false;
 		}
 	)
