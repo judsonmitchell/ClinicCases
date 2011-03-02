@@ -75,7 +75,10 @@
 							<option value="less"><</option>
 						</select>
 					
-						<input type="text" name = "date_open" id="date_open" class="search_init" value="" column = "4"></th>
+						<input type="text" name = "date_open" id="date_open" class="search_init" value="" column = "4"><br />
+						<a href="#" id="addOpenRow" class="smallgray">Add Condition</a>
+						
+						</th>
 					
 					<th class="complex">
 					
@@ -85,7 +88,10 @@
 							<option value="less"><</option>
 						</select>
 					
-						<input type="text" name = "date_close" id="date_close" class="search_init" value="" column = "5"></th>
+						<input type="text" name = "date_close" id="date_close" class="search_init" value="" column = "5"><br />
+						
+						<a href="#" id="addCloseRow" class="smallgray">Add Condition</a>
+						</th>
 					
 					<th  class="addSelects" column = "6"></th>
 					<th><input type="text" name = "professor" class="search_init" value="Search Professor" column = "7"></th>
@@ -96,6 +102,43 @@
 					<th class = "addSelects" column = "12"></th>
 					<th class = "addSelects" column = "13"></th>
 					
+				</tr>
+				
+				<tr class="advanced_2">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th class="complex">
+						
+						<select id="open_range_2">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">></option>
+							<option value="less"><</option>
+						</select>
+					
+						<input type="text" name = "date_open_2" id="date_open_2" class="search_init" value="" column = "4"><br />
+					
+					</th>
+					<th class="complex">
+					
+						<select id="close_range_2">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">></option>
+							<option value="less"><</option>
+						</select>
+					
+						<input type="text" name = "date_close_2" id="date_close_2" class="search_init" value="" column = "5"></th>
+									
+					</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
 				</tr>
 				</thead>
 			<tbody>
