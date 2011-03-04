@@ -1,4 +1,4 @@
-<?
+<?php
 # database connection scripts
 # the next 4 lines you can modify
 include '_CONFIG.php';
