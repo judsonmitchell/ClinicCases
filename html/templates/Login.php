@@ -59,15 +59,20 @@
 			$("#password").keyup(function(event){
 				event.preventDefault();
 				if(event.keyCode == '13'){login_user();}})
-			
+
 				
 		})
+
 </script>
 <!-- End Jquery Calls -->
 </head>
 
 <body>
 <div id="content" style="margin-top:25px;">
+
+	<div id="idletimeout">
+		You have been logged off due to 20 minutes inactivity. Please log in again. 
+	</div>
 
 
 	<div id="wrapper1">
