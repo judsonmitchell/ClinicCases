@@ -168,6 +168,8 @@ $(document).ready(function(){
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
 					"sScrollY": "400px",
+					"sScrollX": "100%",
+					"bScrollCollapse": true,
 					"iDisplayLength": 50,
 					"aaSorting": [[ 3, "asc" ]],
 					"aoColumns": [
@@ -267,7 +269,7 @@ $(document).ready(function(){
 		$('#set_advanced').click(function(){
 			event.preventDefault();			
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
-			$("#date_open , #date_close").css('width','60%');
+			$("#date_open , #date_close").css('width','65%');
 			$('thead tr.advanced').toggle('slow')
 			oTable.fnDraw();
 			})
@@ -430,18 +432,18 @@ $.fn.dataTableExt.afnFiltering.push(
 					return true;
 				}
 			
-			//Basic closed field sorting	
-			else if (clField2 == '' && clOperator == 'equals' && clRow == clField)
+			//Basic closed field sorting	 
+			else if (clField2 == '' && clField !== '' && clOperator == 'equals' && clRow == clField)
 				{
 					return true;
 				}
 				
-			else if (clField2 == '' && clOperator == 'greater' && clRow > clField)
+			else if (clField2 == '' && clField !== '' && clOperator == 'greater' && clRow > clField)
 				{
 					return true;
 				}
 				
-			else if (clField2 == '' && clOperator == 'less' && clRow < clField)
+			else if (clField2 == '' && clField !== '' && clOperator == 'less' && clRow < clField)
 				{
 					return true;
 				}
