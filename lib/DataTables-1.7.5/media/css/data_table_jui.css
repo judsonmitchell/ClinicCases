@@ -66,6 +66,7 @@
 
 table.display thead th {
 	padding: 3px 0px 3px 10px;
+	text-align:left;
 	cursor: pointer;
 	* cursor: hand;
 }
@@ -216,6 +217,7 @@ table.display tr.heading2 td {
 
 table.display td {
 	padding: 3px 10px;
+	text-align:left;
 }
 
 table.display td.center {
