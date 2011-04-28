@@ -161,7 +161,7 @@ $(document).ready(function(){
 						$(this).slideUp(); // hide the warning bar
 						}
 				});
-
+				
 		oTable =	$('#table_cases').dataTable( {
 					"bJQueryUI": true,
 					"bProcessing": true,
@@ -188,7 +188,7 @@ $(document).ready(function(){
 					null,
 					null
 					],
-					"sDom": 'f<"selector">T<"clear"C>i<"reset">rtp',
+					"sDom": 'f<"selector"><"reset">TCirtp',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true},
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
@@ -230,6 +230,8 @@ $(document).ready(function(){
 							
 							for (var c in defaultHiddenColumns)
 							{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
+							
+							$('#processing').hide();//hide the "loading" div after load.
 							
 						}
 					
@@ -378,12 +380,8 @@ $(document).ready(function(){
 	}
 	
 	//Add the reset button
-	$(".reset").html("<button>Reset</button>");
+	$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
 	$(".reset").click(function(){fnResetAllFilters()});
-	
-	
-
-
 
 });
 
@@ -478,6 +476,7 @@ $.fn.dataTableExt.afnFiltering.push(
 					return true;
 				}
 				return false;
-		}
+		}             
+	
 	)
 
