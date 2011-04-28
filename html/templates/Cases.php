@@ -14,7 +14,6 @@
 	
 	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/ColVis/media/js/ColVis.js"></script> 
 
-
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	
 	
@@ -43,7 +42,10 @@
 
 	<div id="content">
 
-		<table id="table_cases" class="display">
+		<div id="processing">Loading....</div>
+		
+			<table id="table_cases" class="display">
+			
 			<thead>
 				
 				<tr>
