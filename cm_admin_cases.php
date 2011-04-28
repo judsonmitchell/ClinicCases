@@ -23,6 +23,8 @@ include './classes/get_names.php';
 <script src="javascripts/validations.js" type="text/javascript"></script>
 <script src="./javascripts/FormProtector.js" type="text/javascript"></script>
 <script src="./javascripts/ajaxUpload.js" type="text/javascript"></script>
+<script src="./javascripts/autoExpandContract.js" type="text/javascript"></script>
+
 
 
 
