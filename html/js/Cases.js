@@ -4,40 +4,6 @@ var oTable;
 var asInitVals = new Array();
 var defaultHiddenColumns = Array('0','1','8','9','10','11','12');//refers to header rows in cases.php
 
-//function to handle dates: search by date or search by date range
-//function dateRange(range,date)
-	//{	
-		//switch(range)
-		//{
-			//case '=':
-			//oTable.fnFilter( this.value, $("#date_open").attr('column'))
-			//break;
-					
-			//case '>':
-			
-				
-				 //oTable.fnDraw();	
-			//break;
-					
-			//case '<':
-				//$.fn.dataTableExt.afnFiltering.push(
-				//function( oSettings, aData, iDataIndex){ 
-
-					//if (aData[4] < date )
-						//{return true;}
-						//else
-						//{return false;}
-					//})
-			
-				 //oTable.fnDraw();						
-			//break;
-		//}
-		
-		
-		
-	//}
-
-
 //function to create selects for advanced search
 
 (function($) {
@@ -272,8 +238,11 @@ $(document).ready(function(){
 			event.preventDefault();			
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 			$("#date_open , #date_close").css('width','65%');
-			$('thead tr.advanced').toggle('slow')
+			$('thead tr.advanced').toggle('slow');		
 			oTable.fnDraw();
+			//Set the big filter to all cases
+			oTable.fnFilter('',5);
+			$('#chooser').val('all');
 			})
 			
 		$('#addOpenRow , #addCloseRow').click(function(){
@@ -305,7 +274,6 @@ $(document).ready(function(){
 				{
 				this.className = "";
 				this.value = "";
-				//alert($(this).attr('column'));
 				}
 			} );
 	
@@ -339,6 +307,7 @@ $(document).ready(function(){
 			changeMonth: true,
 			changeYear: true,		
 			onSelect:function(){
+					$(this).css({'color':'black'})
 					oTable.fnDraw();
 				}
 		})
@@ -409,71 +378,123 @@ $.fn.dataTableExt.afnFiltering.push(
 		var opRow = opRowRaw.substring(6,10) + opRowRaw.substring(0,2)  + opRowRaw.substring(3,5);
 		var clRow = clRowRaw.substring(6,10) + clRowRaw.substring(0,2)  + clRowRaw.substring(3,5);
 		
-			//Basic open field sorting
+			//no filtering 
 			if ( opField == '' && clField == '' )
+							{
+								return true;
+							}
+
+			//filtering by date open only
+			if (opField !== '' && clField == '' &&  opField2 == '' && clField2 == '')
 				{
-					return true;
+					if (opOperator ==  'equals' && opRow == opField)
+						{return true;}
+					
+					else if (opOperator == 'less' && opRow < opField  )
+						{return true;}
+
+					else if (opOperator == 'greater' && opRow > opField)
+						{return true;}
+				}
+				
+			//filtering by date closed only 
+				
+			if (opField == '' && clField !==  '' &&  opField2 == '' && clField2 == '')
+
+				{
+					if (clOperator == 'equals' && clRow == clField)
+						{return true}
+					
+					else if (clOperator == 'less' && clRow < clField)
+						{return true}
+						
+					else if (clOperator == 'greater' && clRow > clField)
+						{return true;}
+						
+				}
+
+			//filter range between open and closed dates
+			if (opField !== '' && clField !==  '' &&  opField2 == '' && clField2 =='')
+
+				{
+					if (opOperator == 'equals' && clOperator == 'equals' && opRow == opField && clRow == clField)
+						{return true;}
+					
+					else if (opOperator == 'greater' && clOperator == 'less' && opRow > opField && clRow < clField )
+						{return true;}
+						
+					else if (opOperator == 'less' && clOperator == 'greater' && opRow < opField && clRow > clField)
+						{return true;}
+						
+				}
+				
+			//filter between open dates
+			if (opField !== '' && clField ==  '' &&  opField2 !== '' && clField2 =='')
+
+				{
+					if (opOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2)
+						{return true}
+					
+					else if (opOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2)
+						{return true}
+						
+					else if (opOperator == 'less' && opOperator2 == 'greater' && opRow < opField && opRow > opField2)
+						{return true;}
+						
+				}
+
+				//filter between close dates
+			if (opField == '' && clField !==  '' &&  opField2 == '' && clField2 !== '')
+
+				{
+					if (clOperator == 'equals' && clOperator2 == 'equals' && clRow == clField && clRow == clField2)
+						{return true}
+					
+					else if (clOperator == 'greater' && clOperator2 == 'less' && clRow > clField && clRow < clField2)
+						{return true}
+						
+					else if (clOperator == 'less' && clOperator2 == 'greater' && clRow < clField && clRow > clField2)
+						{return true;}
+						
 				}
 			
-			else if (opField2 == '' && opOperator == 'equals' && opRow == opField )
+			//Find open/close range within an open/close range	
+			if (opField !== '' && clField !==  '' &&  opField2 !== '' && clField2 !== '')
+
 				{
-					return true;	
+					if (opOperator == 'equals' && opOperator2 == 'equals' && clOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2 && clRow == clField && clRow == clField2)
+						{return true}
+					
+					else if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2 && clRow > clField && clRow < clField2)
+						{return true}
+						
+				}
+			//Find specific close date with an open range	
+			if (opField !== '' && clField !==  '' &&  opField2 !== '' && clField2 == '')
+
+				{	
+					if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'equals' && opRow > opField && opRow < opField2 && clRow == clField)
+						{return true}		
+						
+					if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opRow > opField && opRow < opField2 && clRow > clField)
+						{return true}	
+						
+					if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'less' && opRow > opField && opRow < opField2 && clRow < clField)
+						{return true}				
 				}
 				
-			else if (opField2 == '' && opOperator == 'greater' && opRow > opField)
-				{
-					return true;
-				}
-				
-			else if (opField2 == '' && opOperator == 'less' && opRow < opField)
-				{
-					return true;
-				}
-			
-			//Basic closed field sorting	 
-			else if (clField2 == '' && clField !== '' && clOperator == 'equals' && clRow == clField)
-				{
-					return true;
-				}
-				
-			else if (clField2 == '' && clField !== '' && clOperator == 'greater' && clRow > clField)
-				{
-					return true;
-				}
-				
-			else if (clField2 == '' && clField !== '' && clOperator == 'less' && clRow < clField)
-				{
-					return true;
-				}
-			//Complex (two conditions) open field sorting
-			else if (opField2 != '' && opOperator == 'equals' && opRow == opField && opOperator2 == 'equals' && opRow == opField2)
-				{
-					return true;
-				}
-			
-			else if (opField2 != '' && opOperator == 'less' && opRow < opField && opOperator2 == 'greater' && opRow > opField2)
-				{
-					return true;
-				}
-				
-			else if (opField2 !== '' && opOperator == 'greater' && opRow > opField && opOperator2 == 'less' && opRow < opField2)
-				{
-					return true;
-				}
-			//Complex (two conditions closed field sorting
-			else if (clField != '' && clOperator == 'equals' && clRow == clField && clOperator2 == 'equals' && clRow == clField2)
-				{
-					return true;
-				}
-				
-			else if (clField != '' && clOperator == 'greater' && clRow > clField && clOperator2 == 'less' && clRow < clField2)
-				{
-					return true;
-				}
-				
-			else if (clField != '' && clOperator == 'less' && clRow < clField && clOperator2 == 'greater' && clRow > clField2)
-				{
-					return true;
+			//Find specific open date with a closed range
+			if (opField !== '' && clField !==  '' &&  opField2 == '' && clField2 !== '')
+
+				{	
+					if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'equals' && clRow > clField && clRow < clField2 && opRow == opField)
+						{return true}	
+						
+					if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'greater' && clRow > clField && clRow < clField2 && opRow > opField)
+						{return true}
+						
+					if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'less' && clRow > clField && clRow < clField2 && opRow < opField)
+						{return true}	
 				}
 				return false;
 		}             
