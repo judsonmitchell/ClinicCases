@@ -238,21 +238,28 @@ $(document).ready(function(){
 			event.preventDefault();			
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 			$("#date_open , #date_close").css('width','65%');
-			$('thead tr.advanced').toggle('slow');		
+			$('thead tr.advanced').toggle('slow');	
+			$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
 			oTable.fnDraw();
 			//Set the big filter to all cases
 			oTable.fnFilter('',5);
 			$('#chooser').val('all');
 			})
 			
-		$('#addOpenRow , #addCloseRow').click(function(){
+		$('#addOpenRow').click(function(){
 			event.preventDefault();
 			$(this).text('AND IS');
-			$(".complex").children().css({'display' : 'inline','margin' : '0px'});	
+			$("#second_open_cell").css({'visibility' : 'visible'});	
 			$("#date_open_2 , #date_close_2").css({'width':'60%'});
-			$('thead tr.advanced_2').toggle('slow')
-			
-
+			$('thead tr.advanced_2').show('slow')
+		})
+		
+		$('#addCloseRow').click(function(){
+			event.preventDefault();
+			$(this).text('AND IS');
+			$("#second_closed_cell").css({'visibility' : 'visible'});	
+			$("#date_open_2 , #date_close_2").css({'width':'60%'});
+			$('thead tr.advanced_2').show('slow')
 		})
 		
 		//Code for advanced search using inputs
@@ -330,7 +337,10 @@ $(document).ready(function(){
 		//reset the user display for inputs and selects
 		$("input").each(function(){this.value=''});
 		$("select").each(function(){this.selectedIndex='0'});
-		
+		$('#addOpenRow, #addCloseRow').each(function(){$(this).text('Add Condition')});
+		$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
+		$('thead tr.advanced_2').hide('slow')
+
 		//return to default open cases filter
 		oTable.fnFilter( '^$', 5, true, false );
 		
