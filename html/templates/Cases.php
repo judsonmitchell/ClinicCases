@@ -111,7 +111,7 @@
 					<th></th>
 					<th></th>
 					<th></th>
-					<th class="complex">
+					<th class="complex" id="second_open_cell">
 						
 						<select id="open_range_2">
 							<option value="equals" selected=selected>=</option>
@@ -122,7 +122,7 @@
 						<input type="text" name = "date_open_2" id="date_open_2" class="search_init" value="" column = "4"><br />
 					
 					</th>
-					<th class="complex">
+					<th class="complex" id="second_closed_cell">
 					
 						<select id="close_range_2">
 							<option value="equals" selected=selected>=</option>
