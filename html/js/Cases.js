@@ -133,7 +133,7 @@ $(document).ready(function(){
 					"bProcessing": true,
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
-					"sScrollY": "700px",
+					"sScrollY": "665px",
 					"sScrollX": "100%",
 					"bScrollCollapse": true,
 					"iDisplayLength": 50,
@@ -154,7 +154,7 @@ $(document).ready(function(){
 					null,
 					null
 					],
-					"sDom": '<"H"f<"selector"><"reset">TC>irtp',
+					"sDom": '<"H"f<"selector"><"reset">TCi>rtp',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true},
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
