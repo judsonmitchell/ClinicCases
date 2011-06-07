@@ -31,6 +31,8 @@
  * jQuery UI specific styling
  */
 
+
+
 .paging_two_button .ui-button {
 	float: left;
 	cursor: pointer;
@@ -153,7 +155,7 @@ table.display thead th div.DataTables_sort_wrapper span {
 }
 
 .dataTables_filter {
-	width: 26%;
+	width: 250px;
 	float: left;
 	text-align: left;
 }
