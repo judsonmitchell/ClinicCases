@@ -3,9 +3,9 @@
 
 //Information to access your mysql database
 $CC_dbhost = "localhost";
-$CC_dbusername = "";
-$CC_dbpasswd = "";
-$CC_database_name = "";
+$CC_dbusername = "cc7";
+$CC_dbpasswd = "cc7";
+$CC_database_name = "cc_dev_live_copy";
 
 //Email address for the adminstrator who will deal with student questions
 $CC_admin_email = "jmitchel@loyno.edu";
