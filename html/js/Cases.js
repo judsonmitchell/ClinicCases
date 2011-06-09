@@ -155,7 +155,7 @@ $(document).ready(function(){
 					null
 					],
 					"sDom": '<"H"f<"selector"><"reset">TCi>rtp',
-					"oColVis": {"aiExclude": [ 0 ],"bRestore":true},
+					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns"},
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
 								"aButtons": [

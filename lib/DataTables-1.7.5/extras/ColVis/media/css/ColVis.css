@@ -13,10 +13,12 @@
 	margin-right: 3px;
 	padding: 3px 5px;
 	height: 30px;
-	background-color: #fff;
+	
 	border: 1px solid #d0d0d0;
 	cursor: pointer;
 	*cursor: hand;
+	 padding-right: 17px;
+    background: url(../images/collection.png) no-repeat center right;
 }
 
 button.TableTools_Button::-moz-focus-inner { 
