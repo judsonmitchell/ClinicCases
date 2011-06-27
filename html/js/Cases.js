@@ -209,6 +209,9 @@ $(document).ready(function(){
 					"fnDrawCallback": function() {
 		
 							$("#caseStatus").text(chooserVal);
+							//Set some css to improve layout
+							$("#chooser").css({'margin-right':'10px'});
+							$("#table_cases_filter > input").css({'width':'225px'});
 
 					}
 					
@@ -258,8 +261,9 @@ $(document).ready(function(){
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 			$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
 			$("#open_range , #close_range").css({'margin-top':'18px'});
-			$('thead tr.advanced').toggle('slow');	
+			$("thead tr.advanced").toggle('slow');	
 			$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
+			
 			//Set the big filter to all cases
 			oTable.fnFilter('',5);
 			$('#chooser').val('all');
