@@ -254,9 +254,10 @@ $(document).ready(function(){
 		
 		//Set css for advanced date function; make room for the operator selects 	
 		$('#set_advanced').click(function(event){
-			event.preventDefault();			
+			event.preventDefault();		
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
-			$("#date_open , #date_close").css('width','65%');
+			$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
+			$("#open_range , #close_range").css({'margin-top':'18px'});
 			$('thead tr.advanced').toggle('slow');	
 			$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
 			//Set the big filter to all cases
