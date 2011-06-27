@@ -257,17 +257,25 @@ $(document).ready(function(){
 		
 		//Set css for advanced date function; make room for the operator selects 	
 		$('#set_advanced').click(function(event){
-			event.preventDefault();		
-			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
-			$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
-			$("#open_range , #close_range").css({'margin-top':'18px'});
-			$("thead tr.advanced").toggle('slow');	
-			$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
+			event.preventDefault();	
 			
-			//Set the big filter to all cases
-			oTable.fnFilter('',5);
-			$('#chooser').val('all');
-			chooserVal = "open and closed";
+			if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
+			{
+				$("tr.advanced, tr.advanced_2").css({'display':'none'});
+			} 
+			
+			else {	
+					$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
+					$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
+					$("#open_range , #close_range").css({'margin-top':'18px'});
+					$("thead tr.advanced").toggle('slow');	
+					$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
+					
+					//Set the big filter to all cases
+					oTable.fnFilter('',5);
+					$('#chooser').val('all');
+					chooserVal = "open and closed";
+				}
 			oTable.fnDraw();
 			
 			})
@@ -329,8 +337,8 @@ $(document).ready(function(){
 	
 	//Enable search via selects in advanced search
 	$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
-		parent = $(this).parent();
-		colIndex = parent.attr('column');
+		Oparent = $(this).parent();
+		colIndex = Oparent.attr('column');
 		oTable.fnFilter(this.value,colIndex)
 		})
 	
