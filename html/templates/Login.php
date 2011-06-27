@@ -23,12 +23,12 @@
 					})
 			}
 			
-			$("#f_button").bind('click',function () {
+			$("#f_button").bind('click',function (event) {
 				event.preventDefault();
 				$("#forgot").show();
 				});
 			
-			$("#f_submit").live('click',function () {
+			$("#f_submit").live('click',function (event) {
 				event.preventDefault();
 				$.post("lib/php/auth/forgot_password", {email:$("#email").val()}, function (data)
 					{$("#forgot").html(data)}
@@ -42,7 +42,7 @@
 				{$(this).text('Loading...');}
 				)
 				
-			$("#login_button").bind('click', function(){
+			$("#login_button").bind('click', function(event){
 				event.preventDefault();
 				login_user();
 				

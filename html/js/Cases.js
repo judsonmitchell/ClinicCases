@@ -253,7 +253,7 @@ $(document).ready(function(){
 			});
 		
 		//Set css for advanced date function; make room for the operator selects 	
-		$('#set_advanced').click(function(){
+		$('#set_advanced').click(function(event){
 			event.preventDefault();			
 			$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 			$("#date_open , #date_close").css('width','65%');
@@ -267,7 +267,7 @@ $(document).ready(function(){
 			
 			})
 			
-		$('#addOpenRow').click(function(){
+		$('#addOpenRow').click(function(event){
 			event.preventDefault();
 			$(this).text('AND IS');
 			$("#second_open_cell").css({'visibility' : 'visible'});	
@@ -275,7 +275,7 @@ $(document).ready(function(){
 			$('thead tr.advanced_2').show('slow')
 		})
 		
-		$('#addCloseRow').click(function(){
+		$('#addCloseRow').click(function(event){
 			event.preventDefault();
 			$(this).text('AND IS');
 			$("#second_closed_cell").css({'visibility' : 'visible'});	
