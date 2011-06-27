@@ -115,8 +115,8 @@
 						
 						<select id="open_range_2">
 							<option value="equals" selected=selected>=</option>
-							<option value="greater">></option>
-							<option value="less"><</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
 						</select>
 					
 						<input type="text" name = "date_open_2" id="date_open_2" class="search_init" value="" column = "4"><br />
@@ -126,11 +126,11 @@
 					
 						<select id="close_range_2">
 							<option value="equals" selected=selected>=</option>
-							<option value="greater">></option>
-							<option value="less"><</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
 						</select>
 					
-						<input type="text" name = "date_close_2" id="date_close_2" class="search_init" value="" column = "5"></th>
+						<input type="text" name = "date_close_2" id="date_close_2" class="search_init" value="" column = "5">
 									
 					</th>
 					<th></th>
