@@ -47,6 +47,7 @@ button.DTTT_button {
 	border: 1px solid #d0d0d0;
 	cursor: pointer;
 	*cursor: hand;
+	 background: url(../images/clear.png) no-repeat center right
 }
 
 button.DTTT_button::-moz-focus-inner { 

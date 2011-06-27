@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="lib/DataTables-1.7.5/extras/ColVis/media/css/ColVis.css" type="text/css">
 
 <!-- Jquery Calls Specific to this page -->
-	<script src="lib/DataTables-1.7.5/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="lib/DataTables-1.7.5/media/js/jquery.dataTables.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/js/TableTools.min.js"></script>
 

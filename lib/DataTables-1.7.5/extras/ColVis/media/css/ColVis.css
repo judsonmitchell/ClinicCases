@@ -18,7 +18,8 @@
 	cursor: pointer;
 	*cursor: hand;
 	 padding-right: 17px;
-    background: url(../images/collection.png) no-repeat center right;
+	 background: url(../images/collection.png) no-repeat center right;
+
 }
 
 button.TableTools_Button::-moz-focus-inner { 
@@ -50,6 +51,8 @@ div.TableTools_collection button.TableTools_Button {
 	width: 100%;
 	float: none;
 	margin-bottom: 2px;
+	background-image:none;
+
 }
 
 div.TableTools_catcher {
@@ -65,6 +68,7 @@ div.TableTools_catcher {
 
 button.ColVis_Button {
 	text-align: left;
+
 }
 
 div.ColVis_collection button.ColVis_Button:hover {

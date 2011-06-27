@@ -127,7 +127,10 @@ $(document).ready(function(){
 						$(this).slideUp(); // hide the warning bar
 						}
 				});
-				
+		
+		//set the intial value for the caseStatus span on load
+		var chooserVal = "open";
+		
 		oTable =	$('#table_cases').dataTable( {
 					"bJQueryUI": true,
 					"bProcessing": true,
@@ -199,12 +202,23 @@ $(document).ready(function(){
 							
 							$('#processing').hide();//hide the "loading" div after load.
 							
-						}
+						},
+						
+					"oLanguage": {"sInfo": "Found _TOTAL_ <span id='caseStatus'></span> cases"},
+					
+					"fnDrawCallback": function() {
+		
+							$("#caseStatus").text(chooserVal);
+
+					}
 					
 				});
 				
 		
 		$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
+		
+		
+		
 	
 		$('#table_cases tbody').click( function () {
 			var iPos = oTable.fnGetPosition( event.target.parentNode );
@@ -219,15 +233,20 @@ $(document).ready(function(){
 			switch ($(this).val())
 			{
 				case 'all':
+				chooserVal = "open and closed";
 				oTable.fnFilter('',5);
+				
 				break;
 				
 				case 'open':
+				chooserVal = "open";
 				oTable.fnFilter( '^$', 5, true, false );
 				break;
 				
 				case 'closed':
+				chooserVal = "closed";
 				oTable.fnFilter( '^.+$', 5, true, false );
+
 				break;
 			}
 
@@ -240,10 +259,12 @@ $(document).ready(function(){
 			$("#date_open , #date_close").css('width','65%');
 			$('thead tr.advanced').toggle('slow');	
 			$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
-			oTable.fnDraw();
 			//Set the big filter to all cases
 			oTable.fnFilter('',5);
 			$('#chooser').val('all');
+			chooserVal = "open and closed";
+			oTable.fnDraw();
+			
 			})
 			
 		$('#addOpenRow').click(function(){
