@@ -204,7 +204,7 @@ $(document).ready(function(){
 							
 						},
 						
-					"oLanguage": {"sInfo": "Found _TOTAL_ <span id='caseStatus'></span> cases"},
+					"oLanguage": {"sInfo": "Found _TOTAL_ <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of _MAX_ cases"},
 					
 					"fnDrawCallback": function() {
 		
