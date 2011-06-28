@@ -137,8 +137,7 @@ $(document).ready(function(){
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
 					"sScrollY": "665px",
-					"sScrollX": "100%",
-					"bScrollCollapse": true,
+					//"sScrollX": "100%",
 					"iDisplayLength": 50,
 					"aaSorting": [[ 3, "asc" ]],
 					"aoColumns": [
@@ -273,10 +272,12 @@ $(document).ready(function(){
 					$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
 					
 					//Set the big filter to all cases
+				
 					oTable.fnFilter('',5);
 					$('#chooser').val('all');
 					chooserVal = "open and closed";
 				}
+			
 			oTable.fnDraw();
 			
 			})
@@ -286,7 +287,8 @@ $(document).ready(function(){
 			$(this).text('AND IS');
 			$("#second_open_cell").css({'visibility' : 'visible'});	
 			$("#date_open_2 , #date_close_2").css({'width':'60%'});
-			$('thead tr.advanced_2').show('slow')
+			$('thead tr.advanced_2').show('slow');
+			
 		})
 		
 		$('#addCloseRow').click(function(event){
@@ -300,8 +302,8 @@ $(document).ready(function(){
 		//Code for advanced search using inputs
 		$("thead input").keyup(function () {
 			
-			parent = $(this).parent();
-			colIndex = parent.attr('column');
+			Oparent = $(this).parent();
+			colIndex = Oparent.attr('column');
 			oTable.fnFilter( this.value, $(this).attr('column') );
 			
 			

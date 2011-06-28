@@ -68,9 +68,15 @@
 
 table.display thead th {
 	padding: 3px 0px 3px 10px;
+	border-right: 1px solid lightgray;
 	text-align:left;
 	cursor: pointer;
 	* cursor: hand;
+}
+
+table.display thead tr.advanced > th, table.display thead tr.advanced_2 > th {
+	padding: 0px 4px 0px 4px;
+	border-right: 1px solid lightgray;
 }
 
 div.dataTables_wrapper .ui-widget-header {
@@ -79,13 +85,13 @@ div.dataTables_wrapper .ui-widget-header {
 
 /* JM adds */
 thead input {
-	margin: 0.5em 0;
+	margin-top: 0.2em;
 	width: 100%;
 	color: #444;
 }
 
 thead select {
-	margin: 0.5em 0;
+	margin-top: .2em;
 }
 
 thead tr.advanced{
