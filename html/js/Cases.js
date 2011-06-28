@@ -204,7 +204,7 @@ $(document).ready(function(){
 							
 						},
 						
-					"oLanguage": {"sInfo": "Found _TOTAL_ <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of _MAX_ cases"},
+					"oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of <b>_MAX_</b> cases"},
 					
 					"fnDrawCallback": function() {
 		
@@ -264,7 +264,8 @@ $(document).ready(function(){
 				$("tr.advanced, tr.advanced_2").css({'display':'none'});
 			} 
 			
-			else {	
+				else {	
+					$("th.ui-state-default").css({'border-bottom':'0px'});
 					$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
 					$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
 					$("#open_range , #close_range").css({'margin-top':'18px'});
