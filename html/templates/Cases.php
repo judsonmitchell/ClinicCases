@@ -65,41 +65,41 @@
 					<th>Disposition</th>
 				</tr>
 				<tr class="advanced">
-					<th><input type="text" name = "id" class="search_init" value="id" column = "0"></th>
-					<th><input type="text" name="clinic_id" class="search_init" value="Case Number" column = "1"></th>
-					<th><input type="text" name= "first_name" class="search_init" value="Search First Name" column = "2"></th>
-					<th><input type="text" name = "last_name" class="search_init" value="Search Last Name" column = "3"></th>
+					<th><input type="text" name = "id" class="search_init" column = "0"></th>
+					<th><input type="text" name="clinic_id" class="search_init" title="Search Case Number" column = "1"></th>
+					<th><input type="text" name= "first_name" class="search_init" title="Search First Name" column = "2"></th>
+					<th><input type="text" name = "last_name" class="search_init" title="Search Last Name" column = "3"></th>
 					<th class="complex">
 					
-						<select id="open_range">
+						<select id="open_range" title="Open date is less, greater, or equal to...">
 							<option value="equals" selected=selected>=</option>
-							<option value="greater">></option>
-							<option value="less"><</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
 						</select>
 					
-						<input type="text" name = "date_open" id="date_open" class="search_init" value="" column = "4"><br />
+						<input type="text" name = "date_open" id="date_open" class="search_init" title="Select a Date" column = "4"><br />
 						<a href="#" id="addOpenRow" class="smallgray">Add Condition</a>
 						
 						</th>
 					
 					<th class="complex">
 					
-						<select id="close_range">
+						<select id="close_range" title="Close date is less, greater, or equal to...">
 							<option value="equals" selected=selected>=</option>
-							<option value="greater">></option>
-							<option value="less"><</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
 						</select>
 					
-						<input type="text" name = "date_close" id="date_close" class="search_init" value="" column = "5"><br />
+						<input type="text" name = "date_close" id="date_close" class="search_init" title="Select a Date" column = "5"><br />
 						
 						<a href="#" id="addCloseRow" class="smallgray">Add Condition</a>
 						</th>
 					
 					<th  class="addSelects" column = "6"></th>
-					<th><input type="text" name = "professor" class="search_init" value="Search Professor" column = "7"></th>
-					<th><input type="text" name = "ssn" class="search_init" value="Search SSN" column = "8"></th>
-					<th><input type="text" name = "dob" class="search_init" value="Search DOB" column = "9"></th>
-					<th><input type="text" name = "age" class="search_init" value="Search Age" column = "10"></th>
+					<th><input type="text" name = "professor" class="search_init" title="Search Professor" column = "7"></th>
+					<th><input type="text" name = "ssn" class="search_init" title="Search SSN" column = "8"></th>
+					<th><input type="text" name = "dob" class="search_init" title="Search DOB" column = "9"></th>
+					<th><input type="text" name = "age" class="search_init" title="Search Age" column = "10"></th>
 					<th class = "addSelects" column = "11"></th>
 					<th class = "addSelects" column = "12"></th>
 					<th class = "addSelects" column = "13"></th>

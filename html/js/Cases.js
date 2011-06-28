@@ -1,7 +1,7 @@
 //init
 
 var oTable;
-var asInitVals = new Array();
+//var asInitVals = new Array();
 var defaultHiddenColumns = Array('0','1','8','9','10','11','12');//refers to header rows in cases.php
 
 //function to create selects for advanced search
@@ -284,19 +284,39 @@ $(document).ready(function(){
 			
 		$('#addOpenRow').click(function(event){
 			event.preventDefault();
-			$(this).text('AND IS');
-			$("#second_open_cell").css({'visibility' : 'visible'});	
-			$("#date_open_2 , #date_close_2").css({'width':'60%'});
-			$('thead tr.advanced_2').show('slow');
+			if ($("#second_open_cell").css('visibility') == 'visible')
+			{	
+				$(this).text('Add Condition');
+				$("#second_open_cell").css({'visibility' : 'hidden'});
+				$('thead tr.advanced_2').hide('slow');
 			
+			}
+			else
+			{ 
+				$(this).text('AND IS');
+				$("#second_open_cell").css({'visibility' : 'visible'});	
+				$("#date_open_2 , #date_close_2").css({'width':'60%'});
+				$('thead tr.advanced_2').show('slow');
+			}
 		})
 		
 		$('#addCloseRow').click(function(event){
 			event.preventDefault();
-			$(this).text('AND IS');
-			$("#second_closed_cell").css({'visibility' : 'visible'});	
-			$("#date_open_2 , #date_close_2").css({'width':'60%'});
-			$('thead tr.advanced_2').show('slow')
+			if ($("#second_closed_cell").css('visibility') == 'visible')
+			{	
+				$(this).text('Add Condition');
+				$("#second_closed_cell").css({'visibility' : 'hidden'});
+				$('thead tr.advanced_2').hide('slow');
+			
+			}
+			else
+			{ 
+				$(this).text('AND IS');
+				$("#second_closed_cell").css({'visibility' : 'visible'});	
+				$("#date_open_2 , #date_close_2").css({'width':'60%'});
+				$('thead tr.advanced_2').show('slow')
+			}
+					
 		})
 		
 		//Code for advanced search using inputs
@@ -309,25 +329,25 @@ $(document).ready(function(){
 			
 			});
 			
-		$("thead input").each( function (i) {
-		asInitVals[i] = this.value;
-			} );
+		//$("thead input").each( function (i) {
+		//asInitVals[i] = this.value;
+			//} );
 	
-		$("thead input").live("focus",function () {
-			if ( this.className == "search_init" )
-				{
-				this.className = "";
-				this.value = "";
-				}
-			} );
+		//$("thead input").live("focus",function () {
+			//if ( this.className == "search_init" )
+				//{
+				//this.className = "";
+				//this.value = "";
+				//}
+			//} );
 	
-		$("thead input").live("blur",function (i) {
-			if ( this.value == "" )
-			{
-				this.className = "search_init";
-				this.value = asInitVals[$("thead input").index(this)];
-			}
-			} );
+		//$("thead input").live("blur",function (i) {
+			//if ( this.value == "" )
+			//{
+				//this.className = "search_init";
+				//this.value = asInitVals[$("thead input").index(this)];
+			//}
+			//} );
 		
 
 	//When page loads, default filter is applied: open cases	
