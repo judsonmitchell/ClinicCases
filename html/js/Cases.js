@@ -378,6 +378,7 @@ $(document).ready(function(){
 
 		//return to default open cases filter
 		oTable.fnFilter( '^$', 5, true, false );
+		chooserVal = "open";
 		
 		//return to default sort - Last Name
 		oTable.fnSort([[3,'asc']]);
