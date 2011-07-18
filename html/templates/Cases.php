@@ -1,3 +1,5 @@
+<?php include '../../db.php'; ?>
+
 <!-- CSS specific to this page -->
 <link rel="stylesheet" href="lib/DataTables-1.7.5/media/css/data_table_jui.css" type="text/css">
 
@@ -48,104 +50,88 @@
 			
 			<thead>
 				
-				<tr>
-					<th>Id</th>
-					<th>Case Number</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Date Open</th>
-					<th>Date Close</th>
-					<th>Case Type</th>
-					<th>Professor</th>
-					<th>SSN</th>
-					<th>DOB</th>
-					<th>Age</th>
-					<th>Gender</th>
-					<th>Race</th>
-					<th>Disposition</th>
-				</tr>
-				<tr class="advanced">
-					<th><input type="text" name = "id" class="search_init" column = "0"></th>
-					<th><input type="text" name="clinic_id" class="search_init" title="Search Case Number" column = "1"></th>
-					<th><input type="text" name= "first_name" class="search_init" title="Search First Name" column = "2"></th>
-					<th><input type="text" name = "last_name" class="search_init" title="Search Last Name" column = "3"></th>
-					<th class="complex">
-					
-						<select id="open_range" title="Open date is less, greater, or equal to...">
-							<option value="equals" selected=selected>=</option>
-							<option value="greater">&gt;</option>
-							<option value="less">&lt;</option>
-						</select>
-					
-						<input type="text" name = "date_open" id="date_open" class="search_init" title="Select a Date" column = "4"><br />
-						<a href="#" id="addOpenRow" class="smallgray">Add Condition</a>
-						
-						</th>
-					
-					<th class="complex">
-					
-						<select id="close_range" title="Close date is less, greater, or equal to...">
-							<option value="equals" selected=selected>=</option>
-							<option value="greater">&gt;</option>
-							<option value="less">&lt;</option>
-						</select>
-					
-						<input type="text" name = "date_close" id="date_close" class="search_init" title="Select a Date" column = "5"><br />
-						
-						<a href="#" id="addCloseRow" class="smallgray">Add Condition</a>
-						</th>
-					
-					<th  class="addSelects" column = "6"></th>
-					<th><input type="text" name = "professor" class="search_init" title="Search Professor" column = "7"></th>
-					<th><input type="text" name = "ssn" class="search_init" title="Search SSN" column = "8"></th>
-					<th><input type="text" name = "dob" class="search_init" title="Search DOB" column = "9"></th>
-					<th><input type="text" name = "age" class="search_init" title="Search Age" column = "10"></th>
-					<th class = "addSelects" column = "11"></th>
-					<th class = "addSelects" column = "12"></th>
-					<th class = "addSelects" column = "13"></th>
-					
+				<tr>					
+					<?php foreach($CC_columns as $col){
+						if ($col[2] == "true")
+						{echo "<th>" . $col[1] . "</th>";}
+						}
+					?>
 				</tr>
 				
-				<tr class="advanced_2">
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th class="complex" id="second_open_cell">
+				<tr class="advanced">
+					
+					<?php 
+					foreach($CC_columns as $key=>$col){
 						
-						<select id="open_range_2">
-							<option value="equals" selected=selected>=</option>
-							<option value="greater">&gt;</option>
-							<option value="less">&lt;</option>
-						</select>
+						//Check for date fields. They get special treatment.
+						$date_check = substr($col[0],0,4);
+						
+						if ($col[2] == "true"  && $col[3] == "input" && $date_check !== "date"):
+							echo "<th><input type=\"text\" name = \"$col[0]\" class = \"search_init\" column = \"$key\"></th>";
+						
+						elseif ($col[2] == "true" && $col[3] == "select"):
+							echo "<th class=\"addSelects\" name =\"$col[1]\" column=\"$key\"></th>"; 
+							
+						elseif ($col[0] == "date_open" || $col[0] == "date_close"):
+							//Create id variable
+							$date_type = substr($col[0],5);
+							
+							echo "
+							<th class=\"complex\">
 					
-						<input type="text" name = "date_open_2" id="date_open_2" class="search_init" value="" column = "4"><br />
+								<select id=\"" . $date_type . "_range\" title=\"" . $date_type . " date is less, greater, or equal to...\">
+									<option value=\"equals\" selected=selected>=</option>
+									<option value=\"greater\">&gt;</option>
+									<option value=\"less\">&lt;</option>
+								</select>
 					
-					</th>
-					<th class="complex" id="second_closed_cell">
+								<input type=\"text\" name = \"$col[0]\" id=\"$col[0]\" class=\"search_init\" title=\"Select a Date\" column = \"$key\"><br />
+								
+								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
+								
+							</th>";
+						
+						endif;
+						
+						}
+						?>
+					</tr>
+					<tr class="advanced_2">
+					<?php 
+						foreach($CC_columns as $key=>$col){
+						
+						//Check for date fields. They get special treatment.
+						$date_check = substr($col[0],0,4);
+						
+						if ($col[2] == "true"  && $date_check !== "date"):
+						 echo "<th></th>";
+						 
+						elseif ($col[0] == "date_open" || $col[0] == "date_close"):
+							//Create id variable
+							$date_type = substr($col[0],5);
+							
+							echo "
+							<th class=\"complex\" id=\"second_" . $date_type . "_cell\">
 					
-						<select id="close_range_2">
-							<option value="equals" selected=selected>=</option>
-							<option value="greater">&gt;</option>
-							<option value="less">&lt;</option>
-						</select>
+								<select id=\"" . $date_type . "_range_2\" title=" . $date_type . " date is less, greater, or equal to...\">
+									<option value=\"equals\" selected=selected>=</option>
+									<option value=\"greater\">&gt;</option>
+									<option value=\"less\">&lt;</option>
+								</select>
 					
-						<input type="text" name = "date_close_2" id="date_close_2" class="search_init" value="" column = "5">
-									
-					</th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>
+								<input type=\"text\" name = \"$col[0]" . "_2" .  "\" id=\"$col[0]" . "_2" . "\" class=\"search_init\" title=\"Select a Date\" column = \"$key\"><br />
+								
+								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
+								
+							</th>";
+														
+							endif;
+						}
+							?>		
+					</tr>
 				</thead>
 			<tbody>
 				
-			</tbody>
 		</table>
 
 	</div>

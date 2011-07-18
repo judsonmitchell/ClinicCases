@@ -2,7 +2,7 @@
 
 var oTable;
 //var asInitVals = new Array();
-var defaultHiddenColumns = Array('0','1','8','9','10','11','12');//refers to header rows in cases.php
+var defaultHiddenColumns = Array('0','1','3','8','9','10','11','12');//refers to header rows in cases.php
 
 //function to create selects for advanced search
 
@@ -42,8 +42,8 @@ $.fn.dataTableExt.oApi.fnGetColumnData = function ( oSettings, iColumn, bUnique,
 	else aiRows = oSettings.aiDisplayMaster; // all row numbers
 	
 	//debug
-	//if (oSettings.aiDisplayMaster.length < 1)
-	//{alert('this array is empty');}
+	if (oSettings.aiDisplayMaster.length < 1)
+	{alert('this array is empty');}
 	
 	// set up data array	
 	var asResultData = new Array();
@@ -106,6 +106,7 @@ $.fn.dataTableExt.oApi.fnGetColumnIndex = function ( oSettings, sCol )
 }(jQuery))
 //End
 
+
 $(document).ready(function(){
 		
 		$.idleTimeout('#idletimeout', '#idletimeout a', {
@@ -131,7 +132,27 @@ $(document).ready(function(){
 		//set the intial value for the caseStatus span on load
 		var chooserVal = "open";
 		
-		oTable =	$('#table_cases').dataTable( {
+//Get the column definitions to use in oTable
+function getColumnInfo(){
+$.ajax({
+			url: 'lib/php/data/columns_load.php',
+			dataType: 'json',
+			error: function() {
+				alert("Sorry, there is an error in your ClinicCases configuration");
+				return true;
+				},
+			success: function(data) {
+				if( data )
+					{	
+							aoColumns = data.aoColumns;
+							return data;
+							
+					}
+				}
+			})
+}
+			aoColumns = getColumnInfo();
+			oTable =	$('#table_cases').dataTable( {
 					"bJQueryUI": true,
 					"bProcessing": true,
 					"bScrollInfinite": true,
@@ -140,22 +161,7 @@ $(document).ready(function(){
 					//"sScrollX": "100%",
 					"iDisplayLength": 50,
 					"aaSorting": [[ 3, "asc" ]],
-					"aoColumns": [
-					{ "bSearchable": false, "bVisible":    false },
-					{"bVisible": false},
-					null,
-					null,
-					{"sWidth":"15%"},
-					{"sWidth":"15%"},
-					null,
-					null,
-					null,
-					null,
-					null,
-					null,
-					null,
-					null
-					],
+					"aoColumns": aoColumns,
 					"sDom": '<"H"f<"selector"><"reset">TCi>rtp',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns"},
 					"oTableTools": {
@@ -188,16 +194,27 @@ $(document).ready(function(){
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php',
 					"fnInitComplete": function() {
+						//When page loads, default filter is applied: open cases (i.e., all cases where the date close field is empty.	
+							oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
+							
+						//resizes the table whenever parent element size changes
+							$(window).bind('resize', function () {
+								oTable.fnAdjustColumnSizing();
+							});
+						
 						$("div.dataTables_scrollHeadInner thead th.addSelects").each(function(){
 							
-							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData($(this).attr('column'),true,false,true));		
+							//Get the index of the column from its name attribute
+							columnIndex = oTable.fnGetColumnIndex($(this).attr('name'));
+							
+							this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(columnIndex,true,false,true));		
 
 							})
 							
 							//Important: After the selects have been rendered, set visibilities.  This allows the hidden selects to get the proper values.  See http://datatables.net/forums/comments.php?DiscussionID=3318
 							
-							for (var c in defaultHiddenColumns)
-							{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
+							//for (var c in defaultHiddenColumns)
+							//{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
 							
 							$('#processing').hide();//hide the "loading" div after load.
 							
@@ -211,15 +228,16 @@ $(document).ready(function(){
 							//Set some css to improve layout
 							$("#chooser").css({'margin-right':'10px'});
 							$("#table_cases_filter > input").css({'width':'225px'});
+							
+							
 
 					}
 					
 				});
 				
 		
+		
 		$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
-		
-		
 		
 	
 		$('#table_cases tbody').click( function () {
@@ -236,18 +254,18 @@ $(document).ready(function(){
 			{
 				case 'all':
 				chooserVal = "open and closed";
-				oTable.fnFilter('',5);
+				oTable.fnFilter('',oTable.fnGetColumnIndex("Date Close"));
 				
 				break;
 				
 				case 'open':
 				chooserVal = "open";
-				oTable.fnFilter( '^$', 5, true, false );
+				oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
 				break;
 				
 				case 'closed':
 				chooserVal = "closed";
-				oTable.fnFilter( '^.+$', 5, true, false );
+				oTable.fnFilter( '^.+$', oTable.fnGetColumnIndex("Date Close"), true, false );
 
 				break;
 			}
@@ -350,13 +368,6 @@ $(document).ready(function(){
 			//} );
 		
 
-	//When page loads, default filter is applied: open cases	
-	oTable.fnFilter( '^$', 5, true, false );
-	
-	//resizes the table whenever parent element size changes
-	$(window).bind('resize', function () {
-		oTable.fnAdjustColumnSizing();
-	} );
 	
 	//Enable search via selects in advanced search
 	$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
@@ -399,11 +410,11 @@ $(document).ready(function(){
 		$('thead tr.advanced_2').hide('slow')
 
 		//return to default open cases filter
-		oTable.fnFilter( '^$', 5, true, false );
+		oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
 		chooserVal = "open";
 		
 		//return to default sort - Last Name
-		oTable.fnSort([[3,'asc']]);
+		oTable.fnSort([[oTable.fnGetColumnIndex("Last Name"),'asc']]);
 		
 		//redraw the table so that all columns line up
 		oTable.fnDraw();

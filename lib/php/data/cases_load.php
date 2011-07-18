@@ -6,29 +6,44 @@ include 'names.php';
 
 	$user = $_SESSION['login'];
 	
+	//Get the columns from _CONFIG.php, excluding any hidden fields
+	
+	foreach ($CC_columns as $val)
+	{
+		if ($val[2] == "true")
+			{$col_vals_raw .= "cm." . $val[0] . ", ";}		
+	}
+	
+	//trim trailing comma
+	$col_vals = substr($col_vals_raw,0,-2);
+	
 	switch($_SESSION['group'])
 		{
 		
 		case 'prof':
-		$query = mysql_query("SELECT `id`, `clinic_id`,`first_name`,`last_name`,`date_open`,`date_close`,`case_type`,`professor`,`ssn`,`dob`,`age`,`gender`,`race`,`dispo` FROM `cm` WHERE MATCH(`professor`) AGAINST ('$user')");
+		$query = mysql_query("SELECT $col_vals FROM `cm` WHERE MATCH(`professor`) AGAINST ('$user')");
 		break;
 		
 		case 'admin':
-		$query = mysql_query("SELECT `id`, `clinic_id`,`first_name`,`last_name`,`date_open`,`date_close`,`case_type`,`professor`,`ssn`,`dob`,`age`,`gender`,`race`,`dispo` FROM `cm`");
+		$query = mysql_query("SELECT $col_vals FROM `cm`");
 		break;
 		
 		case 'student':
-		$query = mysql_query("SELECT cm.id, cm.clinic_id,cm.first_name, cm.last_name, cm.date_open, cm.date_close, cm.case_type, cm.professor, cm.ssn,cm.dob,cm.age,cm.gender,cm.race,cm.dispo, cm_cases_students.case_id, cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username =  '$user' AND cm_cases_students.status =  'active'");
+		$query = mysql_query("SELECT $col_vals, cm_cases_students.case_id, cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username =  '$user' AND cm_cases_students.status =  'active'");
 		break;
 		
 		case 'super':
-		$query = mysql_query("SELECT `id`, `clinic_id`,`first_name`,`last_name`,`date_open`,`date_close`,`case_type`,`professor`,`ssn`,`dob`,`age`,`gender`,`race`,`dispo` FROM `cm`");
+		$query = mysql_query("SELECT $col_vals FROM `cm`");
 		break;			
 			
 		}
-			
-
-	$cols = array('id','clinic_id','first_name','last_name','date_open','date_close','case_type','professor','ssn','dob','age','gender','race','dispo');
+	
+	//Create array of column names for json output		
+	foreach ($CC_columns as $value)
+	{
+		if ($value[2] == "true")
+			{$cols[] = $value[0];}		
+	}
 	
 		while ($result = mysql_fetch_assoc($query))
 			{
