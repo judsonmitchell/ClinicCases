@@ -3,6 +3,7 @@
 var oTable;
 //var asInitVals = new Array();
 var defaultHiddenColumns = Array('0','1','3','8','9','10','11','12');//refers to header rows in cases.php
+var aoColumns;
 
 //function to create selects for advanced search
 
@@ -94,6 +95,12 @@ function fnCreateSelect( aData )
 $.fn.dataTableExt.oApi.fnGetColumnIndex = function ( oSettings, sCol ) 
 {
 	var cols = oSettings.aoColumns;
+	
+	//strip underscores from name attribute, if necessary
+	if (sCol.indexOf("_") != "-1")
+	{
+			sCol = sCol.replace("_"," ");
+	}
 	for ( var x=0, xLen=cols.length ; x<xLen ; x++ )
 	{
 		if ( cols[x].sTitle.toLowerCase() == sCol.toLowerCase() )
@@ -133,7 +140,7 @@ $(document).ready(function(){
 		var chooserVal = "open";
 		
 //Get the column definitions to use in oTable
-function getColumnInfo(){
+
 $.ajax({
 			url: 'lib/php/data/columns_load.php',
 			dataType: 'json',
@@ -145,13 +152,8 @@ $.ajax({
 				if( data )
 					{	
 							aoColumns = data.aoColumns;
-							return data;
-							
-					}
-				}
-			})
-}
-			aoColumns = getColumnInfo();
+											
+					
 			oTable =	$('#table_cases').dataTable( {
 					"bJQueryUI": true,
 					"bProcessing": true,
@@ -197,6 +199,8 @@ $.ajax({
 						//When page loads, default filter is applied: open cases (i.e., all cases where the date close field is empty.	
 							oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
 							
+						
+							
 						//resizes the table whenever parent element size changes
 							$(window).bind('resize', function () {
 								oTable.fnAdjustColumnSizing();
@@ -229,15 +233,21 @@ $.ajax({
 							$("#chooser").css({'margin-right':'10px'});
 							$("#table_cases_filter > input").css({'width':'225px'});
 							
+							//Add case status seletctor
+							$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
+							
+							
+							//Add the reset button
+							$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
+							$(".reset").click(function(){fnResetAllFilters()});
+
 							
 
-					}
-					
-				});
+
 				
 		
 		
-		$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
+		
 		
 	
 		$('#table_cases tbody').click( function () {
@@ -249,7 +259,7 @@ $.ajax({
 		
 		//Change the case status select
 		$('#chooser').change(function(){
-			
+
 			switch ($(this).val())
 			{
 				case 'all':
@@ -270,12 +280,14 @@ $.ajax({
 				break;
 			}
 
-			});
-		
+			})
+									
+
+				
 		//Set css for advanced date function; make room for the operator selects 	
 		$('#set_advanced').click(function(event){
 			event.preventDefault();	
-			
+
 			if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
 			{
 				$("tr.advanced, tr.advanced_2").css({'display':'none'});
@@ -340,9 +352,10 @@ $.ajax({
 		//Code for advanced search using inputs
 		$("thead input").keyup(function () {
 			
-			Oparent = $(this).parent();
-			colIndex = Oparent.attr('column');
-			oTable.fnFilter( this.value, $(this).attr('column') );
+			//Oparent = $(this).parent();
+			colName = $(this).attr('name');
+			colIndex = oTable.fnGetColumnIndex(colName);
+			oTable.fnFilter( this.value, colIndex );
 			
 			
 			});
@@ -388,7 +401,12 @@ $.ajax({
 		})
 	});
 	
-	
+		}
+					
+				})
+				}	
+			}
+		})
 
 	//Reset displayed data
 	function fnResetAllFilters() {
@@ -427,11 +445,10 @@ $.ajax({
 		
 	}
 	
-	//Add the reset button
-	$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
-	$(".reset").click(function(){fnResetAllFilters()});
-
+	
 });
+
+
 
 $.fn.dataTableExt.afnFiltering.push(
 	

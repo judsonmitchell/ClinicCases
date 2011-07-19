@@ -67,10 +67,10 @@
 						$date_check = substr($col[0],0,4);
 						
 						if ($col[2] == "true"  && $col[3] == "input" && $date_check !== "date"):
-							echo "<th><input type=\"text\" name = \"$col[0]\" class = \"search_init\" column = \"$key\"></th>";
+							echo "<th><input type=\"text\" name = \"$col[0]\" class = \"search_init\"></th>";
 						
 						elseif ($col[2] == "true" && $col[3] == "select"):
-							echo "<th class=\"addSelects\" name =\"$col[1]\" column=\"$key\"></th>"; 
+							echo "<th class=\"addSelects\" name =\"$col[1]\"></th>"; 
 							
 						elseif ($col[0] == "date_open" || $col[0] == "date_close"):
 							//Create id variable
@@ -85,7 +85,7 @@
 									<option value=\"less\">&lt;</option>
 								</select>
 					
-								<input type=\"text\" name = \"$col[0]\" id=\"$col[0]\" class=\"search_init\" title=\"Select a Date\" column = \"$key\"><br />
+								<input type=\"text\" name = \"$col[0]\" id=\"$col[0]\" class=\"search_init\" title=\"Select a Date\" column = \"$col[0]\"><br />
 								
 								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
 								
@@ -119,7 +119,7 @@
 									<option value=\"less\">&lt;</option>
 								</select>
 					
-								<input type=\"text\" name = \"$col[0]" . "_2" .  "\" id=\"$col[0]" . "_2" . "\" class=\"search_init\" title=\"Select a Date\" column = \"$key\"><br />
+								<input type=\"text\" name = \"$col[0]" . "_2" .  "\" id=\"$col[0]" . "_2" . "\" class=\"search_init\" title=\"Select a Date\"><br />
 								
 								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
 								
