@@ -1,10 +1,10 @@
 INSTALL
 
 Below are instructions on how to install ClinicCases on a typical webserver.  
-sIf you need help, please go to our forums at http://www.cliniccases.com/forums.
+If you need help, please go to our forums at http://www.cliniccases.com/forums.
 
 REQUIREMENTS:
-1. Unix type webserver (e.g. Apache)
+1. Linux webserver  (Note: ClinicCases has been run on Windows servers, although this is not officially supported).
 2. Mysql
 3. PHP version 4 or higher
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
@@ -40,7 +40,7 @@ GETTING STARTED
 
 A default account should have been created with the user/pass admin/admin.  (PLEASE DELETE 
 THIS ACCOUNT AFTER YOU HAVE CONFIGURED CLINICCASES.  IMPORTANT!).  Navigate to index.php 
-in your browser and login using this account.  Get started by click the users tab and adding 
+in your browser and login using this account.  Get started by clicking the users tab and adding 
 users.  The best thing to do is to add professors and adminstrators first.  Students can 
 get accounts by navigating to ./newaccount/index.php and submitting their information there.  
 The adminstrator will then receive notification of this student signup and can authorize 
