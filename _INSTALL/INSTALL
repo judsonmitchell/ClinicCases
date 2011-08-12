@@ -8,14 +8,14 @@ REQUIREMENTS:
 2. Mysql
 3. PHP version 4 or higher
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
-5. GD libraries for php (optional; used for resizing photos)
-6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
+5. GD libraries for php.
+6. It is recommended that you run ClinicCases on a secure server (SSL, TSL).
 
 STEPS - New Installation
 
-1. Upload the compressed source file to your webserver and unzip.
+1. Upload the compressed source file to your webserver and untar.
 
-2.  CHMOD 777 'images_tmp', 'people', 'docs'
+2. CHMOD 777 'images_tmp', 'people', 'docs'
 
 3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
 and select "Import."  Import the file CC.sql.  Your database should now be setup with 
@@ -35,6 +35,13 @@ STEPS - Updgrade from ClinicCases 5 to ClinicCases 6
 2. Run upgrade_to_cc6.php
 3. Delete the _INSTALL directory
 
+REGISTER 
+
+PLEASE REGISTER your ClinicCases installation at https://cliniccases.com/registration/. This free registration will allow you to be informed of updates and security patches.  
+
+DATA MIGRATION
+
+Migrating existing cases from another case management system (TimeMatters, Amicus, Tabs III, etc) may take some expertise. Either contact your IT department or go to the forums for assistance.  Three Pipe Problem, LLC (judson@threepipeproblem.com) is happy to this, along with customization and support) for a fee.
 
 GETTING STARTED
 
@@ -50,8 +57,6 @@ You should then define your case types (criminal, family law, etc), dispositions
 
 After this, add cases via the cases tab.  You must be logged in as an adminstrator to do this.  
 
-Migrating existing cases from another case management system may take some expertise.  
-Either contact your IT department or go to the forums for assistance.  Three Pipe Problem, LLC 
-(mitchell@threepipeproblem.com) is happy to this, along with customization and support) for a fee.
+
 
 
