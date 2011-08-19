@@ -198,7 +198,7 @@ include 'message_roll.php';
 
 $new_user = mysql_query("SELECT * FROM `cm_users` WHERE `new` = 'yes'");
 if (mysql_num_rows($new_user)<1)
-{echo "There are no new users to be activited.";}
+{echo "There are no new users to be activated.";}
 while ($line = mysql_fetch_array($new_user, MYSQL_ASSOC)) {
     $i=0;
     foreach ($line as $col_value) {
