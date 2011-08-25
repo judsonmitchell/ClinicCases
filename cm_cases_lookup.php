@@ -30,7 +30,7 @@ $searchterm = $_GET['searchterm'];
 switch ($_SESSION['class']){
 
     case "prof":
-    $query = mysql_query("SELECT DISTINCT $field as target FROM cm WHERE $field LIKE '%$searchterm%' AND `professor` = '$_SESSION[login]' $limiter OR $field LIKE '%$searchterm%' AND `professor2` = '$_SESSION[login]' $limiter ");
+    $query = mysql_query("SELECT DISTINCT $field as target FROM cm WHERE $field LIKE '%$searchterm%' AND `professor` LIKE'%$_SESSION[login]%' $limiter");
     break;
 
     case "admin":

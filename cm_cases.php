@@ -361,6 +361,8 @@ if ($_SESSION['class'] == 'prof')
 <option value="court">Court Name</option>
 <option value="section">Court Section</option>
 <option value="ct_case_no">Court Case Number</option>
+<option value="case_name">Case Name</option>
+
 <option value="notes">Notes</option>
 <option value="dispo">Dispositon </option>
 <option value="close_code">Closing Code</option>
@@ -380,10 +382,10 @@ if ($_SESSION['class'] == 'prof')
 
 <span id= "search_choice">
 <span id="advanced_choice">
-<a href="#" onClick="$('searchfield').style.display = 'inline';$('searchterm').style.display ='none';ajac.disabled='false';$('advanced_choice').style.display = 'none';$('normal_choice').style.display = 'inline';$('choosers').morph('background:rgb(224, 224, 224)');return false;">Advanced Search</a>
+<a href="#" onClick="$('searchfield').style.display = 'inline';$('searchterm').style.display ='none';ajac.disable=false;$('advanced_choice').style.display = 'none';$('normal_choice').style.display = 'inline';$('choosers').morph('background:rgb(224, 224, 224)');return false;">Advanced Search</a>
 </span>
 <span id="normal_choice" style="display:none">
-<a href="#" onClick="document.getElementById('searchfield').style.display = 'none';$('searchterm').style.display ='inline';$('searchterm').value='Search By Name';$('normal_choice').style.display = 'none';$('advanced_choice').style.display = 'inline';$('choosers').morph('background:rgb(255, 255, 255)');$('view_chooser').value='open';ajac.disabled='true';return false;">Return to Name Search</a>
+<a href="#" onClick="document.getElementById('searchfield').style.display = 'none';$('searchterm').style.display ='inline';$('searchterm').value='Search By Name';$('normal_choice').style.display = 'none';$('advanced_choice').style.display = 'inline';$('choosers').morph('background:rgb(255, 255, 255)');$('view_chooser').value='open';ajac.disable=true;return false;">Return to Name Search</a>
 </span>
 
 
@@ -400,7 +402,7 @@ ajac = new Ajax.Autocompleter("searchterm", "autocomplete_case", "cm_cases_looku
 	}});
 
 //Is initially disabled for simple name search
-ajac.disabled = 'true';
+ajac.disable = 'true';
 
 </script>
 
