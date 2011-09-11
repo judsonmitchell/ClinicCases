@@ -42,8 +42,16 @@ include 'log_write.php';
 				die($response);				
 			}
 
-
+//Determine the user's group and put the relevant permissions in an array
+	
+	$group = $r->group;
+	
+	$group_query = mysql_query("SELECT * FROM `cm_groups` WHERE `group_name` = '$group' LIMIT 1");
+	
+	$permissions = mysql_fetch_array($group_query);
+		
 //Create Session Variables
+	$_SESSION['permissions'] = $permissions;
 	$_SESSION['login'] = $r->username;
 	$_SESSION['group'] = $r->group;
 	$_SESSION['first_name'] = $r->first_name;
@@ -51,6 +59,8 @@ include 'log_write.php';
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
 	$_SESSION['pref_journal'] = $r->pref_journal;
 	$_SESSION['pref_case'] = $r->pref_case;
+	
+
 
 //Set remember me cookie
 
