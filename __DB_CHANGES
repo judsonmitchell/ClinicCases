@@ -6,3 +6,44 @@ ALTER TABLE  `cm` ADD FULLTEXT (
 `professor`
 )
 
+//proposed new definition for groups and permissions
+
+
+CREATE TABLE IF NOT EXISTS `cm_groups` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(50) NOT NULL,
+  `group_title` varchar(100) NOT NULL,
+  `group_description` text NOT NULL,
+  `add_cases` int(2) NOT NULL,
+  `delete_cases` int(2) NOT NULL,
+  `edit_cases` int(2) NOT NULL,
+  `close_cases` int(2) NOT NULL,
+  `view_all_cases` int(2) NOT NULL COMMENT 'User can view all cases or only cases to which they are assigned',
+  `add_users` int(2) NOT NULL,
+  `delete_users` int(2) NOT NULL,
+  `edit_users` int(2) NOT NULL,
+  `activate_users` int(2) NOT NULL,
+  `add_case_notes` int(2) NOT NULL,
+  `edit_case_notes` int(2) NOT NULL,
+  `delete_case_notes` int(2) NOT NULL,
+  `add_events` int(2) NOT NULL,
+  `edit_events` int(2) NOT NULL,
+  `delete_events` int(2) NOT NULL,
+  `post_in_board` int(2) NOT NULL,
+  `view_board` int(2) NOT NULL,
+  `edit_posts` int(2) NOT NULL,
+  `change_permissions` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Allows admin to create user groups and set definitions' AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `cm_groups`
+--
+
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
+(3, 'students', 'Students', 'Students can only access the cases to which they have been assigned by a professor.', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
+(4, 'prof', 'Professors', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
+
+
