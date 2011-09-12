@@ -1,4 +1,4 @@
-<?php include '../../db.php'; ?>
+<?php include 'db.php'; ?>
 
 <!-- CSS specific to this page -->
 <link rel="stylesheet" href="lib/DataTables-1.7.5/media/css/data_table_jui.css" type="text/css">
@@ -22,7 +22,7 @@
 
 </head>
 <body>
-
+	
 	<div id="notifications"></div>
 	
 	<div id="idletimeout">
@@ -45,6 +45,9 @@
 	<div id="content">
 
 		<div id="processing">Loading....</div>
+		
+			<?php if ($_SESSION['permissions']['add_cases'] == "1")
+				{echo "<div id=\"new_case_icon\" class=\"ui-widget-header ui-corner-all\"><a class=\"DTTT_button ui-button DTTT_button_icon ui-state-default \">Add New Case <span class=\"ui-icon ui-icon-inline ui-icon-plus\"></span></a></div>";} ?>
 		
 			<table id="table_cases" class="display">
 			
