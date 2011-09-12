@@ -46,4 +46,7 @@ INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`,
 (3, 'students', 'Students', 'Students can only access the cases to which they have been assigned by a professor.', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
 (4, 'prof', 'Professors', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
 
+//add organization field
+ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`
+
 
