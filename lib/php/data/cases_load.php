@@ -11,7 +11,7 @@ include 'names.php';
 	foreach ($CC_columns as $val)
 	{
 		if ($val[2] == "true")
-			{$col_vals_raw .= "cm." . $val[0] . ", ";}		
+			{@$col_vals_raw .= "cm." . $val[0] . ", ";}		
 	}
 	
 	//trim trailing comma
