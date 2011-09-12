@@ -10,6 +10,9 @@ include 'lib/php/html/tabs.php';
 
 	if (isset($_GET['i']))
 		{
+			//load session checker to ensure user is authorized to see page.
+			include 'lib/php/auth/session_check.php';
+
 			$pg = load($_GET['i']);		
 				
 		}
