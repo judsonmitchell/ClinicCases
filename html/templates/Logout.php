@@ -3,7 +3,7 @@
 	include '../../db.php';
 	include '../../lib/php/auth/log_write.php';
 	
-	write_log($_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
+	write_log($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
 	session_unset();
 	session_destroy();
 	
@@ -29,7 +29,7 @@
 
 	<body>
 		<div id="content" style="margin-top:30px;">
-		<h4>You have been logged out</h4>
+		<h4>You have been logged out of ClinicCases</h4>
 
 
 </body>

@@ -3,24 +3,29 @@ session_start();
 include '../../../db.php';
 include 'log_write.php';
 
-//Get post variables
+//Set variables
 
-	$username = mysql_real_escape_string($_POST['username']);
-	$password_clean = mysql_real_escape_string($_POST['password']);
-	$password = md5($password_clean);
+	$password = md5($_POST['password']);
 	$ip = $_SERVER['REMOTE_ADDR'];
 	if (isset($_POST['remember']))
 		{$remember = $_POST['remember'];}
 
-//Check user credentials
 
-	$user_query = mysql_query("SELECT * FROM `cm_users` WHERE `username` = '$username' AND `password` = '$password' LIMIT 1 ");
+	$user_query = $dbh->prepare("SELECT * FROM cm_users WHERE username = ? AND password = ? LIMIT 1");
 	
-	$r = mysql_fetch_object($user_query);
+	$user_query->setFetchMode(PDO::FETCH_OBJ);  
+	
+	$user_query->bindParam(1, $_POST['username']);  
+
+	$user_query->bindParam(2, $password);  
+	
+	$user_query->execute();
+	
+	$r = $user_query->fetch();
 
 //Do error handling
 
-		if (!mysql_num_rows($user_query))
+		if ($user_query->rowCount() < 1)
 			{		
 				$msg = "Your username or password is incorrect. Please try again";
 				
@@ -43,12 +48,16 @@ include 'log_write.php';
 			}
 
 //Determine the user's group and put the relevant permissions in an array
+
+	$group_query = $dbh->prepare("SELECT * FROM cm_groups WHERE group_name = ? LIMIT 1");
+
+	$group_query->bindParam(1, $r->group);
 	
-	$group = $r->group;
+	$group_query->execute();
 	
-	$group_query = mysql_query("SELECT * FROM `cm_groups` WHERE `group_name` = '$group' LIMIT 1");
-	
-	$permissions = mysql_fetch_array($group_query);
+	$group_query->setFetchMode(PDO::FETCH_ASSOC);  
+
+	$permissions = $group_query->fetch();
 		
 //Create Session Variables
 	$_SESSION['permissions'] = $permissions;
@@ -59,8 +68,6 @@ include 'log_write.php';
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
 	$_SESSION['pref_journal'] = $r->pref_journal;
 	$_SESSION['pref_case'] = $r->pref_case;
-	
-
 
 //Set remember me cookie
 
@@ -71,7 +78,7 @@ include 'log_write.php';
 //Create a unique session id and then write to the log
 	$sess_id = md5(time());
 	$_SESSION['cc_session_id'] = $sess_id;
-	write_log ($_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
+	write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
 
 //If login is successful, go to home page
 	$home_url = $CC_base_url . "index.php?i=Home.php";

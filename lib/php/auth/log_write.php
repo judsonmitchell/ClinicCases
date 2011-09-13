@@ -1,10 +1,13 @@
 <?php
 
-	function write_log ($username,$ip,$sess_id,$type)
+	function write_log ($dbh,$username,$ip,$sess_id,$type)
 	
 		{
+			$in = $dbh->prepare("INSERT INTO cm_logs (username, ip, session_id, type) VALUES (?, ?, ?, ?)");
 			
-			$in = mysql_query("INSERT INTO `cm_logs` (`id`, `username`, `timestamp`, `ip`, `session_id`, `type`) VALUES (NULL, '$username', CURRENT_TIMESTAMP, '$ip', '$sess_id', '$type')");
-				
+			$data = array($username,$ip,$sess_id,$type);
+			
+			$in->execute($data);
+			
 		}
 	
