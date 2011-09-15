@@ -5,7 +5,7 @@ include 'time.php';
 include 'names.php';
 
 	$user = $_SESSION['login'];
-	
+
 	//Get the columns from _CONFIG.php, excluding any hidden fields
 	
 	foreach ($CC_columns as $val)
@@ -17,27 +17,31 @@ include 'names.php';
 	//trim trailing comma
 	$col_vals = substr($col_vals_raw,0,-2);
 	
-	switch($_SESSION['group'])
+	if ($_SESSION['permissions']['view_all_cases'] == "0")
+	
 		{
+			$sql = "SELECT $col_vals, cm_case_assignees.case_id, cm_case_assignees.username FROM cm, cm_case_assignees WHERE cm.id = cm_case_assignees.case_id AND cm_case_assignees.username =  :username AND cm_case_assignees.status =  'active'";
+								
+		}
 		
-		case 'prof':
-		$query = mysql_query("SELECT $col_vals FROM `cm` WHERE MATCH(`professor`) AGAINST ('$user')");
-		break;
+	elseif ($_SESSION['permissions']['view_all_cases'] == "1")
 		
-		case 'admin':
-		$query = mysql_query("SELECT $col_vals FROM `cm`");
-		break;
-		
-		case 'student':
-		$query = mysql_query("SELECT $col_vals, cm_cases_students.case_id, cm_cases_students.username FROM cm, cm_cases_students WHERE cm.id = cm_cases_students.case_id AND cm_cases_students.username =  '$user' AND cm_cases_students.status =  'active'");
-		break;
-		
-		case 'super':
-		$query = mysql_query("SELECT $col_vals FROM `cm`");
-		break;			
+		{
+			//admin or super user type query - Users who can access all cases and "work" on all cases.
+			$sql = "SELECT $col_vals FROM cm";
 			
 		}
+		
+	else
 	
+		{
+			echo "There is configuration error in your groups."; die;
+		}
+	
+		$case_query = $dbh->prepare($sql);
+		$case_query->bindParam(':username',$user);
+		$case_query->execute();
+
 	//Create array of column names for json output		
 	foreach ($CC_columns as $value)
 	{
@@ -45,7 +49,7 @@ include 'names.php';
 			{$cols[] = $value[0];}		
 	}
 	
-		while ($result = mysql_fetch_assoc($query))
+		while ($result = $case_query->fetch(PDO::FETCH_ASSOC))
 			{
 				
 				$rows = array();
@@ -64,13 +68,13 @@ include 'names.php';
 					}
 			
 				//Convert username into last name
-				if (!empty($result['professor']))
-					{
-						$profs = explode(",",$result['professor']);
-						array_pop($profs);
-						$lnames = array_map('username_to_lastname',$profs);
-						$result['professor'] = implode(", ",$lnames);
-					}
+			//	if (!empty($result['professor']))
+				//	{
+					//	$profs = explode(",",$result['professor']);
+						//array_pop($profs);
+						//$lnames = array_walk($profs,'username_to_lastname',$dbh);
+						//$result['professor'] = implode(", ",$lnames);
+					//}
 					
 					
 			//loop through results, create array, convert to json	
