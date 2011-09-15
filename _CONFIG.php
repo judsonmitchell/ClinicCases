@@ -33,12 +33,13 @@ $CC_columns = array(
 	array("id", "Id", "true", "input",false), 
 	array("clinic_id", "Case Number", "true", "input",false), 
 	array("first_name", "First Name", "true", "input",true), 
-	array("m_initial", "Middle Initial", "true", "input",true),
+	array("m_initial", "Middle Initial", "true", "input",false),
 	array("last_name", "Last Name", "true", "input",true),
+	array("organization", "Organization", "true", "input",false),
 	array("date_open", "Date Open", "true", "input",true),
 	array("date_close", "Date Close", "true", "input",true),
 	array("case_type", "Case Type", "true", "select",true),
-	array("professor", "Professor", "true", "input",true),
+	array("professor", "Professor", "false", "input","false"),//consider deleting this column
 	array("address1", "Address 1", "false", "input",false),
 	array("address2", "Address 2", "false", "input",false),
 	array("city", "City", "false", "input",false),
@@ -67,10 +68,22 @@ $CC_columns = array(
 	array("close_code", "Closing Code", "false", "input",false),
 	array("close_notes", "Closing Notes", "false", "input",false),
 	array("referral", "Referred By", "true", "input",false),
-	array("opened_by", "Opened By", "true", "input",true)
+	array("opened_by", "Opened By", "true", "input",true),
+	array("dingo", "Dingo", "true", "input",true),
+	array("dingo", "Fringo", "true", "input",true)
+
+
 	
 	);
 
+//Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.
+
+if ( in_array( strtolower( ini_get( 'magic_quotes_gpc' ) ), array( '1', 'on' ) ) )
+{
+    $_POST = array_map( 'stripslashes', $_POST );
+    $_GET = array_map( 'stripslashes', $_GET );
+    $_COOKIE = array_map( 'stripslashes', $_COOKIE );
+}
 
 //Error reporting.
 
