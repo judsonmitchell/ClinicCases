@@ -49,4 +49,35 @@ INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`,
 //add organization field
 ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`
 
+//script to move professor field to cm_cases_students
+
+$q = mysql_query("SELECT * FROM cm");
+ 
+	while ($r = mysql_fetch_array($q))
+	{
+		$assig = explode(',',$r['professor']);
+		foreach ($assig as $p)
+		{
+			if (!empty($p))
+			{
+				$date_add = $r['date_open'] . " 00:00:00";
+				$insert = mysql_query("INSERT INTO cm_cases_students (id,username,case_id,status,date_assigned) VALUES (NULL,'$p','$r[id]','active','$date_add')");
+				
+				//echo "case id:" . $r['id'] . " prof:" . $p . " date_assigned: " . $date_add . "<br>";
+				
+			}
+		
+		}
+	
+	}
+	
+	echo "Done";
+
+//delete these two unnecessary columns
+ALTER TABLE `cm_cases_students`
+  DROP `first_name`,
+  DROP `last_name`;
+
+// Change name of table to reflect that all users assigned to a case will now appear, not //just students  
+RENAME TABLE cm_cases_students TO cm_case_assignees
 
