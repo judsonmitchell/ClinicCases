@@ -162,7 +162,7 @@ $.ajax({
 					"sScrollY": "665px",
 					//"sScrollX": "100%",
 					"iDisplayLength": 50,
-					"aaSorting": [[ 3, "asc" ]],
+					"aaSorting": [[ 4, "asc" ]],
 					"aoColumns": aoColumns,
 					"sDom": '<"H"f<"selector"><"reset">TCi>rtp',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns"},
@@ -462,8 +462,8 @@ $.fn.dataTableExt.afnFiltering.push(
 		var opFieldRaw2 = document.getElementById('date_open_2').value;
 		var clFieldRaw = document.getElementById('date_close').value;
 		var clFieldRaw2 = document.getElementById('date_close_2').value;		
-		var opRowRaw = aData[4];
-		var clRowRaw = aData[5];
+		var opRowRaw = aData[5];
+		var clRowRaw = aData[6];
 		
 		//date conversions
 		
