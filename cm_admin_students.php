@@ -1,8 +1,10 @@
 <?php
 session_start();
+
+if ($_SESSION['class'] !== "admin")
+{header('Location: index.php?login_error=4');}
 include 'db.php';
-if (!$_SESSION)
-{header('Location: index.php');}
+
 
  ?>
 

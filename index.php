@@ -23,6 +23,14 @@ else
 {$toggle_display3 = "none";}
 
 
+if ($login_error == "4")
+{
+$toggle_display4 = "block";
+}
+else
+{$toggle_display4 = "none";}
+
+
 ?>
 
 <html>
@@ -69,6 +77,8 @@ else
 <div id="status2" style="color:red;display:<?PHP ECHO $toggle_display2; ?>">Your account is currently inactive.  Please contact <a href="mailto:<?php echo $CC_admin_email; ?>">your clinic's adminstrator</a> for more information.</div>
 
 <div id="status3" style="color:red;display:<?PHP ECHO $toggle_display3; ?>">Your session has expired.  Please log in again.</div>
+
+<div id="status4" style="color:red;display:<?PHP ECHO $toggle_display4; ?>">You do not have permission to view the selected file.<br> Please log in again.</div>
 </center>
 <form name = "getin" id="getin" action="login.php" method="post" style="margin-top:5%">
 
