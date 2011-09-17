@@ -1,29 +1,32 @@
 <?php
 // SETS SYSTEM-WIDE CONFIG PREFERNENCES
 
-//Information to access your mysql database
-$CC_dbhost = "localhost";
-$CC_dbusername = "cc7";
-$CC_dbpasswd = "cc7";
-$CC_database_name = "cc_dev_live_copy";
+//Information to access your database
+define("CC_DBHOST","  ");
+define("CC_DBUSERNAME","  ");
+define("CC_DBPASSWD", "  ");
+define("CC_DATABASE_NAME","  ");
+
+//If sqlite, define path to db
+//define("CC_SQLITE_PATH","my/database/path/database.db");
 
 //Email address for the adminstrator who will deal with student questions
-$CC_admin_email = "jmitchel@loyno.edu";
+define("CC_ADMIN_EMAIL","  ");
 
 //Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
-$CC_base_url = "http://localhost/cc7/";
+define("CC_BASE_URL","  ");
 
 //Your domain , e.g. http://www.yourserver.com
-$CC_domain = "http://localhost";
+define("CC_DOMAIN","  ");
 
 //Default email for ClinicCases notifications, e.g. no-reply@yourserver.co
-$CC_default_email = "";
+define("CC_DEFAULT_EMAIL","");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
-$CC_program_name = "ClinicCases 7 Development";
+define("CC_PROGAM_NAME","  ");
 
 //Optional: Your School Color (used for program name); rgb or hex value.
-$CC_school_color = "#A52A2A";
+define("CC_SCHOOL_COLOR","");
 
 //An array of all columns in your main case management table (cm).  Set value to 1(true) if these columns should be displayed to users
 
@@ -69,11 +72,6 @@ $CC_columns = array(
 	array("close_notes", "Closing Notes", "false", "input",false),
 	array("referral", "Referred By", "true", "input",false),
 	array("opened_by", "Opened By", "true", "input",true),
-	array("dingo", "Dingo", "true", "input",true),
-	array("dingo", "Fringo", "true", "input",true)
-
-
-	
 	);
 
 //Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.

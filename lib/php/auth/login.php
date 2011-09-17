@@ -38,7 +38,7 @@ include 'log_write.php';
 
 		if ($r->status == "inactive")
 			{
-				$msg = "Your account is currently inactive.  Please contact <a href='mailto:$CC_admin_email'>your clinic's adminstrator</a> for more information.";
+				$msg = "Your account is currently inactive.  Please contact <a href='mailto:" . CC_ADMIN_EMAIL   . "'>your clinic's adminstrator</a> for more information.";
 				
 				$json = array('login'=>'false','message'=>''. $msg . '','url'=>'null');
 
@@ -81,7 +81,7 @@ include 'log_write.php';
 	write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
 
 //If login is successful, go to home page
-	$home_url = $CC_base_url . "index.php?i=Home.php";
+	$home_url = CC_BASE_URL . "index.php?i=Home.php";
 	$json = array('login'=>'true','message'=>'Logging you in....','url'=>'' . $home_url . '');
 	$response = json_encode($json);
 	echo $response;

@@ -30,7 +30,7 @@
 		<div id="content_left">
 			
 			<h1>Set Up Your <br>ClinicCases Account</h1>
-			<p>Please apply for an account only after you have been asked to do so by your clinic instructor. If you have any questions, please contact your <a href="mailto:<?php echo $CC_admin_email; ?>">Law Clinic's adminstrator</a>.</p>
+			<p>Please apply for an account only after you have been asked to do so by your clinic instructor. If you have any questions, please contact your <a href="mailto:<?php echo CC_ADMIN_EMAIL; ?>">Law Clinic's adminstrator</a>.</p>
 
 		</div>
 		
