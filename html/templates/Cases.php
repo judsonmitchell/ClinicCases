@@ -47,7 +47,7 @@
 		<div id="processing">Loading....</div>
 		
 			<?php if ($_SESSION['permissions']['add_cases'] == "1")
-				{echo "<div id=\"new_case_icon\" class=\"ui-widget-header ui-corner-all\"><a class=\"DTTT_button ui-button DTTT_button_icon ui-state-default \">Add New Case <span class=\"ui-icon ui-icon-inline ui-icon-plus\"></span></a></div>";} ?>
+				{echo "<div id=\"new_case_icon\" class=\"ui-widget-header ui-corner-all\"><a class=\"DTTT_button ui-button DTTT_button_icon ui-state-default \">Add New Case <span class=\"cc_add_icon\"><img src='html/images/add.png'></span></a></div>";} ?>
 		
 			<table id="table_cases" class="display">
 			
