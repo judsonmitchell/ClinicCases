@@ -1,20 +1,23 @@
 <?php include 'db.php'; ?>
 
 <!-- CSS specific to this page -->
-<link rel="stylesheet" href="lib/DataTables-1.7.5/media/css/data_table_jui.css" type="text/css">
+<link rel="stylesheet" href="lib/DataTables-1.8.2/media/css/data_table_jui.css" type="text/css">
 
-<link rel="stylesheet" href="lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/css/TableTools.css" type="text/css">
+<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/TableTools/media/css/TableTools.css" type="text/css">
 
-<link rel="stylesheet" href="lib/DataTables-1.7.5/extras/ColVis/media/css/ColVis.css" type="text/css">
+<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColVis/media/css/ColVis.css" type="text/css">
+
+<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
+
 
 <!-- Jquery Calls Specific to this page -->
-	<script src="lib/DataTables-1.7.5/media/js/jquery.dataTables.js" type="text/javascript"></script>
+	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 
-	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/js/TableTools.min.js"></script>
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
 
-	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/ColReorder/media/js/ColReorder.min.js"></script>
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColReorder/media/js/ColReorder.min.js"></script>
 	
-	<script type="text/javascript" src="lib/DataTables-1.7.5/extras/ColVis/media/js/ColVis.js"></script> 
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script> 
 
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	
@@ -90,7 +93,7 @@
 					
 								<input type=\"text\" name = \"$col[0]\" id=\"$col[0]\" class=\"search_init\" title=\"Select a Date\" column = \"$col[0]\"><br />
 								
-								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
+								<a href=\"#\" id=\"add" . $date_type . "Row\" class=\"smallgray\">Add Condition</a>
 								
 							</th>";
 						
@@ -124,7 +127,6 @@
 					
 								<input type=\"text\" name = \"$col[0]" . "_2" .  "\" id=\"$col[0]" . "_2" . "\" class=\"search_init\" title=\"Select a Date\"><br />
 								
-								<a href=\"#\" id=\"addCloseRow\" class=\"smallgray\">Add Condition</a>
 								
 							</th>";
 														
