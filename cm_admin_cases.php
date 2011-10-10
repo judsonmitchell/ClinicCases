@@ -246,7 +246,7 @@ doThis('time',id);
 
 new Ajax.PeriodicalUpdater('session_info', 'session_keep_alive.php', {
     method: 'post',parameters:{sid:'<?php echo $_COOKIE[PHPSESSID]; ?>'},
-    frequency: 300
+    frequency: 60
   });
 
 
