@@ -2,7 +2,7 @@
 
 var oTable;
 //var asInitVals = new Array();
-var defaultHiddenColumns = Array('0','1','3','8','9','10','11','12');//refers to header rows in cases.php
+//var defaultHiddenColumns = Array('0','1','3','8','9','10','11','12');//refers to header rows in cases.php
 var aoColumns;
 
 //function to create selects for advanced search
@@ -139,6 +139,12 @@ $(document).ready(function(){
 		//set the intial value for the caseStatus span on load
 		var chooserVal = "open";
 		
+		//Handle errors
+
+		$('body').ajaxError(function(){		
+			$('#error').text('There was an error connecting to the server.  Either the server is down or there is a problem with your internet connection.').dialog({modal:true,title:'Connection Error'});
+		})
+		
 //Get the column definitions to use in oTable
 
 $.ajax({
@@ -159,20 +165,24 @@ $.ajax({
 					"bProcessing": true,
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
+					"bSortCellsTop": true,
 					"sScrollY": "665px",
-					//"sScrollX": "100%",
-					"iDisplayLength": 50,
+					"sScrollX": "100%",
 					"aaSorting": [[ 4, "asc" ]],
 					"aoColumns": aoColumns,
-					"sDom": '<"H"f<"selector"><"reset">TCi>rtp',
+					"sDom": 'R<"H"fTC<"reset">i>rt',
 					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns"},
 					"oTableTools": {
-								"sSwfPath": "lib/DataTables-1.7.5/extras/TableTools-2.0.0/media/swf/copy_cvs_xls_pdf.swf",
+								"sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
 								"aButtons": [
 									{
 									"sExtends":    "collection",
 									"sButtonText": "Print/Export",
 									"aButtons":    [ 
+											{	"sExtends":"copy",
+												"mColumns":"visible"
+											},
+									
 											{	"sExtends":"csv",
 												"mColumns":"visible"
 											},
@@ -186,8 +196,8 @@ $.ajax({
 											},
 											
 											{	"sExtends":"print",
-												"mColumuns":"visible",
-												"sInfo":"Use your browser's print function to print.  Press Esc when done."	
+												"mColumns":"visible",
+												
 												
 											}
 										]
@@ -195,11 +205,11 @@ $.ajax({
 									]
 							},
 					"sAjaxSource": 'lib/php/data/cases_load.php',
+					"bDeferRender": true,
 					"fnInitComplete": function() {
 						//When page loads, default filter is applied: open cases (i.e., all cases where the date close field is empty.	
 							oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
-							
-						
+												
 							
 						//resizes the table whenever parent element size changes
 							$(window).bind('resize', function () {
@@ -220,7 +230,167 @@ $.ajax({
 							//for (var c in defaultHiddenColumns)
 							//{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
 							
+							//Add case status seletctor
+							$('div.dataTables_filter').append('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
+							
+							//Have ColVis and reset buttons pick up the DTTT class
+							$('div.ColVis button').removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
+							
+							
+							
+							//Add the reset button
+							$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
+							
+							$('div.reset').addClass('ColVis TableTools');
+							
+							$('div.reset button').addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
+							
+							$('div.reset button').css({'background':'0','padding-right':'5px'});
+							
+							//Add the DTTT hover styles for the reset and columns buttons
+							$('div.reset button,div.ColVis.TableTools button ').live('mouseover',function(event){$(this).addClass('DTTT_button DTTT_button_collection_hover ui-button ui-state-default ui-state-hover ui-state-focus') });
+							
+							$('div.reset button, div.ColVis.TableTools button').live('mouseout',function(event){$(this).removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default') });
+							
+							$(".reset").click(function(){fnResetAllFilters()});
+							
+							
+							//Change the case status select
+							$('#chooser').live('change',function(event){
+
+								switch ($(this).val())
+								{
+									case 'all':
+									chooserVal = "open and closed";
+									oTable.fnFilter('',oTable.fnGetColumnIndex("Date Close"));
+									
+									break;
+									
+									case 'open':
+									chooserVal = "open";
+									oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
+									break;
+									
+									case 'closed':
+									chooserVal = "closed";
+									oTable.fnFilter( '^.+$', oTable.fnGetColumnIndex("Date Close"), true, false );
+
+									break;
+								}
+
+								})
+														
+
+									
+							//Set css for advanced date function; make room for the operator selects 	
+							$('#set_advanced').live('click',function(event){
+								event.preventDefault();	
+								if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
+								{
+									$("tr.advanced, tr.advanced_2").css({'display':'none'});
+								} 
+								
+									else {	
+										$("th.ui-state-default").css({'border-bottom':'0px'});
+										$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
+										//$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
+										$("#open_range , #close_range").css({'margin-top':'18px'});
+										$("thead tr.advanced").toggle('slow');	
+										$("#second_open_cell, #second_close_cell").css({'visibility':'hidden'});
+										
+										//Set the big filter to all cases
+									
+										oTable.fnFilter('', oTable.fnGetColumnIndex("Date Close"), true, false);
+										$('#chooser').val('all');
+										chooserVal = "open and closed";
+									}
+								
+								oTable.fnDraw();
+								
+								})
+			
+								$('#addopenRow').click(function(event){
+									event.preventDefault();
+									if ($("#second_open_cell").css('visibility') == 'visible')
+									{	
+										$(this).text('Add Condition');
+										$("#second_open_cell").css({'visibility' : 'hidden'});
+										$('thead tr.advanced_2').hide('slow');
+									
+									}
+									else
+									{ 
+										$(this).text('AND IS');
+										$("#second_open_cell").css({'visibility' : 'visible'});	
+										$("#date_open_2 , #date_close_2").css({'width':'60%'});
+										$('thead tr.advanced_2').show('slow');
+									}
+								})
+		
+								$('#addcloseRow').click(function(event){
+									event.preventDefault();
+									if ($("#second_closed_cell").css('visibility') == 'visible')
+									{	
+										$(this).text('Add Condition');
+										$("#second_closed_cell").css({'visibility' : 'hidden'});
+										$('thead tr.advanced_2').hide('slow');
+									
+									}
+									else
+									{ 
+										$(this).text('AND IS');
+										$("#second_closed_cell").css({'visibility' : 'visible'});	
+										$("#date_open_2 , #date_close_2").css({'width':'60%'});
+										$('thead tr.advanced_2').show('slow')
+									}
+											
+								})
+								
+								//Code for advanced search using inputs
+								$("thead input").keyup(function () {
+									
+									//Oparent = $(this).parent();
+									colName = $(this).attr('name');
+									colIndex = oTable.fnGetColumnIndex(colName);
+									oTable.fnFilter( this.value, colIndex );
+									
+									
+									});
+
+							
+							//Enable search via selects in advanced search
+							$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
+								Oparent = $(this).parent();
+								colIndex = Oparent.attr('column');
+								oTable.fnFilter(this.value,colIndex)
+								})
+							
+							//Add datepickers	
+							$(function() {
+								$( "#date_open , #date_close, #date_open_2, #date_close_2" ).datepicker({	
+									changeMonth: true,
+									changeYear: true,		
+									onSelect:function(){
+											$(this).css({'color':'black'})
+											oTable.fnDraw();
+										}
+								})
+							});
+							
+							//Add trigger for when user changes less/greater/equal
+							
+							$("#open_range, #open_range_2, #close_range, #close_range_2").live('change',function(event){oTable.fnDraw();})
+							
+							$('#table_cases tbody').click( function () {
+								var iPos = oTable.fnGetPosition( event.target.parentNode );
+								var aData = oTable.fnGetData( iPos );
+								var iId = aData[0];
+								alert(iId);
+							})
+
+							
 							$('#processing').hide();//hide the "loading" div after load.
+							
 							
 						},
 						
@@ -228,180 +398,10 @@ $.ajax({
 					
 					"fnDrawCallback": function() {
 		
-							$("#caseStatus").text(chooserVal);
-							//Set some css to improve layout
-							$("#chooser").css({'margin-right':'10px'});
-							$("#table_cases_filter > input").css({'width':'225px'});
+							$("#caseStatus").text(chooserVal);							
+							$(".hasDatepicker").css({'width':'62%'})
 							
-							//Add case status seletctor
-							$("div.selector").html('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
-							
-							
-							//Add the reset button
-							$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
-							$(".reset").click(function(){fnResetAllFilters()});
-
-							
-
-
-				
-		
-		
-		
-		
-	
-		$('#table_cases tbody').click( function () {
-			var iPos = oTable.fnGetPosition( event.target.parentNode );
-			var aData = oTable.fnGetData( iPos );
-			var iId = aData[0];
-			alert(iId);
-		})
-		
-		//Change the case status select
-		$('#chooser').change(function(){
-
-			switch ($(this).val())
-			{
-				case 'all':
-				chooserVal = "open and closed";
-				oTable.fnFilter('',oTable.fnGetColumnIndex("Date Close"));
-				
-				break;
-				
-				case 'open':
-				chooserVal = "open";
-				oTable.fnFilter( '^$', oTable.fnGetColumnIndex("Date Close"), true, false );
-				break;
-				
-				case 'closed':
-				chooserVal = "closed";
-				oTable.fnFilter( '^.+$', oTable.fnGetColumnIndex("Date Close"), true, false );
-
-				break;
-			}
-
-			})
-									
-
-				
-		//Set css for advanced date function; make room for the operator selects 	
-		$('#set_advanced').click(function(event){
-			event.preventDefault();	
-
-			if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
-			{
-				$("tr.advanced, tr.advanced_2").css({'display':'none'});
-			} 
-			
-				else {	
-					$("th.ui-state-default").css({'border-bottom':'0px'});
-					$(".complex").children().css({'display' : 'inline','margin-bottom' : '0px'});	
-					$("#date_open , #date_close").css({'width':'65%','margin-top':'18px'});
-					$("#open_range , #close_range").css({'margin-top':'18px'});
-					$("thead tr.advanced").toggle('slow');	
-					$("#second_open_cell, #second_closed_cell").css({'visibility':'hidden'});
-					
-					//Set the big filter to all cases
-				
-					oTable.fnFilter('',5);
-					$('#chooser').val('all');
-					chooserVal = "open and closed";
-				}
-			
-			oTable.fnDraw();
-			
-			})
-			
-		$('#addOpenRow').click(function(event){
-			event.preventDefault();
-			if ($("#second_open_cell").css('visibility') == 'visible')
-			{	
-				$(this).text('Add Condition');
-				$("#second_open_cell").css({'visibility' : 'hidden'});
-				$('thead tr.advanced_2').hide('slow');
-			
-			}
-			else
-			{ 
-				$(this).text('AND IS');
-				$("#second_open_cell").css({'visibility' : 'visible'});	
-				$("#date_open_2 , #date_close_2").css({'width':'60%'});
-				$('thead tr.advanced_2').show('slow');
-			}
-		})
-		
-		$('#addCloseRow').click(function(event){
-			event.preventDefault();
-			if ($("#second_closed_cell").css('visibility') == 'visible')
-			{	
-				$(this).text('Add Condition');
-				$("#second_closed_cell").css({'visibility' : 'hidden'});
-				$('thead tr.advanced_2').hide('slow');
-			
-			}
-			else
-			{ 
-				$(this).text('AND IS');
-				$("#second_closed_cell").css({'visibility' : 'visible'});	
-				$("#date_open_2 , #date_close_2").css({'width':'60%'});
-				$('thead tr.advanced_2').show('slow')
-			}
-					
-		})
-		
-		//Code for advanced search using inputs
-		$("thead input").keyup(function () {
-			
-			//Oparent = $(this).parent();
-			colName = $(this).attr('name');
-			colIndex = oTable.fnGetColumnIndex(colName);
-			oTable.fnFilter( this.value, colIndex );
-			
-			
-			});
-			
-		//$("thead input").each( function (i) {
-		//asInitVals[i] = this.value;
-			//} );
-	
-		//$("thead input").live("focus",function () {
-			//if ( this.className == "search_init" )
-				//{
-				//this.className = "";
-				//this.value = "";
-				//}
-			//} );
-	
-		//$("thead input").live("blur",function (i) {
-			//if ( this.value == "" )
-			//{
-				//this.className = "search_init";
-				//this.value = asInitVals[$("thead input").index(this)];
-			//}
-			//} );
-		
-
-	
-	//Enable search via selects in advanced search
-	$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
-		Oparent = $(this).parent();
-		colIndex = Oparent.attr('column');
-		oTable.fnFilter(this.value,colIndex)
-		})
-	
-	//Add datepickers	
-	$(function() {
-		$( "#date_open , #date_close, #date_open_2, #date_close_2" ).datepicker({	
-			changeMonth: true,
-			changeYear: true,		
-			onSelect:function(){
-					$(this).css({'color':'black'})
-					oTable.fnDraw();
-				}
-		})
-	});
-	
-		}
+						}
 					
 				})
 				}	
@@ -419,6 +419,9 @@ $.ajax({
 		
 		//reset the main filter
 		oTable.fnFilter('');
+		
+		//reset the columns to their original order.
+		ColReorder.fnReset( oTable );
 		
 		//reset the user display for inputs and selects
 		$("input").each(function(){this.value=''});
@@ -462,8 +465,8 @@ $.fn.dataTableExt.afnFiltering.push(
 		var opFieldRaw2 = document.getElementById('date_open_2').value;
 		var clFieldRaw = document.getElementById('date_close').value;
 		var clFieldRaw2 = document.getElementById('date_close_2').value;		
-		var opRowRaw = aData[5];
-		var clRowRaw = aData[6];
+		var opRowRaw = aData[6];
+		var clRowRaw = aData[7];
 		
 		//date conversions
 		

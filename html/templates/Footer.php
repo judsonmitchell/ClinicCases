@@ -8,6 +8,9 @@
 	
 </div>
 
+<div id="error">
+
+</div>
 </body>
 </html>
 

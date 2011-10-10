@@ -1,5 +1,5 @@
 <?php
-include '_CONFIG.php';
+require_once('_CONFIG.php');
 
 try {
 		$dbh = new PDO("mysql:host=" . CC_DBHOST . ";dbname=" . CC_DATABASE_NAME , CC_DBUSERNAME, CC_DBPASSWD);
@@ -14,5 +14,9 @@ try {
     }
 catch(PDOException $e)
     {
+
+		//400 is sent to trigger an error for ajax requests.
+		header('HTTP/1.1 400 Bad Request');
+
 		echo $e->getMessage();
     }
