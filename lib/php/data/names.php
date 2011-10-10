@@ -6,9 +6,13 @@ function username_to_lastname ($name)
 
 	{
 		
-		$query = mysql_query("SELECT `username`,`last_name` FROM `cm_users` WHERE `username` = '$name' LIMIT 1");
+		$query = $dbh->prepare("SELECT username,last_name FROM cm_users WHERE username = ? LIMIT 1");
+		
+		$query->bindParam(1,$name);
+		
+		$query->execute();
 
-		$r = mysql_fetch_array($query);
+		$r = $query->fetch();
 
 		return $r['last_name'];
 		
