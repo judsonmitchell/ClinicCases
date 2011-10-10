@@ -42,8 +42,8 @@ NOTE;
 
 	$message = "Here is the information you requested from ClinicCases".  "\r\n" . "Your username is $username" .  "\r\n" . "For security purposes, you will have to reset your password.  Your temporary password is $temp_pw.  Once you login, you can go to the Preferences tab to change your password.";
 
-	$headers = 'From: ' . $CC_default_email . "\n" .
-   'Reply-To: ' . $CC_default_email . "\n" .
+	$headers = 'From: ' . CC_DEFAULT_EMAIL . "\n" .
+   'Reply-To: ' . CC_DEFAULT_EMAIL . "\n" .
    'X-Mailer: PHP/' . phpversion();
 
 	mail($email,$subject,$message,$headers);
