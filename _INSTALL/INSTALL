@@ -47,9 +47,9 @@ GETTING STARTED
 
 A default account should have been created with the user/pass admin/admin.  (PLEASE DELETE 
 THIS ACCOUNT AFTER YOU HAVE CONFIGURED CLINICCASES.  IMPORTANT!).  Navigate to index.php 
-in your browser and login using this account.  Get started by clicking the users tab and adding 
-users.  The best thing to do is to add professors and adminstrators first.  Students can 
-get accounts by navigating to ./newaccount/index.php and submitting their information there.  
+in your browser and login using this account.  Get started by clicking the users tab and adding users.  The best thing to do is to add professors and adminstrators first. NOTE: After they log in the first time, professors must configure their classes.  To do this, he or should should click on Preferences - > Configure Class.  These preferences will be automatically assigned to any students that are subsequently assigned to the professor.
+
+Students can get accounts by navigating to ./newaccount/index.php and submitting their information there.  
 The adminstrator will then receive notification of this student signup and can authorize 
 students using the New Users dialog on the At A Glance screen.
 
