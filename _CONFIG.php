@@ -23,7 +23,7 @@ define("CC_DOMAIN","  ");
 define("CC_DEFAULT_EMAIL","");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
-define("CC_PROGAM_NAME","  ");
+define("CC_PROGRAM_NAME","  ");
 
 //Optional: Your School Color (used for program name); rgb or hex value.
 define("CC_SCHOOL_COLOR","");
