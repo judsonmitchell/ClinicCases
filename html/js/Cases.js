@@ -168,6 +168,7 @@ $.ajax({
 					"bSortCellsTop": true,
 					"sScrollY": "665px",
 					"sScrollX": "100%",
+					"iDisplayLength": 50,
 					"aaSorting": [[ 4, "asc" ]],
 					"aoColumns": aoColumns,
 					"sDom": 'R<"H"fTC<"reset">i>rt',
@@ -347,7 +348,7 @@ $.ajax({
 								})
 								
 								//Code for advanced search using inputs
-								$("thead input").keyup(function () {
+								$("thead input").live('keyup',function () {
 									
 									//Oparent = $(this).parent();
 									colName = $(this).attr('name');
@@ -362,7 +363,7 @@ $.ajax({
 							$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
 								Oparent = $(this).parent();
 								colIndex = Oparent.attr('column');
-								oTable.fnFilter(this.value,colIndex)
+								oTable.fnFilter(this.value,colIndex,false,true,false)
 								})
 							
 							//Add datepickers	
@@ -398,8 +399,11 @@ $.ajax({
 					
 					"fnDrawCallback": function() {
 		
-							$("#caseStatus").text(chooserVal);							
-							$(".hasDatepicker").css({'width':'62%'})
+							$("#caseStatus").text(chooserVal);		
+							//this ensures that the text of the date is visible					
+							$(".hasDatepicker").css({'width':'60%'})
+							//this ensures that the range select doesn't go out of line
+							$(".complex").css({'min-width':'160px'});
 							
 						}
 					
