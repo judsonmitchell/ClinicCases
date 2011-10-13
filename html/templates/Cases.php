@@ -1,5 +1,3 @@
-<?php include 'db.php'; ?>
-
 <!-- CSS specific to this page -->
 <link rel="stylesheet" href="lib/DataTables-1.8.2/media/css/data_table_jui.css" type="text/css">
 
@@ -35,7 +33,7 @@
 
 	<div id = "nav_container">
 
-		<?php $t = tabs($_GET['i']); echo $t; ?>
+		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
 		
 		<div id="menus">
 			
@@ -73,7 +71,7 @@
 						$date_check = substr($col[0],0,4);
 						
 						if ($col[2] == "true"  && $col[3] == "input" && $date_check !== "date"):
-							echo "<th><input type=\"text\" name = \"$col[0]\" class = \"search_init\"></th>";
+							echo "<th><input type=\"text\" name = \"$col[1]\" class = \"search_init\"></th>";
 						
 						elseif ($col[2] == "true" && $col[3] == "select"):
 							echo "<th class=\"addSelects\" name =\"$col[1]\"></th>"; 

@@ -10,7 +10,7 @@
 </div>
 	<div id = "nav_container">
 
-		<?php $t = tabs($_GET['i']); echo $t; ?>
+		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
 		
 		<div id="menus">
 			
