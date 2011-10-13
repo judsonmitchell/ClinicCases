@@ -1,7 +1,6 @@
 <?php
 
-
-	function tabs($current)
+	function tabs($dbh,$current)
 	
 		{
 			
@@ -9,25 +8,15 @@
 			$current_tab = substr($current,0,-4);
 			
 			//Determine which tabs the user sees depending on their group membership
-			switch($_SESSION['group']){
-				
-				case 'admin':
-					$group_tabs = array('Home','Cases','Students','Users','Board','Utilities','Prefs');
-					break;
-				
-				case 'super':
-					$group_tabs = array('Home','Cases','Students','Journals','Users','Board','Utilities','Prefs');
-					break;
-					
-				case 'prof':
-					$group_tabs = array('Home','Cases','Students','Journals','Board','Utilities','Prefs');
-					break;
-					
-				case 'student': 
-					$group_tabs = array('Home','Cases','Journals','Board','Utilities','Prefs');
-					break;
-				
-			}
+			$get_tab_config = $dbh->prepare('SELECT group_name,allowed_tabs FROM cm_groups WHERE group_name = ? ');
+			
+			$get_tab_config->bindParam(1, $_SESSION['group']);  
+			
+			$get_tab_config->execute();
+	
+			$r = $get_tab_config->fetch();
+			
+			$group_tabs = json_decode($r['allowed_tabs']);
 			
 			//output the tabs
 			ob_start();
