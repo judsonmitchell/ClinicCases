@@ -6,14 +6,14 @@ ALTER TABLE  `cm` ADD FULLTEXT (
 `professor`
 )
 
-//proposed new definition for groups and permissions
-
+//proposed new definition for groups and permissions - updated 10/12/2011
 
 CREATE TABLE IF NOT EXISTS `cm_groups` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(50) NOT NULL,
   `group_title` varchar(100) NOT NULL,
   `group_description` text NOT NULL,
+  `allowed_tabs` varchar(500) NOT NULL COMMENT 'An object which controls which tabs the user is allowed to see.',
   `add_cases` int(2) NOT NULL,
   `delete_cases` int(2) NOT NULL,
   `edit_cases` int(2) NOT NULL,
@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
   `view_board` int(2) NOT NULL,
   `edit_posts` int(2) NOT NULL,
   `change_permissions` int(2) NOT NULL,
+  `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
+  `is_supervised` int(2) NOT NULL COMMENT 'This user works on cases,but is supervised by another user',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Allows admin to create user groups and set definitions' AUTO_INCREMENT=5 ;
 
@@ -40,11 +42,12 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
 -- Dumping data for table `cm_groups`
 --
 
-INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
-(3, 'students', 'Students', 'Students can only access the cases to which they have been assigned by a professor.', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0),
-(4, 'prof', 'Professors', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '["Home","Cases","Students","Users","Journals","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '["Home","Cases","Students","Users","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(3, 'students', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '["Home","Cases","Journals","Board","Utilities","Messages"]', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '["Home","Cases","Students","Journals","Board","Utilities","Messages"]', 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);
+
 
 //add organization field
 ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`
