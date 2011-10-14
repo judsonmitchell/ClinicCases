@@ -1,14 +1,26 @@
 <?php
 //A script to load the column definitions into DataTables.  Returns json.
-//session_start();
+
 include '../../../db.php';
 
-	foreach ($CC_columns as $col)
+	$get_columns = $dbh->prepare('SELECT * from cm_columns');
+	$get_columns->execute();
+	$result = $get_columns->fetchAll();
+	
+	foreach ($result as $col)
 	
 		{
-			if ($col[2] == "true")
+		//check to see if this column is supposed to be included in the case table
+			if ($col[3] == "true")
 			{
-			$output['aoColumns'][]['bVisible'] = $col[4];
+			//set the default visibility
+				//Cast value into boolean
+				if ($col[5] == "true")
+					{$vis = true;}
+					else
+					{$vis = false;}
+				
+				$output['aoColumns'][]['bVisible'] = $vis;
 			}
 		}
 		
