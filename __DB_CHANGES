@@ -84,3 +84,60 @@ ALTER TABLE `cm_cases_students`
 // Change name of table to reflect that all users assigned to a case will now appear, not //just students  
 RENAME TABLE cm_cases_students TO cm_case_assignees
 
+//Move columns config from _CONFIG.php to the db.  Default setup:
+
+CREATE TABLE IF NOT EXISTS `cm_columns` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `db_name` varchar(50) NOT NULL,
+  `display_name` varchar(50) NOT NULL,
+  `available_to_user` varchar(10) NOT NULL,
+  `input_type` varchar(10) NOT NULL,
+  `display` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=41 ;
+
+--
+-- Dumping data for table `cm_columns`
+--
+
+INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `available_to_user`, `input_type`, `display`) VALUES
+(2, 'id', 'Id', 'true', 'input', 'false'),
+(3, 'clinic_id', 'Case Number', 'true', 'input', 'false'),
+(4, 'first_name', 'First Name', 'true', 'input', 'true'),
+(5, 'm_initial', 'Middle Initial', 'true', 'input', 'false'),
+(6, 'last_name', 'Last Name', 'true', 'input', 'true'),
+(7, 'organization', 'Organization', 'true', 'input', 'false'),
+(8, 'date_open', 'Date Open', 'true', 'input', 'true'),
+(9, 'date_close', 'Date Close', 'true', 'input', 'true'),
+(10, 'case_type', 'Case Type', 'true', 'select', 'true'),
+(11, 'professor', 'Professor', 'false', 'input', 'false'),
+(12, 'address1', 'Address 1', 'false', 'input', 'false'),
+(13, 'address2', 'Address 2', 'false', 'input', 'false'),
+(14, 'city', 'City', 'false', 'input', 'false'),
+(15, 'state', 'State', 'false', 'input', 'false'),
+(16, 'zip', 'Zip', 'false', 'input', 'false'),
+(17, 'phone1', 'Phone 1', 'false', 'input', 'false'),
+(18, 'phone2', 'Phone 2', 'false', 'input', 'false'),
+(19, 'email', 'Email', 'true', 'input', 'false'),
+(20, 'ssn', 'SSN', 'true', 'input', 'false'),
+(21, 'dob', 'DOB', 'true', 'input', 'false'),
+(22, 'age', 'Age', 'true', 'input', 'false'),
+(23, 'gender', 'Gender', 'true', 'select', 'false'),
+(24, 'race', 'Race', 'true', 'select', 'false'),
+(25, 'income', 'Income', 'false', 'input', 'false'),
+(26, 'per', 'Per', 'false', 'input', 'false'),
+(27, 'judge', 'Judge', 'false', 'input', 'false'),
+(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'input', 'false'),
+(29, 'court', 'Court', 'false', 'input', 'false'),
+(30, 'section', 'Section', 'false', 'input', 'false'),
+(31, 'ct_case_no', 'Court Case Number', 'false', 'input', 'false'),
+(32, 'case_name', 'Case Name', 'false', 'input', 'false'),
+(33, 'notes', 'Notes', 'false', 'input', 'false'),
+(34, 'type1', 'Type 1', 'false', 'input', 'false'),
+(35, 'type2', 'Type 2', 'false', 'input', 'false'),
+(36, 'dispo', 'Disposition', 'true', 'select', 'true'),
+(37, 'close_code', 'Closing Code', 'false', 'input', 'false'),
+(38, 'close_notes', 'Closing Notes', 'false', 'input', 'false'),
+(39, 'referral', 'Referred By', 'true', 'input', 'false'),
+(40, 'opened_by', 'Opened By', 'true', 'input', 'true');
