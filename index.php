@@ -3,6 +3,7 @@ include 'db.php';
 include 'lib/php/load.php';
 include 'html/templates/Header.php';
 include 'lib/php/html/tabs.php';
+include 'lib/php/data/columns_array.php';
 
 
 
