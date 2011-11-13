@@ -8,10 +8,14 @@ include 'names.php';
 
 	//Get the columns from _CONFIG.php, excluding any hidden fields
 	
-	foreach ($CC_columns as $val)
+	$get_columns = $dbh->prepare('SELECT * from cm_columns');
+	$get_columns->execute();
+	$col_result = $get_columns->fetchAll();
+	
+	foreach ($col_result as $val)
 	{
-		if ($val[2] == "true")
-			{@$col_vals_raw .= "cm." . $val[0] . ", ";}		
+		if ($val[3] == "true")
+			{@$col_vals_raw .= "cm." . $val[1] . ", ";}		
 	}
 	
 	//trim trailing comma
@@ -43,10 +47,10 @@ include 'names.php';
 		$case_query->execute();
 
 	//Create array of column names for json output		
-	foreach ($CC_columns as $value)
+	foreach ($col_result as $value)
 	{
-		if ($value[2] == "true")
-			{$cols[] = $value[0];}		
+		if ($value[3] == "true")
+			{$cols[] = $value[1];}		
 	}
 	
 		while ($result = $case_query->fetch(PDO::FETCH_ASSOC))

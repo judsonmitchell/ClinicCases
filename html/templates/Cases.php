@@ -33,7 +33,7 @@
 
 	<div id = "nav_container">
 
-		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
+		<?php $t = tabs($dbh,$_GET['i']); echo $t; 	?>
 		
 		<div id="menus">
 			
@@ -55,9 +55,10 @@
 			<thead>
 				
 				<tr>					
-					<?php foreach($CC_columns as $col){
-						if ($col[2] == "true")
-						{echo "<th>" . $col[1] . "</th>";}
+					<?php $CC_columns = columns_array($dbh);
+					foreach($CC_columns as $key=>$col){
+						if ($col['include_in_case_table'] == "true")
+						{echo "<th>" . $col['display_name'] . "</th>";}
 						}
 					?>
 				</tr>
@@ -68,17 +69,17 @@
 					foreach($CC_columns as $key=>$col){
 						
 						//Check for date fields. They get special treatment.
-						$date_check = substr($col[0],0,4);
+						$date_check = substr($col['db_name'],0,4);
 						
-						if ($col[2] == "true"  && $col[3] == "input" && $date_check !== "date"):
-							echo "<th><input type=\"text\" name = \"$col[1]\" class = \"search_init\"></th>";
+						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "input" && $date_check !== "date"):
+							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 						
-						elseif ($col[2] == "true" && $col[3] == "select"):
-							echo "<th class=\"addSelects\" name =\"$col[1]\"></th>"; 
+						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
+							echo "<th class=\"addSelects\" name =\"" . $col['display_name'] . "\"></th>"; 
 							
-						elseif ($col[0] == "date_open" || $col[0] == "date_close"):
+						elseif ($col['db_name'] == "date_open" || $col['db_name'] == "date_close"):
 							//Create id variable
-							$date_type = substr($col[0],5);
+							$date_type = substr($col['db_name'],5);
 							
 							echo "
 							<th class=\"complex\">
@@ -89,7 +90,7 @@
 									<option value=\"less\">&lt;</option>
 								</select>
 					
-								<input type=\"text\" name = \"$col[0]\" id=\"$col[0]\" class=\"search_init\" title=\"Select a Date\" column = \"$col[0]\"><br />
+								<input type=\"text\" name = \"" . $col['db_name'] . "\" id=\"" . $col['db_name'] . "\" class=\"search_init\" title=\"Select a Date\" column = \"" . $col['db_name'] . "\"><br />
 								
 								<a href=\"#\" id=\"add" . $date_type . "Row\" class=\"smallgray\">Add Condition</a>
 								
@@ -105,25 +106,25 @@
 						foreach($CC_columns as $key=>$col){
 						
 						//Check for date fields. They get special treatment.
-						$date_check = substr($col[0],0,4);
+						$date_check = substr($col['db_name'],0,4);
 						
-						if ($col[2] == "true"  && $date_check !== "date"):
+						if ($col['include_in_case_table'] == "true"  && $date_check !== "date"):
 						 echo "<th></th>";
 						 
-						elseif ($col[0] == "date_open" || $col[0] == "date_close"):
+						elseif ($col['db_name'] == "date_open" || $col['db_name']== "date_close"):
 							//Create id variable
-							$date_type = substr($col[0],5);
+							$date_type = substr($col['db_name'],5);
 							
 							echo "
 							<th class=\"complex\" id=\"second_" . $date_type . "_cell\">
 					
-								<select id=\"" . $date_type . "_range_2\" title=" . $date_type . " date is less, greater, or equal to...\">
+								<select id=\"" . $date_type . "_range_2\" title=\"" . $date_type . " date is less, greater, or equal to...\">
 									<option value=\"equals\" selected=selected>=</option>
 									<option value=\"greater\">&gt;</option>
 									<option value=\"less\">&lt;</option>
 								</select>
 					
-								<input type=\"text\" name = \"$col[0]" . "_2" .  "\" id=\"$col[0]" . "_2" . "\" class=\"search_init\" title=\"Select a Date\"><br />
+								<input type=\"text\" name = \"" . $col['db_name'] . "_2" .  "\" id=\"" . $col['db_name'] .  "_2" . "\" class=\"search_init\" title=\"Select a Date\"><br />
 								
 								
 							</th>";
