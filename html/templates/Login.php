@@ -79,7 +79,7 @@
 		<img src="html/images/logo.png" id="logo" style="margin-top:9%">
 		
 		<h4>Case Management Software</h4>
-		<p style="color:<?php echo CC_SCHOOL_COLOR?>"><?php echo CC_PROGAM_NAME ?></p>
+		<p style="color:<?php echo CC_SCHOOL_COLOR?>"><?php echo CC_PROGRAM_NAME ?></p>
 
 	<center>
 		<div id="status"></div>
