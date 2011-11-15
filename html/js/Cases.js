@@ -166,7 +166,7 @@ $.ajax({
 					"bScrollInfinite": true,
 					"bScrollCollapse": true,
 					"bSortCellsTop": true,
-					"sScrollY": "665px",
+					"sScrollY": adjustedHeight - 95,
 					"sScrollX": "100%",
 					"iDisplayLength": 50,
 					"aaSorting": [[ 4, "asc" ]],
@@ -382,11 +382,12 @@ $.ajax({
 							
 							$("#open_range, #open_range_2, #close_range, #close_range_2").live('change',function(event){oTable.fnDraw();})
 							
-							$('#table_cases tbody').click( function () {
+							$('#table_cases tbody').click( function (event) {
 								var iPos = oTable.fnGetPosition( event.target.parentNode );
 								var aData = oTable.fnGetData( iPos );
 								var iId = aData[0];
-								alert(iId);
+								callCaseWindow(iId);
+
 							})
 
 							
@@ -404,6 +405,7 @@ $.ajax({
 							$(".hasDatepicker").css({'width':'60%'})
 							//this ensures that the range select doesn't go out of line
 							$(".complex").css({'min-width':'160px'});
+							
 							
 						}
 					

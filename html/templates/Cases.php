@@ -19,6 +19,9 @@
 
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	
+	<script  src="html/js/viewCaseDetail.js" type="text/javascript"></script>
+
+	
 	
 
 </head>
