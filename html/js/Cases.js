@@ -1,8 +1,6 @@
 //init
-
 var oTable;
-//var asInitVals = new Array();
-//var defaultHiddenColumns = Array('0','1','3','8','9','10','11','12');//refers to header rows in cases.php
+
 var aoColumns;
 
 //function to create selects for advanced search
@@ -172,7 +170,8 @@ $.ajax({
 					"aaSorting": [[ 4, "asc" ]],
 					"aoColumns": aoColumns,
 					"sDom": 'R<"H"fTC<"reset">i>rt',
-					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns"},
+					"oColVis": {"aiExclude": [ 0 ],"bRestore":true,"buttonText": "Columns","fnStateChange": function (iColumn, bVisible) { 
+						$("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function(){this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(iColumn,true,false,true));	})}},						
 					"oTableTools": {
 								"sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
 								"aButtons": [
@@ -353,17 +352,18 @@ $.ajax({
 									//Oparent = $(this).parent();
 									colName = $(this).attr('name');
 									colIndex = oTable.fnGetColumnIndex(colName);
-									oTable.fnFilter( this.value, colIndex );
-									
-									
+									oTable.fnFilter( this.value, colIndex )								
 									});
 
 							
 							//Enable search via selects in advanced search
 							$("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change',function(){
 								Oparent = $(this).parent();
-								colIndex = Oparent.attr('column');
-								oTable.fnFilter(this.value,colIndex,false,true,false)
+								colIndex = oTable.fnGetColumnIndex(Oparent.attr('name'));
+								val = this.value;
+								//regex needed to avoid, e.g., a search on "Guilty" from also returning "Not Guilty
+								regex = ("^" + val + "$");
+								oTable.fnFilter(regex,colIndex,true,false,false)
 								})
 							
 							//Add datepickers	
