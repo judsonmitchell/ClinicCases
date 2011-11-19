@@ -7,6 +7,9 @@
 
 <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
 
+<link type="text/css" href="html/css/fff.icon.core.css" rel="stylesheet"/>
+
+<link type="text/css" href="html/css/fff.icon.icons.css" rel="stylesheet"/>
 
 <!-- Jquery Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
