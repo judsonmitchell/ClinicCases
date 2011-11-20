@@ -1,3 +1,6 @@
+//
+//Creates the Case Detail window when user clicks on table row
+//
 
 //Function which creates the tabs in the case_detail_tab_row div
 function addDetailTabs(id)
@@ -6,6 +9,12 @@ function addDetailTabs(id)
 
 		$(function() {
 			
+			//number of currently opened tabs
+			var numberTabs = $("#case_detail_tab_row li").length;
+
+			//set maximum number of tabs for layout reasons and page weight
+			if (numberTabs == 5)
+			{$('#error').text('Sorry, but ClinicCases can only open a maximum of five cases at a time.').dialog({modal:true,title:'Error'});return false;}
 			
 			$.getJSON("lib/php/data/case_detail_tab_case_name.php?id=" + id,function(data){
 				if (data.organization.length<1)
@@ -16,12 +25,17 @@ function addDetailTabs(id)
 				if (tabData.length>15)
 				{tabData = tabData.substring(0,15) + "..."}
 				
-				$("#case_detail_tab_row").tabs("add","people/index.php",tabData);			
+				$("#case_detail_tab_row").tabs("add","delete.php",tabData);			
 				});
+				
+				//make sure the just selected tab gets the focus
+				$("#case_detail_tab_row").tabs({ add: function(event, ui) {
+				$tabs.tabs('select', '#' + ui.panel.id);}
+				})
 			
 			//$("#case_detail_tab_row").tabs("add","index.php","Yahoo");
 			//$("#case_detail_tab_row").tabs("add","index.php","Google");
-			
+
 			$(".ui-widget-content").css({'border':'0px'})
 			$(".ui-tabs").css({'padding':'0px'});
 			//make tabs smaller
@@ -33,11 +47,6 @@ function addDetailTabs(id)
 
 	}
 
-//Close tabs	
-$( "span.ui-icon-close" ).live( "click", function() {
-			var index = $( "li", $tabs ).index( $( this ).parent() );
-			$tabs.tabs( "remove", index );
-		});
 	
 //Function which creates the case detail window.
 	
@@ -51,35 +60,86 @@ function callCaseWindow(id)
 			
 			$("#content").append(caseDetail);
 			
-			$("#case_detail_window").hide().show('clip',1200);
+			$("#case_detail_window").hide().show('fold',1000);
 						
-			$("#case_detail_control").html("<button>Minimize</button><button>Close</button>");
-			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},
-            text: true}).next().button({icons: {primary: "fff-icon-cancel"},text:true})
+			$("#case_detail_control").html("<button></button><button></button>");
 			
-			$tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});
+			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"}).next().button({icons: {primary: "fff-icon-cancel"},label:"Close"})
+			
+			
 			
 			// this creates sortable, but causes the close tab to not work - .find( ".ui-tabs-nav" ).sortable({ axis: "x" })
 			
-			addDetailTabs(id);
-
-
 		}	
 		
 		else
 		//just slide the window in
 		{
-			
-			$("#case_detail_window").hide().show('clip',1200);
-			addDetailTabs(id);
+			if ($("#case_detail_control button:first").text() == 'Maximize')
+			{toggleTabs()}
+			else
+			{$("#case_detail_window").hide().show('fold',1200);}
 
-			
 		}		
+		
+		$tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});
+		
+		addDetailTabs(id);
+
+		
+	}
+
+//Toggle the div #case_detail_window div
+function toggleTabs()
+
+	{
+		
+		var minimized = adjustedHeight + 8; 
+		
+		if ($("#case_detail_control button:first").text() == 'Minimize')
+		
+		{
+			$("#case_detail_window").animate({'top':minimized});
+			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-out"},label:"Maximize"});
+			$("#case_detail_control button:first .ui-button-text").css({'line-height':'0.3'});
+		}
+		
+		else
+		
+		{
+			//Recalculate top
+			var paddingTop = adjustedHeight * .021;
+			$("#case_detail_window").animate({'top': paddingTop});
+			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label:"Minimize"});
+			$("#case_detail_control button:first .ui-button-text").css({'line-height':'0.3'});
+			
+		}
+				
 		
 	}
 	
+	
 //Listeners
 
-$("#case_detail_control button:first").live('click',function(){alert('minimize')});
+$("#case_detail_control button:first").live('click',function(){toggleTabs();});
 
-$("#case_detail_control button + button").live('click',function(){$("#case_detail_window").hide('clip',2000);});
+$("#case_detail_control button + button").live('click',function(){
+	$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});	
+	});
+
+
+//Close tabs	
+$( "span.ui-icon-close" ).live( "click", function() {
+			
+			//index of tab clicked
+			var index = $( "li", $tabs ).index( $( this ).parent() );
+			
+			var numberTabs = $("#case_detail_tab_row li").length;
+
+			//if there is only one tab left, close the window
+			if (numberTabs == 1)
+			{$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});}
+				//otherwise, remove the clicked tab
+				else
+				{$tabs.tabs( "remove", index );}
+		});
