@@ -2,6 +2,31 @@
 //Creates the Case Detail window when user clicks on table row
 //
 
+
+function setDetailCss()
+{
+	
+	//once tabs are loaded, set the css for the interior blocks
+					
+	navWidth = $('li.ui-tabs-selected').width();
+					
+	panelWidth = $("#case_detail_window").width() - navWidth - 20;
+					
+	barHeight = $("#case_detail_window").height() * .1 ;
+					
+	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight;
+			
+	barWidth = $("#case_detail_window").width() - 10;
+					
+	panelHeight = navHeight;
+					
+	$(".case_detail_nav").css({'height': navHeight,'width':navWidth})
+	$(".case_detail_panel").css({'height':panelHeight, 'width':panelWidth});
+	$(".case_detail_bar").css({'height':barHeight,'width':barWidth});
+				
+}
+
+
 //Function which creates the tabs in the case_detail_tab_row div
 function addDetailTabs(id)
 
@@ -25,17 +50,21 @@ function addDetailTabs(id)
 				if (tabData.length>15)
 				{tabData = tabData.substring(0,15) + "..."}
 				
-				$("#case_detail_tab_row").tabs("add","delete.php",tabData);			
-				});
+				$("#case_detail_tab_row").tabs("add","html/templates/interior/case_detail.php?id=" + id,tabData);
 				
 				//make sure the just selected tab gets the focus
 				$("#case_detail_tab_row").tabs({ add: function(event, ui) {
 				$tabs.tabs('select', '#' + ui.panel.id);}
 				})
-			
-			//$("#case_detail_tab_row").tabs("add","index.php","Yahoo");
-			//$("#case_detail_tab_row").tabs("add","index.php","Google");
-
+				
+				$("#case_detail_window").bind('tabsload',function(event, ui){
+					$("#case_detail_bar").text(tabData);setDetailCss();
+						})				
+				});			
+				
+				
+		//Do jqueryui css modifications
+		
 			$(".ui-widget-content").css({'border':'0px'})
 			$(".ui-tabs").css({'padding':'0px'});
 			//make tabs smaller
@@ -60,13 +89,11 @@ function callCaseWindow(id)
 			
 			$("#content").append(caseDetail);
 			
-			$("#case_detail_window").hide().show('fold',1000);
+			$("#case_detail_window").hide().show('fold',1000,function(){setDetailCss()});
 						
 			$("#case_detail_control").html("<button></button><button></button>");
 			
 			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"}).next().button({icons: {primary: "fff-icon-cancel"},label:"Close"})
-			
-			
 			
 			// this creates sortable, but causes the close tab to not work - .find( ".ui-tabs-nav" ).sortable({ axis: "x" })
 			
@@ -78,7 +105,7 @@ function callCaseWindow(id)
 			if ($("#case_detail_control button:first").text() == 'Maximize')
 			{toggleTabs()}
 			else
-			{$("#case_detail_window").hide().show('fold',1200);}
+			{$("#case_detail_window").hide().show('fold',1200,function(){setDetailCss();});}
 
 		}		
 		
@@ -141,5 +168,7 @@ $( "span.ui-icon-close" ).live( "click", function() {
 			{$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});}
 				//otherwise, remove the clicked tab
 				else
-				{$tabs.tabs( "remove", index );}
+				{$tabs.tabs( "remove", index)}
+					
+			
 		});
