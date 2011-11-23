@@ -11,16 +11,18 @@
 
 	<ul class = "case_detail_nav_list">
 	
-	<li class="selected">Case Notes</li>
-	
-	<li>Documents</li>
-	
-	<li>Events</li>
-	
-	<li>Client Data</li>
-	
-	<li>Memos</li>
-	
+		<li id="item1" class="selected">Case Notes</li>
+		
+		<li id="item2">Documents</li>
+		
+		<li id="item3">Events</li>
+		
+		<li id="item4">Client Data</li>
+		
+		<li id="item5">Memos</li>
+
+		<li id="item6">Conflict</li>
+
 	</ul>
 
 

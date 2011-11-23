@@ -10,15 +10,15 @@ function setDetailCss()
 					
 	navWidth = $('li.ui-tabs-selected').width();
 					
-	panelWidth = $("#case_detail_window").width() - navWidth - 20;
+	panelWidth = $("#case_detail_window").width() - navWidth - 3;
 					
 	barHeight = $("#case_detail_window").height() * .1 ;
 					
 	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight;
 			
-	barWidth = $("#case_detail_window").width() - 10;
+	barWidth = $("#case_detail_window").width() - 2
 					
-	panelHeight = navHeight;
+	panelHeight = navHeight -2;
 					
 	$(".case_detail_nav").css({'height': navHeight,'width':navWidth})
 	$(".case_detail_panel").css({'height':panelHeight, 'width':panelWidth});
@@ -35,7 +35,7 @@ function addDetailTabs(id)
 		$(function() {
 			
 			//number of currently opened tabs
-			var numberTabs = $("#case_detail_tab_row li").length;
+			var numberTabs = $("ul.ui-tabs-nav > li").length;
 
 			//set maximum number of tabs for layout reasons and page weight
 			if (numberTabs == 5)
@@ -59,18 +59,26 @@ function addDetailTabs(id)
 				
 				$("#case_detail_window").bind('tabsload',function(event, ui){
 					$("#case_detail_bar").text(tabData);setDetailCss();
-						})				
+					$("ul.case_detail_nav_list > li").mouseenter(function(){$(this).addClass('hover');}).mouseleave(function(){$(this).removeClass('hover')} );
+					
+
+});
+			
+
+				
+				//This to allow tab re-ordering.  Won't work because the tab index doesn't get update 		
+				//.find( ".ui-tabs-nav" ).sortable({ axis: "x" })
+						
+				//This would work if jqueryui provided a method to reindex the tabs on update, but it doens't.
+				//$( "#case_detail_window" ).bind( "sortupdate", function(event, ui) {
+				//	$(".ui_tabs_nav").sortable("refresh");
+				//	})				
 				});			
 				
 				
 		//Do jqueryui css modifications
-		
-			$(".ui-widget-content").css({'border':'0px'})
-			$(".ui-tabs").css({'padding':'0px'});
-			//make tabs smaller
-			$(".ui-helper-reset").css({'line-height':'0.3'});
-			//make buttons smaller
-			$(".ui-button-text").css({'line-height':'0.3'});
+			$("ul.ui-tabs-nav").removeClass('ui-corner-all').addClass('ui-corner-top');	
+			$("#case_detail_tab_row").removeClass('ui-corner-all').addClass('ui-corner-top');
 
 		})
 
@@ -93,9 +101,7 @@ function callCaseWindow(id)
 						
 			$("#case_detail_control").html("<button></button><button></button>");
 			
-			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"}).next().button({icons: {primary: "fff-icon-cancel"},label:"Close"})
-			
-			// this creates sortable, but causes the close tab to not work - .find( ".ui-tabs-nav" ).sortable({ axis: "x" })
+			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"}).next().button({icons: {primary: "fff-icon-cancel"},label:"Close"});
 			
 		}	
 		
@@ -154,6 +160,8 @@ $("#case_detail_control button + button").live('click',function(){
 	$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});	
 	});
 
+$("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');})
+
 
 //Close tabs	
 $( "span.ui-icon-close" ).live( "click", function() {
@@ -161,14 +169,16 @@ $( "span.ui-icon-close" ).live( "click", function() {
 			//index of tab clicked
 			var index = $( "li", $tabs ).index( $( this ).parent() );
 			
-			var numberTabs = $("#case_detail_tab_row li").length;
+			//var index = $(this).live().parent().index();
+			
+			var numberTabs = $("ul.ui-tabs-nav > li").length;
 
 			//if there is only one tab left, close the window
 			if (numberTabs == 1)
 			{$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});}
 				//otherwise, remove the clicked tab
 				else
-				{$tabs.tabs( "remove", index)}
+				{$tabs.tabs( "remove", index);}
 					
 			
 		});
