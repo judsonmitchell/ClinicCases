@@ -165,7 +165,7 @@ $.ajax({
 					"bScrollCollapse": true,
 					"bSortCellsTop": true,
 					"sScrollY": adjustedHeight - 95,
-					"sScrollX": "100%",
+					"sScrollX": "99%",
 					"iDisplayLength": 50,
 					"aaSorting": [[ 4, "asc" ]],
 					"aoColumns": aoColumns,

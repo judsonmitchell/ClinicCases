@@ -58,11 +58,16 @@ function addDetailTabs(id)
 				})
 				
 				$("#case_detail_window").bind('tabsload',function(event, ui){
-					$("#case_detail_bar").text(tabData);setDetailCss();
-					$("ul.case_detail_nav_list > li").mouseenter(function(){$(this).addClass('hover');}).mouseleave(function(){$(this).removeClass('hover')} );
 					
-
-});
+					$("#case_detail_bar").text(tabData);
+					
+					setDetailCss();
+					
+					$("ul.case_detail_nav_list > li").mouseenter(function(){$(this).addClass('hover');}).mouseleave(function(){$(this).removeClass('hover')} );
+															
+					if ($('div.assigned_people  button').length > 0)
+						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-add"},text: false})}
+				});
 			
 
 				
@@ -161,6 +166,22 @@ $("#case_detail_control button + button").live('click',function(){
 	});
 
 $("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');})
+
+$("div.assigned_people img").live("click",function(){
+	$("div.assigned_people img").css({'border':'0px'});
+	$(this).css({'border':'3px solid grey'});
+	$('div.user_widget').show();
+	$('div.user_display_detail').hide();
+	
+	pos1 = $(this).attr('id').indexOf("_");
+	pos2 = $(this).attr('id').lastIndexOf("_");
+
+	var getCaseId = $(this).attr('id').substring(pos1 + 1,pos2);
+	var getUserId = $(this).attr('id').substring(pos2 +1);
+	var selectedUserBox = "#user_box_" + getCaseId + "_"  + getUserId;
+	$(selectedUserBox).css({'display':'block'});
+	
+	})
 
 
 //Close tabs	

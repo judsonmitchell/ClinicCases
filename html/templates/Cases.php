@@ -13,12 +13,14 @@
 
 <!-- Jquery Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
-
+	
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
 
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColReorder/media/js/ColReorder.min.js"></script>
 	
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script> 
+
+	<script type="text/javascript" src="lib/javascripts/plugin.scrollbar.js"></script>
 
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	
