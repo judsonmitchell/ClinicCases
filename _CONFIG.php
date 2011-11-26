@@ -2,7 +2,7 @@
 // SETS SYSTEM-WIDE CONFIG PREFERNENCES
 
 //Information to access your database
-define("CC_DBHOST","");
+define("CC_DBHOST","localhost");
 define("CC_DBUSERNAME","");
 define("CC_DBPASSWD", "");
 define("CC_DATABASE_NAME","");
@@ -23,8 +23,10 @@ define("CC_DOMAIN","");
 define("CC_DEFAULT_EMAIL","");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
-define("CC_PROGRAM_NAME"," ");
+define("CC_PROGRAM_NAME","");
 
+//Minimum timekeeping unit.  Default is 5 minutes.  Some prefer 6
+define("CC_TIME_UNIT","5");
 
 //Optional: Your School Color (used for program name); rgb or hex value.
 define("CC_SCHOOL_COLOR","");
