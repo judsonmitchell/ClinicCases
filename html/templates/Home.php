@@ -22,7 +22,7 @@
 
 	<div id="content">
 
-This is the home file.
+	Activity | Upcoming | Trends
 
 	</div>
 
