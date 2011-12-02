@@ -5,8 +5,8 @@
 function convert_case_time($time)
 
 	{
-		
 		switch (TRUE){
+			
 			case ($time >= 3599):
 				$hours = floor($time / 3600);
 				$minutes = $time - ($hours * 3600);
@@ -26,13 +26,11 @@ function convert_case_time($time)
 				$time = ".1";
 				$unit = " minute";
 				break;
+			
 		}	
 
 	$info = array($time,$unit);
 	return $info;
 	
-	}		
-		
-
-
+	}
 
