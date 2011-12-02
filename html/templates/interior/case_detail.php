@@ -60,11 +60,55 @@
 			{
 				echo "<div class='user_display_detail' id='user_box_" . $case_data->id . "_" .$user->id . "'>";
 				echo "<h3>" . $user->first_name . " " . $user->last_name ."</h3>";
+				echo "<div class='user_display_closer'></div>";
+				echo "<img src='" . $user->picture_url . "'>"; 
 				echo "<p>Total Time on this Case: ";
-					foreach ($case_time_data as $ttime){if ($ttime->username == $user->username){$total = convert_case_time($ttime->totaltime);echo $total[0] . $total[1];}}
+				$time_check = array_searchRecursive($user->username,$case_time_data);
+					if ($time_check)
+					{foreach ($case_time_data as $ttime)
+						{
+							if ($ttime['username'] == $user->username)
+							{	
+								$total = convert_case_time($ttime['totaltime']);
+							
+								echo $total[0] . $total[1];
+													
+							}
+							
+						}}
+					else
+					{	
+						echo "0 minutes";
+					}	
 				echo "</p>";
 				$grp = get_group_title($user->group,$dbh);
 				echo "<p>Group: "  . $grp  . "</p>";
+				echo "<p>Last Activity:";
+				$activity_check = array_searchRecursive($user->username,$last_activity_data);
+					if ($activity_check)
+					{foreach ($last_activity_data as $activity)
+						{
+								if($activity['username'] == $user->username)
+								{echo $activity['date'] . ": " . $activity['description'];}
+							
+						}
+					}
+					else
+					{
+						echo "No activity";					
+					}
+				echo "</p>";
+				
+				if ($_SESSION['permissions']['assign_cases'] == '1')
+				{
+				 echo "<div id='dialog-confirm' title='Remove $user->first_name from this case?'><p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 20px 0;'></span>$user->first_name will no longer be able to work on this case.  Are you sure?</p></div>";
+					echo "<input type='hidden' class='RemoveImgId' value='imgid_$case_data->id". "_" .  $user->id . "'>";
+					echo "<input type='hidden' class='RemoveId' value='$user->assign_id'>";
+					echo "<button>Remove</button>";
+				
+				
+				
+				}
 				echo "</div>";
 				
 			}

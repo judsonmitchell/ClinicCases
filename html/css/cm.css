@@ -421,7 +421,9 @@ div.assigned_people{height:90%;width:45%;float:right;text-align:right;margin-top
 div.assigned_people > ul > li {display:inline;margin:0;padding-left:.2em;padding-right:.2em;white-space:nowrap;}
 div.assigned_people button {margin-bottom:.4em}
 div.user_widget{display:none;}
-div#user_display{position: absolute; width: 280px; height: 350px;right: 17px; top: 20px; padding: 10px;}
+div#user_display{position: absolute; width: 280px; height: 350px;right: 17px; top: 20px; padding: 10px;background-color:#FFFFCC}
+div#user_display h3{color:green;}
 div#user_display_border{width: 302px; height: 372px; position: absolute; right: 10px; top: 20px}
 div.user_display_detail{display:none;position:absolute;top:0px;left:0px;}
 div.user_display_detail p {text-align:left;margin-left:5px;}
+div.user_display_closer{height:20px;width:20px;position:absolute;right:2px;top:3px;background:url('../ico/cancel.png') no-repeat;}

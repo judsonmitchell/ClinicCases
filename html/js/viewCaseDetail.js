@@ -2,7 +2,12 @@
 //Creates the Case Detail window when user clicks on table row
 //
 
-
+function removeUser(pictureId,AssignId)
+	{
+		$(pictureId).destroy();
+		$.ajax()
+	
+	}
 function setDetailCss()
 {
 	
@@ -67,6 +72,10 @@ function addDetailTabs(id)
 															
 					if ($('div.assigned_people  button').length > 0)
 						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-add"},text: false})}
+						
+					if ($('div.user_display_detail button').length > 0)
+						{$('div.user_display_detail button').button({icons: {primary:"fff-icon-user-delete"},text:"Remove"})}
+						
 				});
 			
 
@@ -180,10 +189,12 @@ $("div.assigned_people img").live("click",function(){
 	var getUserId = $(this).attr('id').substring(pos2 +1);
 	var selectedUserBox = "#user_box_" + getCaseId + "_"  + getUserId;
 	$(selectedUserBox).css({'display':'block'});
-	
 	})
 
-
+	$("div.user_display_closer").live('click',function(){
+		$('div.assigned_people img').each(function(){$(this).css({'border':'0px'})});
+		$('.user_widget').css({'display':'none'})
+		})
 //Close tabs	
 $( "span.ui-icon-close" ).live( "click", function() {
 			
