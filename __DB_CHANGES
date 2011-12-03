@@ -6,7 +6,29 @@ ALTER TABLE  `cm` ADD FULLTEXT (
 `professor`
 )
 
-//proposed new definition for groups and permissions - updated 10/12/2011
+//proposed new definition for groups and permissions - updated 12/3/2011
+
+-- phpMyAdmin SQL Dump
+-- version 3.4.5deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 03, 2011 at 05:36 AM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6-13ubuntu3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `cc_dev_live_copy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cm_groups`
+--
 
 CREATE TABLE IF NOT EXISTS `cm_groups` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -19,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
   `edit_cases` int(2) NOT NULL,
   `close_cases` int(2) NOT NULL,
   `view_all_cases` int(2) NOT NULL COMMENT 'User can view all cases or only cases to which they are assigned',
-  `assign_cases` int(2) NOT NULL COMMENT 'Can the user assign cases?',
+  `assign_cases` int(2) NOT NULL COMMENT 'Can the user assign cases to users?',
   `add_users` int(2) NOT NULL,
   `delete_users` int(2) NOT NULL,
   `edit_users` int(2) NOT NULL,
@@ -43,10 +65,10 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
 -- Dumping data for table `cm_groups`
 --
 
-INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`,`assign_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '["Home","Cases","Students","Users","Journals","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '["Home","Cases","Students","Users","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
-(3, 'students', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '["Home","Cases","Journals","Board","Utilities","Messages"]', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '["Home","Cases","Students","Users","Journals","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '["Home","Cases","Students","Users","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '["Home","Cases","Journals","Board","Utilities","Messages"]', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
 (4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '["Home","Cases","Students","Journals","Board","Utilities","Messages"]', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);
 
 
@@ -86,14 +108,35 @@ ALTER TABLE `cm_cases_students`
 RENAME TABLE cm_cases_students TO cm_case_assignees
 
 //Move columns config from _CONFIG.php to the db.  Default setup:
+-- phpMyAdmin SQL Dump
+-- version 3.4.5deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 03, 2011 at 05:39 AM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6-13ubuntu3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `cc_dev_live_copy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cm_columns`
+--
 
 CREATE TABLE IF NOT EXISTS `cm_columns` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `db_name` varchar(50) NOT NULL,
   `display_name` varchar(50) NOT NULL,
-  `available_to_user` varchar(10) NOT NULL,
+  `include_in_case_table` varchar(10) NOT NULL COMMENT 'Should this column be included into the data sent to the main case table?',
   `input_type` varchar(10) NOT NULL,
-  `display` varchar(10) NOT NULL,
+  `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=41 ;
@@ -102,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `cm_columns` (
 -- Dumping data for table `cm_columns`
 --
 
-INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `available_to_user`, `input_type`, `display`) VALUES
+INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_table`, `input_type`, `display_by_default`) VALUES
 (2, 'id', 'Id', 'true', 'input', 'false'),
 (3, 'clinic_id', 'Case Number', 'true', 'input', 'false'),
 (4, 'first_name', 'First Name', 'true', 'input', 'true'),
