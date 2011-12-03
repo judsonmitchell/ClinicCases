@@ -34,7 +34,16 @@ $datebreak = explode("/",$_POST[date]);
 $month = $datebreak[0];
 $day = $datebreak[1];
 $year = $datebreak[2];
-$new_date = "$year" . "-" . "$month" . "-" . "$day" . " " . "00:00:00";
+
+//Added 12/3/11 - put the time from the old datestamp onto the edited time.  Should help preserve the sort
+
+$get_old_datestamp = mysql_query("SELECT id, datestamp from cm_case_notes where id = '$_POST[id]' LIMIT 1");
+$ts = mysql_fetch_array($get_old_datestamp);
+$time_part = explode(" ", $ts['datestamp']);
+
+//this "time" is added so that the sort will be correct if you insert time on the same day.
+
+$new_date = "$year" . "-" . "$month" . "-" . "$day" . " " . $time_part[1];
 $hours_into_seconds = ($_POST[hours] * 3600);
 $minutes_into_seconds = ($_POST[minutes] * 60);
 $time = $hours_into_seconds + $minutes_into_seconds;

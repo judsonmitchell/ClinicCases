@@ -19,7 +19,7 @@ $month = $datebreak[0];
 $day = $datebreak[1];
 $year = $datebreak[2];
 //this "time" is added so that the sort will be correct if you insert time on the same day.
-$time_part = date('G:i:s');
+$time_part = date('H:i:s');
 $new_date = "'" . "$year" . "-" . "$month" . "-" . "$day" . " " .  $time_part . "'";
 }
 else
