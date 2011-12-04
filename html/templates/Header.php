@@ -17,6 +17,8 @@
 	<script src="lib/javascripts/jquery.idletimeout.js" type="text/javascript"></script>
 	
 	<script src="html/js/sizeContentWindow.js" type="text/javascript"></script>
+	<script src="html/js/notifyUser.js" type="text/javascript"></script>
+
 
 
 	

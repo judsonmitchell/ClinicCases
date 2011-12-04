@@ -26,13 +26,15 @@
 	
 	<script  src="html/js/viewCaseDetail.js" type="text/javascript"></script>
 
+	<script  src="html/js/notifyUser.js" type="text/javascript"></script>
+
 	
 	
 
 </head>
 <body>
 	
-	<div id="notifications"></div>
+	<div id="notifications"><p></p></div>
 	
 	<div id="idletimeout">
 		You will be logged off in <span><!-- countdown place holder --></span>&nbsp;seconds due to inactivity. 
