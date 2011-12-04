@@ -17,7 +17,9 @@ h5{font-family:garamond, georgia, times, serif;font-size:13pt;text-align:left;co
 
 #nav_container{position:relative;width:94%;height:61px;background-color:rgb(195, 217, 255);margin:auto;/*width:1015px;*/}
 
-#notifications{position:absolute;top:10px;z-index:99;left:34%;width:400px;height:40px;color:red;font-weight:bold;}
+#notifications{display:none;position:absolute;top:10px;z-index:99;left:50%;margin-left:-150px;width:300px;height:60px;background-color:white;font-weight:bold;opacity:.8;border:1px solid gray;}
+
+#notifications p {font-size:14pt;font-weight:bold;color:red;margin-top:10px;}
 
 #idletimeout { background:#ED1212; border:3px solid #FF6500; color:#fff; font-family:arial, sans-serif; text-align:center; font-size:12px; padding:10px; position:relative; top:0px; left:0; right:0; z-index:100000; display:none; }
 
@@ -419,11 +421,16 @@ ul.case_detail_nav_list > li.hover{background-color:#FFFFDC;}
 
 div.assigned_people{height:90%;width:45%;float:right;text-align:right;margin-top:.6%;margin-right:.6%;overflow-x:auto;overflow-y:hidden;}
 div.assigned_people > ul > li {display:inline;margin:0;padding-left:.2em;padding-right:.2em;white-space:nowrap;}
-div.assigned_people button {margin-bottom:.4em}
+div.assigned_people img {border:3px solid #FFFFCC;}
 div.user_widget{display:none;}
-div#user_display{position: absolute; width: 280px; height: 350px;right: 17px; top: 20px; padding: 10px;background-color:#FFFFCC}
+
+div#case_info_display{position: absolute; width: 280px; height: 260px;left:20px;top: -2px; padding: 10px;background-color:#FFFFCC;border-top:0px;}
+
+
+div#user_display{position: absolute; width: 280px; height: 260px;right: 17px; top: -2px; padding: 10px;background-color:#FFFFCC;border-top:0px;}
 div#user_display h3{color:green;}
-div#user_display_border{width: 302px; height: 372px; position: absolute; right: 10px; top: 20px}
-div.user_display_detail{display:none;position:absolute;top:0px;left:0px;}
+div.user_display_detail{display:none;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFCC}
 div.user_display_detail p {text-align:left;margin-left:5px;}
 div.user_display_closer{height:20px;width:20px;position:absolute;right:2px;top:3px;background:url('../ico/cancel.png') no-repeat;}
+div.dialog-user-remove{display:none;}
+button.user-remove-button{position:absolute;bottom:10px;right:25px;}

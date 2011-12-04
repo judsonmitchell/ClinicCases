@@ -3,7 +3,9 @@
 require('../../../db.php');
 include_once('../../../lib/php/utilities/convert_case_time.php');
 include_once('../../../lib/php/utilities/group_title.php');
-//$id='1175';
+include_once('../../../lib/php/utilities/convert_times.php');
+include_once('../../../lib/php/utilities/format_text.php');
+
 //function to return thumbnail url
 function thumbify($url)
 	{
@@ -59,7 +61,7 @@ $case_time_query = $dbh->prepare("SELECT case_id, username, SUM( TIME ) as total
 	$case_time_data = $case_time_query->fetchAll(PDO::FETCH_ASSOC);
 
 //Get the last activity by each user on the case.  Eternal gratitude to this gentleman for helping me with the groupwise maximum query:	http://stackoverflow.com/questions/8296629/mysql-select-most-recent-entry-by-user-and-case-number
-	$last_activity_query = $dbh->prepare("SELECT cn.* FROM cm_case_notes AS cn JOIN ( SELECT case_id, username ,MAX(  `date` ) AS recent_date, MAX(`id`) as target FROM cm_case_notes WHERE case_id = :id GROUP BY username) AS q ON  ( q.username,  q.recent_date, q.target ) = ( cn.username, cn.`date`,cn.id ) WHERE cn.case_id = :id ");
+	$last_activity_query = $dbh->prepare("SELECT cn.* FROM cm_case_notes AS cn JOIN ( SELECT case_id, username ,MAX(  `date` ) AS recent_date FROM cm_case_notes WHERE case_id = :id GROUP BY username) AS q ON  ( q.username,  q.recent_date ) = ( cn.username, cn.`date`) WHERE cn.case_id = :id ");
 	$last_activity_query->bindParam(':id', $id, PDO::PARAM_INT);
 	$last_activity_query->execute();
 	$last_activity_data = $last_activity_query->fetchAll(PDO::FETCH_ASSOC);

@@ -8,6 +8,7 @@ function removeUser(pictureId,AssignId)
 		$.ajax()
 	
 	}
+	
 function setDetailCss()
 {
 	
@@ -15,22 +16,24 @@ function setDetailCss()
 					
 	navWidth = $('li.ui-tabs-selected').width();
 					
-	panelWidth = $("#case_detail_window").width() - navWidth - 3;
+	panelWidth = $("#case_detail_window").width() - navWidth -2;
 					
 	barHeight = $("#case_detail_window").height() * .1 ;
 					
 	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight;
 			
-	barWidth = $("#case_detail_window").width() - 2
+	barWidth = $("#case_detail_window").width() - 1
 					
 	panelHeight = navHeight -2;
+	
+	//caseDetailLeft = navWidth + 20;
 					
 	$(".case_detail_nav").css({'height': navHeight,'width':navWidth})
 	$(".case_detail_panel").css({'height':panelHeight, 'width':panelWidth});
 	$(".case_detail_bar").css({'height':barHeight,'width':barWidth});
+	//$("#case_detail_display").css({'left':caseDetailLeft});
 				
 }
-
 
 //Function which creates the tabs in the case_detail_tab_row div
 function addDetailTabs(id)
@@ -52,8 +55,8 @@ function addDetailTabs(id)
 				else
 				{tabData = data.organization}
 				
-				if (tabData.length>15)
-				{tabData = tabData.substring(0,15) + "..."}
+				if (tabData.length>12)
+				{tabData = tabData.substring(0,12) + "..."}
 				
 				$("#case_detail_tab_row").tabs("add","html/templates/interior/case_detail.php?id=" + id,tabData);
 				
@@ -71,15 +74,13 @@ function addDetailTabs(id)
 					$("ul.case_detail_nav_list > li").mouseenter(function(){$(this).addClass('hover');}).mouseleave(function(){$(this).removeClass('hover')} );
 															
 					if ($('div.assigned_people  button').length > 0)
-						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-add"},text: false})}
+						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-user-add"},text: true})}
 						
 					if ($('div.user_display_detail button').length > 0)
-						{$('div.user_display_detail button').button({icons: {primary:"fff-icon-user-delete"},text:"Remove"})}
+						{$('div.user_display_detail button').button({icons: {primary:"fff-icon-user-delete"},text:true})}
 						
 				});
-			
-
-				
+							
 				//This to allow tab re-ordering.  Won't work because the tab index doesn't get update 		
 				//.find( ".ui-tabs-nav" ).sortable({ axis: "x" })
 						
@@ -176,10 +177,21 @@ $("#case_detail_control button + button").live('click',function(){
 
 $("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');})
 
+//Toggle case detail
+$("#show_case_info").live("click",function(){
+	if ($(this).hasClass('fff-icon-bullet-arrow-up'))
+	{$(this).removeClass('fff-icon-bullet-arrow-up').addClass('fff-icon-bullet-arrow-down');}
+	else
+	{$(this).removeClass('fff-icon-bullet-arrow-down').addClass('fff-icon-bullet-arrow-up')}
+	$("#case_info_display").toggle();
+	
+	})
+
+//Open the user detail window when user image is clicked.
 $("div.assigned_people img").live("click",function(){
-	$("div.assigned_people img").css({'border':'0px'});
-	$(this).css({'border':'3px solid grey'});
-	$('div.user_widget').show();
+	$("div.assigned_people img").css({'border':'3px solid #FFFFCC'});
+	$(this).css({'border':'3px solid green'});
+	$('div#user_display').show();
 	$('div.user_display_detail').hide();
 	
 	pos1 = $(this).attr('id').indexOf("_");
@@ -191,10 +203,49 @@ $("div.assigned_people img").live("click",function(){
 	$(selectedUserBox).css({'display':'block'});
 	})
 
-	$("div.user_display_closer").live('click',function(){
-		$('div.assigned_people img').each(function(){$(this).css({'border':'0px'})});
-		$('.user_widget').css({'display':'none'})
-		})
+//Remove user from case
+$('div.user_widget button.user-remove-button').live('click',function(){
+		//create user remove dialog
+		var dialogWin = $(this).siblings('.dialog-user-remove');
+		//gets the values from the form
+		var formObj = $(this).siblings('form');
+		var assignId = formObj.children('.RemoveId').val();
+		var imgId = formObj.children('.RemoveImgId').val();
+		$(dialogWin).dialog({
+					resizable: false,
+					modal: true,
+					buttons: {
+						"Remove": function() {
+						$.ajax({url: 'lib/php/users/remove_user_from_case.php',data:({remove_id:assignId}),success: function(data){
+							$("div.user_widget").hide();
+							notify('User Removed from Case');
+							$('#' + imgId).remove();
+							}})	
+						
+						
+						$( this ).dialog( "close" );
+						},
+						Cancel: function() {
+						$( this ).dialog( "close" );
+						}
+					}
+		});
+	})
+
+//Add User to Case
+
+$('div.assigned_people button').live('click',function(){
+
+	$('div.user_widget').load('html/templates/interior/user_chooser.php').show();
+	
+	})
+
+//Close user widget window
+$("div.user_display_closer").live('click',function(){
+	$('div.assigned_people img').each(function(){$(this).css({'border':'0px'})});
+	$('.user_widget').css({'display':'none'})
+	})
+
 //Close tabs	
 $( "span.ui-icon-close" ).live( "click", function() {
 			
