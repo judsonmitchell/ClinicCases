@@ -408,6 +408,9 @@ td, th {text-align:left;}
 .ui-widget-content{border:0px; !important}
 #case_detail_tab_row.ui-widget{border:0px;}
 
+div.case_title{float:left;padding:5px}
+div.case_title button{height:95%;color:blue !important}
+div.case_title button>span{float:left;}
 div.case_detail_nav{float:left;margin-right:0px;background-color:#FFFFCC;border-left:1px solid  #AAA;border-right:1px solid #AAA}
 div.case_detail_bar{border-left:1px solid #AAA;border-right:1px solid #AAA}
 div.case_detail_panel{position:relative;border-top:1px solid #AAA; border-right: 1px solid #AAA; border-bottom:1px solid #AAA; border-left: 0px ;float:right;background-color:white;}
@@ -429,8 +432,9 @@ div#case_info_display{position: absolute; width: 280px; height: 260px;left:20px;
 
 div#user_display{position: absolute; width: 280px; height: 260px;right: 17px; top: -2px; padding: 10px;background-color:#FFFFCC;border-top:0px;}
 div#user_display h3{color:green;}
-div.user_display_detail{display:none;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFCC}
+div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFCC}
 div.user_display_detail p {text-align:left;margin-left:5px;}
-div.user_display_closer{height:20px;width:20px;position:absolute;right:2px;top:3px;background:url('../ico/cancel.png') no-repeat;}
 div.dialog-user-remove{display:none;}
 button.user-remove-button{position:absolute;bottom:10px;right:25px;}
+button.user_display_closer{position:absolute;bottom:10px;left:10px;}
+

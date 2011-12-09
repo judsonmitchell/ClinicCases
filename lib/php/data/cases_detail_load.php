@@ -1,10 +1,7 @@
 <?php
 //Retrieves all data for case detail window when initially called.
 require('../../../db.php');
-include_once('../../../lib/php/utilities/convert_case_time.php');
-include_once('../../../lib/php/utilities/group_title.php');
-include_once('../../../lib/php/utilities/convert_times.php');
-include_once('../../../lib/php/utilities/format_text.php');
+
 
 //function to return thumbnail url
 function thumbify($url)
@@ -51,6 +48,7 @@ $assigned_users_query = $dbh->prepare("SELECT cm_case_assignees.id as assign_id,
 	
 	$assigned_users_data = $assigned_users_query->fetchAll(PDO::FETCH_OBJ);
 
+/*
 //Get the total time each user has put into the case
 $case_time_query = $dbh->prepare("SELECT case_id, username, SUM( TIME ) as totaltime FROM  `cm_case_notes` WHERE  `case_id` LIKE  ? GROUP BY username");
 
@@ -65,6 +63,7 @@ $case_time_query = $dbh->prepare("SELECT case_id, username, SUM( TIME ) as total
 	$last_activity_query->bindParam(':id', $id, PDO::PARAM_INT);
 	$last_activity_query->execute();
 	$last_activity_data = $last_activity_query->fetchAll(PDO::FETCH_ASSOC);
+*/
 
 //print_r($last_activity_data);
 	

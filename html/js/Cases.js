@@ -146,7 +146,7 @@ $(document).ready(function(){
 //Get the column definitions to use in oTable
 
 $.ajax({
-			url: 'lib/php/data/columns_load.php',
+			url: 'lib/php/data/cases_columns_load.php',
 			dataType: 'json',
 			error: function() {
 				alert("Sorry, there is an error in your ClinicCases configuration");
