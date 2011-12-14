@@ -1,7 +1,6 @@
 <?php
 //A script to load the column definitions into DataTables.  Returns json.
-
-include '../../../db.php';
+require('../../../db.php');
 
 	$get_columns = $dbh->prepare('SELECT * from cm_columns');
 	$get_columns->execute();

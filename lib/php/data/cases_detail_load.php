@@ -1,16 +1,10 @@
 <?php
 //Retrieves all data for case detail window when initially called.
+session_start();
+require('../auth/session_check.php');
 require('../../../db.php');
-
-
-//function to return thumbnail url
-function thumbify($url)
-	{
-			$split = explode('/', $url);
-			$thumbnail = $split[0] 	. "/tn_" . $split[1];
-			return $thumbnail;
-	}
-	
+include '../utilities/thumbnails.php';
+$id = $_GET['id'];
 
 
 function array_searchRecursive( $needle, $haystack, $strict=false, $path=array() ) 
@@ -30,7 +24,7 @@ function array_searchRecursive( $needle, $haystack, $strict=false, $path=array()
     } 
     return false; 
 } 
-//Get the data for the case
+//Get the data for the case 
 $case_query = $dbh->prepare("SELECT * FROM cm WHERE id = ? LIMIT 1");
 
 	$case_query->bindParam(1,$id);
@@ -40,13 +34,16 @@ $case_query = $dbh->prepare("SELECT * FROM cm WHERE id = ? LIMIT 1");
 	$case_data = $case_query->fetch(PDO::FETCH_OBJ);
 
 //Get everybody who is assigned to the case	and their user data
-$assigned_users_query = $dbh->prepare("SELECT cm_case_assignees.id as assign_id,cm_case_assignees.case_id, cm_case_assignees.username, cm_users . * FROM cm_case_assignees, cm_users WHERE cm_case_assignees.case_id =  ? AND cm_users.username = cm_case_assignees.username");
+$assigned_users_query = $dbh->prepare("SELECT cm_case_assignees.id as assign_id,cm_case_assignees.case_id, cm_case_assignees.status as user_case_status, cm_case_assignees.username, cm_case_assignees.date_assigned, cm_users . * FROM cm_case_assignees, cm_users WHERE cm_case_assignees.case_id =  ? AND cm_users.username = cm_case_assignees.username ORDER BY cm_case_assignees.date_assigned desc");
 
 	$assigned_users_query->bindParam(1,$id);
-	
+	 
 	$assigned_users_query->execute();
 	
 	$assigned_users_data = $assigned_users_query->fetchAll(PDO::FETCH_OBJ);
+
+include '../../../html/templates/interior/cases_detail.php';
+
 
 /*
 //Get the total time each user has put into the case

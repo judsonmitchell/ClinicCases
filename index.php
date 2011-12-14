@@ -49,6 +49,6 @@ FC;
 
 
 
-include 'html/templates/Footer.php';
+//include 'html/templates/Footer.php';
 
 

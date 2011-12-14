@@ -389,7 +389,6 @@ $.ajax({
 								callCaseWindow(iId);
 
 							})
-
 							
 							$('#processing').hide();//hide the "loading" div after load.
 							

@@ -1,5 +1,6 @@
 <?php 
 session_start();
+require('../auth/session_check.php');
 include '../../../db.php';
 include '../utilities/convert_times.php';
 include '../utilities/names.php';
