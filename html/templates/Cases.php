@@ -13,6 +13,9 @@
 
 <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
 
+<link type="text/css" href="lib/javascripts/jScrollPane/jquery.jscrollpane.css" rel="stylesheet"/>
+
+
 
 <!-- Jquery Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
@@ -30,6 +33,12 @@
 	<script  src="html/js/casesCaseDetail.js" type="text/javascript"></script>
 
 	<script  src="html/js/notifyUser.js" type="text/javascript"></script>
+	
+	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.jscrollpane.min.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.mousewheel.js"></script>
+
+	
 
 	
 	

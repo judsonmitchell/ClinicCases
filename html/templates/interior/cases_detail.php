@@ -19,7 +19,7 @@
 		
 		<ul>
 						
-			<li class="slide closed"><a>Currently Assigned:</a></label></li>
+			<li class="slide closed"><a>Currently Assigned:</a></li>
 			
 		
 		<?php foreach ($assigned_users_data as $user)

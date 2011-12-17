@@ -1,6 +1,7 @@
 //
 //Creates the Case Detail window when user clicks on table row.
 //
+
 	
 function setDetailCss()
 {
@@ -10,14 +11,22 @@ function setDetailCss()
 	navWidth = $('li.ui-tabs-selected').width();
 					
 	panelWidth = $("#case_detail_window").width() - navWidth -2;
+				
+	var bh = Math.round($("#case_detail_window").height() * .07) ;			
+	
+	//this for small screens
+	if (bh > 52)
+		{barHeight = bh}
+	
+		else
+	
+		{barHeight = 52}
 					
-	barHeight = $("#case_detail_window").height() * .1 ;
-					
-	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight;
+	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight +10;
 			
 	barWidth = $("#case_detail_window").width() - 1
 					
-	panelHeight = navHeight -2;
+	panelHeight = navHeight -1;
 	
 	caseTitleHeight = barHeight-10;
 					
@@ -68,6 +77,10 @@ function addDetailTabs(id)
 															
 					if ($('div.assigned_people  button').length > 0)
 						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-user-add"},text: true})}	
+						
+					scroller = $('.assigned_people').jScrollPane();
+					api = scroller.data('jsp');
+
 							
 				//This to allow tab re-ordering.  Won't work because the tab index doesn't get update 		
 				//.find( ".ui-tabs-nav" ).sortable({ axis: "x" })
@@ -210,16 +223,22 @@ $("div.assigned_people li.slide").live('click',function(){
 			inactiveUsers.css({'display':'inline'});
 			inactiveUsers.find('img').css({'opacity':'.4'});
 			$(this).children().text('All Assigned:');
-			$(this).removeClass('closed').addClass('open');	
+			$(this).removeClass('closed').addClass('open');
+			//api.destroy();
+			$('.assigned_people').jScrollPane();
+	
 		}
 	else
 		{
 			inactiveUsers.css({'display':'none'});
 			$(this).children().text('Currently Assigned:');
 			$(this).removeClass('open').addClass('closed');	
+			//api.destroy();
+			$('.assigned_people').jScrollPane();
 
 			
 		}
+		
 	});
 	
 //Unassign or re-assign user from case

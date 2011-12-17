@@ -14,12 +14,10 @@ $(document).ready(function(){
 })
 
 //handle if user resizes window
-
 $(window).resize(function() {
 	
 	var newViewportHeight = $(window).height();
 	var newAdjustedHeight = Math.round(newViewportHeight * .82);
 	$("#content").css({'height':newAdjustedHeight + 'px'});
-
 
 });
