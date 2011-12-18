@@ -1,12 +1,22 @@
 <?php
-# database connection scripts
-# the next 4 lines you can modify
-include '_CONFIG.php';
+require_once('_CONFIG.php');
 
+try {
+		$dbh = new PDO("mysql:host=" . CC_DBHOST . ";dbname=" . CC_DATABASE_NAME , CC_DBUSERNAME, CC_DBPASSWD);
+		
+		 // MS SQL Server and Sybase with PDO_DBLIB
+			//$dbh = new PDO("mssql:host=" . CC_DBHOST . ";dbname=" . CC_DATABASE_NAME, CC_DBUSERNAME, CC_DBPASSWD");
+			//$dbh = new PDO("sybase:host=" . CC_DBHOST" . ";dbname=" . CC_DATABASE_NAME, CC_DBUSERNAME, CC_DBPASSWD");
+			
+		// SQLite Database  
+			//$dbh = new PDO("sqlite:" . CC_SQLITE_PATH);  		
+		
+    }
+catch(PDOException $e)
+    {
 
-#under here, don't touch!
-$connection = mysql_pconnect("$CC_dbhost","$CC_dbusername","$CC_dbpasswd")
-    or die ("Couldn't connect to server.");
-$db = mysql_select_db("$CC_database_name", $connection)
-    or die("Couldn't select database.");
-?>
+		//400 is sent to trigger an error for ajax requests.
+		header('HTTP/1.1 400 Bad Request');
+
+		echo $e->getMessage();
+    }

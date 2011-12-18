@@ -4,6 +4,6 @@
  * 
  */  
 require_once ( './class.captcha_x.php');
-$server = &new captcha_x ();
-$server->handle_request ();
+$server = new captcha_x ();
+$server->handle_request();
 ?>

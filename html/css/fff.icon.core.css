@@ -1,0 +1,8 @@
+/* Icon overrides for 16px icons - tesing using FamFamFam icons, but any 16x16 icon will work */
+.fff-icon.ui-button-icon-only { width: 2.5em; } /* to make room for the icon, a width needs to be set here */
+button.fff-icon.ui-button-icon-only { width: 2.7em; } /* button elements seem to need a little more width */
+.fff-icon.ui-button-icons-only { width: 3.9em; }
+button.fff-icon.ui-button-icons-only { width: 4.2em; }
+.fff-icon.ui-button-text-icon-primary .ui-button-text {padding-left: 2.5em;}
+.fff-icon.ui-button-text-icon-secondary .ui-button-text, .fff-icon.ui-button-text-icons .ui-button-text { padding: .4em 2.5em .4em 1em; }
+.fff-icon.ui-button-text-icons .ui-button-text { padding-left: 2.5em; padding-right: 2.5em; }

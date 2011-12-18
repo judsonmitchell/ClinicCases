@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `cm_contacts` (
   `type` varchar(50) NOT NULL DEFAULT '',
   `address` varchar(200) NOT NULL DEFAULT '',
   `city` varchar(100) NOT NULL DEFAULT '',
-  `state` varchar(2) NOT NULL DEFAULT '',
+  `state` char(2) NOT NULL DEFAULT '',
   `zip` varchar(10) NOT NULL DEFAULT '',
   `phone1` varchar(20) NOT NULL DEFAULT '',
   `phone2` varchar(20) NOT NULL DEFAULT '',

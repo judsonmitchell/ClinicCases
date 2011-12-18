@@ -1,0 +1,187 @@
+ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+
+ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+
+ALTER TABLE  `cm` ADD FULLTEXT (
+`professor`
+)
+
+//proposed new definition for groups and permissions - updated 12/3/2011
+
+-- phpMyAdmin SQL Dump
+-- version 3.4.5deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 03, 2011 at 05:36 AM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6-13ubuntu3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `cc_dev_live_copy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cm_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `cm_groups` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(50) NOT NULL,
+  `group_title` varchar(100) NOT NULL,
+  `group_description` text NOT NULL,
+  `allowed_tabs` varchar(500) NOT NULL COMMENT 'An object which controls which tabs the user is allowed to see.',
+  `add_cases` int(2) NOT NULL,
+  `delete_cases` int(2) NOT NULL,
+  `edit_cases` int(2) NOT NULL,
+  `close_cases` int(2) NOT NULL,
+  `view_all_cases` int(2) NOT NULL COMMENT 'User can view all cases or only cases to which they are assigned',
+  `assign_cases` int(2) NOT NULL COMMENT 'Can the user assign cases to users?',
+  `add_users` int(2) NOT NULL,
+  `delete_users` int(2) NOT NULL,
+  `edit_users` int(2) NOT NULL,
+  `activate_users` int(2) NOT NULL,
+  `add_case_notes` int(2) NOT NULL,
+  `edit_case_notes` int(2) NOT NULL,
+  `delete_case_notes` int(2) NOT NULL,
+  `add_events` int(2) NOT NULL,
+  `edit_events` int(2) NOT NULL,
+  `delete_events` int(2) NOT NULL,
+  `post_in_board` int(2) NOT NULL,
+  `view_board` int(2) NOT NULL,
+  `edit_posts` int(2) NOT NULL,
+  `change_permissions` int(2) NOT NULL,
+  `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
+  `is_supervised` int(2) NOT NULL COMMENT 'This user works on cases,but is supervised by another user',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Allows admin to create user groups and set definitions' AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `cm_groups`
+--
+
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '["Home","Cases","Students","Users","Journals","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '["Home","Cases","Students","Users","Board","Utilities","Messages"]', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '["Home","Cases","Journals","Board","Utilities","Messages"]', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '["Home","Cases","Students","Journals","Board","Utilities","Messages"]', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);
+
+
+//add organization field
+ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`
+
+//script to move professor field to cm_cases_students
+
+$q = mysql_query("SELECT * FROM cm");
+ 
+	while ($r = mysql_fetch_array($q))
+	{
+		$assig = explode(',',$r['professor']);
+		foreach ($assig as $p)
+		{
+			if (!empty($p))
+			{
+				$date_add = $r['date_open'] . " 00:00:00";
+				$insert = mysql_query("INSERT INTO cm_cases_students (id,username,case_id,status,date_assigned) VALUES (NULL,'$p','$r[id]','active','$date_add')");
+				
+				//echo "case id:" . $r['id'] . " prof:" . $p . " date_assigned: " . $date_add . "<br>";
+				
+			}
+		
+		}
+	
+	}
+	
+	echo "Done";
+
+//delete these two unnecessary columns
+ALTER TABLE `cm_cases_students`
+  DROP `first_name`,
+  DROP `last_name`;
+
+// Change name of table to reflect that all users assigned to a case will now appear, not //just students  
+RENAME TABLE cm_cases_students TO cm_case_assignees
+
+//Move columns config from _CONFIG.php to the db.  Default setup:
+-- phpMyAdmin SQL Dump
+-- version 3.4.5deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 03, 2011 at 05:39 AM
+-- Server version: 5.1.58
+-- PHP Version: 5.3.6-13ubuntu3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `cc_dev_live_copy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cm_columns`
+--
+
+CREATE TABLE IF NOT EXISTS `cm_columns` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `db_name` varchar(50) NOT NULL,
+  `display_name` varchar(50) NOT NULL,
+  `include_in_case_table` varchar(10) NOT NULL COMMENT 'Should this column be included into the data sent to the main case table?',
+  `input_type` varchar(10) NOT NULL,
+  `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=41 ;
+
+--
+-- Dumping data for table `cm_columns`
+--
+
+INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_table`, `input_type`, `display_by_default`) VALUES
+(2, 'id', 'Id', 'true', 'input', 'false'),
+(3, 'clinic_id', 'Case Number', 'true', 'input', 'false'),
+(4, 'first_name', 'First Name', 'true', 'input', 'true'),
+(5, 'm_initial', 'Middle Initial', 'true', 'input', 'false'),
+(6, 'last_name', 'Last Name', 'true', 'input', 'true'),
+(7, 'organization', 'Organization', 'true', 'input', 'false'),
+(8, 'date_open', 'Date Open', 'true', 'input', 'true'),
+(9, 'date_close', 'Date Close', 'true', 'input', 'true'),
+(10, 'case_type', 'Case Type', 'true', 'select', 'true'),
+(11, 'professor', 'Professor', 'false', 'input', 'false'),
+(12, 'address1', 'Address 1', 'false', 'input', 'false'),
+(13, 'address2', 'Address 2', 'false', 'input', 'false'),
+(14, 'city', 'City', 'false', 'input', 'false'),
+(15, 'state', 'State', 'false', 'input', 'false'),
+(16, 'zip', 'Zip', 'false', 'input', 'false'),
+(17, 'phone1', 'Phone 1', 'false', 'input', 'false'),
+(18, 'phone2', 'Phone 2', 'false', 'input', 'false'),
+(19, 'email', 'Email', 'true', 'input', 'false'),
+(20, 'ssn', 'SSN', 'true', 'input', 'false'),
+(21, 'dob', 'DOB', 'true', 'input', 'false'),
+(22, 'age', 'Age', 'true', 'input', 'false'),
+(23, 'gender', 'Gender', 'true', 'select', 'false'),
+(24, 'race', 'Race', 'true', 'select', 'false'),
+(25, 'income', 'Income', 'false', 'input', 'false'),
+(26, 'per', 'Per', 'false', 'input', 'false'),
+(27, 'judge', 'Judge', 'false', 'input', 'false'),
+(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'input', 'false'),
+(29, 'court', 'Court', 'false', 'input', 'false'),
+(30, 'section', 'Section', 'false', 'input', 'false'),
+(31, 'ct_case_no', 'Court Case Number', 'false', 'input', 'false'),
+(32, 'case_name', 'Case Name', 'false', 'input', 'false'),
+(33, 'notes', 'Notes', 'false', 'input', 'false'),
+(34, 'type1', 'Type 1', 'false', 'input', 'false'),
+(35, 'type2', 'Type 2', 'false', 'input', 'false'),
+(36, 'dispo', 'Disposition', 'true', 'select', 'true'),
+(37, 'close_code', 'Closing Code', 'false', 'input', 'false'),
+(38, 'close_notes', 'Closing Notes', 'false', 'input', 'false'),
+(39, 'referral', 'Referred By', 'true', 'input', 'false'),
+(40, 'opened_by', 'Opened By', 'true', 'input', 'true');

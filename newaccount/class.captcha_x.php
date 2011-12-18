@@ -80,7 +80,6 @@ class captcha_x {
      */    
     function handle_request () {
         extract ( $this->INI);
-        
         $this->letters = $this->_get_random_letters ();
         $this->_put_md5_into_session ();
         
@@ -88,7 +87,6 @@ class captcha_x {
         $this->_add_dust_and_scratches ( $bg_color_2);
         $this->_print_letters ();
         $this->_add_dust_and_scratches ( $bg_color_1);
-        
         header("Content-type: image/jpeg");
         imagejpeg ( $this->image);
         imagedestroy ( $this->image);
@@ -152,7 +150,6 @@ class captcha_x {
      */    
     function _create_img_base () {
         extract ( $this->INI);
-        
         $bg_color = $this->_split ( $bg_color_1);
         
         $img = imagecreate ( $width, $height);
@@ -196,7 +193,7 @@ class captcha_x {
         // whether use the local fonts or the system fonts
         if ( $use_local_fonts) {
             $font_path = realpath ( dirname ( __FILE__) . '/fonts');
-            if ( @putenv ( 'GDFONTPATH=' . $font_path) === false) {
+            if ( putenv ( 'GDFONTPATH=' . $font_path) === false) {
                 $no_putenv = true;
             }
         }
@@ -210,7 +207,7 @@ class captcha_x {
         
         $fonts           = $this->_split ( $fonts);
         $fonts_count     = ( count ( $fonts) - 1);
-        
+     
         // f****** safe-mode settings
         if ( $no_putenv) {
             foreach ( $fonts as $k => $v) {
@@ -245,6 +242,7 @@ class captcha_x {
             $font           = $fonts[$font_index];
             
             imagettftext ( $this->image, $size, $angle, $x, $y, $color, $font, $this->letters[$i]);
+
         }
     }
 
@@ -266,6 +264,7 @@ class captcha_x {
         
         $md5                 = md5 ( $string);
         $_SESSION['captcha'] = $md5;
+      
     }
     
     /**
