@@ -1,5 +1,5 @@
 
-			<li class="slide closed"><a>Currently Assigned:</a></label></li>
+			<li class="slide closed"><a>Assigned:</a></label></li>
 	<?php
 
 	foreach ($refresh_users_data as $user)

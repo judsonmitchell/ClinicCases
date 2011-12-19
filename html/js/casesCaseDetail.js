@@ -222,7 +222,7 @@ $("div.assigned_people li.slide").live('click',function(){
 		{
 			inactiveUsers.css({'display':'inline'});
 			inactiveUsers.find('img').css({'opacity':'.4'});
-			$(this).children().text('All Assigned:');
+			$(this).children().text('Assigned (History):');
 			$(this).removeClass('closed').addClass('open');
 			//api.destroy();
 			$('.assigned_people').jScrollPane();
@@ -231,7 +231,7 @@ $("div.assigned_people li.slide").live('click',function(){
 	else
 		{
 			inactiveUsers.css({'display':'none'});
-			$(this).children().text('Currently Assigned:');
+			$(this).children().text('Assigned:');
 			$(this).removeClass('open').addClass('closed');	
 			//api.destroy();
 			$('.assigned_people').jScrollPane();
@@ -278,7 +278,7 @@ $('div.user_widget button.user-action-button').live('click',function(){
 		});
 	})
 
-//Add User to Case
+//Call Add User Widget
 
 $('div.assigned_people img.user_add_button').live('click',function(){
 	$('div.assigned_people img').css({'border':'3px solid #FFFFCC'});
@@ -296,13 +296,14 @@ $('div.assigned_people img.user_add_button').live('click',function(){
 	
 	})
 	
+//Add Users to Case
 $('div.user_widget button.user-action-adduser-button').live('click',function(){
 
 	var usersArray = $('#user_chooser_users_add').val();
 	var usersCaseId = $('#user_chooser_case_id').val();
 	$.ajax({url:'lib/php/users/add_user_to_case.php',data:({'users_add':usersArray,'case_id':usersCaseId}),success:function(data)
 		{
-			$('.assigned_people>ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php',{'id':usersCaseId});
+			$('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php',{'id':usersCaseId});
 			$('div.user_widget').hide();
 			notify(data);	
 		}
