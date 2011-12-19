@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require('../auth/session_check.php');
+require('../auth/session_check.php');
 require('../../../db.php');
 include_once('../utilities/convert_case_time.php');
 include_once('../utilities/group_title.php');
