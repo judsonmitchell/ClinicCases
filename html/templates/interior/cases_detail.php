@@ -68,9 +68,6 @@
 
 	</ul>
 
-
-
-
 </div>
 
 <div class = "case_detail_panel">
@@ -81,6 +78,21 @@
 			
 			
 		</div>
-	panel
+	
+		<div class="case_detail_panel_tools">
+		
+			<div class="case_detail_panel_tools_left">left</div>
+			
+			<div class="case_detail_panel_tools_right">
+			
+				<button>Add</button>
+				
+				<button>Timer</button>
+
+				<button>Print</button>
+
+			</div>
+
+		</div>
 	
 </div>
