@@ -7,12 +7,18 @@ function setDetailCss()
 {
 	
 	//once tabs are loaded, set the css for the interior blocks
+	
+	windowWidth = Math.ceil($('#case_detail_window').width());
+	
+	windowHeight = Math.ceil($('#case_detail_window').height());
+	
+	panelWidthFix = $('#case_detail_window').width() * .004;
+						
+	navWidth = Math.floor(windowWidth * .15);
 					
-	navWidth = $('li.ui-tabs-selected').width();
-					
-	panelWidth = $("#case_detail_window").width() - navWidth -2;
+	panelWidth = windowWidth - navWidth - panelWidthFix;
 				
-	var bh = Math.round($("#case_detail_window").height() * .07) ;			
+	var bh = Math.floor($(windowHeight * .07)) ;			
 	
 	//this for small screens
 	if (bh > 52)
@@ -22,11 +28,11 @@ function setDetailCss()
 	
 		{barHeight = 52}
 					
-	navHeight = $("#content").height() - $("#case_detail_tab_row").height() - barHeight +10;
+	navHeight = windowHeight - $("#case_detail_tab_row").height() - barHeight;
 			
-	barWidth = $("#case_detail_window").width() - 1
+	barWidth = windowWidth - 3
 					
-	panelHeight = navHeight -1;
+	panelHeight = navHeight
 	
 	caseTitleHeight = barHeight-10;
 					
@@ -34,7 +40,7 @@ function setDetailCss()
 	$(".case_detail_panel").css({'height':panelHeight, 'width':panelWidth});
 	$(".case_detail_bar").css({'height':barHeight,'width':barWidth});
 	$(".case_title").css({'height':caseTitleHeight});
-				
+					
 }
 
 //Function which creates the tabs in the case_detail_tab_row div
@@ -80,6 +86,8 @@ function addDetailTabs(id)
 						
 					scroller = $('.assigned_people').jScrollPane();
 					api = scroller.data('jsp');
+					//Little css fix
+					$('ul.case_detail_nav_list>li:first').css({'border-top':'0px'})
 
 							
 				//This to allow tab re-ordering.  Won't work because the tab index doesn't get update 		
@@ -180,7 +188,12 @@ $("#case_detail_control button + button").live('click',function(){
 	$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});	
 	});
 
-$("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');})
+$("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');
+	if ($('ul.case_detail_nav_list>li:first').hasClass('selected'))
+	{$(this).css({'border-top':'0px'})}
+})
+
+
 
 //Open the user detail window when user image is clicked.
 $("div.assigned_people img:not(.user_add_button)").live("click",function(){
@@ -335,4 +348,11 @@ $( "span.ui-icon-close" ).live( "click", function() {
 					
 			
 		});
+		
+//Adjust case detail div sizes on window resize		
+$(window).resize(function() {
+	
+	setDetailCss();
+	
+	});
 

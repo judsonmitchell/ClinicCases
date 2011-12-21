@@ -14,10 +14,10 @@ define("CC_DATABASE_NAME","cc_dev_live_copy");
 define("CC_ADMIN_EMAIL","jmitchel@loyno.edu");
 
 //Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
-define("CC_BASE_URL","http://localhost/cc7/cliniccases/");
+define("CC_BASE_URL","http://192.168.1.110/cc7/cliniccases/");
 
 //Your domain , e.g. http://www.yourserver.com
-define("CC_DOMAIN","http://localhost");
+define("CC_DOMAIN","http://192.168.1.110");
 
 //Default email for ClinicCases notifications, e.g. no-reply@yourserver.co
 define("CC_DEFAULT_EMAIL","");
