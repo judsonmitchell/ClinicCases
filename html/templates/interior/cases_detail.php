@@ -64,7 +64,7 @@
 		
 		<li id="item5">Memos</li>
 
-		<li id="item6">Conflict</li>
+		<li id="item6">Conflicts</li>
 
 	</ul>
 
@@ -73,26 +73,6 @@
 <div class = "case_detail_panel">
 	
 				
-		<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget">
-			
-			
-			
-		</div>
-	
-		<div class="case_detail_panel_tools">
 		
-			<div class="case_detail_panel_tools_left">left</div>
-			
-			<div class="case_detail_panel_tools_right">
-			
-				<button>Add</button>
-				
-				<button>Timer</button>
-
-				<button>Print</button>
-
-			</div>
-
-		</div>
 	
 </div>

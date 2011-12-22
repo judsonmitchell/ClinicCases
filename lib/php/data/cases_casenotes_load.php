@@ -1,11 +1,11 @@
 <?php
 session_start();
-//require('../auth/session_check.php');
+require('../auth/session_check.php');
 require('../../../db.php');
 
 //Load all case notes for a given case, along with user data
 
-$id = '1175';
+$id = $_POST['case_id'];
 
 $case_notes_query = $dbh->prepare("SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* FROM cm_case_notes,cm_users WHERE  cm_case_notes.case_id = :id and cm_case_notes.username = cm_users.username
 ");
@@ -16,6 +16,10 @@ $case_notes_query->execute();
 
 $case_notes_data = $case_notes_query->fetchAll(PDO::FETCH_ASSOC);
 
-$json = json_encode($case_notes_data);
+//$json = json_encode($case_notes_data);
 
-echo $json;
+
+include('../../../html/templates/interior/cases_casenotes.php');
+
+//echo $json;
+echo "This is case" . $id;

@@ -66,6 +66,9 @@ function addDetailTabs(id)
 				if (tabData.length>12)
 				{tabData = tabData.substring(0,12) + "..."}
 				
+				//keeps tabs from reloading each time clicked, so user won't lose their place.
+				$("#case_detail_tab_row").tabs({cache:true})
+				
 				$("#case_detail_tab_row").tabs("add","lib/php/data/cases_detail_load.php?id=" + id,tabData);
 				
 				//make sure the just selected tab gets the focus
@@ -78,16 +81,21 @@ function addDetailTabs(id)
 					$("#case_detail_bar").text(tabData);
 					
 					setDetailCss();
-					
-					$("ul.case_detail_nav_list > li").mouseenter(function(){$(this).addClass('hover');}).mouseleave(function(){$(this).removeClass('hover')} );
 															
 					if ($('div.assigned_people  button').length > 0)
 						{$("div.assigned_people  button").button({icons: {primary: "fff-icon-user-add"},text: true})}	
 						
 					scroller = $('.assigned_people').jScrollPane();
 					api = scroller.data('jsp');
-					//Little css fix
-					$('ul.case_detail_nav_list>li:first').css({'border-top':'0px'})
+					
+					//load the case notes panel and add the buttons
+					if ($('ul.case_detail_nav_list>li#item1').hasClass('selected'))
+					{
+						$('div.case_detail_panel').load('lib/php/data/cases_casenotes_load.php',{'case_id':id},function()
+						{
+								$('.case_detail_panel_tools_right button#button1').button({icons: {primary: "fff-icon-add"}, text:false}).next().button({icons: {primary:"fff-icon-time"}, text:false}).next().button({icons: {primary:"fff-icon-printer"}, text:false});	
+						});
+					}
 
 							
 				//This to allow tab re-ordering.  Won't work because the tab index doesn't get update 		
@@ -105,7 +113,6 @@ function addDetailTabs(id)
 			$("#case_detail_tab_row").removeClass('ui-corner-all').addClass('ui-corner-top');
 
 		})
-//here
 	}
 	
 	)
@@ -129,6 +136,7 @@ function callCaseWindow(id)
 			$("#case_detail_control").html("<button></button><button></button>");
 			
 			$("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"}).next().button({icons: {primary: "fff-icon-cancel"},label:"Close"});
+			
 			
 		}	
 		
@@ -188,9 +196,8 @@ $("#case_detail_control button + button").live('click',function(){
 	$("#case_detail_window").hide('fold',1000,function(){$tabs.tabs('destroy');});	
 	});
 
-$("ul.case_detail_nav_list > li").live("click",function(){$("ul.case_detail_nav_list > li.selected").removeClass('selected');$(this).addClass('selected');
-	if ($('ul.case_detail_nav_list>li:first').hasClass('selected'))
-	{$(this).css({'border-top':'0px'})}
+$("ul.case_detail_nav_list > li").live("click",function(){$(this).siblings().removeClass('selected');$(this).addClass('selected');
+	
 })
 
 

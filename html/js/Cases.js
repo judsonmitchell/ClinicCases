@@ -235,9 +235,7 @@ $.ajax({
 							
 							//Have ColVis and reset buttons pick up the DTTT class
 							$('div.ColVis button').removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
-							
-							
-							
+													
 							//Add the reset button
 							$(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
 							
