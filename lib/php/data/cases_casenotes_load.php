@@ -22,4 +22,6 @@ $case_notes_data = $case_notes_query->fetchAll(PDO::FETCH_ASSOC);
 include('../../../html/templates/interior/cases_casenotes.php');
 
 //echo $json;
-echo "This is case" . $id;
+
+if (empty($case_notes_data))
+{echo "<p>No case notes found.</p>";}
