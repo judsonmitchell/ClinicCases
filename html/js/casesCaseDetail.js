@@ -79,10 +79,12 @@ function addDetailTabs(id)
                 tabData = tabData.substring(0, 12) + "..."
             }
             
-            $("#case_detail_tab_row").tabs("add", "lib/php/data/cases_detail_load.php?id=" + id, tabData);
+            $tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});   
+            
+            $tabs.tabs("add", "lib/php/data/cases_detail_load.php?id=" + id, tabData);
 
             //make sure the just selected tab gets the focus and load its data
-            $("#case_detail_tab_row").tabs({
+            $tabs.tabs({
                 add: function(event, ui) {
                     $tabs.tabs('select', '#' + ui.panel.id);
                 },
@@ -105,19 +107,18 @@ function addDetailTabs(id)
                     panelTarget = '#' + ui.panel.id;
 
                     //load button tools, case notes, then set custom scrollbar
-                    $(panelTarget + ' .case_detail_panel').load('lib/php/data/cases_casenotes_load.php', {'case_id': id}, function() 
-                    {
-                        $('.case_detail_panel_tools_right button#button1').button({icons: {primary: "fff-icon-add"},text: false}).next().button({icons: {primary: "fff-icon-time"},text: false}).next().button({icons: {primary: "fff-icon-printer"},text: false});
-                       
-						//when the first tab loads, it takes longer.  I cannot find the load event to make this wait until loaded to trigger jScroll.  In the meantime, setTimeout
-						setTimeout("$(panelTarget + ' div.case_detail_panel_casenotes').jScrollPane();",500)
-							
+                 // wait = setInterval(function() {
+                   //     if (!$("#case_detail_panel_casenotes").is(":animated")) {
+                     //       clearInterval(wait);
                     
-                    })
-                
-					
+                    loadCaseNotes(panelTarget,id);          
+                        
+                   //     }
+                   //}, 0);
                 
                 }
+            
+            
             })
 
             //Do jqueryui css modifications
@@ -125,8 +126,11 @@ function addDetailTabs(id)
             $("#case_detail_tab_row").removeClass('ui-corner-all').addClass('ui-corner-top');
         
         })
+    
     }
     )
+
+
 }
 
 
@@ -143,7 +147,8 @@ function callCaseWindow(id)
         $("#content").append(caseDetail);
         
         $("#case_detail_window").hide().show('fold', 1000, function() {
-            setDetailCss()
+            setDetailCss();
+        
         });
         
         $("#case_detail_control").html("<button></button><button></button>");
@@ -156,23 +161,24 @@ function callCaseWindow(id)
     else 
     //just slide the window in
     {
-        if ($("#case_detail_control button:first").text() == 'Maximize') 
+        if ($("#case_detail_control button:first").text() == 'Maximize') //window is in minimized state
         {
-            toggleTabs()
+            toggleTabs();
+        
         } 
         else 
         {
-            $("#case_detail_window").hide().show('fold', 1200, function() {
+            $("#case_detail_window").hide().show('fold', 1000, function() {
                 setDetailCss();
+            
             });
         }
     
     }
     
-    $tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});
+                     
     
     addDetailTabs(id);
-
 
 }
 
@@ -187,7 +193,9 @@ function toggleTabs()
     if ($("#case_detail_control button:first").text() == 'Minimize') 
     
     {
-        $("#case_detail_window").animate({'top': minimized});
+        $("#case_detail_window").animate({'top': minimized}, function() {
+        
+        });
         $("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-out"},label: "Maximize"});
         $("#case_detail_control button:first .ui-button-text").css({'line-height': '0.3'});
     } 
@@ -197,7 +205,8 @@ function toggleTabs()
     {
         //Recalculate top
         var paddingTop = adjustedHeight * .021;
-        $("#case_detail_window").animate({'top': paddingTop});
+        $("#case_detail_window").animate({'top': paddingTop}, function() {
+        });
         $("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"});
         $("#case_detail_control button:first .ui-button-text").css({'line-height': '0.3'});
     
@@ -273,7 +282,6 @@ $("div.assigned_people li.slide").live('click', function() {
         inactiveUsers.find('img').css({'opacity': '.4'});
         $(this).children().text('Assigned (History):');
         $(this).removeClass('closed').addClass('open');
-        //api.destroy();
         $('.assigned_people').jScrollPane();
     
     } 
@@ -282,7 +290,6 @@ $("div.assigned_people li.slide").live('click', function() {
         inactiveUsers.css({'display': 'none'});
         $(this).children().text('Assigned:');
         $(this).removeClass('open').addClass('closed');
-        //api.destroy();
         $('.assigned_people').jScrollPane();
     
     
@@ -398,4 +405,8 @@ $(window).resize(function() {
     setDetailCss();
 
 });
+
+
+
+
 

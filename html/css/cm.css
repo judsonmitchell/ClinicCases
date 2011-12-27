@@ -449,4 +449,20 @@ button.user-display-closer{position:absolute;bottom:10px;left:10px;}
 div.case_detail_panel_tools{width:99%;height:10%;border:0px solid red}
 div.case_detail_panel_tools_left{height:100%;width:50%;float:left;padding-top:1%}
 div.case_detail_panel_tools_right{height:100%;width:50%;float:right;text-align:right;padding-top:1%}
-div.case_detail_panel_casenotes{width:99%;height:90%;overflow:auto;}
+div.case_detail_panel_casenotes{width:99%;height:88%;overflow:auto;}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background:rgb(221,221,221);
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgb(150,168,182);
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}

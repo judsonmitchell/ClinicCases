@@ -1,3 +1,7 @@
+<?php //tools are only called if this is a first request; otherwise we only need the new case notes data
+if (!isset($_POST['update']))
+{echo<<<TOOLS
+		
 		<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget">
 						
 		</div>
@@ -18,21 +22,27 @@
 
 		</div>
 		
-		<div class="case_detail_panel_casenotes">
-		
-			<?php
+		<div class="case_detail_panel_casenotes" id = "case_
+TOOLS;
+echo $case_notes_data[0]['case_id'] . "\">";
+
+}		
+			
 		
 			foreach($case_notes_data as $case_notes)
 			{
 				
-				echo "<p>" . $case_notes['description'] . "</p><br>";
+				echo "<div class='csenote'><p class = 'csenote_instance'>" . $case_notes['description'] . "</p></div><br>";
 				
 			}
 			
-			?>
+			if (empty($case_notes_data))
+				{echo "<p>No case notes found.</p>";}
+			
+		
 		
 			
 		
 		
-		</div>
+		if (!isset($_POST['update'])){echo "</div>";}
 
