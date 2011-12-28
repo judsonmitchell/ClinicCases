@@ -1,4 +1,4 @@
- //
+//
 //Creates the Case Detail window when user clicks on table row.
 //
 
@@ -79,7 +79,7 @@ function addDetailTabs(id)
                 tabData = tabData.substring(0, 12) + "..."
             }
             
-            $tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});   
+            $tabs = $("#case_detail_tab_row").tabs({tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>"});
             
             $tabs.tabs("add", "lib/php/data/cases_detail_load.php?id=" + id, tabData);
 
@@ -105,16 +105,9 @@ function addDetailTabs(id)
 
                     //define the id of the clicked tab
                     panelTarget = '#' + ui.panel.id;
-
-                    //load button tools, case notes, then set custom scrollbar
-                 // wait = setInterval(function() {
-                   //     if (!$("#case_detail_panel_casenotes").is(":animated")) {
-                     //       clearInterval(wait);
                     
-                    loadCaseNotes(panelTarget,id);          
-                        
-                   //     }
-                   //}, 0);
+                    
+                    loadCaseNotes(panelTarget, id);
                 
                 }
             
@@ -161,7 +154,7 @@ function callCaseWindow(id)
     else 
     //just slide the window in
     {
-        if ($("#case_detail_control button:first").text() == 'Maximize') //window is in minimized state
+        if ($("#case_detail_control button:first").text() == 'Maximize')  //window is in minimized state
         {
             toggleTabs();
         
@@ -175,8 +168,6 @@ function callCaseWindow(id)
         }
     
     }
-    
-                     
     
     addDetailTabs(id);
 
@@ -378,8 +369,6 @@ $("span.ui-icon-close").live("click", function() {
 
     //index of tab clicked
     var index = $("li", $tabs).index($(this).parent());
-
-    //var index = $(this).live().parent().index();
     
     var numberTabs = $("ul.ui-tabs-nav > li").length;
 
@@ -395,7 +384,6 @@ $("span.ui-icon-close").live("click", function() {
     {
         $tabs.tabs("remove", index);
     }
-
 
 });
 

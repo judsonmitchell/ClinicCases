@@ -451,6 +451,8 @@ div.case_detail_panel_tools_left{height:100%;width:50%;float:left;padding-top:1%
 div.case_detail_panel_tools_right{height:100%;width:50%;float:right;text-align:right;padding-top:1%}
 div.case_detail_panel_casenotes{width:99%;height:88%;overflow:auto;}
 
+div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA}
+
 ::-webkit-scrollbar {
     width: 12px;
 }
