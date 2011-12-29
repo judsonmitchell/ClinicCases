@@ -230,6 +230,7 @@ $("ul.case_detail_nav_list > li").live("click", function() {
 //Open the user detail window when user image is clicked.
 $("div.assigned_people img:not(.user_add_button)").live("click", function() {
     $("div.assigned_people img").css({'border': '3px solid #FFFFCC'});
+    clickedImage = $(this);
     if ($(this).parents('li').hasClass('inactive')) 
     {
         $(this).css({'border': '3px solid gray'});
@@ -239,13 +240,15 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
         $(this).css({'border': '3px solid green'});
     }
     
+    //get case number and user id
     pos1 = $(this).attr('id').indexOf("_");
     pos2 = $(this).attr('id').lastIndexOf("_");
     var getCaseId = $(this).attr('id').substring(pos1 + 1, pos2);
     var getUserId = $(this).attr('id').substring(pos2 + 1);
+    
     $('div.user_display').load('lib/php/users/cases_detail_user_activity_load.php', {'case_id': getCaseId,'username': getUserId,}, function() 
     {
-        $('button.user-display-closer').button({icons: {primary: "fff-icon-cancel"},text: true,label: "Close"});
+        
         //if user has permission to remove users, show remove button		
         if ($('div.user_display_detail button').length > 0) 
         {
@@ -258,8 +261,14 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
                 $('button.user-action-button').button({icons: {primary: "fff-icon-user-delete"},text: true,label: "Unassign"})
             }
         }
-        $(this).show();
-    });
+        
+        //hide the display and reset the clicked image border
+        $(this).toggle(0,function(){
+			 if ($(this).css('display') == 'none')
+			{clickedImage.css({'border': '3px solid #FFFFCC'})}			
+			}); 
+       
+    })
 })
 
 //Toggle to show all users, not just currently assigned
@@ -287,6 +296,49 @@ $("div.assigned_people li.slide").live('click', function() {
     }
 
 });
+
+
+//Call Add User Widget
+
+$('div.assigned_people img.user_add_button').live('click', function() {
+    $('div.assigned_people img').css({'border': '3px solid #FFFFCC'});
+    userAddImage = $(this);
+    $(this).css({'border': '3px solid green'});
+    
+    //Get case id from the add button clicked.
+    var pos = $(this).attr('id').lastIndexOf("_");
+    var cseId = $(this).attr('id').substring(pos + 1);
+    
+	if ($(this).css('display') == 'none')
+	{userAddImage.css({'border': '3px solid #FFFFCC'});}			
+
+	$('div.user_display').load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
+        $('button.user-action-adduser-button').button({icons: {primary: "fff-icon-user-add"},text: true});
+
+		$('.chzn-select').chosen();
+		
+		
+		})
+    
+    $('div.user_display').toggle();
+
+})
+
+//Add Users to Case
+$('div.user_widget button.user-action-adduser-button').live('click', function() {
+    
+    //finds the value of the select
+    var usersArray = $(this).parent().find('select').val();
+
+    var usersCaseId = $('#user_chooser_case_id').val();
+    $.ajax({url: 'lib/php/users/add_user_to_case.php',data: ({'users_add': usersArray,'case_id': usersCaseId}),success: function(data) 
+        {
+            $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': usersCaseId});
+            $('div.user_widget').hide();
+            notify(data);
+        }
+    })
+})
 
 //Unassign or re-assign user from case
 $('div.user_widget button.user-action-button').live('click', function() {
@@ -323,45 +375,6 @@ $('div.user_widget button.user-action-button').live('click', function() {
             }
         }
     });
-})
-
-//Call Add User Widget
-
-$('div.assigned_people img.user_add_button').live('click', function() {
-    $('div.assigned_people img').css({'border': '3px solid #FFFFCC'});
-    $(this).css({'border': '3px solid green'});
-    //Get case id from the add button clicked.
-    var pos = $(this).attr('id').lastIndexOf("_");
-    var cseId = $(this).attr('id').substring(pos + 1);
-    
-    $('div.user_display').show().load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
-        $('button.user-display-closer').button({icons: {primary: "fff-icon-cancel"},text: true});
-        $('button.user-action-adduser-button').button({icons: {primary: "fff-icon-user-add"},text: true});
-        $('.chzn-select').chosen();
-    })
-
-})
-
-//Add Users to Case
-$('div.user_widget button.user-action-adduser-button').live('click', function() {
-    
-    var usersArray = $('#user_chooser_users_add').val();
-    var usersCaseId = $('#user_chooser_case_id').val();
-    $.ajax({url: 'lib/php/users/add_user_to_case.php',data: ({'users_add': usersArray,'case_id': usersCaseId}),success: function(data) 
-        {
-            $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': usersCaseId});
-            $('div.user_widget').hide();
-            notify(data);
-        }
-    })
-})
-
-//Close user widget window
-$("button.user-display-closer").live('click', function() {
-    $('div.assigned_people img').each(function() {
-        $(this).css({'border': '3px solid #FFFFCC'})
-    });
-    $('.user_widget').css({'display': 'none'})
 })
 
 //Close tabs	

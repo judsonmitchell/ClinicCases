@@ -18,6 +18,25 @@ function username_to_lastname ($dbh,$name)
 		
 		
 	}
+	
+
+function username_to_firstname ($dbh,$name)
+
+	{
+		
+		$query = $dbh->prepare("SELECT username,first_name FROM cm_users WHERE username = ? LIMIT 1");
+		
+		$query->bindParam(1,$name);
+		
+		$query->execute();
+
+		$r = $query->fetch();
+
+		return $r['first_name'];
+		
+		
+	}
+	
 
 function username_to_fullname ($dbh,$name)
 

@@ -18,12 +18,12 @@ function convert_case_time($time)
 
 			case ($time > 59):
 				$more_than_minute = $time / 60;
-				$time = "."  . ceil($more_than_minute/CC_TIME_UNIT) * CC_TIME_UNIT;
+				$time = ceil($more_than_minute/CC_TIME_UNIT) * CC_TIME_UNIT;
 				$unit = " minutes";
 				break;
 			
 			case ($time <= 59):
-				$time = ".1";
+				$time = "1";
 				$unit = " minute";
 				break;
 			

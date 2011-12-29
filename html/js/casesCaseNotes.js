@@ -28,12 +28,16 @@ function addMoreNotes(scrollTarget) {
     var scrollAmount = scrollTarget[0].scrollTop;
     var documentHeight = scrollTarget.height();
     var scrollHeight = scrollTarget[0].scrollHeight;
-
+//console.log(scrollAmount);
+	if (scrollAmount == 0  && scrollTarget.hasClass('csenote_shadow'))
+	{scrollTarget.removeClass('csenote_shadow')}
+	else
+	{scrollTarget.addClass('csenote_shadow')}
 
     // calculate the percentage the user has scrolled down the page
     var scrollY = (scrollAmount / scrollHeight) * 100;
     
-    if (scrollY > 80) 
+    if (scrollY > 70) 
     {
         //the start for the query is added to the scrollTarget object
         if (typeof scrollTarget.data('start') == "undefined") 
@@ -61,6 +65,8 @@ function addMoreNotes(scrollTarget) {
             else 
             {
                 scrollTarget.append(data);
+                        $('div.csenote').addClass('ui-corner-all');
+
             }
         
         })

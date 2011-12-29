@@ -4,7 +4,7 @@
 
 <form>
 	
-	<select multiple data-placeholder = "Type the user's name"  class="chzn-select" id="user_chooser_users_add">
+	<select multiple data-placeholder = "Type the user's name"  class="chzn-select">
 
 		<?php echo $user_list; ?>
 
@@ -13,8 +13,6 @@
 	<input type="hidden" id="user_chooser_case_id" value="<?php echo $case_id; ?>">
 	
 </form>
-	
-<button class="user-display-closer">Close</button>
 
 <button class="user-action-adduser-button">Add</button>
 

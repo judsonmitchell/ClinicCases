@@ -82,9 +82,6 @@
 				
 				echo "</form>";
 				
-				
-				echo "<button class='user-display-closer'></button>";
-
 				echo "<button id='button_" . $data['assign_id'] . "' class='user-action-button'></button>";			
 				
 		}

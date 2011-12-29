@@ -33,7 +33,7 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			{
 				$time = convert_case_time($case_notes['time']);
 				echo "<div class='csenote'>";
-				echo "<p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "<br>"    . $case_notes['description'] . "</p></div><br>";
+				echo "<p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "<br><p>"    . $case_notes['description'] . "</p></p></div><br>";
 				
 			}
 			
