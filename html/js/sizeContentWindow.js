@@ -5,7 +5,7 @@ var viewportHeight = $(window).height();
 
 //Determine the percentage height.
 
-var adjustedHeight = Math.round(viewportHeight * .82);
+var adjustedHeight = Math.round(viewportHeight * .85);
 
 //set the css after load
 $(document).ready(function(){
@@ -17,7 +17,7 @@ $(document).ready(function(){
 $(window).resize(function() {
 	
 	var newViewportHeight = $(window).height();
-	var newAdjustedHeight = Math.round(newViewportHeight * .82);
+	var newAdjustedHeight = Math.round(newViewportHeight * .85);
 	$("#content").css({'height':newAdjustedHeight + 'px'});
 
 });

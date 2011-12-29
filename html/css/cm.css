@@ -406,6 +406,9 @@ td, th {text-align:left;}
 .ui-tabs-panel{padding:0px !important}
 .ui-widget-content{border:0px; !important}
 #case_detail_tab_row.ui-widget{border:0px;}
+/* This below to fix a bug in jqueryui in Firefox http://stackoverflow.com/questions/6691199/jquery-ui-close-icon-appearing-wrong-in-firefox */
+#case_detail_tab_row li .ui-icon-close { float: left; margin: 0.1em 0.2em 0 0; cursor: pointer; }
+
 
 div.case_title{float:left;padding:8px 0px 0px 15px;width:45%;overflow:hidden;white-space:nowrap;text-align:left;}
 div.case_title h2{color:black;font-size:20t;font-weight:normal;text-shadow: 0px 2px 3px gray;}
@@ -446,10 +449,10 @@ div.dialog-user-remove{display:none;}
 button.user-action-button,button.user-action-adduser-button{position:absolute;bottom:10px;right:25px;}
 button.user-display-closer{position:absolute;bottom:10px;left:10px;}
 
-div.case_detail_panel_tools{width:99%;height:10%;border:0px solid red}
-div.case_detail_panel_tools_left{height:100%;width:50%;float:left;padding-top:1%}
-div.case_detail_panel_tools_right{height:100%;width:50%;float:right;text-align:right;padding-top:1%}
-div.case_detail_panel_casenotes{width:99%;height:88%;overflow:auto;}
+div.case_detail_panel_tools{width:99%}
+div.case_detail_panel_tools_left{height:100%;width:50%;float:left;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_tools_right{height:100%;width:50%;float:right;text-align:right;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_casenotes{width:99%;overflow:auto;}
 
 div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;}
 

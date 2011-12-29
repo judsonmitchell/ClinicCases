@@ -44,6 +44,12 @@ function setDetailCss()
     $(".case_detail_panel").css({'height': panelHeight,'width': panelWidth});
     $(".case_detail_bar").css({'height': barHeight,'width': barWidth});
     $(".case_title").css({'height': caseTitleHeight});
+    
+    toolsHeight = $(".case_detail_nav li:first").outerHeight();
+    caseNotesWindowHeight = panelHeight - toolsHeight;
+    $('div.case_detail_panel_tools').height(toolsHeight);
+   // $('div.case_detail_panel_tools_left,div.case_detail_panel_tools_right').height(toolsHeight);    
+    $('div.case_detail_panel_casenotes').height(caseNotesWindowHeight); 
 
 }
 
