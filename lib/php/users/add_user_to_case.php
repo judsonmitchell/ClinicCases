@@ -53,6 +53,9 @@ foreach ($user_array as $user)
 			
 			$update_status->execute();
 			
+			// TODO notify user via messsaging and email
+		
+		
 		}
 
 		else
@@ -66,6 +69,9 @@ foreach ($user_array as $user)
 		$user_add_query->bindParam(':case_id',$case_id);
 
 		$user_add_query->execute();
+		
+		// TODO notify user via messsaging and email
+
 		
 		}
 
