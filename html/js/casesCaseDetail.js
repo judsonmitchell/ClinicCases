@@ -47,9 +47,9 @@ function setDetailCss()
     
     toolsHeight = $(".case_detail_nav li:first").outerHeight();
     caseNotesWindowHeight = panelHeight - toolsHeight;
-    $('div.case_detail_panel_tools').height(toolsHeight);
-   // $('div.case_detail_panel_tools_left,div.case_detail_panel_tools_right').height(toolsHeight);    
-    $('div.case_detail_panel_casenotes').height(caseNotesWindowHeight); 
+    $('.case_detail_panel_tools').height(toolsHeight);
+   
+    $('.case_detail_panel_casenotes').height(caseNotesWindowHeight); 
 
 }
 

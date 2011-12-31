@@ -450,9 +450,10 @@ button.user-action-button,button.user-action-adduser-button{position:absolute;bo
 button.user-display-closer{position:absolute;bottom:10px;left:10px;}
 
 div.case_detail_panel_tools{width:99%}
-div.case_detail_panel_tools_left{height:100%;width:50%;float:left;padding-top:1%;margin-bottom:-1%;}
-div.case_detail_panel_tools_right{height:100%;width:50%;float:right;text-align:right;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_tools_left{height:100%;width:30%;float:left;text-align:right;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_tools_right{height:100%;width:70%;float:right;text-align:right;padding-top:1%;margin-bottom:-1%;}
 div.case_detail_panel_casenotes{width:99%;overflow:auto;}
+input.casenotes_search{color:#AAA}
 
 div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;}
 

@@ -12,6 +12,12 @@ if (!isset($_POST['update']))
 			
 			<div class="case_detail_panel_tools_right">
 			
+				<input type="text" class="casenotes_search" id="casesearch_
+TOOLS;
+echo $case_notes_data[0]['case_id'];
+echo <<<TOOLS
+" value="Search Case Notes">
+						
 				<button id = "button1">Add</button>
 				
 				<button id = "button2">Timer</button>

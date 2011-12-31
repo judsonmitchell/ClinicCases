@@ -9,7 +9,7 @@ function loadCaseNotes(panelTarget, id)
         $('.case_detail_panel_tools_right button#button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
         
         var scrollTarget = $('#case_' + id);
-        
+            
         $(scrollTarget).bind('scroll', function() {
             addMoreNotes(scrollTarget)
         });
@@ -28,7 +28,7 @@ function addMoreNotes(scrollTarget) {
     var scrollAmount = scrollTarget[0].scrollTop;
     var documentHeight = scrollTarget.height();
     var scrollHeight = scrollTarget[0].scrollHeight;
-//console.log(scrollAmount);
+
 	if (scrollAmount == 0  && scrollTarget.hasClass('csenote_shadow'))
 	{scrollTarget.removeClass('csenote_shadow')}
 	else
@@ -65,7 +65,7 @@ function addMoreNotes(scrollTarget) {
             else 
             {
                 scrollTarget.append(data);
-                        $('div.csenote').addClass('ui-corner-all');
+				$('div.csenote').addClass('ui-corner-all');
 
             }
         
@@ -74,7 +74,36 @@ function addMoreNotes(scrollTarget) {
     }
 }
 
+//Listeners
 
+$('input.casenotes_search').live('focus',function(){
+	
+	$(this).val('');
+	$(this).css({'color':'black'});	
+	
+	})
+
+
+$('input.casenotes_search').live('keyup',function(){
+	
+	var search = $(this).val();
+	var searchId = $(this).attr('id');
+	var caseId = searchId.split('_');
+	var resultTarget = $('#case_' + caseId[1]);
+	 
+	resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'search':search,'update':'yes'})
+	
+	//if user clears search field, reset
+	if (search == '')
+	{
+		resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'start':'0','update':'yes'})
+		
+		$(this).val('Search Case Notes');
+		$(this).css({'color':'#AAA'});
+		
+	}
+	
+})
 
 
 
