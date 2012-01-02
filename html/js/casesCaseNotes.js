@@ -1,4 +1,4 @@
- //Scripts for casenotes
+//Scripts for casenotes
 
 
 function loadCaseNotes(panelTarget, id) 
@@ -6,14 +6,25 @@ function loadCaseNotes(panelTarget, id)
     
     $(panelTarget + ' .case_detail_panel').load('lib/php/data/cases_casenotes_load.php', {'case_id': id,'start': '0'}, function() 
     {
+		//set css for casenotes
+		toolsHeight = $(panelTarget + " .case_detail_nav li:first").outerHeight();
+		thisPanelHeight = $(panelTarget + ' .case_detail_nav').height()
+		caseNotesWindowHeight = thisPanelHeight - toolsHeight;
+		$('div.case_detail_panel_tools').css({'height': toolsHeight});
+		$('div.case_detail_panel_casenotes').css({'height':caseNotesWindowHeight}); 
+
+		//add buttons
         $('.case_detail_panel_tools_right button#button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
         
+        //define div to be scrolled TODO make unique if user has the case in more than one window
         var scrollTarget = $('#case_' + id);
-            
+        
+        //bind the scroll event for the window    
         $(scrollTarget).bind('scroll', function() {
             addMoreNotes(scrollTarget)
         });
         
+        //round corners
         $('div.csenote').addClass('ui-corner-all');
     
     })
@@ -90,13 +101,15 @@ $('input.casenotes_search').live('keyup',function(){
 	var searchId = $(this).attr('id');
 	var caseId = searchId.split('_');
 	var resultTarget = $('#case_' + caseId[1]);
+	resultTarget.unbind('scroll');
 	 
-	resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'search':search,'update':'yes'})
+	resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'search':search,'update':'yes'},function(){$('div.csenote').addClass('ui-corner-all');})
+	
 	
 	//if user clears search field, reset
 	if (search == '')
 	{
-		resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'start':'0','update':'yes'})
+		resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId[1],'start':'0','update':'yes'},function(){$('div.csenote').addClass('ui-corner-all');})
 		
 		$(this).val('Search Case Notes');
 		$(this).css({'color':'#AAA'});

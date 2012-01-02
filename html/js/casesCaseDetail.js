@@ -45,12 +45,7 @@ function setDetailCss()
     $(".case_detail_bar").css({'height': barHeight,'width': barWidth});
     $(".case_title").css({'height': caseTitleHeight});
     
-    toolsHeight = $(".case_detail_nav li:first").outerHeight();
-    caseNotesWindowHeight = panelHeight - toolsHeight;
-    $('.case_detail_panel_tools').height(toolsHeight);
-   
-    $('.case_detail_panel_casenotes').height(caseNotesWindowHeight); 
-
+    
 }
 
 //Function which creates the tabs in the case_detail_tab_row div
@@ -145,8 +140,10 @@ function callCaseWindow(id)
         
         $("#content").append(caseDetail);
         
-        $("#case_detail_window").hide().show('fold', 1000, function() {
+        $("#case_detail_window").hide().show('fold', 600, function() {
             setDetailCss();
+                addDetailTabs(id);
+
         
         });
         
@@ -163,19 +160,18 @@ function callCaseWindow(id)
         if ($("#case_detail_control button:first").text() == 'Maximize')  //window is in minimized state
         {
             toggleTabs();
-        
+            addDetailTabs(id);        
         } 
         else 
         {
-            $("#case_detail_window").hide().show('fold', 1000, function() {
+            $("#case_detail_window").hide().show('fold', 600, function() {
                 setDetailCss();
-            
+                addDetailTabs(id);            
             });
         }
     
     }
     
-    addDetailTabs(id);
 
 }
 

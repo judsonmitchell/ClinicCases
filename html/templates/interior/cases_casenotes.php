@@ -1,11 +1,11 @@
 <?php //tools are only called if this is a first request; otherwise we only need the new case notes data
 if (!isset($_POST['update']))
 {echo<<<TOOLS
-		
+
 		<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget">
 						
 		</div>
-	
+		
 		<div class="case_detail_panel_tools">
 		
 			<div class="case_detail_panel_tools_left"></div>
