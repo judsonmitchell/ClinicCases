@@ -48,11 +48,10 @@ function addMoreNotes(scrollTarget) {
     {
         scrollTarget.addClass('csenote_shadow')
     }
-
-    // calculate the percentage the user has scrolled down the page
-    var scrollY = (scrollAmount / scrollHeight) * 100;
+   
+    scrollPercent = (scrollAmount / (scrollHeight-scrollTarget.height())) * 100;
     
-    if (scrollY > 70) 
+    if (scrollPercent > 70) 
     {
         //the start for the query is added to the scrollTarget object
         if (typeof scrollTarget.data('start') == "undefined") 
