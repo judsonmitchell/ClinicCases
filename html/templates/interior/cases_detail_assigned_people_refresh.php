@@ -18,9 +18,10 @@
 			echo "<li class = 'inactive'><span><img id='imgid_" . $user->case_id . "_" . $user->username  . "' src='$thumbnail'></span></li>";			
 			}
 		
+			$case_id = $user->case_id;
 		
 		}
 		
 		if ($_SESSION['permissions']['assign_cases'] = "1")
-		{ echo "<li><span></span><img class='user_add_button' id='add_button_" . $user->case_id . "' src='people/tn_add_user.png'></span></li>";}
+		{ echo "<li><span></span><img class='user_add_button' id='add_button_" . $case_id . "' src='people/tn_add_user.png'></span></li>";}
 		?>

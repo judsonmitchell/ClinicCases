@@ -1,4 +1,4 @@
-//
+ //
 //Creates the Case Detail window when user clicks on table row.
 //
 
@@ -44,8 +44,8 @@ function setDetailCss()
     $(".case_detail_panel").css({'height': panelHeight,'width': panelWidth});
     $(".case_detail_bar").css({'height': barHeight,'width': barWidth});
     $(".case_title").css({'height': caseTitleHeight});
-    
-    
+
+
 }
 
 //Function which creates the tabs in the case_detail_tab_row div
@@ -112,7 +112,6 @@ function addDetailTabs(id)
                 
                 }
             
-            
             })
 
             //Do jqueryui css modifications
@@ -123,8 +122,6 @@ function addDetailTabs(id)
     
     }
     )
-
-
 }
 
 
@@ -142,7 +139,7 @@ function callCaseWindow(id)
         
         $("#case_detail_window").hide().show('fold', 600, function() {
             setDetailCss();
-            addDetailTabs(id);      
+            addDetailTabs(id);
         });
         
         $("#case_detail_control").html("<button></button><button></button>");
@@ -158,19 +155,17 @@ function callCaseWindow(id)
         if ($("#case_detail_control button:first").text() == 'Maximize')  //window is in minimized state
         {
             toggleTabs();
-            addDetailTabs(id);        
+            addDetailTabs(id);
         } 
         else 
         {
             $("#case_detail_window").hide().show('fold', 600, function() {
                 setDetailCss();
-                addDetailTabs(id);            
+                addDetailTabs(id);
             });
         }
     
     }
-    
-
 }
 
 
@@ -239,7 +234,7 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
     {
         $(this).css({'border': '3px solid green'});
     }
-    
+
     //get case number and user id
     pos1 = $(this).attr('id').indexOf("_");
     pos2 = $(this).attr('id').lastIndexOf("_");
@@ -248,7 +243,7 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
     
     $('div.user_display').load('lib/php/users/cases_detail_user_activity_load.php', {'case_id': getCaseId,'username': getUserId,}, function() 
     {
-        
+
         //if user has permission to remove users, show remove button		
         if ($('div.user_display_detail button').length > 0) 
         {
@@ -261,13 +256,15 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
                 $('button.user-action-button').button({icons: {primary: "fff-icon-user-delete"},text: true,label: "Unassign"})
             }
         }
-        
+
         //hide the display and reset the clicked image border
-        $(this).toggle(0,function(){
-			 if ($(this).css('display') == 'none')
-			{clickedImage.css({'border': '3px solid #FFFFCC'})}			
-			}); 
-       
+        $(this).toggle(0, function() {
+            if ($(this).css('display') == 'none') 
+            {
+                clickedImage.css({'border': '3px solid #FFFFCC'})
+            }
+        });
+    
     })
 })
 
@@ -304,21 +301,22 @@ $('div.assigned_people img.user_add_button').live('click', function() {
     $('div.assigned_people img').css({'border': '3px solid #FFFFCC'});
     userAddImage = $(this);
     $(this).css({'border': '3px solid green'});
-    
+
     //Get case id from the add button clicked.
     var pos = $(this).attr('id').lastIndexOf("_");
     var cseId = $(this).attr('id').substring(pos + 1);
     
-	if ($(this).css('display') == 'none')
-	{userAddImage.css({'border': '3px solid #FFFFCC'});}			
-
-	$('div.user_display').load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
+    if ($(this).css('display') == 'none') 
+    {
+        userAddImage.css({'border': '3px solid #FFFFCC'});
+    }
+    
+    $('div.user_display').load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
         $('button.user-action-adduser-button').button({icons: {primary: "fff-icon-user-add"},text: true});
-
-		$('.chzn-select').chosen();
-		
-		
-		})
+        
+        $('.chzn-select').chosen();
+    
+    })
     
     $('div.user_display').toggle();
 
@@ -326,10 +324,10 @@ $('div.assigned_people img.user_add_button').live('click', function() {
 
 //Add Users to Case
 $('div.user_widget button.user-action-adduser-button').live('click', function() {
-    
+
     //finds the value of the select
     var usersArray = $(this).parent().find('select').val();
-
+    
     var usersCaseId = $('#user_chooser_case_id').val();
     $.ajax({url: 'lib/php/users/add_user_to_case.php',data: ({'users_add': usersArray,'case_id': usersCaseId}),success: function(data) 
         {
@@ -348,6 +346,10 @@ $('div.user_widget button.user-action-button').live('click', function() {
     var formObj = $(this).siblings('form');
     var assignId = formObj.children('.RemoveId').val();
     var imgId = formObj.children('.RemoveImgId').val();
+    var caseId = imgId.split('_');
+
+    //var caseId = $(this).closest('div.case_detail_panel_tools').next().data('CaseNumber');
+    
     $(dialogWin).dialog({
         resizable: false,
         modal: true,
@@ -356,18 +358,9 @@ $('div.user_widget button.user-action-button').live('click', function() {
                 $.ajax({url: 'lib/php/users/remove_user_from_case.php',data: ({remove_id: assignId}),success: function(data) {
                         $("div.user_widget").hide();
                         notify(data);
-                        //opacity is an indicator if the user is active or inactive
-                        if ($('#' + imgId).css('opacity') == "1") 
-                        {
-                            $('#' + imgId).css({'opacity': '.4','border': '3px solid #FFFFCC'}).parents('li').addClass('inactive');
-                        } 
-                        else 
-                        {
-                            $('#' + imgId).css({'opacity': '1','border': '3px solid #FFFFCC'}).parents('li').removeClass('inactive');
-                        }
+                        $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': caseId[1]});
                     }})
-                
-                
+                       
                 $(this).dialog("close");
             },
             "No": function() {
