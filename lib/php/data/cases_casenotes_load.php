@@ -22,7 +22,7 @@ if (isset($_POST['search']))
 
 
 if (isset($search))
-	{$sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* FROM cm_case_notes,cm_users WHERE  (cm_case_notes.case_id = '1175' and cm_case_notes.username = cm_users.username) and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%' OR cm_case_notes.date LIKE '%$search%' OR cm_case_notes.description LIKE '%$search%') ORDER BY cm_case_notes.datestamp DESC ";}
+	{$sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* FROM cm_case_notes,cm_users WHERE  (cm_case_notes.case_id = :id and cm_case_notes.username = cm_users.username) and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%' OR cm_case_notes.date LIKE '%$search%' OR cm_case_notes.description LIKE '%$search%') ORDER BY cm_case_notes.datestamp DESC ";}
 	else
 	{$sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* FROM cm_case_notes,cm_users WHERE  cm_case_notes.case_id = :id and cm_case_notes.username = cm_users.username ORDER BY cm_case_notes.datestamp DESC LIMIT $start, $limit";}
 

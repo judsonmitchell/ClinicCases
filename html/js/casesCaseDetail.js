@@ -142,9 +142,7 @@ function callCaseWindow(id)
         
         $("#case_detail_window").hide().show('fold', 600, function() {
             setDetailCss();
-                addDetailTabs(id);
-
-        
+            addDetailTabs(id);      
         });
         
         $("#case_detail_control").html("<button></button><button></button>");

@@ -17,6 +17,8 @@ TOOLS;
 echo $case_notes_data[0]['case_id'];
 echo <<<TOOLS
 " value="Search Case Notes">
+
+				<input type="button" class="casenotes_search_clear">
 						
 				<button id = "button1">Add</button>
 				
@@ -28,7 +30,7 @@ echo <<<TOOLS
 
 		</div>
 		
-		<div class="case_detail_panel_casenotes" id = "case_
+		<div class="case_detail_panel_casenotes case_
 TOOLS;
 echo $case_notes_data[0]['case_id'] . "\">";
 

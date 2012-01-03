@@ -454,6 +454,7 @@ div.case_detail_panel_tools_left{height:100%;width:30%;float:left;text-align:rig
 div.case_detail_panel_tools_right{height:100%;width:70%;float:right;text-align:right;padding-top:1%;margin-bottom:-1%;}
 div.case_detail_panel_casenotes{width:99%;overflow:auto;}
 input.casenotes_search{color:#AAA}
+input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
 div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;}
 
