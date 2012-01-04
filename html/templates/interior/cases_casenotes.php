@@ -46,7 +46,7 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			$this_fname = $_SESSION['first_name'];
 			$this_lname = $_SESSION['last_name'];
 
-			echo "<div class='csenote csenote_new'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  $this_date</p><textarea></textarea></div>";
+			echo "<div class='csenote csenote_new'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  <input class='cse_note_date' value='$this_date'></p><textarea></textarea></div>";
 		
 			foreach($case_notes_data as $case_notes)
 			{
