@@ -46,13 +46,14 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			$this_fname = $_SESSION['first_name'];
 			$this_lname = $_SESSION['last_name'];
 
-			echo "<div class='csenote csenote_new'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  <input class='cse_note_date' value='$this_date'></p><textarea></textarea></div>";
+			echo "<div class='csenote csenote_new'>
+			<div class='csenote_bar'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  <input class='cse_note_date' value='$this_date'></p></div><textarea></textarea></div>";
 		
 			foreach($case_notes_data as $case_notes)
 			{
 				$time = convert_case_time($case_notes['time']);
 				echo "<div class='csenote'>";
-				echo "<p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "<br><p>"    . $case_notes['description'] . "</p></p></div>";
+				echo "<div class='csenote_bar'><p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "</div><p>"    . $case_notes['description'] . "</p></p></div>";
 				
 			}
 			

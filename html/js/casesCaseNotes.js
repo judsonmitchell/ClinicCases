@@ -177,8 +177,9 @@ $('.casenotes_search_clear').live('click', function() {
 
 $('.case_detail_panel_tools_right button.button1').live('click',function(){
 	$(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new').show();
-	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander();  
-
+	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200);  
+	$('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
+	$('div.csenote_new input').datepicker({dateFormat:'m/d/yy'});
 	})
 
 
