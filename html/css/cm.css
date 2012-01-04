@@ -412,7 +412,7 @@ td, th {text-align:left;}
 
 div.case_title{float:left;padding:8px 0px 0px 15px;width:45%;overflow:hidden;white-space:nowrap;text-align:left;}
 div.case_title h2{color:black;font-size:20t;font-weight:normal;text-shadow: 0px 2px 3px gray;}
-div.case_detail_nav{float:left;margin-right:0px;margin-top:-1px;padding-bottom:2px;background-color:#FFFFDC;border-left:1px solid  #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;}
+div.case_detail_nav{float:left;margin-right:0px;margin-top:-2px;padding-bottom:2px;background-color:#FFFFDC;border-left:1px solid  #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;}
 div.case_detail_bar{border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA}
 div.case_detail_panel{position:relative;border-right: 1px solid #AAA; border-bottom:1px solid #AAA; border-left: 0px ;float:right;background-color:white;margin-top:0px}
 div.case_detail_bar>h3{padding:10px 20px 0px 10px;float:left;}
@@ -456,7 +456,10 @@ div.case_detail_panel_casenotes{width:99%;overflow:auto;}
 input.casenotes_search{color:#AAA}
 input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
-div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;}
+div.csenote{border:1px solid #AAA; text-align:left;width:95%;margin:auto;padding:10px;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:10px;}
+
+div.csenote_new{display:none}
+div.csenote_new textarea{width:98%;}
 
 div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
 p.csenote_instance{color:blue}

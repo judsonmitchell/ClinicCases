@@ -68,6 +68,8 @@ include 'log_write.php';
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
 	$_SESSION['pref_journal'] = $r->pref_journal;
 	$_SESSION['pref_case'] = $r->pref_case;
+	$_SESSION['picture_url'] = $r->picture_url;
+
 
 //Set remember me cookie
 

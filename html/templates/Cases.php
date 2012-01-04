@@ -27,6 +27,9 @@
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script> 
 
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+	
+	<script type="text/javascript" src="lib/javascripts/jquery.textarea-expander.js"></script>
+
 
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	

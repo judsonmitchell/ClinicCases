@@ -19,12 +19,16 @@ echo <<<TOOLS
 " value="Search Case Notes">
 
 				<input type="button" class="casenotes_search_clear">
-						
-				<button id = "button1">Add</button>
-				
-				<button id = "button2">Timer</button>
+TOOLS;
 
-				<button id = "button 3">Print</button>
+			if ($_SESSION['permissions']['add_case_notes'] == '1')
+			{echo "<button class = \"button1\">Add</button>	
+			<button class = \"button2\">Timer</button>";
+			}
+				
+echo <<<TOOLS
+
+				<button class = "button3">Print</button>
 
 			</div>
 
@@ -35,13 +39,20 @@ TOOLS;
 echo $case_notes_data[0]['case_id'] . "\">";
 
 }		
-			
+			//new note to be hidden
+		
+			$this_thumb = thumbify($_SESSION['picture_url']);
+			$this_date = date('n/j/Y');
+			$this_fname = $_SESSION['first_name'];
+			$this_lname = $_SESSION['last_name'];
+
+			echo "<div class='csenote csenote_new'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  $this_date</p><textarea></textarea></div>";
 		
 			foreach($case_notes_data as $case_notes)
 			{
 				$time = convert_case_time($case_notes['time']);
 				echo "<div class='csenote'>";
-				echo "<p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "<br><p>"    . $case_notes['description'] . "</p></p></div><br>";
+				echo "<p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "<br><p>"    . $case_notes['description'] . "</p></p></div>";
 				
 			}
 			

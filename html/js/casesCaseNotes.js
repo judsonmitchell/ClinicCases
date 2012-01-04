@@ -13,8 +13,16 @@ function loadCaseNotes(panelTarget, id)
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
         $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
 
-        //add buttons
-        $('.case_detail_panel_tools_right button#button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
+        //add buttons; style only one button if user doesn't have permission to add casenotes
+        
+        if (!$('.case_detail_panel_tools_right button.button1').length)
+		{
+				$('.case_detail_panel_tools_right button.button3').button({icons: {primary: "fff-icon-printer"},text: true});
+		}
+        else
+        {
+        $('.case_detail_panel_tools_right button.button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
+		}
 
         //define div to be scrolled TODO make unique if user has the case in more than one window
         var scrollTarget = $(panelTarget + ' .case_' + id);
@@ -165,7 +173,13 @@ $('.casenotes_search_clear').live('click', function() {
     $(this).hide();
 })
 
+//Add a case note
 
+$('.case_detail_panel_tools_right button.button1').live('click',function(){
+	$(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new').show();
+	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander();  
+
+	})
 
 
 
