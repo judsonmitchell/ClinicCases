@@ -58,7 +58,7 @@ function addMoreNotes(scrollTarget) {
     }
    
     scrollPercent = (scrollAmount / (scrollHeight-scrollTarget.height())) * 100;
-    
+ 
     if (scrollPercent > 70) 
     {
         //the start for the query is added to the scrollTarget object
@@ -153,10 +153,6 @@ $('.casenotes_search_clear').live('click', function() {
     var thisCaseNumber = resultTarget.data('CaseNumber');
     
     resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber,'start': '0','update': 'yes'}, function() {
-
-
-        //if (resultTarget.hasClass('csenote_shadow'))
-        //{resultTarget.removeClass('csenote_shadow')}
         
         resultTarget.scrollTop(0);
         
@@ -173,13 +169,28 @@ $('.casenotes_search_clear').live('click', function() {
     $(this).hide();
 })
 
-//Add a case note
+//Load new case note widget
 
 $('.case_detail_panel_tools_right button.button1').live('click',function(){
-	$(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new').show();
-	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200);  
+	//make sure case notes are scrolled to top
+	$(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0)
+	
+	//display the new case note widget
+	var newNote = $(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new');newNote.show()
+	
+	//apply textarea expander and focus on the textarea
+	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200).focus();
+	
+	//reduce opacity on the previously entered case notes
 	$('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
-	$('div.csenote_new input').datepicker({dateFormat:'m/d/yy'});
+	
+	//create datepicker buttons and style time buttons
+	var thisDate = $('input.csenote_date_value').val();
+	
+	$('input.csenote_date_value').datepicker({dateFormat:'m/d/yy',showOn:'button',buttonText:thisDate,onSelect:function(dateText, inst){$(this).next().html(dateText)}})	
+	
+	newNote.find('.csenote_action_submit').button({icons: {primary: "fff-icon-add"}}).next().button({icons: {primary: "fff-icon-cancel"},text: true})
+	
 	})
 
 

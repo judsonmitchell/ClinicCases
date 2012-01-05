@@ -1,11 +1,12 @@
 <?php
 session_start();
-//require('../auth/session_check.php');
+require('../auth/session_check.php');
 require('../../../db.php');
 include('../utilities/thumbnails.php');
 include('../utilities/names.php');
 include('../utilities/convert_times.php');
 include('../utilities/convert_case_time.php');
+include('../utilities/generate_time_selector.php');
 
 
 //Load all case notes for a given case, along with user data

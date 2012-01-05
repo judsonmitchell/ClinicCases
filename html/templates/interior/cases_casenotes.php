@@ -38,32 +38,41 @@ echo <<<TOOLS
 TOOLS;
 echo $case_notes_data[0]['case_id'] . "\">";
 
-}		
-			//new note to be hidden
+//new note form to be hidden
 		
 			$this_thumb = thumbify($_SESSION['picture_url']);
 			$this_date = date('n/j/Y');
 			$this_fname = $_SESSION['first_name'];
 			$this_lname = $_SESSION['last_name'];
+			$selector = generate_time_selector();
 
-			echo "<div class='csenote csenote_new'>
-			<div class='csenote_bar'><p class = 'csenote_instance'><img src='$this_thumb'> $this_fname $this_lname  <input class='cse_note_date' value='$this_date'></p></div><textarea></textarea></div>";
+echo <<<TOOLS
+<div class='csenote csenote_new'>
+			<div class='csenote_bar'>
+				<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div>   
+				<div class = 'csenote_bar_right'><label>Date:</label> <input type='hidden' class='csenote_date_value' value='$this_date'> $selector
+				
+				<button class='csenote_action_submit'>Add</button><button class='csenote_action_cancel'>Cancel</button></div>
+			</div>
+			<textarea></textarea>
+			</div>
+TOOLS;
+
+}		
+						
+			//show all case notes
 		
 			foreach($case_notes_data as $case_notes)
 			{
 				$time = convert_case_time($case_notes['time']);
-				echo "<div class='csenote'>";
-				echo "<div class='csenote_bar'><p class = 'csenote_instance'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). " " . extract_date($case_notes['datestamp']) .  " " . $time[0] . $time[1]    . "</div><p>"    . $case_notes['description'] . "</p></p></div>";
+				echo "<div class='csenote'>
+				<div class='csenote_bar'>
+				<div class = 'csenote_bar_left'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'>" . extract_date($case_notes['datestamp']) .  " &#183; " . $time[0] . $time[1]    . "</div></div><p class='csenote_instance'>"    . $case_notes['description'] . "</p></div>";
 				
 			}
 			
 			if (empty($case_notes_data))
-				{echo "<p>No case notes found.</p>";}
-			
-		
-		
-			
-		
+				{echo "<p>No case notes found.</p>";}		
 		
 		if (!isset($_POST['update'])){echo "</div>";}
 

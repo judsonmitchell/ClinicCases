@@ -457,16 +457,19 @@ input.casenotes_search{color:#AAA}
 input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
 div.csenote{border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
-div.csenote p {margin:5px;}
+div.csenote p {margin:10px}
 
-div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:2px;}
-
+div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
+div.csenote_bar_left{display:inline-block;width:34%;color:navy}
+div.csenote_bar_right{display:inline-block;width:65%;text-align:right;}
 
 div.csenote_new{display:none}
 div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 
+
 div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
-p.csenote_instance{color:navy}
+
+
 
 ::-webkit-scrollbar {
     width: 12px;
