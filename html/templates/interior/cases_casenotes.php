@@ -64,10 +64,16 @@ TOOLS;
 		
 			foreach($case_notes_data as $case_notes)
 			{
+				
 				$time = convert_case_time($case_notes['time']);
 				echo "<div class='csenote'>
 				<div class='csenote_bar'>
-				<div class = 'csenote_bar_left'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'>" . extract_date($case_notes['datestamp']) .  " &#183; " . $time[0] . $time[1]    . "</div></div><p class='csenote_instance'>"    . $case_notes['description'] . "</p></div>";
+				<div class = 'csenote_bar_left'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'>" . extract_date($case_notes['datestamp']) .  " &#183; " . $time[0] . $time[1];
+				
+				if ($case_notes['username'] == $_SESSION['login'])
+				{echo " &#183; <a href='#'>Edit</a> <a href='#'>Delete</a>";}
+				
+				echo "</div></div><p class='csenote_instance'>"    . $case_notes['description'] . "</p></div>";
 				
 			}
 			

@@ -462,6 +462,7 @@ div.csenote p {margin:10px}
 div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
 div.csenote_bar_left{display:inline-block;width:34%;color:navy}
 div.csenote_bar_right{display:inline-block;width:65%;text-align:right;}
+div.csenote_bar_right a {font-size:1em;color:navy}
 
 div.csenote_new{display:none}
 div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}

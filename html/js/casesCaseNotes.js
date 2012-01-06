@@ -88,6 +88,9 @@ function addMoreNotes(scrollTarget) {
             {
                 scrollTarget.append(data);
                 $('div.csenote').addClass('ui-corner-all');
+                //if user has the add case note widget open, make sure opacities are uniform
+                if (scrollTarget.find('div.csenote_new').css('display') == 'block')
+					{$('div.csenote').css({'opacity':'.5'})}
             
             }
         
@@ -194,7 +197,20 @@ $('.case_detail_panel_tools_right button.button1').live('click',function(){
 	})
 
 
-
+$('button.csenote_action_cancel').live('click',function(){
+	
+	//reset form
+	$(this).closest('.csenote_new').children('textarea').val('')
+	$(this).siblings('select').val('0')
+	$(this).siblings().datepicker('setDate','m/d/yy')
+	$(this).siblings().datepicker()[2].innerHTML = $(this).siblings('input.hasDatepicker').val()
+	
+	//reset opacity of other case notes
+	$(this).closest('.case_detail_panel_casenotes').find('.csenote').css({'opacity':'1'});
+	//hide the widget
+	$(this).closest('.csenote_new').hide();
+	
+	})
 
 
 
