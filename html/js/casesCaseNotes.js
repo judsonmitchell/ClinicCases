@@ -182,7 +182,10 @@ $('.case_detail_panel_tools_right button.button1').live('click',function(){
 	var newNote = $(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new');newNote.show()
 	
 	//apply textarea expander and focus on the textarea
-	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200).focus();
+	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200).css({'color':'#AAA'}).html('Describe what you did...').mouseenter(function(){
+		$(this).html('');
+		$(this).css({'color':'black'})
+		});
 	
 	//reduce opacity on the previously entered case notes
 	$('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
@@ -212,6 +215,18 @@ $('button.csenote_action_cancel').live('click',function(){
 	
 	})
 
+$('button.csenote_action_submit').live('click',function(){
+	event.preventDefault()
+	cseVals = $(this).closest('form').serializeArray();
+	var errString = validCaseNote(cseVals);
+	if (errString.length)
+	{notify(errString,'wait')}
+	else
+	{//submit form
+	}
+	
+	
+	})
 
 
 

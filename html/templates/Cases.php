@@ -17,7 +17,7 @@
 
 
 
-<!-- Jquery Calls Specific to this page -->
+<!-- Js Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
@@ -43,6 +43,8 @@
 
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.mousewheel.js"></script>
 	
+	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
+	
 
 	
 
@@ -52,7 +54,7 @@
 </head>
 <body>
 	
-	<div id="notifications"><p></p></div>
+	<div id="notifications"></div>
 	
 	<div id="idletimeout">
 		You will be logged off in <span><!-- countdown place holder --></span>&nbsp;seconds due to inactivity. 

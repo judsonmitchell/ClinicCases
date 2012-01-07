@@ -45,16 +45,22 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			$this_fname = $_SESSION['first_name'];
 			$this_lname = $_SESSION['last_name'];
 			$selector = generate_time_selector();
+			$this_case_id = $case_notes_data[0]['case_id'];
+			$this_user = $_SESSION['login'];
 
 echo <<<TOOLS
 <div class='csenote csenote_new'>
+			<form>
 			<div class='csenote_bar'>
-				<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div>   
-				<div class = 'csenote_bar_right'><label>Date:</label> <input type='hidden' class='csenote_date_value' value='$this_date'> $selector
-				
+				<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div> 
+				<div class = 'csenote_bar_right'>
+				<label>Date:</label> <input type='hidden' name='csenote_date' class='csenote_date_value' value='$this_date'> $selector
+				<input type='hidden' name='csenote_user' value='$this_user'>
+				<input type='hidden' name='csenote_case_id' value='$this_case_id'>
 				<button class='csenote_action_submit'>Add</button><button class='csenote_action_cancel'>Cancel</button></div>
 			</div>
-			<textarea></textarea>
+			<textarea name='csenote_description'></textarea>
+			</form>
 			</div>
 TOOLS;
 

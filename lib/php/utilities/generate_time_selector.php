@@ -9,14 +9,14 @@ function generate_time_selector()
 	else
 	{$minutes = array('0','6','12','18','24','30','36','42','48','54');}
 	
-	$selects = "<label>Hours:</label><select>";
+	$selects = "<label>Hours:</label><select name='csenote_hours'>";
 	
 	for($i = 0; $i <= 8; $i++)
 	{$selects .= "<option value='$i'>" . $i . "</option>";}
 	
 	$selects .= "</select>";
 	
-	$selects .= "<label>Minutes: </label><select>";
+	$selects .= "<label>Minutes: </label><select name='csenote_minutes'>";
 	
 	foreach ($minutes as $val)
 	

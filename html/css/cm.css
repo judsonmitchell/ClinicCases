@@ -17,9 +17,9 @@ h5{font-family:garamond, georgia, times, serif;font-size:13pt;text-align:left;co
 
 #nav_container{position:relative;width:94%;height:61px;background-color:rgb(195, 217, 255);margin:auto;/*width:1015px;*/}
 
-#notifications{display:none;position:absolute;top:10px;z-index:99;left:50%;margin-left:-150px;width:300px;height:60px;background-color:white;font-weight:bold;opacity:.8;border:1px solid gray;}
+#notifications{display:none;position:absolute;top:10px;z-index:99;left:50%;margin-left:-150px;width:300px;background-color:white;font-weight:normal;opacity:.8;border:1px solid gray;}
 
-#notifications p {font-size:14pt;font-weight:bold;color:red;margin-top:10px;}
+#notifications p {font-size:14pt;font-weight:normal;color:red;}
 
 #idletimeout { background:#ED1212; border:3px solid #FF6500; color:#fff; font-family:arial, sans-serif; text-align:center; font-size:12px; padding:10px; position:relative; top:0px; left:0; right:0; z-index:100000; display:none; }
 
