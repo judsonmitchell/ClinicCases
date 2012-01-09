@@ -40,7 +40,7 @@
 		
 		}
 		
-		if ($_SESSION['permissions']['add_users'] == "1")
+		if ($_SESSION['permissions']['assign_cases'] == "1")
 		{ echo "<li><span></span><img class='user_add_button' id='add_button_" . $user->case_id . "' src='people/tn_add_user.png'></span></li>";}
 		?>
 		
