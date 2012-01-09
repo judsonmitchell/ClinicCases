@@ -25,3 +25,20 @@ function sql_date_to_us_date ($date)
 		}				
 		
 	}
+	
+//Converts date to sql datetime
+function date_to_sql_datetime($date)
+
+	{
+		
+		if (!empty($date))
+		{
+			$parts = explode('/',$date);
+			//This is a left over fix from CC6.  Ensures that casenotes entered for the same day appear in the right order
+			$time_part = date('H:i:s');
+
+			$datetime = $parts[2] . "-" . $parts[0] . "-" . $parts[1] . " " . $time_part;
+			return $datetime; 			
+		}
+		
+	}

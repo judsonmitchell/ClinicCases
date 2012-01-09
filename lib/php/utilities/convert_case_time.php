@@ -34,3 +34,15 @@ function convert_case_time($time)
 	
 	}
 
+//Convert user-entered time into seconds	
+function convert_to_seconds($hours,$minutes)
+
+	{
+	
+		$hours_into_seconds = ($hours * 3600);
+		$minutes_into_seconds = ($minutes * 60);
+		$time = $hours_into_seconds + $minutes_into_seconds;
+		return $time;		
+	
+	}
+

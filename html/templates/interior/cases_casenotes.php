@@ -37,7 +37,7 @@ echo <<<TOOLS
 		<div class="case_detail_panel_casenotes case_
 TOOLS;
 echo $case_notes_data[0]['case_id'] . "\">";
-
+}
 //new note form to be hidden
 		
 			$this_thumb = thumbify($_SESSION['picture_url']);
@@ -48,7 +48,7 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			$this_case_id = $case_notes_data[0]['case_id'];
 			$this_user = $_SESSION['login'];
 
-echo <<<TOOLS
+echo <<<NEWNOTE
 <div class='csenote csenote_new'>
 			<form>
 			<div class='csenote_bar'>
@@ -57,14 +57,15 @@ echo <<<TOOLS
 				<label>Date:</label> <input type='hidden' name='csenote_date' class='csenote_date_value' value='$this_date'> $selector
 				<input type='hidden' name='csenote_user' value='$this_user'>
 				<input type='hidden' name='csenote_case_id' value='$this_case_id'>
+				<input type='hidden' name='query_type' value='add'>
 				<button class='csenote_action_submit'>Add</button><button class='csenote_action_cancel'>Cancel</button></div>
 			</div>
 			<textarea name='csenote_description'></textarea>
 			</form>
 			</div>
-TOOLS;
+NEWNOTE;
 
-}		
+		
 						
 			//show all case notes
 		
@@ -72,12 +73,12 @@ TOOLS;
 			{
 				
 				$time = convert_case_time($case_notes['time']);
-				echo "<div class='csenote'>
+				echo "<div class='csenote' id='csenote_" . $case_notes['id'] . "'>
 				<div class='csenote_bar'>
 				<div class = 'csenote_bar_left'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'>" . extract_date($case_notes['datestamp']) .  " &#183; " . $time[0] . $time[1];
 				
 				if ($case_notes['username'] == $_SESSION['login'])
-				{echo " &#183; <a href='#'>Edit</a> <a href='#'>Delete</a>";}
+				{echo " &#183; <a href='#' class='csenote_edit'>Edit</a> <a href='#' class='csenote_delete'>Delete</a>";}
 				
 				echo "</div></div><p class='csenote_instance'>"    . $case_notes['description'] . "</p></div>";
 				

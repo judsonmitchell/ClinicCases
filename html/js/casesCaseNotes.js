@@ -188,7 +188,7 @@ $('.case_detail_panel_tools_right button.button1').live('click',function(){
 		});
 	
 	//reduce opacity on the previously entered case notes
-	$('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
+	$(this).closest('.case_detail_panel_tools').siblings().find('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
 	
 	//create datepicker buttons and style time buttons
 	var thisDate = $('input.csenote_date_value').val();
@@ -199,9 +199,10 @@ $('.case_detail_panel_tools_right button.button1').live('click',function(){
 	
 	})
 
-
+//User cancels adding new case note
 $('button.csenote_action_cancel').live('click',function(){
 	
+	event.preventDefault();
 	//reset form
 	$(this).closest('.csenote_new').children('textarea').val('')
 	$(this).siblings('select').val('0')
@@ -215,20 +216,39 @@ $('button.csenote_action_cancel').live('click',function(){
 	
 	})
 
+//User click to add new case note
 $('button.csenote_action_submit').live('click',function(){
 	event.preventDefault()
-	cseVals = $(this).closest('form').serializeArray();
+	//serialize form values
+	var cseVals = $(this).closest('form').serializeArray();
+	//get target to load in new casenote
+	var thisForm = $(this).closest
+	var resultTarget = $(this).closest('div.case_detail_panel_casenotes');
+	var thisCaseNumber = resultTarget.data('CaseNumber');
+
+	//get errors, if any
 	var errString = validCaseNote(cseVals);
+	
+	//notify user or errors or submit form
 	if (errString.length)
 	{notify(errString,'wait')}
 	else
-	{//submit form
-	}
-	
+		{
+		$.post('lib/php/data/cases_casenotes_process.php',cseVals,function(data){			
+			notify(data)
+			resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber,'start': '0','update': 'yes'})		
+			})
+		}
 	
 	})
 
-
+//User deletes a case note.  By rule, user can only delete casenote he created
+$('a.csenote_delete').live('click',function(){
+	event.preventDefault();
+	thisCseNote = $(this).closest('.csenote')
+	thisCseNoteId = thisCseNote.attr('id').split('_');
+	
+	})
 
 
 
