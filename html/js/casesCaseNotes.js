@@ -15,14 +15,14 @@ function loadCaseNotes(panelTarget, id)
 
         //add buttons; style only one button if user doesn't have permission to add casenotes
         
-        if (!$('.case_detail_panel_tools_right button.button1').length)
-		{
-				$('.case_detail_panel_tools_right button.button3').button({icons: {primary: "fff-icon-printer"},text: true});
-		}
-        else
+        if (!$('.case_detail_panel_tools_right button.button1').length) 
         {
-        $('.case_detail_panel_tools_right button.button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
-		}
+            $('.case_detail_panel_tools_right button.button3').button({icons: {primary: "fff-icon-printer"},text: true});
+        } 
+        else 
+        {
+            $('.case_detail_panel_tools_right button.button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
+        }
 
         //define div to be scrolled TODO make unique if user has the case in more than one window
         var scrollTarget = $(panelTarget + ' .case_' + id);
@@ -56,9 +56,9 @@ function addMoreNotes(scrollTarget) {
     {
         scrollTarget.addClass('csenote_shadow')
     }
-   
-    scrollPercent = (scrollAmount / (scrollHeight-scrollTarget.height())) * 100;
- 
+    
+    scrollPercent = (scrollAmount / (scrollHeight - scrollTarget.height())) * 100;
+    
     if (scrollPercent > 70) 
     {
         //the start for the query is added to the scrollTarget object
@@ -89,8 +89,10 @@ function addMoreNotes(scrollTarget) {
                 scrollTarget.append(data);
                 $('div.csenote').addClass('ui-corner-all');
                 //if user has the add case note widget open, make sure opacities are uniform
-                if (scrollTarget.find('div.csenote_new').css('display') == 'block')
-					{$('div.csenote').css({'opacity':'.5'})}
+                if (scrollTarget.find('div.csenote_new').css('display') == 'block') 
+                {
+                    $('div.csenote').css({'opacity': '.5'})
+                }
             
             }
         
@@ -174,81 +176,108 @@ $('.casenotes_search_clear').live('click', function() {
 
 //Load new case note widget
 
-$('.case_detail_panel_tools_right button.button1').live('click',function(){
-	//make sure case notes are scrolled to top
-	$(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0)
-	
-	//display the new case note widget
-	var newNote = $(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new');newNote.show()
-	
-	//apply textarea expander and focus on the textarea
-	$(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52,200).css({'color':'#AAA'}).html('Describe what you did...').mouseenter(function(){
-		$(this).html('');
-		$(this).css({'color':'black'})
-		});
-	
-	//reduce opacity on the previously entered case notes
-	$(this).closest('.case_detail_panel_tools').siblings().find('div.csenote').not('div.csenote_new').css({'opacity':'.5'})
-	
-	//create datepicker buttons and style time buttons
-	var thisDate = $('input.csenote_date_value').val();
-	
-	$('input.csenote_date_value').datepicker({dateFormat:'m/d/yy',showOn:'button',buttonText:thisDate,onSelect:function(dateText, inst){$(this).next().html(dateText)}})	
-	
-	newNote.find('.csenote_action_submit').button({icons: {primary: "fff-icon-add"}}).next().button({icons: {primary: "fff-icon-cancel"},text: true})
-	
-	})
+$('.case_detail_panel_tools_right button.button1').live('click', function() {
+    //make sure case notes are scrolled to top
+    $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0)
+
+    //display the new case note widget
+    var newNote = $(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new');
+    newNote.show()
+
+    //apply textarea expander and focus on the textarea
+    $(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52, 200).css({'color': '#AAA'}).html('Describe what you did...').mouseenter(function() {
+        $(this).html('');
+        $(this).css({'color': 'black'})
+    });
+
+    //reduce opacity on the previously entered case notes
+    $(this).closest('.case_detail_panel_tools').siblings().find('div.csenote').not('div.csenote_new').css({'opacity': '.5'})
+
+    //create datepicker buttons and style time buttons
+    var thisDate = $('input.csenote_date_value').val();
+    
+    $('input.csenote_date_value').datepicker({dateFormat: 'm/d/yy',showOn: 'button',buttonText: thisDate,onSelect: function(dateText, inst) {
+            $(this).next().html(dateText)
+        }})
+    
+    newNote.find('.csenote_action_submit').button({icons: {primary: "fff-icon-add"}}).next().button({icons: {primary: "fff-icon-cancel"},text: true})
+
+})
 
 //User cancels adding new case note
-$('button.csenote_action_cancel').live('click',function(){
-	
-	event.preventDefault();
-	//reset form
-	$(this).closest('.csenote_new').children('textarea').val('')
-	$(this).siblings('select').val('0')
-	$(this).siblings().datepicker('setDate','m/d/yy')
-	$(this).siblings().datepicker()[2].innerHTML = $(this).siblings('input.hasDatepicker').val()
-	
-	//reset opacity of other case notes
-	$(this).closest('.case_detail_panel_casenotes').find('.csenote').css({'opacity':'1'});
-	//hide the widget
-	$(this).closest('.csenote_new').hide();
-	
-	})
+$('button.csenote_action_cancel').live('click', function() {
+    
+    event.preventDefault();
+    //reset form
+    $(this).closest('.csenote_new').children('textarea').val('')
+    $(this).siblings('select').val('0')
+    $(this).siblings().datepicker('setDate', 'm/d/yy')
+    $(this).siblings().datepicker()[2].innerHTML = $(this).siblings('input.hasDatepicker').val()
+
+    //reset opacity of other case notes
+    $(this).closest('.case_detail_panel_casenotes').find('.csenote').css({'opacity': '1'});
+    //hide the widget
+    $(this).closest('.csenote_new').hide();
+
+})
 
 //User click to add new case note
-$('button.csenote_action_submit').live('click',function(){
-	event.preventDefault()
-	//serialize form values
-	var cseVals = $(this).closest('form').serializeArray();
-	//get target to load in new casenote
-	var thisForm = $(this).closest
-	var resultTarget = $(this).closest('div.case_detail_panel_casenotes');
-	var thisCaseNumber = resultTarget.data('CaseNumber');
+$('button.csenote_action_submit').live('click', function() {
+    event.preventDefault()
+    //serialize form values
+    var cseVals = $(this).closest('form').serializeArray();
+    //get target to load in new casenote
+    var thisForm = $(this).closest
+    var resultTarget = $(this).closest('div.case_detail_panel_casenotes');
+    var thisCaseNumber = resultTarget.data('CaseNumber');
 
-	//get errors, if any
-	var errString = validCaseNote(cseVals);
-	
-	//notify user or errors or submit form
-	if (errString.length)
-	{notify(errString,'wait')}
-	else
-		{
-		$.post('lib/php/data/cases_casenotes_process.php',cseVals,function(data){			
-			notify(data)
-			resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber,'start': '0','update': 'yes'})		
-			})
-		}
-	
-	})
+    //get errors, if any
+    var errString = validCaseNote(cseVals);
+
+    //notify user or errors or submit form
+    if (errString.length) 
+    {
+        notify(errString, 'wait')
+    } 
+    else 
+    {
+        $.post('lib/php/data/cases_casenotes_process.php', cseVals, function(data) {
+            notify(data)
+            resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber,'start': '0','update': 'yes'})
+        })
+    }
+
+})
 
 //User deletes a case note.  By rule, user can only delete casenote he created
-$('a.csenote_delete').live('click',function(){
-	event.preventDefault();
-	thisCseNote = $(this).closest('.csenote')
-	thisCseNoteId = thisCseNote.attr('id').split('_');
-	
-	})
+$('a.csenote_delete').live('click', function() {
+    event.preventDefault();
+    var thisCseNote = $(this).closest('.csenote');
+    var thisCseNoteId = thisCseNote.attr('id').split('_');
+    var dialogWin = $(this).closest('.csenote').siblings('.dialog-casenote-delete');
+    
+    $(dialogWin).dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/data/cases_casenotes_process.php', {query_type: 'delete',csenote_casenote_id: thisCseNoteId[1]}, function(data) {
+                    thisCseNote.remove();
+                    notify(data);
+                })
+                
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+    });
+
+    $(dialogWin).dialog('open');
+
+})
 
 
 

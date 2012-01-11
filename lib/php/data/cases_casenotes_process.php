@@ -9,14 +9,33 @@ require('../utilities/convert_case_time.php');
 //Get variables
 if (isset($_POST['csenote_casenote_id']))
 {$case_note_id = $_POST['csenote_casenote_id'];}
-$case_id = $_POST['csenote_case_id'];
-$selected_date = $_POST['csenote_date'];
-$date = date_to_sql_datetime($selected_date);
-$description = $_POST['csenote_description'];
-$hours  = $_POST['csenote_hours'];
-$minutes = $_POST['csenote_minutes'];
-$time = convert_to_seconds($hours,$minutes);
-$user = $_POST['csenote_user'];
+
+if (isset($_POST['csenote_case_id']))
+{$case_id = $_POST['csenote_case_id'];}
+
+if (isset($_POST['csenote_date']))
+{
+	$selected_date = $_POST['csenote_date'];
+	$date = date_to_sql_datetime($selected_date);
+}
+
+if (isset($_POST['csenote_description']))
+{$description = $_POST['csenote_description'];}
+
+if (isset($_POST['csenote_hours']))
+{$hours  = $_POST['csenote_hours'];}
+
+if (isset($_POST['csenote_minutes']))
+{
+	$minutes = $_POST['csenote_minutes'];
+	$time = convert_to_seconds($hours,$minutes);
+}
+
+if (isset($_POST['csenote_user']))
+{$user = $_POST['csenote_user'];}
+
+
+
 
 //Generate sql and run query
 switch ($_POST['query_type'])
