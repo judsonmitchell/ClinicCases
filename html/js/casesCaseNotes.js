@@ -1,10 +1,10 @@
  //Scripts for casenotes
 
 
-function loadCaseNotes(panelTarget, id) 
+function loadCaseNotes(panelTarget, id)
 {
-    
-    $(panelTarget + ' .case_detail_panel').load('lib/php/data/cases_casenotes_load.php', {'case_id': id,'start': '0'}, function() 
+
+    $(panelTarget + ' .case_detail_panel').load('lib/php/data/cases_casenotes_load.php', {'case_id': id,'start': '0'}, function()
     {
         //set css for casenotes
         toolsHeight = $(panelTarget + " .case_detail_nav li:first").outerHeight();
@@ -14,97 +14,97 @@ function loadCaseNotes(panelTarget, id)
         $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
 
         //add buttons; style only one button if user doesn't have permission to add casenotes
-        
-        if (!$('.case_detail_panel_tools_right button.button1').length) 
+
+        if (!$('.case_detail_panel_tools_right button.button1').length)
         {
             $('.case_detail_panel_tools_right button.button3').button({icons: {primary: "fff-icon-printer"},text: true});
-        } 
-        else 
+        }
+        else
         {
             $('.case_detail_panel_tools_right button.button1').button({icons: {primary: "fff-icon-add"},text: true}).next().button({icons: {primary: "fff-icon-time"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
         }
 
         //define div to be scrolled TODO make unique if user has the case in more than one window
         var scrollTarget = $(panelTarget + ' .case_' + id);
-        
+
         scrollTarget.data('CaseNumber', id);
 
-        //bind the scroll event for the window    
+        //bind the scroll event for the window
         $(scrollTarget).bind('scroll', function() {
             addMoreNotes(scrollTarget)
         });
 
         //round corners
         $('div.csenote').addClass('ui-corner-all');
-    
+
     })
 }
 
 
 //Load new case notes on scroll
 function addMoreNotes(scrollTarget) {
-    
+
     var caseId = scrollTarget.data('CaseNumber');
     var scrollAmount = scrollTarget[0].scrollTop;
     var scrollHeight = scrollTarget[0].scrollHeight;
-    
-    if (scrollAmount == 0 && scrollTarget.hasClass('csenote_shadow')) 
+
+    if (scrollAmount == 0 && scrollTarget.hasClass('csenote_shadow'))
     {
         scrollTarget.removeClass('csenote_shadow')
-    } 
-    else 
+    }
+    else
     {
         scrollTarget.addClass('csenote_shadow')
     }
-    
+
     scrollPercent = (scrollAmount / (scrollHeight - scrollTarget.height())) * 100;
-    
-    if (scrollPercent > 70) 
+
+    if (scrollPercent > 70)
     {
         //the start for the query is added to the scrollTarget object
-        if (typeof scrollTarget.data('start') == "undefined") 
+        if (typeof scrollTarget.data('start') == "undefined")
         {
             startNum = 20
             scrollTarget.data('start', startNum)
-        } 
-        else 
+        }
+        else
         {
             startNum = scrollTarget.data('start') + 20
             scrollTarget.data('start', startNum)
         }
-        
+
         $.post('lib/php/data/cases_casenotes_load.php', {'case_id': caseId,'start': scrollTarget.data('start'),'update': 'yes'}, function(data) {
 
             //var t represents number of case notes; if 0,return false;
             var t = $(data).find('p.csenote_instance').length
-            
-            if (t === 0) 
-            
+
+            if (t === 0)
+
             {
                 return false;
-            } 
-            
-            else 
+            }
+
+            else
             {
                 scrollTarget.append(data);
                 $('div.csenote').addClass('ui-corner-all');
                 //if user has the add case note widget open, make sure opacities are uniform
-                if (scrollTarget.find('div.csenote_new').css('display') == 'block') 
+                if (scrollTarget.find('div.csenote_new').css('display') == 'block')
                 {
-                    $('div.csenote').css({'opacity': '.5'})
+                    $('div.csenote').css({'opacity': '.5'});
                 }
-            
+
             }
-        
+
         })
-    
+
     }
 }
 
 //Listeners
 
 $('input.casenotes_search').live('focusin', function() {
-    
+
     $(this).val('');
     $(this).css({'color': 'black'});
     $(this).next('.casenotes_search_clear').show();
@@ -112,65 +112,65 @@ $('input.casenotes_search').live('focusin', function() {
 
 
 $('input.casenotes_search').live('keyup', function() {
-    
+
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
-    
+
     var search = $(this).val();
-    
+
     var caseId = resultTarget.data('CaseNumber');
-    
+
     resultTarget.unbind('scroll');
-    
+
     resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': caseId,'search': search,'update': 'yes'}, function() {
-        
+
         resultTarget.scrollTop(0);
-        
-        if (resultTarget.hasClass('csenote_shadow')) 
+
+        if (resultTarget.hasClass('csenote_shadow'))
         {
-            resultTarget.removeClass('csenote_shadow')
+            resultTarget.removeClass('csenote_shadow');
         }
-        
+
         $('div.csenote').addClass('ui-corner-all');
-        
+
         resultTarget.bind('scroll.search', function() {
-            if ($(this).scrollTop() > 0) 
+            if ($(this).scrollTop() > 0)
             {
                 $(this).addClass('csenote_shadow')
-            } 
-            else 
+            }
+            else
             {
                 $(this).removeClass('csenote_shadow')
             }
         })
-    
+
     })
 
 })
 
 $('.casenotes_search_clear').live('click', function() {
-    
+
     $(this).prev().val('Search Case Notes');
-    
+
     $(this).prev().css({'color': '#AAA'});
-    
+
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
-    
+
     var thisCaseNumber = resultTarget.data('CaseNumber');
-    
+
     resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber,'start': '0','update': 'yes'}, function() {
-        
+
         resultTarget.scrollTop(0);
-        
+
         $('div.csenote').addClass('ui-corner-all');
-        
+
         resultTarget.unbind('scroll.search');
-        
+
         resultTarget.bind('scroll', function() {
             addMoreNotes(resultTarget)
         })
-    
+
     })
-    
+
     $(this).hide();
 })
 
@@ -195,18 +195,18 @@ $('.case_detail_panel_tools_right button.button1').live('click', function() {
 
     //create datepicker buttons and style time buttons
     var thisDate = $('input.csenote_date_value').val();
-    
+
     $('input.csenote_date_value').datepicker({dateFormat: 'm/d/yy',showOn: 'button',buttonText: thisDate,onSelect: function(dateText, inst) {
             $(this).next().html(dateText)
         }})
-    
+
     newNote.find('.csenote_action_submit').button({icons: {primary: "fff-icon-add"}}).next().button({icons: {primary: "fff-icon-cancel"},text: true})
 
 })
 
 //User cancels adding new case note
 $('button.csenote_action_cancel').live('click', function() {
-    
+
     event.preventDefault();
     //reset form
     $(this).closest('.csenote_new').children('textarea').val('')
@@ -235,11 +235,11 @@ $('button.csenote_action_submit').live('click', function() {
     var errString = validCaseNote(cseVals);
 
     //notify user or errors or submit form
-    if (errString.length) 
+    if (errString.length)
     {
         notify(errString, 'wait')
-    } 
-    else 
+    }
+    else
     {
         $.post('lib/php/data/cases_casenotes_process.php', cseVals, function(data) {
             notify(data)
@@ -254,9 +254,7 @@ $('a.csenote_delete').live('click', function() {
     event.preventDefault();
     var thisCseNote = $(this).closest('.csenote');
     var thisCseNoteId = thisCseNote.attr('id').split('_');
-    var dialogWin = $(this).closest('.csenote').siblings('.dialog-casenote-delete');
-    
-    $(dialogWin).dialog({
+    var dialogWin=$('<div class=".dialog-casenote-delete" title="Delete this Case Note?">This case note will be permanently deleted.  Are you sure?</div>').dialog({
         autoOpen: false,
         resizable: false,
         modal: true,
@@ -266,7 +264,7 @@ $('a.csenote_delete').live('click', function() {
                     thisCseNote.remove();
                     notify(data);
                 })
-                
+
                 $(this).dialog("destroy");
             },
             "No": function() {

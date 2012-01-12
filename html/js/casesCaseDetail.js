@@ -347,9 +347,7 @@ $('div.user_widget button.user-action-button').live('click', function() {
     var assignId = formObj.children('.RemoveId').val();
     var imgId = formObj.children('.RemoveImgId').val();
     var caseId = imgId.split('_');
-
-    //var caseId = $(this).closest('div.case_detail_panel_tools').next().data('CaseNumber');
-    
+        
     $(dialogWin).dialog({
         resizable: false,
         modal: true,

@@ -72,7 +72,7 @@
 				{$txt = "will no longer be able to see or to work on this case.";}
 				
 			
-				echo "<div class='dialog-user-remove' title='Change " . $data['first_name'] . "&#39;s status?'><p><span class='ui-icon fff-icon-exclamation' style='float:left; margin:0 7px 20px 0;'></span>" . $data['first_name'] . " " . $txt .  " Are you sure?</p></div>";
+				echo "<div class='dialog-user-remove' title='Change " . $data['first_name'] . "&#39;s status?'>" . $data['first_name'] . " " . $txt .  " Are you sure?</div>";
 
 				echo "<form id='form_" . $data['id'] . "'>";
 				

@@ -64,10 +64,6 @@ echo <<<NEWNOTE
 			</form>
 			</div>
 
-<div class='dialog-casenote-delete' title='Delete this Case Note?'>
-	<p><span class='ui-icon fff-icon-exclamation' style='float:left; margin:0 7px 20px 0;'></span>This case note will be permanently deleted.  Are you sure?
-	</p>
-</div>
 NEWNOTE;
 
 		
