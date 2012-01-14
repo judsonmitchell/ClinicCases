@@ -78,8 +78,7 @@ NEWNOTE;
 
 				if ($case_notes['username'] == $_SESSION['login'])
 				{echo " &#183; <a href='#' class='csenote_edit'>Edit</a> <a href='#' class='csenote_delete'>Delete</a>";}
-
-				echo "</div></div><p class='csenote_instance'>"    . $case_notes['description'] . "</p></div>";
+				echo "</div></div><p class='csenote_instance'>"    . nl2br($case_notes['description']) . "</p></div>";
 
 			}
 
