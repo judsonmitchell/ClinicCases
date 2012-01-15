@@ -5,6 +5,10 @@
 
 	<div id="notifications"></div>
 
+	<?php include 'html/templates/interior/timer.php' ?>
+
+	<?php include 'html/templates/interior/idletimeout.php' ?>
+	
 	<div id = "nav_container">
 
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>

@@ -27,25 +27,24 @@ h5{font-family:garamond, georgia, times, serif;font-size:13pt;text-align:left;co
 
 #idletimeout span { font-weight:bold }
 
+#timer {position:relative;top:0px;left:0px;height:42px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
+
+#timer img {width:40px;height:40px;border:0px;}
+
+#timer > #timer_inner{display:inline-block;font-size:14px;width:50%;}
+
+#timer .timer_time_elapsed{font-size:40px;}
+
+#timer .timer_case_name{color:navy;}
+
+#timer #timer_controls{display:inline-block;width:45%;text-align:right;}
+
+
 
 #content{position:relative;width:94%;background-color:white;margin:auto;border:1px dotted rgb(192,192,192);z-index:1;padding:1.5%;overflow-y:hidden}
 
 #content_left{float:left;width:42%;margin-top:40px;margin-left:15px;text-align:left;}
 
-/* #content_right{float:right;width:50%;height:94%;border-left: 1px dashed gray;padding-top:1.5%;padding-left:1%; text-align:left;} 
-
-#content_right p {margin-top:15px;margin-bottom:15px;}
-
-#content_right label{width:100px;float:left;}
-
-#content_right input,textarea,select{float:left;}
-
-#content_right label.req {color:red}
-
-#content_right br {clear:left;}
-
-#content_right select.mult{height:6em; width:160px;}
-*/
 #wrapper1 {min-height:760px;width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;}
 
 #nav{position:absolute;top:0px;left:0px;width:150px;height:100%;background-color:gray;}
@@ -182,8 +181,6 @@ html>body #case_single_main{overflow-y:hiddenwidth:76%;height:91.5%;float:right;
 .expand{position:absolute;left:0px;top:0px;z-index:3;width:250px;height:50px;}
 
 /* this is a div to hold the expand textarea so it will overflow all elements */#holder{position:relative;top:0px;left:0px;z-index:3;width:251px;height:51px;}
-
-#timer{width:50%;height:10%;}
 
 fieldset{border:1px solid rgb(195, 217, 255);margin-left:5px;}
 

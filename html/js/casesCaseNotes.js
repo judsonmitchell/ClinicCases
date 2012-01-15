@@ -280,6 +280,27 @@ $('.case_detail_panel_tools_right button.button1').live('click', function() {
 
 })
 
+//Start timer
+$('.case_detail_panel_tools_right button.button2').live('click',function(){
+    var caseName = $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title h2').html();
+    var d = new Date();
+    var startTime = d.getTime();
+    $('#timer .timer_case_name').html(caseName);
+    $.cookie('timer_status','on');
+    $.cookie('timer_start_time',startTime);
+    $.cookie('timer_case_name',caseName);
+    $('#timer').show();
+    setDetailCss();
+})
+
+//Print displayed case notes
+$('.case_detail_panel_tools_right button.button3').live('click',function(){
+    alert('Working on it')
+    //TODO printing
+
+})
+
+
 //User cancels adding new case note
 $('button.csenote_action_cancel').live('click', function() {
     
@@ -448,3 +469,4 @@ $('a.csenote_edit').live('click', function() {
     })
 
 })
+

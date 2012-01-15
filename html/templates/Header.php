@@ -15,9 +15,13 @@
 	<script src="lib/jqueryui/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
 	<script src="lib/javascripts/jquery.idletimer.js" type="text/javascript"></script>
 	<script src="lib/javascripts/jquery.idletimeout.js" type="text/javascript"></script>
+	<script src="lib/javascripts/jquery.cookie.js" type="text/javascript"></script>
+
 	
 	<script src="html/js/sizeContentWindow.js" type="text/javascript"></script>
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
+	<script src="lib/javascripts/timer.js" type="text/javascript"></script>
+
 
 
 

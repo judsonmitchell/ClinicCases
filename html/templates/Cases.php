@@ -44,22 +44,15 @@
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.mousewheel.js"></script>
 	
 	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
-	
-
-	
-
-	
-	
 
 </head>
 <body>
 	
 	<div id="notifications"></div>
+
+	<?php include 'html/templates/interior/timer.php' ?>
 	
-	<div id="idletimeout">
-		You will be logged off in <span><!-- countdown place holder --></span>&nbsp;seconds due to inactivity. 
-		<a id="idletimeout-resume" href="#">Click here to continue using ClinicCases</a>.
-	</div>
+	<?php include 'html/templates/interior/idletimeout.php' ?>
 
 	<div id = "nav_container">
 

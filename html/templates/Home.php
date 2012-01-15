@@ -4,10 +4,11 @@
 <body>
 
 	<div id="notifications"></div>
-	<div id="idletimeout">
-	You will be logged off in <span><!-- countdown place holder --></span>&nbsp;seconds due to inactivity. 
-	<a id="idletimeout-resume" href="#">Click here to continue using ClinicCases</a>.
-</div>
+
+	<?php include 'html/templates/interior/timer.php' ?>
+
+	<?php include 'html/templates/interior/idletimeout.php' ?>
+	
 	<div id = "nav_container">
 
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>

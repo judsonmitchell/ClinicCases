@@ -415,7 +415,6 @@ $(document).ready(function() {
                         
                         $('#processing').hide(); //hide the "loading" div after load.
                     
-                    
                     },
                     
                     "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of <b>_MAX_</b> cases"},

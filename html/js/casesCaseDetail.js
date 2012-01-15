@@ -124,7 +124,6 @@ function addDetailTabs(id)
     )
 }
 
-
 //Function which creates the case detail window.
 
 function callCaseWindow(id) 
