@@ -31,6 +31,12 @@ if (isset($_POST['csenote_minutes']))
 	$time = convert_to_seconds($hours,$minutes);
 }
 
+if (isset($_POST['csenote_seconds']))
+{
+	//This for when script is called from timer; javascript has already provided the seconds.
+	$time = $_POST['csenote_seconds'];
+}
+
 if (isset($_POST['csenote_user']))
 {$user = $_POST['csenote_user'];}
 

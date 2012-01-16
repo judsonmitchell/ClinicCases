@@ -289,8 +289,18 @@ $('.case_detail_panel_tools_right button.button2').live('click',function(){
     $.cookie('timer_status','on');
     $.cookie('timer_start_time',startTime);
     $.cookie('timer_case_name',caseName);
+    var caseId = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').data('CaseNumber');
+    $.cookie('timer_case_id',caseId);
+    ccTimer(true,startTime)
+
     $('#timer').show();
     setDetailCss();
+    
+    //make room for the timer widget
+    var currentContentHeight = $('#content').height(); 
+    $('#content').height(currentContentHeight - 45);
+       
+    
 })
 
 //Print displayed case notes
@@ -336,7 +346,7 @@ $('button.csenote_action_submit').live('click', function() {
     //notify user or errors or submit form
     if (errString.length) 
     {
-        notify(errString, 'wait')
+        notify(errString, true)
     } 
     else 
     {
@@ -383,7 +393,7 @@ $('a.csenote_edit').live('click', function() {
 
     //test to see if there is another note being edited.  If so , return false
     if ($(this).closest('.case_detail_panel_casenotes').find('.csenote_edit_submit').length)
-    {notify('Only one case note can be edited at a time','wait');return false}
+    {notify('Only one case note can be edited at a time',true);return false}
 
     //define case note to be edited
     var thisCseNote = $(this).closest('.csenote');

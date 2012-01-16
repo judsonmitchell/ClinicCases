@@ -7,10 +7,6 @@
 
 <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
 
-<link type="text/css" href="html/css/fff.icon.core.css" rel="stylesheet"/>
-
-<link type="text/css" href="html/css/fff.icon.icons.css" rel="stylesheet"/>
-
 <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
 
 <link type="text/css" href="lib/javascripts/jScrollPane/jquery.jscrollpane.css" rel="stylesheet"/>
@@ -29,7 +25,6 @@
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 	
 	<script type="text/javascript" src="lib/javascripts/jquery.textarea-expander.js"></script>
-
 
 	<script  src="html/js/Cases.js" type="text/javascript"></script>
 	

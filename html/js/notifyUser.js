@@ -4,18 +4,19 @@
 function notify(str,wait)
 	{
 		$("#notifications").html(str);
-		$("#notifications").addClass('ui-corner-all').show();	
+		$("#notifications").addClass('ui-corner-all').show();
 		
-		if (typeof wait == 'undefined')
+		if (wait === true)
 		{
-			$('#notifications').delay(2000).fadeOut();
+			
+			$('#notifications').append('<p><a href="">Dismiss</a></p>');
+			$('#notifications a').click(function(){
+				event.preventDefault();
+				$('#notifications').fadeOut();
+				});
 		}
 		else
 		{
-			$('#notifications').append('<p><a href="">Dismiss</a></p>');
-			$('#notifications a').click(function(){
-				event.preventDefault()
-				$('#notifications').fadeOut();
-				})
+			$('#notifications').delay(2000).fadeOut();
 		}
 	}

@@ -29,15 +29,21 @@ h5{font-family:garamond, georgia, times, serif;font-size:13pt;text-align:left;co
 
 #timer {position:relative;top:0px;left:0px;height:42px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
 
-#timer img {width:40px;height:40px;border:0px;}
+#timer img {width:40px;height:40px;border:0px;vertical-align:text-bottom;padding-right:10px;}
 
-#timer > #timer_inner{display:inline-block;font-size:14px;width:50%;}
+#timer > #timer_inner{float:left;height:40px;font-size:14px;width:45%;overflow:hidden;}
 
 #timer .timer_time_elapsed{font-size:40px;}
 
 #timer .timer_case_name{color:navy;}
 
-#timer #timer_controls{display:inline-block;width:45%;text-align:right;}
+#timer_controls{float:right;height:40px;width:54%;text-align:right;}
+
+#timer_controls textarea {display:inline-block;vertical-align:text-bottom;margin-right:5px;}
+
+#timer_controls button {margin:10px;}
+
+#timer_controls form>button {vertical-align:bottom;margin:5px;}
 
 
 
