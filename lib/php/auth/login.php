@@ -76,6 +76,10 @@ include 'log_write.php';
 	if(isset($_POST['remember'])){
       setcookie("cc_user", $_SESSION['login'], time()+60*60*24*100, "/");
 		}
+
+	else
+		//just set a session cookie with username to be used by timer
+		{setcookie("cc_user", $_SESSION['login'],"0", "/");}
 		
 //Create a unique session id and then write to the log
 	$sess_id = md5(time());
