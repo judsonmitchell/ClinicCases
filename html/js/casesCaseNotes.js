@@ -157,7 +157,7 @@ function addMoreNotes(scrollTarget) {
 //
 
 //show hidden text on clipped case note
-$('div.more').live('click',function(){
+$('div.more').live('click',function(event){
     event.preventDefault();
     var cseNoteParent = $(this).closest('.csenote');
     var cseNoteParentMaxHeight = $(this).closest('.csenote').data('maxCaseNoteHeight');
@@ -312,7 +312,7 @@ $('.case_detail_panel_tools_right button.button3').live('click',function(){
 
 
 //User cancels adding new case note
-$('button.csenote_action_cancel').live('click', function() {
+$('button.csenote_action_cancel').live('click', function(event) {
     
     event.preventDefault();
     //reset form
@@ -329,7 +329,7 @@ $('button.csenote_action_cancel').live('click', function() {
 })
 
 //User click to add new case note
-$('button.csenote_action_submit').live('click', function() {
+$('button.csenote_action_submit').live('click', function(event) {
     event.preventDefault()
 
     //serialize form values
@@ -359,7 +359,7 @@ $('button.csenote_action_submit').live('click', function() {
 })
 
 //User deletes a case note.  By rule, user can only delete casenote he created
-$('a.csenote_delete').live('click', function() {
+$('a.csenote_delete').live('click', function(event) {
     event.preventDefault();
   
     var thisCseNote = $(this).closest('.csenote');
@@ -388,7 +388,7 @@ $('a.csenote_delete').live('click', function() {
 })
 
 //edit case note
-$('a.csenote_edit').live('click', function() {
+$('a.csenote_edit').live('click', function(event) {
     event.preventDefault();
 
     //test to see if there is another note being edited.  If so , return false
@@ -438,7 +438,7 @@ $('a.csenote_edit').live('click', function() {
 
     //remove the previously bound event from the dummy case note and add a new one
     editNote.find('button.csenote_action_submit').unbind();
-    editNote.find('button.csenote_edit_submit').bind('click', function() {
+    editNote.find('button.csenote_edit_submit').bind('click', function(event) {
         event.preventDefault();
         //serialize form values
         var cseVals = $(this).closest('form').serializeArray();

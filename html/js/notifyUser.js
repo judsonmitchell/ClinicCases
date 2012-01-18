@@ -10,7 +10,7 @@ function notify(str,wait)
 		{
 			
 			$('#notifications').append('<p><a href="">Dismiss</a></p>');
-			$('#notifications a').click(function(){
+			$('#notifications a').click(function(event){
 				event.preventDefault();
 				$('#notifications').fadeOut();
 				});
