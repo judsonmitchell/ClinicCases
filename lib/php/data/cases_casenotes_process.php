@@ -34,7 +34,11 @@ if (isset($_POST['csenote_minutes']))
 if (isset($_POST['csenote_seconds']))
 {
 	//This for when script is called from timer; javascript has already provided the seconds.
-	$time = $_POST['csenote_seconds'];
+	$min_time = CC_TIME_UNIT  * 60;
+	if ($_POST['csenote_seconds'] < $min_time)
+	{$time = $min_time;}
+	else
+	{$time = $_POST['csenote_seconds'];}
 }
 
 if (isset($_POST['csenote_user']))

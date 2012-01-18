@@ -262,8 +262,7 @@ $('.case_detail_panel_tools_right button.button1').live('click', function() {
 
     //apply textarea expander and focus on the textarea
     $(this).closest('.case_detail_panel_tools').siblings().find('textarea').TextAreaExpander(52, 200).css({'color': '#AAA'}).html('Describe what you did...').mouseenter(function() {
-        $(this).html('');
-        $(this).css({'color': 'black'})
+        $(this).focus().val('').css({'color': 'black'}).unbind('mouseenter');
     });
 
     //reduce opacity on the previously entered case notes
