@@ -476,6 +476,8 @@ div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
 div.dialog-casenote-delete{text-align:left;}
 
+div.doc_item{display:inline-block;margin:10px;}
+
 
 
 ::-webkit-scrollbar {
