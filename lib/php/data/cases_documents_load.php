@@ -6,6 +6,24 @@ require('../../../db.php');
 $id = $_POST['id'];
 //$id ='1175';
 
+//append the file type to each document array element.  Used to determine icon
+function append_file_type(&$value,$key)
+{
+	if (stristr($value['url'], 'http://') || stristr($value['url'], 'https://') || stristr($value['url'], 'ftp://'))
+	{
+		$file_type = 'url';
+	}
+	else
+	{
+		$parts = explode('.', $value['url']);
+		$file_type = strtolower(end($parts));
+	}
+
+	$value['type'] = $file_type;
+
+}
+
+//return appropriate icon for file type
 function get_icon($type)
 {
 
@@ -21,7 +39,7 @@ function get_icon($type)
 	elseif (in_array($type, array('pdf')))
 	{return "html/ico/pdf.png";}
 
-	elseif (in_array($type, array('mpeg','avi','mp4','mpg','mov','qt','ovg')))
+	elseif (in_array($type, array('mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv')))
 	{return "html/ico/video.png";}
 
 	elseif (in_array($type, array('bmp','jpg','jpeg','gif','png','svg','tif','tiff')))
@@ -29,6 +47,9 @@ function get_icon($type)
 
 	elseif (in_array($type, array('zip','tar','gz','bz')))
 	{return "html/ico/zip.png";}
+
+	elseif (in_array($type, array('url')))
+	{return "html/ico/url.png";}
 
 	else {return "html/ico/other.png";}
 
@@ -56,13 +77,7 @@ $documents_query->execute();
 
 $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
-//append the file type to each document array element.  Used to determine icon
-function append_file_type(&$value,$key)
-{
-	$parts = explode('.', $value['url']);
-	$file_type = end($parts);
-	$value['type'] = $file_type;
-}
+
 
 array_walk($documents, 'append_file_type');
 

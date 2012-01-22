@@ -441,7 +441,7 @@ div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration
 div.assigned_people img {border:3px solid #FFFFDC;box-shadow:3px 3px 5px grey;-moz-box-shadow:3px 3px 5px grey ;-webkit-box-shadow:3px 3px 5px grey;}
 div.user_widget{display:none;}
 
-div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0px;z-index:100}
+div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0px;z-index:100;outline:0px;}
 div.user_display h3{color:green;}
 div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFDC}
 div.inactive_user{color:gray;}
@@ -476,7 +476,11 @@ div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
 div.dialog-casenote-delete{text-align:left;}
 
-div.doc_item{display:inline-block;margin:10px;}
+div.doc_item{display:inline-block;margin:10px;vertical-align:top;}
+div.doc_item p {width:100px;word-wrap:break-word;}
+div.doc_item a {text-decoration:none;}
+div.doc_item img {border:0px;}
+div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;}
 
 
 

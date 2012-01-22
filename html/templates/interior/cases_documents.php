@@ -1,4 +1,4 @@
-<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget">
+<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
 
 </div>
 
@@ -38,9 +38,12 @@
 
 		{
 			$icon = get_icon($document['type']);
-			echo "<div class='doc_itme'><img src='$icon'><p>$document[name]</p></div>";
+			echo "<div id='doc_$document[id]' class='doc_item'><a target='_new' href='$document[url]'><img src='$icon'><p>$document[name]</p></a></div>";
+			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>$document[name]</h3></div>";
 		}
 
 	?>
+
+
 
 </div>

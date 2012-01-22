@@ -2,7 +2,7 @@
 if (!isset($_POST['update']))
 {echo<<<TOOLS
 
-		<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget">
+		<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
 
 		</div>
 

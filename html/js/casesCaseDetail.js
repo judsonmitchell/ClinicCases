@@ -263,12 +263,12 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
             }
         }
 
+        $(this).show().focus();
         //hide the display and reset the clicked image border
-        $(this).toggle(0, function() {
-            if ($(this).css('display') == 'none')
-            {
-                clickedImage.css({'border': '3px solid #FFFFCC'});
-            }
+        $(this).focusout(function() {
+            $(this).hide();
+            clickedImage.css({'border': '3px solid #FFFFCC'});
+
         });
 
     });
@@ -312,10 +312,9 @@ $('div.assigned_people img.user_add_button').live('click', function() {
     var pos = $(this).attr('id').lastIndexOf("_");
     var cseId = $(this).attr('id').substring(pos + 1);
 
-    if ($(this).css('display') == 'none')
-    {
-        userAddImage.css({'border': '3px solid #FFFFCC'});
-    }
+
+    userAddImage.css({'border': '3px solid #FFFFCC'});
+
 
     $('div.user_display').load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
         $('button.user-action-adduser-button').button({icons: {primary: "fff-icon-user-add"},text: true});
@@ -324,7 +323,8 @@ $('div.assigned_people img.user_add_button').live('click', function() {
 
     });
 
-    $('div.user_display').toggle();
+    $('div.user_display').show().focus();
+    $('div.user_display').focusout(function(){$(this).hide();});
 
 });
 
