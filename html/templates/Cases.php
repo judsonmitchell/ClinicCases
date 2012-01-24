@@ -190,6 +190,3 @@
 	        <a href="#properties">Properties</a>
 	    </li>
 	</ul>
-
-
-

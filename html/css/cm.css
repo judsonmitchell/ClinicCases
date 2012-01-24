@@ -453,9 +453,10 @@ button.user-action-button,button.user-action-adduser-button{position:absolute;bo
 button.user-display-closer{position:absolute;bottom:10px;left:10px;}
 
 div.case_detail_panel_tools{width:99%}
-div.case_detail_panel_tools_left{height:100%;width:30%;float:left;text-align:right;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_tools_left{height:100%;width:30%;float:left;text-align:left;padding-top:1%;margin-bottom:-1%;}
+div.case_detail_panel_tools_left img {margin-left:10px;}
 div.case_detail_panel_tools_right{height:100%;width:70%;float:right;text-align:right;padding-top:1%;margin-bottom:-1%;}
-div.case_detail_panel_casenotes{width:99%;overflow:auto;}
+div.case_detail_panel_casenotes{width:99%;overflow:auto;text-align:left;}
 input.casenotes_search{color:#AAA}
 input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
@@ -476,11 +477,11 @@ div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
 div.dialog-casenote-delete{text-align:left;}
 
-div.doc_item{display:inline-block;margin:10px;vertical-align:top;}
+div.doc_item{display:inline-block;margin:10px;vertical-align:top;text-align:center;height:120px;overflow:hidden;}
 div.doc_item p {width:100px;word-wrap:break-word;}
 div.doc_item a {text-decoration:none;}
 div.doc_item img {border:0px;}
-div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;}
+div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;}
 
 
 

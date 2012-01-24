@@ -27,7 +27,7 @@ $('.case_detail_nav #item3').live('click', function(){
 		//Create context menu
 
 		$("div.doc_item").contextMenu({menu: 'docMenu'},function(action, el, pos) {
-
+			//TODO fix the problem where the context menu tries to open outside the viewport
 			switch(action)
 			{
 				case 'open':
@@ -62,7 +62,7 @@ $('.case_detail_nav #item3').live('click', function(){
 					break;
 
 				case 'properties':
-					$(el).next('.doc_properties').addClass('ui-corner-all').css({'top':'20%','left':'30%'}).show().focus().focusout(function(){$(this).hide();});
+					$(el).css({'border':'1px solid #AAA'}).next('.doc_properties').addClass('ui-corner-all').css({'top':'20%','left':'30%'}).show().focus().focusout(function(){$(this).hide();$(el).css({'border':'0px'});});
 					break;
 			}
 
@@ -73,5 +73,41 @@ $('.case_detail_nav #item3').live('click', function(){
         //     'X: ' + pos.docX + '  Y: ' + pos.docY+ ' (relative to document)'
         //     );
 		});
+
+		//Expand div to include full file name on mouse enter
+		$('div.doc_item > a').live('mouseenter',function(event){
+			$(this).closest('div').css({'height':'auto','overflow':'auto'});
+
+			if ($(this).closest('div').hasClass('doc'))
+				{$(this).closest('div').draggable({revert:'invalid'});}
+				else
+				{$(this).closest('div').droppable();}
+
+		});
+
+		//Reset on leave
+		$('div.doc_item > a').live('mouseleave',function(event){
+			$(this).closest('div').css({'height':'120px','overflow':'hidden'});
+		});
+
+});
+
+
+//Listeners
+
+//Set click actions
+$('div.doc_item > a').live('click',function(event){
+	event.preventDefault();
+
+	if ($(this).closest('div').hasClass('folder'))
+	{
+		var path = $(this).closest('div').attr('path');
+		var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'path':path,'update':'y'},function(){
+		$(this).siblings('.case_detail_panel_tools').find('.path_display').html(path);
+
+		});
+	}
 
 });
