@@ -8,6 +8,9 @@ include('../utilities/convert_times.php');
 $id = $_POST['id'];
 //$id = '1525';
 //$update = 'y';
+if (isset($_POST['container']))
+{$container = $_POST['container'];}
+
 if (isset($_POST['path']))
 {$path = $_POST['path'];}
 
@@ -71,23 +74,23 @@ function get_icon($type)
 
 //get document folders for this case and return array
 
-if (isset($path))
+if (isset($container))
 {
-	$sql = "SELECT DISTINCT folder FROM cm_documents WHERE folder LIKE :path AND url='' AND case_id = :id";
+	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = :id";
 }
 else
 {
-	$sql = "SELECT DISTINCT folder FROM cm_documents WHERE folder != '' AND url='' AND case_id = :id";
+	$sql = "SELECT DISTINCT folder FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
 }
 
 $folder_query = $dbh->prepare($sql);
 
 $folder_query->bindParam(':id',$id);
 
-if (isset($path))
+if (isset($container))
 {
-	$path_mod = trim($path);
-	$folder_query->bindParam(':path',$path_mod);
+	$container_mod = trim($container);
+	$folder_query->bindParam(':container',$container_mod);
 }
 
 $folder_query->execute();

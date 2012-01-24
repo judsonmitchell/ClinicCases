@@ -102,10 +102,11 @@ $('div.doc_item > a').live('click',function(event){
 	if ($(this).closest('div').hasClass('folder'))
 	{
 		var path = $(this).closest('div').attr('path');
+		var container = $(this).find('p').html();
 		var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-
-		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'path':path,'update':'y'},function(){
-		$(this).siblings('.case_detail_panel_tools').find('.path_display').html(path);
+		var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'container':container,'path':path,'update':'y'},function(){
+			pathDisplay.html(path);
 
 		});
 	}

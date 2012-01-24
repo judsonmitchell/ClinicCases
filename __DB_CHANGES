@@ -186,3 +186,6 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (38, 'close_notes', 'Closing Notes', 'false', 'input', 'false'),
 (39, 'referral', 'Referred By', 'true', 'input', 'false'),
 (40, 'opened_by', 'Opened By', 'true', 'input', 'true');
+
+ALTER TABLE  `cm_documents` ADD  `containing_folder` VARCHAR( 100 ) NOT NULL AFTER  `folder`
+

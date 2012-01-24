@@ -25,10 +25,12 @@ echo <<<TOOLS
 	</div>
 
 </div>
+
+<div class = "case_detail_panel_casenotes">
+
 TOOLS;
 }
 ?>
-<div class = "case_detail_panel_casenotes">
 
 	<?php
 
@@ -36,10 +38,10 @@ TOOLS;
 
 		{
 			if (strrchr($folder['folder'],'/'))
-			{$this_path = substr(strrchr($folder['folder'],'/'),1);}
+			{$folder_name = substr(strrchr($folder['folder'],'/'),1);}
 			else
-			{$this_path = $folder['folder'];}
-			echo "<div class='doc_item folder' path='$this_path'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$this_path</p></a></div>";
+			{$folder_name = $folder['folder'];}
+			echo "<div class='doc_item folder' path='$folder[folder]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
 		}
 
 
@@ -62,5 +64,6 @@ TOOLS;
 	?>
 
 
-
-</div>
+<?php if (!isset($update))
+		{ echo "</div>";}
+?>
