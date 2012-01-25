@@ -80,7 +80,7 @@ if (isset($container))
 }
 else
 {
-	$sql = "SELECT DISTINCT folder FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
+	$sql = "SELECT DISTINCT folder, id FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
 }
 
 $folder_query = $dbh->prepare($sql);
@@ -97,7 +97,7 @@ $folder_query->execute();
 
 $folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
 
-//print_r($folders);
+//print_r($folders);die;
 
 //get all documents not inside a folder
 

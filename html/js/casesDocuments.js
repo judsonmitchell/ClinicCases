@@ -112,3 +112,26 @@ $('div.doc_item > a').live('click',function(event){
 	}
 
 });
+
+//Create new folder
+$('button.doc_new_folder').live('click',function(){
+	var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+	target.prepend("<div class='doc_item folder' path=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
+	$('#new_folder_name').css({'background-color':'#EDF09F'})
+		.mouseenter(function(){$(this).val('').focus().css({'background-color':'white'});})
+		.keypress(function(e){if(e.which == 13) {
+			event.preventDefault();
+			//insert submit code here.
+			alert('submit');}
+		});
+
+});
+
+$('.doc_trail_home').live('click',function(event){
+	event.preventDefault();
+	var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+	var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+	thisPanel.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes'},function(){
+		$(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
+	});
+});

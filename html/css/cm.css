@@ -482,6 +482,7 @@ div.doc_item p {width:100px;word-wrap:break-word;}
 div.doc_item a {text-decoration:none;}
 div.doc_item img {border:0px;}
 div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;}
+#new_folder_name{width:90px;height:50px;border:0px;}
 
 
 

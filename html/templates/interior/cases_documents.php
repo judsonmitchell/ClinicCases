@@ -6,7 +6,7 @@
 
 <div class="case_detail_panel_tools">
 
-	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> Home /<span class="path_display"></span></div>
+	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a> /<span class="path_display"></span></div>
 
 	<div class="case_detail_panel_tools_right">
 TOOLS;
@@ -41,7 +41,7 @@ TOOLS;
 			{$folder_name = substr(strrchr($folder['folder'],'/'),1);}
 			else
 			{$folder_name = $folder['folder'];}
-			echo "<div class='doc_item folder' path='$folder[folder]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
+			echo "<div class='doc_item folder' path='$folder[folder]' data-id='$folder[id]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
 		}
 
 
@@ -52,7 +52,7 @@ TOOLS;
 			$user = username_to_fullname($dbh,$document['username']);
 			$date = extract_date_time($document['date_modified']);
 
-			echo "<div id='doc_$document[id]' class='doc_item doc'><a target='_new' href='$document[url]'><img src='$icon'><p>$document[name]</p></a></div>";
+			echo "<div id='doc_$document[id]' class='doc_item doc' data-id='$document[id]'><a target='_new' href='$document[url]'><img src='$icon'><p>$document[name]</p></a></div>";
 			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>$document[name]</h3>
 			<hr />
 			<p><label>Type</label>     $document[type]</p>
