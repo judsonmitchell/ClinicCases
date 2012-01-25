@@ -64,7 +64,9 @@
 
 		<li id="item5">Memos</li>
 
-		<li id="item6">Conflicts</li>
+		<li id="item6">Contacts</li>
+
+		<li id="item7">Conflicts</li>
 
 	</ul>
 
