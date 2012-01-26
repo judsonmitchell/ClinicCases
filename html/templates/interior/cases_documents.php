@@ -6,7 +6,7 @@
 
 <div class="case_detail_panel_tools">
 
-	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a> /<span class="path_display"></span></div>
+	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display"></span></div>
 
 	<div class="case_detail_panel_tools_right">
 TOOLS;

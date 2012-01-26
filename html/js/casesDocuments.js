@@ -2,8 +2,20 @@
 //Scripts for documents panel on cases tab
 //
 
+function createTrail(path)
+{
+	
+	var pathArray = path.split('/');
+	var pathString = '';
+	$.each(pathArray,function(i,v){
+		pathItem = '<a class="doc_trail_item" href="#" data="' + path + '">' + v + '</a>/';
+		pathString += pathItem;
+	});
 
-//Listen for click
+	return pathString;
+}
+
+//User clicks to open document window
 $('.case_detail_nav #item3').live('click', function(){
 
 	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
@@ -92,10 +104,7 @@ $('.case_detail_nav #item3').live('click', function(){
 
 });
 
-
-//Listeners
-
-//Set click actions
+//User clicks a folder or document
 $('div.doc_item > a').live('click',function(event){
 	event.preventDefault();
 
@@ -105,15 +114,23 @@ $('div.doc_item > a').live('click',function(event){
 		var container = $(this).find('p').html();
 		var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 		var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+		
 		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'container':container,'path':path,'update':'y'},function(){
-			pathDisplay.html(path);
+			var pathString = createTrail(path);
+			pathDisplay.html(pathString);
 
 		});
 	}
 
+	else
+
+	{// TODO insert document actions
+
+	}
+
 });
 
-//Create new folder
+//User clicks new folder button
 $('button.doc_new_folder').live('click',function(){
 	var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
 	target.prepend("<div class='doc_item folder' path=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
@@ -121,17 +138,38 @@ $('button.doc_new_folder').live('click',function(){
 		.mouseenter(function(){$(this).val('').focus().css({'background-color':'white'});})
 		.keypress(function(e){if(e.which == 13) {
 			event.preventDefault();
-			//insert submit code here.
-			alert('submit');}
+			//TODO insert submit code here.
+			alert('submit');
+			}
 		});
 
 });
 
-$('.doc_trail_home').live('click',function(event){
+//User clicks the Home link in the directory path
+$('a.doc_trail_home').live('click',function(event){
 	event.preventDefault();
 	var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 	var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
 	thisPanel.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes'},function(){
 		$(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
 	});
+});
+
+//User clicks one of the other links in the directory path
+$('a.doc_trail_item').live('click',function(event){
+	event.preventDefault();
+	var container = $(this).html();
+	var upLevel = $(this).attr('data').lastIndexOf('/');
+	var path = $(this).attr('data').substr(0,upLevel);
+	alert('cont: ' + container + ' path: ' + path);
+	var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+	var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+	var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+
+	thisPanel.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':path,'container':container},function(){
+		$(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
+		var pathString = createTrail(path);
+		pathDisplay.html(pathString);
+	});
+
 });
