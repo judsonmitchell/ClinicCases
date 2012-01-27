@@ -7,8 +7,11 @@ function createTrail(path)
 	
 	var pathArray = path.split('/');
 	var pathString = '';
+	var pathS = '';
 	$.each(pathArray,function(i,v){
-		pathItem = '<a class="doc_trail_item" href="#" data="' + path + '">' + v + '</a>/';
+		pathS += '/' + v;
+		pathSa = pathS.substr(1);
+		pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + v + '</a>/';
 		pathString += pathItem;
 	});
 
@@ -111,11 +114,12 @@ $('div.doc_item > a').live('click',function(event){
 	if ($(this).closest('div').hasClass('folder'))
 	{
 		var path = $(this).closest('div').attr('path');
-		var container = $(this).find('p').html();
+		//var clip = path.lastIndexOf('/');
+		//var container = path.substr(0,clip);
 		var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 		var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
 		
-		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'container':container,'path':path,'update':'y'},function(){
+		$(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php',{'id':caseId,'container':path,'path':path,'update':'y'},function(){
 			var pathString = createTrail(path);
 			pathDisplay.html(pathString);
 
@@ -159,14 +163,12 @@ $('a.doc_trail_home').live('click',function(event){
 $('a.doc_trail_item').live('click',function(event){
 	event.preventDefault();
 	var container = $(this).html();
-	var upLevel = $(this).attr('data').lastIndexOf('/');
-	var path = $(this).attr('data').substr(0,upLevel);
-	alert('cont: ' + container + ' path: ' + path);
+	var path = $(this).attr('path');
 	var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 	var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-	var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+	var pathDisplay = $(this).parent();
 
-	thisPanel.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':path,'container':container},function(){
+	thisPanel.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':path,'container':path},function(){
 		$(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
 		var pathString = createTrail(path);
 		pathDisplay.html(pathString);

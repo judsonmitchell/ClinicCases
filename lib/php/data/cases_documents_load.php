@@ -66,21 +66,15 @@ function get_icon($type)
 
 }
 
-// function remove_extension($doc)
-// {
-// 	$file = substr($doc, 0,strrpos($doc,'.'));
-//     return $file;
-// }
-
 //get document folders for this case and return array
 
-if (isset($container))
+if (isset($container)) //Indicates this is a sub-folder
 {
 	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = :id";
 }
-else
+else //Is in the root directory.  Empty url indicates that this is a folder, not a document
 {
-	$sql = "SELECT DISTINCT folder, id FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
+	$sql = "SELECT * FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
 }
 
 $folder_query = $dbh->prepare($sql);
@@ -89,8 +83,7 @@ $folder_query->bindParam(':id',$id);
 
 if (isset($container))
 {
-	$container_mod = trim($container);
-	$folder_query->bindParam(':container',$container_mod);
+	$folder_query->bindParam(':container',$container);
 }
 
 $folder_query->execute();
