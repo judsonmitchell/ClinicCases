@@ -6,7 +6,7 @@
 
 <div class="case_detail_panel_tools">
 
-	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display"></span></div>
+	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display"><a href="#" class="doc_trail_itiem active" path=""></a></span></div>
 
 	<div class="case_detail_panel_tools_right">
 TOOLS;
@@ -41,7 +41,8 @@ TOOLS;
 			{$folder_name = substr(strrchr($folder['folder'],'/'),1);}
 			else
 			{$folder_name = $folder['folder'];}
-			echo "<div class='doc_item folder' path='$folder[folder]' data-id='$folder[id]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
+			$folder_path = $folder['folder'];
+			echo "<div class='doc_item folder' path='$folder_path' data-id='$folder[id]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
 		}
 
 
