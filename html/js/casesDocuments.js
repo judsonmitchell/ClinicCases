@@ -42,7 +42,7 @@ $('.case_detail_nav #item3').live('click', function() {
         $('button.doc_new_folder').button({icons: {primary: "fff-icon-folder-add"},text: true}).next().button({icons: {primary: "fff-icon-page-white-get"},text: true});
 
         //Unescape folder names
-        $('.folder p').each(function() {
+        $('.folder p, .doc_properties h3').each(function() {
             var t = unescape($(this).html());
             $(this).html(t);
         });
@@ -67,6 +67,20 @@ $('.case_detail_nav #item3').live('click', function() {
 
     $("div.doc_item").contextMenu({menu: 'docMenu'}, function(action, el, pos) {
         //TODO fix the problem where the context menu tries to open outside the viewport
+
+        var itemId = $(el).attr('data-id');
+        var docType = null;
+        var caseId = $(el).closest('case_detail_panel').data('CaseNumber');
+        if ($(el).hasClass('folder'))
+        {
+            docType = 'folder';
+            var path = $(el).attr('path');
+        }
+        else
+        {
+            docType = 'document';
+        }
+
         switch (action)
         {
             case 'open':
@@ -80,6 +94,36 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'copy':
                 $(el).css({'border': '1px solid #AAA'});
+                break;
+
+             case 'rename':
+                $(el).css({'border': '1px solid #AAA'});
+                var textVal = $(el).find('p').html();
+                $(el).find('p').hide();
+                if ($(el).find('textarea').length < 1)
+					{$(el).find('a').after('<textarea>' + textVal + '</textarea>');}
+					else
+					{$(el).find('textarea').show().val(textVal);}
+                $(el).find('textarea').addClass('user_input')
+					.mouseenter(function(){
+						$(this).focus().removeClass('user_input');
+						$(el).css({'border':'0px'});
+					})
+					.mouseleave(function(){
+						$(el).find('textarea').hide();
+						$(el).find('p').show();
+
+					})
+					.keypress(function(e) {
+						if (e.which == 13) {
+							event.preventDefault();
+							var newVal = $(el).find('textarea').val();
+							$.post('lib/php/data/cases_documents_process.php',({'action':'rename','new_name':newVal,'item_id':itemId,'doc_type':docType,'container':path,'case_id':caseId}),function(data){
+									notify(data);
+								});
+
+							}
+					});
                 break;
 
             case 'delete':
@@ -153,7 +197,7 @@ $('div.doc_item > a').live('click', function(event) {
             pathDisplay.html(pathString);
             pathDisplay.find("a[path='" + path + "']").addClass('active');
             //Unescape folder names
-            $('.folder p').each(function() {
+            $('.folder p, .doc_properties h3').each(function() {
                 var t = unescape($(this).html());
                 $(this).html(t);
             });
@@ -169,8 +213,6 @@ $('div.doc_item > a').live('click', function(event) {
                     $(this).addClass('csenote_shadow');
                 }
             });
-
-
         });
     }
 
@@ -186,7 +228,7 @@ $('div.doc_item > a').live('click', function(event) {
 $('button.doc_new_folder').live('click', function() {
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
     target.prepend("<div class='doc_item folder' path='' data-id=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
-    $('#new_folder_name').css({'background-color': '#EDF09F'})
+    $('#new_folder_name').addClass('user_input')
     .mouseenter(function() {
         $(this).val('').focus().css({'background-color': 'white'});
     })
@@ -225,7 +267,7 @@ $('a.doc_trail_home').live('click', function(event) {
     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes'}, function() {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
         //Unescape folder names
-        $('.folder p').each(function() {
+        $('.folder p, .doc_properties h3').each(function() {
             var t = unescape($(this).html());
             $(this).html(t);
         });
@@ -247,7 +289,7 @@ $('a.doc_trail_item').live('click', function(event) {
         pathDisplay.html(pathString);
         pathDisplay.find("a[path='" + path + "']").addClass('active');
         //Unescape folder names
-        $('.folder p').each(function() {
+        $('.folder p, .doc_properties h3').each(function() {
             var t = unescape($(this).html());
             $(this).html(t);
         });

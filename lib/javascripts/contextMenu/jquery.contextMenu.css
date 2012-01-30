@@ -59,6 +59,7 @@
 .contextMenu LI.paste A { background-image: url(../../../html/ico/page_paste.png); }
 .contextMenu LI.delete A { background-image: url(../../../html/ico/page_delete.png); }
 .contextMenu LI.open A { background-image: url(../../../html/ico/world_go.png); }
+.contextMenu LI.rename A { background-image: url(../../../html/ico/page_edit.png); }
 .contextMenu LI.properties A { background-image: url(../../../html/ico/application_view_list.png); }
 
 

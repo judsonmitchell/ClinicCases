@@ -178,8 +178,12 @@
 	        <a href="#copy">Copy</a>
 	    </li>
 
-	    <li class="paste">
+	    <li class="paste disabled">
 	        <a href="#paste">Paste</a>
+	    </li>
+
+	     <li class="rename">
+	        <a href="#rename">Rename</a>
 	    </li>
 
 	    <li class="delete">

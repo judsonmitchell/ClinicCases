@@ -432,13 +432,13 @@ Width has to be set below in pixels below to accomodate jScrollPane
 div.assigned_people{height:90%;width:480px;float:right;text-align:right;margin-top:.6%;margin-right:.6%;overflow-x:auto;overflow-y:auto;white-space:nowrap;outline:none;}
 div.assigned_people li {display:inline;margin:0;padding-left:.2em;padding-right:.2em;white-space:nowrap;}
 div.assigned_people li.inactive {display:none}
-div.assigned_people li.slide.closed:before {content:"\00ab";color:grey;}
-div.assigned_people li.slide.open:before {content:"\00bb";color:grey;}
+div.assigned_people li.slide.closed:before {content:"\00ab";color:gray;}
+div.assigned_people li.slide.open:before {content:"\00bb";color:gray;}
 
-div.assigned_people li.slide a {color:grey;font-size:10pt;text-decoration:none;}
+div.assigned_people li.slide a {color:gray;font-size:10pt;text-decoration:none;}
 div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration:none;}
 
-div.assigned_people img {border:3px solid #FFFFDC;box-shadow:3px 3px 5px grey;-moz-box-shadow:3px 3px 5px grey ;-webkit-box-shadow:3px 3px 5px grey;}
+div.assigned_people img {border:3px solid #FFFFDC;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
 div.user_widget{display:none;}
 
 div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0px;z-index:100;outline:0px;}
@@ -482,7 +482,8 @@ div.doc_item p {width:100px;word-wrap:break-word;}
 div.doc_item a {text-decoration:none;}
 div.doc_item img {border:0px;}
 div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;}
-#new_folder_name{width:90px;height:50px;border:0px;}
+div.doc_item textarea{width:90px;height:50px;border:0px;}
+div.doc_item textarea.user_input{background-color: #EDF09F}
 a.active  {text-decoration:none};
 
 

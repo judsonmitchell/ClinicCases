@@ -41,8 +41,20 @@ TOOLS;
 			{$folder_name = substr(strrchr($folder['folder'],'/'),1);}
 			else
 			{$folder_name = $folder['folder'];}
+
 			$folder_path = $folder['folder'];
+
+			$user = username_to_fullname($dbh,$folder['username']);
+
+			$date = extract_date_time($folder['date_modified']);
+
 			echo "<div class='doc_item folder' path='$folder_path' data-id='$folder[id]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
+			echo "<div class='doc_properties' tabindex='1'><h3><img src='html/ico/folder.png'>$folder_name</h3>
+					<hr />
+					<p><label>Type</label>    Folder</p>
+					<p><label>Created:</label>     $date</p>
+					<p><label>Created By:</label>     $user</p>
+					</div>";
 		}
 
 
