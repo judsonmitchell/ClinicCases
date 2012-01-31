@@ -3,73 +3,82 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
-function update_paths($dbh,$old_path,$new_folder_path,$case_id)
+function update_paths($dbh,$path,$new_path,$case_id)
 {
-	//echo $old_path . " and " . $new_folder_path . " and " . $case_id;die;
 	//Change paths of documents which reside in the recently changed folder
 	$find_old_paths = $dbh->prepare('SELECT * FROM cm_documents WHERE folder = :old_path AND case_id = :case_id');
 
-	$find_old_paths->bindParam(':old_path',$old_path);
+	$find_old_paths->bindParam(':old_path',$path);
 
 	$find_old_paths->bindParam(':case_id',$case_id);
 
 	$find_old_paths->execute();
 
 	$paths = $find_old_paths->fetchAll(PDO::FETCH_ASSOC);
-	//print_r($paths);die;
-	foreach ($paths as $path) {
 
-		$update_folders = $dbh->prepare("UPDATE cm_documents SET folder = '$new_folder_path' WHERE id = '$path[id]'");
+	foreach ($paths as $path_item) {
 
-		//$update_folders->execute();
+		$update_folders = $dbh->prepare("UPDATE cm_documents SET folder = '$new_path' WHERE id = '$path_item[id]'");
+
+		$update_folders->execute();
 	}
 
-	//change the containing folder for every folder which resides in the recently changed folder and their descendants
+	//change the containing folder for every folder which resides in the recently changed folder
 
-	$find_old_containers = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE :contain AND case_id = $case_id");
+	$find_old_containers = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = $case_id");
 
-		if (strripos($old_path, '/'))
-		{
-			$index = strripos($old_path, '/');
-			$contain = substr($old_path, 0,$index) . "/%";
-		}
-		else
-		{
-			$contain = $old_path . "/%";
-		}
-
-	$find_old_containers->bindParam(':contain',$contain);
+	$find_old_containers->bindParam(':container',$path);
 
 	$find_old_containers->execute();
 
 	$containers = $find_old_containers->fetchAll(PDO::FETCH_ASSOC);
-//print_r($containers);
-	foreach ($containers as $container) {
 
-		$part = str_replace($container['containing_folder'],'',$old_path);
+	foreach ($containers as $container_item) {
 
-		$new_container = $new_folder_path . $part;
+		$pp = str_replace($path, '', $container_item['folder']);
 
-		$pp = str_replace($old_path, '', $container['folder']);
+		$new_subfolder_path = $new_path . $pp;
 
-		$new_folder_field = $new_folder_path . $pp;
+		$update_containers = $dbh->prepare("UPDATE cm_documents SET containing_folder = '$new_path', folder = '$new_subfolder_path' WHERE id = '$container_item[id]'");
 
-		//echo $new_container;die;
-
-echo "part = $part" . "\n " .
-	 "container[containing_folder] = " . $container['containing_folder'] . "\n" .
-	 "old_path = " . $old_path . "\n" .
-	 "new_folder_path = " . $new_folder_path . "\n" .
-	 "new_container =  " . $new_container  . "\n\n";
-
-//echo "field containing_folder will equal " . $new_container . "\n field folder will equal " . $new_folder_field;die;
-
-		$test_array[] = $new_container . ",". $new_folder_field . "," . $container['id'];
-		$update_containers = $dbh->prepare("UPDATE cm_documents SET containing_folder = '$new_container', folder = '$new_folder_field' WHERE id = '$container[id]'");
-
-		//$update_containers->execute();
+		$update_containers->execute();
 	}
-print_r($test_array);
+
+	//Now, find all documents and subfolders that are further down the tree
+	//1. Update the folder field
+	$find_folder_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE '$path%' AND case_id = $case_id");
+
+	$find_folder_fields->execute();
+
+	$folder_fields = $find_folder_fields->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($folder_fields as $folder_field) {
+		//if the new path is not already in the folder field as a result of previous queries
+		if (!stristr($folder_field['folder'],$new_path))
+		{
+			$descendants = str_replace($folder_field['folder'], '', $path);
+			$new_folder_field = $new_path . $descendants;
+			$update_folder_fields = $dbh->prepare("UPDATE cm_documents SET folder = '$new_folder_field' WHERE id = '$folder_field[id]'");
+		}
+	}
+
+	//2.update the container field
+
+	$find_container_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE container LIKE '$path%' AND case_id = $case_id");
+
+	$find_container_fields->execute();
+
+	$container_fields = $find_container_fields->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($container_fields as $container_field) {
+		//if the new path is not already in the container field as a result of previous queries
+		if (!stristr($container_field['container'],$new_path))
+		{
+			$descendants = str_replace($folder_field['container'], '', $path);
+			$new_container_field = $new_path . $descendants;
+			$update_container_fields = $dbh->prepare("UPDATE cm_documents SET container = '$new_container_field' WHERE id = '$folder_container[id]'");
+		}
+	}
 
 }
 
@@ -100,6 +109,10 @@ if (isset($_POST['doc_type'])) {
 	$doc_type = $_POST['doc_type'];
 }
 
+if (isset($_POST['path'])) {
+	$path = $_POST['path'];
+}
+
 if ($action == 'newfolder')
 {
 
@@ -121,26 +134,24 @@ if ($action == 'rename')
 {
 	if ($doc_type === 'folder')
 		{
-			$sql = "UPDATE cm_documents SET folder = :new_folder_name WHERE id = :item_id";
+			$sql = "UPDATE cm_documents SET folder = :new_path WHERE id = :item_id";
 
-			if (strripos($container,'/'))
+			if (strripos($path,'/'))
 			{
-				$last_slash = strripos($container,'/');
-				$d = substr($container, 0,$last_slash);
-				$new_folder_name = $d . "/"  . $new_name;
+				$last_slash = strripos($path,'/');
+				$d = substr($path, 0,$last_slash);
+				$new_path = $d . "/"  . $new_name;
 			}
 			else
 			{
-				$new_folder_name = $new_name;
+				$new_path = $new_name;
 			}
-
-			//$new_path = $container . "/" . $new_name;
 
 			$rename_query = $dbh->prepare($sql);
 
 			$rename_query->bindParam(':item_id',$item_id);
 
-			$rename_query->bindParam(':new_folder_name',$new_folder_name);
+			$rename_query->bindParam(':new_path',$new_path);
 
 			//TODO must change the paths of every file and folder contained in the changed folder
 
@@ -158,13 +169,13 @@ if ($action == 'rename')
 
 
 
-	//$rename_query->execute();
+	$rename_query->execute();
 
 	$error = $rename_query->errorInfo();
 
 	if ($doc_type === 'folder'  and !$error[1])
 	{
-		update_paths($dbh,$container,$new_folder_name,$case_id);//$container is the old path, $new_folder_name is the new path
+		update_paths($dbh,$path,$new_path,$case_id);//$path is the old path, $new_path is the new path
 	}
 
 }

@@ -118,7 +118,7 @@ $('.case_detail_nav #item3').live('click', function() {
 						if (e.which == 13) {
 							event.preventDefault();
 							var newVal = $(el).find('textarea').val();
-							$.post('lib/php/data/cases_documents_process.php',({'action':'rename','new_name':newVal,'item_id':itemId,'doc_type':docType,'container':path,'case_id':caseId}),function(data){
+							$.post('lib/php/data/cases_documents_process.php',({'action':'rename','new_name':newVal,'item_id':itemId,'doc_type':docType,'path':path,'case_id':caseId}),function(data){
 									notify(data);
                                     console.log(data);
                                 });
