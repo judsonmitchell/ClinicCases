@@ -213,7 +213,8 @@ if ($action == 'delete')
 			break;
 
 			case "rename":
-			echo "Folder Renamed.";
+			$return = array('message'=>'Folder Renamed.','newPath'=>$new_path);
+			echo json_encode($return);
 			break;
 
 			case "delete":

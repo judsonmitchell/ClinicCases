@@ -119,8 +119,13 @@ $('.case_detail_nav #item3').live('click', function() {
 							event.preventDefault();
 							var newVal = $(el).find('textarea').val();
 							$.post('lib/php/data/cases_documents_process.php',({'action':'rename','new_name':newVal,'item_id':itemId,'doc_type':docType,'path':path,'case_id':caseId}),function(data){
-									notify(data);
-                                    console.log(data);
+                                    var serverResponse = $.parseJSON(data);
+
+                                    $(el).find('textarea').hide();
+                                    $(el).find('p').html(newVal);
+                                    $(el).attr('path',serverResponse.newPath);
+                                    $(el).find('p').show();
+									notify(serverResponse.message);
                                 });
 
 							}
@@ -249,11 +254,11 @@ $('button.doc_new_folder').live('click', function() {
                 newFolder = container + "/" + escape(newName);
             }
             $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
-                var serverVals = $.parseJSON(data);
+                var serverResponse = $.parseJSON(data);
                 $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
-                $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverVals.id}).droppable();
+                $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
                 $('#new_folder_name').closest('p').html(newName);
-                notify(serverVals.message);
+                notify(serverResponse.message);
             });
         }
     });
