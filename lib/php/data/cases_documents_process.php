@@ -46,7 +46,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 
 	//Now, find all documents and subfolders that are further down the tree
 	//1. Update the folder field
-	$find_folder_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE '$path%' AND case_id = $case_id");
+	$find_folder_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE '$path%' AND case_id = '$case_id'");
 
 	$find_folder_fields->execute();
 
@@ -56,27 +56,36 @@ function update_paths($dbh,$path,$new_path,$case_id)
 		//if the new path is not already in the folder field as a result of previous queries
 		if (!stristr($folder_field['folder'],$new_path))
 		{
-			$descendants = str_replace($folder_field['folder'], '', $path);
+			$descendants = str_replace($path, '', $folder_field['folder']);
+			
 			$new_folder_field = $new_path . $descendants;
+
 			$update_folder_fields = $dbh->prepare("UPDATE cm_documents SET folder = '$new_folder_field' WHERE id = '$folder_field[id]'");
+
+			$update_folder_fields->execute();
 		}
 	}
 
 	//2.update the container field
 
-	$find_container_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE container LIKE '$path%' AND case_id = $case_id");
+	$find_container_fields = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE '$path%' AND case_id = '$case_id'");
 
 	$find_container_fields->execute();
 
 	$container_fields = $find_container_fields->fetchAll(PDO::FETCH_ASSOC);
 
 	foreach ($container_fields as $container_field) {
+
 		//if the new path is not already in the container field as a result of previous queries
-		if (!stristr($container_field['container'],$new_path))
+		if (!stristr($container_field['containing_folder'],$new_path))
 		{
-			$descendants = str_replace($folder_field['container'], '', $path);
+			$descendants = str_replace($path, '', $container_field['containing_folder']);
+			
 			$new_container_field = $new_path . $descendants;
-			$update_container_fields = $dbh->prepare("UPDATE cm_documents SET container = '$new_container_field' WHERE id = '$folder_container[id]'");
+
+			$update_container_fields = $dbh->prepare("UPDATE cm_documents SET containing_folder = '$new_container_field' WHERE id = '$container_field[id]'");
+
+			$update_container_fields->execute();
 		}
 	}
 
@@ -136,7 +145,7 @@ if ($action == 'rename')
 		{
 			$sql = "UPDATE cm_documents SET folder = :new_path WHERE id = :item_id";
 
-			if (strripos($path,'/'))
+			if (strripos($path,'/'))  //path includes subdirectories
 			{
 				$last_slash = strripos($path,'/');
 				$d = substr($path, 0,$last_slash);
@@ -144,7 +153,7 @@ if ($action == 'rename')
 			}
 			else
 			{
-				$new_path = $new_name;
+				$new_path = $new_name;  //path is in the root
 			}
 
 			$rename_query = $dbh->prepare($sql);
