@@ -13,6 +13,8 @@
 
 <link type="text/css" href="lib/javascripts/contextMenu/jquery.contextMenu.css" rel="stylesheet"/>
 
+<link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
+
 
 <!-- Js Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
@@ -44,6 +46,13 @@
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.mousewheel.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
+
+	
+	
+
+
 
 </head>
 <body>

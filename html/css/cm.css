@@ -484,7 +484,11 @@ div.doc_item img {border:0px;}
 div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;}
 div.doc_item textarea{width:90px;height:50px;border:0px;}
 div.doc_item textarea.user_input{background-color: #EDF09F}
-a.active  {text-decoration:none};
+a.active  {text-decoration:none;}
+
+div.upload_dialog{position:absolute;z-index:99999;display:none;background-color:white;width:50%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;right:100px;}
+
+div.upload_dialog .upload_directory{font-weight:bold;}
 
 
 

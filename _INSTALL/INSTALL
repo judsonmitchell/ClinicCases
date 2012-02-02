@@ -4,9 +4,9 @@ Below are instructions on how to install ClinicCases on a typical webserver.
 sIf you need help, please go to our forums at http://www.cliniccases.com/forums.
 
 REQUIREMENTS:
-1. Unix type webserver (e.g. Apache)
+1. Server running Linux
 2. Mysql
-3. PHP version 4 or higher
+3. PHP version 5 or higher
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
 5. GD libraries for php (optional; used for resizing photos)
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
@@ -15,7 +15,9 @@ STEPS - New Installation
 
 1. Upload the compressed source file to your webserver and unzip.
 
-2.  CHMOD 777 'images_tmp', 'people', 'docs'
+2.  CHMOD 777 'uploads'
+
+2.5 Insert Group configs here
 
 3. Using PhpMyAdmin (which comes with most installations of mysql), go to your database 
 and select "Import."  Import the file CC.sql.  Your database should now be setup with 
@@ -28,12 +30,6 @@ to professors and a journal rss feed], you must insert your server
 path into cron.txt and update your crontab.
 
 6.  Delete the _INSTALL directory.
-
-STEPS - Updgrade from ClinicCases 5 to ClinicCases 6
-
-1. Unzip all files in ClinicCases6 package to your target directory, overwriting old files.
-2. Run upgrade_to_cc6.php
-3. Delete the _INSTALL directory
 
 
 GETTING STARTED

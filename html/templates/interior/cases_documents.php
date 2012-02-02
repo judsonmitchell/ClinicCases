@@ -6,7 +6,7 @@
 
 <div class="case_detail_panel_tools">
 
-	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display"><a href="#" class="doc_trail_itiem active" path=""></a></span></div>
+	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span></div>
 
 	<div class="case_detail_panel_tools_right">
 TOOLS;
@@ -28,9 +28,15 @@ echo <<<TOOLS
 
 <div class = "case_detail_panel_casenotes">
 
+
 TOOLS;
 }
 ?>
+
+	<div class = "upload_dialog" tabindex="2">Upload into <span class='upload_directory'> </span> directory
+		<hr>
+	</div>
+
 
 	<?php
 

@@ -29,6 +29,9 @@ $('.case_detail_nav #item3').live('click', function() {
     var thisPanelHeight = $(this).closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
 
+    //Set the current path so that other functions can access it
+    thisPanel.data('CurrentPath','Home');
+
     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId}, function() {
 
         //Set css
@@ -176,7 +179,7 @@ $('.case_detail_nav #item3').live('click', function() {
         }
         else
         {
-            $(this).closest('div').droppable();
+            $(this).closest('div').droppable().draggable({revert: 'invalid'});
         }
 
     });
@@ -185,6 +188,7 @@ $('.case_detail_nav #item3').live('click', function() {
     $('div.doc_item > a').live('mouseleave', function(event) {
         $(this).closest('div').css({'height': '120px','overflow': 'hidden'});
     });
+
 
 });
 
@@ -207,6 +211,10 @@ $('div.doc_item > a').live('click', function(event) {
                 var t = unescape($(this).html());
                 $(this).html(t);
             });
+
+            //Set the current path so that other functions can access it
+            $(this).closest('.case_detail_panel').data('CurrentPath',path);
+
             //Apply shadow on scroll
             $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
                 var scrollAmount = $(this).scrollTop();
@@ -265,11 +273,37 @@ $('button.doc_new_folder').live('click', function() {
 
 });
 
+//User clicks on the upload button
+$('button.doc_upload').live('click', function(){
+
+    $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').find('.upload_dialog').show().addClass('ui-corner-all');
+        var activeDirectory = $(this).parent().siblings().find('a.active').text();
+        if (activeDirectory === '')
+            {$('span.upload_directory').html('Home');}
+            else
+            $('span.upload_directory').html(activeDirectory);
+        var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
+        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+            var uploader = new qq.FileUploader({
+                // pass the dom node (ex. $(selector)[0] for jQuery users)
+                element: $('.upload_dialog')[0],
+                // path to server-side upload script
+                action: 'lib/php/utilities/file_upload.php',
+                params: {path:currentPath,case_id:caseId}
+            });
+
+});
+
+
 //User clicks the Home link in the directory path
 $('a.doc_trail_home').live('click', function(event) {
     event.preventDefault();
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    //Set the current path so that other functions can access it
+    $(this).closest('.case_detail_panel').data('CurrentPath','Home');
+
     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes'}, function() {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
         //Unescape folder names
@@ -286,6 +320,8 @@ $('a.doc_trail_item').live('click', function(event) {
     var container = $(this).html();
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    //Set the current path so that other functions can access it
+    $(this).closest('.case_detail_panel').data('CurrentPath',path);
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
     var pathDisplay = $(this).parent();
 
