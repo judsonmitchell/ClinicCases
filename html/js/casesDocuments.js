@@ -277,13 +277,22 @@ $('button.doc_new_folder').live('click', function() {
 $('button.doc_upload').live('click', function(){
 
     $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').find('.upload_dialog').show().addClass('ui-corner-all');
+
+        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+        //Tells user which directory files will be uploaded to
         var activeDirectory = $(this).parent().siblings().find('a.active').text();
         if (activeDirectory === '')
             {$('span.upload_directory').html('Home');}
             else
             $('span.upload_directory').html(activeDirectory);
+
+        //Tells the server which directory to put file in    
         var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
-        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+        
+        //Db leaves folder field blank for documents in root directory, so send empty value
+        if (currentPath === 'Home')
+        {currentPath = '';}
 
             var uploader = new qq.FileUploader({
                 // pass the dom node (ex. $(selector)[0] for jQuery users)

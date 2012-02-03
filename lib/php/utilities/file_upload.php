@@ -9,7 +9,16 @@ if (isset($_GET['case_id'])) {
 
 if (isset($_GET['path'])) {
     $path = $_GET['path'];
-}
+
+    //if this is a subfolder, create container path
+    if (stristr($path, '/'))
+        {
+            $last_slash = strpos($path, '/');
+            $container = substr($path, 0,$last_slash);
+        }
+        else
+            {$container = '';}
+}    
 
 /**
  * Handle file uploads via XMLHttpRequest
@@ -153,7 +162,7 @@ class qqFileUploader {
         }
         
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true);
+            return array('success'=>true,'file'=>$filename,'ext'=>$ext);
         } else {
             return array('error'=> 'Could not save uploaded file.' .
                 'The upload was cancelled, or server error encountered');
@@ -165,9 +174,69 @@ class qqFileUploader {
 // list of valid extensions, ex. array("jpeg", "xml", "bmp")
 $allowedExtensions = array();
 // max file size in bytes
-$sizeLimit = 10 * 1024 * 1024;
+$sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+
 $result = $uploader->handleUpload('../../../uploads/');
 // to pass data through iframe you will need to encode all html tags
-echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+ if (!in_array(true, $result))  //upload fails
+     {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);}
+ else
+ {
+    $upload_doc_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, username, case_id, date_modified) VALUES (NULL, :name, '', :extension, :folder, :container, :user, :case_id, CURRENT_TIMESTAMP);");
+
+    $users_file_name = $result['file'] . "." . $result['ext'];
+
+    $upload_doc_query->bindParam(':name',$users_file_name);
+
+    $upload_doc_query->bindParam(':extension',$result['ext']);
+
+    $upload_doc_query->bindParam(':folder',$path);
+
+    $upload_doc_query->bindParam(':container',$container);
+
+    $upload_doc_query->bindParam(':user',$_SESSION['login']);
+
+    $upload_doc_query->bindParam(':case_id',$case_id);
+
+    $upload_doc_query->execute();
+
+    $error = $upload_doc_query->errorInfo();
+
+    if ($error[1])
+        {
+            $result = array('error'=>$error[1]);
+            htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+            die;
+        };
+
+    $doc_id = $dbh->lastInsertId();
+
+    //now update the local_file_name field with the id and the extension
+
+    $local_file_name = $doc_id . "." . $result['ext'];
+
+    $update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$local_file_name' WHERE id = '$doc_id'");
+
+    $update_name->execute();
+
+    if (!is_writable(CC_DOC_PATH))
+        {
+            $return = array('error' => 'Error: Documents directory is not writable');
+            echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
+        }   
+        else
+
+        {
+            rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
+            $return = array('success'=>true);
+            echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);        
+        }
+
+
+    //rename(oldname, newname)
+    //echo $result['file'];
+    //ECHO $_SERVER['DOCUMENT_ROOT'];
+ }

@@ -6,8 +6,7 @@ include('../utilities/names.php');
 include('../utilities/convert_times.php');
 
 $id = $_POST['id'];
-//$id = '1525';
-//$update = 'y';
+
 if (isset($_POST['container']))
 {$container = $_POST['container'];}
 
@@ -16,17 +15,17 @@ if (isset($_POST['path']))
 
 if (isset($_POST['update']))
 {$update = $_POST['update'];}
-//$path = "Inventory";
+
 //append the file type to each document array element.  Used to determine icon
 function append_file_type(&$value,$key)
 {
-	if (stristr($value['url'], 'http://') || stristr($value['url'], 'https://') || stristr($value['url'], 'ftp://'))
+	if (stristr($value['local_file_name'], 'http://') || stristr($value['local_file_name'], 'https://') || stristr($value['local_file_name'], 'ftp://'))
 	{
 		$file_type = 'url';
 	}
 	else
 	{
-		$parts = explode('.', $value['url']);
+		$parts = explode('.', $value['local_file_name']);
 		$file_type = strtolower(end($parts));
 	}
 
@@ -38,7 +37,7 @@ function append_file_type(&$value,$key)
 function get_icon($type)
 {
 
-	if (in_array($type, array('doc','docx','odt','rtf','txt')))
+	if (in_array($type, array('doc','docx','odt','rtf','txt','wpd')))
 	{return "html/ico/doc.png";}
 
 	if (in_array($type, array('xls','ods','csv')))
@@ -72,9 +71,9 @@ if (isset($container)) //Indicates this is a sub-folder
 {
 	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = :id";
 }
-else //Is in the root directory.  Empty url indicates that this is a folder, not a document
+else //Is in the root directory.  Empty local_file_name indicates that this is a folder, not a document
 {
-	$sql = "SELECT * FROM cm_documents WHERE folder != '' AND url='' AND containing_folder = '' AND case_id = :id";
+	$sql = "SELECT * FROM cm_documents WHERE folder != '' AND local_file_name='' AND containing_folder = '' AND case_id = :id";
 }
 
 $folder_query = $dbh->prepare($sql);
@@ -90,13 +89,11 @@ $folder_query->execute();
 
 $folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
 
-//print_r($folders);die;
-
 //get all documents not inside a folder
 
 if (isset($path))
 {
-	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and url !='' and folder = :path";
+	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path";
 }
 else
 {
@@ -115,7 +112,5 @@ $documents_query->execute();
 $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
 array_walk($documents, 'append_file_type');
-
-//print_r($documents);die;
 
 include('../../../html/templates/interior/cases_documents.php');
