@@ -10,14 +10,21 @@ define("CC_DATABASE_NAME","");
 //If sqlite, define path to db
 //define("CC_SQLITE_PATH","my/database/path/database.db");
 
-//Email address for the adminstrator who will deal with student questions
-define("CC_ADMIN_EMAIL","");
+//Full path to ClinicCases on your server, e.g. "/var/www/clinicases"
+define("CC_PATH","");
+
+//Path of directory which will store uploaded documents.  For security purposes, this directory should  be out of the webroot.  Ensure that the directory has is writable.  E.g "/var/cc_docs" or "/home/you/private/cc_docs"
+
+define("CC_DOC_PATH","");
 
 //Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
 define("CC_BASE_URL","");
 
 //Your domain , e.g. http://www.yourserver.com
 define("CC_DOMAIN","");
+
+//Email address for the adminstrator who will deal with user questions
+define("CC_ADMIN_EMAIL","");
 
 //Default email for ClinicCases notifications, e.g. no-reply@yourserver.co
 define("CC_DEFAULT_EMAIL","");
@@ -27,6 +34,9 @@ define("CC_PROGRAM_NAME","");
 
 //Minimum timekeeping unit.  Default is 5 minutes.  Some prefer 6
 define("CC_TIME_UNIT","5");
+
+//Maximum file upload size in MB.  Default 5MB
+define("MAX_FILE_UPLOAD","5");
 
 //Optional: Your School Color (used for program name); rgb or hex value.
 define("CC_SCHOOL_COLOR","");
