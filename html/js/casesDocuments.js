@@ -277,23 +277,27 @@ $('button.doc_new_folder').live('click', function() {
 $('button.doc_upload').live('click', function(){
 
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    thisPanel.find('.upload_dialog').show().addClass('ui-corner-all');
 
-        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 
-        //Tells user which directory files will be uploaded to
-        var activeDirectory = $(this).parent().siblings().find('a.active').text();
-        if (activeDirectory === '')
-            {$('span.upload_directory').html('Home');}
-            else
-            $('span.upload_directory').html(activeDirectory);
+    //Tells user which directory files will be uploaded to
+    var activeDirectory = $(this).parent().siblings().find('a.active').text();
+    if (activeDirectory === '')
+        {activeDirectory = 'Home';}
 
-        //Tells the server which directory to put file in    
-        var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
+    //Tells the server which directory to put file in    
+    var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
         
-        //Db leaves folder field blank for documents in root directory, so send empty value
-        if (currentPath === 'Home')
+    //Db leaves folder field blank for documents in root directory, so send empty value
+    if (currentPath === 'Home')
         {currentPath = '';}
+
+        thisPanel.find('.upload_dialog').dialog({
+            height:500,
+            width:500,
+            modal:true,
+            title:"Upload into " + activeDirectory + " folder"
+        });
 
             var uploader = new qq.FileUploader({
                 // pass the dom node (ex. $(selector)[0] for jQuery users)
@@ -301,24 +305,52 @@ $('button.doc_upload').live('click', function(){
                 // path to server-side upload script
                 action: 'lib/php/utilities/file_upload.php',
                 params: {path:currentPath,case_id:caseId},
-                // onComplete: function(){
-                //     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {})
-                // }
+                onComplete: function(){
+                    var p = thisPanel.find('.upload_dialog').detach();
+                    thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+                        p.appendTo(thisPanel);
+
+                        });
+                    notify('Upload Complete');
+                    thisPanel.find('.upload_cancel_link').html('Done');
+                }
             });
 
-            $('div.qq-upload-button').addClass('ui-corner-all').click(function(){
-                $(this).closest('.upload_dialog_file').siblings('p.seperator, div.upload_dialog_url ').hide();
-            });
-            $('.upload_url_button').mouseenter(function(){$(this).addClass('qq-upload-button-hover');}).mouseleave(function(){$(this).removeClass('qq-upload-button-hover');}).click(function(){
-                $(this).next().show();
-                $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
-                $(this).parents('.upload_dialog').find('p.seperator').hide();
+            $('div.qq-upload-button').addClass('ui-corner-all');
+            // .click(function(){
+            //     $(this).closest('.upload_dialog_file').siblings('p.seperator, div.upload_dialog_url ').hide();
+            //     $(this).hide();
+            // });
 
+            $('.upload_url_button').mouseenter(function(){$(this).addClass('qq-upload-button-hover');}).mouseleave(function(){$(this).removeClass('qq-upload-button-hover');});
+            // /click(function(){
+            //     $(this).next().show();
+            //     $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
+            //     $(this).parents('.upload_dialog').find('p.seperator').hide();
+            //     $(this).hide();
+            // });
+
+            $('button.upload_url_submit').click(function(){
+                var url = $(this).siblings('input.url_upload').val();
+                var urlName = $(this).siblings('input.url_upload_name').val();
+                $.post('lib/php/data/cases_documents_process.php', {'url_name':urlName,'url':url,'case_id': caseId,'folder': currentPath,'action': 'upload_url'},function(){
+                });
             });
 
-            
+            $('a.upload_cancel_link').click(function(event){
+                event.preventDefault();
+                var dialog = $(this).closest('.upload_dialog');
+                dialog.children().show();
+                dialog.find('.upload_url_button').show().next().hide();
+                dialog.find('input').val('');
+                dialog.hide();
+            });
 
 });
+
+
+
+    
 
 
 //User clicks the Home link in the directory path

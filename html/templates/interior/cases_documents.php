@@ -33,20 +33,20 @@ TOOLS;
 }
 ?>
 
-	<div class = "upload_dialog" tabindex="2">
-
-		<p>Upload into <span class='upload_directory'> </span> folder:</p>
-		
-		
+	<div class = "upload_dialog">
+			
 		<div class = "upload_dialog_file" tabindex="1"></div>
-		<p class="seperator">-- OR --<p>
+
 		<div class = "upload_dialog_url" tabindex="2">
 			<div class = "upload_url_button qq-upload-button">Web address</div>
 			<div class = "upload_url_form">
-				<label>URL</label><input type="text" class="url_upload"><br /><br />
+				<label>URL</label><input type="text" class="url_upload_name"><br /><br />
 				<label>Name</label><input type="text" class="url_upload">
+				<button class="upload_url_submit">Submit</button>
 			</div>
+
 		</div>
+
 	</div>
 
 

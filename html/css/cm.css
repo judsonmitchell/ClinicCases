@@ -486,14 +486,18 @@ div.doc_item textarea{width:90px;height:50px;border:0px;}
 div.doc_item textarea.user_input{background-color: #EDF09F}
 a.active  {text-decoration:none;}
 
-div.upload_dialog{position:absolute;z-index:99999;display:none;background-color:white;width:80%;height:80%;padding:15px;border:1px solid black;box-shadow:5px 5px 7px #AAA;-moz-box-shadow:5px 5px 7px #AAA;-webkit-box-shadow:5px 5px 7px #AAA;outline:0px;text-align:left;right:100px;}
+/*div.upload_dialog{position:absolute;z-index:99999;display:none;background-color:white;width:80%;height:80%;padding:15px;border:1px solid black;box-shadow:5px 5px 7px #AAA;-moz-box-shadow:5px 5px 7px #AAA;-webkit-box-shadow:5px 5px 7px #AAA;outline:0px;text-align:left;right:100px;}
+*/
 
+div.upload_dialog{display: none;}
 div.upload_dialog p{margin-bottom:10px;}
+div.upload_dialog * {outline:0;}
 div.upload_dialog p.seperator{font-style:italic;}
 div.upload_dialog .upload_directory{font-weight:bold;}
 div.upload_url_form{display: none;padding:20px;}
 div.upload_url_form label{display:inline-block;width:50px;}
 div.upload_url_form input{width:300px;}
+div.upload_cancel{position:absolute;bottom:10px;right:10px;}
 
 
 

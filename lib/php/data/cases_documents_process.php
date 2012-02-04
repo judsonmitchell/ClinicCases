@@ -122,6 +122,14 @@ if (isset($_POST['path'])) {
 	$path = $_POST['path'];
 }
 
+if (isset($_POST['url'])) {
+	$url = $_POST['url'];
+}
+
+if (isset($_POST['url_name'])) {
+	$url_name = $_POST['url_name'];
+}
+
 if ($action == 'newfolder')
 {
 
@@ -135,7 +143,7 @@ if ($action == 'newfolder')
 
 	$new_folder_query->execute();
 
-	$error = $new_folder_query->errorInfo();
+	$error = $dbh->errorInfo();
 
 }
 
@@ -192,6 +200,18 @@ if ($action == 'rename')
 if ($action == 'delete')
 {}
 
+
+if ($action == 'add_url')
+{
+	$add_url_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, username, case_id, date_modified) VALUES (NULL, :url_name, :url, 'url', :folder, '', :user, :case_id, CURRENT_TIMESTAMP);");
+
+	$data = array('url_name' => $url_name, 'url' => $url, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id);
+
+	$add_url_query->execute($data);
+
+	$error = $dbh->errorInfo();
+
+}
 //Handle mysql errors
 
 	if($error[1])
@@ -219,6 +239,11 @@ if ($action == 'delete')
 
 			case "delete":
 			echo "Folder Deleted.";
+			break;
+
+			case "add_url":
+			$return = array('message'=>'Web address added.');
+			echo json_encode($return);
 			break;
 
 			}

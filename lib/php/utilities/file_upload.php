@@ -3,6 +3,8 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
+$username = $_SESSION['login'];
+
 if (isset($_GET['case_id'])) {
     $case_id = $_GET['case_id'];
 }
@@ -179,8 +181,7 @@ $sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 
 $result = $uploader->handleUpload('../../../uploads/');
-// to pass data through iframe you will need to encode all html tags
-//echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+
  if (!in_array(true, $result))  //upload fails
      {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);}
  else
@@ -189,19 +190,9 @@ $result = $uploader->handleUpload('../../../uploads/');
 
     $users_file_name = $result['file'] . "." . $result['ext'];
 
-    $upload_doc_query->bindParam(':name',$users_file_name);
+    $data = array('name' => $users_file_name, 'extension' => $result["ext"], 'folder' => $path, 'container' => $container, 'user' => $username, 'case_id' => $case_id);
 
-    $upload_doc_query->bindParam(':extension',$result['ext']);
-
-    $upload_doc_query->bindParam(':folder',$path);
-
-    $upload_doc_query->bindParam(':container',$container);
-
-    $upload_doc_query->bindParam(':user',$_SESSION['login']);
-
-    $upload_doc_query->bindParam(':case_id',$case_id);
-
-    $upload_doc_query->execute();
+    $upload_doc_query->execute($data);
 
     $error = $upload_doc_query->errorInfo();
 
