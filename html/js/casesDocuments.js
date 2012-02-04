@@ -276,7 +276,8 @@ $('button.doc_new_folder').live('click', function() {
 //User clicks on the upload button
 $('button.doc_upload').live('click', function(){
 
-    $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').find('.upload_dialog').show().addClass('ui-corner-all');
+    var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    thisPanel.find('.upload_dialog').show().addClass('ui-corner-all');
 
         var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 
@@ -296,11 +297,26 @@ $('button.doc_upload').live('click', function(){
 
             var uploader = new qq.FileUploader({
                 // pass the dom node (ex. $(selector)[0] for jQuery users)
-                element: $('.upload_dialog')[0],
+                element: $('.upload_dialog_file')[0],
                 // path to server-side upload script
                 action: 'lib/php/utilities/file_upload.php',
-                params: {path:currentPath,case_id:caseId}
+                params: {path:currentPath,case_id:caseId},
+                // onComplete: function(){
+                //     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {})
+                // }
             });
+
+            $('div.qq-upload-button').addClass('ui-corner-all').click(function(){
+                $(this).closest('.upload_dialog_file').siblings('p.seperator, div.upload_dialog_url ').hide();
+            });
+            $('.upload_url_button').mouseenter(function(){$(this).addClass('qq-upload-button-hover');}).mouseleave(function(){$(this).removeClass('qq-upload-button-hover');}).click(function(){
+                $(this).next().show();
+                $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
+                $(this).parents('.upload_dialog').find('p.seperator').hide();
+
+            });
+
+            
 
 });
 
