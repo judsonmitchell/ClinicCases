@@ -2,7 +2,7 @@
 // SETS SYSTEM-WIDE CONFIG PREFERNENCES
 
 //Information to access your database
-define("CC_DBHOST","localhost");
+define("CC_DBHOST","");
 define("CC_DBUSERNAME","");
 define("CC_DBPASSWD", "");
 define("CC_DATABASE_NAME","");
@@ -13,8 +13,7 @@ define("CC_DATABASE_NAME","");
 //Full path to ClinicCases on your server, e.g. "/var/www/clinicases"
 define("CC_PATH","");
 
-//Path of directory which will store uploaded documents.  For security purposes, this directory should  be out of the webroot.  Ensure that the directory has is writable.  E.g "/var/cc_docs" or "/home/you/private/cc_docs"
-
+//Path of directory which will store uploaded documents.  For security purposes, this directory should not be out of the webroot.  Ensure that the directory has is writeable.  E.g "/var/cc_docs" or "/home/you/private/cc_docs"
 define("CC_DOC_PATH","");
 
 //Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
@@ -35,11 +34,15 @@ define("CC_PROGRAM_NAME","");
 //Minimum timekeeping unit.  Default is 5 minutes.  Some prefer 6
 define("CC_TIME_UNIT","5");
 
-//Maximum file upload size in MB.  Default 5MB
-define("MAX_FILE_UPLOAD","5");
+//Maximum file upload size in MB.  Note that the php.ini settings post_max_size and upload_max_filesize
+//should be set to at least this value.  Default 10MB.
+define("MAX_FILE_UPLOAD","10");
 
 //Optional: Your School Color (used for program name); rgb or hex value.
 define("CC_SCHOOL_COLOR","");
+
+//Allowed file types for upload
+define("ALLOWED_FILE_TYPES", serialize(array('doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz','pdf')));
 
 //Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.
 
