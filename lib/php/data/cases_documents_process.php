@@ -209,7 +209,7 @@ if ($action == 'add_url')
 
 	$add_url_query->execute($data);
 
-	$error = $dbh->errorInfo();
+	$error = $add_url_query->errorInfo();
 
 }
 //Handle mysql errors

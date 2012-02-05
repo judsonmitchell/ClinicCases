@@ -20,14 +20,17 @@
 .qq-upload-drop-area-active {background:#FF7171;}
 
 .qq-upload-list {margin:15px 35px; padding:0; list-style:disc;text-align:left;}
-.qq-upload-list li { margin:0; padding:0; line-height:15px; font-size:.9em;}
+.qq-upload-list li { margin:0px 0px 30px 0px; padding:0; line-height:15px; font-size:.9em;}
 .qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-failed-text {
     margin-right: 7px;
 }
 
 .qq-upload-file {}
-.qq-upload-spinner {display:inline-block; background: url("loading.gif"); width:15px; height:15px; vertical-align:text-bottom;}
+.qq-upload-spinner {display:inline-block; background: width:70px; height:15px; vertical-align:text-bottom;}
 .qq-upload-size,.qq-upload-cancel {font-size:11px;}
 
 .qq-upload-failed-text {display:none;}
 .qq-upload-fail .qq-upload-failed-text {display:inline;}
+
+.qq-upload-success{color:green;}
+.qq-upload-fail{color:red;}

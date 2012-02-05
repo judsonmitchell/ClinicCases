@@ -142,18 +142,21 @@ class qqFileUploader {
             return array('error' => 'File is empty');
         }
         
-        if ($size > $this->sizeLimit) {
-            return array('error' => 'File is too large');
+        if ($size > $this->sizeLimit) {            
+            return array('error' => 'File exceeds the mamxiumum file size of ' . MAX_FILE_UPLOAD . 'M');
         }
         
         $pathinfo = pathinfo($this->file->getName());
         $filename = $pathinfo['filename'];
-        //$filename = md5(uniqid());
-        $ext = $pathinfo['extension'];
+
+        if (isset($pathinfo['extension']))
+        {$ext = $pathinfo['extension'];}
+        else
+        {$ext = '';}
 
         if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
             $these = implode(', ', $this->allowedExtensions);
-            return array('error' => 'File has an invalid extension, it should be one of '. $these . '.');
+            return array('error' => 'This file type is not permitted.  Ask your administrator to add this file type.');
         }
         
         if(!$replaceOldFile){
@@ -173,17 +176,17 @@ class qqFileUploader {
     }    
 }
 
-// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-$allowedExtensions = array();
-// max file size in bytes
+//$allowed_file_types is set in the config file
+$allowedExtensions = unserialize(ALLOWED_FILE_TYPES);
+
 $sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 
 $result = $uploader->handleUpload('../../../uploads/');
 
- if (!in_array(true, $result))  //upload fails
-     {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);}
+ if (array_key_exists("error", $result))  //upload fails
+     {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
  else
  {
     $upload_doc_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, username, case_id, date_modified) VALUES (NULL, :name, '', :extension, :folder, :container, :user, :case_id, CURRENT_TIMESTAMP);");

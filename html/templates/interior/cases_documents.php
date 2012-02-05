@@ -40,8 +40,8 @@ TOOLS;
 		<div class = "upload_dialog_url" tabindex="2">
 			<div class = "upload_url_button qq-upload-button">Web address</div>
 			<div class = "upload_url_form">
-				<label>URL</label><input type="text" class="url_upload_name"><br /><br />
-				<label>Name</label><input type="text" class="url_upload">
+				<label>URL</label><input type="text" class="url_upload"><br /><br />
+				<label>Name</label><input type="text" class="url_upload_name">
 				<button class="upload_url_submit">Submit</button>
 			</div>
 

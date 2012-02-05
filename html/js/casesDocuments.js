@@ -296,61 +296,43 @@ $('button.doc_upload').live('click', function(){
             height:500,
             width:500,
             modal:true,
-            title:"Upload into " + activeDirectory + " folder"
+            title:"Upload into " + activeDirectory + " folder:"
         });
 
-            var uploader = new qq.FileUploader({
-                // pass the dom node (ex. $(selector)[0] for jQuery users)
-                element: $('.upload_dialog_file')[0],
-                // path to server-side upload script
-                action: 'lib/php/utilities/file_upload.php',
-                params: {path:currentPath,case_id:caseId},
-                onComplete: function(){
-                    var p = thisPanel.find('.upload_dialog').detach();
-                    thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
-                        p.appendTo(thisPanel);
-
-                        });
-                    notify('Upload Complete');
-                    thisPanel.find('.upload_cancel_link').html('Done');
-                }
-            });
-
-            $('div.qq-upload-button').addClass('ui-corner-all');
-            // .click(function(){
-            //     $(this).closest('.upload_dialog_file').siblings('p.seperator, div.upload_dialog_url ').hide();
-            //     $(this).hide();
-            // });
-
-            $('.upload_url_button').mouseenter(function(){$(this).addClass('qq-upload-button-hover');}).mouseleave(function(){$(this).removeClass('qq-upload-button-hover');});
-            // /click(function(){
-            //     $(this).next().show();
-            //     $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
-            //     $(this).parents('.upload_dialog').find('p.seperator').hide();
-            //     $(this).hide();
-            // });
-
-            $('button.upload_url_submit').click(function(){
-                var url = $(this).siblings('input.url_upload').val();
-                var urlName = $(this).siblings('input.url_upload_name').val();
-                $.post('lib/php/data/cases_documents_process.php', {'url_name':urlName,'url':url,'case_id': caseId,'folder': currentPath,'action': 'upload_url'},function(){
+    var uploader = new qq.FileUploader({
+        // pass the dom node (ex. $(selector)[0] for jQuery users)
+        element: $('.upload_dialog_file')[0],
+        // path to server-side upload script
+        action: 'lib/php/utilities/file_upload.php',
+        params: {path:currentPath,case_id:caseId},       
+        onComplete: function(){
+            thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+                    //notify('Upload Complete');
                 });
-            });
+        }
+    });
 
-            $('a.upload_cancel_link').click(function(event){
-                event.preventDefault();
-                var dialog = $(this).closest('.upload_dialog');
-                dialog.children().show();
-                dialog.find('.upload_url_button').show().next().hide();
-                dialog.find('input').val('');
-                dialog.hide();
-            });
+    $('div.qq-upload-button').addClass('ui-corner-all').click(function(){
+            $(this).closest('.upload_dialog_file').siblings('div.upload_dialog_url ').hide();
+            //$(this).hide();
+        });
 
+    $('.upload_url_button').mouseenter(function(){$(this).addClass('qq-upload-button-hover');}).mouseleave(function(){$(this).removeClass('qq-upload-button-hover');}).click(function(){
+            $(this).next().show();
+            $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
+            //$(this).hide();
+        });
+
+    $('button.upload_url_submit').click(function(){
+        var url = $(this).siblings('input.url_upload').val();
+        var urlName = $(this).siblings('input.url_upload_name').val();
+        $.post('lib/php/data/cases_documents_process.php', {'url_name':urlName,'url':url,'case_id': caseId,'path': currentPath,'action': 'add_url'},function(){
+            thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+
+                });
+        });
+    });
 });
-
-
-
-    
 
 
 //User clicks the Home link in the directory path

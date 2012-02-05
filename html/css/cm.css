@@ -492,12 +492,11 @@ a.active  {text-decoration:none;}
 div.upload_dialog{display: none;}
 div.upload_dialog p{margin-bottom:10px;}
 div.upload_dialog * {outline:0;}
-div.upload_dialog p.seperator{font-style:italic;}
 div.upload_dialog .upload_directory{font-weight:bold;}
 div.upload_url_form{display: none;padding:20px;}
 div.upload_url_form label{display:inline-block;width:50px;}
 div.upload_url_form input{width:300px;}
-div.upload_cancel{position:absolute;bottom:10px;right:10px;}
+div.upload_progress{height:10px;color:black;}
 
 
 
