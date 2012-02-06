@@ -62,7 +62,7 @@
 
 		<li id="item4">Events</li>
 
-		<li id="item5">Memos</li>
+		<li id="item5">Messages</li>
 
 		<li id="item6">Contacts</li>
 

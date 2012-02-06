@@ -11,6 +11,8 @@
 
 <link type="text/css" href="lib/javascripts/jScrollPane/jquery.jscrollpane.css" rel="stylesheet"/>
 
+<link type="text/css" href="lib/javascripts/lwrte/jquery.rte.css" rel="stylesheet"/>
+
 <link type="text/css" href="lib/javascripts/contextMenu/jquery.contextMenu.css" rel="stylesheet"/>
 
 <link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
@@ -49,10 +51,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
 
-	
-	
+	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.js"></script>
 
-
+	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.tb.js"></script>
 
 </head>
 <body>

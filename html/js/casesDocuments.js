@@ -37,12 +37,12 @@ $('.case_detail_nav #item3').live('click', function() {
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
         $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
-        $('div.case_detail_panel_tools_left').css({'width': '60%'});
-        $('div.case_detail_panel_tools_right').css({'width': '40%'});
+        $('div.case_detail_panel_tools_left').css({'width': '40%'});
+        $('div.case_detail_panel_tools_right').css({'width': '60%'});
 
 
         //Set buttons
-        $('button.doc_new_folder').button({icons: {primary: "fff-icon-folder-add"},text: true}).next().button({icons: {primary: "fff-icon-page-white-get"},text: true});
+        $('button.doc_new_doc').button({icons: {primary: "fff-icon-page-add"},text: true}).next().button({icons: {primary: "fff-icon-folder-add"},text: true}).next().button({icons: {primary: "fff-icon-page-white-get"},text: true});
 
         //Unescape folder names
         $('.folder p, .doc_properties h3').each(function() {
@@ -237,6 +237,33 @@ $('div.doc_item > a').live('click', function(event) {
     }
 
 });
+
+//User clicks new document button
+$('button.doc_new_doc').live('click', function(){
+    var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var editor = '<textarea class="text_editor"></textarea>';
+    target.html(editor);
+    var arr = target.find('.text_editor').rte({
+        css: ['lib/javascripts/lwrte/default2.css'],
+        width: 900,
+        height: 400,
+        controls_rte: rte_toolbar
+    });
+
+    //auto-save
+    var lastChCount = "0";
+    function autoSave(lastChCount,arr)
+    {
+        var chCount = arr[0].get_content();
+        if (chCount.length != lastChCount)
+        {console.log(chCount);lastChCount = chCount.length;}
+        var t = setTimeout(function(){console.log('fire');autoSave(lastChCount,arr);},3000);
+    }
+
+    autoSave(lastChCount,arr);
+
+});
+
 
 //User clicks new folder button
 $('button.doc_new_folder').live('click', function() {

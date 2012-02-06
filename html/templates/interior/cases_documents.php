@@ -13,6 +13,8 @@ TOOLS;
 
 		if ($_SESSION['permissions']['documents_modify'] == '1')
 		{
+			echo "<button class='doc_new_doc'>New Document</button>";
+			
 			echo "<button class='doc_new_folder'>New Folder</button>";
 		}
 
