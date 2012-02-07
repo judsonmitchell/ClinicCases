@@ -26,7 +26,7 @@
 }
 
 .rte-resizer a { 
-	background: url('images/rte_icons.gif') no-repeat 0 0; 
+	background: url('images/rte_icons_cc.gif') no-repeat 0 0; 
 	background-position: 0 -688px; 
 	width: 16px;
 	height: 16px;
@@ -274,7 +274,7 @@
 	display: block; 
 	width: 16px; 
 	height: 16px; 
-	background: url('images/rte_icons.gif') no-repeat 0 0; 
+	background: url('images/rte_icons_cc.gif') no-repeat 0 0; 
 	cursor: pointer; 
 	margin: 0;
 	padding: 0; 
@@ -326,3 +326,4 @@
 .rte-toolbar ul li a.link { background-position: 0 -384px; }
 .rte-toolbar ul li a.color { background-position: 0 -624px; }
 .rte-toolbar ul li a.unlink { background-position: 0 -640px; }
+.rte-toolbar ul li a.print { background-position: 0 -687px; }

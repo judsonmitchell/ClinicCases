@@ -241,7 +241,7 @@ $('div.doc_item > a').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function(){
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    var editor = '<textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar"><div class="text_editor_title">New Document</div></div><textarea class="text_editor"></textarea>';
     target.html(editor);
     var arr = target.find('.text_editor').rte({
         css: ['lib/javascripts/lwrte/default2.css'],
@@ -249,6 +249,8 @@ $('button.doc_new_doc').live('click', function(){
         height: 400,
         controls_rte: rte_toolbar
     });
+
+    //arr[0].set_content('<div class="print_content" style="width:750px;height:100%;margin:auto;border-left:1px solid #AAA;border-right:1px solid #AAA"></div>');
 
     //auto-save
     var lastChCount = "0";
