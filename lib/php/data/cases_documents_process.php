@@ -243,9 +243,11 @@ if ($action == 'new_ccd')
 
 if ($action == 'update_ccd')
 {
-	$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, text = :ccd_text WHERE id = :doc_id");
+	$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, local_file_name = :ccd_local_name, text = :ccd_text WHERE id = :doc_id");
 
-	$data = array('name' => $ccd_name, 'doc_id' => $ccd_id, 'ccd_text' => $ccd_text);
+	$ccd_local_name = $ccd_id . ".ccd";
+
+	$data = array('name' => $ccd_name, 'ccd_local_name' => $ccd_local_name, 'doc_id' => $ccd_id, 'ccd_text' => $ccd_text);
 
 	$update_ccd_query->execute($data);
 
