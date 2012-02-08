@@ -130,10 +130,26 @@ if (isset($_POST['url_name'])) {
 	$url_name = $_POST['url_name'];
 }
 
+if (isset($_POST['local_file_name'])) {
+	$local_file_name = $_POST['local_file_name'];
+}
+
+if (isset($_POST['ccd_name'])) {
+	$ccd_name = $_POST['ccd_name'];
+}
+
+if (isset($_POST['ccd_text'])) {
+	$ccd_text = $_POST['ccd_text'];
+}
+
+if (isset($_POST['ccd_id'])) {
+	$ccd_id = $_POST['ccd_id'];
+}
+
 if ($action == 'newfolder')
 {
 
-	$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `url`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', :new_folder, :container, '$username', :case_id, CURRENT_TIMESTAMP);");
+	$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', :new_folder, :container, '$username', :case_id, CURRENT_TIMESTAMP);");
 
 	$new_folder_query->bindParam(':container',$container);
 
@@ -212,6 +228,30 @@ if ($action == 'add_url')
 	$error = $add_url_query->errorInfo();
 
 }
+
+if ($action == 'new_ccd')
+{
+	$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :user , :user, :case_id, CURRENT_TIMESTAMP);");
+
+	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id);
+
+	$new_ccd_query->execute($data);
+
+	$error = $new_ccd_query->errorInfo();
+
+}
+
+if ($action == 'update_ccd')
+{
+	$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, text = :ccd_text WHERE id = :doc_id");
+
+	$data = array('name' => $ccd_name, 'doc_id' => $ccd_id, 'ccd_text' => $ccd_text);
+
+	$update_ccd_query->execute($data);
+
+	$error = $update_ccd_query->errorInfo();
+
+}
 //Handle mysql errors
 
 	if($error[1])
@@ -245,6 +285,16 @@ if ($action == 'add_url')
 			$return = array('message'=>'Web address added.');
 			echo json_encode($return);
 			break;
+
+			case "new_ccd":
+			$new_id = $dbh->lastInsertId();
+			$return = array('ccd_id'=>$new_id,'ccd_title'=>$ccd_name);
+			echo json_encode($return);
+			break;
+
+			case "update_ccd":
+			$return = array('message'=>'Changes saved','ccd_title'=>$ccd_name);
+			echo json_encode($return);
 
 			}
 

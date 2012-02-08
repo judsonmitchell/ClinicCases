@@ -241,7 +241,7 @@ $('div.doc_item > a').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function(){
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    var editor = '<div class="text_editor_bar"><div class="text_editor_title">New Document</div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div></div><textarea class="text_editor"></textarea>';
     target.html(editor);
     var arr = target.find('.text_editor').rte({
         css: ['lib/javascripts/lwrte/default2.css'],
@@ -250,19 +250,69 @@ $('button.doc_new_doc').live('click', function(){
         controls_rte: rte_toolbar
     });
 
-    //arr[0].set_content('<div class="print_content" style="width:750px;height:100%;margin:auto;border-left:1px solid #AAA;border-right:1px solid #AAA"></div>');
+    //Define variables
+    var ccdTitleArea = target.find('.text_editor_title');
+    var ccdTitle = target.find('.text_editor_title').html();
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
+    var docIdArea = target.find('.text_editor_bar');
+
+    //Db leaves folder field blank for documents in root directory, so send empty value
+    if (currentPath === 'Home')
+        {currentPath = '';}
+
+    //Create new ccd (ClinicCases Document) in db
+    $.post('lib/php/data/cases_documents_process.php',{'action':'new_ccd','ccd_name':escape(ccdTitle),'local_file_name':'New Document.ccd','path':currentPath,'case_id':caseId},function(data){
+        var serverResponse = $.parseJSON(data);
+        docIdArea.attr('data-id',serverResponse.ccd_id);
+        ccdTitleArea.html(unescape(serverResponse.ccd_title));
+
+    });
+
+    //Change document title
+    ccdTitleArea.mouseenter(function(){$(this).css({'color':'red'});
+        })
+        .click(function(){
+        $(this).css({'color':'red'});
+        $(this).html('<input type="text" value="">');
+        $(this).find('input').val(unescape(ccdTitle)).focus();
+        })
+        .keypress(function(e) {
+            if (e.which == 13) {
+            e.preventDefault();
+            ccdTitle = escape($(this).find('input').val());
+            $(this).text(unescape(ccdTitle));
+            $(this).css({'color':'black'});
+            var getText = arr[0].get_content();
+            $.post('lib/php/data/cases_documents_process.php',{'action':'update_ccd','ccd_name':ccdTitleArea.html(),'ccd_id':docIdArea.attr('data-id'),'ccd_text':getText},function(data){
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message);
+                });
+            }
+        })
+        .mouseleave(function(){$(this).css({'color':'black'});
+        });
+       
 
     //auto-save
-    var lastChCount = "0";
-    function autoSave(lastChCount,arr)
+    var lastText = "";
+    function autoSave(lastText,arr)
     {
-        var chCount = arr[0].get_content();
-        if (chCount.length != lastChCount)
-        {console.log(chCount);lastChCount = chCount.length;}
-        var t = setTimeout(function(){console.log('fire');autoSave(lastChCount,arr);},3000);
+        var text = arr[0].get_content();
+        if (text != lastText)
+        {
+            $.post('lib/php/data/cases_documents_process.php',{'action':'update_ccd','ccd_name':ccdTitleArea.html(),'ccd_id':docIdArea.attr('data-id'),'ccd_text':text},function(data){
+                var serverResponse = $.parseJSON(data);
+                ccdTitleArea.html(serverResponse.ccd_title);
+            });
+            lastText = text;
+        }
+        
+        var t = setTimeout(function(){
+            autoSave(lastText,arr);},3000);
     }
 
-    autoSave(lastChCount,arr);
+    autoSave(lastText,arr);
 
 });
 
@@ -314,7 +364,7 @@ $('button.doc_upload').live('click', function(){
     if (activeDirectory === '')
         {activeDirectory = 'Home';}
 
-    //Tells the server which directory to put file in    
+    //Tells the server which directory to put file in
     var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
         
     //Db leaves folder field blank for documents in root directory, so send empty value
@@ -333,7 +383,7 @@ $('button.doc_upload').live('click', function(){
         element: $('.upload_dialog_file')[0],
         // path to server-side upload script
         action: 'lib/php/utilities/file_upload.php',
-        params: {path:currentPath,case_id:caseId},       
+        params: {path:currentPath,case_id:caseId},
         onComplete: function(){
             thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
                     //notify('Upload Complete');
