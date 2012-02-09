@@ -498,11 +498,11 @@ div.upload_url_form label{display:inline-block;width:50px;}
 div.upload_url_form input{width:300px;}
 div.upload_progress{height:10px;color:black;}
 
-textarea.text_editor{font-family:"Times New Roman, Times, serif";font-size:"12pt";}
 div.text_editor_bar{width:900px;margin: auto;}
-div.text_editor_title{font-size:16pt;}
+div.text_editor_title{font-size:16pt;width:60%;float: left;}
 div.text_editor_title input {font-size:16pt;}
-
+div.text_editor_status{width:30%;float:right;text-align:right;}
+div.text_editor_status span.status{font-size: .7em;color:#AAAAAA;}
 ::-webkit-scrollbar {
     width: 12px;
 }

@@ -241,7 +241,7 @@ $('div.doc_item > a').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function(){
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
     target.html(editor);
     var arr = target.find('.text_editor').rte({
         css: ['lib/javascripts/lwrte/default2.css'],
@@ -252,6 +252,7 @@ $('button.doc_new_doc').live('click', function(){
 
     //Define variables
     var ccdTitleArea = target.find('.text_editor_title');
+    var ccdStatusArea = target.find('.text_editor_status');
     var ccdTitle = target.find('.text_editor_title').html();
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
@@ -299,11 +300,21 @@ $('button.doc_new_doc').live('click', function(){
     function autoSave(lastText,arr)
     {
         var text = arr[0].get_content();
+        var status = 'Saving...';
         if (text != lastText)
         {
+            ccdStatusArea.find('span.status').html(status);
             $.post('lib/php/data/cases_documents_process.php',{'action':'update_ccd','ccd_name':ccdTitleArea.html(),'ccd_id':docIdArea.attr('data-id'),'ccd_text':text},function(data){
                 var serverResponse = $.parseJSON(data);
-                ccdTitleArea.html(serverResponse.ccd_title);
+                if (serverResponse.error)
+                {
+                    ccdStatusArea.find('span.status').html(serverResponse.message);
+                }
+                else
+                {
+                    ccdTitleArea.html(serverResponse.ccd_title);
+                    ccdStatusArea.find('span.status').html(serverResponse.message);
+                }
             });
             lastText = text;
         }

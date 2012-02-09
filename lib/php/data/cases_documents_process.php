@@ -259,7 +259,7 @@ if ($action == 'update_ccd')
 	if($error[1])
 
 		{
-			$return = array('message'=>'Sorry,there was an error.');
+			$return = array('message'=>'Sorry,there was an error.','error'=>true);
 			echo json_encode($return);
 		}
 

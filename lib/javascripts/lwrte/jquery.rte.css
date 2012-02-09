@@ -278,15 +278,15 @@
 	cursor: pointer; 
 	margin: 0;
 	padding: 0; 
-	opacity: 0.5;
-	-moz-opacity: 0.5;
-	filter: alpha(opacity = 50);
+	opacity: 1;
+	-moz-opacity: 1;
+	filter: alpha(opacity = 100);
 }
 
 .rte-toolbar ul li a:hover, .rte-toolbar ul li a.active {
-	opacity: 1.0; 
-	-moz-opacity: 1.0;
-	filter: alpha(opacity = 100);
+	opacity: .5; 
+	-moz-opacity: .5;
+	filter: alpha(opacity = 50);
 }
 
 .rte-toolbar ul li a.active { 
