@@ -241,7 +241,7 @@ $('div.doc_item > a').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function(){
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div><div class="text_editor_status"><span class= "status">Unchanged</span><button>Close</button></div></div><textarea class="text_editor"></textarea>';
     target.html(editor);
     var arr = target.find('.text_editor').rte({
         css: ['lib/javascripts/lwrte/default2.css'],
@@ -267,7 +267,11 @@ $('button.doc_new_doc').live('click', function(){
         var serverResponse = $.parseJSON(data);
         docIdArea.attr('data-id',serverResponse.ccd_id);
         ccdTitleArea.html(unescape(serverResponse.ccd_title));
-
+        ccdStatusArea.find('button').button({icons: {primary: "fff-icon-cross"},text: true});
+        ccdStatusArea.find('button').click(function(){
+            //clearTimeout(t);
+            target.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':currentPath,'container':currentPath});
+        });
     });
 
     //Change document title
@@ -278,8 +282,8 @@ $('button.doc_new_doc').live('click', function(){
         $(this).html('<input type="text" value="">');
         $(this).find('input').val(unescape(ccdTitle)).focus();
         })
-        .keypress(function(e) {
-            if (e.which == 13) {
+        .keydown(function(e) {
+            if (e.which == 13  || e.which == 9) {
             e.preventDefault();
             ccdTitle = escape($(this).find('input').val());
             $(this).text(unescape(ccdTitle));
@@ -325,6 +329,7 @@ $('button.doc_new_doc').live('click', function(){
 
     autoSave(lastText,arr);
 
+    
 });
 
 
