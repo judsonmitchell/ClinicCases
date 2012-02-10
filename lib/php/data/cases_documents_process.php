@@ -254,6 +254,42 @@ if ($action == 'update_ccd')
 	$error = $update_ccd_query->errorInfo();
 
 }
+
+if ($action == 'open')
+{
+	if ($doc_type === 'folder')
+	{
+
+	}
+
+	else
+
+	{
+		$open_query = $dbh->prepare("SELECT * FROM cm_documents WHERE id = :item_id");
+
+		$open_query->bindParam(':item_id',$item_id);
+
+		$open_query->execute();
+
+		$doc_properties = $open_query->fetch();
+
+		switch ($doc_properties['extension']) {
+			case 'url':
+				# code...
+				break;
+
+			case 'ccd':
+				# code...
+				break;
+			
+			default:
+				# code...all other extensions
+				break;
+		}
+	}
+
+}
+
 //Handle mysql errors
 
 	if($error[1])
