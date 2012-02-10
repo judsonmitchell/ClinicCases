@@ -16,6 +16,7 @@
 }
 
 .rte-resizer {
+	display: none;
 	width: 100%;
 	height: 20px;
 	margin:0;
@@ -25,9 +26,7 @@
 	background-color: #fdfdfd;
 }
 
-.rte-resizer a { 
-	background: url('images/rte_icons_cc.gif') no-repeat 0 0; 
-	background-position: 0 -688px; 
+.rte-resizer a { 	
 	width: 16px;
 	height: 16px;
 	display: block;

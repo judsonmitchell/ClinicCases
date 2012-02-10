@@ -269,8 +269,16 @@ $('button.doc_new_doc').live('click', function(){
         ccdTitleArea.html(unescape(serverResponse.ccd_title));
         ccdStatusArea.find('button').button({icons: {primary: "fff-icon-cross"},text: true});
         ccdStatusArea.find('button').click(function(){
-            //clearTimeout(t);
-            target.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':currentPath,'container':currentPath});
+
+            if (currentPath === '') //the document is not in a subfolder
+                {
+                    target.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':currentPath});
+                }
+            else //document is in a subfolder
+                {
+                    target.load('lib/php/data/cases_documents_load.php',{'id':caseId,'update':'yes','path':currentPath,'container':currentPath});
+                }
+            
         });
     });
 
