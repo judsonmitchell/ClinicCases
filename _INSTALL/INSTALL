@@ -6,7 +6,7 @@ sIf you need help, please go to our forums at http://www.cliniccases.com/forums.
 REQUIREMENTS:
 1. Server running Linux
 2. Mysql
-3. PHP version 5.1 or higher
+3. PHP version 5.3 or higher
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
 5. GD libraries for php (optional; used for resizing photos)
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
