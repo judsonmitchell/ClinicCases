@@ -55,6 +55,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.tb.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
+
+
 </head>
 <body>
 

@@ -283,7 +283,20 @@ if ($action == 'open')
 				break;
 			
 			default:
-				# code...all other extensions
+				$finfo = finfo_open(FILEINFO_MIME);
+				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name']; 
+				header('Content-Description: File Transfer');
+				//header("Content-type: application/force-download");
+				header("Content-type:" . finfo_file($finfo, $file));
+				//header('Content-Type: application/octet-stream');
+				header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
+				header('Content-Transfer-Encoding:  binary');
+				header("Content-Length: ". filesize($file));
+				header('Expires: 0');
+    			header('Cache-Control: no-store, no-cache, must-revalidate');
+				header('Pragma: no-cache');
+				readfile(CC_DOC_PATH . "/" . $doc_properties['local_file_name']);
+				exit;
 				break;
 		}
 	}

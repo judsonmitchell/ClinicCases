@@ -87,8 +87,22 @@ $('.case_detail_nav #item3').live('click', function() {
         switch (action)
         {
             case 'open':
-                var thisUrl = $(el).find('a').attr('href');
-                window.open(thisUrl, '_new');
+                if ($(el).hasClass('folder'))
+                    {
+
+                    }
+                else if ($(el).hasClass('url'))
+                    {
+
+                    }
+                else if ($(el).hasClass('ccd'))
+                    {
+
+                    }
+                else
+                    {
+                        $.download('lib/php/data/cases_documents_process.php',{'item_id':itemId,'action':'open','doc_type':'doc'});
+                    }
                 break;
 
             case 'cut':
