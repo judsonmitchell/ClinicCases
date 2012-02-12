@@ -71,4 +71,5 @@ if (stristr($document['local_file_name'], 'http://') || stristr($document['local
 		}
 }
 
+//rename all files in docs directory to the id + extension; update local_file_name to the new name;then move them to new CC_DOC_PATH
 
