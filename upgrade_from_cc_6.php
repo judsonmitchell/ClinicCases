@@ -58,11 +58,17 @@ $query->execute();
 $documents = $query->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($documents as $document) {
-		$id = $document['id'];
-		$ext = substr(strrchr($document['name'], "."), 1);
-		$update = ("UPDATE cm_documents SET `extension` = :ext WHERE `id` = :id");
+
+if (stristr($document['local_file_name'], 'http://') || stristr($document['local_file_name'], 'https://') || stristr($document['local_file_name'], 'ftp://'))
+		{$ext = 'url';}
+		else
+		{$ext = strtolower(substr(strrchr($document['local_file_name'], "."), 1));}
+		if ($ext != '')
+		{
+		$update = $dbh->prepare("UPDATE cm_documents SET extension = :ext WHERE id = :id");
 		$data = array(':ext'=>$ext,':id'=>$id);
 		$update->execute($data);
+		}
 }
 
 
