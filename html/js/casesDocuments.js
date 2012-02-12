@@ -18,6 +18,52 @@ function createTrail(path)
     return pathString;
 }
 
+function openItem(el,itemId,docType,caseId,path,pathDisplay)
+{
+     if ($(el).hasClass('folder'))
+        {
+            $(el).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'container': path,'path': path,'update': 'y'}, function() {
+                var pathString = createTrail(path);
+                pathDisplay.html(pathString);
+                pathDisplay.find("a[path='" + path + "']").addClass('active');
+                //Unescape folder names
+                $('.folder p, .doc_properties h3').each(function() {
+                    var t = unescape($(this).html());
+                    $(this).html(t);
+                });
+
+                //Set the current path so that other functions can access it
+                $(this).closest('.case_detail_panel').data('CurrentPath',path);
+
+                //Apply shadow on scroll
+                $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
+                    var scrollAmount = $(this).scrollTop();
+                    if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
+                    {
+                        $(this).removeClass('csenote_shadow');
+                    }
+                    else
+                    {
+                        $(this).addClass('csenote_shadow');
+                    }
+                });
+            });
+        }
+    else if ($(el).hasClass('url'))
+        {
+
+        }
+    else if ($(el).hasClass('ccd'))
+        {
+
+        }
+    else
+        {
+            $.download('lib/php/data/cases_documents_process.php',{'item_id':itemId,'action':'open','doc_type':docType});
+        }
+
+}
+
 //User clicks to open document window
 $('.case_detail_nav #item3').live('click', function() {
 
@@ -74,10 +120,12 @@ $('.case_detail_nav #item3').live('click', function() {
         var itemId = $(el).attr('data-id');
         var docType = null;
         var caseId = $(el).closest('.case_detail_panel').data('CaseNumber');
+        var pathDisplay = $(el).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+
         if ($(el).hasClass('folder'))
         {
             docType = 'folder';
-            var path = $(el).attr('path');
+            path = $(el).attr('path');
         }
         else
         {
@@ -87,22 +135,7 @@ $('.case_detail_nav #item3').live('click', function() {
         switch (action)
         {
             case 'open':
-                if ($(el).hasClass('folder'))
-                    {
-
-                    }
-                else if ($(el).hasClass('url'))
-                    {
-
-                    }
-                else if ($(el).hasClass('ccd'))
-                    {
-
-                    }
-                else
-                    {
-                        $.download('lib/php/data/cases_documents_process.php',{'item_id':itemId,'action':'open','doc_type':'doc'});
-                    }
+                openItem(el,itemId,docType,caseId,path,pathDisplay);
                 break;
 
             case 'cut':
@@ -203,52 +236,18 @@ $('.case_detail_nav #item3').live('click', function() {
         $(this).closest('div').css({'height': '120px','overflow': 'hidden'});
     });
 
-
 });
 
 //User clicks a folder or document
 $('div.doc_item > a').live('click', function(event) {
     event.preventDefault();
-
-	if ($(this).closest('div').hasClass('folder'))
-    {
-        var path = $(this).closest('div').attr('path');
-        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-        var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
-
-        $(this).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'container': path,'path': path,'update': 'y'}, function() {
-            var pathString = createTrail(path);
-            pathDisplay.html(pathString);
-            pathDisplay.find("a[path='" + path + "']").addClass('active');
-            //Unescape folder names
-            $('.folder p, .doc_properties h3').each(function() {
-                var t = unescape($(this).html());
-                $(this).html(t);
-            });
-
-            //Set the current path so that other functions can access it
-            $(this).closest('.case_detail_panel').data('CurrentPath',path);
-
-            //Apply shadow on scroll
-            $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
-                var scrollAmount = $(this).scrollTop();
-                if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
-                {
-                    $(this).removeClass('csenote_shadow');
-                }
-                else
-                {
-                    $(this).addClass('csenote_shadow');
-                }
-            });
-        });
-    }
-
-    else
-
-    { // TODO insert document actions
-
-    }
+    var path = $(this).closest('div').attr('path');
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+    var el = $(this).closest('div');
+    var itemId = el.attr('data-id');
+    var docType = 'document';
+    openItem(el,itemId,docType,caseId,path,pathDisplay);
 
 });
 
