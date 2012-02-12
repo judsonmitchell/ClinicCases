@@ -51,7 +51,10 @@ function openItem(el,itemId,docType,caseId,path,pathDisplay)
         }
     else if ($(el).hasClass('url'))
         {
-
+            $.post('lib/php/data/cases_documents_process.php',{'action':'open','item_id':itemId,'doc_type':'document'},function(data){
+                var serverResponse = $.parseJSON(data);
+                window.open(serverResponse.target_url,'_blank');
+            });
         }
     else if ($(el).hasClass('ccd'))
         {
@@ -130,6 +133,7 @@ $('.case_detail_nav #item3').live('click', function() {
         else
         {
             docType = 'document';
+            path = '';
         }
 
         switch (action)

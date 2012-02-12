@@ -273,9 +273,11 @@ if ($action == 'open')
 
 		$doc_properties = $open_query->fetch();
 
+		$error = $open_query->errorInfo();
+
 		switch ($doc_properties['extension']) {
 			case 'url':
-				# code...
+				$target_url = $doc_properties['local_file_name'];
 				break;
 
 			case 'ccd':
@@ -346,6 +348,12 @@ if ($action == 'open')
 			case "update_ccd":
 			$return = array('message'=>'Changes saved','ccd_title'=>$ccd_name);
 			echo json_encode($return);
+			break;
+
+			case "open":
+			$return = array('target_url'=>$target_url);
+			echo json_encode($return);
+			break;
 
 			}
 
