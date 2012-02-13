@@ -53,7 +53,7 @@ $query->execute();
 
 //get the document extension and put it in extension column
 
-$query = $dbh->prepare("SELECT id,name from cm_documents");
+$query = $dbh->prepare("SELECT * from cm_documents");
 $query->execute();
 $documents = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -63,6 +63,9 @@ if (stristr($document['local_file_name'], 'http://') || stristr($document['local
 		{$ext = 'url';}
 		else
 		{$ext = strtolower(substr(strrchr($document['local_file_name'], "."), 1));}
+
+		$id = $document['id'];
+		
 		if ($ext != '')
 		{
 		$update = $dbh->prepare("UPDATE cm_documents SET extension = :ext WHERE id = :id");
