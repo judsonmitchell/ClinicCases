@@ -18,9 +18,23 @@ function createTrail(path)
     return pathString;
 }
 
+function createDragDrop(el)
+{
+     if (el.hasClass('doc'))
+        {
+            el.draggable({revert: 'invalid',containment:'div.case_detail_panel_casenotes'});
+        }
+        else
+        {
+            el.droppable().draggable({revert: 'invalid',containment:'div.case_detail_panel_casenotes'});
+        }
+}
+
 function openItem(el,itemId,docType,caseId,path,pathDisplay)
 {
-     if ($(el).hasClass('folder'))
+    el.draggable({cancel:'.doc_item'});
+   
+    if ($(el).hasClass('folder'))
         {
             $(el).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'container': path,'path': path,'update': 'y'}, function() {
                 var pathString = createTrail(path);
@@ -64,6 +78,8 @@ function openItem(el,itemId,docType,caseId,path,pathDisplay)
         {
             $.download('lib/php/data/cases_documents_process.php',{'item_id':itemId,'action':'open','doc_type':docType});
         }
+    
+   //el.draggable({cancel:''});
 
 }
 
@@ -112,6 +128,8 @@ $('.case_detail_nav #item3').live('click', function() {
             }
         });
 
+        //Apply draggables, droppables
+        $('div.doc_item').each(function(){createDragDrop($(this));});
 
     });
 
@@ -221,37 +239,30 @@ $('.case_detail_nav #item3').live('click', function() {
     });
 
     //Expand div to include full file name on mouse enter
-    $('div.doc_item > a').live('mouseenter', function(event) {
+    $('div.doc_item').live('mouseenter', function(event) {
         $(this).closest('div').css({'height': 'auto','overflow': 'auto'});
-
-        if ($(this).closest('div').hasClass('doc'))
-        {
-            $(this).closest('div').draggable({revert: 'invalid'});
-        }
-        else
-        {
-            $(this).closest('div').droppable().draggable({revert: 'invalid'});
-        }
-
     });
 
     //Reset on leave
-    $('div.doc_item > a').live('mouseleave', function(event) {
+    $('div.doc_item').live('mouseleave', function(event) {
         $(this).closest('div').css({'height': '120px','overflow': 'hidden'});
     });
 
 });
 
 //User clicks a folder or document
-$('div.doc_item > a').live('click', function(event) {
-    event.preventDefault();
-    var path = $(this).closest('div').attr('path');
+$('div.doc_item').live('click', function(event) {
+
+    $(this).draggable({start:function(){console.log('hit');}});
+
+    var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
-    var el = $(this).closest('div');
+    var el = $(this);
     var itemId = el.attr('data-id');
     var docType = 'document';
     openItem(el,itemId,docType,caseId,path,pathDisplay);
+
 
 });
 
@@ -428,6 +439,8 @@ $('button.doc_upload').live('click', function(){
         onComplete: function(){
             thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
                     //notify('Upload Complete');
+                    $('div.doc_item').each(function(){createDragDrop($(this));});
+
                 });
         }
     });
@@ -470,6 +483,9 @@ $('a.doc_trail_home').live('click', function(event) {
             var t = unescape($(this).html());
             $(this).html(t);
         });
+
+        $('div.doc_item').each(function(){createDragDrop($(this));});
+
     });
 });
 
@@ -507,6 +523,9 @@ $('a.doc_trail_item').live('click', function(event) {
                 $(this).addClass('csenote_shadow');
             }
         });
+
+        $('div.doc_item').each(function(){createDragDrop($(this));});
+
 
     });
 });
