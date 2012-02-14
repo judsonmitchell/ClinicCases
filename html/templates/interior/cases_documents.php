@@ -68,7 +68,7 @@ TOOLS;
 
 			$date = extract_date_time($folder['date_modified']);
 
-			echo "<div class='doc_item folder' path='$folder_path' data-id='$folder[id]'><a target='_new' href='#'><img src='html/ico/folder.png'><p>$folder_name</p></a></div>";
+			echo "<div class='doc_item folder' path='$folder_path' data-id='$folder[id]'><img src='html/ico/folder.png'><p>$folder_name</p></div>";
 			echo "<div class='doc_properties' tabindex='1'><h3><img src='html/ico/folder.png'>$folder_name</h3>
 					<hr />
 					<p><label>Type</label>    Folder</p>
@@ -85,7 +85,7 @@ TOOLS;
 			$user = username_to_fullname($dbh,$document['username']);
 			$date = extract_date_time($document['date_modified']);
 
-			echo "<div id='doc_$document[id]' class='doc_item doc $document[type]' data-id='$document[id]'><a target='_new' href='#'><img src='$icon'><p>$document[name]</p></a></div>";
+			echo "<div id='doc_$document[id]' class='doc_item doc $document[type]' data-id='$document[id]'><img src='$icon'><p>$document[name]</p></div>";
 			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>$document[name]</h3>
 			<hr />
 			<p><label>Type</label>     $document[type]</p>
