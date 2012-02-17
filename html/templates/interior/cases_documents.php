@@ -85,7 +85,7 @@ TOOLS;
 			$user = username_to_fullname($dbh,$document['username']);
 			$date = extract_date_time($document['date_modified']);
 
-			echo "<div id='doc_$document[id]' class='doc_item doc $document[type]' data-id='$document[id]'><img src='$icon'><p>$document[name]</p></div>";
+			echo "<div id='doc_$document[id]' class='doc_item item $document[type]' data-id='$document[id]'><img src='$icon'><p>$document[name]</p></div>";
 			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>$document[name]</h3>
 			<hr />
 			<p><label>Type</label>     $document[type]</p>

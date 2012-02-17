@@ -504,6 +504,7 @@ div.text_editor_title{font-size:16pt;width:60%;float: left;}
 div.text_editor_title input {font-size:16pt;}
 div.text_editor_status{width:30%;float:right;text-align:right;}
 div.text_editor_status span.status{font-size: .7em;color:#AAAAAA;margin-right:10px;}
+div.text_editor_status span.readonly{font-size: .7em;color:red;font-weight:bold;margin-right:10px;}
 
 ::-webkit-scrollbar {
     width: 12px;

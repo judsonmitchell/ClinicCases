@@ -231,9 +231,11 @@ if ($action == 'add_url')
 
 if ($action == 'new_ccd')
 {
-	$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :user , :user, :case_id, CURRENT_TIMESTAMP);");
+	$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
 
-	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id);
+	$allowed_editors = serialize(array($username));
+
+	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id,'allowed_editors'=>$allowed_editors);
 
 	$new_ccd_query->execute($data);
 
@@ -281,7 +283,14 @@ if ($action == 'open')
 				break;
 
 			case 'ccd':
-				# code...
+				$ccd_id = $doc_properties['id'];
+				$ccd_title = $doc_properties['name'];
+				$ccd_content = $doc_properties['text'];
+				$allowed_editors = unserialize($doc_properties['write_permission']);
+				if (in_array($username, $allowed_editors))
+				{$ccd_permissions = 'yes';}
+				else
+					{$ccd_permissions = 'no';}
 				break;
 			
 			default:
@@ -351,7 +360,10 @@ if ($action == 'open')
 			break;
 
 			case "open":
-			$return = array('target_url'=>$target_url);
+			if (isset($target_url))
+				{$return = array('target_url'=>$target_url);}
+				else
+				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions);}	
 			echo json_encode($return);
 			break;
 
