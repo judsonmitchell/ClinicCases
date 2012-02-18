@@ -61,6 +61,9 @@ function get_icon($type)
 	elseif (in_array($type, array('url')))
 	{return "html/ico/url.png";}
 
+	elseif (in_array($type, array('ccd'))) 
+	{return "html/ico/text-richtext.png";}
+
 	else {return "html/ico/other.png";}
 
 }

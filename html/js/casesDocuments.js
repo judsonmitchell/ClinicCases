@@ -306,7 +306,7 @@ $('.case_detail_nav #item3').live('click', function() {
                 var textVal = $(el).find('p').html();
                 $(el).find('p').hide();
                 if ($(el).find('textarea').length < 1)
-					{$(el).find('a').after('<textarea>' + textVal + '</textarea>');}
+					{$(el).find('p').after('<br /><textarea>' + textVal + '</textarea>');}
 					else
 					{$(el).find('textarea').show().val(textVal);}
                 $(el).find('textarea').addClass('user_input')
@@ -317,8 +317,8 @@ $('.case_detail_nav #item3').live('click', function() {
 					.mouseleave(function(){
 						$(el).find('textarea').hide();
 						$(el).find('p').show();
-
 					})
+                    .click(function(event){event.stopPropagation();})
 					.keypress(function(e) {
 						if (e.which == 13) {
 							event.preventDefault();
@@ -339,14 +339,24 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'delete':
 
-                var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Document?">This document will be permanently deleted from the server.  Are you sure?</div>').dialog({
+                var warning = null;
+
+                if ($(el).hasClass('folder'))
+                    {warning = "This folder and all of its contents will be permanently deleted from the server.  Are you sure?";}
+                else
+                    {warning = "This item will be permanently deleted from the server.  Are you sure?";}
+
+                var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Document?">' + warning + '</div>').dialog({
                     autoOpen: true,
                     resizable: false,
                     modal: true,
                     buttons: {
                         "Yes": function() {
-                            //insert delete code here
-                            $(this).dialog("destroy");
+                            $.post('lib/php/data/cases_documents_process.php',({'action':'delete','item_id':itemId,'doc_type':docType,'path':path}),function(data){
+                                    var serverResponse = $.parseJSON(data);
+                                    notify(serverResponse.message);
+                                    $(this).dialog("destroy");
+                                });
                         },
                         "No": function() {
                             $(this).dialog("destroy");

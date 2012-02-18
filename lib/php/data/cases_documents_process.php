@@ -91,6 +91,19 @@ function update_paths($dbh,$path,$new_path,$case_id)
 
 }
 
+function get_local_file_name($dbh,$id)
+{
+	$local_query = $dbh->prepare("SELECT id, local_file_name FROM cm_documents WHERE id = '$id'");
+
+	$local_query->execute();
+
+	$data = $local_query->fetch();
+
+	$name = $data['local_file_name'];
+
+	return $name;
+}
+
 //Create New Folder
 $username = $_SESSION['login'];
 $action = $_POST['action'];
@@ -193,11 +206,12 @@ if ($action == 'rename')
 		{
 			$sql = "UPDATE cm_documents SET name = :new_name WHERE id = :item_id";
 
+			$rename_query = $dbh->prepare($sql);
+
 			$rename_query->bindParam(':new_name',$new_name);
 
 			$rename_query->bindParam(':item_id',$item_id);
 
-			//TODO change the name of the underlying file on the server.
 		}
 
 
@@ -214,7 +228,27 @@ if ($action == 'rename')
 }
 
 if ($action == 'delete')
-{}
+{
+	if ($doc_type === 'folder') 
+	{
+		# code...
+	} 
+	else 
+	{
+		$file_name = get_local_file_name($dbh,$item_id);
+
+		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE id = :id");
+
+		$delete_query->bindParam(':id',$item_id);
+
+		$delete_query->execute();
+
+		$error = $delete_query->errorInfo();
+
+		unlink(CC_DOC_PATH . '/' . $file_name);
+
+	}	
+}
 
 
 if ($action == 'add_url')
@@ -335,12 +369,16 @@ if ($action == 'open')
 			break;
 
 			case "rename":
-			$return = array('message'=>'Folder Renamed.','newPath'=>$new_path);
+			if ($doc_type === 'folder')
+			{$return = array('message'=>'Folder Renamed.','newPath'=>$new_path);}
+			else
+				{$return = array('message'=>'Item Renamed.');}
 			echo json_encode($return);
 			break;
 
 			case "delete":
-			echo "Folder Deleted.";
+			$return =  array('message'=>'Item Deleted.','item_id'=>$item_id);
+			echo json_encode($return);
 			break;
 
 			case "add_url":
