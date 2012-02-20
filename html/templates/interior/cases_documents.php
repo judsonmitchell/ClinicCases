@@ -35,22 +35,7 @@ TOOLS;
 }
 ?>
 
-	<div class = "upload_dialog">
-			
-		<div class = "upload_dialog_file" tabindex="1"></div>
-
-		<div class = "upload_dialog_url" tabindex="2">
-			<div class = "upload_url_button qq-upload-button">Web address</div>
-			<div class = "upload_url_form">
-				<label>URL</label><input type="text" class="url_upload"><br /><br />
-				<label>Name</label><input type="text" class="url_upload_name">
-				<button class="upload_url_submit">Submit</button>
-			</div>
-
-		</div>
-
-	</div>
-
+	
 
 	<?php
 

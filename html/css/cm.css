@@ -498,6 +498,10 @@ div.upload_url_form{display: none;padding:20px;}
 div.upload_url_form label{display:inline-block;width:50px;}
 div.upload_url_form input{width:300px;}
 div.upload_progress{height:10px;color:black;}
+p.upload_url_form_error_url{color:red;font-size:.8em;}
+p.upload_url_form_error_name{color:red;font-size:.8em;}
+p.upload_url_notify{color:green;font-size:1em;}
+
 
 div.text_editor_bar{width:900px;margin: auto;}
 div.text_editor_title{font-size:16pt;width:60%;float: left;}

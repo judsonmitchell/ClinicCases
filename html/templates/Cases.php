@@ -207,3 +207,24 @@
 	        <a href="#properties">Properties</a>
 	    </li>
 	</ul>
+
+<!-- Document upload div goes here --> 
+<div class = "upload_dialog">
+			
+		<div class = "upload_dialog_file" tabindex="1"></div>
+
+		<div class = "upload_dialog_url" tabindex="2">
+			<div class = "upload_url_button qq-upload-button">Web address</div>
+			<p class = "upload_url_notify"></p>
+			<div class = "upload_url_form">
+				<label>URL</label><input type="text" class="url_upload"><br />
+				<p class="upload_url_form_error_url"></p>
+				<br />
+				<label>Name</label><input type="text" class="url_upload_name">
+				<p class="upload_url_form_error_name"></p>
+				<button class="upload_url_submit">Submit</button>
+			</div>
+
+		</div>
+
+	</div>

@@ -93,7 +93,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 
 function get_local_file_name($dbh,$id)
 {
-	$local_query = $dbh->prepare("SELECT id, local_file_name FROM cm_documents WHERE id = '$id'");
+	$local_query = $dbh->prepare("SELECT id, local_file_name,extension FROM cm_documents WHERE id = '$id'");
 
 	$local_query->execute();
 
@@ -101,7 +101,9 @@ function get_local_file_name($dbh,$id)
 
 	$name = $data['local_file_name'];
 
-	return $name;
+	$ext = $data['extension'];
+
+	return array($name,$ext);
 }
 
 //Create New Folder
@@ -231,9 +233,21 @@ if ($action == 'delete')
 {
 	if ($doc_type === 'folder') 
 	{
-		# code...
+		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder LIKE :path_mask AND case_id = :case_id");
+
+		$path_mask = $path . '%';
+
+		$delete_query->bindParam(':path_mask',$path_mask);
+
+		$delete_query->bindParam(':case_id',$case_id);
+
+		$delete_query->execute();
+
+		$error = $delete_query->errorInfo();
 	} 
+
 	else 
+	
 	{
 		$file_name = get_local_file_name($dbh,$item_id);
 
@@ -245,7 +259,8 @@ if ($action == 'delete')
 
 		$error = $delete_query->errorInfo();
 
-		unlink(CC_DOC_PATH . '/' . $file_name);
+		if (!$error[1] and $file_name[1] != 'ccd' AND $file_name[1] != 'url') 
+			{unlink(CC_DOC_PATH . '/' . $file_name[0]);}
 
 	}	
 }
@@ -377,7 +392,10 @@ if ($action == 'open')
 			break;
 
 			case "delete":
-			$return =  array('message'=>'Item Deleted.','item_id'=>$item_id);
+			if ($doc_type === 'folder')
+			{$return = array('message'=>'Folder Deleted.');}
+			else
+				{$return =  array('message'=>'Item Deleted.','item_id'=>$item_id);}
 			echo json_encode($return);
 			break;
 

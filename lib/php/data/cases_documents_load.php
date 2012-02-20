@@ -72,7 +72,7 @@ function get_icon($type)
 
 if (isset($container)) //Indicates this is a sub-folder
 {
-	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = :id";
+	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND local_file_name = '' AND case_id = :id";
 }
 else //Is in the root directory.  Empty local_file_name indicates that this is a folder, not a document
 {
