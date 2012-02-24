@@ -57,7 +57,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 		if (!stristr($folder_field['folder'],$new_path))
 		{
 			$descendants = str_replace($path, '', $folder_field['folder']);
-			
+
 			$new_folder_field = $new_path . $descendants;
 
 			$update_folder_fields = $dbh->prepare("UPDATE cm_documents SET folder = '$new_folder_field' WHERE id = '$folder_field[id]'");
@@ -80,7 +80,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 		if (!stristr($container_field['containing_folder'],$new_path))
 		{
 			$descendants = str_replace($path, '', $container_field['containing_folder']);
-			
+
 			$new_container_field = $new_path . $descendants;
 
 			$update_container_fields = $dbh->prepare("UPDATE cm_documents SET containing_folder = '$new_container_field' WHERE id = '$container_field[id]'");
@@ -104,6 +104,21 @@ function get_local_file_name($dbh,$id)
 	$ext = $data['extension'];
 
 	return array($name,$ext);
+}
+
+function strstr_after($haystack, $needle, $case_insensitive = false) {
+
+    $strpos = ($case_insensitive) ? 'stripos' : 'strpos';
+
+    $pos = $strpos($haystack, $needle);
+
+    if (is_int($pos)) {
+        return substr($haystack, $pos + strlen($needle));
+
+    }
+
+    // Most likely false or null
+    return $pos;
 }
 
 //Create New Folder
@@ -159,6 +174,14 @@ if (isset($_POST['ccd_text'])) {
 
 if (isset($_POST['ccd_id'])) {
 	$ccd_id = $_POST['ccd_id'];
+}
+
+if (isset($_POST['target_path'])) {
+	$target_path = $_POST['target_path'];
+}
+
+if (isset($_POST['selection_path'])) {
+	$selection_path = $_POST['selection_path'];
 }
 
 if ($action == 'newfolder')
@@ -231,7 +254,7 @@ if ($action == 'rename')
 
 if ($action == 'delete')
 {
-	if ($doc_type === 'folder') 
+	if ($doc_type === 'folder')
 	{
 		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder LIKE :path_mask AND case_id = :case_id");
 
@@ -244,10 +267,10 @@ if ($action == 'delete')
 		$delete_query->execute();
 
 		$error = $delete_query->errorInfo();
-	} 
+	}
 
-	else 
-	
+	else
+
 	{
 		$file_name = get_local_file_name($dbh,$item_id);
 
@@ -259,10 +282,10 @@ if ($action == 'delete')
 
 		$error = $delete_query->errorInfo();
 
-		if (!$error[1] and $file_name[1] != 'ccd' AND $file_name[1] != 'url') 
+		if (!$error[1] and $file_name[1] != 'ccd' AND $file_name[1] != 'url')
 			{unlink(CC_DOC_PATH . '/' . $file_name[0]);}
 
-	}	
+	}
 }
 
 
@@ -341,10 +364,10 @@ if ($action == 'open')
 				else
 					{$ccd_permissions = 'no';}
 				break;
-			
+
 			default:
 				$finfo = finfo_open(FILEINFO_MIME);
-				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name']; 
+				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 				header('Content-Description: File Transfer');
 				//header("Content-type: application/force-download");
 				header("Content-type:" . finfo_file($finfo, $file));
@@ -360,6 +383,92 @@ if ($action == 'open')
 				break;
 		}
 	}
+
+}
+
+if ($action == 'cut')
+{
+	if ($doc_type == 'folder') {
+
+		//change the path of the selected folder
+
+		if (stristr($selection_path, '/'))
+
+			{$folder_name = substr(strrchr($selection_path,'/'),1);}
+
+		else
+
+			{$folder_name = $selection_path;}
+
+		$new_selection_path = $target_path . "/" . $folder_name;
+
+		$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = :new_selection_path, containing_folder = :target_path WHERE id = :item_id");
+
+		$data = array('target_path' => $target_path,'new_selection_path' => $new_selection_path,'item_id' => $item_id);
+
+		$cut_query->execute($data);
+
+		//change the path of any subfolders and documents in the selected folder
+
+		$update_paths = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE :old_path AND case_id = :case_id");
+
+			$old_path = $selection_path . "%";
+
+			$data = array('old_path' => $old_path,'case_id' => $case_id);
+
+			$update_paths->execute($data);
+
+			$paths = $update_paths->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($paths as $path) {
+
+				//$new_path = str_replace($selection_path, $target_path, $path['folder']);
+				//$selection_path = "Target/two/twosub";
+				//$target_path = "Target/One";
+				// if (target path is in selection_path) // we are moving up the tree
+
+				// 	{}
+
+				// 	else
+
+				// 	{add selection path to target path}	//we are moving down the tree
+											// Target/One/two
+				$subfolder_path_part = strstr_after($path['folder'], $selection_path);
+
+				$new_subfolder_path = $new_selection_path . $subfolder_path_part;
+
+				//this for folders only
+				if ($path['name'] === '')
+				{
+					$pos = strrpos($new_subfolder_path, '/');
+
+					$new_container = substr($new_subfolder_path, 0, $pos);
+
+				}
+				else
+					{$new_container = '';}
+
+				$update_items = $dbh->prepare("UPDATE cm_documents SET folder = :folder, containing_folder = :container WHERE id = $path[id]");
+
+				$data = array('folder' => $new_subfolder_path, 'container' => $new_container);
+
+				$update_items->execute($data);
+
+			}
+
+
+	} else {
+
+		$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = :target WHERE id = :item_id");
+
+		$data = array('target' => $target_path,'item_id' => $item_id);
+
+		$cut_query->execute($data);
+
+	}
+
+
+	$error = $cut_query->errorInfo();
 
 }
 
@@ -419,7 +528,12 @@ if ($action == 'open')
 			if (isset($target_url))
 				{$return = array('target_url'=>$target_url);}
 				else
-				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions);}	
+				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions);}
+			echo json_encode($return);
+			break;
+
+			case "cut":
+			$return = array('message' => 'Item moved.');
 			echo json_encode($return);
 			break;
 

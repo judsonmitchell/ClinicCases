@@ -14,7 +14,7 @@ TOOLS;
 		if ($_SESSION['permissions']['documents_modify'] == '1')
 		{
 			echo "<button class='doc_new_doc'>New Document</button>";
-			
+
 			echo "<button class='doc_new_folder'>New Folder</button>";
 		}
 
@@ -35,7 +35,7 @@ TOOLS;
 }
 ?>
 
-	
+
 
 	<?php
 
@@ -78,6 +78,8 @@ TOOLS;
 			<p><label>Uploaded By:</label>     $user</p>
 			</div>";
 		}
+
+		echo "<div class='doc_spacing_fix'></div>";
 
 	?>
 

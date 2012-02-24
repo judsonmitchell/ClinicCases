@@ -20,9 +20,26 @@ function createTrail(path)
 
 function createDragDrop()
 {
+    //Destroy any previously created draggables and droppables
+    $('div').draggable("destroy");
+    $('div').droppable("destroy");
 
     $('div.item').draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
-    $('div.folder').droppable().draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
+    $('div.folder').droppable({activeClass: "ui-state-highlight", drop:function(event,ui){
+        var docType = null;
+        if (ui.draggable.hasClass('folder'))
+            {docType = 'folder';}
+        else
+        {docType = 'item';}
+
+        var caseId = ui.draggable.closest('.case_detail_panel').data('CaseNumber');
+
+        $.post('lib/php/data/cases_documents_process.php',{'action': 'cut','item_id': ui.draggable.attr('data-id'),'target_path':$(event.target).attr('path'),'selection_path': ui.draggable.attr('path'), 'doc_type':docType,'case_id':caseId},function(data){
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message);
+                ui.draggable.fadeOut();
+        });
+    }}).draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
 }
 
 function createTextEditor(target, action, title, content, permission, id)
@@ -279,7 +296,6 @@ $('.case_detail_nav #item3').live('click', function() {
     //Create context menu
 
     $("div.doc_item").contextMenu({menu: 'docMenu'}, function(action, el, pos) {
-        //TODO fix the problem where the context menu tries to open outside the viewport
 
         var itemId = $(el).attr('data-id');
         var docType = null;
@@ -460,7 +476,9 @@ $('button.doc_new_folder').live('click', function() {
                 $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
                 $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
                 $('#new_folder_name').closest('p').html(newName);
+                createDragDrop();
                 notify(serverResponse.message);
+
             });
         }
     });
@@ -512,7 +530,8 @@ $('button.doc_upload').live('click', function() {
         action: 'lib/php/utilities/file_upload.php',
         params: {path: currentPath,case_id: caseId},
         onComplete: function() {
-            thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+
+            thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container':currentPath}, function() {
                 createDragDrop();
 
             });

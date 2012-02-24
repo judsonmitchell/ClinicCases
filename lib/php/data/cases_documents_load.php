@@ -61,7 +61,7 @@ function get_icon($type)
 	elseif (in_array($type, array('url')))
 	{return "html/ico/url.png";}
 
-	elseif (in_array($type, array('ccd'))) 
+	elseif (in_array($type, array('ccd')))
 	{return "html/ico/text-richtext.png";}
 
 	else {return "html/ico/other.png";}
@@ -70,7 +70,7 @@ function get_icon($type)
 
 //get document folders for this case and return array
 
-if (isset($container)) //Indicates this is a sub-folder
+if (!empty($container)) //Indicates this is a sub-folder
 {
 	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND local_file_name = '' AND case_id = :id";
 }
