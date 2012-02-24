@@ -21,8 +21,8 @@ function createTrail(path)
 function createDragDrop()
 {
     //Destroy any previously created draggables and droppables
-    $('div').draggable("destroy");
-    $('div').droppable("destroy");
+    $('div.item, div.folder').draggable("destroy");
+    $('div.folder').droppable("destroy");
 
     $('div.item').draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
     $('div.folder').droppable({activeClass: "ui-state-highlight", drop:function(event,ui){
@@ -321,10 +321,46 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'cut':
                 $(el).css({'opacity': '.5'});
+
+                //Stash the data about the cut file or folder
+                var cutData = new Array(itemId,docType,path,caseId);
+                $(el).closest('.case_detail_panel_casenotes').data('cutValue',cutData);
+
+                //Create a new context menu which allows for copying and pasting into a div with no items;
+                $('div.case_detail_panel_casenotes').contextMenu({menu:'docMenu_copy_paste'}, function(action, el, pos){
+                    if (action === 'paste')
+                        {
+                            //console.log(el.data());
+                            //console.log(el.closest('.case_detail_panel').data('CurrentPath'));
+                            var caseId = el.data('cutValue')[3];
+                            var docType = el.data('cutValue')[1];
+                            var targetPath = el.closest('.case_detail_panel').data('CurrentPath');
+                            var itemId = el.data('cutValue')[0];
+                            var selectionPath = el.data('cutValue')[2];
+                            $.post('lib/php/data/cases_documents_process.php',{
+                                'action': 'cut',
+                                'item_id': itemId,
+                                'target_path':targetPath,
+                                'selection_path': selectionPath,
+                                'doc_type':docType,
+                                'case_id':caseId},
+                                function(data){
+                                    var serverResponse = $.parseJSON(data);
+                                    notify(serverResponse.message);
+                                    el.closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': targetPath,'container':targetPath});
+                                    $('div.case_detail_panel_casenotes').destroyContextMenu();
+                                });
+                        }
+                });
+
                 break;
 
             case 'copy':
                 $(el).css({'border': '1px solid #AAA'});
+                break;
+
+            case 'paste':
+
                 break;
 
             case 'rename':

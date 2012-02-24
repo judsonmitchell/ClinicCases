@@ -510,6 +510,8 @@ div.text_editor_status{width:30%;float:right;text-align:right;}
 div.text_editor_status span.status{font-size: .7em;color:#AAAAAA;margin-right:10px;}
 div.text_editor_status span.readonly{font-size: .7em;color:red;font-weight:bold;margin-right:10px;}
 
+ul.docMenu_copy_paste{display: none;}
+
 ::-webkit-scrollbar {
     width: 12px;
 }

@@ -207,10 +207,41 @@
 	        <a href="#properties">Properties</a>
 	    </li>
 	</ul>
+<!-- This is html for the copy and paste context menu in documents -->
+	<ul id="docMenu_copy_paste" class="contextMenu">
 
-<!-- Document upload div goes here --> 
+	    <li class="open disabled">
+	        <a href="#open">Open</a>
+	    </li>
+
+	    <li class="cut separator disabled">
+	        <a href="#cut">Cut</a>
+	    </li>
+
+	    <li class="copy disabled">
+	        <a href="#copy">Copy</a>
+	    </li>
+
+	    <li class="paste">
+	        <a href="#paste">Paste</a>
+	    </li>
+
+	     <li class="rename disabled">
+	        <a href="#rename">Rename</a>
+	    </li>
+
+	    <li class="delete disabled">
+	        <a href="#delete">Delete</a>
+	    </li>
+
+	    <li class="properties separator disabled">
+	        <a href="#properties">Properties</a>
+	    </li>
+	</ul>
+
+<!-- Document upload div goes here -->
 <div class = "upload_dialog">
-			
+
 		<div class = "upload_dialog_file" tabindex="1"></div>
 
 		<div class = "upload_dialog_url" tabindex="2">
