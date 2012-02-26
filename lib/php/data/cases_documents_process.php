@@ -239,8 +239,6 @@ if ($action == 'rename')
 
 		}
 
-
-
 	$rename_query->execute();
 
 	$error = $rename_query->errorInfo();
@@ -422,17 +420,6 @@ if ($action == 'cut')
 
 			foreach ($paths as $path) {
 
-				//$new_path = str_replace($selection_path, $target_path, $path['folder']);
-				//$selection_path = "Target/two/twosub";
-				//$target_path = "Target/One";
-				// if (target path is in selection_path) // we are moving up the tree
-
-				// 	{}
-
-				// 	else
-
-				// 	{add selection path to target path}	//we are moving down the tree
-											// Target/One/two
 				$subfolder_path_part = strstr_after($path['folder'], $selection_path);
 
 				$new_subfolder_path = $new_selection_path . $subfolder_path_part;
@@ -448,7 +435,7 @@ if ($action == 'cut')
 				else
 					{$new_container = '';}
 
-				$update_items = $dbh->prepare("UPDATE cm_documents SET folder = :folder, containing_folder = :container WHERE id = $path[id]");
+				$update_items = $dbh->prepare("UPDATE cm_documents SET folder = :folder, containing_folder = :container WHERE id = '$path[id]'");
 
 				$data = array('folder' => $new_subfolder_path, 'container' => $new_container);
 
@@ -471,6 +458,68 @@ if ($action == 'cut')
 	$error = $cut_query->errorInfo();
 
 }
+
+if ($action == 'copy')
+{
+	if ($doc_type == 'folder') {
+
+		//TODO
+	}
+
+	else
+	{
+
+		//Lookup information about this item
+		$lookup_query = $dbh->prepare("SELECT * FROM cm_documents WHERE id = :item_id");
+
+		$data = array('item_id' => $item_id);
+
+		$lookup_query->execute($data);
+
+		$this_item = $lookup_query->fetch(PDO::FETCH_ASSOC);
+
+		$copy_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `extension`, `folder`, `containing_folder`, `text`, `write_permission`, `username`, `case_id`, `date_modified`) VALUES (NULL, :name, '', :extension, :folder, '', '', '', :username, :case_id, CURRENT_TIMESTAMP);");
+
+		$data = array('name' => $this_item['name'],'extension' => $this_item['extension'],'folder' => $target_path,'username' => $username,'case_id' => $case_id);
+
+		$copy_query->execute($data);
+
+		$last_id = $dbh->lastInsertId();
+
+		if ($this_item['extension'] != 'url' AND $this_item['extension'] != 'ccd')
+		{
+			//now, create the new document on the server
+
+			$file = CC_DOC_PATH . '/' . $this_item['local_file_name'];
+
+			$new_file = CC_DOC_PATH . '/' . $last_id . '.' . $this_item['extension'];
+
+			$new_file_name = $last_id . '.' . $this_item['extension'];
+
+			copy($file,$new_file);
+
+		}
+
+		if ($this_item['extension'] === 'url' OR $this_item['extension']  === 'ccd')
+			{
+				$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$this_item[local_file_name]' WHERE id = $last_id");
+
+				$update_name->execute();
+			}
+			else
+			{
+				$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$new_file_name' WHERE id = '$last_id'");
+
+				$update_name->execute();
+			}
+
+		$error = $copy_query->errorInfo();
+
+	}
+
+}
+
+
 
 //Handle mysql errors
 
@@ -534,6 +583,11 @@ if ($action == 'cut')
 
 			case "cut":
 			$return = array('message' => 'Item moved.');
+			echo json_encode($return);
+			break;
+
+			case "copy":
+			$return = array('message' => 'Item copied.');
 			echo json_encode($return);
 			break;
 
