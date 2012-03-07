@@ -79,7 +79,10 @@ TOOLS;
 			</div>";
 		}
 
-		echo "<div class='doc_spacing_fix'></div>";
+	if (empty($folders) AND empty($documents))
+		{echo "No documents found.";}
+
+	echo "<div class='doc_spacing_fix'></div>";
 
 	?>
 
