@@ -25,6 +25,7 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `cm_groups`
 --
@@ -53,6 +54,9 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
   `add_events` int(2) NOT NULL,
   `edit_events` int(2) NOT NULL,
   `delete_events` int(2) NOT NULL,
+  `add_contacts` int(2) NOT NULL DEFAULT '1',
+  `edit_contacts` int(2) NOT NULL DEFAULT '1',
+  `delete_contacts` int(2) NOT NULL DEFAULT '1',
   `post_in_board` int(2) NOT NULL,
   `view_board` int(2) NOT NULL,
   `edit_posts` int(2) NOT NULL,
@@ -198,3 +202,5 @@ ALTER TABLE  `cm_documents` ADD  `text` TEXT NOT NULL AFTER  `containing_folder`
 
 ALTER TABLE  `cm_documents` ADD  `write_permission` VARCHAR( 500 ) NOT NULL AFTER  `text`
 //End
+
+ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`

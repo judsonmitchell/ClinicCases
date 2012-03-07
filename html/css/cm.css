@@ -6,9 +6,9 @@ h1{font-family:garamond, georgia, times, serif;font-size:30pt;text-align:left;co
 
 h3{font-family:garamond, georgia, times, serif;font-size:18pt;text-align:left;color:blue;font-weight:normal;font-style:normal;}
 
-h4{font-family:garamond, georgia, times, serif;font-size:12pt;color:black;font-weight:bold;}
+h4{font-family:garamond, georgia, times, serif;font-size:15pt;color:navy;font-weight:normal;}
 
-h5{font-family:garamond, georgia, times, serif;font-size:13pt;text-align:left;color:blue;font-weight:bold;}
+h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;color:black;font-weight:normal;font-style:italic;}
 
 
 #menus{position:absolute;right:0%;top:0%;background:rgb(195, 217, 255);text-align:right;font-size:11pt;color:black;font-family:garamond, times, serif;}
@@ -460,7 +460,7 @@ div.case_detail_panel_casenotes{width:99%;overflow:auto;text-align:left;}
 input.casenotes_search, input.contacts_search{color:#AAA}
 input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
-div.csenote{position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
+div.csenote {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
 div.csenote p {margin:10px}
 div.csenote div.more{position:absolute;bottom:0px;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
@@ -511,6 +511,9 @@ div.text_editor_status span.status{font-size: .7em;color:#AAAAAA;margin-right:10
 div.text_editor_status span.readonly{font-size: .7em;color:red;font-weight:bold;margin-right:10px;}
 
 ul.docMenu_copy_paste{display: none;}
+
+div.contact_bar{height:45px;}
+span.contact_type{color:black;}
 
 ::-webkit-scrollbar {
     width: 12px;
