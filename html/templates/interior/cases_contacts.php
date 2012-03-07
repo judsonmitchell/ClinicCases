@@ -23,7 +23,7 @@
 
 <div class="case_detail_panel_casenotes">
 
-	<div class='csenote csenote_new'>
+	<div class='csenote csenote_new contact'>
 			<form>
 			<div class='csenote_bar'>
 				<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div>
@@ -40,7 +40,7 @@
 			{
 
 				echo "
-				<div class='csenote'>
+				<div class='csenote contact'>
 					<div class='csenote_bar contact_bar'>
 						<div class = 'csenote_bar_left'><h4>". $contact['first_name'] . " " . $contact['last_name'] . "</h4><h5>" . $contact['type']  . "</h5></div>
 						<div class = 'csenote_bar_right'>";
@@ -54,6 +54,23 @@
 						echo "
 						</div>
 					</div>
+
+					<div class='contact_left'>
+						<p><label>Organization:</label> $contact[organization]</p>
+						<p><label>Address:</label> $contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>
+						<p><label>Phone 1</label> $contact[phone1]</p>
+						<p><label>Phone 2</label> $contact[phone2]</p>
+						<p><label>Fax</label> $contact[fax]</p>
+						<p><label>Email</label> $contact[email]</p>
+
+					</div>
+
+
+					<div class='contact_right'>
+						<p><label>Notes:</label> $contact[notes]</p>
+
+					</div>
+
 				</div>";
 
 			}

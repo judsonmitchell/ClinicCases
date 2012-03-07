@@ -512,8 +512,11 @@ div.text_editor_status span.readonly{font-size: .7em;color:red;font-weight:bold;
 
 ul.docMenu_copy_paste{display: none;}
 
+div.contact{min-height:250px;}
 div.contact_bar{height:45px;}
 span.contact_type{color:black;}
+div.contact_left{float:left;width:50%;}
+div.contact_right{float:right;width:50%;}
 
 ::-webkit-scrollbar {
     width: 12px;
