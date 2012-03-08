@@ -16,6 +16,7 @@
 
 ?>
 
+		<button class = "contact_print">Print</button>
 
 	</div>
 
@@ -26,13 +27,12 @@
 	<div class='csenote csenote_new contact'>
 			<form>
 			<div class='csenote_bar'>
-				<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div>
+				<div class = 'csenote_bar_left'></div>
 				<div class = 'csenote_bar_right'>
-
-				<button class='csenote_action_submit'>Add</button><button class='csenote_action_cancel'>Cancel</button></div>
+				<button class='contact_action_submit'>Add</button><button class='contact_action_cancel'>Cancel</button></div>
 			</div>
 			</form>
-			</div>
+	</div>
 
 <?php
 

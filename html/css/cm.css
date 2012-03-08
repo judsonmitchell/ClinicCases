@@ -512,11 +512,12 @@ div.text_editor_status span.readonly{font-size: .7em;color:red;font-weight:bold;
 
 ul.docMenu_copy_paste{display: none;}
 
-div.contact{min-height:250px;}
 div.contact_bar{height:45px;}
 span.contact_type{color:black;}
-div.contact_left{float:left;width:50%;}
-div.contact_right{float:right;width:50%;}
+div.contact_left{display:inline-block;width:45%;vertical-align:top;}
+div.contact_right{display:inline-block;width:45%;vertical-align:top;}
+div.contact div.contact_more{position:absolute;bottom:0px;right:15px;}
+div.contact_more > a{font-size:.8em;color:#AAA;}
 
 ::-webkit-scrollbar {
     width: 12px;
