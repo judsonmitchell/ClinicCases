@@ -6,7 +6,7 @@ function sizeContacts(contacts,panelTarget)
 {
     var windowHeight = panelTarget.height();
     var minContactHeight = panelTarget.height() * .3;
-    contacts.each(function(){
+    contacts.not('.new_contact').each(function(){
         //cache the height values for use later
         $(this).data('maxContactHeight',$(this).height());
         $(this).data('minContactHeight',minContactHeight);
@@ -96,10 +96,33 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
 
     //display the new contact widget
-    $(this).closest('.case_detail_panel_tools').siblings().find('.csenote_new').show();
+    $(this).closest('.case_detail_panel_tools').siblings().find('div.new_contact').show();
 
     //reduce opacity on the previously entered contact
     $(this).closest('.case_detail_panel_tools').siblings().find('div.contact').not('div.csenote_new').css({'opacity': '.5'});
+
+    //Add the phone input widget
+    var phoneWidget = "<p><label>Phone</label><select name='phone_type' class='phone_type'><option value='mobile'>Mobile</option><option value='home'>Home</option><option value='office'>Office</option><option value='fax'>Fax</option><option value='other'>Other</option></select><input type='text' name='email'><a href='#' class='add_phone'>Add Another</a>";
+
+    $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_phone_widget').html(phoneWidget);
+
+    //Add the email input widget
+    var emailWidget = "<p><label>Email</label><select name='email_type'><option value='work'>Work</option><option value='home'>Home</option><option value='other'>Other</option></select><input type='text' name='email'><a href='#' class='add_email'>Add Another</a>";
+
+    $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_email_widget').html(emailWidget);
+
+    //Listeners to add new fields
+    $('.add_email').live('click',function(event){
+        event.preventDefault();
+        $(this).closest('p').after(emailWidget);
+        $(this).remove();
+    });
+
+     $('.add_phone').live('click',function(event){
+        event.preventDefault();
+        $(this).closest('p').after(phoneWidget);
+        $(this).remove();
+    });
 
 });
 
@@ -114,4 +137,17 @@ $('button.contact_action_cancel').live('click', function(event) {
     //hide the widget
     $(this).closest('.csenote_new').hide();
 
+});
+
+//Updates the contact name when user creates a new contact
+$('#contact_first_name').live('keyup',function(){
+    $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
+});
+
+$('#contact_last_name').live('keyup',function(){
+    $(this).closest('.new_contact').find('span.last_name_live').html($(this).val());
+});
+
+$('#contact_type').live('change',function(){
+    $(this).closest('.new_contact').find('span.contact_type_live').html($(this).val());
 });

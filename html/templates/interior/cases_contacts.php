@@ -24,13 +24,64 @@
 
 <div class="case_detail_panel_casenotes">
 
-	<div class='csenote csenote_new contact'>
+	<div class='csenote csenote_new new_contact contact'>
 			<form>
+
 			<div class='csenote_bar'>
-				<div class = 'csenote_bar_left'></div>
-				<div class = 'csenote_bar_right'>
-				<button class='contact_action_submit'>Add</button><button class='contact_action_cancel'>Cancel</button></div>
+
+				<div class = 'csenote_bar_left new_contact_left'>
+
+					<h4><span class="first_name_live">New</span> <span class="last_name_live">Contact</span><h4>
+
+					<h5><span class="contact_type_live"></span></h5>
+
+				</div>
+
+				<div class = 'csenote_bar_right new_contact_right'>
+
+					<button class='contact_action_submit'>Add</button><button class='contact_action_cancel'>Cancel</button>
+
+				</div>
+
 			</div>
+
+			<div class="new_contact_data">
+
+				<p><label>First Name</label><input type="text" name="first_name" id="contact_first_name"></p>
+
+				<p><label>Last Name</label><input type="text" name="last_name" id="contact_last_name"><p>
+
+				<p><label>Organization</label><input type="text" name = "organization"><p>
+
+				<p><label>Contact Type</label><select name="contact_type" id="contact_type">
+
+						<option value=''></option>
+
+						<?php $type_list = contact_types($dbh); echo $type_list; ?>
+
+					</select></p>
+
+
+				<p><label>Address</label><textarea name="address"></textarea><p>
+
+				<p><label>City</label><input type="text" name="city"></p>
+
+				<p><label>State</label><?php $select = state_selector('state','state_select'); echo $select; ?></p>
+
+				<p><label>Zip</label><input type="text" name="zip"></p>
+
+				<span class="contact_phone_widget"></span>
+
+				<span class="contact_email_widget"></span>
+
+				<p><label>Notes</label><textarea name="notes"></textarea></p>
+
+			</div>
+
+			<div class="contact_right">
+
+			</div>
+
 			</form>
 	</div>
 

@@ -518,6 +518,15 @@ div.contact_left{display:inline-block;width:45%;vertical-align:top;}
 div.contact_right{display:inline-block;width:45%;vertical-align:top;}
 div.contact div.contact_more{position:absolute;bottom:0px;right:15px;}
 div.contact_more > a{font-size:.8em;color:#AAA;}
+div.new_contact {height:670px;overflow: auto;}
+div.new_contact_left {width:78%;}
+div.new_contact_right {width:20%;}
+div.new_contact_left input {color:#AAA;}
+div.new_contact_data {width:60%;margin: auto;}
+div.new_contact label {display:block;margin:12px 0 0;float:left;clear:left;width:90px;}
+div.new_contact label:after {content:": ";}
+span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}
+
 
 ::-webkit-scrollbar {
     width: 12px;
