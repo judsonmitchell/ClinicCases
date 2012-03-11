@@ -110,12 +110,12 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     $(this).closest('.case_detail_panel_tools').siblings().find('div.contact').not('div.csenote_new').css({'opacity': '.5'});
 
     //Add the phone input widget
-    var phoneWidget = "<p><label>Phone</label><select name='phone_type' class='phone_type'><option value='mobile'>Mobile</option><option value='home'>Home</option><option value='office'>Office</option><option value='fax'>Fax</option><option value='other'>Other</option></select><input type='text' name='email'><a href='#' class='add_phone'>Add Another</a>";
+    var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>Mobile</option><option value='home'>Home</option><option value='office'>Office</option><option value='fax'>Fax</option><option value='other'>Other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
 
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_phone_widget').html(phoneWidget);
 
     //Add the email input widget
-    var emailWidget = "<p><label>Email</label><select name='email_type'><option value='work'>Work</option><option value='home'>Home</option><option value='other'>Other</option></select><input type='text' name='email'><a href='#' class='add_email'>Add Another</a>";
+    var emailWidget = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>Work</option><option value='home'>Home</option><option value='other'>Other</option></select><input type='text' name='email' class='contact_email_value'><a href='#' class='add_email'>Add Another</a>";
 
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_email_widget').html(emailWidget);
 
@@ -142,6 +142,75 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
         $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
         //hide the widget
         $(this).closest('.csenote_new').hide();
+
+    });
+
+    //User adds new contact
+    $(this).closest('.case_detail_panel_tools').siblings().find('button.contact_action_submit').click(function(event){
+
+        event.preventDefault();
+
+        //Do validation
+        var contactForm = $(this).closest('form');
+        var contactVals = contactForm.serializeArray();
+
+        //get errors, if any
+        var errString = validContact(contactVals);
+
+        //notify user or errors or submit form
+        if (errString.length)
+        {
+            notify(errString, true);
+        }
+        else
+        {
+            //Make objects of phone/email types and phone numbers/email addresses.  Store each object in one db field, allowing user to enter unlimited email addresses and phone numbers.
+
+            var phoneData = {};
+            contactForm.find('p.contact_phone_group').each(function(){
+                var phoneKey = $(this).find('select.contact_phone_type').val();
+                var phoneValue = $(this).find('input.contact_phone_value').val();
+                phoneData[phoneKey] = phoneValue;
+            });
+
+            phoneJson = JSON.stringify(phoneData);
+
+            var emailData = {};
+            contactForm.find('p.contact_email_group').each(function(){
+                var emailKey = $(this).find('select.contact_email_type').val();
+                var emailValue = $(this).find('input.contact_email_value').val();
+                emailData[emailKey] = emailValue;
+            });
+
+            emailJson = JSON.stringify(emailData);
+
+            var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+            var target = $(this).closest('.case_detail_panel_casenotes');
+
+            $.post('lib/php/data/cases_contacts_process.php',{
+                'first_name':contactForm.find('input[name = "first_name"]').val(),
+                'last_name':contactForm.find('input[name = "last_name"]').val(),
+                'organization':contactForm.find('input[name = "organization"]').val(),
+                'contact_type':contactForm.find('select[name = "contact_type"]').val(),
+                'address':contactForm.find('textarea[name = "address"]').val(),
+                'city':contactForm.find('input[name = "city"]').val(),
+                'state':contactForm.find('select[name = "state"]').val(),
+                'zip':contactForm.find('input[name = "zip"]').val(),
+                'phone':phoneJson,
+                'email':emailJson,
+                'url':contactForm.find('input[name = "url"]').val(),
+                'notes':contactForm.find('textarea[name = "notes"]').val(),
+                'action':'add',
+                'case_id':caseId
+                },function(data){
+
+                    var serverResponse = $.parseJSON(data);
+                    notify(serverResponse.message);
+                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes',{'case_id': caseId});
+
+                });
+        }
 
     });
 
@@ -173,7 +242,6 @@ $('#contact_organization').live('focus',function(){
     //If no name is entered, use organization name for contact title
     if ($('#contact_first_name').val() === '' && $('#contact_last_name').val() === '')
     {
-           console.log('they are empty');
             $(this).keyup(function(){
                 $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
                 });

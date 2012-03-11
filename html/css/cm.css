@@ -519,10 +519,10 @@ div.contact_right{display:inline-block;width:45%;vertical-align:top;}
 div.contact div.contact_more{position:absolute;bottom:0px;right:15px;}
 div.contact_more > a{font-size:.8em;color:#AAA;}
 div.new_contact {height:670px;overflow: auto;}
-div.new_contact_data {width:60%;margin: auto;}
+div.new_contact_data {width:65%;margin: auto;}
 div.new_contact label {display:block;margin:12px 0 0;float:left;clear:left;width:90px;}
 div.new_contact label:after {content:": ";}
-div.new_contact input {width:250px;}
+div.new_contact input {width:285px;}
 div.new_contact textarea {width:285px;margin-left:0px;}
 div.new_contact textarea.contact_notes{height:100px;}
 span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}

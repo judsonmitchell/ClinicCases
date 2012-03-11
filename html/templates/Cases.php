@@ -53,6 +53,7 @@
 
 	<script type="text/javascript" src="lib/javascripts/jqueryui.combobox.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/json2.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
 

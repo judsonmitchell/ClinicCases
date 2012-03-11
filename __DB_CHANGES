@@ -201,6 +201,19 @@ ALTER TABLE  `cm_documents` CHANGE  `url`  `local_file_name` VARCHAR( 200 ) CHAR
 ALTER TABLE  `cm_documents` ADD  `text` TEXT NOT NULL AFTER  `containing_folder`
 
 ALTER TABLE  `cm_documents` ADD  `write_permission` VARCHAR( 500 ) NOT NULL AFTER  `text`
-//End
 
 ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`
+
+ALTER TABLE  `cm_contacts` ADD  `url` TEXT NOT NULL AFTER  `email`
+
+ALTER TABLE  `cm_contacts` CHANGE  `address`  `address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+
+  //NOTE: THESE TWO CAN ONLY BE MADE AFTER UPGRADE SCRIPT IS RUN
+ALTER TABLE `cm_contacts` DROP `phone2`, DROP `fax`;
+
+ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+
+//End
+
+
+

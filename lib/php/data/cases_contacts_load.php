@@ -26,7 +26,7 @@ $case_id = $_POST['case_id'];
 
 //Get all contacts associated with the case
 
-$contacts_query = $dbh->prepare("SELECT * FROM cm_contacts where assoc_case = :case_id ORDER BY last_name asc");
+$contacts_query = $dbh->prepare("SELECT * FROM cm_contacts where assoc_case = :case_id ORDER BY id desc");
 
 $data = array('case_id' => $case_id);
 

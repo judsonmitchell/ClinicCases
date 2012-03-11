@@ -73,6 +73,8 @@
 
 				<span class="contact_email_widget"></span>
 
+				<p><label>Website</label><input type="text" name="url"></p>
+
 				<p><label>Notes</label><textarea name="notes" class="contact_notes"></textarea></p>
 
 			</div>
