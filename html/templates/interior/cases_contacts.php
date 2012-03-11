@@ -105,13 +105,21 @@
 
 					<div class='contact_left'>
 						<p><label>Organization:</label> $contact[organization]</p>
-						<p><label>Address:</label> $contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>
-						<p><label>Phone 1</label> $contact[phone1]</p>
-						<p><label>Phone 2</label> $contact[phone2]</p>
-						<p><label>Fax</label> $contact[fax]</p>
-						<p><label>Email</label> $contact[email]</p>
+						<p><label>Address:</label> $contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>";
 
-					</div>
+						$phones = json_decode($contact['phone'],true);
+
+						foreach ($phones as $key => $value) {
+						 	echo "<p><label>Phone (" . $key . ")</label> $value</p>";
+						 }
+
+						$emails = json_decode($contact['email'],true);
+
+						foreach ($emails as $key => $value) {
+							echo "<p><label>Email (" . $key . ")</label> $value</p>";
+						}
+
+					echo "</div>
 
 
 					<div class='contact_right'>
