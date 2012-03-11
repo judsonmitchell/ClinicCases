@@ -12,18 +12,18 @@ function setDetailCss()
 
     windowHeight = Math.ceil($('#case_detail_window').height());
 
-    panelWidthFix = $('#case_detail_window').width() * .004;
+    panelWidthFix = $('#case_detail_window').width() * 0.004;
 
-    navWidth = Math.floor(windowWidth * .15);
+    navWidth = Math.floor(windowWidth * 0.15);
 
     panelWidth = windowWidth - navWidth - panelWidthFix;
 
-    var bh = Math.floor($(windowHeight * .07));
+    var bh = Math.floor($(windowHeight * 0.07));
 
     //this for small screens
     if (bh > 52)
     {
-        barHeight = bh
+        barHeight = bh;
     }
 
     else
@@ -127,8 +127,7 @@ function addDetailTabs(id)
 
         });
 
-    }
-    )
+    });
 }
 
 //Function which creates the case detail window.
@@ -196,7 +195,7 @@ function toggleTabs()
 
     {
         //Recalculate top
-        var paddingTop = adjustedHeight * .021;
+        var paddingTop = adjustedHeight * 0.021;
         $("#case_detail_window").animate({'top': paddingTop}, function() {
         });
         $("#case_detail_control button:first").button({icons: {primary: "fff-icon-arrow-in"},label: "Minimize"});

@@ -51,6 +51,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/jqueryui.combobox.js"></script>
+
+
 	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.js"></script>

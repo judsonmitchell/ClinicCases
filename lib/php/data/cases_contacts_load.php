@@ -12,6 +12,8 @@ function contact_types ($dbh)
 
 	$types = $get_types->fetchAll(PDO::FETCH_ASSOC);
 
+	$type_options = null;
+
 	foreach ($types as $type) {
 
 		$type_options .= "<option value = '$type[type]'>$type[type]</option>";

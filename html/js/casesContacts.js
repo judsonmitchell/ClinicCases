@@ -5,7 +5,7 @@
 function sizeContacts(contacts,panelTarget)
 {
     var windowHeight = panelTarget.height();
-    var minContactHeight = panelTarget.height() * .3;
+    var minContactHeight = panelTarget.height() * 0.3;
     contacts.not('.new_contact').each(function(){
         //cache the height values for use later
         $(this).data('maxContactHeight',$(this).height());
@@ -41,6 +41,10 @@ $('.case_detail_nav #item6').live('click', function() {
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
+        //Adjust size of panel to accomodate combobox.  Previous size causes the panel element to go out of alignment
+        var newPanelWidth = thisPanel.width() - 10;
+        thisPanel.width(newPanelWidth);
+
         //Set buttons
         $('button.new_contact').button({icons: {primary: "fff-icon-vcard-add"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
 
@@ -49,6 +53,10 @@ $('.case_detail_nav #item6').live('click', function() {
 
         //Size
         sizeContacts($(this).find('.contact'),thisPanel);
+
+
+        //Apply comboxbox
+        $('#contact_type').combobox();
 
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -124,20 +132,22 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
         $(this).remove();
     });
 
+    //User cancels adding new contact
+    $(this).closest('.case_detail_panel_tools').siblings().find('button.contact_action_cancel').click(function(event) {
+
+        event.preventDefault();
+        //reset form
+
+        //reset opacity of other case notes
+        $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
+        //hide the widget
+        $(this).closest('.csenote_new').hide();
+
+    });
+
 });
 
-//User cancels adding new contact
-$('button.contact_action_cancel').live('click', function(event) {
 
-    event.preventDefault();
-    //reset form
-
-    //reset opacity of other case notes
-    $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
-    //hide the widget
-    $(this).closest('.csenote_new').hide();
-
-});
 
 //Updates the contact name when user creates a new contact
 $('#contact_first_name').live('keyup',function(){
@@ -150,4 +160,25 @@ $('#contact_last_name').live('keyup',function(){
 
 $('#contact_type').live('change',function(){
     $(this).closest('.new_contact').find('span.contact_type_live').html($(this).val());
+});
+
+//Sets default text on contact title
+$('#contact_first_name').live('focus', function(){
+
+     $(this).closest('.new_contact').find('span.first_name_live').html('');
+     $('#contact_first_name').die('focus');
+});
+
+$('#contact_organization').live('focus',function(){
+    //If no name is entered, use organization name for contact title
+    if ($('#contact_first_name').val() === '' && $('#contact_last_name').val() === '')
+    {
+           console.log('they are empty');
+            $(this).keyup(function(){
+                $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
+                });
+
+            $(this).focusout().die('keyup');
+
+    }
 });

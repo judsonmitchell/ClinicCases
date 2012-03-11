@@ -31,7 +31,7 @@
 
 				<div class = 'csenote_bar_left new_contact_left'>
 
-					<h4><span class="first_name_live">New</span> <span class="last_name_live">Contact</span><h4>
+					<h4><span class="first_name_live">New Contact</span> <span class="last_name_live"></span><h4>
 
 					<h5><span class="contact_type_live"></span></h5>
 
@@ -49,12 +49,11 @@
 
 				<p><label>First Name</label><input type="text" name="first_name" id="contact_first_name"></p>
 
-				<p><label>Last Name</label><input type="text" name="last_name" id="contact_last_name"><p>
+				<p><label>Last Name</label><input type="text" name="last_name" id="contact_last_name"></p>
 
-				<p><label>Organization</label><input type="text" name = "organization"><p>
+				<p><label>Organization</label><input type="text" name = "organization" id="contact_organization"></p>
 
 				<p><label>Contact Type</label><select name="contact_type" id="contact_type">
-
 						<option value=''></option>
 
 						<?php $type_list = contact_types($dbh); echo $type_list; ?>
@@ -62,7 +61,7 @@
 					</select></p>
 
 
-				<p><label>Address</label><textarea name="address"></textarea><p>
+				<p><label>Address</label><textarea name="address"></textarea></p>
 
 				<p><label>City</label><input type="text" name="city"></p>
 
@@ -74,11 +73,7 @@
 
 				<span class="contact_email_widget"></span>
 
-				<p><label>Notes</label><textarea name="notes"></textarea></p>
-
-			</div>
-
-			<div class="contact_right">
+				<p><label>Notes</label><textarea name="notes" class="contact_notes"></textarea></p>
 
 			</div>
 
