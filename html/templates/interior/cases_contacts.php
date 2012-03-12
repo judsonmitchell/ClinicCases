@@ -10,6 +10,9 @@
 
 		<input type="text" class="contacts_search" value="Search Contacts">
 
+		<input type="button" class="casenotes_search_clear">
+
+
 <?php
 	if ($_SESSION['permissions']['add_contacts'] == '1')
 		{echo "<button class='new_contact'>New Contact</button>";}

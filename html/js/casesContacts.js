@@ -247,3 +247,78 @@ $('#contact_organization').live('focus',function(){
 
     }
 });
+
+//handle search
+$('input.contacts_search').live('focusin', function() {
+
+    $(this).val('');
+    $(this).css({'color': 'black'});
+    $(this).next('.casenotes_search_clear').show();
+});
+
+$('input.contacts_search').live('keyup', function() {
+
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+
+    var search = $(this).val();
+
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    //resultTarget.unbind('scroll');
+
+    resultTarget.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId,'q': search}, function() {
+
+        resultTarget.scrollTop(0);
+
+        //sizeContacts($('.contact'),resultTarget);
+
+        if (resultTarget.hasClass('csenote_shadow'))
+        {
+            resultTarget.removeClass('csenote_shadow');
+        }
+
+        $('div.contact').addClass('ui-corner-all');
+
+        resultTarget.bind('scroll.search', function() {
+            if ($(this).scrollTop() > 0)
+            {
+                $(this).addClass('csenote_shadow');
+            }
+            else
+            {
+                $(this).removeClass('csenote_shadow');
+            }
+        });
+
+    });
+
+});
+
+$('.casenotes_search_clear').live('click', function() {
+
+    $(this).prev().val('Search Contacts');
+
+    $(this).prev().css({'color': '#AAA'});
+
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    resultTarget.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId}, function() {
+
+        resultTarget.scrollTop(0);
+
+        sizeCaseNotes($('.csenote'),resultTarget);
+
+        $('div.csenote').addClass('ui-corner-all');
+
+        resultTarget.unbind('scroll.search');
+
+        resultTarget.bind('scroll', function() {
+            addMoreNotes(resultTarget);
+        });
+
+    });
+
+    $(this).hide();
+});

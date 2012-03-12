@@ -22,13 +22,43 @@ function contact_types ($dbh)
 	return $type_options;
 }
 
+//Get variables
+
 $case_id = $_POST['case_id'];
+
+if (isset($_POST['q']))
+	{$q = $_POST['q'];}
+
+if (isset($q))
+
+	{
+		$sql = "SELECT * from cm_contacts WHERE assoc_case = :case_id and (first_name LIKE :q OR last_name LIKE :q OR organization LIKE :q OR type LIKE :q OR address LIKE :q OR city LIKE :q OR zip LIKE :q OR phone LIKE :q OR email LIKE :q OR url LIKE :q OR notes LIKE :q)";
+	}
+
+	else
+
+		{$sql = "SELECT * FROM cm_contacts where assoc_case = :case_id ORDER BY id desc";}
 
 //Get all contacts associated with the case
 
-$contacts_query = $dbh->prepare("SELECT * FROM cm_contacts where assoc_case = :case_id ORDER BY id desc");
+$contacts_query = $dbh->prepare($sql);
 
-$data = array('case_id' => $case_id);
+if (isset($q))
+	{
+		$search_term = '%' . $q . '%';
+
+		$data = array('case_id' => $case_id, 'q' => $search_term);
+
+	}
+
+	else
+
+	{
+
+		$data = array('case_id' => $case_id);
+
+	}
+
 
 $contacts_query->execute($data);
 

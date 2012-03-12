@@ -71,6 +71,7 @@ switch ($action) {
 
 		#code ...
 		break;
+
 }
 
 if($error[1])
