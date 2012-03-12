@@ -270,7 +270,7 @@ $('input.contacts_search').live('keyup', function() {
 
         resultTarget.scrollTop(0);
 
-        //sizeContacts($('.contact'),resultTarget);
+        sizeContacts($('.contact'),resultTarget);
 
         if (resultTarget.hasClass('csenote_shadow'))
         {
@@ -308,7 +308,7 @@ $('.casenotes_search_clear').live('click', function() {
 
         resultTarget.scrollTop(0);
 
-        sizeCaseNotes($('.csenote'),resultTarget);
+        sizeContacts($('.contact'),resultTarget);
 
         $('div.csenote').addClass('ui-corner-all');
 
