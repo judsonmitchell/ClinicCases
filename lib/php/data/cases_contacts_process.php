@@ -51,7 +51,7 @@ if (isset($_POST['case_id']))
 switch ($action) {
 	case 'add':
 
-		$add_contact = $dbh->prepare('INSERT INTO cm_contacts (id, first_name, last_name, organization, type, address, city, state, zip, phone1, email, url, notes, assoc_case) VALUES (NULL, :first_name, :last_name, :organization, :contact_type, :address, :city, :state, :zip, :phone, :email, :url, :notes, :case_id);');
+		$add_contact = $dbh->prepare('INSERT INTO cm_contacts (id, first_name, last_name, organization, type, address, city, state, zip, phone, email, url, notes, assoc_case) VALUES (NULL, :first_name, :last_name, :organization, :contact_type, :address, :city, :state, :zip, :phone, :email, :url, :notes, :case_id);');
 
 		$data = array('first_name' => $first_name, 'last_name' => $last_name, 'organization' => $organization, 'contact_type' => $contact_type, 'address' => $address, 'city' => $city, 'state' => $state, 'zip' => $zip, 'phone' => $phone, 'email' => $email, 'url' => $url, 'notes' => $notes, 'case_id' => $case_id);
 

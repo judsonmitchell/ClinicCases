@@ -5,14 +5,14 @@
 function sizeContacts(contacts,panelTarget)
 {
     var windowHeight = panelTarget.height();
-    var minContactHeight = panelTarget.height() * 0.3;
+    var minContactHeight = panelTarget.height() * 0.4;
     contacts.not('.new_contact').each(function(){
         //cache the height values for use later
         $(this).data('maxContactHeight',$(this).height());
         $(this).data('minContactHeight',minContactHeight);
 
         var notePercent = $(this).height() / windowHeight * 100;
-        if (notePercent > 30 )
+        if (notePercent > 40 )
         {
             $(this).height(minContactHeight);
             $(this).css({'overflow':'hidden'});
@@ -53,7 +53,6 @@ $('.case_detail_nav #item6').live('click', function() {
 
         //Size
         sizeContacts($(this).find('.contact'),thisPanel);
-
 
         //Apply comboxbox
         $('#contact_type').combobox();
@@ -215,8 +214,6 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     });
 
 });
-
-
 
 //Updates the contact name when user creates a new contact
 $('#contact_first_name').live('keyup',function(){

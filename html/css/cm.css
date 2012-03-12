@@ -516,6 +516,7 @@ div.contact_bar{height:45px;}
 span.contact_type{color:black;}
 div.contact_left{display:inline-block;width:45%;vertical-align:top;}
 div.contact_right{display:inline-block;width:45%;vertical-align:top;}
+div.contact_left a {color:blue;}
 div.contact div.contact_more{position:absolute;bottom:0px;right:15px;}
 div.contact_more > a{font-size:.8em;color:#AAA;}
 div.new_contact {height:670px;overflow: auto;}

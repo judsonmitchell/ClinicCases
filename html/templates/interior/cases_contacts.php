@@ -88,7 +88,7 @@
 			{
 
 				echo "
-				<div class='csenote contact'>
+				<div class='csenote contact' data-id = '$contact[id]'>
 					<div class='csenote_bar contact_bar'>
 						<div class = 'csenote_bar_left'><h4>". $contact['first_name'] . " " . $contact['last_name'] . "</h4><h5>" . $contact['type']  . "</h5></div>
 						<div class = 'csenote_bar_right'>";
@@ -103,29 +103,45 @@
 						</div>
 					</div>
 
-					<div class='contact_left'>
-						<p><label>Organization:</label> $contact[organization]</p>
-						<p><label>Address:</label> $contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>";
+					<div class='contact_left'>";
 
-						$phones = json_decode($contact['phone'],true);
+						if ($contact['organization'])
+							{echo "<p><label>Organization:</label> $contact[organization]</p>";}
 
-						foreach ($phones as $key => $value) {
-						 	echo "<p><label>Phone (" . $key . ")</label> $value</p>";
-						 }
+						if ($contact['phone'])
+						{
+							$phones = json_decode($contact['phone'],true);
 
-						$emails = json_decode($contact['email'],true);
-
-						foreach ($emails as $key => $value) {
-							echo "<p><label>Email (" . $key . ")</label> $value</p>";
+							foreach ($phones as $key => $value) {
+							 	echo "<p><label>Phone (" . $key . ")</label> $value</p>";
+							 }
 						}
+
+						if ($contact['email'])
+						{
+							$emails = json_decode($contact['email'],true);
+
+							foreach ($emails as $key => $value) {
+								echo "<p><label>Email (" . $key . ")</label><a href='mailto:$value' target='_blank'> $value</a></p>";
+							}
+						}
+
+						if (empty($contact['organization']) and empty($contact['phone']) and empty($contact['email']))
+							{echo "<p><label>....</label></p>";}
 
 					echo "</div>
 
 
-					<div class='contact_right'>
-						<p><label>Notes:</label> $contact[notes]</p>
+					<div class='contact_right'>";
 
-					</div>
+					if ($contact['address'])
+						{echo "<p><label>Address:</label> <br />$contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>";}
+					if ($contact['notes'])
+						{echo "<p><label>Notes:</label><br />$contact[notes]</p>";}
+
+
+
+					echo "</div>
 
 				</div>";
 
