@@ -90,10 +90,7 @@ require('db.php');
 echo "Updating contacts db...<br />";
 
 	//Update fields
-$query = $dbh->prepare("ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`;
-	ALTER TABLE  `cm_contacts` ADD  `url` TEXT NOT NULL AFTER  `email`;
-	ALTER TABLE  `cm_contacts` CHANGE  `address`  `address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';
-	ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone1` TEXT NOT NULL DEFAULT  '', CHANGE  `email`  `email` TEXT NOT NULL DEFAULT  '';");
+$query = $dbh->prepare("ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm_contacts` ADD  `url` TEXT NOT NULL AFTER  `email`;ALTER TABLE  `cm_contacts` CHANGE  `address`  `address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone1` TEXT NOT NULL DEFAULT  '', CHANGE  `email`  `email` TEXT NOT NULL DEFAULT  '';");
 
 $query->execute();
 
