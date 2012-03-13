@@ -392,7 +392,7 @@ $('a.csenote_edit').live('click', function(event) {
 
     //test to see if there is another note being edited.  If so , return false
     if ($(this).closest('.case_detail_panel_casenotes').find('.csenote_edit_submit').length)
-    {notify('Only one case note can be edited at a time',true);return false};
+    {notify('Only one case note can be edited at a time',true);return false;}
 
     //define case note to be edited
     var thisCseNote = $(this).closest('.csenote');

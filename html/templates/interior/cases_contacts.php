@@ -93,14 +93,24 @@
 				echo "
 				<div class='csenote contact' data-id = '$contact[id]'>
 					<div class='csenote_bar contact_bar'>
-						<div class = 'csenote_bar_left'><h4>". $contact['first_name'] . " " . $contact['last_name'] . "</h4><h5>" . $contact['type']  . "</h5></div>
+						<div class = 'csenote_bar_left'>";
+
+						if (empty($contact['first_name']) and empty($contact['last_name']))
+
+							{echo "<h4>" . $contact['organization'] . "</h4>";}
+
+							else
+
+							{echo "<h4>". $contact['first_name'] . " " . $contact['last_name'] . "</h4>";}
+
+						echo "<h5>" . $contact['type']  . "</h5></div>
 						<div class = 'csenote_bar_right'>";
 
 						if ($_SESSION['permissions']['edit_contacts'] == '1')
-							{echo "<a href='#' class='csenote_edit'>Edit</a> ";}
+							{echo "<a href='#' class='contact_edit'>Edit</a> ";}
 
 						if ($_SESSION['permissions']['delete_contacts'] == '1')
-							{echo "<a href='#' class='csenote_delete'>Delete</a>";}
+							{echo "<a href='#' class='contact_delete'>Delete</a>";}
 
 						echo "
 						</div>
@@ -138,9 +148,11 @@
 					<div class='contact_right'>";
 
 					if ($contact['address'])
-						{echo "<p><label>Address:</label> <br />$contact[address]<br>$contact[city] $contact[state] $contact[zip]</p>";}
+						{echo "<p><label>Address:</label>$contact[address]<br />$contact[city] $contact[state] $contact[zip]</p>";}
+					if ($contact['url'])
+						{echo "<p><label>Website:</label><a href='" . $contact['url'] . "' target='_blank'>" . $contact['url'] . "</a>";}
 					if ($contact['notes'])
-						{echo "<p><label>Notes:</label><br />$contact[notes]</p>";}
+						{echo "<p><label>Notes:</label>" . nl2br($contact['notes']) . "</p>";}
 
 
 

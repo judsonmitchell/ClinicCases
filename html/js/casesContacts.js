@@ -215,6 +215,13 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
 });
 
+//Print displayed contacts
+$('.case_detail_panel_tools_right button.contact_print').live('click',function(){
+    alert('Working on it');
+    //TODO printing
+
+});
+
 //Updates the contact name when user creates a new contact
 $('#contact_first_name').live('keyup',function(){
     $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
@@ -321,4 +328,27 @@ $('.casenotes_search_clear').live('click', function() {
     });
 
     $(this).hide();
+});
+
+//edit contact
+
+$('a.contact_edit').live('click',function(event){
+
+    event.preventDefault();
+
+    //test to see if there is another contact being edited.  If so , return false
+    if ($(this).closest('.case_detail_panel_casenotes').find('.contact_edit_submit').length)
+    {notify('Only one contact can be edited at a time',true);return false;}
+
+    //define contact to be edited
+    var thisCseNote = $(this).closest('.contact');
+
+    //Extract form values from that case note
+
+    //define the dummy version of the contact used for editing
+    var editContact = $(this).closest('div.contact').siblings('div.contact_new').clone();
+    thisContact.after(editContact);
+    editContact.show();
+    thisContact.hide();
+
 });
