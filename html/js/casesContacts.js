@@ -341,7 +341,7 @@ $('a.contact_edit').live('click',function(event){
     {notify('Only one contact can be edited at a time',true);return false;}
 
     //define contact to be edited
-    var thisCseNote = $(this).closest('.contact');
+    var thisContact = $(this).closest('.contact');
 
     //Extract form values from that case note
 
