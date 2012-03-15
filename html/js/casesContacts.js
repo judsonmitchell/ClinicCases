@@ -54,9 +54,6 @@ $('.case_detail_nav #item6').live('click', function() {
         //Size
         sizeContacts($(this).find('.contact'),thisPanel);
 
-        //Apply comboxbox
-        $('#contact_type').combobox();
-
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
@@ -103,10 +100,14 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
 
     //display the new contact widget
-    $(this).closest('.case_detail_panel_tools').siblings().find('div.new_contact').show();
+    var addContactWidget = $(this).closest('.case_detail_panel_tools').siblings().find('div.new_contact');
+    addContactWidget.show();
 
     //reduce opacity on the previously entered contact
     $(this).closest('.case_detail_panel_tools').siblings().find('div.contact').not('div.csenote_new').css({'opacity': '.5'});
+
+    //Apply comboxbox
+    addContactWidget.find('select[name = "contact_type"]').combobox();
 
     //Add the phone input widget
     var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>Mobile</option><option value='home'>Home</option><option value='office'>Office</option><option value='fax'>Fax</option><option value='other'>Other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
@@ -136,11 +137,20 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
         event.preventDefault();
         //reset form
+        addContactWidget.find('form')[0].reset();
+        addContactWidget.find('span.first_name_live').html("New Contact");
+        addContactWidget.find('span.last_name_live').html("");
+        addContactWidget.find('span.contact_type_live').html("");
+
+
+
 
         //reset opacity of other case notes
         $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
         //hide the widget
         $(this).closest('.csenote_new').hide();
+        addContactWidget.find('select[name = "contact_type"]').combobox("destroy");
+
 
     });
 
@@ -187,6 +197,8 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
             var target = $(this).closest('.case_detail_panel_casenotes');
 
+            addContactWidget.find('select[name = "contact_type"]').combobox("destroy");
+
             $.post('lib/php/data/cases_contacts_process.php',{
                 'first_name':contactForm.find('input[name = "first_name"]').val(),
                 'last_name':contactForm.find('input[name = "last_name"]').val(),
@@ -222,7 +234,7 @@ $('.case_detail_panel_tools_right button.contact_print').live('click',function()
 
 });
 
-//Updates the contact name when user creates a new contact
+//Updates the displayed contact name when user creates a new contact
 $('#contact_first_name').live('keyup',function(){
     $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
 });
@@ -344,11 +356,63 @@ $('a.contact_edit').live('click',function(event){
     var thisContact = $(this).closest('.contact');
 
     //Extract form values from that case note
+    var firstNameVal = thisContact.find('.cnt_first_name').html();
+    var lastNameVal = thisContact.find('.cnt_last_name').html();
+    var typeVal = thisContact.find('.cnt_type').html();
+    var orgVal = thisContact.find('.cnt_organization').html();
+    var addressVal = thisContact.find('.cnt_address').html();
+    var cityVal = thisContact.find('.cnt_city').html();
+    var stateVal = thisContact.find('.cnt_state').html();
+    var zipVal = thisContact.find('.cnt_zip').html();
+    var urlVal = thisContact.find('.cnt_url').html();
+    var notesVal = thisContact.find('.cnt_notes').html();
+
 
     //define the dummy version of the contact used for editing
-    var editContact = $(this).closest('div.contact').siblings('div.contact_new').clone();
+    var editContact = $(this).closest('div.contact').siblings('div.new_contact').clone().addClass('contact_edit');
     thisContact.after(editContact);
+
+    //populate form with values
+    if (!firstNameVal &&  !lastNameVal)
+        {editContact.find('span.first_name_live').html(orgVal);}
+    else
+        {
+            editContact.find('span.first_name_live').html(firstNameVal);
+            editContact.find('span.last_name_live').html(lastNameVal);
+        }
+    editContact.find('span.contact_type_live').html(typeVal);
+    editContact.find('input[name = "first_name"]').val(firstNameVal);
+    editContact.find('input[name = "last_name"]').val(lastNameVal);
+    editContact.find('input[name = "organization"]').val(orgVal);
+    editContact.find('textarea[name = "address"]').html(addressVal);
+    editContact.find('input[name = "city"]').val(cityVal);
+    editContact.find('select[name = "state"]').val(stateVal);
+    editContact.find('input[name = "zip"]').val(zipVal);
+    editContact.find('input[name = "url"]').val(urlVal);
+    editContact.find('textarea[name = "notes"]').val(notesVal);
+
+    //set css
+    editContact.find('.csenote_bar').css({'background-color': '#FEBBBB'});
+    editContact.find('button.contact_action_submit').html('Done').addClass('contact_edit_submit').removeClass('contact_action_submit');
+    editContact.find('button.contact_action_cancel').addClass('contact_edit_cancel').removeClass('contact_action_cancel');
+
+    //Apply combobox
+    editContact.find('select[name = "contact_type"]').combobox();
+
     editContact.show();
     thisContact.hide();
+
+    //user cancels editing contact
+    editContact.find('button.contact_edit_cancel').click(function(event){
+        event.preventDefault();
+        editContact.hide().remove();
+        thisContact.show();
+    });
+
+    //user submits edits
+    editContact.find('button.contact_edit_submit').click(function(event){
+        event.preventDefault();
+
+    });
 
 });

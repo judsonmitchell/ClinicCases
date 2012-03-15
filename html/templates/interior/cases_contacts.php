@@ -59,7 +59,7 @@
 				<p><label>Contact Type</label><select name="contact_type" id="contact_type">
 						<option value=''></option>
 
-						<?php $type_list = contact_types($dbh); echo $type_list; ?>
+						<?php $type_list = contact_types($dbh,$case_id); echo $type_list; ?>
 
 					</select></p>
 
@@ -101,9 +101,9 @@
 
 							else
 
-							{echo "<h4>". $contact['first_name'] . " " . $contact['last_name'] . "</h4>";}
+							{echo "<h4><span class='cnt_first_name'>". $contact['first_name'] . "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</h4>";}
 
-						echo "<h5>" . $contact['type']  . "</h5></div>
+						echo "<h5><span class='cnt_type'>" . $contact['type']  . "</span></h5></div>
 						<div class = 'csenote_bar_right'>";
 
 						if ($_SESSION['permissions']['edit_contacts'] == '1')
@@ -119,7 +119,7 @@
 					<div class='contact_left'>";
 
 						if ($contact['organization'])
-							{echo "<p><label>Organization:</label> $contact[organization]</p>";}
+							{echo "<p><label>Organization: </label><span class='cnt_organization'>$contact[organization]</span></p>";}
 
 						if ($contact['phone'])
 						{
@@ -148,11 +148,11 @@
 					<div class='contact_right'>";
 
 					if ($contact['address'])
-						{echo "<p><label>Address:</label>$contact[address]<br />$contact[city] $contact[state] $contact[zip]</p>";}
+						{echo "<p><label>Address:</label><span class='cnt_address'>$contact[address]</span><br /><span class='cnt_city'>$contact[city]</span> <span class='cnt_state'>$contact[state]</span> <span class='cnt_zip'>$contact[zip]</span></p>";}
 					if ($contact['url'])
-						{echo "<p><label>Website:</label><a href='" . $contact['url'] . "' target='_blank'>" . $contact['url'] . "</a>";}
+						{echo "<p><label>Website:</label><a href='" . $contact['url'] . "' target='_blank'><span class='cnt_url'>" . $contact['url'] . "</span></a>";}
 					if ($contact['notes'])
-						{echo "<p><label>Notes:</label>" . nl2br($contact['notes']) . "</p>";}
+						{echo "<p><label>Notes:</label><span class='cnt_notes'>" . nl2br($contact['notes']) . "</span></p>";}
 
 
 
