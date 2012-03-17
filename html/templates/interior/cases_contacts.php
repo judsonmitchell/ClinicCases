@@ -126,7 +126,7 @@
 							$phones = json_decode($contact['phone'],true);
 
 							foreach ($phones as $key => $value) {
-							 	echo "<p><label>Phone (" . $key . ")</label> $value</p>";
+							 	echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>$key</span>)</label><span  class='contact_phone_value'> $value </span></p>";
 							 }
 						}
 
@@ -135,7 +135,7 @@
 							$emails = json_decode($contact['email'],true);
 
 							foreach ($emails as $key => $value) {
-								echo "<p><label>Email (" . $key . ")</label><a href='mailto:$value' target='_blank'> $value</a></p>";
+								echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>$key</span>)</label><a href='mailto:$value' target='_blank'><span class='contact_email_value'>$value</span></a></p>";
 							}
 						}
 

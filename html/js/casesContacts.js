@@ -23,6 +23,31 @@ function sizeContacts(contacts,panelTarget)
 
 }
 
+function doEditSelect(val,type)
+{
+    var phoneOptions = ['mobile','home','office','fax'];
+    var emailOptions = ['work','home','other'];
+    var selectOptions = '';
+
+    if (type === 'phone') {
+        for (var i = 0; i < phoneOptions.length; i++) {
+            if (phoneOptions[i] === val)
+                {selectOptions += "<option value = '" + phoneOptions[i] + "' selected=selected>" + phoneOptions[i] + '</option>';}
+            else
+                {selectOptions += "<option value = '" + phoneOptions[i] + "'>" + phoneOptions[i] + "</option>";}
+        }
+
+    } else{
+        for (var i = 0; i < emailOptions.length; i++) {
+            if (emailOptions[i] === val)
+                {selectOptions += "<option value = '" + emailOptions[i] + "' selected=selected>" + emailOptions[i] + '</option>';}
+            else
+                {selectOptions += "<option value = '" + emailOptions[i] + "'>" + emailOptions[i] + "</option>";}
+        }}
+
+    return selectOptions;
+}
+
 $('.case_detail_nav #item6').live('click', function() {
 
 	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
@@ -110,12 +135,12 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     addContactWidget.find('select[name = "contact_type"]').combobox();
 
     //Add the phone input widget
-    var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>Mobile</option><option value='home'>Home</option><option value='office'>Office</option><option value='fax'>Fax</option><option value='other'>Other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
+    var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option><option value='other'>other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
 
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_phone_widget').html(phoneWidget);
 
     //Add the email input widget
-    var emailWidget = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>Work</option><option value='home'>Home</option><option value='other'>Other</option></select><input type='text' name='email' class='contact_email_value'><a href='#' class='add_email'>Add Another</a>";
+    var emailWidget = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'><a href='#' class='add_email'>Add Another</a>";
 
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_email_widget').html(emailWidget);
 
@@ -384,12 +409,56 @@ $('a.contact_edit').live('click',function(event){
     editContact.find('input[name = "first_name"]').val(firstNameVal);
     editContact.find('input[name = "last_name"]').val(lastNameVal);
     editContact.find('input[name = "organization"]').val(orgVal);
+    editContact.find('select[name = "contact_type"]').val(typeVal);
     editContact.find('textarea[name = "address"]').html(addressVal);
     editContact.find('input[name = "city"]').val(cityVal);
     editContact.find('select[name = "state"]').val(stateVal);
     editContact.find('input[name = "zip"]').val(zipVal);
     editContact.find('input[name = "url"]').val(urlVal);
     editContact.find('textarea[name = "notes"]').val(notesVal);
+
+        //handle phones
+        var phoneData = {};
+            thisContact.find('p.contact_phone_group').each(function(){
+                var phoneKey = $(this).find('span.contact_phone_type').text().trim();
+                var phoneValue = $(this).find('span.contact_phone_value').text();
+                phoneData[phoneKey] = phoneValue;
+            });
+
+        var phoneForm = '';
+        var phoneSelects = '';
+
+        $.each(phoneData,function(key, value){
+            phoneOptions = doEditSelect(key,'phone');
+            phoneForm += "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'>" + phoneOptions + "</select><input type='text' name='phone' class='contact_phone_value' value='" + value + "'>";
+                });
+
+        editContact. find('span.contact_phone_widget').html(phoneForm);
+
+        //Append add "another link" to last phone
+
+        //handle email
+        var emailData = {};
+            thisContact.find('p.contact_email_group').each(function(){
+                var emailKey = $(this).find('span.contact_email_type').text().trim();
+                var emailValue = $(this).find('span.contact_email_value').text();
+                emailData[emailKey] = emailValue;
+            });
+
+        var emailForm = '';
+        var emailSelects = '';
+
+        $.each(emailData,function(key, value){
+            emailOptions = doEditSelect(key,'email');
+            emailForm += "<p class='contact_email_group'><label>email</label><select name='email_type' class='contact_email_type'>" + emailOptions + "</select><input type='text' name='email' class='contact_email_value' value='" + value + "'>";
+                });
+
+        editContact. find('span.contact_email_widget').html(emailForm);
+
+        //Append "add another" link to last email
+
+
+
 
     //set css
     editContact.find('.csenote_bar').css({'background-color': '#FEBBBB'});
