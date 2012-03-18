@@ -48,6 +48,9 @@ if (isset($_POST['email']))
 if (isset($_POST['case_id']))
 	{$case_id = $_POST['case_id'];}
 
+if (isset($_POST['id']))
+	{$id = $_POST['id'];}
+
 switch ($action) {
 	case 'add':
 
@@ -59,12 +62,18 @@ switch ($action) {
 
 		$error = $add_contact->errorInfo();
 
-
 		break;
 
 	case 'edit':
 
-		# code...
+		$edit_contact = $dbh->prepare("UPDATE cm_contacts SET first_name = :first_name, last_name = :last_name, organization = :organization, type = :contact_type, address = :address, city = :city, state = :state, zip = :zip, phone = :phone, email = :email, url = :url, notes = :notes, assoc_case = :case_id WHERE id = :id");
+
+		$data = array('first_name' => $first_name, 'last_name' => $last_name, 'organization' => $organization, 'contact_type' => $contact_type, 'address' => $address, 'city' => $city, 'state' => $state, 'zip' => $zip, 'phone' => $phone, 'email' => $email, 'url' => $url, 'notes' => $notes, 'case_id' => $case_id, 'id' => $id);
+
+		$edit_contact->execute($data);
+
+		$error = $edit_contact->errorInfo();
+
 		break;
 
 	case 'delete':
@@ -90,8 +99,8 @@ if($error[1])
 			echo json_encode($return);
 			break;
 
-			case "modify":
-			$return = array('message'=>'Contact Edited');
+			case "edit":
+			$return = array('message'=>'Contact Edited','id' => $id);
 			echo json_encode($return);
 			break;
 

@@ -1,21 +1,21 @@
-//
+ //
 // Scripts for contacts panel on cases tab
 //
 
-function sizeContacts(contacts,panelTarget)
+function sizeContacts(contacts, panelTarget)
 {
     var windowHeight = panelTarget.height();
     var minContactHeight = panelTarget.height() * 0.4;
-    contacts.not('.new_contact').each(function(){
+    contacts.not('.new_contact').each(function() {
         //cache the height values for use later
-        $(this).data('maxContactHeight',$(this).height());
-        $(this).data('minContactHeight',minContactHeight);
+        $(this).data('maxContactHeight', $(this).height());
+        $(this).data('minContactHeight', minContactHeight);
 
         var notePercent = $(this).height() / windowHeight * 100;
-        if (notePercent > 40 )
+        if (notePercent > 40)
         {
             $(this).height(minContactHeight);
-            $(this).css({'overflow':'hidden'});
+            $(this).css({'overflow': 'hidden'});
             $(this).append('<div class="contact_more"><a href="#">More</a></div>');
         }
 
@@ -23,34 +23,53 @@ function sizeContacts(contacts,panelTarget)
 
 }
 
-function doEditSelect(val,type)
+function doEditSelect(val, type)
 {
-    var phoneOptions = ['mobile','home','office','fax'];
-    var emailOptions = ['work','home','other'];
+    var phoneOptions = ['mobile', 'home', 'office', 'fax'];
+    var emailOptions = ['work', 'home', 'other'];
     var selectOptions = '';
 
     if (type === 'phone') {
         for (var i = 0; i < phoneOptions.length; i++) {
             if (phoneOptions[i] === val)
-                {selectOptions += "<option value = '" + phoneOptions[i] + "' selected=selected>" + phoneOptions[i] + '</option>';}
+            {
+                selectOptions += "<option value = '" + phoneOptions[i] + "' selected=selected>" + phoneOptions[i] + '</option>';
+            }
             else
-                {selectOptions += "<option value = '" + phoneOptions[i] + "'>" + phoneOptions[i] + "</option>";}
+            {
+                selectOptions += "<option value = '" + phoneOptions[i] + "'>" + phoneOptions[i] + "</option>";
+            }
         }
 
-    } else{
+        selectOptions += "<a href='#' class='add_phone'>Add Another</a>";
+
+    } else {
         for (var i = 0; i < emailOptions.length; i++) {
             if (emailOptions[i] === val)
-                {selectOptions += "<option value = '" + emailOptions[i] + "' selected=selected>" + emailOptions[i] + '</option>';}
+            {
+                selectOptions += "<option value = '" + emailOptions[i] + "' selected=selected>" + emailOptions[i] + '</option>';
+            }
             else
-                {selectOptions += "<option value = '" + emailOptions[i] + "'>" + emailOptions[i] + "</option>";}
-        }}
+            {
+                selectOptions += "<option value = '" + emailOptions[i] + "'>" + emailOptions[i] + "</option>";
+            }
+        }
+    }
 
     return selectOptions;
 }
 
+//html widgets
+
+var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option><option value='other'>other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
+
+var emailWidget = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'><a href='#' class='add_email'>Add Another</a>";
+
+//User clicks on Contacts in left-side navigation
+
 $('.case_detail_nav #item6').live('click', function() {
 
-	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
+    var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
 
     //Get heights
@@ -77,7 +96,7 @@ $('.case_detail_nav #item6').live('click', function() {
         $('div.csenote').addClass('ui-corner-all');
 
         //Size
-        sizeContacts($(this).find('.contact'),thisPanel);
+        sizeContacts($(this).find('.contact'), thisPanel);
 
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -99,7 +118,7 @@ $('.case_detail_nav #item6').live('click', function() {
 //Listeners
 
 //show hidden text on clipped contact
-$('div.contact_more').live('click',function(event){
+$('div.contact_more').live('click', function(event) {
     event.preventDefault();
     console.log('click');
     var contactParent = $(this).closest('.contact');
@@ -108,12 +127,12 @@ $('div.contact_more').live('click',function(event){
 
     if ($(this).find('a').html() == 'Less')
     {
-        contactParent.css({'height':contactParentMinHeight});
+        contactParent.css({'height': contactParentMinHeight});
         $(this).find('a').html('More');
     }
     else
     {
-        contactParent.css({'height':contactParentMaxHeight});
+        contactParent.css({'height': contactParentMaxHeight});
         $(this).find('a').html('Less');
     }
 });
@@ -134,28 +153,9 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
     //Apply comboxbox
     addContactWidget.find('select[name = "contact_type"]').combobox();
 
-    //Add the phone input widget
-    var phoneWidget = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option><option value='other'>other</option></select><input type='text' name='phone' class='contact_phone_value'><a href='#' class='add_phone'>Add Another</a>";
-
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_phone_widget').html(phoneWidget);
 
-    //Add the email input widget
-    var emailWidget = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'><a href='#' class='add_email'>Add Another</a>";
-
     $(this).closest('.case_detail_panel_tools').siblings().find('span.contact_email_widget').html(emailWidget);
-
-    //Listeners to add new fields
-    $('.add_email').live('click',function(event){
-        event.preventDefault();
-        $(this).closest('p').after(emailWidget);
-        $(this).remove();
-    });
-
-     $('.add_phone').live('click',function(event){
-        event.preventDefault();
-        $(this).closest('p').after(phoneWidget);
-        $(this).remove();
-    });
 
     //User cancels adding new contact
     $(this).closest('.case_detail_panel_tools').siblings().find('button.contact_action_cancel').click(function(event) {
@@ -167,20 +167,16 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
         addContactWidget.find('span.last_name_live').html("");
         addContactWidget.find('span.contact_type_live').html("");
 
-
-
-
         //reset opacity of other case notes
         $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
         //hide the widget
         $(this).closest('.csenote_new').hide();
         addContactWidget.find('select[name = "contact_type"]').combobox("destroy");
 
-
     });
 
     //User adds new contact
-    $(this).closest('.case_detail_panel_tools').siblings().find('button.contact_action_submit').click(function(event){
+    $(this).closest('.case_detail_panel_tools').siblings().find('button.contact_action_submit').click(function(event) {
 
         event.preventDefault();
 
@@ -201,7 +197,7 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
             //Make objects of phone/email types and phone numbers/email addresses.  Store each object in one db field, allowing user to enter unlimited email addresses and phone numbers.
 
             var phoneData = {};
-            contactForm.find('p.contact_phone_group').each(function(){
+            contactForm.find('p.contact_phone_group').each(function() {
                 var phoneKey = $(this).find('select.contact_phone_type').val();
                 var phoneValue = $(this).find('input.contact_phone_value').val();
                 phoneData[phoneKey] = phoneValue;
@@ -210,7 +206,7 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
             phoneJson = JSON.stringify(phoneData);
 
             var emailData = {};
-            contactForm.find('p.contact_email_group').each(function(){
+            contactForm.find('p.contact_email_group').each(function() {
                 var emailKey = $(this).find('select.contact_email_type').val();
                 var emailValue = $(this).find('input.contact_email_value').val();
                 emailData[emailKey] = emailValue;
@@ -224,28 +220,28 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
             addContactWidget.find('select[name = "contact_type"]').combobox("destroy");
 
-            $.post('lib/php/data/cases_contacts_process.php',{
-                'first_name':contactForm.find('input[name = "first_name"]').val(),
-                'last_name':contactForm.find('input[name = "last_name"]').val(),
-                'organization':contactForm.find('input[name = "organization"]').val(),
-                'contact_type':contactForm.find('select[name = "contact_type"]').val(),
-                'address':contactForm.find('textarea[name = "address"]').val(),
-                'city':contactForm.find('input[name = "city"]').val(),
-                'state':contactForm.find('select[name = "state"]').val(),
-                'zip':contactForm.find('input[name = "zip"]').val(),
-                'phone':phoneJson,
-                'email':emailJson,
-                'url':contactForm.find('input[name = "url"]').val(),
-                'notes':contactForm.find('textarea[name = "notes"]').val(),
-                'action':'add',
-                'case_id':caseId
-                },function(data){
+            $.post('lib/php/data/cases_contacts_process.php', {
+                'first_name': contactForm.find('input[name = "first_name"]').val(),
+                'last_name': contactForm.find('input[name = "last_name"]').val(),
+                'organization': contactForm.find('input[name = "organization"]').val(),
+                'contact_type': contactForm.find('select[name = "contact_type"]').val(),
+                'address': contactForm.find('textarea[name = "address"]').val(),
+                'city': contactForm.find('input[name = "city"]').val(),
+                'state': contactForm.find('select[name = "state"]').val(),
+                'zip': contactForm.find('input[name = "zip"]').val(),
+                'phone': phoneJson,
+                'email': emailJson,
+                'url': contactForm.find('input[name = "url"]').val(),
+                'notes': contactForm.find('textarea[name = "notes"]').val(),
+                'action': 'add',
+                'case_id': caseId
+            }, function(data) {
 
-                    var serverResponse = $.parseJSON(data);
-                    notify(serverResponse.message);
-                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes',{'case_id': caseId});
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message);
+                target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
 
-                });
+            });
         }
 
     });
@@ -253,41 +249,41 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 });
 
 //Print displayed contacts
-$('.case_detail_panel_tools_right button.contact_print').live('click',function(){
+$('.case_detail_panel_tools_right button.contact_print').live('click', function() {
     alert('Working on it');
-    //TODO printing
+//TODO printing
 
 });
 
 //Updates the displayed contact name when user creates a new contact
-$('#contact_first_name').live('keyup',function(){
+$('#contact_first_name').live('keyup', function() {
     $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
 });
 
-$('#contact_last_name').live('keyup',function(){
+$('#contact_last_name').live('keyup', function() {
     $(this).closest('.new_contact').find('span.last_name_live').html($(this).val());
 });
 
-$('#contact_type').live('change',function(){
+$('#contact_type').live('change', function() {
     $(this).closest('.new_contact').find('span.contact_type_live').html($(this).val());
 });
 
 //Sets default text on contact title
-$('#contact_first_name').live('focus', function(){
+$('#contact_first_name').live('focus', function() {
 
-     $(this).closest('.new_contact').find('span.first_name_live').html('');
-     $('#contact_first_name').die('focus');
+    $(this).closest('.new_contact').find('span.first_name_live').html('');
+    $('#contact_first_name').die('focus');
 });
 
-$('#contact_organization').live('focus',function(){
+$('#contact_organization').live('focus', function() {
     //If no name is entered, use organization name for contact title
     if ($('#contact_first_name').val() === '' && $('#contact_last_name').val() === '')
     {
-            $(this).keyup(function(){
-                $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
-                });
+        $(this).keyup(function() {
+            $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
+        });
 
-            $(this).focusout().die('keyup');
+        $(this).focusout().die('keyup');
 
     }
 });
@@ -314,7 +310,7 @@ $('input.contacts_search').live('keyup', function() {
 
         resultTarget.scrollTop(0);
 
-        sizeContacts($('.contact'),resultTarget);
+        sizeContacts($('.contact'), resultTarget);
 
         if (resultTarget.hasClass('csenote_shadow'))
         {
@@ -352,7 +348,7 @@ $('.casenotes_search_clear').live('click', function() {
 
         resultTarget.scrollTop(0);
 
-        sizeContacts($('.contact'),resultTarget);
+        sizeContacts($('.contact'), resultTarget);
 
         $('div.csenote').addClass('ui-corner-all');
 
@@ -369,13 +365,16 @@ $('.casenotes_search_clear').live('click', function() {
 
 //edit contact
 
-$('a.contact_edit').live('click',function(event){
+$('a.contact_edit').live('click', function(event) {
 
     event.preventDefault();
 
     //test to see if there is another contact being edited.  If so , return false
     if ($(this).closest('.case_detail_panel_casenotes').find('.contact_edit_submit').length)
-    {notify('Only one contact can be edited at a time',true);return false;}
+    {
+        notify('Only one contact can be edited at a time', true);
+        return false;
+    }
 
     //define contact to be edited
     var thisContact = $(this).closest('.contact');
@@ -390,21 +389,30 @@ $('a.contact_edit').live('click',function(event){
     var stateVal = thisContact.find('.cnt_state').html();
     var zipVal = thisContact.find('.cnt_zip').html();
     var urlVal = thisContact.find('.cnt_url').html();
-    var notesVal = thisContact.find('.cnt_notes').html();
-
+    var notesValRaw = thisContact.find('.cnt_notes').html();
+    if (notesValRaw !== null)
+        {notesVal = notesValRaw.br2nl();}
+    else
+        {notesVal = '';}
+    var contactId = thisContact.attr('data-id');
 
     //define the dummy version of the contact used for editing
     var editContact = $(this).closest('div.contact').siblings('div.new_contact').clone().addClass('contact_edit');
     thisContact.after(editContact);
 
+    //get position of contact so that it will displayed correctly after edit
+    var editContactPosition = thisContact.offset().top;
+
     //populate form with values
-    if (!firstNameVal &&  !lastNameVal)
-        {editContact.find('span.first_name_live').html(orgVal);}
+    if (!firstNameVal && !lastNameVal)
+    {
+        editContact.find('span.first_name_live').html(orgVal);
+    }
     else
-        {
-            editContact.find('span.first_name_live').html(firstNameVal);
-            editContact.find('span.last_name_live').html(lastNameVal);
-        }
+    {
+        editContact.find('span.first_name_live').html(firstNameVal);
+        editContact.find('span.last_name_live').html(lastNameVal);
+    }
     editContact.find('span.contact_type_live').html(typeVal);
     editContact.find('input[name = "first_name"]').val(firstNameVal);
     editContact.find('input[name = "last_name"]').val(lastNameVal);
@@ -417,48 +425,47 @@ $('a.contact_edit').live('click',function(event){
     editContact.find('input[name = "url"]').val(urlVal);
     editContact.find('textarea[name = "notes"]').val(notesVal);
 
-        //handle phones
-        var phoneData = {};
-            thisContact.find('p.contact_phone_group').each(function(){
-                var phoneKey = $(this).find('span.contact_phone_type').text().trim();
-                var phoneValue = $(this).find('span.contact_phone_value').text();
-                phoneData[phoneKey] = phoneValue;
-            });
+    //handle phones
+    var phoneData = {};
+    thisContact.find('p.contact_phone_group').each(function() {
+        var phoneKey = $(this).find('span.contact_phone_type').text().trim();
+        var phoneValue = $(this).find('span.contact_phone_value').text();
+        phoneData[phoneKey] = phoneValue;
+    });
 
-        var phoneForm = '';
-        var phoneSelects = '';
+    var phoneForm = '';
+    var phoneSelects = '';
 
-        $.each(phoneData,function(key, value){
-            phoneOptions = doEditSelect(key,'phone');
-            phoneForm += "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'>" + phoneOptions + "</select><input type='text' name='phone' class='contact_phone_value' value='" + value + "'>";
-                });
+    $.each(phoneData, function(key, value) {
+        phoneOptions = doEditSelect(key, 'phone');
+        phoneForm += "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'>" + phoneOptions + "</select><input type='text' name='phone' class='contact_phone_value' value='" + value + "'>";
+    });
 
-        editContact. find('span.contact_phone_widget').html(phoneForm);
+    editContact.find('span.contact_phone_widget').html(phoneForm);
 
-        //Append add "another link" to last phone
+    //Append add "another link" to last phone
+    editContact.find('span.contact_phone_widget').find('.contact_phone_group input').last().after("<a href='#' class='add_phone'>Add Another</a>");
 
-        //handle email
-        var emailData = {};
-            thisContact.find('p.contact_email_group').each(function(){
-                var emailKey = $(this).find('span.contact_email_type').text().trim();
-                var emailValue = $(this).find('span.contact_email_value').text();
-                emailData[emailKey] = emailValue;
-            });
+    //handle email
+    var emailData = {};
+    thisContact.find('p.contact_email_group').each(function() {
+        var emailKey = $(this).find('span.contact_email_type').text().trim();
+        var emailValue = $(this).find('span.contact_email_value').text();
+        emailData[emailKey] = emailValue;
+    });
 
-        var emailForm = '';
-        var emailSelects = '';
+    var emailForm = '';
+    var emailSelects = '';
 
-        $.each(emailData,function(key, value){
-            emailOptions = doEditSelect(key,'email');
-            emailForm += "<p class='contact_email_group'><label>email</label><select name='email_type' class='contact_email_type'>" + emailOptions + "</select><input type='text' name='email' class='contact_email_value' value='" + value + "'>";
-                });
+    $.each(emailData, function(key, value) {
+        emailOptions = doEditSelect(key, 'email');
+        emailForm += "<p class='contact_email_group'><label>email</label><select name='email_type' class='contact_email_type'>" + emailOptions + "</select><input type='text' name='email' class='contact_email_value' value='" + value + "'>";
+    });
 
-        editContact. find('span.contact_email_widget').html(emailForm);
+    editContact.find('span.contact_email_widget').html(emailForm);
 
-        //Append "add another" link to last email
-
-
-
+    //Append "add another" link to last email
+    editContact.find('span.contact_email_widget').find('.contact_email_group input').last().after("<a href='#' class='add_email'>Add Another</a>");
 
     //set css
     editContact.find('.csenote_bar').css({'background-color': '#FEBBBB'});
@@ -472,16 +479,98 @@ $('a.contact_edit').live('click',function(event){
     thisContact.hide();
 
     //user cancels editing contact
-    editContact.find('button.contact_edit_cancel').click(function(event){
+    editContact.find('button.contact_edit_cancel').click(function(event) {
         event.preventDefault();
         editContact.hide().remove();
         thisContact.show();
     });
 
     //user submits edits
-    editContact.find('button.contact_edit_submit').click(function(event){
+    editContact.find('button.contact_edit_submit').click(function(event) {
         event.preventDefault();
+
+        //Do validation
+        var contactForm = $(this).closest('form');
+        var contactVals = contactForm.serializeArray();
+
+        //get errors, if any
+        var errString = validContact(contactVals);
+
+        //notify user or errors or submit form
+        if (errString.length)
+        {
+            notify(errString, true);
+        }
+        else
+        {
+            //Make objects of phone/email types and phone numbers/email addresses.  Store each object in one db field, allowing user to enter unlimited email addresses and phone numbers.
+
+            var phoneData = {};
+            contactForm.find('p.contact_phone_group').each(function() {
+                var phoneKey = $(this).find('select.contact_phone_type').val();
+                var phoneValue = $(this).find('input.contact_phone_value').val();
+                phoneData[phoneKey] = phoneValue;
+            });
+
+            phoneJson = JSON.stringify(phoneData);
+
+            var emailData = {};
+            contactForm.find('p.contact_email_group').each(function() {
+                var emailKey = $(this).find('select.contact_email_type').val();
+                var emailValue = $(this).find('input.contact_email_value').val();
+                emailData[emailKey] = emailValue;
+            });
+
+            emailJson = JSON.stringify(emailData);
+
+            var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+            var target = $(this).closest('.case_detail_panel_casenotes');
+
+            contactForm.find('select[name = "contact_type"]').combobox("destroy");
+
+            $.post('lib/php/data/cases_contacts_process.php', {
+                'first_name': contactForm.find('input[name = "first_name"]').val(),
+                'last_name': contactForm.find('input[name = "last_name"]').val(),
+                'organization': contactForm.find('input[name = "organization"]').val(),
+                'contact_type': contactForm.find('select[name = "contact_type"]').val(),
+                'address': contactForm.find('textarea[name = "address"]').val(),
+                'city': contactForm.find('input[name = "city"]').val(),
+                'state': contactForm.find('select[name = "state"]').val(),
+                'zip': contactForm.find('input[name = "zip"]').val(),
+                'phone': phoneJson,
+                'email': emailJson,
+                'url': contactForm.find('input[name = "url"]').val(),
+                'notes': contactForm.find('textarea[name = "notes"]').val(),
+                'action': 'edit',
+                'case_id': caseId,
+                'id' : contactId
+            }, function(data) {
+
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message);
+                target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId},function(){
+                    //Scroll to original position of edited conact
+                    target.scrollTop(editContactPosition);
+
+                });
+
+            });
+        }
 
     });
 
+});
+
+//Listeners to add new fields
+$('.add_email').live('click', function(event) {
+    event.preventDefault();
+    $(this).closest('p').after(emailWidget);
+    $(this).remove();
+});
+
+$('.add_phone').live('click', function(event) {
+    event.preventDefault();
+    $(this).closest('p').after(phoneWidget);
+    $(this).remove();
 });
