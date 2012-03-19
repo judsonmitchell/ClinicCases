@@ -49,24 +49,24 @@ if (isset($_POST['csenote_user']))
 
 //Generate sql and run query
 switch ($_POST['query_type'])
-	{	
+	{
 		case "add":
-		$sql = "INSERT INTO cm_case_notes  (id, case_id, date, time, description, username, datestamp) VALUES (NULL, :case_id, :date, :time, :description, :user, CURRENT_TIMESTAMP);";	
+		$sql = "INSERT INTO cm_case_notes  (id, case_id, date, time, description, username, datestamp) VALUES (NULL, :case_id, :date, :time, :description, :user, CURRENT_TIMESTAMP);";
 		$case_notes_process = $dbh->prepare($sql);
 		$case_notes_process->execute(array(':case_id'=>$case_id,':date'=>$date,':time'=>$time,':description'=>$description,':user'=>$user));
 		break;
-		
+
 		case "modify":
-		$sql = "UPDATE cm_case_notes SET date = :date, time = :time, description = :description WHERE id = :case_note_id";		
-		$case_notes_process = $dbh->prepare($sql);		
+		$sql = "UPDATE cm_case_notes SET date = :date, time = :time, description = :description WHERE id = :case_note_id";
+		$case_notes_process = $dbh->prepare($sql);
 		$case_notes_process->execute(array(':date'=>$date,':time'=>$time,':description'=>$description,':case_note_id'=>$case_note_id));
 		break;
-		
+
 		case "delete";
-		$sql = "DELETE FROM cm_case_notes WHERE id = :case_note_id";		
+		$sql = "DELETE FROM cm_case_notes WHERE id = :case_note_id";
 		$case_notes_process = $dbh->prepare($sql);
 		$case_notes_process->execute(array(':case_note_id'=>$case_note_id));
-		break;	
+		break;
 	}
 
 
@@ -75,25 +75,31 @@ $error = $case_notes_process->errorInfo();
 
 	if($error[1])
 
-		{echo "Sorry, there was an error.";}
+		{
+			$return = array('message' => 'Sorry, there was an error. Please try again.','error' => true);
+			echo json_encode($return);
+		}
 
 		else
 		{
-			
+
 			switch($_POST['query_type']){
 			case "add":
-			echo "Case note added.";
+			$return = array('message' => 'Case note added.');
+			echo json_encode($return);
 			break;
-			
+
 			case "modify":
-			echo "Case note modified.";
+			$return = array('message' => 'Case note edited.');
+			echo json_encode($return);
 			break;
-			
+
 			case "delete":
-			echo "Case note deleted.";
-			break;	
-				
-			}		
-			
+			$return = array('message' => 'Case note deleted.');
+			echo json_encode($return);
+			break;
+
+			}
+
 		}
 
