@@ -78,7 +78,14 @@ switch ($action) {
 
 	case 'delete':
 
-		#code ...
+		$delete_contact = $dbh->prepare("DELETE FROM cm_contacts WHERE id = :id");
+
+		$data = array('id' => $id);
+
+		$delete_contact->execute($data);
+
+		$error = $delete_contact->errorInfo();
+
 		break;
 
 }
@@ -86,7 +93,7 @@ switch ($action) {
 if($error[1])
 
 		{
-			$return = array('message' => 'Error adding contact.');
+			$return = array('message' => 'Sorry, there was an error. Please try again.','error' => true);
 			echo json_encode($return);
 		}
 

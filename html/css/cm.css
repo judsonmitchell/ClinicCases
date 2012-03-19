@@ -528,6 +528,7 @@ div.new_contact input {width:285px;}
 div.new_contact textarea {width:285px;margin-left:0px;}
 div.new_contact textarea.contact_notes{height:100px;}
 span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}
+select.contact_phone_type,select.contact_email_type{width:90px;}
 
 
 ::-webkit-scrollbar {

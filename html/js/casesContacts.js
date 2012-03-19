@@ -238,8 +238,13 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
             }, function(data) {
 
                 var serverResponse = $.parseJSON(data);
-                notify(serverResponse.message);
-                target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                if (serverResponse.error === true)
+                            {notify(serverResponse.message,true);}
+                    else
+                    {
+                        notify(serverResponse.message);
+                        target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                    }
 
             });
         }
@@ -429,17 +434,22 @@ $('a.contact_edit').live('click', function(event) {
     var phoneData = {};
     thisContact.find('p.contact_phone_group').each(function() {
         var phoneKey = $(this).find('span.contact_phone_type').text().trim();
-        var phoneValue = $(this).find('span.contact_phone_value').text();
+        var phoneValue = $(this).find('span.contact_phone_value').text().trim();
         phoneData[phoneKey] = phoneValue;
     });
 
     var phoneForm = '';
     var phoneSelects = '';
 
-    $.each(phoneData, function(key, value) {
-        phoneOptions = doEditSelect(key, 'phone');
-        phoneForm += "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'>" + phoneOptions + "</select><input type='text' name='phone' class='contact_phone_value' value='" + value + "'>";
-    });
+    if ($.isEmptyObject(phoneData))  //no phone data was previously entered
+        {phoneForm = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option></select><input type='text' name='phone' class='contact_phone_value'>";}
+    else
+    {
+        $.each(phoneData, function(key, value) {
+            phoneOptions = doEditSelect(key, 'phone');
+            phoneForm += "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'>" + phoneOptions + "</select><input type='text' name='phone' class='contact_phone_value' value='" + value + "'>";
+        });
+    }
 
     editContact.find('span.contact_phone_widget').html(phoneForm);
 
@@ -450,17 +460,22 @@ $('a.contact_edit').live('click', function(event) {
     var emailData = {};
     thisContact.find('p.contact_email_group').each(function() {
         var emailKey = $(this).find('span.contact_email_type').text().trim();
-        var emailValue = $(this).find('span.contact_email_value').text();
+        var emailValue = $(this).find('span.contact_email_value').text().trim();
         emailData[emailKey] = emailValue;
     });
 
     var emailForm = '';
     var emailSelects = '';
 
-    $.each(emailData, function(key, value) {
-        emailOptions = doEditSelect(key, 'email');
-        emailForm += "<p class='contact_email_group'><label>email</label><select name='email_type' class='contact_email_type'>" + emailOptions + "</select><input type='text' name='email' class='contact_email_value' value='" + value + "'>";
-    });
+    if ($.isEmptyObject(emailData)) //no email data was previously entered
+        {emailForm = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'>";}
+    else
+    {
+        $.each(emailData, function(key, value) {
+            emailOptions = doEditSelect(key, 'email');
+            emailForm += "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'>" + emailOptions + "</select><input type='text' name='email' class='contact_email_value' value='" + value + "'>";
+        });
+    }
 
     editContact.find('span.contact_email_widget').html(emailForm);
 
@@ -548,17 +563,60 @@ $('a.contact_edit').live('click', function(event) {
             }, function(data) {
 
                 var serverResponse = $.parseJSON(data);
-                notify(serverResponse.message);
-                target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId},function(){
-                    //Scroll to original position of edited conact
-                    target.scrollTop(editContactPosition);
+                if (serverResponse.error === true)
+                    {notify(serverResponse.message,true);}
+                        else
+                        {
+                            notify(serverResponse.message);
+                            target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId},function(){
+                            //Scroll to original position of edited conact
+                            sizeContacts(target.find('.contact'), target);
+                            editedContact = target.find('div.contact[data-id = "' + contactId + '"]');
+                            target.scrollTop(editedContact.offset().top);
 
-                });
+                            });
+                        }
 
             });
         }
 
     });
+
+});
+
+//Delete Contact
+$('a.contact_delete').live('click', function(event) {
+    event.preventDefault();
+
+    var thisContact = $(this).closest('.contact');
+    var thisContactId = thisContact.attr('data-id');
+    var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Contact?">This contact will be permanently deleted.  Are you sure?</div>').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/data/cases_contacts_process.php', {'action': 'delete','id': thisContactId}, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                            {notify(serverResponse.message,true);}
+                        else
+                        {
+                            notify(serverResponse.message);
+                            thisContact.remove();
+                        }
+
+                });
+
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+    });
+
+    $(dialogWin).dialog('open');
 
 });
 
@@ -574,3 +632,6 @@ $('.add_phone').live('click', function(event) {
     $(this).closest('p').after(phoneWidget);
     $(this).remove();
 });
+
+//TODO 1) Fix phone and email showing up in displayed contact when there is no phone or email value
+//2) Make the jog to the contacts div only happen once; otherwise div keeps jogging to the right the more times you reload.

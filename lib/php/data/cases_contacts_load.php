@@ -27,11 +27,6 @@ function contact_types ($dbh,$case_id)
 
 	$default_types = $get_default_types->fetchAll(PDO::FETCH_ASSOC);
 
-	// foreach ($types as $type) {
-
-	// 	$type_options .= "<option value = '$type[type]'>$type[type]</option>";
-	// }
-
 	// add any user-defined contact types
 
 	$get_db_types = $dbh->prepare("SELECT DISTINCT type from  `cm_contacts` WHERE assoc_case = :case_id");
