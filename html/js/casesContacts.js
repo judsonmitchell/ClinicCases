@@ -85,10 +85,6 @@ $('.case_detail_nav #item6').live('click', function() {
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
-        //Adjust size of panel to accomodate combobox.  Previous size causes the panel element to go out of alignment
-        var newPanelWidth = thisPanel.width() - 10;
-        thisPanel.width(newPanelWidth);
-
         //Set buttons
         $('button.new_contact').button({icons: {primary: "fff-icon-vcard-add"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
 
@@ -632,6 +628,3 @@ $('.add_phone').live('click', function(event) {
     $(this).closest('p').after(phoneWidget);
     $(this).remove();
 });
-
-//TODO 1) Fix phone and email showing up in displayed contact when there is no phone or email value
-//2) Make the jog to the contacts div only happen once; otherwise div keeps jogging to the right the more times you reload.

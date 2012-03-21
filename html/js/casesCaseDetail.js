@@ -16,7 +16,7 @@ function setDetailCss()
 
     navWidth = Math.floor(windowWidth * 0.15);
 
-    panelWidth = windowWidth - navWidth - panelWidthFix;
+    panelWidth = windowWidth - navWidth - panelWidthFix - 10;//remove 10 to accomodate contacts combobox
 
     var bh = Math.floor($(windowHeight * 0.07));
 
