@@ -87,109 +87,127 @@ require('db.php');
 
 
 // //Update contacts db
-echo "Updating contacts db...<br />";
+// echo "Updating contacts db...<br />";
 
-	//Update fields
-$query = $dbh->prepare("ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm_contacts` ADD  `url` TEXT NOT NULL AFTER  `email`;ALTER TABLE  `cm_contacts` CHANGE  `address`  `address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone1` TEXT NOT NULL DEFAULT  '', CHANGE  `email`  `email` TEXT NOT NULL DEFAULT  '';");
+// 	//Update fields
+// $query = $dbh->prepare("ALTER TABLE  `cm_contacts` ADD  `organization` VARCHAR( 200 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm_contacts` ADD  `url` TEXT NOT NULL AFTER  `email`;ALTER TABLE  `cm_contacts` CHANGE  `address`  `address` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone1` TEXT NOT NULL DEFAULT  '', CHANGE  `email`  `email` TEXT NOT NULL DEFAULT  '';");
+
+// $query->execute();
+
+// 	//Change phone and email fields
+// $query = $dbh->prepare('SELECT id,phone1, phone2, fax FROM cm_contacts ORDER BY id asc');
+
+// $query->execute();
+
+// $phones = $query->fetchAll(PDO::FETCH_ASSOC);
+
+// foreach ($phones as $phone) {
+
+// 	//Make a guess at what kind of phone this is
+
+// 	if (stristr($phone['phone1'], 'cell')  || stristr($phone['phone1'], 'mobile')|| stristr($phone['phone1'], 'c'))
+// 		{
+// 			$phone1_type = 'mobile';
+// 		}
+// 		elseif (stristr($phone['phone1'], 'home')  || stristr($phone['phone1'], 'h'))
+// 		{
+// 			$phone1_type = 'home';
+// 		}
+// 		elseif (stristr($phone['phone1'], 'work')  || stristr($phone['phone1'], 'office') || stristr($phone['phone1'], 'w') || stristr($phone['phone1'], 'o'))
+// 		{
+// 			$phone1_type = 'office';
+// 		}
+// 		else
+// 			{$phone1_type = 'other';}
+
+// 	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
+// 		{
+// 			$phone2_type = 'mobile';
+// 		}
+// 		elseif (stristr($phone['phone2'], 'home')|| stristr($phone['phone2'], 'h'))
+// 		{
+// 			$phone2_type = 'home';
+// 		}
+// 		elseif (stristr($phone['phone2'], 'work')  || stristr($phone['phone2'], 'office')|| stristr($phone['phone2'], 'w') || stristr($phone['phone2'], 'o'))
+// 		{
+// 			$phone2_type = 'office';
+// 		}
+// 		else
+// 			{$phone2_type = 'other ';}
+
+
+// 	$new_phone = array($phone1_type => $phone['phone1'], $phone2_type => $phone['phone2'], 'fax' => $phone['fax']);
+
+// 	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
+
+// 	$json = json_encode($new_phone_filtered);
+
+// 	if ($json != '[]')//empty set
+// 	{
+
+// 	$update = $dbh->prepare("UPDATE cm_contacts SET phone1 = :phone, phone2 = '', fax = '' WHERE id = :id");
+
+// 	$data = array('phone'=>$json,'id'=>$phone['id']);
+
+// 	$update->execute($data);
+
+// 	}
+
+// }
+
+// //update email field
+// $query = $dbh->prepare('SELECT id,email FROM cm_contacts');
+
+// $query->execute();
+
+// $emails = $query->fetchAll(PDO::FETCH_ASSOC);
+
+// foreach ($emails as $email) {
+
+// 	if ($email['email'])
+// 	{
+
+// 		$new_email = array('other' => $email['email']);
+
+// 		$json = json_encode($new_email);
+
+// 		//echo $json . "<br />";
+
+// 		$update = $dbh->prepare("UPDATE cm_contacts SET email = :email WHERE id = :id");
+
+// 		$data = array('email' => $json, 'id' => $email['id']);
+
+// 		$update->execute($data);
+// 	}
+
+// }
+
+// $query = $dbh->prepare("ALTER TABLE `cm_contacts` DROP `phone2`, DROP `fax`;");
+
+// $query->execute();
+
+// $query = $dbh->prepare("ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  ''");
+
+// $query->execute();
+
+// echo "Finished updating contacts.<br />";
+
+echo "Adding timestamps to enable activities feed. <br />";
+
+$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `time_added` DATETIME NOT NULL AFTER  `opened_by`
+");
 
 $query->execute();
 
-	//Change phone and email fields
-$query = $dbh->prepare('SELECT id,phone1, phone2, fax FROM cm_contacts ORDER BY id asc');
+$query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `time_added` DATETIME NOT NULL");
 
 $query->execute();
 
-$phones = $query->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($phones as $phone) {
-
-	//Make a guess at what kind of phone this is
-
-	if (stristr($phone['phone1'], 'cell')  || stristr($phone['phone1'], 'mobile')|| stristr($phone['phone1'], 'c'))
-		{
-			$phone1_type = 'mobile';
-		}
-		elseif (stristr($phone['phone1'], 'home')  || stristr($phone['phone1'], 'h'))
-		{
-			$phone1_type = 'home';
-		}
-		elseif (stristr($phone['phone1'], 'work')  || stristr($phone['phone1'], 'office') || stristr($phone['phone1'], 'w') || stristr($phone['phone1'], 'o'))
-		{
-			$phone1_type = 'office';
-		}
-		else
-			{$phone1_type = 'other';}
-
-	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
-		{
-			$phone2_type = 'mobile';
-		}
-		elseif (stristr($phone['phone2'], 'home')|| stristr($phone['phone2'], 'h'))
-		{
-			$phone2_type = 'home';
-		}
-		elseif (stristr($phone['phone2'], 'work')  || stristr($phone['phone2'], 'office')|| stristr($phone['phone2'], 'w') || stristr($phone['phone2'], 'o'))
-		{
-			$phone2_type = 'office';
-		}
-		else
-			{$phone2_type = 'other ';}
-
-
-	$new_phone = array($phone1_type => $phone['phone1'], $phone2_type => $phone['phone2'], 'fax' => $phone['fax']);
-
-	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
-
-	$json = json_encode($new_phone_filtered);
-
-	if ($json != '[]')//empty set
-	{
-
-	$update = $dbh->prepare("UPDATE cm_contacts SET phone1 = :phone, phone2 = '', fax = '' WHERE id = :id");
-
-	$data = array('phone'=>$json,'id'=>$phone['id']);
-
-	$update->execute($data);
-
-	}
-
-}
-
-//update email field
-$query = $dbh->prepare('SELECT id,email FROM cm_contacts');
+$query = $dbh->prepare("ALTER TABLE  `cm_journals` ADD  `time_added` DATETIME NOT NULL AFTER  `comments`
+");
 
 $query->execute();
 
-$emails = $query->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($emails as $email) {
-
-	if ($email['email'])
-	{
-
-		$new_email = array('other' => $email['email']);
-
-		$json = json_encode($new_email);
-
-		//echo $json . "<br />";
-
-		$update = $dbh->prepare("UPDATE cm_contacts SET email = :email WHERE id = :id");
-
-		$data = array('email' => $json, 'id' => $email['id']);
-
-		$update->execute($data);
-	}
-
-}
-
-$query = $dbh->prepare("ALTER TABLE `cm_contacts` DROP `phone2`, DROP `fax`;");
-
-$query->execute();
-
-$query = $dbh->prepare("ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  ''");
-
-$query->execute();
-
-echo "Finished updating contacts.<br />";
 
 

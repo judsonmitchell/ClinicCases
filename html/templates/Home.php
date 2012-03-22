@@ -1,5 +1,12 @@
 <!-- Jquery Calls Specific to this page -->
 	<script src="html/js/Home.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="lib/javascripts/fullcalendar/fullcalendar.min.js"></script>
+
+<!-- Css specific to this page -->
+
+	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
+
 </head>
 <body>
 
@@ -33,11 +40,11 @@
 
 			<span class = "home_nav_choices">
 
-				<input type="radio" id="activity_button" name="activity" checked="checked" /><label for="activity_button">Activity</label>
+				<input type="radio" id="activity_button" name="radio" checked="checked" /><label for="activity_button">Activity</label>
 
-				<input type="radio" id="upcoming_button" name="upcoming" /><label for="upcoming_button">Upcoming</label>
+				<input type="radio" id="upcoming_button" name="radio" /><label for="upcoming_button">Upcoming</label>
 
-				<input type="radio" id="trends_button" name="trends" /><label for="trends_button">Trends</label>
+				<input type="radio" id="trends_button" name="radio" /><label for="trends_button">Trends</label>
 
 			</span>
 

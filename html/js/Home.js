@@ -23,7 +23,9 @@ $(document).ready(function(){
 
 	$('#upcoming_button').click(function(){
 
-		target.html('<p>Upcoming Here</p>');
+		target.load('html/templates/interior/home_upcoming.php', function(){
+			$('#calendar').fullCalendar({theme:true, aspectRatio:2});
+		});
 
 	});
 

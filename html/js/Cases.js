@@ -9,7 +9,7 @@ var aoColumns;
     /*
  * Function: fnGetColumnData
  * Purpose:  Return an array of table values from a particular column.
- * Returns:  array string: 1d data array 
+ * Returns:  array string: 1d data array
  * Inputs:   object:oSettings - dataTable settings object. This is always the last argument past to the function
  *           int:iColumn - the id of the column to extract the data from
  *           bool:bUnique - optional - if set to false duplicated values are not filtered out
@@ -17,7 +17,7 @@ var aoColumns;
  *           bool:bIgnoreEmpty - optional - if set to false empty values are not filtered from the result array
  * Author:   Benedikt Forchhammer <b.forchhammer /AT\ mind2.de>
  */
-    
+
     $.fn.dataTableExt.oApi.fnGetColumnData = function(oSettings, iColumn, bUnique, bFiltered, bIgnoreEmpty) {
 
         // check that we have a column id
@@ -48,14 +48,14 @@ var aoColumns;
             aiRows = oSettings.aiDisplayMaster; // all row numbers
 
         //debug
-        if (oSettings.aiDisplayMaster.length < 1) 
+        if (oSettings.aiDisplayMaster.length < 1)
         {
             alert('this array is empty');
         }
 
-        // set up data array	
+        // set up data array
         var asResultData = new Array();
-        
+
         for (var i = 0, c = aiRows.length; i < c; i++) {
             iRow = aiRows[i];
             var aData = this.fnGetData(iRow);
@@ -73,17 +73,17 @@ var aoColumns;
             else
                 asResultData.push(sValue);
         }
-        
+
         return asResultData;
     }
 }(jQuery));
 
 
-function fnCreateSelect(aData) 
+function fnCreateSelect(aData)
 {
-    
+
     var r = '<select class="fltr_select"><option value=""></option>', i, iLen = aData.length;
-    for (i = 0; i < iLen; i++) 
+    for (i = 0; i < iLen; i++)
     {
         r += '<option value="' + aData[i] + '">' + aData[i] + '</option>';
     }
@@ -103,42 +103,41 @@ function fnCreateSelect(aData)
  * Inputs:   object:oSettings - automatically added by DataTables
  *           string:sCol - required - string matching the sTitle value of a table column
  */
-    $.fn.dataTableExt.oApi.fnGetColumnIndex = function(oSettings, sCol) 
+    $.fn.dataTableExt.oApi.fnGetColumnIndex = function(oSettings, sCol)
     {
         var cols = oSettings.aoColumns;
 
         //strip underscores from name attribute, if necessary
-        if (sCol.indexOf("_") != "-1") 
+        if (sCol.indexOf("_") != "-1")
         {
             sCol = sCol.replace("_", " ");
         }
-        for (var x = 0, xLen = cols.length; x < xLen; x++) 
+        for (var x = 0, xLen = cols.length; x < xLen; x++)
         {
-            if (cols[x].sTitle.toLowerCase() == sCol.toLowerCase()) 
+            if (cols[x].sTitle.toLowerCase() == sCol.toLowerCase())
             {
                 return x;
             }
-            ;
         }
         return -1;
-    }
-}(jQuery))
+    };
+}(jQuery));
 //End
 
 
 $(document).ready(function() {
-    
+
     //set the intial value for the caseStatus span on load
     var chooserVal = "open";
 
     //Handle errors
-    
+
     $('body').ajaxError(function() {
         $('#error').text('There was an error connecting to the server.  Either the server is down or there is a problem with your internet connection.').dialog({modal: true,title: 'Connection Error'});
-    })
+    });
 
     //Get the column definitions to use in oTable
-    
+
     $.ajax({
         url: 'lib/php/data/cases_columns_load.php',
         dataType: 'json',
@@ -147,11 +146,11 @@ $(document).ready(function() {
             return true;
         },
         success: function(data) {
-            if (data) 
+            if (data)
             {
                 aoColumns = data.aoColumns;
-                
-                
+
+
                 oTable = $('#table_cases').dataTable({
                     "bJQueryUI": true,
                     "bProcessing": true,
@@ -167,7 +166,7 @@ $(document).ready(function() {
                     "oColVis": {"aiExclude": [0],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
                             $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
                                 this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
-                            })
+                            });
                         }},
                     "oTableTools": {
                         "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
@@ -178,24 +177,22 @@ $(document).ready(function() {
                                 "aButtons": [
                                     {"sExtends": "copy",
                                         "mColumns": "visible"
-                                    }, 
-                                    
+                                    },
+
                                     {"sExtends": "csv",
                                         "mColumns": "visible"
-                                    }, 
-                                    
+                                    },
+
                                     {"sExtends": "xls",
                                         "mColumns": "visible"
-                                    }, 
-                                    
+                                    },
+
                                     {"sExtends": "pdf",
                                         "mColumns": "visible"
-                                    }, 
-                                    
+                                    },
+
                                     {"sExtends": "print",
-                                        "mColumns": "visible",
-                                    
-                                    
+                                        "mColumns": "visible"
                                     }
                                 ]
                             }
@@ -204,7 +201,7 @@ $(document).ready(function() {
                     "sAjaxSource": 'lib/php/data/cases_load.php',
                     "bDeferRender": true,
                     "fnInitComplete": function() {
-                        //When page loads, default filter is applied: open cases (i.e., all cases where the date close field is empty.	
+                        //When page loads, default filter is applied: open cases (i.e., all cases where the date close field is empty.
                         oTable.fnFilter('^$', oTable.fnGetColumnIndex("Date Close"), true, false);
 
 
@@ -212,20 +209,17 @@ $(document).ready(function() {
                         $(window).bind('resize', function() {
                             oTable.fnAdjustColumnSizing();
                         });
-                        
+
                         $("div.dataTables_scrollHeadInner thead th.addSelects").each(function() {
 
                             //Get the index of the column from its name attribute
                             columnIndex = oTable.fnGetColumnIndex($(this).attr('name'));
-                            
+
                             this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(columnIndex, true, false, true));
-                        
-                        })
+
+                        });
 
                         //Important: After the selects have been rendered, set visibilities.  This allows the hidden selects to get the proper values.  See http://datatables.net/forums/comments.php?DiscussionID=3318
-
-                        //for (var c in defaultHiddenColumns)
-                        //{oTable.fnSetColumnVis(defaultHiddenColumns[c],false);}
 
                         //Add case status seletctor
                         $('div.dataTables_filter').append('<select id="chooser"><option value="open" selected=selected>Open Cases Only</option><option value="closed">Closed Cases Only</option><option value="all">All Cases</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
@@ -235,62 +229,62 @@ $(document).ready(function() {
 
                         //Add the reset button
                         $(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
-                        
+
                         $('div.reset').addClass('ColVis TableTools');
-                        
+
                         $('div.reset button').addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
-                        
+
                         $('div.reset button').css({'background': '0','padding-right': '5px'});
 
                         //Add the DTTT hover styles for the reset and columns buttons
                         $('div.reset button,div.ColVis.TableTools button ').live('mouseover', function(event) {
-                            $(this).addClass('DTTT_button DTTT_button_collection_hover ui-button ui-state-default ui-state-hover ui-state-focus')
+                            $(this).addClass('DTTT_button DTTT_button_collection_hover ui-button ui-state-default ui-state-hover ui-state-focus');
                         });
-                        
+
                         $('div.reset button, div.ColVis.TableTools button').live('mouseout', function(event) {
-                            $(this).removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default')
+                            $(this).removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
                         });
-                        
+
                         $(".reset").click(function() {
-                            fnResetAllFilters()
+                            fnResetAllFilters();
                         });
 
 
                         //Change the case status select
                         $('#chooser').live('change', function(event) {
-                            
-                            switch ($(this).val()) 
+
+                            switch ($(this).val())
                             {
                                 case 'all':
                                     chooserVal = "open and closed";
                                     oTable.fnFilter('', oTable.fnGetColumnIndex("Date Close"));
-                                    
+
                                     break;
-                                
+
                                 case 'open':
                                     chooserVal = "open";
                                     oTable.fnFilter('^$', oTable.fnGetColumnIndex("Date Close"), true, false);
                                     break;
-                                
+
                                 case 'closed':
                                     chooserVal = "closed";
                                     oTable.fnFilter('^.+$', oTable.fnGetColumnIndex("Date Close"), true, false);
-                                    
+
                                     break;
                             }
-                        
-                        })
+
+                        });
 
 
 
-                        //Set css for advanced date function; make room for the operator selects 	
+                        //Set css for advanced date function; make room for the operator selects
                         $('#set_advanced').live('click', function(event) {
                             event.preventDefault();
-                            if ($("tr.advanced, tr.advanced_2").css("display") !== "none") 
+                            if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
                             {
                                 $("tr.advanced, tr.advanced_2").css({'display': 'none'});
-                            } 
-                            
+                            }
+
                             else {
                                 $("th.ui-state-default").css({'border-bottom': '0px'});
                                 $(".complex").children().css({'display': 'inline','margin-bottom': '0px'});
@@ -300,52 +294,52 @@ $(document).ready(function() {
                                 $("#second_open_cell, #second_close_cell").css({'visibility': 'hidden'});
 
                                 //Set the big filter to all cases
-                                
+
                                 oTable.fnFilter('', oTable.fnGetColumnIndex("Date Close"), true, false);
                                 $('#chooser').val('all');
                                 chooserVal = "open and closed";
                             }
-                            
+
                             oTable.fnDraw();
-                        
-                        })
-                        
+
+                        });
+
                         $('#addopenRow').click(function(event) {
                             event.preventDefault();
-                            if ($("#second_open_cell").css('visibility') == 'visible') 
+                            if ($("#second_open_cell").css('visibility') == 'visible')
                             {
                                 $(this).text('Add Condition');
                                 $("#second_open_cell").css({'visibility': 'hidden'});
                                 $('thead tr.advanced_2').hide('slow');
-                            
-                            } 
-                            else 
+
+                            }
+                            else
                             {
                                 $(this).text('AND IS');
                                 $("#second_open_cell").css({'visibility': 'visible'});
                                 $("#date_open_2 , #date_close_2").css({'width': '60%'});
                                 $('thead tr.advanced_2').show('slow');
                             }
-                        })
-                        
+                        });
+
                         $('#addcloseRow').click(function(event) {
                             event.preventDefault();
-                            if ($("#second_closed_cell").css('visibility') == 'visible') 
+                            if ($("#second_closed_cell").css('visibility') == 'visible')
                             {
                                 $(this).text('Add Condition');
                                 $("#second_closed_cell").css({'visibility': 'hidden'});
                                 $('thead tr.advanced_2').hide('slow');
-                            
-                            } 
-                            else 
+
+                            }
+                            else
                             {
                                 $(this).text('AND IS');
                                 $("#second_closed_cell").css({'visibility': 'visible'});
                                 $("#date_open_2 , #date_close_2").css({'width': '60%'});
-                                $('thead tr.advanced_2').show('slow')
+                                $('thead tr.advanced_2').show('slow');
                             }
-                        
-                        })
+
+                        });
 
                         //Code for advanced search using inputs
                         $("thead input").live('keyup', function() {
@@ -353,7 +347,7 @@ $(document).ready(function() {
                             //Oparent = $(this).parent();
                             colName = $(this).attr('name');
                             colIndex = oTable.fnGetColumnIndex(colName);
-                            oTable.fnFilter(this.value, colIndex)
+                            oTable.fnFilter(this.value, colIndex);
                         });
 
 
@@ -364,56 +358,56 @@ $(document).ready(function() {
                             val = this.value;
                             //regex needed to avoid, e.g., a search on "Guilty" from also returning "Not Guilty
                             regex = ("^" + val + "$");
-                            oTable.fnFilter(regex, colIndex, true, false, false)
-                        })
+                            oTable.fnFilter(regex, colIndex, true, false, false);
+                        });
 
-                        //Add datepickers	
+                        //Add datepickers
                         $(function() {
                             $("#date_open , #date_close, #date_open_2, #date_close_2").datepicker({
                                 changeMonth: true,
                                 changeYear: true,
                                 onSelect: function() {
-                                    $(this).css({'color': 'black'})
+                                    $(this).css({'color': 'black'});
                                     oTable.fnDraw();
                                 }
-                            })
+                            });
                         });
 
                         //Add trigger for when user changes less/greater/equal
-                        
+
                         $("#open_range, #open_range_2, #close_range, #close_range_2").live('change', function(event) {
                             oTable.fnDraw();
-                        })
-                        
+                        });
+
                         $('#table_cases tbody').click(function(event) {
                             var iPos = oTable.fnGetPosition(event.target.parentNode);
                             var aData = oTable.fnGetData(iPos);
                             var iId = aData[0];
                             callCaseWindow(iId);
-                        
-                        })
-                        
+
+                        });
+
                         $('#processing').hide(); //hide the "loading" div after load.
-                    
+
                     },
-                    
+
                     "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of <b>_MAX_</b> cases"},
-                    
+
                     "fnDrawCallback": function() {
-                        
+
                         $("#caseStatus").text(chooserVal);
-                        //this ensures that the text of the date is visible					
-                        $(".hasDatepicker").css({'width': '60%'})
+                        //this ensures that the text of the date is visible
+                        $(".hasDatepicker").css({'width': '60%'});
                         //this ensures that the range select doesn't go out of line
                         $(".complex").css({'min-width': '160px'});
-                    
-                    
-                    }
-                
-                })
+                        }
+
+                });
+
+                router();
             }
         }
-    })
+    });
 
     //Reset displayed data
     function fnResetAllFilters() {
@@ -458,7 +452,7 @@ $(document).ready(function() {
     //this.value = asInitVals[$("thead input").index(this)];
     //this.className = "search_init"
     //});
-    
+
     }
 
 
@@ -469,7 +463,7 @@ $(document).ready(function() {
 $.fn.dataTableExt.afnFiltering.push(
 
 function(oSettings, aData, iDataIndex) {
-    
+
     var opOperator = document.getElementById('open_range').value;
     var opOperator2 = document.getElementById('open_range_2').value;
     var clOperator = document.getElementById('close_range').value;
@@ -482,7 +476,7 @@ function(oSettings, aData, iDataIndex) {
     var clRowRaw = aData[7];
 
     //date conversions
-    
+
     var opField = opFieldRaw.substring(6, 10) + opFieldRaw.substring(0, 2) + opFieldRaw.substring(3, 5);
     var opField2 = opFieldRaw2.substring(6, 10) + opFieldRaw2.substring(0, 2) + opFieldRaw2.substring(3, 5);
     var clField = clFieldRaw.substring(6, 10) + clFieldRaw.substring(0, 2) + clFieldRaw.substring(3, 5);
@@ -490,166 +484,166 @@ function(oSettings, aData, iDataIndex) {
     var opRow = opRowRaw.substring(6, 10) + opRowRaw.substring(0, 2) + opRowRaw.substring(3, 5);
     var clRow = clRowRaw.substring(6, 10) + clRowRaw.substring(0, 2) + clRowRaw.substring(3, 5);
 
-    //no filtering 
-    if (opField == '' && clField == '') 
+    //no filtering
+    if (opField == '' && clField == '')
     {
         return true;
     }
 
     //filtering by date open only
-    if (opField !== '' && clField == '' && opField2 == '' && clField2 == '') 
+    if (opField !== '' && clField == '' && opField2 == '' && clField2 == '')
     {
-        if (opOperator == 'equals' && opRow == opField) 
+        if (opOperator == 'equals' && opRow == opField)
         {
             return true;
-        } 
-        
-        else if (opOperator == 'less' && opRow < opField) 
+        }
+
+        else if (opOperator == 'less' && opRow < opField)
         {
             return true;
-        } 
-        
-        else if (opOperator == 'greater' && opRow > opField) 
+        }
+
+        else if (opOperator == 'greater' && opRow > opField)
         {
             return true;
         }
     }
 
-    //filtering by date closed only 
-    
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 == '') 
-    
+    //filtering by date closed only
+
+    if (opField == '' && clField !== '' && opField2 == '' && clField2 == '')
+
     {
-        if (clOperator == 'equals' && clRow == clField) 
+        if (clOperator == 'equals' && clRow == clField)
         {
             return true
-        } 
-        
-        else if (clOperator == 'less' && clRow < clField) 
+        }
+
+        else if (clOperator == 'less' && clRow < clField)
         {
             return true
-        } 
-        
-        else if (clOperator == 'greater' && clRow > clField) 
+        }
+
+        else if (clOperator == 'greater' && clRow > clField)
         {
             return true;
         }
-    
+
     }
 
     //filter range between open and closed dates
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 == '') 
-    
+    if (opField !== '' && clField !== '' && opField2 == '' && clField2 == '')
+
     {
-        if (opOperator == 'equals' && clOperator == 'equals' && opRow == opField && clRow == clField) 
-        {
-            return true;
-        } 
-        
-        else if (opOperator == 'greater' && clOperator == 'less' && opRow > opField && clRow < clField) 
-        {
-            return true;
-        } 
-        
-        else if (opOperator == 'less' && clOperator == 'greater' && opRow < opField && clRow > clField) 
+        if (opOperator == 'equals' && clOperator == 'equals' && opRow == opField && clRow == clField)
         {
             return true;
         }
-    
+
+        else if (opOperator == 'greater' && clOperator == 'less' && opRow > opField && clRow < clField)
+        {
+            return true;
+        }
+
+        else if (opOperator == 'less' && clOperator == 'greater' && opRow < opField && clRow > clField)
+        {
+            return true;
+        }
+
     }
 
     //filter between open dates
-    if (opField !== '' && clField == '' && opField2 !== '' && clField2 == '') 
-    
+    if (opField !== '' && clField == '' && opField2 !== '' && clField2 == '')
+
     {
-        if (opOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2) 
+        if (opOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2)
         {
             return true
-        } 
-        
-        else if (opOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2) 
+        }
+
+        else if (opOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2)
         {
             return true
-        } 
-        
-        else if (opOperator == 'less' && opOperator2 == 'greater' && opRow < opField && opRow > opField2) 
+        }
+
+        else if (opOperator == 'less' && opOperator2 == 'greater' && opRow < opField && opRow > opField2)
         {
             return true;
         }
-    
+
     }
 
     //filter between close dates
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 !== '') 
-    
+    if (opField == '' && clField !== '' && opField2 == '' && clField2 !== '')
+
     {
-        if (clOperator == 'equals' && clOperator2 == 'equals' && clRow == clField && clRow == clField2) 
+        if (clOperator == 'equals' && clOperator2 == 'equals' && clRow == clField && clRow == clField2)
         {
             return true
-        } 
-        
-        else if (clOperator == 'greater' && clOperator2 == 'less' && clRow > clField && clRow < clField2) 
+        }
+
+        else if (clOperator == 'greater' && clOperator2 == 'less' && clRow > clField && clRow < clField2)
         {
             return true
-        } 
-        
-        else if (clOperator == 'less' && clOperator2 == 'greater' && clRow < clField && clRow > clField2) 
+        }
+
+        else if (clOperator == 'less' && clOperator2 == 'greater' && clRow < clField && clRow > clField2)
         {
             return true;
         }
-    
+
     }
 
-    //Find open/close range within an open/close range	
-    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 !== '') 
-    
+    //Find open/close range within an open/close range
+    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 !== '')
+
     {
-        if (opOperator == 'equals' && opOperator2 == 'equals' && clOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2 && clRow == clField && clRow == clField2) 
-        {
-            return true
-        } 
-        
-        else if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2 && clRow > clField && clRow < clField2) 
+        if (opOperator == 'equals' && opOperator2 == 'equals' && clOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2 && clRow == clField && clRow == clField2)
         {
             return true
         }
-    
+
+        else if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2 && clRow > clField && clRow < clField2)
+        {
+            return true
+        }
+
     }
-    //Find specific close date with an open range	
-    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 == '') 
-    
+    //Find specific close date with an open range
+    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 == '')
+
     {
-        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'equals' && opRow > opField && opRow < opField2 && clRow == clField) 
+        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'equals' && opRow > opField && opRow < opField2 && clRow == clField)
         {
             return true
         }
-        
-        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opRow > opField && opRow < opField2 && clRow > clField) 
+
+        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opRow > opField && opRow < opField2 && clRow > clField)
         {
             return true
         }
-        
-        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'less' && opRow > opField && opRow < opField2 && clRow < clField) 
+
+        if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'less' && opRow > opField && opRow < opField2 && clRow < clField)
         {
             return true
         }
     }
 
     //Find specific open date with a closed range
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 !== '') 
-    
+    if (opField !== '' && clField !== '' && opField2 == '' && clField2 !== '')
+
     {
-        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'equals' && clRow > clField && clRow < clField2 && opRow == opField) 
+        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'equals' && clRow > clField && clRow < clField2 && opRow == opField)
         {
             return true
         }
-        
-        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'greater' && clRow > clField && clRow < clField2 && opRow > opField) 
+
+        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'greater' && clRow > clField && clRow < clField2 && opRow > opField)
         {
             return true
         }
-        
-        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'less' && clRow > clField && clRow < clField2 && opRow < opField) 
+
+        if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'less' && clRow > clField && clRow < clField2 && opRow < opField)
         {
             return true
         }
@@ -657,5 +651,5 @@ function(oSettings, aData, iDataIndex) {
     return false;
 }
 
-)
+);
 

@@ -63,6 +63,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/router.js"></script>
+
+
 
 </head>
 <body>
