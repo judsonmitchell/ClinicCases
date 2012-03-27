@@ -1,6 +1,6 @@
 <?php
-//session_start();
-//require('../auth/session_check.php');
+session_start();
+require('../auth/session_check.php');
 require('../../../db.php');
 include('../utilities/thumbnails.php');
 include('../utilities/names.php');
@@ -17,8 +17,7 @@ function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
     array_multisort($keys, $sortType, $array);
 }
 
-//$username = $_SESSION['login'];
-$username = 'jmitchell';
+$username = $_SESSION['login'];
 
 //$last_login = get_last_login($dbh,$username);
 
@@ -62,7 +61,13 @@ $casenotes = $get_notes->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($casenotes as $note) {
 	$activity_type = 'casenote';
-	$by = username_to_fullname($dbh,$note['note_user']);
+
+	if ($note['note_user'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$note['note_user']);
+	}
+
 	$thumb = return_thumbnail($dbh,$note['note_user']);
 	$action_text = " added a case note to ";
 	$casename = case_id_to_casename($dbh,$note['case_id']);
@@ -98,7 +103,13 @@ $documents = $get_documents->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($documents as $document) {
 	$activity_type = 'document';
-	$by = username_to_fullname($dbh,$document['doc_user']);
+
+	if ($document['doc_user'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$document['doc_user']);
+	}
+
 	$thumb = return_thumbnail($dbh,$document['doc_user']);
 	$action_text = ' added a document to ';
 	$casename = case_id_to_casename($dbh,$document['case_id']);
@@ -132,7 +143,13 @@ $opened = $get_opened_cases->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($opened as $open) {
 	$activity_type = 'opening';
-	$by = username_to_fullname($dbh,$open['opened_by']);
+
+	if ($open['opened_by'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$open['opened_by']);
+	}
+
 	$thumb = return_thumbnail($dbh,$open['opened_by']);
 	$action_text = " opened a case: ";
 	$casename = case_id_to_casename($dbh,$open['case_id']);
@@ -166,7 +183,13 @@ $closed = $get_closed_cases->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($closed as $close) {
 	$activity_type = 'closing';
-	$by = username_to_fullname($dbh,$close['closed_by']);
+
+	if ($close['closed_by'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$close['closed_by']);
+	}
+
 	$thumb = return_thumbnail($dbh,$close['closed_by']);
 	$action_text = " closed a case: ";
 	$casename = case_id_to_casename($dbh,$close['case_id']);
