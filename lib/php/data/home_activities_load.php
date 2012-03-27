@@ -208,6 +208,44 @@ foreach ($closed as $close) {
 
 }
 
+//Case assignments
+
+$get_assignments = $dbh->prepare("SELECT * FROM cm_case_assignees
+	WHERE status = 'active'
+	AND username = '$username'
+	AND date_assigned >= '$mysqldate'");
+
+$get_assignments->execute();
+
+$assignments = $get_assignments->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($assignments as $assign) {
+	$activity_type = 'assign';
+
+	if ($assign['username'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$assign['username']);
+	}
+
+	$thumb = return_thumbnail($dbh,$assign['username']);
+	$action_text = " were assigned to a case: ";
+	$casename = case_id_to_casename($dbh,$assign['case_id']);
+	$time_done = $assign['date_assigned'];
+	$time_formatted = extract_date_time($assign['date_assigned']);
+	$id = $assign['id'];
+	$what = '';
+	$follow_url = 'index.php?i=Cases.php#cases/' . $assign['case_id'];
+
+	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+		'time_formatted' => $time_formatted);
+
+	$activities[] = $item;
+
+}
+
 
 sortBySubkey($activities,'time_done');
 
