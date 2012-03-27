@@ -194,8 +194,13 @@ require('db.php');
 
 echo "Adding timestamps to enable activities feed. <br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `time_added` DATETIME NOT NULL AFTER  `opened_by`
+$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `time_opened` DATETIME NOT NULL AFTER  `opened_by`
 ");
+
+$query->execute();
+
+$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `closed_by` VARCHAR( 50 ) NOT NULL AFTER  `time_opened` ,
+ADD  `time_closed` DATETIME NOT NULL AFTER  `closed_by`");
 
 $query->execute();
 

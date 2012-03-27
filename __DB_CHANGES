@@ -213,7 +213,14 @@ ALTER TABLE `cm_contacts` DROP `phone2`, DROP `fax`;
 
 ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
 
+
+ALTER TABLE  `cm` ADD  `time_opened` DATETIME NOT NULL AFTER  `opened_by`
+
+ALTER TABLE  `cm` ADD  `closed_by` VARCHAR( 50 ) NOT NULL AFTER  `time_opened` ,
+ADD  `time_closed` DATETIME NOT NULL AFTER  `closed_by`
+
+ALTER TABLE  `cm_events` ADD  `time_added` DATETIME NOT NULL
+
+ALTER TABLE  `cm_journals` ADD  `time_added` DATETIME NOT NULL AFTER  `comments`
+
 //End
-
-
-

@@ -18,7 +18,7 @@ $(document).ready(function(){
 
 	$('#activity_button').click(function(){
 
-		target.html('<p>Activities Here</p>');
+		target.load('lib/php/data/home_activities_load.php');
 	});
 
 	$('#upcoming_button').click(function(){

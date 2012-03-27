@@ -150,7 +150,12 @@ div#home_data span {font-size:14pt;color:white;}
 button#quick_add {position:absolute;right:20px;top:5px;}
 
 
-div#home_panel{width:100%;height:95%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;}
+div#home_panel{width:94%;height:94%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;overflow: scroll;padding: 3%;}
+
+div.activities_stream{width:600px;height:100%;margin:auto}
+
+div.activities_stream p{text-align:left;}
+
 
 /* Cases styles */
 	/* Custom jquery ui buttons */
@@ -302,6 +307,7 @@ div.new_contact textarea {width:285px;margin-left:0px;}
 div.new_contact textarea.contact_notes{height:100px;}
 span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}
 select.contact_phone_type,select.contact_email_type{width:90px;}
+
 
 
 ::-webkit-scrollbar {
