@@ -38,11 +38,13 @@ $(document).ready(function(){
 	});
 
 	//Set default view - activities
-	$('#activity_button').trigger('click');
+	$('#activity_button').trigger('click').addClass('ui-state-active');
 
 	//Create modal quick add form
 	var x = $("button#quick_add").offset().left - 150;
 	var y = $("button#quick_add").offset().top + 40;
+
+	$('div#quick_add_nav').buttonset();
 
 	$( "#quick_add_form" ).dialog({
 			autoOpen: false,
