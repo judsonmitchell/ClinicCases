@@ -56,4 +56,14 @@
 
 	</div>
 
+	<div id = "quick_add_form">
+
+		<div>
+
+			<a href="#">Case Note</a><a href="#">Event</a>
+
+		</div>
+
+	</div>
+
 

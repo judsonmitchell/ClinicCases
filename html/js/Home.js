@@ -10,7 +10,9 @@ $(document).ready(function(){
 	$('.home_nav_choices').buttonset();
 
 	//Add quick add button
-	$('button#quick_add').button({icons: {primary: "fff-icon-add"},text: true});
+	$('button#quick_add').button({icons: {primary: "fff-icon-add"},text: true}).click(function(){
+		$( "#quick_add_form" ).dialog( "open" );
+	});
 
 	//Add navigation actions
 
@@ -37,6 +39,19 @@ $(document).ready(function(){
 
 	//Set default view - activities
 	$('#activity_button').trigger('click');
+
+	//Create modal quick add form
+	var x = $("button#quick_add").offset().left - 150;
+	var y = $("button#quick_add").offset().top + 40;
+
+	$( "#quick_add_form" ).dialog({
+			autoOpen: false,
+			height: 400,
+			width: 300,
+			modal: true,
+			title: 'Quick Add',
+			position: [x,y]
+		});
 
 });
 
