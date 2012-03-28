@@ -52,7 +52,7 @@
 
 		</div>
 
-		<div id = "home_panel">Panel here </div>
+		<div id = "home_panel">Loading .... </div>
 
 	</div>
 

@@ -7,6 +7,8 @@ include('../utilities/names.php');
 include('../utilities/convert_times.php');
 include('../auth/last_login.php');
 
+//function to sort the activities array by subkey - date
+
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
 
     foreach ($array as $subarray) {
@@ -23,7 +25,7 @@ $username = $_SESSION['login'];
 
 //$last_login = '2012-01-01 06:09:36';
 
-$phpdate = strtotime('-1 year');
+$phpdate = strtotime('-60 days');
 
 $mysqldate = date( 'Y-m-d H:i:s', $phpdate );
 
@@ -210,10 +212,16 @@ foreach ($closed as $close) {
 
 //Case assignments
 
-$get_assignments = $dbh->prepare("SELECT * FROM cm_case_assignees
-	WHERE status = 'active'
-	AND username = '$username'
-	AND date_assigned >= '$mysqldate'");
+//Thanks to this gentleman for the query:
+//http://stackoverflow.com/questions/9906326/run-a-query-on-a-query-in-mysql
+
+$get_assignments = $dbh->prepare("SELECT assignments_join.*
+	FROM cm_case_assignees AS assignments_base
+    JOIN cm_case_assignees AS assignments_join ON
+    assignments_base.case_id = assignments_join.case_id
+	WHERE
+    assignments_base.username = '$username' AND
+    assignments_base.date_assigned > '$mysqldate'");
 
 $get_assignments->execute();
 
@@ -223,13 +231,13 @@ foreach ($assignments as $assign) {
 	$activity_type = 'assign';
 
 	if ($assign['username'] === $username) {
-		$by = 'You';
+		$by = 'You were ';
 	} else {
-		$by = username_to_fullname($dbh,$assign['username']);
+		$by = username_to_fullname($dbh,$assign['username']) . ' was ';
 	}
 
 	$thumb = return_thumbnail($dbh,$assign['username']);
-	$action_text = " were assigned to a case: ";
+	$action_text = " assigned to a case: ";
 	$casename = case_id_to_casename($dbh,$assign['case_id']);
 	$time_done = $assign['date_assigned'];
 	$time_formatted = extract_date_time($assign['date_assigned']);
@@ -246,10 +254,10 @@ foreach ($assignments as $assign) {
 
 }
 
+//TODO  add journals, events, and board post
 
 sortBySubkey($activities,'time_done');
 
 //print_r($activities);die;
-
 
 include('../../../html/templates/interior/home_activities.php');
