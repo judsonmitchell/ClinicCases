@@ -221,7 +221,7 @@ $get_assignments = $dbh->prepare("SELECT assignments_join.*
     assignments_base.case_id = assignments_join.case_id
 	WHERE
     assignments_base.username = '$username' AND
-    assignments_base.date_assigned > '$mysqldate'");
+    assignments_join.date_assigned > '$mysqldate'");
 
 $get_assignments->execute();
 

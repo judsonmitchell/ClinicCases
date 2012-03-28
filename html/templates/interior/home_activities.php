@@ -10,4 +10,6 @@
 	}
 	?>
 
+	<p class="end">End of activities from the last sixty days</p>
+
 </div>

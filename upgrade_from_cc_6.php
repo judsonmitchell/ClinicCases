@@ -213,6 +213,8 @@ $query = $dbh->prepare("ALTER TABLE  `cm_journals` ADD  `time_added` DATETIME NO
 
 $query->execute();
 
+echo "Finished adding timestamps<br />";
+
 
 
 
