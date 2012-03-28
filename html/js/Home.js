@@ -38,7 +38,7 @@ $(document).ready(function(){
 	});
 
 	//Set default view - activities
-	$('#activity_button').trigger('click').addClass('ui-state-active');
+	$('#activity_button').trigger('click').next('label').addClass('ui-state-active');
 
 	//Create modal quick add form
 	var x = $("button#quick_add").offset().left - 150;
