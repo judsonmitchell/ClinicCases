@@ -20,6 +20,16 @@ $(document).ready(function(){
 
 	$('#activity_button').click(function(){
 
+		//Update activities stream periodically while it is being viewed
+		activitiesRefresh = setInterval(function(){
+
+			$.ajax({ url: "lib/php/data/home_activities_load.php", success: function(data){
+				target.html(data);
+				//Remove last hr for styling purposes
+				target.find('hr').last().remove();
+				}, dataType: "html"});}, 90000);
+
+
 		target.load('lib/php/data/home_activities_load.php',function(){
 
 			//enable download when user clicks a document link
@@ -49,10 +59,13 @@ $(document).ready(function(){
 
 			//Remove last hr for styling purposes
 			target.find('hr').last().remove();
+
 		});
 	});
 
 	$('#upcoming_button').click(function(){
+
+		clearInterval(activitiesRefresh);
 
 		target.load('html/templates/interior/home_upcoming.php', function(){
 			$('#calendar').fullCalendar({theme:true, aspectRatio:2});
@@ -61,6 +74,8 @@ $(document).ready(function(){
 	});
 
 	$('#trends_button').click(function(){
+
+		clearInterval(activitiesRefresh);
 
 		target.html('<p>Trends Here</p>');
 
@@ -80,9 +95,7 @@ $(document).ready(function(){
 			height: 400,
 			width: 300,
 			modal: true,
-			title: 'Quick Add',
 			position: [x,y]
-		});
+		}).siblings('.ui-dialog-titlebar').remove();
 
 });
-

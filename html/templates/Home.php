@@ -37,7 +37,7 @@
 
 			<div id = "home_data">
 
-				<span><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?>  </span>
+				<div><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></div>
 
 				<?php
 					include 'lib/php/auth/last_login.php';
@@ -48,7 +48,7 @@
 
 				?>
 
-				<span class="small"> Last login: <?php echo $last_log; ?> </span>
+				<div class="small"> Last login: <?php echo $last_log; ?> </div>
 
 			</div>
 
