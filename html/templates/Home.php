@@ -37,7 +37,18 @@
 
 			<div id = "home_data">
 
-				<span><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></span>
+				<span><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?>  </span>
+
+				<?php
+					include 'lib/php/auth/last_login.php';
+
+					include 'lib/php/utilities/convert_times.php';
+
+					$last_log = extract_date_time(get_last_login($dbh,$_SESSION['login']));
+
+				?>
+
+				<span class="small"> Last login: <?php echo $last_log; ?> </span>
 
 			</div>
 

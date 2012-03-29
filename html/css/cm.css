@@ -145,8 +145,9 @@ a.smallgray:hover {font-size:10pt;color:red;font-family:garamond, times, serif;t
 /* Home page styles */
 
 div#home_nav {position:relative;width:100%;height:5%;padding-top:5px;}
-div#home_data {position:absolute;left:20px;top:5px;}
-div#home_data span {font-size:14pt;color:white;}
+div#home_data {position:absolute;left:15px;top:5px;}
+div#home_data span {font-size:1.2em;color:#555;}
+div#home_data span.small {font-size: .8em;color:white;}
 button#quick_add {position:absolute;right:20px;top:5px;}
 
 
