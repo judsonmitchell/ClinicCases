@@ -168,6 +168,8 @@ div.activities_stream hr {margin-bottom:10px;}
 div.activities_feed {width:40px; height: 40px;position:absolute;right:-70px;top:0px;background-image:url('../ico/rss.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;}
 
 div.quick_add_form{display:none;}
+div#quick_add_nav a {color:#AAA;text-decoration:underline;outline:none;}
+div#quick_add_nav a.active {color:black;text-decoration:none;outline:none;}
 
 
 /* Cases styles */

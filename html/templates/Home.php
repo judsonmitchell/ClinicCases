@@ -74,9 +74,13 @@
 
 		<div id="quick_add_nav">
 
-			<input type="radio" id="cn_button" name="radio" checked="checked" /><label for="cn_button">Case Note</label>
+			<!-- <input type="radio" id="cn_button" name="radio" checked="checked" /><label for="cn_button">Case Note</label>
 
-			<input type="radio" id="ev_button" name="radio" /><label for="ev_button">Event</label>
+			<input type="radio" id="ev_button" name="radio" /><label for="ev_button">Event</label> -->
+
+			<a href="#" class="active">Case Note</a> |
+
+			<a href="#">Event</a>
 
 		</div>
 

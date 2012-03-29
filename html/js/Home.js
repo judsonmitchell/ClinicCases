@@ -88,7 +88,7 @@ $(document).ready(function(){
 	var x = $("button#quick_add").offset().left - 150;
 	var y = $("button#quick_add").offset().top + 40;
 
-	$('div#quick_add_nav').buttonset();
+	//$('div#quick_add_nav').buttonset();
 
 	$( "#quick_add_form" ).dialog({
 			autoOpen: false,
