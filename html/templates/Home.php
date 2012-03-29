@@ -3,6 +3,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/fullcalendar/fullcalendar.min.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
+
+
 <!-- Css specific to this page -->
 
 	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />

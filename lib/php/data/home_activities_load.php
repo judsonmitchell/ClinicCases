@@ -76,7 +76,7 @@ foreach ($casenotes as $note) {
 	$time_done = $note['datestamp'];
 	$time_formatted = extract_date_time($note['datestamp']);
 	$id = $note['note_id'];
-	$what = $note['description'];
+	$what = htmlentities($note['description']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $note['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -118,8 +118,9 @@ foreach ($documents as $document) {
 	$time_done = $document['date_modified'];
 	$time_formatted = extract_date_time($document['date_modified']);
 	$id = $document['doc_id'];
-	$what = $document['name'];
-	$follow_url = 'index.php?i=Cases.php#cases/' . $note['case_id'] . '/3';
+	$doc_title = htmlentities($document['name']);
+	$what = "<a href='#' data-id='" . $id . "' class='doc_view " . $document['extension'] . "'>" . $doc_title . "</a>";
+	$follow_url = 'index.php?i=Cases.php#cases/' . $document['case_id'] . '/3';
 	//3 indicates third item in nav list
 
 	$item = array('activity_type' => $activity_type, 'by' => $by,'thumb' => $thumb,

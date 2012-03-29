@@ -20,7 +20,36 @@ $(document).ready(function(){
 
 	$('#activity_button').click(function(){
 
-		target.load('lib/php/data/home_activities_load.php');
+		target.load('lib/php/data/home_activities_load.php',function(){
+
+			//enable download when user clicks a document link
+			$('a.doc_view').live('click',function(event){
+
+				event.preventDefault();
+				var itemId = $(this).attr('data-id');
+
+				if ($(this).hasClass('url'))  //Link is a url
+					{
+						$.post('lib/php/data/cases_documents_process.php', {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
+									var serverResponse = $.parseJSON(data);
+									window.open(serverResponse.target_url, '_blank');
+									});
+					}
+				else if ($(this).hasClass('ccd')) //Link is a ClinicCases document.  Just direct user to case documents for now
+					{
+						var url = $(this).closest('p').prev('p').find('a').attr('href');
+						window.location.href = url;
+					}
+				else
+					{
+						$.download('lib/php/data/cases_documents_process.php', {'item_id': itemId,'action': 'open','doc_type': 'document'});//any other document, download it.
+					}
+
+			});
+
+			//Remove last hr for styling purposes
+			target.find('hr').last().remove();
+		});
 	});
 
 	$('#upcoming_button').click(function(){
