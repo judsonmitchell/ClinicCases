@@ -149,6 +149,10 @@ div#home_data {position:absolute;left:15px;top:5px;}
 div#home_data div {font-size:1.2em;color:#555;display: inline-block;}
 div#home_data div.small {font-size: .8em;color:white;margin-left:10px;display: inline-block;}
 button#quick_add {position:absolute;right:20px;top:5px;}
+div#quick_add_body p {margin-bottom:10px;}
+div#quick_add_body label {display:block;margin:12px 0 0;float:left;clear:left;width:40px;}
+input#cn_date, input#event_date{width:100px;}
+select#cn_case, select#event_case{width:200px;}
 
 
 div#home_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;overflow: scroll;padding: 3%;}
@@ -171,6 +175,10 @@ div.quick_add_form{position:relative;display:none;}
 div#quick_add_nav a {color:#AAA;text-decoration:underline;outline:none;}
 div#quick_add_nav a.active {color:black;text-decoration:none;outline:none;}
 div#quick_add_nav a.quick_add_close {position:absolute;right:5px;top:10px;}
+div#quick_add_body{margin-top:10px;}
+div#quick_add_body_cn{display: block;text-align:left;}
+div#quick_add_body_event{display: none;}
+
 
 
 /* Cases styles */

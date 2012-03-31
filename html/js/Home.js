@@ -84,7 +84,9 @@ $(document).ready(function(){
 	//Set default view - activities
 	$('#activity_button').trigger('click').next('label').addClass('ui-state-active');
 
-	//Create modal quick add form
+	//Create modal quick add form dialog.
+
+	//Position dialog to the bottom of the quick add button
 	var x = $("button#quick_add").offset().left - 150;
 	var y = $("button#quick_add").offset().top + 40;
 
@@ -96,6 +98,31 @@ $(document).ready(function(){
 			position: [x,y]
 		}).siblings('.ui-dialog-titlebar').remove();
 
+	//Toggle between adding casenote and event
+	$("#quick_add_form a.toggle").click(function(event){
+
+		event.preventDefault();
+
+		if ($(this).hasClass('active'))
+		{
+			return false;
+		}
+		else
+		{
+			$(this).addClass('active');
+			$(this).siblings('a.toggle').removeClass('active');
+			$('div.toggle_form').toggle();
+		}
+
+	});
+
+	//Create datepickers
+	$('#cn_date').datepicker();
+	$('#cn_date').datepicker('setDate',new Date());
+
+
+
+	//Close dialog
 	$('a.quick_add_close').click(function(event){
 		event.preventDefault();
 		$("#quick_add_form").dialog("close");

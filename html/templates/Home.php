@@ -74,11 +74,55 @@
 
 		<div id="quick_add_nav">
 
-			<a href="#" class="active">Case Note</a> |
+			<a href="#" class="active toggle">Case Note</a> |
 
-			<a href="#">Event</a>
+			<a href="#" class="toggle">Event</a>
 
 			<a class="quick_add_close" href="#"><img src='html/ico/cross.png' border=0 title="Close"></a>
+
+		</div>
+
+		<div id="quick_add_body">
+
+				<div id = "quick_add_body_cn" class="toggle_form">
+
+					<form>
+
+						<p><label>Date</label><input type="text" name="date" id="cn_date"></p>
+
+						<p><label>Case</label>
+
+							<select name="case_id" id="cn_case">
+
+								<option value="NC">Non-Case Time</option>
+
+								<?php include('lib/php/html/gen_select.php');
+
+								$options = generate_active_cases_select($dbh,$_SESSION['login']);
+
+								echo $options;
+							?>
+
+
+							</select>
+
+						</p>
+
+						<p>
+
+							<?php $selector = generate_time_selector(); echo $selector; ?>
+
+						</p>
+
+					</form>
+
+				</div>
+
+				<div id = "quick_add_body_event" class="toggle_form">
+
+					Event here
+
+				</div>
 
 		</div>
 

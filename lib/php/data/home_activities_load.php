@@ -6,6 +6,7 @@ include('../utilities/thumbnails.php');
 include('../utilities/names.php');
 include('../utilities/convert_times.php');
 include('../auth/last_login.php');
+include('../html/gen_select.php');
 
 //function to sort the activities array by subkey - date
 

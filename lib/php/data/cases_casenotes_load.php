@@ -6,7 +6,7 @@ include('../utilities/thumbnails.php');
 include('../utilities/names.php');
 include('../utilities/convert_times.php');
 include('../utilities/convert_case_time.php');
-include('../utilities/generate_time_selector.php');
+include('../html/gen_select.php');
 
 
 //Load all case notes for a given case, along with user data
