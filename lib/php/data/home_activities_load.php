@@ -21,10 +21,6 @@ function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
 
 $username = $_SESSION['login'];
 
-//$last_login = get_last_login($dbh,$username);
-
-//$last_login = '2012-01-01 06:09:36';
-
 $phpdate = strtotime('-60 days');
 
 $mysqldate = date( 'Y-m-d H:i:s', $phpdate );

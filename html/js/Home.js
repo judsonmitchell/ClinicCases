@@ -88,8 +88,6 @@ $(document).ready(function(){
 	var x = $("button#quick_add").offset().left - 150;
 	var y = $("button#quick_add").offset().top + 40;
 
-	//$('div#quick_add_nav').buttonset();
-
 	$( "#quick_add_form" ).dialog({
 			autoOpen: false,
 			height: 400,
@@ -97,5 +95,10 @@ $(document).ready(function(){
 			modal: true,
 			position: [x,y]
 		}).siblings('.ui-dialog-titlebar').remove();
+
+	$('a.quick_add_close').click(function(event){
+		event.preventDefault();
+		$("#quick_add_form").dialog("close");
+	});
 
 });
