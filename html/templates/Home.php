@@ -5,6 +5,12 @@
 
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/jqueryui.combobox.js"></script>
+
+
+
 
 <!-- Css specific to this page -->
 
@@ -88,11 +94,13 @@
 
 					<form>
 
-						<p><label>Date</label><input type="text" name="date" id="cn_date"></p>
+						<p class="error"></p>
+
+						<p><label>Date</label><input type="text" name="csenote_date" id="cn_date"></p>
 
 						<p><label>Case</label>
 
-							<select name="case_id" id="cn_case">
+							<select name="csenote_case_id" id="cn_case">
 
 								<option value="NC">Non-Case Time</option>
 
@@ -101,6 +109,8 @@
 								$options = generate_active_cases_select($dbh,$_SESSION['login']);
 
 								echo $options;
+
+								//WHAT ABOUT ADMINS?  THEY SEE ALL?
 							?>
 
 
@@ -108,9 +118,26 @@
 
 						</p>
 
-						<p>
+						<p class="quick_add_times">
 
 							<?php $selector = generate_time_selector(); echo $selector; ?>
+
+						</p>
+
+						<p>
+							<label>Description</label>
+
+							<textarea name="csenote_description"></textarea>
+
+						</p>
+
+						<input type="hidden" name="query_type" value="add">
+
+						<input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
+
+						<p id = "quick_add_cn">
+
+							<button id="quick_add_cn_submit">Add</button>
 
 						</p>
 

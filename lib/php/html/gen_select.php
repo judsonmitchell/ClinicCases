@@ -112,14 +112,14 @@ function generate_time_selector()
 	else
 	{$minutes = array('0','6','12','18','24','30','36','42','48','54');}
 
-	$selects = "<label>Hours:</label><select name='csenote_hours'>";
+	$selects = "<label for 'cn_h'>Hours:</label><select name='csenote_hours' id='cn_h'>";
 
 	for($i = 0; $i <= 8; $i++)
 	{$selects .= "<option value='$i'>" . $i . "</option>";}
 
 	$selects .= "</select>";
 
-	$selects .= "<label>Minutes: </label><select name='csenote_minutes'>";
+	$selects .= "<label for 'cn_m'>Minutes: </label><select name='csenote_minutes' id='cn_m'>";
 
 	foreach ($minutes as $val)
 
@@ -136,13 +136,19 @@ function generate_time_selector()
 //Generates all open and active cases the user is on for use in a html select
 function generate_active_cases_select($dbh,$user)
 {
-	$q = $dbh->prepare("SELECT *
+
+	if ($_SESSION['permissions']['view_all_cases'] == '1')
+		{$sql = "SELECT *,cm.id as case_id_val FROM cm WHERE date_close = '' ORDER BY last_name ASC";}
+	else
+		{$sql = "SELECT *,cm.id as case_id_val
 		FROM cm_case_assignees,cm
 		WHERE  cm_case_assignees.case_id = cm.id
 		AND cm_case_assignees.username = '$user'
 		AND cm_case_assignees.status = 'active'
 		AND cm.date_close = ''
-		ORDER BY cm.last_name ASC");
+		ORDER BY cm.last_name ASC";}
+
+	$q = $dbh->prepare($sql);
 
 	$q->execute();
 
@@ -159,7 +165,7 @@ function generate_active_cases_select($dbh,$user)
 
 		//Note: trim for very long case names
 
-		$options .= "<option value='" . $case['case_id'] . "'>" . $casename . " </option>";
+		$options .= "<option value='" . $case['case_id_val'] . "'>" . $casename . " </option>";
 	}
 
 	return $options;

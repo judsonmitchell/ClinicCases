@@ -85,6 +85,38 @@ foreach ($casenotes as $note) {
 
 }
 
+//Get any non-case time
+$get_noncase = $dbh->prepare("SELECT * FROM cm_case_notes
+	WHERE username = '$username'
+	AND case_id = 'NC'
+	AND datestamp >= '$mysqldate'");
+
+$get_noncase->execute();
+
+$noncases = $get_noncase->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($noncases as $noncase) {
+	$activity_type = 'non-case';
+
+	$by = 'You';
+	$thumb = return_thumbnail($dbh,$noncase['username']);
+	$action_text = " added non-case activity ";
+	$casename = '';
+	$time_done = $noncase['datestamp'];
+	$time_formatted = extract_date_time($noncase['datestamp']);
+	$id = $noncase['id'];
+	$what = htmlentities($noncase['description']);
+	$follow_url = 'index.php?i=Cases.php#cases/' . $noncase['case_id'];
+
+	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+		'time_formatted' => $time_formatted);
+
+	$activities[] = $item;
+
+}
+
 //Documents
 $get_documents = $dbh->prepare("SELECT *,cm_case_assignees.id as assign_id,
 	cm_documents.id as doc_id,
@@ -254,8 +286,8 @@ foreach ($assignments as $assign) {
 
 //TODO  add journals, events, and board post
 
-sortBySubkey($activities,'time_done');
-
-//print_r($activities);die;
+if (!empty($activities)) {
+	sortBySubkey($activities,'time_done');
+}
 
 include('../../../html/templates/interior/home_activities.php');

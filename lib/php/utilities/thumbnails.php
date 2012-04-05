@@ -16,5 +16,11 @@ function return_thumbnail($dbh,$username)
 
 		$user = $get_user_id->fetch();
 
-		return 'people/tn_' . $user['id'] . '.jpg';
+		$thumbnail = 'people/tn_' . $user['id'] . '.jpg';
+
+		if (file_exists('../../../' . $thumbnail))
+			{return $thumbnail;}
+		else
+			{return 'people/tn_no_picture.png';}
+
 	}

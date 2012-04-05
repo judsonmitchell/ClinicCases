@@ -153,6 +153,8 @@ div#quick_add_body p {margin-bottom:10px;}
 div#quick_add_body label {display:block;margin:12px 0 0;float:left;clear:left;width:40px;}
 input#cn_date, input#event_date{width:100px;}
 select#cn_case, select#event_case{width:200px;}
+div#quick_add_body input.ui-autocomplete-input {width:170px;}
+ul.ui-autocomplete {text-align:left;}
 
 
 div#home_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;overflow: scroll;padding: 3%;}
@@ -178,6 +180,9 @@ div#quick_add_nav a.quick_add_close {position:absolute;right:5px;top:10px;}
 div#quick_add_body{margin-top:10px;}
 div#quick_add_body_cn{display: block;text-align:left;}
 div#quick_add_body_event{display: none;}
+p.quick_add_times label, p.quick_add_times select {display:inline-block !important;float:none !important;clear:none !important;}
+div#quick_add_body_cn textarea{width:240px;height:145px;}
+p#quick_add_cn {text-align:center;margin-bottom:0px;}
 
 
 
