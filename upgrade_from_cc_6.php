@@ -192,28 +192,27 @@ require('db.php');
 
 // echo "Finished updating contacts.<br />";
 
-echo "Adding timestamps to enable activities feed. <br />";
+// echo "Updating events db<br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `time_opened` DATETIME NOT NULL AFTER  `opened_by`
-");
+// $query = $dbh->prepare("ALTER TABLE `cm_events` DROP `temp_id`;ALTER TABLE  `cm_events` CHANGE  `date_due`  `start` DATETIME NOT NULL");
 
-$query->execute();
+// $query->execute();
 
-$query = $dbh->prepare("ALTER TABLE  `cm` ADD  `closed_by` VARCHAR( 50 ) NOT NULL AFTER  `time_opened` ,
-ADD  `time_closed` DATETIME NOT NULL AFTER  `closed_by`");
+// $query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `end` DATETIME NOT NULL AFTER  `start` ,
+// ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`");
 
-$query->execute();
+// $query->execute();
 
-$query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `time_added` DATETIME NOT NULL");
+// echo "Done updating events db<br />";
 
-$query->execute();
+// echo "Converting old events<br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm_journals` ADD  `time_added` DATETIME NOT NULL AFTER  `comments`
-");
+// $query = $dbh->prepare("UPDATE cm_events SET all_day = '1'");
 
-$query->execute();
+// $query->execute();
 
-echo "Finished adding timestamps<br />";
+// echo "Done converting old events<br />";
+
 
 
 

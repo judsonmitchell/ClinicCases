@@ -72,7 +72,15 @@ $(document).ready(function(){
 		clearInterval(activitiesRefresh);
 
 		target.load('html/templates/interior/home_upcoming.php', function(){
-			$('#calendar').fullCalendar({theme:true, aspectRatio:2});
+			$('#calendar').fullCalendar({
+				theme:true,
+				aspectRatio:2,
+				header:{
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			}
+			});
 		});
 
 	});
