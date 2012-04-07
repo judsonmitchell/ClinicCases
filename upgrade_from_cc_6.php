@@ -194,7 +194,8 @@ require('db.php');
 
 // echo "Updating events db<br />";
 
-// $query = $dbh->prepare("ALTER TABLE `cm_events` DROP `temp_id`;ALTER TABLE  `cm_events` CHANGE  `date_due`  `start` DATETIME NOT NULL");
+// $query = $dbh->prepare("ALTER TABLE `cm_events` DROP `temp_id`;ALTER TABLE  `cm_events` CHANGE  `date_due`  `start` DATETIME NOT NULL;ALTER TABLE  `cm_events` ADD  `notes` TEXT NOT NULL AFTER  `status`
+//");
 
 // $query->execute();
 

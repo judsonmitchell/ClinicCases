@@ -74,3 +74,14 @@ function case_id_to_casename ($dbh,$id)
 
 			{return $r['first_name'] . ' ' . $r['last_name'];}
 	}
+
+function username_to_userid ($dbh,$username)
+{
+	$q = $dbh->prepare("SELECT id,username FROM cm_users WHERE username = '$username'");
+
+	$q->execute();
+
+	$user_id = $q->fetch(PDO::FETCH_ASSOC);
+
+	return $user_id['id'];
+}

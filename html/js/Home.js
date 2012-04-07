@@ -69,7 +69,7 @@ $(document).ready(function(){
 
 	$('#upcoming_button').click(function(){
 
-		clearInterval(activitiesRefresh);
+		clearInterval(window.activitiesRefresh);
 
 		target.load('html/templates/interior/home_upcoming.php', function(){
 			$('#calendar').fullCalendar({
@@ -79,7 +79,9 @@ $(document).ready(function(){
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
-			}
+				},
+				eventSources: ['lib/php/data/home_events_load.php'],
+				eventClick: function(event){console.log(event);}
 			});
 		});
 
@@ -87,7 +89,7 @@ $(document).ready(function(){
 
 	$('#trends_button').click(function(){
 
-		clearInterval(activitiesRefresh);
+		clearInterval(window.activitiesRefresh);
 
 		target.html('<p>Trends Here</p>');
 

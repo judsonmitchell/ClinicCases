@@ -231,4 +231,7 @@ ALTER TABLE  `cm_events` CHANGE  `date_due`  `start` DATETIME NOT NULL
 ALTER TABLE  `cm_events` ADD  `end` DATETIME NOT NULL AFTER  `start` ,
 ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`
 
+ALTER TABLE  `cm_events` ADD  `notes` TEXT NOT NULL AFTER  `status`
+
+
 //End
