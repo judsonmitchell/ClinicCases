@@ -184,6 +184,9 @@ p.quick_add_times label, p.quick_add_times select {display:inline-block !importa
 div#quick_add_body_cn textarea{width:240px;height:145px;}
 p#quick_add_cn {text-align:center;margin-bottom:0px;}
 
+div#event_detail_window{position: relative;}
+div#event_detail_window a.event_detail_close {position:absolute;right:5px;top:10px;outline:none;}
+
 
 
 /* Cases styles */

@@ -74,6 +74,7 @@
 
 		<div id = "home_panel">Loading .... </div>
 
+
 	</div>
 
 	<div id = "quick_add_form">
@@ -155,4 +156,8 @@
 
 	</div>
 
+	<div id = "event_detail_window">
+
+
+	</div>
 

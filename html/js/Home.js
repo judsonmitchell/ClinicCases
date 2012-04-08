@@ -81,7 +81,12 @@ $(document).ready(function(){
 				right: 'month,agendaWeek,agendaDay'
 				},
 				eventSources: ['lib/php/data/home_events_load.php'],
-				eventClick: function(event){console.log(event);}
+				eventClick: function(event){
+					console.log(event);
+					$('div#event_detail_window')
+					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.title +"</h3><hr />" + event.description)
+					.dialog("open");
+				}
 			});
 		});
 
@@ -112,6 +117,13 @@ $(document).ready(function(){
 			position: [x,y]
 		}).siblings('.ui-dialog-titlebar').remove();
 
+	//Create modal dialog for event detail
+	$("div#event_detail_window").dialog({
+			autoOpen: false,
+			height: 400,
+			width: 500,
+			modal: true
+		}).siblings('.ui-dialog-titlebar').remove();
 
 	//Toggle between adding casenote and event
 	$("#quick_add_form a.toggle").click(function(event){
@@ -181,7 +193,7 @@ $(document).ready(function(){
 		}
 	});
 
-	//Close dialog
+	//Close quick add dialog
 	$('a.quick_add_close').click(function(event){
 		event.preventDefault();
 
@@ -195,6 +207,13 @@ $(document).ready(function(){
 
 		//Close dialog
 		$("#quick_add_form").dialog("close");
+	});
+
+	//Close event detail dialog
+	$('a.event_detail_close').live('click',function(event){
+		event.preventDefault();
+
+		$("#event_detail_window").dialog("close");
 	});
 
 });
