@@ -24,7 +24,7 @@ if (is_writable(CC_DOC_PATH))
 
 	{die( "Your docs folder as defined in the config file (CC_DOC_PATH) is not writable. Please fix this and try again.\n"); }
 
-$query = $dbh->prepare("SELECT * FROM cm_documents WHERE local_file_name != ''");
+$query = $dbh->prepare("SELECT * FROM cm_documents WHERE local_file_name != '' AND extension != 'url'");
 
 $query->execute();
 
@@ -39,16 +39,25 @@ $done = 0;
 foreach ($docs as $doc)
 {
 	$doc_id = $doc['id'];
-	
-	$new_doc_name = $doc['id'] . '.' . $doc['extension'];
-	
-	exec("mv " .  escapeshellarg(doc['local_file_name']) . " " . CC_DOC_PATH  . "/" . $new_doc_name );
 
-	$update_db = $dbh->prepare("UPDATE cm_documents 
-		SET local_file_name = :new_doc 
-		WHERE id = :id ");
+	$new_doc_name = $doc['id'] . '.' . $doc['extension'];
+
+	$old_doc_path = stripslashes($doc['local_file_name']);
 	
-	$data = array('new_doc' => $new_doc_name, 'id' => $doc_id);
+	$new_doc_path = CC_DOC_PATH . '/' .  $new_doc_name;
+	
+	//exec("mv " .  escapeshellarg($doc['local_file_name']) . " " . CC_DOC_PATH  . "/" . $new_doc_name );
+
+	rename($old_doc_path,$new_doc_path);
+
+	if (!empty($doc['folder']))
+	{$escaped_folder = htmlentities($doc['folder']);}
+	else
+	{$escaped_folder = '';}
+
+	$update_db = $dbh->prepare("UPDATE cm_documents SET local_file_name = :new_doc,folder = :folder	WHERE id = :id ");
+	
+	$data = array('new_doc' => $new_doc_name, 'id' => $doc_id, 'folder' => $escaped_folder);
 	
 	$update_db->execute($data);
 	
@@ -56,5 +65,5 @@ foreach ($docs as $doc)
 
 	$completed = $done / $count * 100;
 
-	echo round($completed, 2) . "% done\n";
+	echo round($completed, 2) . "% completed\n";
 }
