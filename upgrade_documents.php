@@ -4,6 +4,13 @@
 
 require('db.php');
 
+function stripallslashes($string) { 
+    	while(strchr($string,'\\')) { 
+    		$string = stripslashes($string); 
+	} 
+return $string;
+} 
+
 //Check to see if the new doc folder has been created
 if (file_exists(CC_DOC_PATH))
 {
@@ -42,7 +49,7 @@ foreach ($docs as $doc)
 
 	$new_doc_name = $doc['id'] . '.' . $doc['extension'];
 
-	$old_doc_path = stripslashes($doc['local_file_name']);
+	$old_doc_path = stripallslashes($doc['local_file_name']);//still not getting all slashes
 	
 	$new_doc_path = CC_DOC_PATH . '/' .  $new_doc_name;
 	
@@ -51,7 +58,7 @@ foreach ($docs as $doc)
 	rename($old_doc_path,$new_doc_path);
 
 	if (!empty($doc['folder']))
-	{$escaped_folder = htmlentities($doc['folder']);}
+	{$escaped_folder = rawurlencode($doc['folder']);}
 	else
 	{$escaped_folder = '';}
 
