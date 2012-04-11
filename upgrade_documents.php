@@ -86,3 +86,5 @@ foreach ($docs as $doc)
 
 	echo round($completed, 2) . "% completed\n";
 }
+
+//TODO This still leaves files that have been uploaded via the board;  need to address these
