@@ -76,9 +76,10 @@ foreach ($events as $event)
 
 	//generate the array
 	$events_data[] = array('id' => $event['event_id'],'title' => $title,
-	'start' => $event['start'],'end' => $event['end'], 'allDay' => $all_day,
-	'description' => $event['notes'],'backgroundColor' => $bg_color,
-	'caseName' => $case_name,'users' => $resp);
+	'shortTitle' => $event['task'],'start' => $event['start'],
+	'end' => $event['end'], 'allDay' => $all_day,
+	'description' => $event['notes'],'where' => $event['where'],
+	'backgroundColor' => $bg_color,'caseName' => $case_name,'users' => $resps);
 
 }
 

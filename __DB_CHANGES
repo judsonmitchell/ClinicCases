@@ -233,5 +233,8 @@ ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`
 
 ALTER TABLE  `cm_events` ADD  `notes` TEXT NOT NULL AFTER  `status`
 
+ALTER TABLE  `cm_events` ADD  `where` TEXT NOT NULL AFTER  `notes`
+
+
 
 //End

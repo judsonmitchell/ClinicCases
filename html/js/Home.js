@@ -83,9 +83,25 @@ $(document).ready(function(){
 				eventSources: ['lib/php/data/home_events_load.php'],
 				eventClick: function(event){
 					console.log(event);
+					if (event.allDay === false)
+						{event.allDay = '';}
+					else
+						{event.allDay = 'Yes';}
+
+					if (event.end === null)
+						{event.end = '';}
+
+					//generate the event detail window
 					$('div#event_detail_window')
-					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.title +"</h3><hr />" + event.description)
+					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.shortTitle +"</h3><div id = 'event_users_display'></div><hr /><p><label>Start: </label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label> " + event.allDay + "</p><p><label>Where: </label>" + event.where + "</p><p><label>Description: </label>" + event.description + "</p>")
 					.dialog("open");
+
+					//insert thumbnails of users who are assigned to event
+					$(event.users).each(function()
+						{
+							var userThumb = "<img src='people/tn_"  + this.user_id + ".jpg' title='" + this.full_name + "' alt='" + this.full_name + "'>";
+							$('div#event_users_display').append(userThumb);
+						});
 				}
 			});
 		});
