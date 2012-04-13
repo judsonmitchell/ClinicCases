@@ -163,7 +163,7 @@ div.activities_stream{position:relative;width:600px;height:100%;margin:auto}
 
 div.activities_stream p{text-align:left;}
 
-div.activities_stream img {margin-right:5px;}
+div.activities_stream img {margin-right:5px;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
 
 div.activities_stream p.grey{color:#AAA;margin-left:37px;}
 
@@ -188,7 +188,7 @@ div#event_detail_window{position: relative;text-align:left;}
 div#event_detail_window a.event_detail_close {position:absolute;right:5px;top:10px;outline:none;}
 div#event_detail_window label{font-size:12pt;}
 div#event_users_display{text-align:left;}
-div#event_users_display img {border:0px;margin:5px;}
+div#event_users_display img {border:0px;margin:5px;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
 
 
 
