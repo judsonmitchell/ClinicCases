@@ -1,8 +1,8 @@
 <?php
 //Gets upcoming events data for home page calendar, returns json
 
-// session_start();
-// require('../auth/session_check.php');
+session_start();
+require('../auth/session_check.php');
 require('../../../db.php');
 require('../utilities/names.php');
 
@@ -32,8 +32,8 @@ function get_responsibles($dbh,$event_id) //get names of all users on event
 	return $responsibles;
 }
 
-//$user = $_SESSION['login'];
-$user = 'jmitchell';
+$user = $_SESSION['login'];
+
 $get_events = $dbh->prepare("SELECT * from cm_events, cm_events_responsibles
 	WHERE cm_events_responsibles.username = :user
 	AND cm_events_responsibles.event_id = cm_events.id");
