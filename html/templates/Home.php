@@ -9,12 +9,17 @@
 
 	<script type="text/javascript" src="lib/javascripts/jqueryui.combobox.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
+
 
 
 
 <!-- Css specific to this page -->
 
 	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
+
+	<link rel="stylesheet" type="text/css" href="lib/javascripts/timepicker/jquery-ui-timepicker-addon.css" />
+
 
 </head>
 <body>
