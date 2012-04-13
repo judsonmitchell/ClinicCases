@@ -17,6 +17,9 @@
 
 <link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
 
+<link rel="stylesheet" type="text/css" href="lib/javascripts/timepicker/jquery-ui-timepicker-addon.css" />
+
+
 
 <!-- Js Calls Specific to this page -->
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
@@ -41,6 +44,8 @@
 
 	<script  src="html/js/casesContacts.js" type="text/javascript"></script>
 
+	<script  src="html/js/casesEvents.js" type="text/javascript"></script>
+
 	<script  src="html/js/notifyUser.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.jscrollpane.min.js"></script>
@@ -64,6 +69,8 @@
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/router.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
 
 
 

@@ -12,8 +12,6 @@
 	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
 
 
-
-
 <!-- Css specific to this page -->
 
 	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
