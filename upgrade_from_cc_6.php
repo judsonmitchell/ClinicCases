@@ -355,7 +355,7 @@ $query = $dbh->prepare("ALTER TABLE `cm_events` DROP `temp_id`;ALTER TABLE  `cm_
 
 $query->execute();
 
-$query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `end` DATETIME NOT NULL AFTER  `start` ,
+$query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `end` DATETIME NULL AFTER  `start` ,
 ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`;ALTER TABLE  `cm_events` ADD  `where` TEXT NOT NULL AFTER  `notes`
 ");
 

@@ -22,7 +22,7 @@ $('.case_detail_nav #item4').live('click', function() {
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
         //Set buttons
-        $('button.new_contact').button({icons: {primary: "fff-icon-vcard-add"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
+        $('button.new_event').button({icons: {primary: "fff-icon-calendar-add"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
 
         //Round Corners
         $('div.csenote').addClass('ui-corner-all');

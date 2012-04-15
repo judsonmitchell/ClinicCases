@@ -12,7 +12,7 @@ function extract_date($val)
 
 }
 
-//extracts data and time from a mysql timestamp
+//extracts date and time from a mysql timestamp
 function extract_date_time($val)
 {
 	$date = date_create($val);

@@ -4,6 +4,7 @@ session_start();
 require('../../../db.php');
 require('../utilities/thumbnails.php');
 require('../utilities/names.php');
+require('../utilities/convert_times.php');
 
 //$user = $_SESSION['login'];
 $user = 'jmitchell';
@@ -38,6 +39,18 @@ function get_responsibles($dbh,$event_id) //get names of all users on event
 	return $responsibles;
 }
 
+function generate_thumbs($responsibles) //create thumbnail row for assigned users
+{
+	$thumb_row = null;
+
+	foreach ($responsibles as $resp) {;
+
+		$thumb_row .= "<img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'>";
+	}
+
+	return $thumb_row;
+}
+
 //Get all events for this case
 $get_events = $dbh->prepare("SELECT * from cm_events
 	WHERE case_id = :id ORDER BY start DESC");
@@ -47,14 +60,5 @@ $data = array('id' => $id);
 $get_events->execute($data);
 
 $events = $get_events->fetchAll(PDO::FETCH_ASSOC);
-
-//print_r($events);die;
-
-foreach ($events as $event) {
-
-	$resps = get_responsibles($dbh,$event['id']);
-
-   	array_push($event, $resps);
-}
 
 include('../../../html/templates/interior/cases_events.php');
