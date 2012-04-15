@@ -6,10 +6,10 @@ require('../utilities/thumbnails.php');
 require('../utilities/names.php');
 require('../utilities/convert_times.php');
 
-//$user = $_SESSION['login'];
-$user = 'jmitchell';
-//$id = $_POST['case_id'];
-$id = '1175';
+$user = $_SESSION['login'];
+
+$id = $_POST['case_id'];
+
 
 function get_responsibles($dbh,$event_id) //get names of all users on event
 {
