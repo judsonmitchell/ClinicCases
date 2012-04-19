@@ -45,4 +45,40 @@ $('.case_detail_nav #item4').live('click', function() {
 
     });
 
-})
+});
+
+//Add event
+$('.case_detail_panel_tools_right button.new_event').live('click', function() {
+
+    //make sure events are scrolled to top
+    $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
+
+    //display the new contact widget
+    var addEventWidget = $(this).closest('.case_detail_panel_tools').siblings().find('div.new_event');
+    addEventWidget.show();
+
+    //reduce opacity on the previously entered contact
+    $(this).closest('.case_detail_panel_tools').siblings().find('div.event').not('div.csenote_new').css({'opacity': '.5'});
+
+    //Add date/time pickers
+
+    addEventWidget.find('input[name="start"]').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5,
+        hour:9,
+        minute:0
+    });
+
+    addEventWidget.find('input[name="end"]').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5,
+        hour:9,
+        minute:0
+    });
+
+});
+
+
+

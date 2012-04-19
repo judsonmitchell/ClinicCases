@@ -23,6 +23,52 @@
 
 <div class = "case_detail_panel_casenotes">
 
+	<div class='csenote csenote_new new_event event'>
+
+		<form>
+
+			<div class='csenote_bar'>
+
+				<div class = 'csenote_bar_left new_contact_left'>
+
+					<h4><span class="first_name_live">New Event</span> <span class="last_name_live"></span><h4>
+
+					<h5><span class="contact_type_live"></span></h5>
+
+				</div>
+
+				<div class = 'csenote_bar_right new_contact_right'>
+
+					<button class='contact_action_submit'>Add</button><button class='contact_action_cancel'>Cancel</button>
+
+				</div>
+
+			</div>
+
+			<div class="new_event_data">
+
+				<p><label>What:</label><input type="text" name="task"></p>
+
+				<p><label>Where:</label><input type="text" name="where"></p>
+
+				<p><label>Start:</label><input type="text" name="start"></p>
+
+				<p><label>End:</label><input type="text" name = "end"></p>
+
+				<p><label>All Day?</label><input type="checkbox" name= "all_day"></p>
+
+				<p><label>Who's Repsonisble?</label><input type="text" name="responsibles"></p>
+
+				<p><label>Notes:</label><br /><textarea></textarea>
+
+
+			</div>
+
+		</form>
+
+	</div>
+
+
 	<?php foreach($events as $event) {$resps = get_responsibles($dbh,$event['id']);extract($event);
 	 //Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  ?>
 
@@ -30,7 +76,11 @@
 
 		<div class = "csenote_bar">
 
-			<div class = "csenote_bar_left event_group"><?php  echo generate_thumbs($resps);echo extract_date_time($start); ?></div>
+			<div class = "csenote_bar_left event_group">
+
+				<?php  echo generate_thumbs($resps);echo $task; ?>
+
+			</div>
 
 			<div class = "csenote_bar_right">
 				<?php if ($_SESSION['permissions']['edit_events'] === '1')
@@ -43,13 +93,11 @@
 
 		</div>
 
-		<p><label>What:</label><?php echo $task; ?></p>
-
-		<p><label>Where</label><?php echo $where; ?></p>
-
 		<p><label>Start:</label><?php echo extract_date_time($start);if ($all_day === '1'){echo " (All day)";} ?></p>
 
 		<p><label>End:</label><?php if (!empty($end)){echo extract_date_time($end);} ?></p>
+
+		<p><label>Where</label><?php echo $where; ?></p>
 
 		<p><label>Notes:</label><?php echo $notes; ?></p>
 
