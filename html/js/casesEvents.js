@@ -6,7 +6,9 @@
 $('.case_detail_nav #item4').live('click', function() {
 
 	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
-    var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
+    var caseId = $(this).closest('.case_detail_nav')
+        .siblings('.case_detail_panel')
+        .data('CaseNumber');
 
     //Get heights
     var toolsHeight = $(this).outerHeight();
@@ -22,7 +24,8 @@ $('.case_detail_nav #item4').live('click', function() {
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
         //Set buttons
-        $('button.new_event').button({icons: {primary: "fff-icon-calendar-add"},text: true}).next().button({icons: {primary: "fff-icon-printer"},text: true});
+        $('button.new_event').button({icons: {primary: "fff-icon-calendar-add"},text: true})
+            .next().button({icons: {primary: "fff-icon-printer"},text: true});
 
         //Round Corners
         $('div.csenote').addClass('ui-corner-all');
@@ -54,11 +57,16 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
     $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
 
     //display the new contact widget
-    var addEventWidget = $(this).closest('.case_detail_panel_tools').siblings().find('div.new_event');
+    var addEventWidget = $(this).closest('.case_detail_panel_tools')
+        .siblings()
+        .find('div.new_event');
     addEventWidget.show();
 
     //reduce opacity on the previously entered contact
-    $(this).closest('.case_detail_panel_tools').siblings().find('div.event').not('div.csenote_new').css({'opacity': '.5'});
+    $(this).closest('.case_detail_panel_tools').siblings()
+        .find('div.event')
+        .not('div.csenote_new')
+        .css({'opacity': '.5'});
 
     //Add date/time pickers
 
@@ -69,7 +77,8 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
         hour:9,
         minute:0,
         onSelect: function(dateText,inst){ //set the end datetime to conincide with the start
-            addEventWidget.find('input[name="end"]').datetimepicker('setDate',dateText);
+            addEventWidget.find('input[name="end"]')
+                .datetimepicker('setDate',dateText);
         }
     });
 
@@ -83,6 +92,30 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
 
     //Add the chosen widgit
     addEventWidget.find('select[name="responsibles"]').chosen();
+
+    //User cancels adding new event
+    $(this).closest('.case_detail_panel_tools').siblings()
+    .find('button.event_action_cancel').click(function(event) {
+
+        event.preventDefault();
+        //reset form
+        addEventWidget.find('form')[0].reset();
+        addEventWidget.find('span.event_name_live').html("New Event");
+
+        addEventWidget.find('select option')
+            .filter(function() {return this.text == 'You';})
+            .attr('selected',true);
+
+        //refresh Chosen
+        addEventWidget.find('select').trigger("liszt:updated");
+
+        //reset opacity of other case notes
+        $(this).closest('.case_detail_panel_casenotes')
+            .find('.event').css({'opacity': '1'});
+        //hide the widget
+        $(this).closest('.new_event').hide();
+
+    });
 
 });
 

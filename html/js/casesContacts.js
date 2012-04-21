@@ -163,7 +163,7 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
         addContactWidget.find('span.last_name_live').html("");
         addContactWidget.find('span.contact_type_live').html("");
 
-        //reset opacity of other case notes
+        //reset opacity of other contacts
         $(this).closest('.case_detail_panel_casenotes').find('.contact').css({'opacity': '1'});
         //hide the widget
         $(this).closest('.csenote_new').hide();

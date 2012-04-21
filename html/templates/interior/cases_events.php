@@ -39,7 +39,7 @@
 
 				<div class = 'csenote_bar_right new_contact_right'>
 
-					<button class='contact_action_submit'>Add</button><button class='contact_action_cancel'>Cancel</button>
+					<button class='event_action_submit'>Add</button><button class='event_action_cancel'>Cancel</button>
 
 				</div>
 
@@ -60,8 +60,6 @@
 				<p><label>Who's Responsible?</label>
 
 					<select multiple name="responsibles" class="responsibles">
-
-						<option selected=selected value = "<?php echo $username; ?>">You</option>
 
 						<?php echo users_on_case_select($dbh,$id); ?>
 

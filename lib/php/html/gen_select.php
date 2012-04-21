@@ -189,7 +189,8 @@ function generate_active_cases_select($dbh,$user)
 //Generate users on a case
 function users_on_case_select($dbh,$case_id)
 {
-	$get_users = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE case_id = '$case_id'");
+	$get_users = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE case_id = '$case_id'
+		AND status = 'active'");
 
 	$get_users->execute();
 
@@ -201,7 +202,10 @@ function users_on_case_select($dbh,$case_id)
 
 		$get_name = username_to_fullname($dbh,$user['username']);
 
-		$options .= "<option value = '" . $user['username']  ."'>" . $get_name   . "</option>";
+		if ($user['username'] == $_SESSION['login'])
+			{$options .= "<option selected=selected value = '" . $user['username']  ."'>You</option>";}
+		else
+			{$options .= "<option value = '" . $user['username']  ."'>" . $get_name   . "</option>";}
 
 	}
 
