@@ -133,6 +133,20 @@ function generate_time_selector()
 }
 
 
+
+function gen_select_multiple()
+
+	{
+		$get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active' ORDER BY `last_name` asc");
+
+		while ($result = mysql_fetch_array($get_prof))
+			{
+				$prof = $result['last_name'];
+				$prof_user = $result['username'];
+				echo "<option value='$prof_user'>$prof</option>";
+			}
+	}
+
 //Generates all open and active cases the user is on for use in a html select
 function generate_active_cases_select($dbh,$user)
 {
@@ -170,4 +184,26 @@ function generate_active_cases_select($dbh,$user)
 
 	return $options;
 
+}
+
+//Generate users on a case
+function users_on_case_select($dbh,$case_id)
+{
+	$get_users = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE case_id = '$case_id'");
+
+	$get_users->execute();
+
+	$users = $get_users->fetchAll(PDO::FETCH_ASSOC);
+
+	$options = null;
+
+	foreach ($users as $user) {
+
+		$get_name = username_to_fullname($dbh,$user['username']);
+
+		$options .= "<option value = '" . $user['username']  ."'>" . $get_name   . "</option>";
+
+	}
+
+	return $options;
 }

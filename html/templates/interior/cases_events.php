@@ -31,7 +31,7 @@
 
 				<div class = 'csenote_bar_left new_contact_left'>
 
-					<h4><span class="first_name_live">New Event</span> <span class="last_name_live"></span><h4>
+					<h4><span class="event_name_live">New Event</span><h4>
 
 					<h5><span class="contact_type_live"></span></h5>
 
@@ -47,9 +47,9 @@
 
 			<div class="new_event_data">
 
-				<p><label>What:</label><input type="text" name="task"></p>
+				<p><label>What:</label><input type="text" name="task" class="long"></p>
 
-				<p><label>Where:</label><input type="text" name="where"></p>
+				<p><label>Where:</label><input type="text" name="where" class="long"></p>
 
 				<p><label>Start:</label><input type="text" name="start"></p>
 
@@ -57,9 +57,19 @@
 
 				<p><label>All Day?</label><input type="checkbox" name= "all_day"></p>
 
-				<p><label>Who's Repsonisble?</label><input type="text" name="responsibles"></p>
+				<p><label>Who's Responsible?</label>
 
-				<p><label>Notes:</label><br /><textarea></textarea>
+					<select multiple name="responsibles" class="responsibles">
+
+						<option selected=selected value = "<?php echo $username; ?>">You</option>
+
+						<?php echo users_on_case_select($dbh,$id); ?>
+
+					</select>
+
+				</p>
+
+				<p><label>Notes:</label><textarea></textarea>
 
 
 			</div>

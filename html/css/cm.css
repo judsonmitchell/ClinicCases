@@ -344,8 +344,9 @@ select.contact_phone_type,select.contact_email_type{width:90px;}
 div.event_group img{margin-right:5px;}
 div.event label{display: inline-block;width:50px;}
 div.new_event label{display: inline-block;width:80px;}
-div.new_event textarea{width:200px;}
-
+div.new_event textarea{width:350px;}
+div.new_event input.long{width:350px;}
+div.new_event p * {vertical-align:top;}
 
 
 

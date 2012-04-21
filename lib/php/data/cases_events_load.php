@@ -1,10 +1,12 @@
 <?php
 session_start();
-//require('../auth/session_check.php');
+require('../auth/session_check.php');
 require('../../../db.php');
 require('../utilities/thumbnails.php');
 require('../utilities/names.php');
 require('../utilities/convert_times.php');
+require('../html/gen_select.php');
+
 
 $user = $_SESSION['login'];
 

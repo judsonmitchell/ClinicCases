@@ -67,7 +67,10 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
         stepHours: 1,
         stepMinute: 5,
         hour:9,
-        minute:0
+        minute:0,
+        onSelect: function(dateText,inst){ //set the end datetime to conincide with the start
+            addEventWidget.find('input[name="end"]').datetimepicker('setDate',dateText);
+        }
     });
 
     addEventWidget.find('input[name="end"]').datetimepicker({
@@ -78,7 +81,14 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
         minute:0
     });
 
+    //Add the chosen widgit
+    addEventWidget.find('select[name="responsibles"]').chosen();
+
 });
 
+//Updates the displayed event name when user creates a new event
+$('input[name="task"]').live('keyup', function() {
+    $(this).closest('.new_event').find('span.event_name_live').html($(this).val());
+});
 
 
