@@ -29,7 +29,7 @@
 
 			<div class='csenote_bar'>
 
-				<div class = 'csenote_bar_left new_contact_left'>
+				<div class = 'csenote_bar_left new_event_left'>
 
 					<h4><span class="event_name_live">New Event</span><h4>
 
@@ -37,7 +37,7 @@
 
 				</div>
 
-				<div class = 'csenote_bar_right new_contact_right'>
+				<div class = 'csenote_bar_right new_event_right'>
 
 					<button class='event_action_submit'>Add</button><button class='event_action_cancel'>Cancel</button>
 
@@ -55,7 +55,7 @@
 
 				<p><label>End:</label><input type="text" name = "end"></p>
 
-				<p><label>All Day?</label><input type="checkbox" name= "all_day"></p>
+				<p><label>All Day?</label><input type="checkbox" name= "all_day" value="off"></p>
 
 				<p><label>Who's Responsible?</label>
 
@@ -67,7 +67,9 @@
 
 				</p>
 
-				<p><label>Notes:</label><textarea></textarea>
+				<p><label>Notes:</label><textarea name="notes"></textarea></p>
+
+				<input type="hidden" name="case_id" value="<?php echo $id  ;?>">
 
 
 			</div>

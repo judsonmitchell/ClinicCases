@@ -54,7 +54,8 @@ $('.case_detail_nav #item4').live('click', function() {
 $('.case_detail_panel_tools_right button.new_event').live('click', function() {
 
     //make sure events are scrolled to top
-    $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
+    $(this).closest('.case_detail_panel_tools')
+        .siblings('.case_detail_panel_casenotes').scrollTop(0);
 
     //display the new contact widget
     var addEventWidget = $(this).closest('.case_detail_panel_tools')
@@ -90,7 +91,7 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
         minute:0
     });
 
-    //Add the chosen widgit
+    //Add the chosen widget
     addEventWidget.find('select[name="responsibles"]').chosen();
 
     //User cancels adding new event
@@ -114,6 +115,66 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
             .find('.event').css({'opacity': '1'});
         //hide the widget
         $(this).closest('.new_event').hide();
+
+    });
+
+    //User adds new event
+    $(this).closest('.case_detail_panel_tools').siblings()
+        .find('button.event_action_submit')
+        .click(function(event) {
+
+        event.preventDefault();
+
+        //Do validation
+        var eventForm = $(this).closest('form');
+        var eventVals = eventForm.serializeArray();
+        var resps = eventForm.find('select[name="responsibles"]').val();
+        var resps_obj = $.extend({},resps); //convert array to object, thank you, sir: http://stackoverflow.com/a/8547509/49359
+        eventVals.unshift(resps_obj); //put this object at the beginning
+
+        //get errors, if any
+        var errString = validEvent(eventVals);
+
+        //notify user or errors or submit form
+        if (errString.length)
+        {
+            notify(errString, true);
+        }
+        else
+        {
+            //submit the form
+            var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+            var target = $(this).closest('.case_detail_panel_casenotes');
+
+            $.post('lib/php/data/cases_events_process.php', {
+                'first_name': contactForm.find('input[name = "first_name"]').val(),
+                'last_name': contactForm.find('input[name = "last_name"]').val(),
+                'organization': contactForm.find('input[name = "organization"]').val(),
+                'contact_type': contactForm.find('select[name = "contact_type"]').val(),
+                'address': contactForm.find('textarea[name = "address"]').val(),
+                'city': contactForm.find('input[name = "city"]').val(),
+                'state': contactForm.find('select[name = "state"]').val(),
+                'zip': contactForm.find('input[name = "zip"]').val(),
+                'phone': phoneJson,
+                'email': emailJson,
+                'url': contactForm.find('input[name = "url"]').val(),
+                'notes': contactForm.find('textarea[name = "notes"]').val(),
+                'action': 'add',
+                'case_id': caseId
+        }, function(data) {
+
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.error === true)
+                        {notify(serverResponse.message,true);}
+                else
+                {
+                    notify(serverResponse.message);
+                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                }
+
+        });
+    }
 
     });
 
