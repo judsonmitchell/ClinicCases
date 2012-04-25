@@ -148,33 +148,28 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
             var target = $(this).closest('.case_detail_panel_casenotes');
 
             $.post('lib/php/data/cases_events_process.php', {
-                'first_name': contactForm.find('input[name = "first_name"]').val(),
-                'last_name': contactForm.find('input[name = "last_name"]').val(),
-                'organization': contactForm.find('input[name = "organization"]').val(),
-                'contact_type': contactForm.find('select[name = "contact_type"]').val(),
-                'address': contactForm.find('textarea[name = "address"]').val(),
-                'city': contactForm.find('input[name = "city"]').val(),
-                'state': contactForm.find('select[name = "state"]').val(),
-                'zip': contactForm.find('input[name = "zip"]').val(),
-                'phone': phoneJson,
-                'email': emailJson,
-                'url': contactForm.find('input[name = "url"]').val(),
-                'notes': contactForm.find('textarea[name = "notes"]').val(),
+                'task': eventForm.find('input[name = "task"]').val(),
+                'where': eventForm.find('input[name = "where"]').val(),
+                'start': eventForm.find('input[name = "start"]').val(),
+                'end': eventForm.find('input[name = "end"]').val(),
+                'all_day': eventForm.find('input[name = "all_day"]').val(),
+                'notes': eventForm.find('textarea[name = "notes"]').val(),
+                'responsibles': resps,
                 'action': 'add',
                 'case_id': caseId
-        }, function(data) {
+                }, function(data) {
 
-            var serverResponse = $.parseJSON(data);
-            if (serverResponse.error === true)
-                        {notify(serverResponse.message,true);}
-                else
-                {
-                    notify(serverResponse.message);
-                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
-                }
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                                {notify(serverResponse.message,true);}
+                        else
+                        {
+                            notify(serverResponse.message);
+                            target.load('lib/php/data/cases_events_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                        }
 
-        });
-    }
+                });
+        }
 
     });
 

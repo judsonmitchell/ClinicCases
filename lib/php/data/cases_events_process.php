@@ -38,21 +38,31 @@ if (isset($_POST['case_id']))
 	{$case_id = $_POST['case_id'];}
 
 if (isset($_POST['all_day']))
-	{$all_day = '1';}
-	else
-		{$all_day = '0';}
+	{
+		if ($_POST['all_day'] == 'on')
+			{
+				$all_day = '1';
+			}
+			else
+			{
+				$all_day ='0';
+			}
+	}
+
 
 switch ($action) {
 
 	case 'add':  //add to cm_events table
 
-		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `date_set`, `start`, `end`, `all_day`, `status`, `notes`, `where`, `prof`, `archived`, `time_added`) VALUES (NULL, :case_id, :user, :task, '0000-00-00', :start, :end, '', :all_day, :notes, :where, '', 'n', NOW());");
+		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`, `end`, `all_day`, `status`, `notes`, `where`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :end, :all_day, :status, :notes, :where_val, NOW());");
 
-		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_c, 'end' => $end_c, 'all_day' => $all_day, 'notes' => $notes, 'where' => $where);
+		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_c, 'end' => $end_c, 'all_day' => $all_day, 'notes' => $notes, 'where_val' => $where, status => 'pending');
 
 		$add_event->execute($data);
 
-		$last_id = $add_Event->lastInsertId();
+		$last_id = $dbh->lastInsertId();
+
+		$error = $add_event->errorInfo();
 
 		//add responsible parties to cm_responsibles
 
@@ -60,7 +70,53 @@ switch ($action) {
 
 			$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :last_id,:resp)");
 
-			$data = array('resp' => $responsible['']);
+			$data = array('last_id' => $last_id,'resp' => $responsible);
+
+			$add_resp->execute($data);
 		}
 
+		break;
+
+	case 'edit':
+
+		//insert code
+
+		break;
+
+	case 'delete':
+
+		//insert code
+
+		break;
 };
+
+if($error[1])
+
+		{
+			print_r($error);die;
+			$return = array('message' => 'Sorry, there was an error. Please try again.','error' => true);
+			echo json_encode($return);
+		}
+
+		else
+		{
+
+			switch($action){
+			case "add":
+			$return = array('message'=>'Event Added');
+			echo json_encode($return);
+			break;
+
+			case "edit":
+			$return = array('message'=>'Event Edited','id' => $id);
+			echo json_encode($return);
+			break;
+
+			case "delete":
+			$return = array('message'=>'Event Deleted');
+			echo json_encode($return);
+			break;
+
+			}
+
+		}
