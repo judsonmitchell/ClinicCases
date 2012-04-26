@@ -12,6 +12,9 @@ $user = $_SESSION['login'];
 
 $id = $_POST['case_id'];
 
+if (isset($_POST['q']))
+	{$q = $_POST['q'];}
+
 
 function get_responsibles($dbh,$event_id) //get names of all users on event
 {
@@ -53,11 +56,27 @@ function generate_thumbs($responsibles) //create thumbnail row for assigned user
 	return $thumb_row;
 }
 
-//Get all events for this case
-$get_events = $dbh->prepare("SELECT * from cm_events
-	WHERE case_id = :id ORDER BY start DESC");
 
-$data = array('id' => $id);
+if (isset($q))  //searching events
+
+	{
+		$sql = "SELECT * from cm_events WHERE case_id = :id and (task LIKE :q OR location LIKE :q OR notes LIKE :q)";
+
+		$search_term = '%' . $q . '%';
+	}
+
+	else //listing all events on a case
+
+		{$sql = "SELECT * from cm_events WHERE case_id = :id ORDER BY start DESC";}
+
+//Load events
+$get_events = $dbh->prepare($sql);
+
+if (isset($q))  //searching events
+	{$data = array('id' => $id, 'q' => $search_term);}
+	else
+	{$data = array('id' => $id);
+}
 
 $get_events->execute($data);
 

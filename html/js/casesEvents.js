@@ -180,6 +180,70 @@ $('input[name="task"]').live('keyup', function() {
     $(this).closest('.new_event').find('span.event_name_live').html($(this).val());
 });
 
+//handle search
+$('input.events_search').live('focusin', function() {
+
+    $(this).val('');
+    $(this).css({'color': 'black'});
+    $(this).next('.casenotes_search_clear').show();
+});
+
+$('input.events_search').live('keyup', function() {
+
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+
+    var search = $(this).val();
+
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    //resultTarget.unbind('scroll');
+
+    resultTarget.load('lib/php/data/cases_events_load.php div.case_detail_panel_casenotes', {'case_id': caseId,'q': search}, function() {
+
+        resultTarget.scrollTop(0);
+
+        if (resultTarget.hasClass('csenote_shadow'))
+        {
+            resultTarget.removeClass('csenote_shadow');
+        }
+
+        $('div.event').addClass('ui-corner-all');
+
+        resultTarget.bind('scroll.search', function() {
+            if ($(this).scrollTop() > 0)
+            {
+                $(this).addClass('csenote_shadow');
+            }
+            else
+            {
+                $(this).removeClass('csenote_shadow');
+            }
+        });
+
+    });
+
+});
+
+$('.casenotes_search_clear').live('click', function() {
+
+    $(this).prev().val('Search Events');
+
+    $(this).prev().css({'color': '#AAA'});
+
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    resultTarget.load('lib/php/data/cases_events_load.php div.case_detail_panel_casenotes', {'case_id': caseId}, function() {
+
+        resultTarget.scrollTop(0);
+
+        $('div.event').addClass('ui-corner-all');
+
+    });
+
+    $(this).hide();
+});
 
 //Delete Event
 $('a.event_delete').live('click', function(event) {

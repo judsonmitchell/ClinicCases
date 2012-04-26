@@ -107,7 +107,7 @@
 
 		<p><label>End:</label><?php if (!empty($end)){echo extract_date_time($end);} ?></p>
 
-		<p><label>Where</label><?php echo $where; ?></p>
+		<p><label>Where</label><?php echo $location; ?></p>
 
 		<p><label>Notes:</label><?php echo $notes; ?></p>
 
