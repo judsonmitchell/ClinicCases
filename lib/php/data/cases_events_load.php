@@ -60,7 +60,7 @@ function generate_thumbs($responsibles) //create thumbnail row for assigned user
 if (isset($q))  //searching events
 
 	{
-		$sql = "SELECT * from cm_events WHERE case_id = :id and (task LIKE :q OR location LIKE :q OR notes LIKE :q)";
+		$sql = "SELECT * from cm_events WHERE case_id = :id and (task LIKE :q OR location LIKE :q OR notes LIKE :q OR start_text LIKE :q OR end_text LIKE :q)";
 
 		$search_term = '%' . $q . '%';
 	}

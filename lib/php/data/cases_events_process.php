@@ -18,14 +18,16 @@ if (isset($_POST['where']))
 
 if (isset($_POST['start']))
 	{
-		$start = strtotime($_POST['start']);
-	 	$start_c = date('Y-m-d H:i:s', $start);
+		$start = $_POST['start'];
+		$start_unix = strtotime($_POST['start']);
+	 	$start_mysql = date('Y-m-d H:i:s', $start_unix);
 	}
 
 if (isset($_POST['end']))
 	{
-		$end = strtotime($_POST['end']);
-		$end_c = date('Y-m-d H:i:s',$end);
+		$end = $_POST['end'];
+		$end_unix = strtotime($_POST['end']);
+		$end_mysql = date('Y-m-d H:i:s',$end_unix);
 	}
 
 if (isset($_POST['responsibles']))
@@ -57,9 +59,9 @@ switch ($action) {
 
 	case 'add':  //add to cm_events table
 
-		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`, `end`, `all_day`, `status`, `notes`, `location`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :end, :all_day, :status, :notes, :where_val, NOW());");
+		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`,`start_text`, `end`,`end_text`, `all_day`, `status`, `notes`, `location`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :end, :all_day, :status, :notes, :where_val, NOW());");
 
-		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_c, 'end' => $end_c, 'all_day' => $all_day, 'notes' => $notes, 'location' => $where, 'status' => 'pending');
+		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_mysql, 'start_text' => $start, 'end' => $end_mysql, 'end_text' => $end_mysql, 'all_day' => $all_day, 'notes' => $notes, 'location' => $where, 'status' => 'pending');
 
 		$add_event->execute($data);
 

@@ -356,7 +356,9 @@ $query = $dbh->prepare("ALTER TABLE `cm_events` DROP `temp_id`;ALTER TABLE  `cm_
 $query->execute();
 
 $query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `end` DATETIME NULL AFTER  `start` ,
-ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`;ALTER TABLE  `cm_events` ADD  `location` TEXT NOT NULL AFTER  `notes`
+ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`;ALTER TABLE  `cm_events` ADD  `location` TEXT NOT NULL AFTER  `notes`;
+ALTER TABLE  `cm_events` ADD  `start_text` VARCHAR( 200 ) NOT NULL AFTER  `start` ,
+ADD  `end_text` VARCHAR( 200 ) NOT NULL AFTER  `start_text`;
 ");
 
 $query->execute();
@@ -368,6 +370,32 @@ echo "Converting old events<br />";
 $query = $dbh->prepare("UPDATE cm_events SET all_day = '1'");
 
 $query->execute();
+
+Add text start date, makes old dates searchable by keyword
+
+extracts date and time from a mysql timestamp
+function extract_date_time($val)
+{
+	$date = date_create($val);
+	return date_format($date,'F j, Y g:i a');
+}
+
+$query = $dbh->prepare("SELECT id, start FROM cm_events");
+
+$query->execute();
+
+$events = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($events as $event) {
+
+	$date_text = extract_date_time($event['start']);
+
+	$update = $dbh->prepare("UPDATE cm_events SET start_text = :date_text WHERE id = :id");
+
+	$data = array('id' =>  $event['id'], 'date_text' => $date_text );
+
+	$update->execute($data);
+}
 
 echo "Done converting old events<br />";
 

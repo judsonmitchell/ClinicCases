@@ -235,6 +235,7 @@ ALTER TABLE  `cm_events` ADD  `notes` TEXT NOT NULL AFTER  `status`
 
 ALTER TABLE  `cm_events` ADD  `location` TEXT NOT NULL AFTER  `notes`
 
-
+ALTER TABLE  `cm_events` ADD  `start_text` VARCHAR( 200 ) NOT NULL AFTER  `start` ,
+ADD  `end_text` VARCHAR( 200 ) NOT NULL AFTER  `start_text`
 
 //End
