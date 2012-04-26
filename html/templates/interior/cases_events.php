@@ -105,7 +105,7 @@
 
 		<p><label>Start:</label><?php echo extract_date_time($start);if ($all_day === '1'){echo " (All day)";} ?></p>
 
-		<p><label>End:</label><?php if (!empty($end)){echo extract_date_time($end);} ?></p>
+		<p><label>End:</label><?php if (!empty($end)  && $end != '0000-00-00 00:00:00'){echo extract_date_time($end);} ?></p>
 
 		<p><label>Where</label><?php echo $location; ?></p>
 
