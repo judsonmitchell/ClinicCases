@@ -181,3 +181,39 @@ $('input[name="task"]').live('keyup', function() {
 });
 
 
+//Delete Event
+$('a.event_delete').live('click', function(event) {
+    event.preventDefault();
+
+    var thisEvent = $(this).closest('.event');
+    var thisEventId = thisEvent.attr('data-id');
+    var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Event?">This event will be permanently deleted.  Are you sure?</div>').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/data/cases_events_process.php', {'action': 'delete','event_id': thisEventId}, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                            {notify(serverResponse.message,true);}
+                        else
+                        {
+                            notify(serverResponse.message);
+                            thisEvent.remove();
+                        }
+
+                });
+
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+    });
+
+    $(dialogWin).dialog('open');
+
+});
+

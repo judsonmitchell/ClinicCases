@@ -49,6 +49,9 @@ if (isset($_POST['all_day']))
 			}
 	}
 
+if (isset($_POST['event_id']))
+	{$event_id = $_POST['event_id'];}
+
 
 switch ($action) {
 
@@ -56,7 +59,7 @@ switch ($action) {
 
 		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`, `end`, `all_day`, `status`, `notes`, `where`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :end, :all_day, :status, :notes, :where_val, NOW());");
 
-		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_c, 'end' => $end_c, 'all_day' => $all_day, 'notes' => $notes, 'where_val' => $where, status => 'pending');
+		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_c, 'end' => $end_c, 'all_day' => $all_day, 'notes' => $notes, 'where_val' => $where, 'status' => 'pending');
 
 		$add_event->execute($data);
 
@@ -66,13 +69,16 @@ switch ($action) {
 
 		//add responsible parties to cm_responsibles
 
-		foreach ($responsibles as $responsible) {
+		if (!$error[1])
+		{
+			foreach ($responsibles as $responsible) {
 
-			$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :last_id,:resp)");
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :last_id,:resp)");
 
-			$data = array('last_id' => $last_id,'resp' => $responsible);
+				$data = array('last_id' => $last_id,'resp' => $responsible);
 
-			$add_resp->execute($data);
+				$add_resp->execute($data);
+			}
 		}
 
 		break;
@@ -85,7 +91,26 @@ switch ($action) {
 
 	case 'delete':
 
-		//insert code
+		$delete_event = $dbh->prepare("DELETE FROM cm_events WHERE id = :event_id");
+
+		$data = array('event_id' => $event_id);
+
+		$delete_event->execute($data);
+
+		$error = $delete_event->errorInfo();
+
+		//also remove all event assignments
+
+		if (!$error[1])
+		{
+			$delete_assign = $dbh->prepare("DELETE FROM cm_events_responsibles WHERE event_id = :event_id");
+
+			$data = array('event_id' => $event_id);
+
+			$delete_assign->execute($data);
+
+			$error = $delete_event->errorInfo();
+		}
 
 		break;
 };
@@ -93,7 +118,6 @@ switch ($action) {
 if($error[1])
 
 		{
-			print_r($error);die;
 			$return = array('message' => 'Sorry, there was an error. Please try again.','error' => true);
 			echo json_encode($return);
 		}
