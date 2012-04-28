@@ -401,7 +401,7 @@ echo "Done converting old events<br />";
 
 
 
-echo "Upgrade successful";
+// echo "Upgrade successful";
 
 
 

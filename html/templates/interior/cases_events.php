@@ -14,7 +14,7 @@
 
 		?>
 
-		<button class = "event_print">Print</button>
+		<button class = "events_print">Print</button>
 
 
 	</div>
@@ -88,7 +88,9 @@
 
 			<div class = "csenote_bar_left event_group">
 
-				<?php  echo generate_thumbs($resps);echo $task; ?>
+				<?php  echo generate_thumbs($resps);?>
+
+				<span class = "event_task_title"><?php echo $task; ?></span>
 
 			</div>
 
@@ -103,13 +105,22 @@
 
 		</div>
 
-		<p><label>Start:</label><?php echo extract_date_time($start);if ($all_day === '1'){echo " (All day)";} ?></p>
+		<p><label>Start:</label>
+			<span class = "event_start"><?php echo extract_date_time($start);?></span>
+			<?php if ($all_day === '1'){echo " <span class='event_all_day'>(All day)</span>";} ?>
+		</p>
 
-		<p><label>End:</label><?php if (!empty($end)  && $end != '0000-00-00 00:00:00'){echo extract_date_time($end);} ?></p>
+		<p><label>End:</label>
+			<span class = "event_end"><?php if (!empty($end)  && $end != '0000-00-00 00:00:00'){echo extract_date_time($end);} ?></span>
+		</p>
 
-		<p><label>Where</label><?php echo $location; ?></p>
+		<p><label>Where</label>
+			<span class = "event_location"><?php echo $location; ?></span>
+		</p>
 
-		<p><label>Notes:</label><?php echo $notes; ?></p>
+		<p><label>Notes:</label>
+			<span class = "event_notes"><?php echo $notes; ?></span>
+		</p>
 
 
 	</div>

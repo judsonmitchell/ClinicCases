@@ -38,7 +38,7 @@ function get_responsibles($dbh,$event_id) //get names of all users on event
 		$thumb = return_thumbnail($dbh,$user['username']);
 
 		$responsibles[] = array('user_id' => $user_id,'last_name' => $lastname,
-			'full_name' => $fullname, 'thumb' => $thumb);
+			'full_name' => $fullname, 'thumb' => $thumb,'username' => $user['username']);
 	}
 
 	return $responsibles;
@@ -50,7 +50,7 @@ function generate_thumbs($responsibles) //create thumbnail row for assigned user
 
 	foreach ($responsibles as $resp) {;
 
-		$thumb_row .= "<img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'>";
+		$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] . "'><img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
 	}
 
 	return $thumb_row;

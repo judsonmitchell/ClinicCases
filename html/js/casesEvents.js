@@ -281,3 +281,96 @@ $('a.event_delete').live('click', function(event) {
 
 });
 
+//Print displayed events
+$('.case_detail_panel_tools_right button.events_print').live('click', function() {
+    alert('Working on it');
+//TODO printing
+
+});
+
+//edit event
+
+$('a.event_edit').live('click', function(event) {
+
+    event.preventDefault();
+
+    //test to see if there is another contact being edited.  If so , return false
+    if ($(this).closest('.case_detail_panel_casenotes').find('.event_edit_submit').length)
+    {
+        notify('Only one event can be edited at a time', true);
+        return false;
+    }
+
+    //define event to be edited
+    var thisEvent = $(this).closest('.event');
+    var eventId = thisEvent.attr('data-id');
+
+    //get form values
+    var taskVal = thisEvent.find('span.event_task_title').html();
+    var startVal = thisEvent.find('span.event_start').html();
+    var endVal = thisEvent.find('span.event_end').html();
+    var locationVal = thisEvent.find('span.event_location').html();
+    var notesVal = thisEvent.find('span.event_notes').html();
+    if (thisEvent.find('span.event_all_day').length)
+        {allDayVal = 'on';}
+    var usersArray = [];
+    thisEvent.find('span.user_identifier').each(function(){
+        usersArray.push($(this).attr('data'));
+        console.log($(this).attr('data'));
+    });
+
+    //define the dummy version of the event used for editing
+    var editEvent = $(this).closest('div.event').siblings('div.new_event').clone().addClass('event_edit');
+    thisEvent.after(editEvent);
+
+    //get position of contact so that it will displayed correctly after edit
+    var editEventPosition = thisEvent.offset().top;
+
+    editEvent.find('span.event_name_live').html(taskVal);
+    editEvent.find('input[name="task"]').val(taskVal);
+    editEvent.find('input[name="where"]').val(locationVal);
+    editEvent.find('input[name="end"]').val(endVal);
+    editEvent.find('textarea[name="notes"]').val(notesVal);
+    editEvent.find('select[name="responsibles"]').val(usersArray);
+
+
+    //Add datetimepickers to event to be edited
+    var editDateTimeStart = editEvent.find('input[name="start"]').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5
+    });
+    editDateTimeStart.datetimepicker('setDate',(new Date(startVal)));
+
+    var editDateTimeEnd = editEvent.find('input[name="end"]').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5
+    });
+    editDateTimeEnd.datetimepicker('setDate',(new Date(endVal)) );
+
+    //Put Chosen on select
+    editEvent.find('select[name="responsibles"]').chosen();
+    //for some reason, Chosen needs to know the widths
+    editEvent.find('div.chzn-container, div.chzn-drop').css({'width':'150px'});
+
+    //set css
+    editEvent.find('.csenote_bar').css({'background-color': '#FEBBBB'});
+    editEvent.find('button.event_action_submit').html('Done').addClass('event_edit_submit').removeClass('event_action_submit');
+    editEvent.find('button.event_action_cancel').addClass('event_edit_cancel').removeClass('event_action_cancel');
+
+    editEvent.show();
+    thisEvent.hide();
+
+    //user cancels editing contact
+    editEvent.find('button.event_edit_cancel').click(function(event) {
+        event.preventDefault();
+        editEvent.hide().remove();
+        thisEvent.show();
+    });
+
+
+
+
+
+});
