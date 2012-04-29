@@ -340,6 +340,7 @@ div.new_contact textarea {width:285px;margin-left:0px;}
 div.new_contact textarea.contact_notes{height:100px;}
 span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}
 select.contact_phone_type,select.contact_email_type{width:90px;}
+input.contacts_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
 div.event_group img{margin-right:5px;}
 div.event label{display: inline-block;width:50px;}

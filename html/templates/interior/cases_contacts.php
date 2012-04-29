@@ -10,7 +10,7 @@
 
 		<input type="text" class="contacts_search" value="Search Contacts">
 
-		<input type="button" class="casenotes_search_clear">
+		<input type="button" class="contacts_search_clear">
 
 
 <?php

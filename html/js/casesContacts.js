@@ -294,7 +294,7 @@ $('input.contacts_search').live('focusin', function() {
 
     $(this).val('');
     $(this).css({'color': 'black'});
-    $(this).next('.casenotes_search_clear').show();
+    $(this).next('.contacts_search_clear').show();
 });
 
 $('input.contacts_search').live('keyup', function() {
@@ -335,7 +335,7 @@ $('input.contacts_search').live('keyup', function() {
 
 });
 
-$('.casenotes_search_clear').live('click', function() {
+$('.contacts_search_clear').live('click', function() {
 
     $(this).prev().val('Search Contacts');
 

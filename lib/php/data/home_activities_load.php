@@ -36,6 +36,7 @@ $mysqldate = date( 'Y-m-d H:i:s', $phpdate );
 // 6. Events added
 // 7. Being assigned to a case
 // 8. Board post
+// 9. Being assigned to an event
 
 	// Info to be abstracted:
 	// 1. User who did the action
