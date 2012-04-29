@@ -6,7 +6,7 @@
 
 		<input type="text" class="events_search" value="Search Events">
 
-		<input type="button" class="casenotes_search_clear">
+		<input type="button" class="events_search_clear">
 
 		<?php
 			if ($_SESSION['permissions']['add_events'] == '1')
@@ -86,15 +86,15 @@
 
 		<div class = "csenote_bar">
 
-			<div class = "csenote_bar_left event_group">
+			<div class = "csenote_bar_left event_group event_bar_left">
 
 				<?php  echo generate_thumbs($resps);?>
 
-				<span class = "event_task_title"><?php echo $task; ?></span>
+				<span class = "event_task_title"><?php echo htmlentities($task); ?></span>
 
 			</div>
 
-			<div class = "csenote_bar_right">
+			<div class = "csenote_bar_right event_bar_right">
 				<?php if ($_SESSION['permissions']['edit_events'] === '1')
 					{echo "<a href='#'' class='event_edit'>Edit</a>"; }
 
@@ -115,11 +115,11 @@
 		</p>
 
 		<p><label>Where</label>
-			<span class = "event_location"><?php echo $location; ?></span>
+			<span class = "event_location"><?php echo htmlentities($location); ?></span>
 		</p>
 
 		<p><label>Notes:</label>
-			<span class = "event_notes"><?php echo $notes; ?></span>
+			<span class = "event_notes"><?php echo htmlentities($notes); ?></span>
 		</p>
 
 

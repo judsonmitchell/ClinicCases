@@ -347,8 +347,9 @@ div.new_event label{display: inline-block;width:80px;}
 div.new_event textarea{width:350px;}
 div.new_event input.long{width:350px;}
 div.new_event p * {vertical-align:top;}
-
-
+div.event_bar_right{width:24%;}
+div.event_bar_left{width:75%;}
+input.events_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
 ::-webkit-scrollbar {
     width: 12px;

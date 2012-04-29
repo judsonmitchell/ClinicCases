@@ -30,9 +30,6 @@ $('.case_detail_nav #item4').live('click', function() {
         //Round Corners
         $('div.csenote').addClass('ui-corner-all');
 
-        //Size
-        //sizeContacts($(this).find('.contact'), thisPanel);
-
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
@@ -185,7 +182,7 @@ $('input.events_search').live('focusin', function() {
 
     $(this).val('');
     $(this).css({'color': 'black'});
-    $(this).next('.casenotes_search_clear').show();
+    $(this).next('.events_search_clear').show();
 });
 
 $('input.events_search').live('keyup', function() {
@@ -224,7 +221,7 @@ $('input.events_search').live('keyup', function() {
 
 });
 
-$('.casenotes_search_clear').live('click', function() {
+$('.events_search_clear').live('click', function() {
 
     $(this).prev().val('Search Events');
 
@@ -316,7 +313,6 @@ $('a.event_edit').live('click', function(event) {
     var usersArray = [];
     thisEvent.find('span.user_identifier').each(function(){
         usersArray.push($(this).attr('data'));
-        console.log($(this).attr('data'));
     });
 
     //define the dummy version of the event used for editing
@@ -369,8 +365,61 @@ $('a.event_edit').live('click', function(event) {
         thisEvent.show();
     });
 
+    //user submits edits
+    editEvent.find('button.event_edit_submit').click(function(event) {
+        event.preventDefault();
 
+        //Do validation
+        var eventForm = $(this).closest('form');
+        var eventVals = eventForm.serializeArray();
+        var resps = editEvent.find('select[name="responsibles"]').val();
+        var resps_obj = $.extend({},resps);
+        eventVals.unshift(resps_obj);
 
+        //get errors, if any
+        var errString = validEvent(eventVals);
 
+        //notify user or errors or submit form
+        if (errString.length)
+        {
+            notify(errString, true);
+        }
+        else
+        {
+            var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+            var target = $(this).closest('.case_detail_panel_casenotes');
+
+            $.post('lib/php/data/cases_events_process.php', {
+                'task': eventForm.find('input[name = "task"]').val(),
+                'where': eventForm.find('input[name = "where"]').val(),
+                'start': eventForm.find('input[name = "start"]').val(),
+                'end': eventForm.find('input[name = "end"]').val(),
+                'all_day': eventForm.find('input[name = "all_day"]').val(),
+                'notes': eventForm.find('textarea[name = "notes"]').val(),
+                'responsibles':resps,
+                'action': 'edit',
+                'case_id': caseId,
+                'event_id' : eventId
+            }, function(data) {
+
+                var serverResponse = $.parseJSON(data);
+                if (serverResponse.error === true)
+                    {notify(serverResponse.message,true);}
+                        else
+                        {
+                            notify(serverResponse.message);
+                            target.load('lib/php/data/cases_events_load.php div.case_detail_panel_casenotes', {'case_id': caseId},function(){
+                            //Scroll to original position of edited conact
+                            editedEvent = target.find('div.contact[data-id = "' + eventId + '"]');
+                            target.scrollTop(editEventPosition);
+
+                            });
+                        }
+
+                });
+
+        }
+    });
 
 });

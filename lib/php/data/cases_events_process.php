@@ -59,9 +59,9 @@ switch ($action) {
 
 	case 'add':  //add to cm_events table
 
-		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`,`start_text`, `end`,`end_text`, `all_day`, `status`, `notes`, `location`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :end, :all_day, :status, :notes, :where_val, NOW());");
+		$add_event = $dbh->prepare("INSERT INTO cm_events (`id`, `case_id`, `set_by`, `task`, `start`,`start_text`, `end`,`end_text`, `all_day`, `status`, `notes`, `location`,`time_added`) VALUES (NULL, :case_id, :user, :task, :start, :start_text, :end, :end_text, :all_day, :status, :notes, :location, NOW());");
 
-		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_mysql, 'start_text' => $start, 'end' => $end_mysql, 'end_text' => $end_mysql, 'all_day' => $all_day, 'notes' => $notes, 'location' => $where, 'status' => 'pending');
+		$data = array('case_id' => $case_id, 'user' => $user, 'task' => $task, 'start' => $start_mysql, 'start_text' => $start, 'end' => $end_mysql, 'end_text' => $end, 'all_day' => $all_day, 'notes' => $notes, 'location' => $where, 'status' => 'pending');
 
 		$add_event->execute($data);
 
@@ -87,7 +87,31 @@ switch ($action) {
 
 	case 'edit':
 
-		//insert code
+		$edit_event = $dbh->prepare("UPDATE cm_events SET task = :task, set_by = :user, start = :start, start_text = :start_text, end = :end, end_text = :end_text, all_day = :all_day, location = :location, notes = :notes WHERE id = :event_id");
+
+		$data = array('task' => $task, 'user' => $user, 'start' => $start_mysql, 'start_text' => $start, 'end' => $end_mysql,'end_text' => $end, 'all_day' => $all_day, 'location' => $where, 'notes' => $notes, 'event_id' => $event_id);
+
+		$edit_event->execute($data);
+
+		$error = $edit_event->errorInfo();
+
+		if (!$error[1])
+		{
+			$delete_old = $dbh->prepare("DELETE FROM cm_events_responsibles WHERE event_id = :event_id");
+
+			$data = array('event_id' => $event_id);
+
+			$delete_old->execute($data); //remove previously assigned users
+
+			foreach ($responsibles as $responsible) { //add new ones
+
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :event_id,:resp)");
+
+				$data = array('event_id' => $event_id,'resp' => $responsible);
+
+				$add_resp->execute($data);
+			}
+		}
 
 		break;
 
@@ -134,7 +158,7 @@ if($error[1])
 			break;
 
 			case "edit":
-			$return = array('message'=>'Event Edited','id' => $id);
+			$return = array('message'=>'Event Edited');
 			echo json_encode($return);
 			break;
 
