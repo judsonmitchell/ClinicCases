@@ -75,7 +75,7 @@ switch ($action) {
 		{
 			foreach ($responsibles as $responsible) {
 
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :last_id,:resp)");
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
 
 				$data = array('last_id' => $last_id,'resp' => $responsible);
 
@@ -105,7 +105,7 @@ switch ($action) {
 
 			foreach ($responsibles as $responsible) { //add new ones
 
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username) VALUES (NULL, :event_id,:resp)");
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :event_id,:resp,NOW())");
 
 				$data = array('event_id' => $event_id,'resp' => $responsible);
 

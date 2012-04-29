@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../auth/session_check.php');
+//require('../auth/session_check.php');
 require('../../../db.php');
 include('../utilities/thumbnails.php');
 include('../utilities/names.php');
@@ -285,7 +285,80 @@ foreach ($assignments as $assign) {
 
 }
 
-//TODO  add journals, events, and board post
+//Create Events
+$get_events = $dbh->prepare("SELECT * FROM cm_events WHERE set_by = :username AND time_added >= :mysqldate");
+
+$data = array('username' => $username, 'mysqldate' => $mysqldate);
+
+$get_events->execute($data);
+
+$events = $get_events->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($events as $event) {
+
+	$activity_type = "event_create";
+
+	if ($event['set_by'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$assign['username']);
+	}
+
+	$thumb = return_thumbnail($dbh,$event['set_by']);
+	$action_text = " created an event in ";
+	$casename = case_id_to_casename($dbh,$event['case_id']);
+	$time_done = $event['time_added'];
+	$time_formatted = extract_date_time($event['time_added']);
+	$id = $event['id'];
+	$what = $event['task'];
+	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'];
+
+	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+		'time_formatted' => $time_formatted);
+
+	$activities[] = $item;
+
+}
+
+//Assigned to Events
+$get_event_assign = $dbh->prepare("SELECT * FROM cm_events,cm_events_responsibles WHERE cm_events.id = cm_events_responsibles.event_id AND cm_events_responsibles.username = :username AND cm_events_responsibles.time_added >= :mysqldate");
+
+$data = array('username' => $username, 'mysqldate' => $mysqldate);
+
+$get_event_assign->execute($data);
+
+$ev_assigns = $get_event_assign->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($ev_assigns as $e) {
+
+	$activity_type = "event_assign";
+
+	if ($e['username'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$e['username']);
+	}
+
+	$thumb = return_thumbnail($dbh,$e['username']);
+	$action_text = " were assigned to an event in ";
+	$casename = case_id_to_casename($dbh,$e['case_id']);
+	$time_done = $e['time_added'];
+	$time_formatted = extract_date_time($e['time_added']);
+	$id = $e['id'];
+	$what = $e['task'];
+	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'];
+
+	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+		'time_formatted' => $time_formatted);
+
+	$activities[] = $item;
+}
+
+//TODO  add journals, board post
 
 if (!empty($activities)) {
 	sortBySubkey($activities,'time_done');
