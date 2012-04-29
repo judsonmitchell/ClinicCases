@@ -359,6 +359,12 @@ $query = $dbh->prepare("ALTER TABLE  `cm_events` ADD  `end` DATETIME NULL AFTER 
 ADD  `all_day` BOOLEAN NOT NULL AFTER  `end`;ALTER TABLE  `cm_events` ADD  `location` TEXT NOT NULL AFTER  `notes`;
 ALTER TABLE  `cm_events` ADD  `start_text` VARCHAR( 200 ) NOT NULL AFTER  `start` ,
 ADD  `end_text` VARCHAR( 200 ) NOT NULL AFTER  `start_text`;
+
+ALTER TABLE  `cm_events_responsibles` ADD  `time_added` DATETIME NOT NULL;
+
+ALTER TABLE  `cm_events_responsibles` DROP  `first_name` ,
+DROP  `last_name` ;
+
 ");
 
 $query->execute();
