@@ -93,7 +93,7 @@ $(document).ready(function(){
 
 					//generate the event detail window
 					$('div#event_detail_window')
-					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.shortTitle +"</h3><div id = 'event_users_display'></div><hr /><p><label>Start: </label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label> " + event.allDay + "</p><p><label>Where: </label>" + event.where + "</p><p><label>Description: </label>" + event.description + "</p>")
+					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.shortTitle +"</h3><div id = 'event_users_display'></div><hr /><p><label>Start: </label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label> " + event.allDay + "</p><p><label>Where: </label>" + event.where + "</p><p><label>Case:</label> <a href='index.php?i=Cases.php#cases/" + event.caseId + "'>" + event.caseName + "</a></p><p><label>Description: </label>" + event.description + "</p>")
 					.dialog("open");
 
 					//insert thumbnails of users who are assigned to event

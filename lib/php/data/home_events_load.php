@@ -79,7 +79,8 @@ foreach ($events as $event)
 	'shortTitle' => $event['task'],'start' => $event['start'],
 	'end' => $event['end'], 'allDay' => $all_day,
 	'description' => $event['notes'],'where' => $event['location'],
-	'backgroundColor' => $bg_color,'caseName' => $case_name,'users' => $resps);
+	'backgroundColor' => $bg_color,'caseId' => $event['case_id'],
+	'caseName' => $case_name,'users' => $resps);
 
 }
 
