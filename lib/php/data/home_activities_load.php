@@ -311,7 +311,7 @@ foreach ($events as $event) {
 	$time_formatted = extract_date_time($event['time_added']);
 	$id = $event['id'];
 	$what = $event['task'];
-	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'];
+	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'] . '/4';
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -348,7 +348,7 @@ foreach ($ev_assigns as $e) {
 	$time_formatted = extract_date_time($e['time_added']);
 	$id = $e['id'];
 	$what = $e['task'];
-	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'];
+	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'] .'/4';
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
