@@ -82,7 +82,6 @@ $(document).ready(function(){
 				},
 				eventSources: ['lib/php/data/home_events_load.php'],
 				eventClick: function(event){
-					console.log(event);
 					if (event.allDay === false)
 						{event.allDay = '';}
 					else
@@ -191,7 +190,7 @@ $(document).ready(function(){
 		event.preventDefault();
 
 		//serialize form values
-		var cseVals = $(this).closest('form#quick_cn').serializeArray();
+		var cseVals = $(this).closest('form[name="quick_cn"]').serializeArray();
 
 		var errString = validQuickCaseNote(cseVals);
 
@@ -220,6 +219,54 @@ $(document).ready(function(){
 					if($('input#activity_button').next().hasClass('ui-state-active'))//We are looking at activities
 						{
 							activitiesLoad(target);
+						}
+					$('a.quick_add_close').trigger('click');
+				}
+			});
+		}
+	});
+
+	//Style event submit button and handle event submit
+	$('button#quick_add_ev_submit').button({icons: {primary: "fff-icon-add"},text: true})
+	.click(function(event){
+		event.preventDefault();
+
+		//serialize form values
+		var evForm = $('form[name="quick_event"]');
+		var evVals = evForm.serializeArray();
+
+		var resps = evForm.find('select[name="responsibles"]').val();
+        var resps_obj = $.extend({},resps);
+        evVals.unshift(resps_obj); //put this object at the beginning
+
+		var errString = validEvent(evVals);
+
+		//notify user or errors or submit form
+		if (errString.length)
+		{
+			$(this).closest('p').siblings('p.error').html(errString);
+
+			return false;
+		}
+		else
+		{
+			$.post('lib/php/data/cases_events_process.php', evVals, function(data) {
+				var serverResponse = $.parseJSON(data);
+				if (serverResponse.error === true)
+				{
+
+					$(this).closest('p').siblings('p.error').html(serverResponse.message);
+
+					return false;
+
+				}
+				else
+				{
+					notify(serverResponse.message);
+					if($('input#upcoming_button').next().hasClass('ui-state-active'))//We are looking at events
+						{
+							$('#calendar').fullCalendar( 'refetchEvents' );
+
 						}
 					$('a.quick_add_close').trigger('click');
 				}

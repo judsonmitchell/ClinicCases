@@ -175,7 +175,7 @@ function generate_active_cases_select($dbh,$user)
 		if (!$case['first_name'] AND !$case['last_name'])
 			{$casename = $case['organization'];}
 		else
-			{$casename = $case['last_name'] . ", " . $case['first_name'];}
+			{$casename = $case['first_name'] . " " . $case['last_name'];}
 
 		//Note: trim for very long case names
 

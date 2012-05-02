@@ -50,6 +50,8 @@ if (isset($_POST['all_day']))
 				$all_day ='0';
 			}
 	}
+	else
+		{$all_day = '0';}
 
 if (isset($_POST['event_id']))
 	{$event_id = $_POST['event_id'];}

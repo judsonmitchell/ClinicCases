@@ -98,7 +98,7 @@
 
 				<div id = "quick_add_body_cn" class="toggle_form">
 
-					<form id="quick_cn">
+					<form name="quick_cn">
 
 						<p class="error"></p>
 
@@ -106,8 +106,8 @@
 
 						<p><label>Case</label>
 
-							<select name="csenote_case_id" id="cn_case" style="width:200px;" >
-
+							<select name="csenote_case_id" id="cn_case" style="width:230px;" >
+							<!-- Note Chosen seems to require the inline style width -->
 								<option value="NC">Non-Case Time</option>
 
 								<?php include('lib/php/html/gen_select.php');
@@ -152,25 +152,25 @@
 
 				<div id = "quick_add_body_event" class="toggle_form">
 
-					<form id="quick_event">
+					<form name = "quick_event">
 
 						<p class="error"></p>
 
-						<p><label>What: </label><input type="text"></p>
+						<p><label>What: </label><input type="text" name="task"></p>
 
-						<p><label>Where: </label><input type="text"></p>
+						<p><label>Where: </label><input type="text" name="where"></p>
 
-						<p><label>Start: </label><input type="text" id="ev_start"></p>
+						<p><label>Start: </label><input type="text" id="ev_start" name="start"></p>
 
-						<p><label>End: </label><input type="text" id="ev_end"></p>
+						<p><label>End: </label><input type="text" id="ev_end" name="end"></p>
 
-						<p><label>All Day? </label><input type="checkbox"></p>
+						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
 
 						<p><label>Case: </label>
 
-							<select id="ev_case" style="width:200px;" data-placeholder="Select a Case">
+							<select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
 
-								<option selected=selected>Non-Case</option>
+								<option selected=selected value="NC">Non-Case</option>
 
 								<?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
 
@@ -180,9 +180,9 @@
 
 						</p>
 
-						<p><label>Who's responsible?</label>
+						<p><label>Who?</label>
 
-							<select multiple id="ev_users" style="width:200px;" data-placeholder="Select Users">
+							<select multiple id="ev_users" style="width:230px;" data-placeholder="Select Users" name="responsibles">
 
 								<option value = "all" selected=selected>All Users</option>
 
@@ -194,7 +194,15 @@
 
 						<p><label>Notes</label>
 
-							<textarea></textarea>
+							<textarea name="notes"></textarea>
+
+						</p>
+
+						<input type="hidden" name="action" value="add">
+
+						<p id = "quick_add_ev">
+
+							<button id="quick_add_ev_submit">Add</button>
 
 						</p>
 
