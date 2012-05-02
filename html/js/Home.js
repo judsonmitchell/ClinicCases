@@ -122,13 +122,13 @@ $(document).ready(function(){
 	//Create modal quick add form dialog.
 
 	//Position dialog to the bottom of the quick add button
-	var x = $("button#quick_add").offset().left - 150;
+	var x = $("button#quick_add").offset().left - 175;
 	var y = $("button#quick_add").offset().top + 40;
 
 	$( "#quick_add_form" ).dialog({
 			autoOpen: false,
-			height: 410,
-			width: 300,
+			height: 500,
+			width: 325,
 			modal: true,
 			position: [x,y]
 		}).siblings('.ui-dialog-titlebar').remove();
@@ -162,10 +162,28 @@ $(document).ready(function(){
 	//Create datepickers
 	$('#cn_date').datepicker();
 	$('#cn_date').datepicker('setDate',new Date());
+	$('#ev_start').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5,
+        hour:9,
+        minute:0,
+        onSelect: function(dateText,inst){ //set the end datetime to conincide with the start
+            $('#ev_end').datetimepicker('setDate',dateText);
+        }
+    });
+	$('#ev_end').datetimepicker({
+        ampm: true,
+        stepHours: 1,
+        stepMinute: 5,
+        hour:10,
+        minute:0});
 
-	//Create combobox for case ids
-	$('select[name = "csenote_case_id"]').combobox();
-	$('input.ui-autocomplete-input').click(function(){$(this).select();});
+	//Add chosen to selects
+	$('select#cn_case').chosen();
+	$('select#ev_case').chosen();
+	$('select#ev_users').chosen();
+
 
 	//Style case note submit button and handle case note submit
 	$('button#quick_add_cn_submit').button({icons: {primary: "fff-icon-add"},text: true})
@@ -173,7 +191,7 @@ $(document).ready(function(){
 		event.preventDefault();
 
 		//serialize form values
-		var cseVals = $(this).closest('form').serializeArray();
+		var cseVals = $(this).closest('form#quick_cn').serializeArray();
 
 		var errString = validQuickCaseNote(cseVals);
 

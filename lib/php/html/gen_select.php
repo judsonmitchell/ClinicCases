@@ -211,3 +211,23 @@ function users_on_case_select($dbh,$case_id)
 
 	return $options;
 }
+
+//Generate a  select of all active users
+
+function all_active_users($dbh)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE status = 'active' ORDER BY last_name ASC");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$options = null;
+
+	foreach ($users as $user) {
+
+		$options .= "<option value = '" . $user['username']  . "'>" . $user['last_name'] . ", " . $user['first_name'] . "</option>";
+	}
+
+	return $options;
+}

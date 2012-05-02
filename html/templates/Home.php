@@ -7,16 +7,18 @@
 
 	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
 
-	<script type="text/javascript" src="lib/javascripts/jqueryui.combobox.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+
 
 
 <!-- Css specific to this page -->
 
 	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
 
-	<link rel="stylesheet" type="text/css" href="lib/javascripts/timepicker/jquery-ui-timepicker-addon.css" />
+	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
+
 
 
 </head>
@@ -96,7 +98,7 @@
 
 				<div id = "quick_add_body_cn" class="toggle_form">
 
-					<form>
+					<form id="quick_cn">
 
 						<p class="error"></p>
 
@@ -104,7 +106,7 @@
 
 						<p><label>Case</label>
 
-							<select name="csenote_case_id" id="cn_case">
+							<select name="csenote_case_id" id="cn_case" style="width:200px;" >
 
 								<option value="NC">Non-Case Time</option>
 
@@ -114,7 +116,6 @@
 
 								echo $options;
 
-								//WHAT ABOUT ADMINS?  THEY SEE ALL?
 							?>
 
 
@@ -129,7 +130,7 @@
 						</p>
 
 						<p>
-							<label>Description</label>
+							<label>Description</label><br />
 
 							<textarea name="csenote_description"></textarea>
 
@@ -151,7 +152,53 @@
 
 				<div id = "quick_add_body_event" class="toggle_form">
 
-					Event here
+					<form id="quick_event">
+
+						<p class="error"></p>
+
+						<p><label>What: </label><input type="text"></p>
+
+						<p><label>Where: </label><input type="text"></p>
+
+						<p><label>Start: </label><input type="text" id="ev_start"></p>
+
+						<p><label>End: </label><input type="text" id="ev_end"></p>
+
+						<p><label>All Day? </label><input type="checkbox"></p>
+
+						<p><label>Case: </label>
+
+							<select id="ev_case" style="width:200px;" data-placeholder="Select a Case">
+
+								<option selected=selected>Non-Case</option>
+
+								<?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
+
+								echo $options;?>
+
+							</select>
+
+						</p>
+
+						<p><label>Who's responsible?</label>
+
+							<select multiple id="ev_users" style="width:200px;" data-placeholder="Select Users">
+
+								<option value = "all" selected=selected>All Users</option>
+
+								<?php echo all_active_users($dbh); ?>
+
+							</select>
+
+						</p>
+
+						<p><label>Notes</label>
+
+							<textarea></textarea>
+
+						</p>
+
+					</form>
 
 				</div>
 
