@@ -180,9 +180,9 @@ div#quick_add_body{margin-top:10px;text-align:left;}
 div#quick_add_body_cn{display: block;text-align:left;}
 div#quick_add_body_event{display: none;}
 p.quick_add_times label, p.quick_add_times select {display:inline-block !important;float:none !important;clear:none !important;}
-div#quick_add_body_cn textarea{width:270px;height:195px;}
-p#quick_add_cn {text-align:center;margin-bottom:0px;}
-input.check{width:20px;}
+div#quick_add_body_cn textarea{width:270px;height:225px;}
+p#quick_add_cn, p#quick_add_ev {text-align:center;margin-bottom:0px;}
+input.check{width:30px !important;}
 div#quick_add_body_event textarea {width:270px;}
 
 div#event_detail_window{position: relative;text-align:left;}
@@ -190,6 +190,7 @@ div#event_detail_window a.event_detail_close {position:absolute;right:5px;top:10
 div#event_detail_window label{font-size:12pt;}
 div#event_users_display{text-align:left;}
 div#event_users_display img {border:0px;margin:5px;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
+a.event_detail_delete {font-size:.8em;color:red !important;}
 
 
 

@@ -92,8 +92,13 @@ $(document).ready(function(){
 
 					//generate the event detail window
 					$('div#event_detail_window')
-					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.shortTitle +"</h3><div id = 'event_users_display'></div><hr /><p><label>Start: </label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label> " + event.allDay + "</p><p><label>Where: </label>" + event.where + "</p><p><label>Case:</label> <a href='index.php?i=Cases.php#cases/" + event.caseId + "'>" + event.caseName + "</a></p><p><label>Description: </label>" + event.description + "</p>")
+					.html("<a class='event_detail_close' href='#'><img src='html/ico/cross.png' border=0 title='Close'></a><h3>" + event.shortTitle +"</h3><div id = 'event_users_display'></div><hr /><p><label>Start: </label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label> " + event.allDay + "</p><p><label>Where: </label>" + event.where + "</p><p><label>Case:</label> <a href='index.php?i=Cases.php#cases/" + event.caseId + "'>" + event.caseName + "</a></p><p id = 'event_detail_desc'><label>Description: </label>" + event.description + "</p>")
 					.dialog("open");
+
+					if (event.canDelete === true)
+					{
+						$('p#event_detail_desc').after('<br /><br /><p><a href = "#" class="event_detail_delete">Delete</a></p>');
+					}
 
 					//insert thumbnails of users who are assigned to event
 					$(event.users).each(function()
@@ -126,7 +131,7 @@ $(document).ready(function(){
 
 	$( "#quick_add_form" ).dialog({
 			autoOpen: false,
-			height: 500,
+			height: 520,
 			width: 325,
 			modal: true,
 			position: [x,y]
@@ -233,12 +238,11 @@ $(document).ready(function(){
 
 		//serialize form values
 		var evForm = $('form[name="quick_event"]');
-		var evVals = evForm.serializeArray();
+		var evVals = evForm.not('select[name="responsibles"]').serializeArray();
 
 		var resps = evForm.find('select[name="responsibles"]').val();
         var resps_obj = $.extend({},resps);
         evVals.unshift(resps_obj); //put this object at the beginning
-
 		var errString = validEvent(evVals);
 
 		//notify user or errors or submit form
@@ -250,7 +254,17 @@ $(document).ready(function(){
 		}
 		else
 		{
-			$.post('lib/php/data/cases_events_process.php', evVals, function(data) {
+			$.post('lib/php/data/cases_events_process.php', {
+                'task': evForm.find('input[name = "task"]').val(),
+                'where': evForm.find('input[name = "where"]').val(),
+                'start': evForm.find('input[name = "start"]').val(),
+                'end': evForm.find('input[name = "end"]').val(),
+                'all_day': evForm.find('input[name = "all_day"]').val(),
+                'notes': evForm.find('textarea[name = "notes"]').val(),
+                'responsibles': resps,
+                'action': 'add',
+                'case_id': evForm.find('select[name = "case_id"]').val()
+                }, function(data) {
 				var serverResponse = $.parseJSON(data);
 				if (serverResponse.error === true)
 				{

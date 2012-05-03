@@ -74,13 +74,18 @@ foreach ($events as $event)
 
 	$title = $event['task'] . ' (' . substr($event_last_names, 0, -2) . ')';
 
+	if ($_SESSION['permissions']['delete_events'] == '1')
+		{$delete = true;}
+	else
+		{$delete = false;}
+
 	//generate the array
 	$events_data[] = array('id' => $event['event_id'],'title' => $title,
 	'shortTitle' => $event['task'],'start' => $event['start'],
 	'end' => $event['end'], 'allDay' => $all_day,
 	'description' => $event['notes'],'where' => $event['location'],
 	'backgroundColor' => $bg_color,'caseId' => $event['case_id'],
-	'caseName' => $case_name,'users' => $resps);
+	'caseName' => $case_name,'users' => $resps,'canDelete' => $delete);
 
 }
 
