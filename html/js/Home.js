@@ -97,15 +97,66 @@ $(document).ready(function(){
 
 					if (event.canDelete === true)
 					{
-						$('p#event_detail_desc').after('<br /><br /><p><a href = "#" class="event_detail_delete">Delete</a></p>');
+						$('p#event_detail_desc').after('<br /><br /><p><a href = "#" class="event_detail_delete" data-id="' + event.id +'">Delete</a></p>');
 					}
 
 					//insert thumbnails of users who are assigned to event
 					$(event.users).each(function()
 						{
-							var userThumb = "<img src='people/tn_"  + this.user_id + ".jpg' title='" + this.full_name + "' alt='" + this.full_name + "'>";
-							$('div#event_users_display').append(userThumb);
+							var thumbImg = null;
+							var userData = this;
+							//check to see if the user has a thumbnail
+							$.ajax({
+								url:'people/tn_' + userData.user_id + '.jpg',
+								type:'HEAD',
+								error: function()
+								{
+									thumbImg = 'people/tn_no_picture.png';
+									userThumb = "<img src='" + thumbImg + "' title='" + userData.full_name + "' alt='" + userData.full_name + "'>";
+									$('div#event_users_display').append(userThumb);
+								},
+								success: function()
+								{
+									thumbImg = 'people/tn_' + userData.user_id + '.jpg';
+									userThumb = "<img src='" + thumbImg + "' title='" + userData.full_name + "' alt='" + userData.full_name + "'>";
+									$('div#event_users_display').append(userThumb);
+								}
+							});
+
 						});
+
+					$('a.event_detail_delete').live('click',function(event){
+						event.preventDefault();
+						var eventId = $(this).attr('data-id');
+						var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Event?">This event will be permanently deleted.  Are you sure?</div>').dialog({
+							autoOpen: false,
+							resizable: false,
+							modal: true,
+							buttons: {
+							"Yes": function() {
+								$.post('lib/php/data/cases_events_process.php', {action: 'delete',event_id: eventId}, function(data) {
+									var serverResponse = $.parseJSON(data);
+									if (serverResponse.error === true)
+									{
+										notify(serverResponse.message, true);
+									}
+									else
+									{
+										thisCseNote.remove();
+										notify(serverResponse.message);
+									}
+								});
+
+								$(this).dialog("destroy");
+							},
+							"No": function() {
+								$(this).dialog("destroy");
+							}
+						}
+					});
+
+					$(dialogWin).dialog('open');
+					});
 				}
 			});
 		});

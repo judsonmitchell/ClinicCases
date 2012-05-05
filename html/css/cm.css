@@ -190,7 +190,7 @@ div#event_detail_window a.event_detail_close {position:absolute;right:5px;top:10
 div#event_detail_window label{font-size:12pt;}
 div#event_users_display{text-align:left;}
 div#event_users_display img {border:0px;margin:5px;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
-a.event_detail_delete {font-size:.8em;color:red !important;}
+a.event_detail_delete {position:absolute;bottom:10px;font-size:.8em;color:red !important;}
 
 
 

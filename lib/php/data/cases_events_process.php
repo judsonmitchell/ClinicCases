@@ -77,11 +77,31 @@ switch ($action) {
 		{
 			foreach ($responsibles as $responsible) {
 
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+				if ($responsible == 'all')
+				{
+					$get_all = $dbh->prepare("SELECT username,status FROM cm_users WHERE status = 'active'");
 
-				$data = array('last_id' => $last_id,'resp' => $responsible);
+					$get_all->execute();
 
-				$add_resp->execute($data);
+					$alls = $get_all->fetchAll(PDO::FETCH_ASSOC);
+
+					foreach ($alls as $all) {
+
+						$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
+						$data = array('last_id' => $last_id,'resp' => $all['username']);
+
+						$add_resp->execute($data);
+					}
+				}
+				else
+				{
+					$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
+					$data = array('last_id' => $last_id,'resp' => $responsible);
+
+					$add_resp->execute($data);
+				}
 			}
 		}
 
