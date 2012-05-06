@@ -66,9 +66,22 @@ foreach ($events as $event)
 	//Add last names of repsonsible parties to each event title
 	$event_last_names = null;
 
+	$n = 0;
+
+	$large_group = false;
+
 	foreach ($resps as $resp) {
 
-		$event_last_names .= $resp['last_name'] . ', ';
+		if ($n > 5)  //Stop loop if more than 5 users
+			{
+				$event_last_names .= 'and others   ';
+				$large_group = true; //notify json that there will be a lot of thumbnails
+				break;
+			}
+		else
+			{$event_last_names .= $resp['last_name'] . ', ';}
+
+		$n++;
 
 	}
 
@@ -85,7 +98,8 @@ foreach ($events as $event)
 	'end' => $event['end'], 'allDay' => $all_day,
 	'description' => $event['notes'],'where' => $event['location'],
 	'backgroundColor' => $bg_color,'caseId' => $event['case_id'],
-	'caseName' => $case_name,'users' => $resps,'canDelete' => $delete);
+	'caseName' => $case_name,'users' => $resps,'canDelete' => $delete,
+	'largeGroup' => $large_group);
 
 }
 

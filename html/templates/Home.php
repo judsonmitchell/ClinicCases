@@ -164,7 +164,7 @@
 
 						<p><label>End: </label><input type="text" id="ev_end" name="end"></p>
 
-						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
+						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day"></p>
 
 						<p><label>Case: </label>
 

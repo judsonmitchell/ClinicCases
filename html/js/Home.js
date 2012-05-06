@@ -100,6 +100,11 @@ $(document).ready(function(){
 						$('p#event_detail_desc').after('<br /><br /><p><a href = "#" class="event_detail_delete" data-id="' + event.id +'">Delete</a></p>');
 					}
 
+					if (event.largeGroup === true) //provide more space for numberous thumbnails
+					{
+						$('div#event_users_display').css({'height':'90px','overflow-y':'scroll'});
+					}
+
 					//insert thumbnails of users who are assigned to event
 					$(event.users).each(function()
 						{
@@ -124,7 +129,7 @@ $(document).ready(function(){
 							});
 
 						});
-
+					//For now, to edit an event, you must go to the case itself and do the editing.  If it is a non-case event, you must delete and redo.  TODO  ability to edit non-case events
 					$('a.event_detail_delete').live('click',function(event){
 						event.preventDefault();
 						var eventId = $(this).attr('data-id');
@@ -142,8 +147,11 @@ $(document).ready(function(){
 									}
 									else
 									{
-										thisCseNote.remove();
 										notify(serverResponse.message);
+
+										$('#calendar').fullCalendar( 'removeEvents' , eventId );
+
+										$('a.event_detail_close').trigger('click');
 									}
 								});
 
