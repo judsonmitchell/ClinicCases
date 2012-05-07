@@ -46,7 +46,7 @@ $(document).ready(function(){
 									window.open(serverResponse.target_url, '_blank');
 									});
 					}
-				else if ($(this).hasClass('ccd')) //Link is a ClinicCases document.  Just direct user to case documents for now
+				else if ($(this).hasClass('ccd')) //Link is a ClinicCases document.  Just direct user to case documents for now TODO
 					{
 						var url = $(this).closest('p').prev('p').find('a').attr('href');
 						window.location.href = url;
