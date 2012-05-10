@@ -2,7 +2,7 @@
 
 	<div class = "msg msg_closed" data-id = "<?php echo $id; ?>">
 
-		<div class = "<?php if (in_string($username,$read)){echo "msg_bar_read";}else{echo "msg_bar_unread";} ?>">
+		<div class = "msg_bar <?php if (in_string($username,$read)){echo "msg_bar_read";}else{echo "msg_bar_unread";} ?>">
 
 			<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
 
