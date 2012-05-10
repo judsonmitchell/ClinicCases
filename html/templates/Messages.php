@@ -31,13 +31,23 @@
 
 				<option value="drafts">Drafts</option>
 
+				<option value="starred">Starred</option>
+
 				<option value="sent">Sent</option>
 
 				<option value="archive">Archive</option>
 
 			</select>
 
-			<button id = "new_msg">New Message</button>
+			<div id = "msg_bar_right">
+
+				<input type="text" class="messages_search" id="msg_search" value= "Search Messages">
+
+				<input type="button" class="msg_search_clear">
+
+				<button id = "new_msg">New Message</button>
+
+			</div>
 
 		</div>
 
