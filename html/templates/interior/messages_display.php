@@ -14,7 +14,11 @@ if (!$replies) //these are not replies to a message
 
 				<?php echo username_to_fullname($dbh,$from); ?>
 
-				<?php echo $subject; ?>
+				<div class = "msg_subject">
+
+					<?php echo $subject; ?>
+
+				</div>
 
 			</div>
 
@@ -27,9 +31,9 @@ if (!$replies) //these are not replies to a message
 					<?php
 
 					if (in_string($username,$starred))
-						{echo "class = 'star_msg star_on'><img src='html/ico/starred.png'>";}
+						{echo "class = 'star_msg star_on'><img src='html/ico/starred.png' title = 'Remove star from message'>";}
 						else
-						{echo "class = 'star_msg star_off'><img src='html/ico/not_starred.png'>";}
+						{echo "class = 'star_msg star_off'><img src='html/ico/not_starred.png' title='Star this message'>";}
 					?>
 
 
@@ -42,8 +46,10 @@ if (!$replies) //these are not replies to a message
 		<div class = "msg_body">
 
 			<p class = "tos">To: <?php echo format_name_list($dbh,$to); ?></p>
-			<p class ="ccs">Cc: <?php echo format_name_list($dbh,$ccs); ?></p>
-			<p><?php echo $body; ?></p>
+
+			<?php if ($ccs){echo "<p class='ccs'>Cc: " . format_name_list($dbh,$ccs) . "</p>";} ?>
+
+			<div class = "msg_body_text"><?php echo $body; ?></div>
 
 			<div class = "msg_replies">
 
@@ -61,9 +67,21 @@ if (!$replies) //these are not replies to a message
 
 	<div class = "msg_reply" data-id = "<?php echo $id; ?>">
 
-			<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
+			<div class = "msg_reply_left">
 
-			<?php echo $body; ?>
+				<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
+
+				<?php echo username_to_fullname($dbh,$from); ?>
+
+			</div>
+
+			<div class = "msg_reply_right">
+
+				<?php echo extract_date_time($time_sent); ?>
+
+			</div>
+
+			<p><?php echo $body; ?></p>
 
 	</div>
 

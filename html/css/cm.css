@@ -360,7 +360,7 @@ div#msg_bar_right{position:absolute;right:15px;top:2px;width:500px;text-align:ri
 input#msg_search{color:#AAA;}
 input.msg_search_clear {width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
-div.msg {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;overflow: hidden;}
+div.msg {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;overflow: hidden;max-width:800px;}
 div.msg p {margin:10px}
 div.msg div.more{position:absolute;bottom:0px;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
@@ -369,15 +369,20 @@ div.msg_opened {height:350px;}
 
 div.msg_bar_unread{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
 div.msg_bar_read{height:41px;background-color:#D1C6C6;border-bottom:1px solid #AAA;padding:7px;opacity:.6;}
-div.msg_bar_left{display:inline-block;width:65%;color:navy}
+div.msg_bar_left{display:inline-block;width:65%;color:black}
 div.msg_bar_right{display:inline-block;width:34%;text-align:right;}
 div.msg_bar_right img {margin-left:15px;}
 div.msg_bar_right a {font-size:1em;color:navy}
-div.msg_replies{margin-left:80px;}
-div.msg_reply{width:450px;margin-bottom:20px;}
+div.msg_body_text{margin-left:10px !important;width:750px;}
+div.msg_replies{margin-left:120px;width:450px;}
+div.msg_reply{width:500px;margin-bottom:20px;border-top:1px solid #AAA;padding-top:10px;}
 textarea.msg_reply_text{margin-left:50px;width:450px;height:125px;display:none;}
-p.tos, p.ccs{height:30px; overflow-y:scroll;}
-
+div.msg_reply_left{display: inline-block;width:50%;}
+div.msg_reply_right{display: inline-block;width:49%;text-align:right;color:#AAA;}
+div.msg_reply p {margin-left:0px !important;}
+p.tos, p.ccs{height:30px;color:#AAA;line-height:30px;}
+p.msg_to_more{text-align:right;margin-top:-10px !important;margin-right:50px !important;}
+div.msg_subject{display:inline-block;margin-left:20px;font-size:1.3em;color:navy;overflow-x:hidden;}
 
 
 ::-webkit-scrollbar {

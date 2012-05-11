@@ -37,11 +37,63 @@ function addMoreMessages(scrollTarget,view) {
             {
                 scrollTarget.append(data);
                 $('div.msg').addClass('ui-corner-all');
+                sizeMessages();
             }
 
         });
 
     }
+}
+
+//Checks if a div is overflowing.  See http://stackoverflow.com/a/143889/49359
+function checkOverflow(target)
+{
+	var el = target[0];
+	var curOverflow = el.style.overflow;
+	if ( !curOverflow || curOverflow === "visible" )
+      el.style.overflow = "hidden";
+
+	var isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+
+	el.style.overflow = curOverflow;
+
+	return isOverflowing;
+}
+
+function sizeMessages()
+{
+	//Check to see if the list of recipients is overflowing.  If so, add a link to expand
+	$('p.tos').each(function(){
+		var oFlow = checkOverflow($(this));
+		if (oFlow === true)
+			{
+				$(this).css({'overflowY':'hidden'});
+				$(this).after('<p class="msg_to_more"><a href="#">and others</a></p>');
+
+				var oldHeight = $(this).height();
+
+				$('p.msg_to_more').click(function(){
+
+					var tos = $(this).siblings('p.tos');
+					var newHeight = tos[0].scrollHeight;
+
+					if ($(this).hasClass('expanded'))
+					{
+						$(this).removeClass('expanded');
+						tos.css({'height': oldHeight});
+						$(this).html('<a href="#">and others</a>');
+					}
+					else
+					{
+						tos.css({'height': newHeight});
+						$(this).addClass('expanded');
+						$(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
+					}
+
+				});
+
+			}
+	});
 }
 
 $(document).ready(function(){
@@ -67,6 +119,7 @@ $(document).ready(function(){
 				$('div.msg').addClass('ui-corner-all');
 				//Set the start value for scroll
 				target.data('startVal',0);
+				sizeMessages();
 			});
 	};
 
@@ -77,17 +130,29 @@ $(document).ready(function(){
 	//Toggle message message open/closed state, retrieve replies
 	$('div.msg_bar').live('click',function(){
 
+		var msgParent = $(this).parent();
+
 		if ($(this).parent().hasClass('msg_closed'))
 		{
 			$(this).parent().removeClass('msg_closed').addClass('msg_opened');
 
+			var closedHeight = msgParent.height();
+			msgParent.data('closedHeight',closedHeight);
+
 			var thisMsgId = $(this).parent().attr('data-id');
 
-			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId});
+			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
+				//Set the height
+				var newHeight = $(this).closest('div.msg')[0].scrollHeight;
+				msgParent.height(newHeight);
+			});
+
 		}
 		else
 		{
 			$(this).parent().removeClass('msg_opened').addClass('msg_closed');
+
+			msgParent.height(msgParent.data('closedHeight'));
 		}
 
 	});
@@ -102,6 +167,7 @@ $(document).ready(function(){
 				$('div.msg').addClass('ui-corner-all');
 				//Set the start value for scroll
 				target.data('startVal',0);
+				sizeMessages();
 			});
 	});
 
