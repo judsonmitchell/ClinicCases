@@ -360,7 +360,7 @@ div#msg_bar_right{position:absolute;right:15px;top:2px;width:500px;text-align:ri
 input#msg_search{color:#AAA;}
 input.msg_search_clear {width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
-div.msg {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
+div.msg {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;overflow: hidden;}
 div.msg p {margin:10px}
 div.msg div.more{position:absolute;bottom:0px;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
@@ -372,7 +372,9 @@ div.msg_bar_read{height:41px;background-color:#D1C6C6;border-bottom:1px solid #A
 div.msg_bar_left{display:inline-block;width:34%;color:navy}
 div.msg_bar_right{display:inline-block;width:65%;text-align:right;}
 div.msg_bar_right a {font-size:1em;color:navy}
-
+div.msg_replies{margin-left:80px;}
+div.msg_reply{width:450px;margin-bottom:20px;}
+textarea.msg_reply_text{margin-left:50px;width:450px;height:125px;display:none;}
 
 
 

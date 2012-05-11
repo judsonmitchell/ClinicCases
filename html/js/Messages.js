@@ -48,8 +48,6 @@ $(document).ready(function(){
 
 	var target = $('div#msg_panel');
 
-	var view = $('select#msg_view_chooser').val();
-
 	var start = target.data('startVal');
 
 	//set header widget
@@ -76,12 +74,16 @@ $(document).ready(function(){
 
 	//msgRefresh = setInterval("msgLoad()",9000);
 
-	//Toggle message message open/closed state
+	//Toggle message message open/closed state, retrieve replies
 	$('div.msg_bar').live('click',function(){
 
 		if ($(this).parent().hasClass('msg_closed'))
 		{
 			$(this).parent().removeClass('msg_closed').addClass('msg_opened');
+
+			var thisMsgId = $(this).parent().attr('data-id');
+
+			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId});
 		}
 		else
 		{

@@ -1,4 +1,8 @@
-<?php foreach($msgs as $msg) {extract($msg);?>
+<?php
+
+if (!$replies) //these are not replies to a message
+{
+	foreach($msgs as $msg) {extract($msg);?>
 
 	<div class = "msg msg_closed" data-id = "<?php echo $id; ?>">
 
@@ -12,8 +16,33 @@
 
 		</div>
 
+		<div class = "msg_body">
+
+			<p>To: <?php echo $to; ?></p>
+			<p>Cc: <?php echo $ccs; ?></p>
+			<p><?php echo $body; ?></p>
+
+			<div class = "msg_replies">
+
+
+			</div>
+
+			<textarea class="msg_reply_text"></textarea>
+
+		</div>
+
 	</div>
 
 
-<?php } ?>
+<?php } } else {foreach($msgs as $msg) {extract($msg);?>
+
+	<div class = "msg_reply" data-id = "<?php echo $id; ?>">
+
+			<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
+
+			<?php echo $body; ?>
+
+	</div>
+
+<?php }} ?>
 
