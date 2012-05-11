@@ -369,12 +369,14 @@ div.msg_opened {height:350px;}
 
 div.msg_bar_unread{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
 div.msg_bar_read{height:41px;background-color:#D1C6C6;border-bottom:1px solid #AAA;padding:7px;opacity:.6;}
-div.msg_bar_left{display:inline-block;width:34%;color:navy}
-div.msg_bar_right{display:inline-block;width:65%;text-align:right;}
+div.msg_bar_left{display:inline-block;width:65%;color:navy}
+div.msg_bar_right{display:inline-block;width:34%;text-align:right;}
+div.msg_bar_right img {margin-left:15px;}
 div.msg_bar_right a {font-size:1em;color:navy}
 div.msg_replies{margin-left:80px;}
 div.msg_reply{width:450px;margin-bottom:20px;}
 textarea.msg_reply_text{margin-left:50px;width:450px;height:125px;display:none;}
+p.tos, p.ccs{height:30px; overflow-y:scroll;}
 
 
 

@@ -5,6 +5,7 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 require('../utilities/names.php');
+require('../utilities/convert_times.php');
 require('../utilities/thumbnails.php');
 
 
@@ -19,6 +20,17 @@ function in_string($val,$string)
 		{return true;}
 	else
 		{return false;}
+}
+
+function format_name_list($dbh,$list)
+{
+	$names = explode(',', $list);
+	$n = null;
+	foreach ($names as $name) {
+		$n .= username_to_fullname($dbh,$name) . ", ";
+	}
+	$n_strip = substr($n, 0,-2);
+	return $n_strip;
 }
 
 $username = $_SESSION['login'];
@@ -42,7 +54,7 @@ switch ($type) {
 
 	case 'inbox':
 
-		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
+		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%' OR no_archive.to LIKE '%,$username') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%'  OR no_archive.ccs LIKE '%,$username') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
 
 		$q->execute();
 

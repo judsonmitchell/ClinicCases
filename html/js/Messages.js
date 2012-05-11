@@ -110,5 +110,39 @@ $(document).ready(function(){
         addMoreMessages(target,$('select#msg_view_chooser').val());
     });
 
+    //Listen for when user stars message
+    $('span.star_msg').live('click',function(event){
+		event.stopPropagation();
+		var thisId = $(this).closest('div.msg').attr('data-id');
+
+		if ($(this).hasClass('star_off'))
+		{
+			$(this).removeClass('star_off').addClass('star_on');
+			$(this).html('<img src = "html/ico/starred.png">');
+
+			$.post('lib/php/data/messages_process.php',{'action':'star_on','id':thisId},function(data){
+				var serverResponse = $.parseJSON(data);
+				if (serverResponse.error === true)
+				{
+					notify(serverResponse.message,true);
+				}
+			});
+		}
+		else
+		{
+			$(this).removeClass('star_on').addClass('star_off');
+			$(this).html('<img src = "html/ico/not_starred.png">');
+			$.post('lib/php/data/messages_process.php',{'action':'star_off','id':thisId},function(data){
+				var serverResponse = $.parseJSON(data);
+				if (serverResponse.error === true)
+				{
+					notify(serverResponse.message,true);
+				}
+			});
+
+		}
+
+    });
+
 
 });
