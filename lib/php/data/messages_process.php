@@ -61,7 +61,7 @@ switch ($action) {
 
 	case 'mark_read':
 
-		$q = $dbh->prepare("UPDATE cm_messages SET read = CONCAT(read,:user) WHERE id = :id");
+		$q = $dbh->prepare("UPDATE cm_messages SET `read` = CONCAT(`read`,:user) WHERE id = :id");
 
 		$user_string = $user . ",";
 

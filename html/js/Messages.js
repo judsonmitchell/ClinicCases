@@ -149,19 +149,27 @@ $(document).ready(function(){
 		{
 			$(this).parent().removeClass('msg_closed').addClass('msg_opened');
 
+			$(this).parent().find('p.tos, p.ccs, p.subj').css({'color':'black'});
+
+			$(this).parent().css({'opacity':'1'});
+
 			var thisMsgId = $(this).parent().attr('data-id');
 
 			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
 				//Set the height
 				var newHeight = $(this).closest('div.msg')[0].scrollHeight;
 				msgParent.height(newHeight);
-				$('p.tos, p.ccs, p.subj').css({'color':'black'});
 			});
+
+			//Mark message as read
+			$.post('lib/php/data/messages_process.php', {'action' : 'mark_read', 'id' : thisMsgId });
 
 		}
 		else
 		{
 			$(this).parent().removeClass('msg_opened').addClass('msg_closed');
+
+			$(this).parent().css({'opacity':'.5' });
 
 			msgParent.height('90');
 		}
