@@ -45,6 +45,8 @@
 
 				<input type="button" class="msg_search_clear">
 
+				<button id ="msg_archive_all">Archive All</button>
+
 				<button id = "new_msg">New Message</button>
 
 			</div>

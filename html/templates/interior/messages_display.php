@@ -4,21 +4,21 @@ if (!$replies) //these are not replies to a message
 {
 	foreach($msgs as $msg) {extract($msg);?>
 
-	<div class = "msg msg_closed" data-id = "<?php echo $id; ?>">
+	<div class = "msg msg_closed <?php if (in_string($username,$read)){echo "msg_read";}else{echo "msg_unread";} ?>" data-id = "<?php echo $id; ?>">
 
-		<div class = "msg_bar <?php if (in_string($username,$read)){echo "msg_bar_read";}else{echo "msg_bar_unread";} ?>">
+		<div class = "msg_bar">
 
 			<div class = "msg_bar_left">
 
 				<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
 
-				<?php echo username_to_fullname($dbh,$from); ?>
+				<?php echo username_to_fullname($dbh,$from) . "     "; ?>
 
-				<div class = "msg_subject">
+				<span class = "msg_subject">
 
 					<?php echo $subject; ?>
 
-				</div>
+				</span>
 
 			</div>
 
@@ -49,14 +49,34 @@ if (!$replies) //these are not replies to a message
 
 			<?php if ($ccs){echo "<p class='ccs'>Cc: " . format_name_list($dbh,$ccs) . "</p>";} ?>
 
-			<div class = "msg_body_text"><?php echo $body; ?></div>
+			<p class = "subj">Subject: <?php echo htmlentities($subject); ?></p>
+
+			<div class = "msg_body_text"><?php echo nl2br(htmlentities(text_prepare($body))); ?></div>
 
 			<div class = "msg_replies">
 
 
 			</div>
 
-			<textarea class="msg_reply_text"></textarea>
+			<div class="msg_actions">
+
+				<a href="#">Reply</a>
+
+				<a href="#">Reply All</a>
+
+				<a href="#">Forward</a>
+
+				<a href="#">Archive</a>
+
+			</div>
+
+			<div class="msg_reply_text">
+
+				<textarea></textarea>
+
+				<button>Send</button>
+
+			</div>
 
 		</div>
 
@@ -81,7 +101,7 @@ if (!$replies) //these are not replies to a message
 
 			</div>
 
-			<p><?php echo $body; ?></p>
+			<p><?php echo nl2br(htmlentities(text_prepare($body))); ?></p>
 
 	</div>
 

@@ -37,7 +37,7 @@ function addMoreMessages(scrollTarget,view) {
             {
                 scrollTarget.append(data);
                 $('div.msg').addClass('ui-corner-all');
-                sizeMessages();
+                layoutMessages();
             }
 
         });
@@ -60,7 +60,7 @@ function checkOverflow(target)
 	return isOverflowing;
 }
 
-function sizeMessages()
+function layoutMessages()
 {
 	//Check to see if the list of recipients is overflowing.  If so, add a link to expand
 	$('p.tos').each(function(){
@@ -72,7 +72,9 @@ function sizeMessages()
 
 				var oldHeight = $(this).height();
 
-				$('p.msg_to_more').click(function(){
+				$('p.msg_to_more').click(function(event){
+
+					event.preventDefault();
 
 					var tos = $(this).siblings('p.tos');
 					var newHeight = tos[0].scrollHeight;
@@ -93,6 +95,9 @@ function sizeMessages()
 				});
 
 			}
+
+		$('div.msg_read').css({'opacity':'.5'});
+
 	});
 }
 
@@ -105,10 +110,18 @@ $(document).ready(function(){
 	//set header widget
 	$('#msg_nav').addClass('ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr');
 
-	//Add new message button
-	$('button#new_msg').button({icons: {primary: "fff-icon-email-add"},text: true}).click(function(){
+	//Add buttons
+	$('button#msg_archive_all').button({icons: {primary: "fff-icon-email-go"},text: true})
+	.click(function(){
+
+	});
+
+
+	$('button#new_msg').button({icons: {primary: "fff-icon-email-add"},text: true})
+	.click(function(){
 		$( "#quick_add_form" ).dialog( "open" );
 	});
+
 
 	//Load messages and refresh
 	msgLoad = function(){
@@ -119,7 +132,7 @@ $(document).ready(function(){
 				$('div.msg').addClass('ui-corner-all');
 				//Set the start value for scroll
 				target.data('startVal',0);
-				sizeMessages();
+				layoutMessages();
 			});
 	};
 
@@ -136,15 +149,13 @@ $(document).ready(function(){
 		{
 			$(this).parent().removeClass('msg_closed').addClass('msg_opened');
 
-			var closedHeight = msgParent.height();
-			msgParent.data('closedHeight',closedHeight);
-
 			var thisMsgId = $(this).parent().attr('data-id');
 
 			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
 				//Set the height
 				var newHeight = $(this).closest('div.msg')[0].scrollHeight;
 				msgParent.height(newHeight);
+				$('p.tos, p.ccs, p.subj').css({'color':'black'});
 			});
 
 		}
@@ -152,7 +163,7 @@ $(document).ready(function(){
 		{
 			$(this).parent().removeClass('msg_opened').addClass('msg_closed');
 
-			msgParent.height(msgParent.data('closedHeight'));
+			msgParent.height('90');
 		}
 
 	});
@@ -167,7 +178,8 @@ $(document).ready(function(){
 				$('div.msg').addClass('ui-corner-all');
 				//Set the start value for scroll
 				target.data('startVal',0);
-				sizeMessages();
+				layoutMessages();
+
 			});
 	});
 
@@ -207,6 +219,18 @@ $(document).ready(function(){
 			});
 
 		}
+
+    });
+
+    //Show reply textarea
+    $('div.msg_actions a').live('click',function(event){
+		event.preventDefault();
+
+		//make room for textarea
+		var h = $(this).closest('div.msg').height() + 250;
+		$(this).closest('div.msg').height(h);
+
+		$(this).parent().siblings('div.msg_reply_text').show();
 
     });
 

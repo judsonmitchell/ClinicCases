@@ -7,6 +7,7 @@ require('../../../db.php');
 require('../utilities/names.php');
 require('../utilities/convert_times.php');
 require('../utilities/thumbnails.php');
+require('../utilities/format_text.php');
 
 
 function in_string($val,$string)
