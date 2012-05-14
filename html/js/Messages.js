@@ -138,7 +138,7 @@ $(document).ready(function(){
 
 	msgLoad();
 
-	//msgRefresh = setInterval("msgLoad()",9000);
+	//msgRefresh = setInterval("msgLoad()",9000); TODO turn this on.
 
 	//Toggle message message open/closed state, retrieve replies
 	$('div.msg_bar').live('click',function(){
@@ -147,13 +147,13 @@ $(document).ready(function(){
 
 		if ($(this).parent().hasClass('msg_closed'))
 		{
-			$(this).parent().removeClass('msg_closed').addClass('msg_opened');
+			msgParent.removeClass('msg_closed').addClass('msg_opened');
 
-			$(this).parent().find('p.tos, p.ccs, p.subj').css({'color':'black'});
+			msgParent.find('p.tos, p.ccs, p.subj').css({'color':'black'});
 
-			$(this).parent().css({'opacity':'1'});
+			msgParent.css({'opacity':'1'});
 
-			var thisMsgId = $(this).parent().attr('data-id');
+			var thisMsgId = msgParent.attr('data-id');
 
 			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
 				//Set the height
@@ -167,9 +167,11 @@ $(document).ready(function(){
 		}
 		else
 		{
-			$(this).parent().removeClass('msg_opened').addClass('msg_closed');
+			msgParent.removeClass('msg_opened').addClass('msg_closed');
 
-			$(this).parent().css({'opacity':'.5' });
+			msgParent.find('div.msg_reply_text').hide().find('textarea').val('');
+
+			msgParent.css({'opacity':'.5' });
 
 			msgParent.height('90');
 		}
@@ -234,12 +236,26 @@ $(document).ready(function(){
     $('div.msg_actions a').live('click',function(event){
 		event.preventDefault();
 
+		var clickType = $(this).attr('class');
+
 		//make room for textarea
 		var h = $(this).closest('div.msg').height() + 250;
 		$(this).closest('div.msg').height(h);
 
-		$(this).parent().siblings('div.msg_reply_text').show();
+		//Show textarea and add class name to tell send function what action to take.
+		$(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
 
+    });
+
+    //Send message
+    $('button.msg_send').live('click',function(){
+
+		var replyText = $(this).prev().val();
+		var threadId = $(this).closest('div.msg').attr('data-id');
+		var actionType = $(this).prev().attr('class');//use the class name to determine action
+		$.post('lib/php/data/messages_process.php',{'action':actionType,'thread_id':threadId,'reply_text':replyText},function(){
+
+		});
     });
 
 

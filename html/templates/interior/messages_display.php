@@ -60,13 +60,11 @@ if (!$replies) //these are not replies to a message
 
 			<div class="msg_actions">
 
-				<a href="#">Reply</a>
+				<a href="#" class="reply">Reply</a>
 
-				<a href="#">Reply All</a>
+				<a href="#" class="forward">Forward</a>
 
-				<a href="#">Forward</a>
-
-				<a href="#">Archive</a>
+				<a href="#" class="archive">Archive</a>
 
 			</div>
 
@@ -74,7 +72,7 @@ if (!$replies) //these are not replies to a message
 
 				<textarea></textarea>
 
-				<button>Send</button>
+				<button class="msg_send">Send</button>
 
 			</div>
 
