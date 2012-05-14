@@ -44,6 +44,11 @@ define("CC_SCHOOL_COLOR","");
 //Allowed file types for upload
 define("ALLOWED_FILE_TYPES", serialize(array('doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz','pdf')));
 
+//Define constants for sending email notifications
+define("CC_EMAIL_FROM","");  //e.g. no-reply@yourserver.com
+define("CC_EMAIL_HEADERS","From: " . CC_EMAIL_FROM . "\n" . "Reply-To: " . CC_EMAIL_FROM . "\n" . "X-Mailer: PHP/" . phpversion());
+define("CC_EMAIL_FOOTER","Please log on ClinicCases at " . CC_BASE_URL . " to view the entire message");
+
 //Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.
 
 if ( in_array( strtolower( ini_get( 'magic_quotes_gpc' ) ), array( '1', 'on' ) ) )
