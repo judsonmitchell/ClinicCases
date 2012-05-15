@@ -106,7 +106,7 @@ switch ($action) {
 				foreach ($email_to as $r) {
 					$email = user_email($dbh,$r);
 					$subject = "ClincCases: Reply to '" . $msg_subject . "'";
-					$body = "$user has replied to '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+					$body = username_to_fullname($dbh,$user) . " has replied to '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
 					mail($email,$subject,$body,CC_EMAIL_HEADERS);
 					//TODO test on mail server
 				}
@@ -163,6 +163,21 @@ switch ($action) {
 			$q->execute($data);
 
 			$error = $q->errorInfo();
+
+			//TODO notify forward recipients by email
+			if (!$error[1])
+			{
+				$msg_subject = get_subject($dbh,$thread_id);
+				$preview = snippet(20,$reply_text);
+
+				foreach ($forward_tos as $f) {
+					$email = user_email($dbh,$f);
+					$subject = "ClincCases: New Message: '" . $msg_subject . "'";
+					$body = username_to_fullname($dbh,$user) . " forwarded '" . $msg_subject ."' to you:\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+					mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					//TODO test on mail server
+				}
+			}
 
 		}
 

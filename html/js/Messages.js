@@ -138,7 +138,8 @@ $(document).ready(function(){
 
 	msgLoad();
 
-	//msgRefresh = setInterval("msgLoad()",9000); TODO turn this on.
+	//Reload inbox every ninety seconds to check for new messages
+	msgRefresh = setInterval("msgLoad()",90000);
 
 	//Toggle message message open/closed state, retrieve replies
 	$('div.msg_bar').live('click',function(){
@@ -154,6 +155,11 @@ $(document).ready(function(){
 			msgParent.css({'opacity':'1'});
 
 			var thisMsgId = msgParent.attr('data-id');
+
+			msgParent.data('verticalPos',$('div#msg_panel')[0].scrollTop);
+
+			//turn off auto-refresh
+			clearTimeout(msgRefresh);
 
 			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
 				//Set the height
@@ -174,6 +180,9 @@ $(document).ready(function(){
 			msgParent.css({'opacity':'.5' });
 
 			msgParent.animate({'height':'90'});
+
+			//turn auto refresh back on
+			msgRefresh = setInterval("msgLoad()",90000);
 		}
 
 	});
@@ -182,6 +191,13 @@ $(document).ready(function(){
 	$('select#msg_view_chooser').change(function(){
 		var view = $(this).val();
 
+		//Turn off the auto refresh if we are not in inbox
+		if (view !== 'inbox')
+			{clearTimeout(msgRefresh);}
+		else
+			{msgRefresh = setInterval("msgLoad()",90000);}
+
+		//Load messages
 		$.post('lib/php/data/messages_load.php', {'type' : view, 'start' : '0'},function(data){
 				target.html(data);
 				//Round Corners
@@ -189,6 +205,7 @@ $(document).ready(function(){
 				//Set the start value for scroll
 				target.data('startVal',0);
 				layoutMessages();
+				$('div#msg_panel')[0].scrollTop = 0;
 
 			});
 	});
@@ -251,7 +268,8 @@ $(document).ready(function(){
 			}
 
 		//Show textarea and add class name to tell send function what action to take.
-		$(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
+		if (clickType !== 'archive' && clickType !== 'unarchive')
+		{$(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);}
 
     });
 
@@ -277,16 +295,41 @@ $(document).ready(function(){
 					notify(serverResponse.message);
 					//refresh to show new replies
 					refreshTarget.load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : threadId},function(){
-							msgParent.animate({'height':'90'});
+							msgParent.animate({'height':'90'});  //close message
 							msgParent.removeClass('msg_read msg_opened').addClass('msg_unread msg_closed');
+							//reset form
 							msgParent.find('div.msg_reply_text').hide().find('textarea').val('');
 							msgParent.find('div.msg_forward').hide();
 							msgParent.find('div.msg_forward select').val('');
+
+							//scroll closed message into view
+							$('div#msg_panel').scrollTop(msgParent.data('verticalPos'));
+
 						});
 				}
 
 		});
     });
+
+	//Handle archiving
+	$('a.archive, a.unarchive').live('click',function(){
+
+		var msg = $(this).closest('div.msg');
+		var msgId = msg.attr('data-id');
+		var thisAction = $(this).attr('class');
+		$.post('lib/php/data/messages_process.php',{'action':thisAction,'id':msgId},function(data){
+			var serverResponse = $.parseJSON(data);
+			if (serverResponse.error === true)
+				{
+					notify(serverResponse.message,true);
+				}
+				else
+				{
+					notify(serverResponse.message);
+					msg.remove();
+				}
+		});
+	});
 
 
 });

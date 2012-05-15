@@ -57,7 +57,7 @@ switch ($type) {
 
 	case 'inbox':
 
-		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%' OR no_archive.to LIKE '%,$username') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%'  OR no_archive.ccs LIKE '%,$username') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
+		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%' OR no_archive.to LIKE '%,$username' OR no_archive.to = '$username') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%'  OR no_archive.ccs LIKE '%,$username' OR no_archive.ccs = '$username') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
 
 		$q->execute();
 

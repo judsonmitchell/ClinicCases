@@ -35,8 +35,6 @@
 
 				<option value="inbox" selected=selected>Inbox</option>
 
-				<option value="drafts">Drafts</option>
-
 				<option value="starred">Starred</option>
 
 				<option value="sent">Sent</option>

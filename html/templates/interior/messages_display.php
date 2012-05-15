@@ -51,6 +51,8 @@ if (!$replies) //these are not replies to a message
 
 			<p class = "subj">Subject: <?php echo htmlentities($subject); ?></p>
 
+			<p class = "assoc_case">Filed in: <?php if (!$assoc_case){echo "(Not Filed)";}else{echo case_id_to_casename($dbh,$assoc_case);} ?></p>
+
 			<div class = "msg_body_text"><?php echo nl2br(htmlentities(text_prepare($body))); ?></div>
 
 			<div class = "msg_replies">
@@ -64,7 +66,12 @@ if (!$replies) //these are not replies to a message
 
 				<a href="#" class="forward">Forward</a>
 
-				<a href="#" class="archive">Archive</a>
+				<?php
+					if (in_string($username,$archive))
+						{echo "<a href='#' class='unarchive'>Return to Inbox</a>";}
+					else
+						{echo "<a href='#'' class='archive'>Archive</a>";}
+				?>
 
 			</div>
 
