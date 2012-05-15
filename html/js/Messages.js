@@ -158,7 +158,7 @@ $(document).ready(function(){
 			$(this).next('div').find('div.msg_replies').load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : thisMsgId},function(){
 				//Set the height
 				var newHeight = $(this).closest('div.msg')[0].scrollHeight;
-				msgParent.height(newHeight);
+				msgParent.animate({'height':newHeight});
 			});
 
 			//Mark message as read
@@ -173,7 +173,7 @@ $(document).ready(function(){
 
 			msgParent.css({'opacity':'.5' });
 
-			msgParent.height('90');
+			msgParent.animate({'height':'90'});
 		}
 
 	});
@@ -242,6 +242,14 @@ $(document).ready(function(){
 		var h = $(this).closest('div.msg').height() + 250;
 		$(this).closest('div.msg').height(h);
 
+		//add choice of recipients if forward is selected
+		if (clickType == 'forward')
+			{
+				$(this).parent().siblings('div.msg_forward').show().find('select').chosen();
+				//we need more space for forwards
+				$(this).closest('div.msg').height(h + 100);
+			}
+
 		//Show textarea and add class name to tell send function what action to take.
 		$(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
 
@@ -253,7 +261,29 @@ $(document).ready(function(){
 		var replyText = $(this).prev().val();
 		var threadId = $(this).closest('div.msg').attr('data-id');
 		var actionType = $(this).prev().attr('class');//use the class name to determine action
-		$.post('lib/php/data/messages_process.php',{'action':actionType,'thread_id':threadId,'reply_text':replyText},function(){
+		var refreshTarget = $(this).parent().siblings('div.msg_replies');
+		var msgParent = $(this).closest('div.msg');
+		var forwardTos = $(this).parent().siblings('div.msg_forward').find('select').val();
+
+		$.post('lib/php/data/messages_process.php',{'action':actionType,'thread_id':threadId,'reply_text':replyText,'forward_tos':forwardTos},function(data){
+			var serverResponse = $.parseJSON(data);
+
+			if (serverResponse.error === true)
+				{
+					notify(serverResponse.message,true);
+				}
+				else
+				{
+					notify(serverResponse.message);
+					//refresh to show new replies
+					refreshTarget.load('lib/php/data/messages_load.php', {'type' : 'replies', 'thread_id' : threadId},function(){
+							msgParent.animate({'height':'90'});
+							msgParent.removeClass('msg_read msg_opened').addClass('msg_unread msg_closed');
+							msgParent.find('div.msg_reply_text').hide().find('textarea').val('');
+							msgParent.find('div.msg_forward').hide();
+							msgParent.find('div.msg_forward select').val('');
+						});
+				}
 
 		});
     });

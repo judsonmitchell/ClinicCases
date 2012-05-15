@@ -68,6 +68,16 @@ if (!$replies) //these are not replies to a message
 
 			</div>
 
+			<div class="msg_forward">
+
+					<select name = "forward_r" multiple class="msg_forward_choices" data-placeholder = "Choose Recipients">
+
+						<?php echo all_active_users($dbh); ?>
+
+					</select>
+
+			</div>
+
 			<div class="msg_reply_text">
 
 				<textarea></textarea>

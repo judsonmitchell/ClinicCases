@@ -5,7 +5,7 @@ require('../auth/session_check.php');
 require('../../../db.php');
 require('../users/user_data.php');
 require('../utilities/format_text.php');
-
+require('../utilities/names.php');
 
 function generate_recipients($dbh,$thread_id) //Get list of recipients for a reply
 {
@@ -52,6 +52,9 @@ if (isset($_POST['thread_id']))
 if (isset($_POST['reply_text']))
 	{$reply_text = $_POST['reply_text'];}
 
+if (isset($_POST['forward_tos']))
+	{$forward_tos = $_POST['forward_tos'];}
+
 
 switch ($action) {
 
@@ -83,6 +86,8 @@ switch ($action) {
 			{
 				$q = $dbh->prepare("UPDATE cm_messages SET `archive` = '',`read` = '' WHERE `id` = '$thread_id'");
 
+				$q->execute();
+
 				//next send an email notifying user of the new reply
 				$recipients_to = explode(',', $to);
 				if (!empty($cc))
@@ -112,11 +117,62 @@ switch ($action) {
 
 	case 'forward':
 
+		//first add the forward users to the first message in the thread
+		$q = $dbh->prepare("UPDATE cm_messages SET `to` = CONCAT(`to`,:forwards) WHERE `id` = :id");
+
+		$forwards = "," . implode(',', $forward_tos);
+
+		$data = array('forwards' => $forwards,'id' => $thread_id);
+
+		$q->execute($data);
+
+		$error = $q->errorInfo();
+
+		//then add a reply about the forward
+
+		if (!$error[1])
+		{
+			//Take message out of archive and read
+			$q = $dbh->prepare("UPDATE cm_messages SET `archive` = '',`read` = '' WHERE `id` = '$thread_id'");
+
+			$q->execute();
+
+			//Add the reply
+			$q = $dbh->prepare("INSERT INTO  `cm_messages` (`id` ,`thread_id` ,`to` ,`from` ,`ccs` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive` ,`starred`)
+				VALUES (NULL ,  :thread_id,  :to,  :sender, :ccs,  '',:forward_text,  '', CURRENT_TIMESTAMP, '',  '',  '');");
+
+			$forward_names = null;
+
+			foreach ($forward_tos as $fts) {
+				$name = username_to_fullname($dbh,$fts);
+				$forward_names .= $name . ", ";
+			}
+
+			$forward_names_string = substr($forward_names, 0,-2);
+
+			$forward_text = "<<<Forwarded this message to $forward_names_string" . "\n\n" . $reply_text;
+
+			$tos = generate_recipients($dbh,$thread_id);
+
+			$to = $tos['from'] . ',' . $tos['tos'];
+
+			$cc = $tos['ccs'];
+
+			$data = array('thread_id' => $thread_id, 'to' => $to,'ccs' => $cc, 'sender' => $user,'forward_text' => $forward_text);
+
+			$q->execute($data);
+
+			$error = $q->errorInfo();
+
+		}
+
+
 	break;
 
 	case 'star_on':  //add start to message
 
-		$q = $dbh->prepare("UPDATE cm_messages SET starred = CONCAT(starred,:user) WHERE id = :id");
+		$q = $dbh->prepare("UPDATE cm_messages SET `starred` = REPLACE(`starred`,:user,''),
+			starred = CONCAT(starred,:user) WHERE id = :id");
 
 		$user_string = $user . ",";
 
@@ -145,7 +201,10 @@ switch ($action) {
 
 	case 'mark_read':
 
-		$q = $dbh->prepare("UPDATE cm_messages SET `read` = CONCAT(`read`,:user) WHERE id = :id");
+		//First replace any previous mark reads by this user, then put it a new.
+		//This way, there are not multiple mark reads in the list
+		$q = $dbh->prepare("UPDATE cm_messages SET `read` = REPLACE(`read`,:user,''),
+			`read` = CONCAT(`read`, :user)  WHERE id = :id");
 
 		$user_string = $user . ",";
 
@@ -159,7 +218,7 @@ switch ($action) {
 
 	case 'mark_unread':
 
-		$q = $dbh->prepare("UPDATE cm_messages SET read = REPLACE(read,:user,'') WHERE id = :id");
+		$q = $dbh->prepare("UPDATE cm_messages SET `read` = REPLACE(`read`,:user,'') WHERE id = :id");
 
 		$user_string = $user . ",";
 
@@ -173,7 +232,8 @@ switch ($action) {
 
 	case 'archive':
 
-		$q = $dbh->prepare("UPDATE cm_messages SET archive = CONCAT(archive,:user) WHERE id = :id");
+		$q = $dbh->prepare("UPDATE cm_messages SET `archive` = REPLACE(`archive`,:user,''),
+			`archive` = CONCAT(`archive`,:user) WHERE id = :id");
 
 		$user_string = $user . ",";
 

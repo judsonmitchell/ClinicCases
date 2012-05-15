@@ -383,7 +383,9 @@ div.msg_reply_text textarea{width:450px;height:200px;}
 
 
 div.msg_reply{width:500px;margin-bottom:20px;margin-top:20px;border-top:1px solid #AAA;padding-top:10px;}
-textarea.msg_reply_text{margin-left:50px;width:450px;height:125px;display:none;}
+div.msg_reply_text {margin-left:120px;width:450px;height:125px;display:none;}
+div.msg_forward{margin-left:120px;display:none;margin-top:15px;}
+div.msg_forward select {width:450px;}
 div.msg_reply_left{display: inline-block;width:50%;}
 div.msg_reply_right{display: inline-block;width:49%;text-align:right;color:#AAA;}
 div.msg_reply p {margin-left:0px !important;}

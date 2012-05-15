@@ -8,6 +8,8 @@ require('../utilities/names.php');
 require('../utilities/convert_times.php');
 require('../utilities/thumbnails.php');
 require('../utilities/format_text.php');
+require('../html/gen_select.php');
+
 
 
 function in_string($val,$string)
