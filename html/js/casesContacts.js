@@ -235,12 +235,14 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error === true)
-                            {notify(serverResponse.message,true);}
-                    else
-                    {
-                        notify(serverResponse.message);
-                        target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
-                    }
+                {
+                    notify(serverResponse.message, true);
+                }
+                else
+                {
+                    notify(serverResponse.message);
+                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                }
 
             });
         }
@@ -392,9 +394,13 @@ $('a.contact_edit').live('click', function(event) {
     var urlVal = thisContact.find('.cnt_url').html();
     var notesValRaw = thisContact.find('.cnt_notes').html();
     if (notesValRaw !== null)
-        {notesVal = notesValRaw.br2nl();}
+    {
+        notesVal = notesValRaw.br2nl();
+    }
     else
-        {notesVal = '';}
+    {
+        notesVal = '';
+    }
     var contactId = thisContact.attr('data-id');
 
     //define the dummy version of the contact used for editing
@@ -438,7 +444,9 @@ $('a.contact_edit').live('click', function(event) {
     var phoneSelects = '';
 
     if ($.isEmptyObject(phoneData))  //no phone data was previously entered
-        {phoneForm = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option></select><input type='text' name='phone' class='contact_phone_value'>";}
+    {
+        phoneForm = "<p class='contact_phone_group'><label>Phone</label><select name='phone_type' class='contact_phone_type'><option value='mobile'>mobile</option><option value='home'>home</option><option value='office'>office</option><option value='fax'>fax</option></select><input type='text' name='phone' class='contact_phone_value'>";
+    }
     else
     {
         $.each(phoneData, function(key, value) {
@@ -463,8 +471,10 @@ $('a.contact_edit').live('click', function(event) {
     var emailForm = '';
     var emailSelects = '';
 
-    if ($.isEmptyObject(emailData)) //no email data was previously entered
-        {emailForm = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'>";}
+    if ($.isEmptyObject(emailData))  //no email data was previously entered
+    {
+        emailForm = "<p class='contact_email_group'><label>Email</label><select name='email_type' class='contact_email_type'><option value='work'>work</option><option value='home'>home</option><option value='other'>other</option></select><input type='text' name='email' class='contact_email_value'>";
+    }
     else
     {
         $.each(emailData, function(key, value) {
@@ -555,23 +565,25 @@ $('a.contact_edit').live('click', function(event) {
                 'notes': contactForm.find('textarea[name = "notes"]').val(),
                 'action': 'edit',
                 'case_id': caseId,
-                'id' : contactId
+                'id': contactId
             }, function(data) {
 
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error === true)
-                    {notify(serverResponse.message,true);}
-                        else
-                        {
-                            notify(serverResponse.message);
-                            target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId},function(){
-                            //Scroll to original position of edited conact
-                            sizeContacts(target.find('.contact'), target);
-                            editedContact = target.find('div.contact[data-id = "' + contactId + '"]');
-                            target.scrollTop(editedContact.offset().top);
+                {
+                    notify(serverResponse.message, true);
+                }
+                else
+                {
+                    notify(serverResponse.message);
+                    target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId}, function() {
+                        //Scroll to original position of edited conact
+                        sizeContacts(target.find('.contact'), target);
+                        editedContact = target.find('div.contact[data-id = "' + contactId + '"]');
+                        target.scrollTop(editedContact.offset().top);
 
-                            });
-                        }
+                    });
+                }
 
             });
         }
@@ -593,14 +605,16 @@ $('a.contact_delete').live('click', function(event) {
         buttons: {
             "Yes": function() {
                 $.post('lib/php/data/cases_contacts_process.php', {'action': 'delete','id': thisContactId}, function(data) {
-                        var serverResponse = $.parseJSON(data);
-                        if (serverResponse.error === true)
-                            {notify(serverResponse.message,true);}
-                        else
-                        {
-                            notify(serverResponse.message);
-                            thisContact.remove();
-                        }
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                    else
+                    {
+                        notify(serverResponse.message);
+                        thisContact.remove();
+                    }
 
                 });
 
