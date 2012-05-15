@@ -231,3 +231,53 @@ function all_active_users($dbh)
 
 	return $options;
 }
+
+//Generate a list of all active users and all groups.  Used in messages.
+function all_active_users_and_groups($dbh)
+{
+	$options = "<option value='all_users'>All Users</option>";
+
+	//First get all groups defined in cm_groups config
+	$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");
+
+	$q->execute();
+
+	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($groups as $group) {
+		$options .= "<option value='grp_" . $group['group_name'] . "'>Group: All " . $group['group_title'] . "</option>";
+	}
+
+	//Then get every supervisor
+	$q = $dbh->prepare("SELECT cm_groups.group_name, cm_groups.supervises, cm_users.group, cm_users.username
+		FROM cm_groups, cm_users
+		WHERE cm_groups.supervises =  '1'
+		AND cm_users.group = cm_groups.group_name
+		AND cm_users.status =  'active'
+		ORDER BY cm_users.username ASC");
+
+	$q->execute();
+
+	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
+
+
+	foreach ($groups as $group) {
+		$options .= "<option value = 'grp_spv_" . $group['username'] . "'>Group: " . username_to_fullname($dbh,$group['username']) . "'s group</option>";
+	}
+
+	//Then just get individual users
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE status = 'active' ORDER BY last_name ASC");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($users as $user) {
+
+		$options .= "<option value = '" . $user['username']  . "'>" . $user['last_name'] . ", " . $user['first_name'] . "</option>";
+	}
+
+	return $options;
+
+}
+

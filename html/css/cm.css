@@ -367,6 +367,9 @@ div.more > a{font-size:.8em;color:#AAA;}
 div.msg_closed {height:90px;}
 div.msg_opened {min-height:200px;}
 
+div#msg_new{display:none;}
+div#msg_new select {width:300px;}
+
 div.msg_bar{width:800px;height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
 div.msg_bar_left{display:inline-block;width:530px;color:black;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 div.msg_bar_right{display:inline-block;width:250px;text-align:right;}
@@ -379,9 +382,6 @@ div.msg_actions{margin-top:30px;}
 div.msg_actions a{margin-right:15px;}
 div.msg_reply_text{margin-left:120px;margin-top:15px;width:450px;display: none}
 div.msg_reply_text textarea{width:450px;height:200px;}
-
-
-
 
 div.msg_reply{width:500px;margin-bottom:20px;margin-top:20px;border-top:1px solid #AAA;padding-top:10px;}
 div.msg_reply_text {margin-left:120px;width:450px;height:125px;display:none;}

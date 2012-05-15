@@ -51,6 +51,9 @@ if (isset($_POST['id']))
 if (isset($_POST['thread_id']))
 	{$thread_id = $_POST['thread_id'];}
 
+if (isset($_POST['new_message']))
+	{$new_message = true;}
+
 $replies = false;
 
 switch ($type) {
@@ -112,7 +115,9 @@ switch ($type) {
 	break;
 }
 
-if (empty($msgs) AND $replies === false)
-	{echo "<p>There are no messages in your $type folder";die;}
+if (empty($msgs) AND $replies === false AND $new_message === false)
+	//i.e, there are no messages to display, we are not loading replies, and
+	//this is not a request for the new message html
+	{echo "<p>There are no messages in your $type folder</p>";die;}
 
 include('../../../html/templates/interior/messages_display.php');

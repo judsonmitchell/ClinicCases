@@ -1,3 +1,34 @@
+<!-- This is markup for a new message, hidden from the user until new message button clicked -->
+<div id = "msg_new">
+
+	<form id = "new_msg_form">
+
+		<p><label>To:</label>
+
+			<select multiple name = "new_tos" data-placeholder = "Choose recipients">
+
+				<?php echo all_active_users_and_groups($dbh); ?>
+
+			</select>
+
+		</p>
+
+		<p><label>Cc:</label>
+
+			<select multiple name = "new_ccs" data-placeholder = "Choose recipients">
+
+				<?php echo all_active_users_and_groups($dbh); ?>
+
+			</select>
+
+		</p>
+
+
+	</form>
+
+</div>
+
+<!-- This displays messages and replies -->
 <?php
 
 if (!$replies) //these are not replies to a message
