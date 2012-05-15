@@ -110,27 +110,6 @@ $(document).ready(function() {
     //set header widget
     $('#msg_nav').addClass('ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr');
 
-    //Add buttons
-    $('button#msg_archive_all_button').button({icons: {primary: "fff-icon-email-go"},text: true})
-    .click(function() {
-
-    });
-
-    $('button#new_msg_button').button({icons: {primary: "fff-icon-email-add"},text: true})
-    .click(function() {
-        $('div#msg_panel').load('lib/php/data/messages_load.php #msg_new',{'new_message':'y'}, function(){
-			//turn off auto-refresh
-            clearTimeout(msgRefresh);
-
-            //define new messsage
-			var newMsg = $('div#msg_new');
-			newMsg.show();
-			newMsg.find('select[name = "new_tos"], select[name = "new_ccs"]').chosen();
-        });
-
-    });
-
-
     //Load messages and refresh
     msgLoad = function() {
 
@@ -196,6 +175,45 @@ $(document).ready(function() {
         }
 
     });
+
+    //Add buttons
+    $('button#msg_archive_all_button').button({icons: {primary: "fff-icon-email-go"},text: true})
+    .click(function() {
+
+    });
+
+	$('button#new_msg_button').button({icons: {primary: "fff-icon-email-add"},text: true})
+	.click(function(){
+		$('div#msg_panel').load('lib/php/data/messages_load.php #msg_new',{'new_message':'y'}, function(){
+			//turn off auto-refresh
+			clearTimeout(msgRefresh);
+
+			//define new messsage
+			var newMsg = $('div#msg_new');
+			newMsg.show();
+			newMsg.find('select[name = "new_tos"], select[name = "new_ccs"], select[name = "new_file_msg"]').chosen();
+
+			//Cancel
+			$('#msg_new_button_cancel').click(function(event){
+					event.preventDefault();
+					$('#new_msg_form')[0].reset();
+					msgLoad();
+					//turn auto refresh back on
+					msgRefresh = setInterval("msgLoad()", 90000);
+					notify('New message cancelled');
+				});
+
+				//Submit
+				$('#msg_new_button_submit').click(function(event){
+					event.preventDefault();
+
+				});
+
+			});
+
+		});
+
+
 
     //Change views
     $('select#msg_view_chooser').change(function() {

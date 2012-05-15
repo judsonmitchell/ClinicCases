@@ -367,8 +367,24 @@ div.more > a{font-size:.8em;color:#AAA;}
 div.msg_closed {height:90px;}
 div.msg_opened {min-height:200px;}
 
-div#msg_new{display:none;}
-div#msg_new select {width:300px;}
+div#msg_new{display:none;width:520px;margin: auto;}
+div#msg_new select, div#msg_new input {width:450px;}
+div#msg_new label{display:inline-block;margin:12px 0 0;width:45px;}
+div#msg_new form{text-align:left;}
+div#msg_new textarea {width:500px;height:350px;margin-top:20px;border:1px solid #AAA;}
+/* The following is to match the styles for chosen.js */
+div#msg_new input { background-color: #fff;
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+  background-image: -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background-image: -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background-image: -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+  background-image: -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
+  background-image: linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  border: 1px solid #aaa;
+  padding:5px 0px 5px 0px;
+}
+p.msg_new_buttons {text-align:right;}
 
 div.msg_bar{width:800px;height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
 div.msg_bar_left{display:inline-block;width:530px;color:black;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}

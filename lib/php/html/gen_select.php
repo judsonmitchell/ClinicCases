@@ -226,7 +226,7 @@ function all_active_users($dbh)
 
 	foreach ($users as $user) {
 
-		$options .= "<option value = '" . $user['username']  . "'>" . $user['last_name'] . ", " . $user['first_name'] . "</option>";
+		$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
 	}
 
 	return $options;
@@ -274,7 +274,7 @@ function all_active_users_and_groups($dbh)
 
 	foreach ($users as $user) {
 
-		$options .= "<option value = '" . $user['username']  . "'>" . $user['last_name'] . ", " . $user['first_name'] . "</option>";
+		$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
 	}
 
 	return $options;

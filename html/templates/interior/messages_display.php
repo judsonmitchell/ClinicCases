@@ -23,6 +23,36 @@
 
 		</p>
 
+		<p><label>Subject:</label>
+
+			<input name="new_subject">
+
+		</p>
+
+		<p><label>File In:</label>
+
+			<select name = "new_file_msg" data-placeholder = "Choose case file">
+
+				<option value = "">No file</option>
+
+				<?php echo generate_active_cases_select($dbh,$username) ?>
+
+			</select>
+
+		</p>
+
+		<p>
+			<textarea></textarea>
+
+		</p>
+
+		<p class="msg_new_buttons">
+
+			<button id="msg_new_button_submit">Send</button>
+
+			<button id = "msg_new_button_cancel">Cancel</button>
+
+		</p>
 
 	</form>
 
