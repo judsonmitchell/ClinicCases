@@ -1,5 +1,8 @@
 <?php
 require('db.php');
+require('lib/php/utilities/names.php');
+require('lib/php/utilities/convert_times.php');
+
 
 echo "Beginning upgrade process</br>";
 
@@ -377,7 +380,7 @@ $query = $dbh->prepare("UPDATE cm_events SET all_day = '1'");
 
 $query->execute();
 
-Add text start date, makes old dates searchable by keyword
+//Add text start date, makes old dates searchable by keyword
 
 extracts date and time from a mysql timestamp
 function extract_date_time($val)
@@ -405,9 +408,60 @@ foreach ($events as $event) {
 
 echo "Done converting old events<br />";
 
+//Make changes to messages
+echo "Updating messages database. (This may take a while).<br />";
 
+//make certain fields in messages text searchable
+$q = $dbh->prepare("ALTER TABLE  `cm_messages` ADD  `to_text` TEXT NOT NULL ,
+ADD  `cc_text` TEXT NOT NULL ,
+ADD  `assoc_case_text` TEXT NOT NULL ,
+ADD  `time_sent_text` TEXT NOT NULL");
 
-// echo "Upgrade successful";
+$q->execute();
+
+//add text data
+$q = $dbh->prepare("SELECT * FROM cm_messages");
+
+$q->execute();
+
+$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($msgs as $msg) {
+	$id = $msg['id'];
+
+	$date_text = extract_date_time($msg['time_sent']);
+
+	$tos = explode(',', $msg['to']);
+	$to_string = null;
+	foreach ($tos as $to) {
+		$to_string .= username_to_fullname($dbh,$to) . " ";
+	}
+
+	if (!empty($msg['ccs']))
+	{
+		$ccs = explode(',', $msg['ccs']);
+		$cc_string = null;
+		foreach ($ccs as $cc) {
+			$cc_string .= username_to_fullname($dbh,$cc) . " ";
+		}
+	}
+	else
+		{$cc_string = null;}
+
+	if (!empty($msg['assoc_case']))
+	{
+		$assoc_case = case_id_to_casename($dbh,$msg['assoc_case']);
+	}
+	else
+		{$assoc_case = null;}
+
+	$update = $dbh->prepare("UPDATE cm_messages SET `time_sent_text` = '$date_text', `to_text` = '$to_string',`cc_text` = '$cc_string',`assoc_case_text` = '$assoc_case' WHERE `id` = '$id'");
+	$update->execute();
+}
+
+echo "Messages db upgraded <br />";
+
+echo "Upgrade successful";
 
 
 
