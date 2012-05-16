@@ -203,15 +203,38 @@ $(document).ready(function() {
 					notify('New message cancelled');
 				});
 
-				//Submit
-				$('#msg_new_button_submit').click(function(event){
-					event.preventDefault();
+			//Submit
+			$('#msg_new_button_submit').click(function(event){
+				event.preventDefault();
+                var msgVals = $('#new_msg_form').serializeArray();
+                if ($('select[name="new_tos"]').val() === null)
+                    {notify('<p>You must select at least one recipient</p>');return false;}
+                else
+                {
+                    $.post('lib/php/data/messages_process.php',msgVals,function(data){
 
-				});
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                        {
+                            notify(serverResponse.message, true);
+                        }
+                        else
+                        {
+                            $('#new_msg_form')[0].reset();
+                            msgLoad();
+                            //turn auto refresh back on
+                            msgRefresh = setInterval("msgLoad()", 90000);
+                            notify('Message sent');
+                        }
+
+                    });
+                }
 
 			});
 
 		});
+
+	});
 
 
 

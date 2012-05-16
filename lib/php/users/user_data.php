@@ -17,3 +17,44 @@ function user_email($dbh,$user)
 	return $data['email'];
 
 }
+
+//Return all users in a group
+function all_users_in_group($dbh,$group)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE group = ?");
+
+	$q->bindParam(1, $group);
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	return $users_array;
+
+}
+
+function all_users_by_supvsr($dbh,$supvsr)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE supervisors LIKE '%,$supvsr,%' OR supervisors LIKE '$supvsr,%' ");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	return $users_array;
+
+}

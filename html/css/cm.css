@@ -21,15 +21,15 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #notifications p {font-size:14pt;font-weight:normal;color:red;}
 
-#idletimeout { background:#ED1212; border:3px solid #FF6500; color:#fff; font-family:arial, sans-serif; text-align:center; font-size:12px; padding:10px; position:relative; top:0px; left:0; right:0; z-index:100000; display:none; }
+#idletimeout { background:#ED1212; border:3px solid #FF6500; color:#fff; font-family:arial, sans-serif; text-align:center; font-size:12px; padding:10px; position:relative; top:0; left:0; right:0; z-index:100000; display:none; }
 
 #idletimeout a { color:#fff; font-weight:bold }
 
 #idletimeout span { font-weight:bold }
 
-#timer {position:relative;top:0px;left:0px;height:42px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
+#timer {position:relative;top:0;left:0;height:42px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
 
-#timer img {width:40px;height:40px;border:0px;vertical-align:text-bottom;padding-right:10px;}
+#timer img {width:40px;height:40px;border:0;vertical-align:text-bottom;padding-right:10px;}
 
 #timer > #timer_inner{float:left;height:40px;font-size:14px;width:45%;overflow:hidden;}
 
@@ -53,7 +53,7 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #wrapper1 {min-height:760px;width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;}
 
-#nav{position:absolute;top:0px;left:0px;width:150px;height:100%;background-color:gray;}
+#nav{position:absolute;top:0;left:0;width:150px;height:100%;background-color:gray;}
 
 #processing {width:97%;height:95%;background-color:white; position:absolute;z-index:10000}
 
@@ -99,9 +99,9 @@ button{font-size:14pt;font-family:garamond, georgia, times, serif}
 
 html>body .submit_image{margin-bottom:-12px;margin-right:20px;}
 
-.print_image{margin-bottom:-7px;margin-right:0px;margin-left:10px;}
+.print_image{margin-bottom:-7px;margin-right:0;margin-left:10px;}
 
-html>body .print_image{margin-bottom:-10px;margin-right:0px;margin-left:10px;}
+html>body .print_image{margin-bottom:-10px;margin-right:0;margin-left:10px;}
 
 /* Style for casenotes */.casenotedesc{height:40px;overflow:auto;}
 
@@ -148,7 +148,7 @@ div#home_nav {position:relative;width:100%;height:5%;padding-top:5px;}
 div#home_data {position:absolute;left:15px;top:5px;}
 div#home_data div {font-size:1.2em;color:#555;display: inline-block;}
 div#home_data div.small {font-size: .8em;color:white;margin-left:10px;display: inline-block;}
-div#home_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;overflow: scroll;padding: 3%;}
+div#home_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0;overflow: scroll;padding: 3%;}
 
 div.activities_stream{position:relative;width:600px;height:100%;margin:auto}
 
@@ -160,7 +160,7 @@ div.activities_stream p.end{color:#AAA;font-style:italic;text-align:center;margi
 
 div.activities_stream hr {margin-bottom:10px;}
 
-div.activities_feed {width:40px; height: 40px;position:absolute;right:-70px;top:0px;}
+div.activities_feed {width:40px; height: 40px;position:absolute;right:-70px;top:0;}
 
 button#quick_add {position:absolute;right:20px;top:5px;}
 div#quick_add_body p {margin-bottom:10px;}
@@ -177,7 +177,7 @@ div#quick_add_body_cn{display: block;text-align:left;}
 div#quick_add_body_event{display: none;}
 p.quick_add_times label, p.quick_add_times select {display:inline-block !important;float:none !important;clear:none !important;}
 div#quick_add_body_cn textarea{width:270px;height:225px;}
-p#quick_add_cn, p#quick_add_ev {text-align:center;margin-bottom:0px;}
+p#quick_add_cn, p#quick_add_ev {text-align:center;margin-bottom:0;}
 input.check{width:30px !important;}
 div#quick_add_body_event textarea {width:270px;}
 
@@ -185,7 +185,7 @@ div#event_detail_window{position: relative;text-align:left;}
 div#event_detail_window a.event_detail_close {position:absolute;right:5px;top:10px;outline:none;}
 div#event_detail_window label{font-size:12pt;}
 div#event_users_display{text-align:left;height:45px;}
-div#event_users_display img {border:0px;margin:5px;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
+div#event_users_display img {border:0;margin:5px;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 a.event_detail_delete {position:absolute;bottom:10px;font-size:.8em;color:red !important;}
 
 
@@ -210,31 +210,31 @@ td, th {text-align:left;}
 
 	/* Styles for case detail */
 #case_detail_window {width:97%;height:96%;background-color:white;position:absolute;top:1.5%;}
-#case_detail_tab_row{width:100%;height:30px;background-color:transparent;position:absolute;top:0px;padding:0px;}
-#case_detail_control{width:295px;height:40px;padding:5px;background-color:transparent;position:absolute;top:0px;right:0px;text-align:right;}
+#case_detail_tab_row{width:100%;height:30px;background-color:transparent;position:absolute;top:0;padding:0;}
+#case_detail_control{width:295px;height:40px;padding:5px;background-color:transparent;position:absolute;top:0;right:0;text-align:right;}
 #case_detail_control > button {display:inline}
 
 .ui-tabs-selected, .ui-tabs-panel {background-image: none !important;background-color : #FFFFDC !important;}
-.ui-tabs{padding:0px; !important}
+.ui-tabs{padding:0 !important}
 .ui-helper-reset, .ui-button-text {line-height:0.3 !important}
-.ui-tabs-panel{padding:0px !important}
-.ui-widget-content{border:0px; !important}
-#case_detail_tab_row.ui-widget{border:0px;}
+.ui-tabs-panel{padding:0 !important}
+.ui-widget-content{border:0 !important}
+#case_detail_tab_row.ui-widget{border:0;}
 /* This below to fix a bug in jqueryui in Firefox http://stackoverflow.com/questions/6691199/jquery-ui-close-icon-appearing-wrong-in-firefox */
 #case_detail_tab_row li .ui-icon-close { float: left; margin: 0.1em 0.2em 0 0; cursor: pointer; }
 
 
-div.case_title{float:left;padding:8px 0px 0px 15px;width:45%;overflow:hidden;white-space:nowrap;text-align:left;}
-div.case_title h2{color:black;font-size:20t;font-weight:normal;text-shadow: 0px 2px 3px gray;}
-div.case_detail_nav{float:left;margin-right:0px;margin-top:-2px;padding-bottom:2px;background-color:#FFFFDC;border-left:1px solid  #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;}
+div.case_title{float:left;padding:8px 0 0 15px;width:45%;overflow:hidden;white-space:nowrap;text-align:left;}
+div.case_title h2{color:black;font-size:20pt;font-weight:normal;text-shadow: 0 2px 3px gray;}
+div.case_detail_nav{float:left;margin-right:0;margin-top:-2px;padding-bottom:2px;background-color:#FFFFDC;border-left:1px solid  #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;}
 div.case_detail_bar{border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA}
-div.case_detail_panel{position:relative;border-right: 1px solid #AAA; border-bottom:1px solid #AAA; border-left: 0px ;float:right;background-color:white;margin-top:0px}
-div.case_detail_bar>h3{padding:10px 20px 0px 10px;float:left;}
+div.case_detail_panel{position:relative;border-right: 1px solid #AAA; border-bottom:1px solid #AAA; border-left: 0 ;float:right;background-color:white;margin-top:0}
+div.case_detail_bar>h3{padding:10px 20px 0 10px;float:left;}
 
 ul.case_detail_nav_list{text-align:left;}
-ul.case_detail_nav_list > li{border-bottom:1px solid light gray;background-color:#FFFFDC;margin:0;padding:15px 0px 15px 25px;color:gray}
-ul.case_detail_nav_list > li.selected{border-bottom:1px solid #AAA;border-left:0px;border-top:1px solid #AAA;background-color:#FFFFFF;margin-right:-2px;color:black}
-ul.case_detail_nav_list:first-child{border:0px}
+ul.case_detail_nav_list > li{border-bottom:1px solid lightgray;background-color:#FFFFDC;margin:0;padding:15px 0 15px 25px;color:gray}
+ul.case_detail_nav_list > li.selected{border-bottom:1px solid #AAA;border-left:0;border-top:1px solid #AAA;background-color:#FFFFFF;margin-right:-2px;color:black}
+ul.case_detail_nav_list:first-child{border:0}
 ul.case_detail_nav_list > li.selected:before {content: "\0020 \0020 \0020 \00BB \0020";color: green;}
 
 /*
@@ -249,15 +249,15 @@ div.assigned_people li.slide.open:before {content:"\00bb";color:gray;}
 div.assigned_people li.slide a {color:gray;font-size:10pt;text-decoration:none;}
 div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration:none;}
 
-div.assigned_people img {border:3px solid #FFFFDC;box-shadow:3px 3px 5px gray;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;}
+div.assigned_people img {border:3px solid #FFFFDC;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.user_widget{display:none;}
 
-div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0px;z-index:100;outline:0px;}
+div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0;z-index:100;outline:0;}
 div.user_display h3{color:green;}
-div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFDC}
+div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
 div.inactive_user{color:gray;}
 div.inactive_user h3 {color:gray;}
-div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0px;left:0px;background-color:#FFFFDC}
+div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
 div.user_display_detail p {text-align:left;margin-left:5px;}
 div.dialog-user-remove{display:none;text-align:left;}
 button.user-action-button,button.user-action-adduser-button{position:absolute;bottom:10px;right:25px;}
@@ -273,7 +273,7 @@ input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico
 
 div.csenote {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
 div.csenote p {margin:10px}
-div.csenote div.more{position:absolute;bottom:0px;right:15px;}
+div.csenote div.more{position:absolute;bottom:0;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
 
 div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
@@ -285,16 +285,16 @@ div.csenote_new{display:none}
 div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 
 
-div.csenote_shadow{box-shadow:0px 5px 5px #AAA inset;-moz-box-shadow:0px 5px 5px #AAA inset;-webkit-box-shadow:0px 5px 5px #AAA inset;}
+div.csenote_shadow{-moz-box-shadow:0 5px 5px #AAA inset;-webkit-box-shadow:0 5px 5px #AAA inset;box-shadow:0 5px 5px #AAA inset;}
 div.dialog-casenote-delete{text-align:left;}
 
 div.doc_item{display:inline-block;margin:10px;vertical-align:top;text-align:center;height:120px;overflow:hidden;}
 div.doc_item p {width:100px;word-wrap:break-word;}
 div.doc_item a {text-decoration:none;}
-div.doc_item img {border:0px;}
+div.doc_item img {border:0;}
 div.doc_item:hover {cursor: pointer;}
-div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0px;text-align:left;}
-div.doc_item textarea{width:90px;height:50px;border:0px;}
+div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0;text-align:left;}
+div.doc_item textarea{width:90px;height:50px;border:0;}
 div.doc_item textarea.user_input{background-color: #EDF09F}
 a.active  {text-decoration:none;}
 /* This allows for the context menu to be display on docs that are at the bottom of the window */
@@ -329,14 +329,14 @@ div.contact_left{display:inline-block;width:45%;vertical-align:top;}
 div.contact_left label, div.contact_right label {display: block;}
 div.contact_right{display:inline-block;width:45%;vertical-align:top;}
 div.contact a {color:blue;}
-div.contact div.contact_more{position:absolute;bottom:0px;right:15px;}
+div.contact div.contact_more{position:absolute;bottom:0;right:15px;}
 div.contact_more > a{font-size:.8em;color:#AAA;}
 div.new_contact {height:670px;overflow: auto;}
 div.new_contact_data {width:65%;margin: auto;}
 div.new_contact label {display:block;margin:12px 0 0;float:left;clear:left;width:90px;}
 div.new_contact label:after {content:": ";}
 div.new_contact input {width:285px;}
-div.new_contact textarea {width:285px;margin-left:0px;}
+div.new_contact textarea {width:285px;margin-left:0;}
 div.new_contact textarea.contact_notes{height:100px;}
 span.contact_phone_widget a, span.contact_email_widget a {font-size:.8em;color:navy;}
 select.contact_phone_type,select.contact_email_type{width:90px;}
@@ -354,7 +354,7 @@ input.events_search_clear{width:25px;height:25px;background-image:url('../ico/ca
 
 /* Styles for messages */
 div#msg_nav {position:relative;width:100%;height:6%;padding-top:5px;}
-div#msg_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0px;overflow: scroll;padding: 3%;}
+div#msg_panel{width:94%;height:85%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0;overflow: scroll;padding: 3%;}
 select#msg_view_chooser {position:absolute;left:15px;top:2px;}
 div#msg_bar_right{position:absolute;right:15px;top:2px;width:600px;text-align:right;}
 input#msg_search{color:#AAA;}
@@ -362,16 +362,17 @@ input.msg_search_clear {width:25px;height:25px;background-image:url('../ico/canc
 
 div.msg {position:relative;border:1px solid #AAA; text-align:left;width:802px;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;overflow: hidden;padding-bottom:20px;}
 div.msg p {margin:10px}
-div.msg div.more{position:absolute;bottom:0px;right:15px;}
+div.msg div.more{position:absolute;bottom:0;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
 div.msg_closed {height:90px;}
 div.msg_opened {min-height:200px;}
 
 div#msg_new{display:none;width:520px;margin: auto;}
 div#msg_new select, div#msg_new input {width:450px;}
-div#msg_new label{display:inline-block;margin:12px 0 0;width:45px;}
+div#msg_new label{display:inline-block;margin:12px 0 0;width:45px;vertical-align:top;}
 div#msg_new form{text-align:left;}
-div#msg_new textarea {width:500px;height:350px;margin-top:20px;border:1px solid #AAA;}
+div#msg_new p{margin-bottom:10px;}
+div#msg_new textarea {width:450px;height:350px;margin-top:20px;margin-left:45px;border:1px solid #AAA;}
 /* The following is to match the styles for chosen.js */
 div#msg_new input { background-color: #fff;
   background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
@@ -382,7 +383,7 @@ div#msg_new input { background-color: #fff;
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
   background-image: linear-gradient(top, #ffffff 85%,#eeeeee 99%);
   border: 1px solid #aaa;
-  padding:5px 0px 5px 0px;
+  padding:5px 0 5px 0;
 }
 p.msg_new_buttons {text-align:right;}
 
@@ -405,7 +406,7 @@ div.msg_forward{margin-left:120px;display:none;margin-top:15px;}
 div.msg_forward select {width:450px;}
 div.msg_reply_left{display: inline-block;width:50%;}
 div.msg_reply_right{display: inline-block;width:49%;text-align:right;color:#AAA;}
-div.msg_reply p {margin-left:0px !important;}
+div.msg_reply p {margin-left:0 !important;}
 p.tos, p.ccs,p.subj{height:20px;color:#AAA;line-height:20px;}
 p.msg_to_more{text-align:right;margin-top:-10px !important;margin-right:50px !important;}
 p.msg_to_more a{color:#AAA;}

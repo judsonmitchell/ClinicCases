@@ -6,6 +6,8 @@ require('../../../db.php');
 require('../users/user_data.php');
 require('../utilities/format_text.php');
 require('../utilities/names.php');
+require('../users/user_data.php');
+
 
 function generate_recipients($dbh,$thread_id) //Get list of recipients for a reply
 {
@@ -55,10 +57,72 @@ if (isset($_POST['reply_text']))
 if (isset($_POST['forward_tos']))
 	{$forward_tos = $_POST['forward_tos'];}
 
+if (isset($_POST['new_tos']))
+	{$new_tos = $_POST['new_tos'];}
+
+if (isset($_POST['new_ccs']))
+	{$new_ccs = $_POST['new_ccs'];}
+
+if (isset($_POST['new_file_msg']))
+	{$assoc_file = $_POST['new_file_msg'];}
+
+if (isset($_POST['new_subject']))
+	{$new_subject = $_POST['new_subject'];}
+
+if (isset($_POST['new_msg_text']))
+	{$new_msg_text = $_POST['new_msg_text'];}
+
 
 switch ($action) {
 
 	case 'send':
+
+		//prepare the post variables
+		$tos = null;
+		foreach ($new_tos as $to) {
+			//user has selected a group as defined in config
+			if (stristr($to, '_grp_') === true)
+			{
+				$group = substr($to, 5);
+				$all_in_group = all_users_in_group($dbh,$group);
+				$tos .= explode(',', $all_in_group);
+			}
+			elseif(stristr($to, '_spv_') === true)
+			//user has selected a group that is defined by who the supervisor is
+			{
+				$supervisor= substr($to, 5);
+				$all_in_group = all_users_in_group($dbh,$supervisor);
+				$tos .= explode(',', $all_in_group);
+			}
+			else
+			{
+				$tos .= $to;
+			}
+		}
+
+		$ccs = null;
+		foreach ($new_ccs as $cc) {
+			//user has selected a group as defined in config
+			if (stristr($cc, '_grp_') === true)
+			{
+				$group = substr($cc, 5);
+				$all_in_group = all_users_in_group($dbh,$group);
+				$ccs .= explode(',', $all_in_group);
+			}
+			elseif(stristr($cc, '_spv_') === true)
+			//user has selected a group that is defined by who the supervisor is
+			{
+				$supervisor= substr($cc, 5);
+				$all_in_group = all_users_in_group($dbh,$supervisor);
+				$ccs .= explode(',', $all_in_group);
+			}
+			else
+			{
+				$ccs .= $cc;
+			}
+		}
+
+		//next insert into db
 
 
 	break;

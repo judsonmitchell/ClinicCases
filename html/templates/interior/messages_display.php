@@ -42,11 +42,13 @@
 		</p>
 
 		<p>
-			<textarea></textarea>
+			<textarea name = "new_msg_text"></textarea>
 
 		</p>
 
 		<p class="msg_new_buttons">
+
+			<input type="hidden" name="action" value="send">
 
 			<button id="msg_new_button_submit">Send</button>
 

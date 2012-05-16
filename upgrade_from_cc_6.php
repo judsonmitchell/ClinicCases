@@ -37,7 +37,7 @@ else
 
 echo "Updating db fields<br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`");
+$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`");
 
 $query->execute();
 

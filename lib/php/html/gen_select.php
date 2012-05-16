@@ -245,7 +245,7 @@ function all_active_users_and_groups($dbh)
 	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
 	foreach ($groups as $group) {
-		$options .= "<option value='grp_" . $group['group_name'] . "'>Group: All " . $group['group_title'] . "</option>";
+		$options .= "<option value='_grp_" . $group['group_name'] . "'>Group: All " . $group['group_title'] . "</option>";
 	}
 
 	//Then get every supervisor
@@ -260,9 +260,8 @@ function all_active_users_and_groups($dbh)
 
 	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
-
 	foreach ($groups as $group) {
-		$options .= "<option value = 'grp_spv_" . $group['username'] . "'>Group: " . username_to_fullname($dbh,$group['username']) . "'s group</option>";
+		$options .= "<option value = '_spv_" . $group['username'] . "'>Group: " . username_to_fullname($dbh,$group['username']) . "'s group</option>";
 	}
 
 	//Then just get individual users
