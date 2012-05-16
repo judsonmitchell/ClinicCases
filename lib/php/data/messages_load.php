@@ -10,8 +10,6 @@ require('../utilities/thumbnails.php');
 require('../utilities/format_text.php');
 require('../html/gen_select.php');
 
-
-
 function in_string($val,$string)
 {
 	$val_1 = ',' . $val .',';

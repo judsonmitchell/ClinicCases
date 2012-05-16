@@ -75,7 +75,6 @@ function layoutMessages()
             $('p.msg_to_more').click(function(event) {
 
                 event.preventDefault();
-
                 var tos = $(this).siblings('p.tos');
                 var newHeight = tos[0].scrollHeight;
 
@@ -191,7 +190,7 @@ $(document).ready(function() {
 			//define new messsage
 			var newMsg = $('div#msg_new');
 			newMsg.show();
-			newMsg.find('select[name = "new_tos"], select[name = "new_ccs"], select[name = "new_file_msg"]').chosen();
+			newMsg.find('select[name = "new_tos[]"], select[name = "new_ccs[]"], select[name = "new_file_msg"]').chosen();
 
 			//Cancel
 			$('#msg_new_button_cancel').click(function(event){

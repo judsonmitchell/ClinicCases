@@ -6,7 +6,6 @@ require('../../../db.php');
 require('../users/user_data.php');
 require('../utilities/format_text.php');
 require('../utilities/names.php');
-require('../users/user_data.php');
 
 
 function generate_recipients($dbh,$thread_id) //Get list of recipients for a reply
@@ -62,12 +61,19 @@ if (isset($_POST['new_tos']))
 
 if (isset($_POST['new_ccs']))
 	{$new_ccs = $_POST['new_ccs'];}
+	else
+	{$new_ccs = null;}
 
 if (isset($_POST['new_file_msg']))
-	{$assoc_file = $_POST['new_file_msg'];}
+	{$assoc_case = $_POST['new_file_msg'];}
 
 if (isset($_POST['new_subject']))
-	{$new_subject = $_POST['new_subject'];}
+	{
+		if (empty($_POST['new_subject']))
+			{$new_subject = '(No Subject)';}
+		else
+			{$new_subject = $_POST['new_subject'];}
+	}
 
 if (isset($_POST['new_msg_text']))
 	{$new_msg_text = $_POST['new_msg_text'];}
@@ -78,51 +84,116 @@ switch ($action) {
 	case 'send':
 
 		//prepare the post variables
+
 		$tos = null;
 		foreach ($new_tos as $to) {
-			//user has selected a group as defined in config
-			if (stristr($to, '_grp_') === true)
+			if (stristr($to, '_grp_'))
 			{
+			//user has selected a group as defined in config
 				$group = substr($to, 5);
 				$all_in_group = all_users_in_group($dbh,$group);
-				$tos .= explode(',', $all_in_group);
+				$tos .= implode(',', $all_in_group) . ',';
 			}
-			elseif(stristr($to, '_spv_') === true)
+			elseif(stristr($to, '_spv_'))
 			//user has selected a group that is defined by who the supervisor is
 			{
 				$supervisor= substr($to, 5);
-				$all_in_group = all_users_in_group($dbh,$supervisor);
-				$tos .= explode(',', $all_in_group);
+				$all_in_group = all_users_by_supvsr($dbh,$supervisor);
+				$tos .= implode(',', $all_in_group) . ',';
+			}
+			elseif (stristr($to, '_all_users_'))
+			{
+				$tos .= implode(',', all_active_users($dbh)) . ',';
 			}
 			else
 			{
-				$tos .= $to;
+				$tos .= $to . ',';
 			}
 		}
 
-		$ccs = null;
-		foreach ($new_ccs as $cc) {
-			//user has selected a group as defined in config
-			if (stristr($cc, '_grp_') === true)
-			{
-				$group = substr($cc, 5);
-				$all_in_group = all_users_in_group($dbh,$group);
-				$ccs .= explode(',', $all_in_group);
-			}
-			elseif(stristr($cc, '_spv_') === true)
-			//user has selected a group that is defined by who the supervisor is
-			{
-				$supervisor= substr($cc, 5);
-				$all_in_group = all_users_in_group($dbh,$supervisor);
-				$ccs .= explode(',', $all_in_group);
-			}
-			else
-			{
-				$ccs .= $cc;
+		if ($new_ccs)
+		{
+			$ccs = null;
+			foreach ($new_ccs as $cc) {
+				//user has selected a group as defined in config
+				if (stristr($cc, '_grp_'))
+				{
+					$group = substr($cc, 5);
+					$all_in_group = all_users_in_group($dbh,$group);
+					$ccs .= implode(',', $all_in_group). ',';
+				}
+				elseif(stristr($cc, '_spv_'))
+				//user has selected a group that is defined by who the supervisor is
+				{
+					$supervisor= substr($cc, 5);
+					$all_in_group = all_users_by_supvsr($dbh,$supervisor);
+					$ccs .= implode(',', $all_in_group) .',';
+				}
+				elseif (stristr($to, '_all_users_'))
+				{
+					$ccs .= implode(',', all_active_users($dbh)) . ',';
+				}
+				else
+				{
+					$ccs .= $cc . ',';
+				}
 			}
 		}
+		else
+			{$ccs = null;}
 
 		//next insert into db
+		$q = $dbh->prepare("INSERT INTO `cm_messages` (`id`, `thread_id`, `to`, `from`, `ccs`, `subject`, `body`, `assoc_case`, `time_sent`, `read`, `archive`, `starred`) VALUES (NULL, '', :tos, :sender, :ccs, :subject, :body, :assoc_case, CURRENT_TIMESTAMP, '', '', '');");
+
+		//strip trailing commas, if present
+		if (substr($tos, -1) == ',')
+			{$tos = substr($tos, 0,-1);}
+
+		if (substr($ccs, -1) == ',')
+			{$ccs = substr($ccs, 0,-1);}
+
+		$data = array('tos' => $tos,'sender' => $user, 'ccs' => $ccs, 'subject' => $new_subject,'body' => $new_msg_text,'assoc_case' => $assoc_case);
+
+		$q->execute($data);
+
+		$error = $q->errorInfo();
+
+		if (!$error[1])
+		{
+				//Add thread id to message; if thread_id the same as id,
+				//we know message was not a reply.
+
+				$last_id = $dbh->lastInsertId();
+
+				$insert_thread = $dbh->prepare("UPDATE cm_messages SET `thread_id` = '$last_id' WHERE `id` = '$last_id'");
+
+				$insert_thread->execute();
+
+				//Send email notfications
+
+				$recipients_to = explode(',',$tos);
+
+				if (!empty($ccs))
+				{
+					$recipients_cc = explode(',', $ccs);
+					$email_to = array_merge($recipients_to,$recipients_cc);
+				}
+				else
+				{
+					$email_to = $recipients_to;
+				}
+
+				$msg_subject = $new_subject;
+				$preview = snippet(20,$new_msg_text);
+
+				foreach ($email_to as $r) {
+					$email = user_email($dbh,$r);
+					$subject = "ClincCases: New Message:'" . $msg_subject . "'";
+					$body = username_to_fullname($dbh,$user) . " has sent you a message '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+					mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					//TODO test on mail server
+				}
+		}
 
 
 	break;

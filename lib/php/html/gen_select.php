@@ -235,7 +235,14 @@ function all_active_users($dbh)
 //Generate a list of all active users and all groups.  Used in messages.
 function all_active_users_and_groups($dbh)
 {
-	$options = "<option value='all_users'>All Users</option>";
+	//Determine total number of active users
+	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
+
+	$q->execute();
+
+	$count = $q->rowCount();
+
+	$options = "<option value='_all_users_'>All $count Users</option>";
 
 	//First get all groups defined in cm_groups config
 	$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");

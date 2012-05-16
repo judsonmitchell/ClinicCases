@@ -1,6 +1,6 @@
 <?php
 //
-//Functions to return bits of user data
+//Functions to return data about users
 //
 
 //Return user email
@@ -21,7 +21,7 @@ function user_email($dbh,$user)
 //Return all users in a group
 function all_users_in_group($dbh,$group)
 {
-	$q = $dbh->prepare("SELECT * FROM cm_users WHERE group = ?");
+	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `group` = ? AND `status` = 'active'");
 
 	$q->bindParam(1, $group);
 
@@ -40,9 +40,32 @@ function all_users_in_group($dbh,$group)
 
 }
 
+//Return all users who share the same supervisor
 function all_users_by_supvsr($dbh,$supvsr)
 {
-	$q = $dbh->prepare("SELECT * FROM cm_users WHERE supervisors LIKE '%,$supvsr,%' OR supervisors LIKE '$supvsr,%' ");
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE (`supervisors` LIKE '%,$supvsr,%' OR `supervisors` LIKE '$supvsr,%') AND `status` = 'active'  ");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	//Add supervisor to the group
+	array_push($users_array,$supvsr);
+
+	return $users_array;
+}
+
+//Return all active users
+function all_active_users($dbh)
+{
+	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
 
 	$q->execute();
 
@@ -58,3 +81,4 @@ function all_users_by_supvsr($dbh,$supvsr)
 	return $users_array;
 
 }
+
