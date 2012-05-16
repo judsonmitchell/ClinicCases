@@ -52,6 +52,9 @@ if (isset($_POST['thread_id']))
 if (isset($_POST['new_message']))
 	{$new_message = true;}
 
+if (isset($_POST['s']))
+	{$s = $_POST['s'];}
+
 $replies = false;
 
 switch ($type) {
@@ -109,6 +112,26 @@ switch ($type) {
 
 		$replies = true;
 
+
+	break;
+
+	case 'search' :
+
+		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE (to_text LIKE :s OR cc_text LIKE :s OR assoc_case_text LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s) AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first  OR`ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first  OR`from` = :user)");
+
+		$search_term = '%$s%';
+
+		$user_last = '%,' . $username;
+
+		$user_midde = '$,' . $username . ',%';
+
+		$user_first = $user . ',%';
+
+		$data = array('s' => $search_term,'user' => $username,'user_last' => $userlast,'user_middle' => $user_middle,'user_first' => $user_first);
+
+		$q->execute($data);
+
+		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
 
 	break;
 }

@@ -408,6 +408,7 @@ switch ($action) {
 		$error = $q->errorInfo();
 
 		break;
+
 };
 
 if($error[1])
