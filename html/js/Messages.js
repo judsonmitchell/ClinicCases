@@ -62,42 +62,31 @@ function checkOverflow(target)
 
 function layoutMessages()
 {
-    //Check to see if the list of recipients is overflowing.  If so, add a link to expand
+    //Check to see if the list ofs recipients are overflowing.  If so, add a link to expand
     $('p.tos').each(function() {
+        var oFlow = checkOverflow($(this));
+        if (oFlow === true)
+        {
+            $(this).css({'overflowY': 'hidden'});
+            $(this).after('<p class="msg_to_more ex_tos"><a href="#">and others</a></p>');
+
+        }
+    });
+
+    $('p.ccs').each(function() {
         var oFlow = checkOverflow($(this));
         if (oFlow === true)
         {
             $(this).css({'overflowY': 'hidden'});
             $(this).after('<p class="msg_to_more"><a href="#">and others</a></p>');
 
-            var oldHeight = $(this).height();
-
-            $('p.msg_to_more').click(function(event) {
-
-                event.preventDefault();
-                var tos = $(this).siblings('p.tos');
-                var newHeight = tos[0].scrollHeight;
-
-                if ($(this).hasClass('expanded'))
-                {
-                    $(this).removeClass('expanded');
-                    tos.css({'height': oldHeight});
-                    $(this).html('<a href="#">and others</a>');
-                }
-                else
-                {
-                    tos.css({'height': newHeight});
-                    $(this).addClass('expanded');
-                    $(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
-                }
-
-            });
-
         }
-
-        $('div.msg_read').css({'opacity': '.5'});
-
     });
+
+    //Set opacity of read messages
+    $('div.msg_read').css({'opacity': '.5'});
+
+
 }
 
 $(document).ready(function() {
@@ -387,5 +376,63 @@ $(document).ready(function() {
         });
     });
 
+    //Expand 'to' field when it overflows
+    $('p.msg_to_more').live('click',function(event) {
+
+        event.preventDefault();
+
+        var newHeight = null;
+
+        if ($(this).hasClass('ex_tos'))
+        //row of 'to' recipients needs to be expanded
+        {
+            var tos = $(this).siblings('p.tos');
+            newHeight = tos[0].scrollHeight;
+
+            if ($(this).hasClass('expanded'))
+            {
+                $(this).removeClass('expanded');
+                tos.css({'height': '20'});
+                $(this).html('<a href="#">and others</a>');
+                //Clip message now tos are hidden
+                newMsgHeight = $(this).closest('div.msg').height() - newHeight;
+                $(this).closest('div.msg').height(newMsgHeight);
+            }
+            else
+            {
+                tos.css({'height': newHeight});
+                $(this).addClass('expanded');
+                $(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
+                //resize message to fit all this information
+                newMsgHeight = $(this).closest('div.msg').height() + newHeight;
+                $(this).closest('div.msg').height(newMsgHeight);
+            }
+        }
+        else
+        //row of 'cc' recipients needs to be expanded
+        {
+            var ccs = $(this).siblings('p.ccs');
+            newHeight = ccs[0].scrollHeight;
+
+            if ($(this).hasClass('expanded'))
+            {
+                $(this).removeClass('expanded');
+                ccs.css({'height': '20'});
+                $(this).html('<a href="#">and others</a>');
+                //Clip message now ccs are hidden
+                newMsgHeight = $(this).closest('div.msg').height() - newHeight;
+                $(this).closest('div.msg').height(newMsgHeight);
+            }
+            else
+            {
+                ccs.css({'height': newHeight});
+                $(this).addClass('expanded');
+                $(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
+                //resize message to fit all this information
+                newMsgHeight = $(this).closest('div.msg').height() + newHeight;
+                $(this).closest('div.msg').height(newMsgHeight);
+            }
+        }
+    });
 
 });
