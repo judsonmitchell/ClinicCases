@@ -18,7 +18,7 @@ function addMoreMessages(scrollTarget, view) {
         }
         else
         {
-            startNum = scrollTarget.data('startVal') + 20;
+            startNum = scrollTarget.data('startVal') + parseInt(20);
             scrollTarget.data('startVal', startNum);
         }
 
@@ -433,6 +433,51 @@ $(document).ready(function() {
                 $(this).closest('div.msg').height(newMsgHeight);
             }
         }
+    });
+
+    //handle search
+    $('input.messages_search').live('focusin', function() {
+
+        $(this).val('');
+        $(this).css({'color': 'black'});
+        $(this).next('.msg_search_clear').show();
+    });
+
+    $('input.messages_search').live('keyup', function(event) {
+
+        if (event.which == 13) {
+
+            //turn off auto-refresh
+            clearTimeout(msgRefresh);
+
+            //var resultTarget = $('div#msg_panel');
+
+            target.html('<p>Searching...</p>');
+
+            var search = $(this).val();
+
+            target.load('lib/php/data/messages_load.php', {'type': 'search','start':'0','s': search}, function() {
+                    target.scrollTop(0);
+                    layoutMessages();
+
+                });
+
+            }
+
+    });
+
+    $('.msg_search_clear').live('click', function() {
+
+        $(this).prev().val('Search Events');
+
+        $(this).prev().css({'color': '#AAA'});
+
+        msgLoad();
+
+        //Restart auto-refresh
+        msgRefresh = setInterval("msgLoad()", 90000);
+
+        $(this).hide();
     });
 
 });

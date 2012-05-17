@@ -51,6 +51,8 @@ if (isset($_POST['thread_id']))
 
 if (isset($_POST['new_message']))
 	{$new_message = true;}
+	else
+	{$new_message = false;}
 
 if (isset($_POST['s']))
 	{$s = $_POST['s'];}
@@ -61,7 +63,7 @@ switch ($type) {
 
 	case 'inbox':
 
-		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%' OR no_archive.to LIKE '%,$username' OR no_archive.to = '$username') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%'  OR no_archive.ccs LIKE '%,$username' OR no_archive.ccs = '$username') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
+		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `archive` NOT LIKE '%,$username' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$username,%' OR no_archive.to LIKE '$username,%' OR no_archive.to LIKE '%,$username' OR no_archive.to LIKE '$username') OR (no_archive.ccs LIKE  '%,$username,%' OR no_archive.ccs LIKE '$username,%'  OR no_archive.ccs LIKE '%,$username' OR no_archive.ccs LIKE '$username') ORDER BY no_archive.time_sent DESC LIMIT $start, $limit");
 
 		$q->execute();
 
@@ -81,16 +83,11 @@ switch ($type) {
 
 	case 'archive':
 
-		$q = $dbh->prepare("SELECT * from (SELECT * FROM cm_messages WHERE `id` = `thread_id`) AS no_thread WHERE no_thread.archive LIKE '%,$username,%' OR no_thread.archive LIKE '$username,%' ORDER BY no_thread.time_sent DESC  LIMIT $start, $limit");
+		$q = $dbh->prepare("SELECT * from (SELECT * FROM cm_messages WHERE `id` = `thread_id`) AS no_thread WHERE no_thread.archive LIKE '%,$username,%' OR no_thread.archive LIKE '$username,%' OR no_thread.archive LIKE '%,$username' ORDER BY no_thread.time_sent DESC  LIMIT $start, $limit");
 
 		$q->execute();
 
 		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
-
-
-	break;
-
-	case 'draft' :
 
 
 	break;
@@ -117,17 +114,17 @@ switch ($type) {
 
 	case 'search' :
 
-		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE (to_text LIKE :s OR cc_text LIKE :s OR assoc_case_text LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s) AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first  OR`ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first  OR`from` = :user)");
+		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE (`to_text` LIKE :s OR `cc_text` LIKE :s OR `assoc_case_text` LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s) AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first  OR`ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first  OR`from` = :user) ORDER BY `time_sent` DESC LIMIT $start, $limit");
 
-		$search_term = '%$s%';
+		$search_term = '%' . $s .'%';
 
 		$user_last = '%,' . $username;
 
-		$user_midde = '$,' . $username . ',%';
+		$user_middle = '%,' . $username . ',%';
 
-		$user_first = $user . ',%';
+		$user_first = $username . ',%';
 
-		$data = array('s' => $search_term,'user' => $username,'user_last' => $userlast,'user_middle' => $user_middle,'user_first' => $user_first);
+		$data = array('s' => $search_term,'user' => $username,'user_last' => $user_last,'user_middle' => $user_middle,'user_first' => $user_first);
 
 		$q->execute($data);
 
