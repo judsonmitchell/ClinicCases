@@ -87,6 +87,9 @@ if (!$replies) //these are not replies to a message
 
 			<div class = "msg_bar_right">
 
+				<?php //if this is a search, apply label (inbox, archive, sent, etc)
+				if (isset($s)){echo apply_labels($dbh,$id,$username);} ?>
+
 				<?php echo extract_date_time($time_sent); ?>
 
 				<span

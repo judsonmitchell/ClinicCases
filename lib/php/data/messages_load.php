@@ -34,6 +34,27 @@ function format_name_list($dbh,$list)
 	return $n_strip;
 }
 
+function apply_labels($dbh,$id,$user)
+{
+	$labels = null;
+
+	$label_data = $dbh->prepare("SELECT * FROM cm_messages WHERE id = '$id'");
+
+	$label_data->execute();
+
+	$ld = $label_data->fetch(PDO::FETCH_ASSOC);
+
+	if (in_string($user,$ld['archive']))
+		{$labels .= '<span class="label_archive">Archive</span>';}
+	else
+		{$labels .= '<span class="label_inbox">Inbox</span>';}
+
+	if ($ld['from'] == $user)
+		{$labels .= '<span class="label_sent">Sent</span>';}
+
+	return $labels;
+}
+
 $username = $_SESSION['login'];
 $limit = '20';
 
@@ -89,11 +110,15 @@ switch ($type) {
 
 		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
 
-
 	break;
 
 	case 'starred' :
 
+		$q = $dbh->prepare("SELECT * from (SELECT * FROM cm_messages WHERE `id` = `thread_id`) AS no_thread WHERE no_thread.starred LIKE '%,$username,%' OR no_thread.starred LIKE '$username,%' OR no_thread.starred LIKE '%,$username' ORDER BY no_thread.time_sent DESC  LIMIT $start, $limit");
+
+		$q->execute();
+
+		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
 
 	break;
 

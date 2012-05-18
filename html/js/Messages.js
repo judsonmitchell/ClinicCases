@@ -22,25 +22,51 @@ function addMoreMessages(scrollTarget, view) {
             scrollTarget.data('startVal', startNum);
         }
 
-        $.post('lib/php/data/messages_load.php', {'type': view,'start': scrollTarget.data('startVal')}, function(data) {
 
-            //var t represents number of messages in returned data; if 0,return false;
-            var t = $(data).find('div').length;
+        if (scrollTarget.data('searchOn') === 'y') //we are searching
+        {
+           $.post('lib/php/data/messages_load.php', {'type': view,'start': scrollTarget.data('startVal'),'s':scrollTarget.data('searchTerm')}, function(data) {
 
-            if (t === 0)
+                //var t represents number of messages in returned data; if 0,return false;
+                var t = $(data).find('div').length;
 
-            {
-                return false;
-            }
+                if (t === 0)
 
-            else
-            {
-                scrollTarget.append(data);
-                $('div.msg').addClass('ui-corner-all');
-                layoutMessages();
-            }
+                {
+                    return false;
+                }
 
-        });
+                else
+                {
+                    scrollTarget.append(data);
+                    $('div.msg').addClass('ui-corner-all');
+                    layoutMessages();
+                }
+
+            });
+        }
+        else
+        {
+            $.post('lib/php/data/messages_load.php', {'type': view,'start': scrollTarget.data('startVal')}, function(data) {
+
+                //var t represents number of messages in returned data; if 0,return false;
+                var t = $(data).find('div').length;
+
+                if (t === 0)
+
+                {
+                    return false;
+                }
+
+                else
+                {
+                    scrollTarget.append(data);
+                    $('div.msg').addClass('ui-corner-all');
+                    layoutMessages();
+                }
+
+            });
+        }
 
     }
 }
@@ -240,6 +266,8 @@ $(document).ready(function() {
             msgRefresh = setInterval("msgLoad()", 90000);
         }
 
+        target.html('<p>Loading...</p>');
+
         //Load messages
         $.post('lib/php/data/messages_load.php', {'type': view,'start': '0'}, function(data) {
             target.html(data);
@@ -255,7 +283,15 @@ $(document).ready(function() {
 
     //bind the scroll event for the window and add more messages on scroll
     target.bind('scroll', function() {
-        addMoreMessages(target, $('select#msg_view_chooser').val());
+
+        var view = null;
+
+        if (target.data('searchOn') === 'y') //we are searching
+            {view = 'search';}
+        else
+            {view = $('select#msg_view_chooser').val();}
+
+        addMoreMessages(target,view );
     });
 
     //Listen for when user stars message
@@ -450,7 +486,11 @@ $(document).ready(function() {
             //turn off auto-refresh
             clearTimeout(msgRefresh);
 
-            //var resultTarget = $('div#msg_panel');
+            target.data('startVal',0); //reset start val for infinite scroll
+
+            target.data('searchOn','y');//notify other functions we are searching
+
+            target.data('searchTerm',$(this).val()); //save search term
 
             target.html('<p>Searching...</p>');
 
@@ -459,6 +499,9 @@ $(document).ready(function() {
             target.load('lib/php/data/messages_load.php', {'type': 'search','start':'0','s': search}, function() {
                     target.scrollTop(0);
                     layoutMessages();
+                    //make room for labels
+                    $('div.msg_bar_left').css({'width':'470px'});
+                    $('div.msg_bar_right').css({'width':'310px'});
 
                 });
 
@@ -468,7 +511,13 @@ $(document).ready(function() {
 
     $('.msg_search_clear').live('click', function() {
 
-        $(this).prev().val('Search Events');
+        target.data('searchOn','n');
+
+        target.data('searchTerm','');
+
+        target.data('startVal',0);
+
+        $(this).prev().val('Search Messages');
 
         $(this).prev().css({'color': '#AAA'});
 
@@ -476,6 +525,8 @@ $(document).ready(function() {
 
         //Restart auto-refresh
         msgRefresh = setInterval("msgLoad()", 90000);
+
+        $('div#msg_panel')[0].scrollTop = 0;
 
         $(this).hide();
     });

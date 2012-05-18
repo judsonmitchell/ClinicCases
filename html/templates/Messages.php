@@ -43,7 +43,7 @@
 
 			</select>
 
-			<div id = "msg_bar_right">
+			<div id = "msg_header_bar_right">
 
 				<input type="text" class="messages_search" id="msg_search" value= "Search Messages">
 
