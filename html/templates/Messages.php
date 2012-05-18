@@ -1,7 +1,7 @@
 <!-- Jquery Calls Specific to this page -->
 	<script  src="html/js/Messages.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
-
+	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
 
 <!-- Css specific to this page -->
 	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>

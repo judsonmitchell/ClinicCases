@@ -503,6 +503,8 @@ $(document).ready(function() {
                     $('div.msg_bar_left').css({'width':'470px'});
                     $('div.msg_bar_right').css({'width':'310px'});
 
+                    target.highlight(search);
+
                 });
 
             }
@@ -510,6 +512,8 @@ $(document).ready(function() {
     });
 
     $('.msg_search_clear').live('click', function() {
+
+        target.html('<p>Loading...</p>');
 
         target.data('searchOn','n');
 

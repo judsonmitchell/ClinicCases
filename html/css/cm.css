@@ -415,6 +415,8 @@ span.label_inbox{background-color:green;color:white;margin-left:3px;margin-right
 span.label_archive{background-color:gray;color:white;margin-left:3px;margin-right:3px;padding:2px;}
 span.label_sent{background-color:blue;color:white;margin-left:3px;margin-right:3px;padding:2px;}
 
+.highlight{background-color:yellow;}
+
 
 ::-webkit-scrollbar {
     width: 12px;
