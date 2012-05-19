@@ -22,7 +22,6 @@ function addMoreMessages(scrollTarget, view) {
             scrollTarget.data('startVal', startNum);
         }
 
-
         if (scrollTarget.data('searchOn') === 'y') //we are searching
         {
            $.post('lib/php/data/messages_load.php', {'type': view,'start': scrollTarget.data('startVal'),'s':scrollTarget.data('searchTerm')}, function(data) {
@@ -41,6 +40,7 @@ function addMoreMessages(scrollTarget, view) {
                     scrollTarget.append(data);
                     $('div.msg').addClass('ui-corner-all');
                     layoutMessages();
+                    scrollTarget.highlight(scrollTarget.data('searchTerm'));
                 }
 
             });
@@ -89,30 +89,39 @@ function checkOverflow(target)
 function layoutMessages()
 {
     //Check to see if the list ofs recipients are overflowing.  If so, add a link to expand
-    $('p.tos').each(function() {
-        var oFlow = checkOverflow($(this));
-        if (oFlow === true)
-        {
-            $(this).css({'overflowY': 'hidden'});
-            $(this).after('<p class="msg_to_more ex_tos"><a href="#">and others</a></p>');
+    var oFlow = null;
 
-        }
-    });
+    $('p.tos').each(function() {
+
+        if (!$(this).next('p').hasClass('msg_to_more_ex_tos')) //we haven't already fixed overflow
+            {
+                oFlow = checkOverflow($(this));
+
+                if (oFlow === true)
+                {
+                    $(this).css({'overflowY': 'hidden'});
+                    $(this).after('<p class="msg_to_more ex_tos"><a href="#">and others</a></p>');
+                }
+            }
+        });
+
 
     $('p.ccs').each(function() {
-        var oFlow = checkOverflow($(this));
-        if (oFlow === true)
-        {
-            $(this).css({'overflowY': 'hidden'});
-            $(this).after('<p class="msg_to_more"><a href="#">and others</a></p>');
-
-        }
+        if (!$(this).next('p').hasClass('msg_to_more_ex_tos')) //we haven't already fixed overflow
+            {
+                oFlow = checkOverflow($(this));
+                if (oFlow === true)
+                {
+                    $(this).css({'overflowY': 'hidden'});
+                    $(this).after('<p class="msg_to_more"><a href="#">and others</a></p>');
+                }
+            }
     });
+    //round corners
+    $('div.msg').addClass('ui-corner-all');
 
     //Set opacity of read messages
     $('div.msg_read').css({'opacity': '.5'});
-
-
 }
 
 $(document).ready(function() {
@@ -166,6 +175,8 @@ $(document).ready(function() {
                 //Set the height
                 var newHeight = $(this).closest('div.msg')[0].scrollHeight;
                 msgParent.animate({'height': newHeight});
+                if (target.data('searchOn') === 'y')
+                    {target.highlight(target.data('searchTerm'));}
             });
 
             //Mark message as read
@@ -272,7 +283,6 @@ $(document).ready(function() {
         $.post('lib/php/data/messages_load.php', {'type': view,'start': '0'}, function(data) {
             target.html(data);
             //Round Corners
-            $('div.msg').addClass('ui-corner-all');
             //Set the start value for scroll
             target.data('startVal', 0);
             layoutMessages();

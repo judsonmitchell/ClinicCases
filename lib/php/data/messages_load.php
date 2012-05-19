@@ -139,7 +139,7 @@ switch ($type) {
 
 	case 'search' :
 
-		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE (`to_text` LIKE :s OR `cc_text` LIKE :s OR `assoc_case_text` LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s) AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first  OR`ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first  OR`from` = :user) ORDER BY `time_sent` DESC LIMIT $start, $limit");
+		$q = $dbh->prepare("SELECT * from cm_messages, (SELECT DISTINCT thread_id FROM cm_messages WHERE (`to_text` LIKE :s OR `cc_text` LIKE :s OR `assoc_case_text` LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s) AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first  OR `ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first  OR `from` = :user)) AS all_msg WHERE cm_messages.id = all_msg.thread_id ORDER BY cm_messages.time_sent DESC LIMIT $start, $limit");
 
 		$search_term = '%' . $s .'%';
 
@@ -153,7 +153,7 @@ switch ($type) {
 
 		$q->execute($data);
 
-		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
+		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);//TODO need to filter out the replies here; subquery in sql or loop through result in php and return only where id = thread_id?
 
 	break;
 }
@@ -161,6 +161,12 @@ switch ($type) {
 if (empty($msgs) AND $replies === false AND $new_message === false)
 	//i.e, there are no messages to display, we are not loading replies, and
 	//this is not a request for the new message html
-	{echo "<p>There are no messages in your $type folder</p>";die;}
+	{
+
+		if (isset($s))
+			{echo "<p>No messages found matching <i>$s</i></p>";}
+		else
+			{echo "<p>There are no messages in your $type folder</p>";die;}
+	}
 
 include('../../../html/templates/interior/messages_display.php');
