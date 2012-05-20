@@ -232,7 +232,7 @@ div.case_detail_panel{position:relative;border-right: 1px solid #AAA; border-bot
 div.case_detail_bar>h3{padding:10px 20px 0 10px;float:left;}
 
 ul.case_detail_nav_list{text-align:left;}
-ul.case_detail_nav_list > li{border-bottom:1px solid lightgray;background-color:#FFFFDC;margin:0;padding:15px 0 15px 25px;color:gray}
+ul.case_detail_nav_list > li{border-bottom:1px solid #FFFFDC;background-color:#FFFFDC;margin:0;padding:15px 0 15px 25px;color:gray}
 ul.case_detail_nav_list > li.selected{border-bottom:1px solid #AAA;border-left:0;border-top:1px solid #AAA;background-color:#FFFFFF;margin-right:-2px;color:black}
 ul.case_detail_nav_list:first-child{border:0}
 ul.case_detail_nav_list > li.selected:before {content: "\0020 \0020 \0020 \00BB \0020";color: green;}

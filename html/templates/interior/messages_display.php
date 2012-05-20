@@ -139,6 +139,8 @@ if (!$replies) //these are not replies to a message
 						{echo "<a href='#'' class='archive'>Archive</a>";}
 				?>
 
+				<a href="#" class="print">Print</a>
+
 			</div>
 
 			<div class="msg_forward">

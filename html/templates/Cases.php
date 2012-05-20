@@ -46,6 +46,8 @@
 
 	<script  src="html/js/casesEvents.js" type="text/javascript"></script>
 
+	<script  src="html/js/casesMessages.js" type="text/javascript"></script>
+
 	<script  src="html/js/notifyUser.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.jscrollpane.min.js"></script>

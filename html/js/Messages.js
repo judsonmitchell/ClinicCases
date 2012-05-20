@@ -374,21 +374,25 @@ $(document).ready(function() {
 
         var clickType = $(this).attr('class');
 
-        //make room for textarea
-        var h = $(this).closest('div.msg').height() + 250;
-        $(this).closest('div.msg').height(h);
-
+        var h = null;
         //add choice of recipients if forward is selected
         if (clickType == 'forward')
         {
+            h = $(this).closest('div.msg').height() + 300;
             $(this).parent().siblings('div.msg_forward').show().find('select').chosen();
             //we need more space for forwards
-            $(this).closest('div.msg').height(h + 100);
+            $(this).closest('div.msg').height(h);
+            $(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
+
         }
 
         //Show textarea and add class name to tell send function what action to take.
-        if (clickType !== 'archive' && clickType !== 'unarchive')
+        if (clickType == 'reply')
         {
+            //make room for textarea
+            h = $(this).closest('div.msg').height() + 250;
+            $(this).closest('div.msg').height(h);
+            //add textarea
             $(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
         }
 
@@ -450,6 +454,12 @@ $(document).ready(function() {
                 msg.remove();
             }
         });
+    });
+
+    //Handle print
+    $('a.print').live('click',function(){
+        alert('Working on it');
+        //TODO enable print
     });
 
     //Expand 'to' field when it overflows

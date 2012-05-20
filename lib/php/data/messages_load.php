@@ -126,7 +126,7 @@ switch ($type) {
 
 	case 'replies' :
 
-		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE thread_id = :thread_id AND id != :thread_id");
+		$q = $dbh->prepare("SELECT * FROM cm_messages WHERE thread_id = :thread_id AND id != :thread_id ORDER BY `time_sent` ASC");
 
 		$data = array('thread_id' => $thread_id);
 

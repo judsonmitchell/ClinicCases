@@ -37,6 +37,21 @@ function get_subject($dbh,$msg_id) //Get subject for inclusion in notification e
 
 }
 
+function get_assoc_case($dbh,$id)//Determine if parent message was filed in a case; if so, get
+//that the case number so it can be added to the reply
+{
+	$q = $dbh->prepare("SELECT `id`,`assoc_case` FROM cm_messages WHERE `id` = '$id'");
+
+	$q->execute();
+
+	$r = $q->fetch();
+
+	if ($r['assoc_case'])
+		{return $r['assoc_case'];}
+	else
+		{return false;}
+}
+
 
 //Get variables
 
@@ -77,7 +92,6 @@ if (isset($_POST['new_subject']))
 
 if (isset($_POST['new_msg_text']))
 	{$new_msg_text = $_POST['new_msg_text'];}
-
 
 switch ($action) {
 
@@ -201,7 +215,7 @@ switch ($action) {
 	case 'reply':
 
 		$q = $dbh->prepare("INSERT INTO  `cm_messages` (`id` ,`thread_id` ,`to` ,`from` ,`ccs` ,`subject` ,`body` ,`assoc_case` ,`time_sent` ,`read` ,`archive` ,`starred`)
-			VALUES (NULL ,  :thread_id,  :to,  :sender, :ccs,  '',:reply_text,  '', CURRENT_TIMESTAMP ,  '',  '',  '');");
+			VALUES (NULL ,  :thread_id,  :to,  :sender, :ccs,  '',:reply_text,  :assoc_case, CURRENT_TIMESTAMP ,  '',  '',  '');");
 
 		$tos = generate_recipients($dbh,$thread_id);
 
@@ -209,7 +223,9 @@ switch ($action) {
 
 		$cc = $tos['ccs'];
 
-		$data = array('thread_id' => $thread_id, 'to' => $to,'ccs' => $cc, 'sender' => $user,'reply_text' => $reply_text);
+		$case = get_assoc_case($dbh,$thread_id);
+
+		$data = array('thread_id' => $thread_id, 'to' => $to,'ccs' => $cc, 'sender' => $user,'reply_text' => $reply_text,'assoc_case' => $case);
 
 		$q->execute($data);
 
