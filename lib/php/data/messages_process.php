@@ -409,6 +409,35 @@ switch ($action) {
 
 		break;
 
+	case 'archive_all':
+		//get all unarchived messages
+		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$user,%' AND `archive` NOT LIKE '$user,%' AND `archive` NOT LIKE '%,$user' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$user,%' OR no_archive.to LIKE '$user,%' OR no_archive.to LIKE '%,$user' OR no_archive.to LIKE '$user') OR (no_archive.ccs LIKE  '%,$user,%' OR no_archive.ccs LIKE '$user,%'  OR no_archive.ccs LIKE '%,$user' OR no_archive.ccs LIKE '$user')");
+
+		$q->execute();
+
+		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
+
+		$error = $q->errorInfo();
+
+		if (!$error[1])
+		{
+
+			foreach ($msgs as $msg) {
+
+				$update = $dbh->prepare("UPDATE cm_messages SET `archive` = REPLACE(`archive`,:user,''),
+				`archive` = CONCAT(`archive`,:user) WHERE id = :id");
+
+				$user_string = $user . ",";
+
+				$data = array('user' => $user_string, 'id' => $msg['id']);
+
+				$update->execute($data);
+
+			}
+		}
+
+		break;
+
 };
 
 if($error[1])
@@ -465,6 +494,11 @@ if($error[1])
 
 			case "mark_unread":
 			$return = array('message'=>'Message marked unread.');
+			echo json_encode($return);
+			break;
+
+			case "archive_all":
+			$return = array('message'=>'All inbox messages sent to archive.');
 			echo json_encode($return);
 			break;
 

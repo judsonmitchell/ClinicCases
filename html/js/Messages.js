@@ -93,7 +93,7 @@ function layoutMessages()
 
     $('p.tos').each(function() {
 
-        if (!$(this).next('p').hasClass('msg_to_more_ex_tos')) //we haven't already fixed overflow
+        if (!$(this).next('p').hasClass('msg_to_more')) //we haven't already fixed overflow
             {
                 oFlow = checkOverflow($(this));
 
@@ -107,7 +107,7 @@ function layoutMessages()
 
 
     $('p.ccs').each(function() {
-        if (!$(this).next('p').hasClass('msg_to_more_ex_tos')) //we haven't already fixed overflow
+        if (!$(this).next('p').hasClass('msg_to_more')) //we haven't already fixed overflow
             {
                 oFlow = checkOverflow($(this));
                 if (oFlow === true)
@@ -204,6 +204,36 @@ $(document).ready(function() {
     //Add buttons
     $('button#msg_archive_all_button').button({icons: {primary: "fff-icon-email-go"},text: true})
     .click(function() {
+
+            var dialogWin = $('<div title="Send All to Archive?">Send all messages in inbox to archive?</div>').dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            buttons: {
+                "Yes": function() {
+                    $.post('lib/php/data/messages_process.php', {action: 'archive_all'}, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                        {
+                            notify(serverResponse.message, true);
+                        }
+                        else
+                        {
+                            notify(serverResponse.message);
+
+                            msgLoad();
+                        }
+                    });
+
+                    $(this).dialog("destroy");
+                },
+                "No": function() {
+                    $(this).dialog("destroy");
+                }
+            }
+        });
+
+        $(dialogWin).dialog('open');
 
     });
 
