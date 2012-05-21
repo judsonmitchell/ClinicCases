@@ -1,16 +1,15 @@
+<?php if ($replies === false){ ?>
 <div class="case_detail_panel_tools">
 
 	<div class="case_detail_panel_tools_left"></div>
 
 	<div class="case_detail_panel_tools_right">
 
-		<input type="text" class="events_search" value="Search Messages">
+		<input type="text" class="cse_msg_search" value="Search Messages">
 
-		<input type="button" class="events_search_clear">
+		<input type="button" class="cse_msg_search_clear">
 
-		<button class='new_event'>New Event</button>
-
-		<button class = "events_print">Print</button>
+		<button class='cse_new_msg'>New Message</button>
 
 	</div>
 
@@ -79,25 +78,25 @@
 	</form>
 
 </div>
-
+<?php }?>
 <!-- This displays messages and replies -->
 <?php
 
-if (!$replies) //these are not replies to a message
+if ($replies === false) //these are not replies to a message
 {
 	foreach($msgs as $msg) {extract($msg);?>
 
-	<div class = "msg msg_closed <?php if (in_string($username,$read)){echo "msg_read";}else{echo "msg_unread";} ?>" data-id = "<?php echo $id; ?>">
+	<div class = "msg msg_closed <?php if (in_string($username,$read)){echo "msg_read";}else{echo "msg_unread";} ?> cse_msg" data-id = "<?php echo $id; ?>">
 
-		<div class = "msg_bar">
+		<div class = "msg_bar cse_msg_bar">
 
-			<div class = "msg_bar_left">
+			<div class = "msg_bar_left cse_msg_bar_left">
 
 				<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
 
 				<?php echo username_to_fullname($dbh,$from) . "     "; ?>
 
-				<span class = "msg_subject">
+				<span class = "cse_msg_subject">
 
 					<?php echo $subject; ?>
 
@@ -105,7 +104,7 @@ if (!$replies) //these are not replies to a message
 
 			</div>
 
-			<div class = "msg_bar_right">
+			<div class = "msg_bar_right cse_msg_bar_right">
 
 				<?php //if this is a search, apply label (inbox, archive, sent, etc)
 				if (isset($s)){echo apply_labels($dbh,$id,$username);} ?>

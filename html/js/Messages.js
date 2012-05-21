@@ -38,7 +38,6 @@ function addMoreMessages(scrollTarget, view) {
                 else
                 {
                     scrollTarget.append(data);
-                    $('div.msg').addClass('ui-corner-all');
                     layoutMessages();
                     scrollTarget.highlight(scrollTarget.data('searchTerm'));
                 }
@@ -61,7 +60,6 @@ function addMoreMessages(scrollTarget, view) {
                 else
                 {
                     scrollTarget.append(data);
-                    $('div.msg').addClass('ui-corner-all');
                     layoutMessages();
                 }
 
