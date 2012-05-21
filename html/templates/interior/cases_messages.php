@@ -1,4 +1,8 @@
 <?php if ($replies === false){ ?>
+<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
+
+</div>
+
 <div class="case_detail_panel_tools">
 
 	<div class="case_detail_panel_tools_left"></div>
@@ -151,13 +155,6 @@ if ($replies === false) //these are not replies to a message
 
 				<a href="#" class="forward">Forward</a>
 
-				<?php
-					if (in_string($username,$archive))
-						{echo "<a href='#' class='unarchive'>Return to Inbox</a>";}
-					else
-						{echo "<a href='#'' class='archive'>Archive</a>";}
-				?>
-
 			</div>
 
 			<div class="msg_forward">
@@ -183,7 +180,7 @@ if ($replies === false) //these are not replies to a message
 	</div>
 
 
-<?php } } else {foreach($msgs as $msg) {extract($msg);?>
+<?php } } else {foreach($msgs as $msg) {extract($msg); //these are replies ?>
 
 	<div class = "msg_reply" data-id = "<?php echo $id; ?>">
 

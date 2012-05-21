@@ -1,3 +1,7 @@
+<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
+
+</div>
+
 <div class="case_detail_panel_tools">
 
 	<div class="case_detail_panel_tools_left"></div>

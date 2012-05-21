@@ -265,6 +265,77 @@ $('.case_detail_nav #item5').live('click', function() {
             }
         });
 
+         //Show reply textarea
+         $('div.msg_actions a').live('click', function(event) {
+             event.preventDefault();
+
+             var clickType = $(this).attr('class');
+
+             var h = null;
+             //add choice of recipients if forward is selected
+             if (clickType == 'forward')
+             {
+                 h = $(this).closest('div.msg').height() + 300;
+                 $(this).parent().siblings('div.msg_forward').show().find('select').chosen();
+                 //we need more space for forwards
+                 $(this).closest('div.msg').height(h);
+                 $(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
+
+             }
+
+             //Show textarea and add class name to tell send function what action to take.
+             if (clickType == 'reply')
+             {
+                 //make room for textarea
+                 h = $(this).closest('div.msg').height() + 250;
+                 $(this).closest('div.msg').height(h);
+                 //add textarea
+                 $(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
+             }
+
+         });
+
+         //Send message
+         $('button.msg_send').live('click', function() {
+
+             var replyText = $(this).prev().val();
+             var threadId = $(this).closest('div.msg').attr('data-id');
+             var actionType = $(this).prev().attr('class'); //use the class name to determine action
+             var refreshTarget = $(this).parent().siblings('div.msg_replies');
+             var msgParent = $(this).closest('div.msg');
+             var forwardTos = $(this).parent().siblings('div.msg_forward').find('select').val();
+
+             $.post('lib/php/data/messages_process.php', {'action': actionType,'thread_id': threadId,'reply_text': replyText,'forward_tos': forwardTos}, function(data) {
+                 var serverResponse = $.parseJSON(data);
+
+                 if (serverResponse.error === true)
+                 {
+                     notify(serverResponse.message, true);
+                 }
+                 else
+                 {
+                     notify(serverResponse.message);
+                     //refresh to show new replies
+                     refreshTarget.load('lib/php/data/cases_messages_load.php', {'type': 'replies','thread_id': threadId}, function() {
+                         msgParent.animate({'height': '90'}); //close message
+                         msgParent.removeClass('msg_read msg_opened').addClass('msg_unread msg_closed');
+                         //reset form
+                         msgParent.find('div.msg_reply_text').hide().find('textarea').val('');
+                         msgParent.find('div.msg_forward').hide();
+                         msgParent.find('div.msg_forward select').val('');
+
+                         //scroll closed message into view
+                         $(this).closest('.case_detail_panel_casenotes').scrollTop(msgParent.data('verticalPos'));
+
+                     });
+                 }
+
+             });
+         });
+
+
+
+
     });
 
 
