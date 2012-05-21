@@ -147,11 +147,59 @@ $('.case_detail_nav #item5').live('click', function() {
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
-        //Set buttons
-        $('button.cse_new_msg').button({icons: {primary: "fff-icon-email-go"},text: true});
+        //Set buttons and handle sending of new message
+        $('button.cse_new_msg').button({icons: {primary: "fff-icon-email-go"},text: true})
+        .click(function(){
+            $(this).closest('.case_detail_panel').load('lib/php/data/cases_messages_load.php #msg_new',{'new_message':'y','case_id':caseId}, function(){
 
-        //Round Corners
-        $('div.msg').addClass('ui-corner-all');
+                //define new messsage
+                var newMsg = $('div#msg_new');
+                newMsg.show();
+                newMsg.find('select[name = "new_tos[]"], select[name = "new_ccs[]"], select[name = "new_file_msg"]').chosen();
+
+                //Cancel
+                $('#msg_new_button_cancel').click(function(event){
+                        event.preventDefault();
+                        $('#new_msg_form')[0].reset();
+                        //show list of messages again
+                        $(this).closest('.case_detail_panel').siblings('.case_detail_nav').find('li#item5').trigger('click');
+                        notify('New message cancelled');
+                    });
+
+                //Submit
+                $('#msg_new_button_submit').click(function(event){
+                    event.preventDefault();
+                    var msgVals = $('#new_msg_form').serializeArray();
+                    var target = $(this).closest('.case_detail_panel').siblings('.case_detail_nav').find('li#item5');
+                    if ($('select[name="new_tos"]').val() === null)
+                        {notify('<p>You must select at least one recipient</p>');return false;}
+                    else
+                    {
+                        $.post('lib/php/data/messages_process.php',msgVals,function(data){
+
+                            var serverResponse = $.parseJSON(data);
+                            if (serverResponse.error === true)
+                            {
+                                notify(serverResponse.message, true);
+                            }
+                            else
+                            {
+                                $('#new_msg_form')[0].reset();
+                                target.trigger('click');
+                                notify('Message sent');
+                            }
+
+                        });
+                    }
+
+                });
+
+            });
+
+        });
+
+        //Format messages
+        layoutMessages();
 
         //We are not searching
         thisPanel.data('searchOn', 'n');
@@ -294,6 +342,12 @@ $('.case_detail_nav #item5').live('click', function() {
              }
 
          });
+
+        //Handle print
+        $('a.print').live('click',function(){
+            alert('Working on it');
+            //TODO enable print
+        });
 
          //Send message
          $('button.msg_send').live('click', function() {

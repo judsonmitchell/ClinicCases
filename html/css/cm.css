@@ -349,7 +349,7 @@ div.new_event textarea{width:350px;}
 div.new_event input.long{width:350px;}
 div.new_event p * {vertical-align:top;}
 div.event_bar_right{width:24%;}
-div.event_bar_left{width:75%;}
+div.event_bar_left{width:75%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 input.events_search_clear{width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
 /* Styles for messages */
@@ -425,6 +425,7 @@ div.cse_msg_bar{width:100%;}
 div.cse_msg_bar_left{width:65%;font-size:15pt;color:navy;}
 div.cse_msg_bar_right{width:30%;}
 span.cse_msg_subject{margin-left:20px;font-size:15pt;color:black;}
+div.cse_msg_new{margin-top:3% !important;}
 
 
 ::-webkit-scrollbar {

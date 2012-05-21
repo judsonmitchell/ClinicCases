@@ -82,3 +82,23 @@ function all_active_users($dbh)
 
 }
 
+//Return all active users on a case
+function all_users_on_case($dbh, $id)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE `case_id` = '$id' AND `status` = 'active'");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	return $users_array;
+
+}
+

@@ -119,6 +119,11 @@ switch ($action) {
 			{
 				$tos .= implode(',', all_active_users($dbh)) . ',';
 			}
+			elseif (stristr($to, '_all_on_case_'))
+			//all users assigned to a particular case
+			{
+				$tos .= implode(',', all_users_on_case($dbh,$assoc_case)) . ',';
+			}
 			else
 			{
 				$tos .= $to . ',';
@@ -146,6 +151,11 @@ switch ($action) {
 				elseif (stristr($to, '_all_users_'))
 				{
 					$ccs .= implode(',', all_active_users($dbh)) . ',';
+				}
+				elseif (stristr($to, '_all_on_case_'))
+				//all users assigned to a particular case
+				{
+					$ccs .= implode(',', all__users_on_case($dbh,$assoc_case)) . ',';
 				}
 				else
 				{

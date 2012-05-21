@@ -235,6 +235,7 @@ $(document).ready(function() {
 
     });
 
+    //Set buttons and handle sending of new message
 	$('button#new_msg_button').button({icons: {primary: "fff-icon-email-add"},text: true})
 	.click(function(){
 		$('div#msg_panel').load('lib/php/data/messages_load.php #msg_new',{'new_message':'y'}, function(){
@@ -396,7 +397,7 @@ $(document).ready(function() {
 
     });
 
-    //Send message
+    //Send reply to message
     $('button.msg_send').live('click', function() {
 
         var replyText = $(this).prev().val();

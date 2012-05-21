@@ -233,8 +233,24 @@ function all_active_users($dbh)
 }
 
 //Generate a list of all active users and all groups.  Used in messages.
-function all_active_users_and_groups($dbh)
+function all_active_users_and_groups($dbh,$case_num)
 {
+	$options = null;
+
+	//If case, add ability to send to all on the case
+	if ($case_num)
+	{
+		$q = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE `case_id` = '$case_num' AND `status` = 'active'");
+
+		$q->execute();
+
+		$count = $q->rowCount();
+
+		$options .= "<option value='_all_on_case_'>All Users on this Case ($count)</option>";
+
+
+	}
+
 	//Determine total number of active users
 	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
 
@@ -242,7 +258,7 @@ function all_active_users_and_groups($dbh)
 
 	$count = $q->rowCount();
 
-	$options = "<option value='_all_users_'>All $count Users</option>";
+	$options .= "<option value='_all_users_'>All Users ($count)</option>";
 
 	//First get all groups defined in cm_groups config
 	$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");

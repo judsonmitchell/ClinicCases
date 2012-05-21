@@ -22,7 +22,7 @@
 <div class = "case_detail_panel_casenotes">
 
 <!-- This is markup for a new message, hidden from the user until new message button clicked -->
-<div id = "msg_new">
+<div id = "msg_new" class="cse_msg_new">
 
 	<form id = "new_msg_form">
 
@@ -30,7 +30,7 @@
 
 			<select multiple name = "new_tos[]" data-placeholder = "Choose recipients">
 
-				<?php echo all_active_users_and_groups($dbh); ?>
+				<?php echo all_active_users_and_groups($dbh, $case_id); ?>
 
 			</select>
 
@@ -40,7 +40,7 @@
 
 			<select multiple name = "new_ccs[]" data-placeholder = "Choose recipients">
 
-				<?php echo all_active_users_and_groups($dbh); ?>
+				<?php echo all_active_users_and_groups($dbh, $case_id); ?>
 
 			</select>
 
@@ -56,9 +56,7 @@
 
 			<select name = "new_file_msg" data-placeholder = "Choose case file">
 
-				<option value = "">No file</option>
-
-				<?php echo generate_active_cases_select($dbh,$username) ?>
+				<option selected=selected value = "<?php echo $case_id; ?>"><?php echo case_id_to_casename ($dbh,$case_id);  ?></option>
 
 			</select>
 
@@ -154,6 +152,8 @@ if ($replies === false) //these are not replies to a message
 				<a href="#" class="reply">Reply</a>
 
 				<a href="#" class="forward">Forward</a>
+
+				<a href="#" class="print">Print</a>
 
 			</div>
 
