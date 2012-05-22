@@ -360,7 +360,7 @@ div#msg_header_bar_right{position:absolute;right:15px;top:2px;width:600px;text-a
 input#msg_search{color:#AAA;}
 input.msg_search_clear {width:25px;height:25px;background-image:url('../ico/cancel.png'); background-position: center center;background-repeat: no-repeat;border: none;background-color: transparent;cursor: pointer;position: relative;left:-30px;display:none}
 
-div.msg {position:relative;border:1px solid #AAA; text-align:left;width:802px;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;overflow: hidden;padding-bottom:20px;}
+div.msg {position:relative;border:1px solid #AAA; text-align:left;width:802px;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;overflow: hidden;padding-bottom:20px;font-size:1em;}
 div.msg p {margin:10px}
 div.msg div.more{position:absolute;bottom:0;right:15px;}
 div.more > a{font-size:.8em;color:#AAA;}
@@ -387,13 +387,14 @@ div#msg_new input { background-color: #fff;
 }
 p.msg_new_buttons {text-align:right;}
 
-div.msg_bar{width:800px;height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
+div.msg_bar{width:800px;height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;font-size:1em;}
 div.msg_bar_left{display:inline-block;width:530px;color:black;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 div.msg_bar_right{display:inline-block;width:250px;text-align:right;}
 div.msg_bar_right img {margin-left:15px;}
 div.msg_bar_right a {font-size:1em;color:navy}
-span.msg_subject{font-size:1.3em;color:navy;margin-left:20px;}
+span.msg_subject{font-size:1em;color:navy;margin-left:20px;}
 
+div.msg_body{font-size:16px;}
 div.msg_body_text, div.msg_replies, div.msg_actions{margin-left:120px !important;width:450px;}
 div.msg_actions{margin-top:30px;}
 div.msg_actions a{margin-right:15px;}
@@ -408,7 +409,7 @@ div.msg_reply_left{display: inline-block;width:50%;}
 div.msg_reply_right{display: inline-block;width:49%;text-align:right;color:#AAA;}
 div.msg_reply p {margin-left:0 !important;}
 p.tos, p.ccs,p.subj{height:20px;color:#AAA;line-height:20px;}
-p.msg_to_more{text-align:right;margin-top:-10px !important;margin-right:50px !important;}
+p.msg_to_more{text-align:left;margin-top:-10px !important;margin-left:40px !important;}
 p.msg_to_more a{color:#AAA;}
 
 span.label_inbox{background-color:green;color:white;margin-left:3px;margin-right:3px;padding:2px;}
@@ -422,9 +423,9 @@ input.cse_msg_search_clear{width:25px;height:25px;background-image:url('../ico/c
 
 div.cse_msg{width:98%;}
 div.cse_msg_bar{width:100%;}
-div.cse_msg_bar_left{width:65%;font-size:15pt;color:navy;}
+div.cse_msg_bar_left{width:65%;font-size:1em;color:navy;}
 div.cse_msg_bar_right{width:30%;}
-span.cse_msg_subject{margin-left:20px;font-size:15pt;color:black;}
+span.cse_msg_subject{margin-left:20px;font-size:1em;color:black;}
 div.cse_msg_new{margin-top:3% !important;}
 
 
