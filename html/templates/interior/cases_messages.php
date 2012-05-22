@@ -1,4 +1,4 @@
-<?php if ($replies === false){ ?>
+<?php if ($replies === false AND $refresh === false){ ?>
 <div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
 
 </div>
@@ -107,9 +107,6 @@ if ($replies === false) //these are not replies to a message
 			</div>
 
 			<div class = "msg_bar_right cse_msg_bar_right">
-
-				<?php //if this is a search, apply label (inbox, archive, sent, etc)
-				if (isset($s)){echo apply_labels($dbh,$id,$username);} ?>
 
 				<?php echo extract_date_time($time_sent); ?>
 

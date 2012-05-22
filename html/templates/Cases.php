@@ -74,6 +74,9 @@
 
 	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
+
+
 
 
 </head>

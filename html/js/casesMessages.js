@@ -3,7 +3,7 @@
 //
 
 //Load new messages on scroll
-function addMoreMessages(scrollTarget, view) {
+function addMoreMessages(scrollTarget, view, caseId) {
 
     var scrollAmount = scrollTarget[0].scrollTop;
     var scrollHeight = scrollTarget[0].scrollHeight;
@@ -26,7 +26,7 @@ function addMoreMessages(scrollTarget, view) {
 
         if (scrollTarget.data('searchOn') === 'y')  //we are searching
         {
-            $.post('lib/php/data/cases_messages_load.php', {'type': view,'start': scrollTarget.data('startVal'),'s': scrollTarget.data('searchTerm')}, function(data) {
+            $.post('lib/php/data/cases_messages_load.php', {'type': view,'start': scrollTarget.data('startVal'),'s': scrollTarget.data('searchTerm'),'case_id':caseId,'update':'y'}, function(data) {
 
                 //var t represents number of messages in returned data; if 0,return false;
                 var t = $(data).find('div').length;
@@ -48,7 +48,7 @@ function addMoreMessages(scrollTarget, view) {
         }
         else
         {
-            $.post('lib/php/data/cases_messages_load.php', {'type': view,'start': scrollTarget.data('startVal')}, function(data) {
+            $.post('lib/php/data/cases_messages_load.php', {'type': view,'start': scrollTarget.data('startVal'),'case_id':caseId,'update':'y'}, function(data) {
 
                 //var t represents number of messages in returned data; if 0,return false;
                 var t = $(data).find('div').length;
@@ -225,7 +225,7 @@ $('.case_detail_nav #item5').live('click', function() {
 					view = 'main';
 				}
 
-				addMoreMessages($(this), view);
+				addMoreMessages($(this), view, caseId);
             }
         });
 
@@ -246,15 +246,13 @@ $('.case_detail_nav #item5').live('click', function() {
 
                 //msgParent.data('verticalPos', $('div#msg_panel')[0].scrollTop);
 
-                //turn off auto-refresh
-                //clearTimeout(msgRefresh);
-
                 $(this).next('div').find('div.msg_replies').load('lib/php/data/cases_messages_load.php', {'type': 'replies','thread_id': thisMsgId}, function() {
                     //Set the height
                     var newHeight = $(this).closest('div.msg')[0].scrollHeight;
                     msgParent.animate({'height': newHeight});
                     if (thisPanel.data('searchOn') === 'y')
                     {
+                        var target = $(this).closest('.case_detail_panel');
                         thisPanel.highlight(target.data('searchTerm'));
                     }
                 });
@@ -275,8 +273,6 @@ $('.case_detail_nav #item5').live('click', function() {
 
                 msgParent.animate({'height': '90'});
 
-            //turn auto refresh back on
-            //msgRefresh = setInterval("msgLoad()", 90000);
             }
 
         });
@@ -347,6 +343,128 @@ $('.case_detail_nav #item5').live('click', function() {
         $('a.print').live('click',function(){
             alert('Working on it');
             //TODO enable print
+        });
+
+        //Expand 'to' field when it overflows
+        $('p.msg_to_more').live('click',function(event) {
+
+            event.preventDefault();
+
+            var newHeight = null;
+
+            if ($(this).hasClass('ex_tos'))
+            //row of 'to' recipients needs to be expanded
+            {
+                var tos = $(this).siblings('p.tos');
+                newHeight = tos[0].scrollHeight;
+
+                if ($(this).hasClass('expanded'))
+                {
+                    $(this).removeClass('expanded');
+                    tos.css({'height': '20'});
+                    $(this).html('<a href="#">and others</a>');
+                    //Clip message now tos are hidden
+                    newMsgHeight = $(this).closest('div.msg').height() - newHeight;
+                    $(this).closest('div.msg').height(newMsgHeight);
+                }
+                else
+                {
+                    tos.css({'height': newHeight});
+                    $(this).addClass('expanded');
+                    $(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
+                    //resize message to fit all this information
+                    newMsgHeight = $(this).closest('div.msg').height() + newHeight;
+                    $(this).closest('div.msg').height(newMsgHeight);
+                }
+            }
+            else
+            //row of 'cc' recipients needs to be expanded
+            {
+                var ccs = $(this).siblings('p.ccs');
+                newHeight = ccs[0].scrollHeight;
+
+                if ($(this).hasClass('expanded'))
+                {
+                    $(this).removeClass('expanded');
+                    ccs.css({'height': '20'});
+                    $(this).html('<a href="#">and others</a>');
+                    //Clip message now ccs are hidden
+                    newMsgHeight = $(this).closest('div.msg').height() - newHeight;
+                    $(this).closest('div.msg').height(newMsgHeight);
+                }
+                else
+                {
+                    ccs.css({'height': newHeight});
+                    $(this).addClass('expanded');
+                    $(this).html('<a href="#" class="msg_to_more_hide">Hide</a>');
+                    //resize message to fit all this information
+                    newMsgHeight = $(this).closest('div.msg').height() + newHeight;
+                    $(this).closest('div.msg').height(newMsgHeight);
+                }
+            }
+        });
+
+        //handle search
+        $('input.cse_msg_search').live('focusin', function() {
+
+            $(this).val('');
+            $(this).css({'color': 'black'});
+            $(this).next('.cse_msg_search_clear').show();
+        });
+
+        $('input.cse_msg_search').live('keyup', function(event) {
+
+            if (event.which == 13) {
+
+                var target = $(this).closest('.case_detail_panel');
+
+                var dataTarget = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+
+                target.data('startVal','0'); //reset start val for infinite scroll
+
+                target.data('searchOn','y');//notify other functions we are searching
+
+                target.data('searchTerm',$(this).val()); //save search term
+
+                dataTarget.html('<p>Searching...</p>');
+
+                var search = $(this).val();
+
+                dataTarget.load('lib/php/data/cases_messages_load.php', {'type': 'search','start':'0','s': search,'case_id':caseId}, function() {
+                        dataTarget.scrollTop(0);
+                        layoutMessages();
+                        dataTarget.highlight(search);
+
+                    });
+
+                }
+
+        });
+
+        $('.cse_msg_search_clear').live('click', function() {
+
+            var target = $(this).closest('.case_detail_panel');
+
+            var dataTarget = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+
+            dataTarget.html('<p>Loading...</p>');
+
+            target.data('searchOn','n');
+
+            target.data('searchTerm','');
+
+            target.data('startVal',0);
+
+            $(this).prev().val('Search Messages');
+
+            $(this).prev().css({'color': '#AAA'});
+
+            //show list of messages again
+            $(this).closest('.case_detail_panel').siblings('.case_detail_nav').find('li#item5').trigger('click');
+
+            dataTarget[0].scrollTop = 0;
+
+            $(this).hide();
         });
 
          //Send message

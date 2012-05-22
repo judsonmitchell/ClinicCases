@@ -57,6 +57,12 @@ if (isset($_POST['new_message']))
 if (isset($_POST['s']))
 	{$s = $_POST['s'];}
 
+//If updating infinite scroll, turn off header and new message html
+if (isset($_POST['refresh']))
+	{$refresh = true;}
+	else
+	{$refresh = false;}
+
 $replies = false;
 
 switch ($type) {
@@ -86,7 +92,28 @@ switch ($type) {
 
 	case 'search':
 
+		$q = $dbh->prepare("SELECT * from cm_messages, (SELECT DISTINCT thread_id FROM cm_messages WHERE (`to_text` LIKE :s OR `cc_text` LIKE :s OR `assoc_case_text` LIKE :s OR `time_sent_text` LIKE :s OR `subject` LIKE :s OR `body` LIKE :s)) AS all_msg WHERE cm_messages.id = all_msg.thread_id  AND cm_messages.assoc_case = :case_id ORDER BY cm_messages.time_sent DESC LIMIT $start, $limit");
+
+		$search_term = '%' . $s .'%';
+
+		$data = array('s' => $search_term, 'case_id' => $case_id);
+
+		$q->execute($data);
+
+		$msgs = $q->fetchAll(PDO::FETCH_ASSOC);
+
+		$refresh = true;
+
 	break;
+}
+
+if (empty($msgs) AND $replies === false AND $new_message === false)
+{
+
+	if (isset($s))
+		{echo "<p>No messages found matching <i>$s</i></p>";}
+	else
+		{echo "<p>No messages in this case</p>";die;}
 }
 
 include('../../../html/templates/interior/cases_messages.php');
