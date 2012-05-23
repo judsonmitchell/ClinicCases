@@ -430,6 +430,8 @@ $('input.cse_msg_search').live('keyup', function(event) {
 
         var target = $(this).closest('.case_detail_panel');
 
+        var caseId = target.data('CaseNumber');
+
         var dataTarget = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
 
         target.data('startVal', '0'); //reset start val for infinite scroll
