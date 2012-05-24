@@ -58,7 +58,7 @@ if (isset($_POST['s']))
 	{$s = $_POST['s'];}
 
 //If updating infinite scroll, turn off header and new message html
-if (isset($_POST['refresh']))
+if (isset($_POST['update']))
 	{$refresh = true;}
 	else
 	{$refresh = false;}
