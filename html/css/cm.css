@@ -428,6 +428,8 @@ div.cse_msg_bar_right{width:30%;}
 span.cse_msg_subject{margin-left:20px;font-size:1em;color:black;}
 div.cse_msg_new{margin-top:3% !important;}
 
+.msg_number{color:red;}
+
 
 ::-webkit-scrollbar {
     width: 12px;

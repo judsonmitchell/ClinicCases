@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <head>
-	<title>ClinicCases - Online Case Management Software for Law School Clinics</title>
+	<title>ClinicCases</title>
 	<meta name="robots" content="noindex">
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css" />
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css" />

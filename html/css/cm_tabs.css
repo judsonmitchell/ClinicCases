@@ -51,14 +51,14 @@
 	*	exposing 1px of the background color of #tabs and giving the effect of an underline.
 	*/
 
-	#tabs #current a span {
+	#tabs .current a span {
 		padding-bottom:4px;
 	}
 	#tabs a:hover, #tabs a:hover span {
 		background-color:rgb(255,255,204);
 		color:#000;
 	}
-	#tabs #current a span, #tabs #current a {
+	#tabs .current a span, #tabs .current a {
 		background-color:#fff;font-weight:bold;
 	}
 

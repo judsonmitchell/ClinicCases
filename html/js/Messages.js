@@ -178,7 +178,10 @@ $(document).ready(function() {
             });
 
             //Mark message as read
-            $.post('lib/php/data/messages_process.php', {'action': 'mark_read','id': thisMsgId});
+            $.post('lib/php/data/messages_process.php', {'action': 'mark_read','id': thisMsgId},function(){
+                    msgCheck(); //defined in messageCheck.js
+
+            });
 
         }
         else
