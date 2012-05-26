@@ -14,7 +14,7 @@ $user_first = $username . ',%';
 
 $user_last_trailing = '%,' . $username . ',';
 
-$user_first_trailing = $username . ',';
+//$user_first_trailing = $username . ',';
 
 //Get last mail check
 
@@ -61,7 +61,7 @@ if ($check_val) {
 	else
 		{$number = $r['COUNT(id)'];}
 
-	$new = array('new' => $number);
+	$new = array('new_msg' => $number);
 
 } else {
 	//This is user's first time ever logging in
@@ -71,11 +71,11 @@ if ($check_val) {
 
 //Now get the unread message count
 
-$q = $dbh->prepare("SELECT COUNT(id) from cm_messages WHERE (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first OR `to` LIKE :user OR `ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first OR `ccs` LIKE :user)
-AND (`read` NOT LIKE :user_first AND `read` NOT LIKE :user_first_trailing AND `read` NOT LIKE :user_middle AND `read` NOT LIKE :user_last_trailing)
-AND (`archive` NOT LIKE :user_first AND `archive` NOT LIKE :user_first_trailing AND `archive` NOT LIKE :user_middle AND `archive` NOT LIKE :user_last_trailing)");
+$q = $dbh->prepare("SELECT COUNT(id) from cm_messages WHERE (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first OR `to` LIKE :user OR `ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first OR `ccs` LIKE :user OR `from` LIKE :user)
+AND (`read` NOT LIKE :user_first AND `read` NOT LIKE :user_middle AND `read` NOT LIKE :user_last_trailing)
+AND (`archive` NOT LIKE :user_first AND `archive` NOT LIKE :user_middle AND `archive` NOT LIKE :user_last_trailing) AND `id` = `thread_id`");
 
-$data = array('user_first' => $user_first,'user_middle' => $user_middle, 'user_last' => $user_last, 'user_first_trailing' => $user_first_trailing, 'user_last_trailing' => $user_last_trailing, 'user' => $username);
+$data = array('user_first' => $user_first,'user_middle' => $user_middle, 'user_last' => $user_last, 'user_last_trailing' => $user_last_trailing, 'user' => $username);
 
 $q->execute($data);
 

@@ -1,6 +1,6 @@
 <?php
 //Loads messages
-
+//[A brief explanation of how messages are set up:  If the id matches the thread_id, this is a parent message.  If it doesn't, then this is a reply to the parent message.  Whenever someone replies to a parent message, the parent message archive and read fields are cleared.  The parent message will then appear in the recipients inbox as a new message.  When recipient clicks on parent message header, all replies, including the one just sent, is loaded.  A reply should never have anything in its read or archive fields, unless there are some left over messages from cc6.  Apologies for this complexity.]
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
@@ -18,6 +18,8 @@ function in_string($val,$string)
 	if (stristr($string, $val_1))
 		{return true;}
 	elseif (stristr($string, $val_2))
+		{return true;}
+	elseif (stristr($string, $val))
 		{return true;}
 	else
 		{return false;}
@@ -86,7 +88,10 @@ switch ($type) {
 
 		$q = $dbh->prepare("SELECT * from cm_messages,(SELECT DISTINCT thread_id FROM cm_messages
 			WHERE `to` LIKE '$username,%' OR `to` LIKE '%,$username,%' OR `to` LIKE '%,$username' OR `to`
-			LIKE '$username' OR `ccs` LIKE '$username,%' OR `ccs` LIKE '%,$username,%' OR `ccs` LIKE '%,$username' or `ccs` LIKE '$username') AS all_msg WHERE cm_messages.id = all_msg.thread_id AND `archive` NOT LIKE '%,$username,%' AND `archive` NOT LIKE '$username,%' AND `archive` NOT LIKE '%,$username' ORDER BY cm_messages.time_sent DESC LIMIT $start, $limit");
+			LIKE '$username' OR `ccs` LIKE '$username,%' OR `ccs` LIKE '%,$username,%' OR `ccs` LIKE '%,$username' or `ccs` LIKE '$username') AS all_msg
+				WHERE cm_messages.id = all_msg.thread_id
+				AND cm_messages.id = cm_messages.thread_id
+				AND cm_messages.archive NOT LIKE '%,$username,%' AND cm_messages.archive NOT LIKE '$username,%' AND cm_messages.archive NOT LIKE '%,$username' AND cm_messages.archive NOT LIKE '$username,' ORDER BY cm_messages.time_sent DESC LIMIT $start, $limit");
 
 		$q->execute();
 

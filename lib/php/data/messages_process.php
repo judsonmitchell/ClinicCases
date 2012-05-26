@@ -437,7 +437,7 @@ switch ($action) {
 
 	case 'archive_all':
 		//get all unarchived messages
-		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$user,%' AND `archive` NOT LIKE '$user,%' AND `archive` NOT LIKE '%,$user' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$user,%' OR no_archive.to LIKE '$user,%' OR no_archive.to LIKE '%,$user' OR no_archive.to LIKE '$user') OR (no_archive.ccs LIKE  '%,$user,%' OR no_archive.ccs LIKE '$user,%'  OR no_archive.ccs LIKE '%,$user' OR no_archive.ccs LIKE '$user')");
+		$q = $dbh->prepare("SELECT * FROM (SELECT * FROM cm_messages WHERE `archive` NOT LIKE '%,$user,%' AND `archive` NOT LIKE '$user,%' AND `archive` NOT LIKE '%,$user' AND `id` = `thread_id`) AS no_archive WHERE (no_archive.to LIKE '%,$user,%' OR no_archive.to LIKE '$user,%' OR no_archive.to LIKE '%,$user' OR no_archive.to LIKE '$user') OR (no_archive.ccs LIKE  '%,$user,%' OR no_archive.ccs LIKE '$user,%'  OR no_archive.ccs LIKE '%,$user' OR no_archive.ccs LIKE '$user') OR (no_archive.from LIKE '$user')");
 
 		$q->execute();
 

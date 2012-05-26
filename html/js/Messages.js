@@ -223,6 +223,8 @@ $(document).ready(function() {
                             notify(serverResponse.message);
 
                             msgLoad();
+
+                            msgCheck();//defined in messageChecker.js
                         }
                     });
 
