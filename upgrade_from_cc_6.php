@@ -462,6 +462,17 @@ foreach ($msgs as $msg) {
 
 echo "Messages db upgraded <br />";
 
+echo "Upgrading password fields <br />";
+$q = $dbh->prepare("ALTER TABLE `cm_users`  ADD `force_new_password` INT(2) NOT NULL DEFAULT '0'");
+
+$q->execute();
+
+$q = $dbh->prepare("UPDATE cm_users SET `force_new_password` = '1'");
+
+$q->execute();
+
+echo "Password upgrade successful.  Users will be asked to provide new password. <br />";
+
 echo "Upgrade successful";
 
 

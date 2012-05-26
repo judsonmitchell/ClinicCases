@@ -35,11 +35,3 @@ function pbkdf2( $p, $s, $c, $kl, $a = 'sha256' ) {
     # Return derived key of correct length
     return substr($dk, 0, $kl);
 }
-
-$pass = 'dingo88';
-
-$salt = CC_SALT;
-
-$hash = pbkdf2($pass, $salt, 1000, 32);
-
-echo base64_encode($hash);

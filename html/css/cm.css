@@ -142,6 +142,13 @@ a.smallgray:hover {font-size:10pt;color:red;font-family:garamond, times, serif;t
 #footer p {font-family:verdana,arial,helvetica;font-size:10pt;color:black}
 #footer a {font-family:verdana,arial,helvetica;font-size:10pt;text-decoration:underline;}
 
+/*Styles for New_Pass.php page */
+div.force_new_password_content{width:50%;margin:auto;}
+div.force_new_password_content p {text-align:left;}
+div.force_new_password_content label{display:inline-block;margin:12px 0 0;width:145px;vertical-align:top;}
+
+
+
 /* Home page styles */
 
 div#home_nav {position:relative;width:100%;height:5%;padding-top:5px;}
