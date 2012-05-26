@@ -7,6 +7,7 @@ $(document).ready(function() {
 		return false;
 	});
 
+	//Submit new password
 	$('button').click(function(event){
 		event.preventDefault();
 

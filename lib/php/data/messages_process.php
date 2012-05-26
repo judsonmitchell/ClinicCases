@@ -167,7 +167,7 @@ switch ($action) {
 			{$ccs = null;}
 
 		//next insert into db
-		$q = $dbh->prepare("INSERT INTO `cm_messages` (`id`, `thread_id`, `to`, `from`, `ccs`, `subject`, `body`, `assoc_case`, `time_sent`, `read`, `archive`, `starred`) VALUES (NULL, '', :tos, :sender, :ccs, :subject, :body, :assoc_case, CURRENT_TIMESTAMP, '', '', '');");
+		$q = $dbh->prepare("INSERT INTO `cm_messages` (`id`, `thread_id`, `to`, `from`, `ccs`, `subject`, `body`, `assoc_case`, `time_sent`, `read`, `archive`, `starred`) VALUES (NULL, '', :tos, :sender, :ccs, :subject, :body, :assoc_case, CURRENT_TIMESTAMP, :sender_has_read, '', '');");
 
 		//strip trailing commas, if present
 		if (substr($tos, -1) == ',')
@@ -176,7 +176,12 @@ switch ($action) {
 		if (substr($ccs, -1) == ',')
 			{$ccs = substr($ccs, 0,-1);}
 
-		$data = array('tos' => $tos,'sender' => $user, 'ccs' => $ccs, 'subject' => $new_subject,'body' => $new_msg_text,'assoc_case' => $assoc_case);
+		//Add the sender to the 'read' column.  Stops this message from being
+		//counted in unread message count
+
+		$sender_has_read = $user .',';
+
+		$data = array('tos' => $tos,'sender' => $user, 'ccs' => $ccs, 'subject' => $new_subject,'body' => $new_msg_text,'assoc_case' => $assoc_case,'sender_has_read' => $sender_has_read);
 
 		$q->execute($data);
 
@@ -245,7 +250,13 @@ switch ($action) {
 		//to the message in the inbox
 		if (!$error[1])
 			{
-				$q = $dbh->prepare("UPDATE cm_messages SET `archive` = '',`read` = '' WHERE `id` = '$thread_id'");
+				$q = $dbh->prepare("UPDATE cm_messages SET `archive` = '',`read` = ? WHERE `id` = '$thread_id'");
+
+				//Add the sender to the 'read' column.  Stops this message from being
+				//counted in unread message count
+				$sender_has_read = $user .',';
+
+				$q->bindParam(1, $sender_has_read);
 
 				$q->execute();
 

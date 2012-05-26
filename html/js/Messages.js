@@ -425,7 +425,7 @@ $(document).ready(function() {
                 //refresh to show new replies
                 refreshTarget.load('lib/php/data/messages_load.php', {'type': 'replies','thread_id': threadId}, function() {
                     msgParent.animate({'height': '90'}); //close message
-                    msgParent.removeClass('msg_read msg_opened').addClass('msg_unread msg_closed');
+                    msgParent.removeClass('msg_opened').addClass('msg_closed').css({'opacity':'.5'});
                     //reset form
                     msgParent.find('div.msg_reply_text').hide().find('textarea').val('');
                     msgParent.find('div.msg_forward').hide();
