@@ -1,6 +1,13 @@
 $(document).ready(function() {
 
-  $('button').click(function(event){
+	//"Disable" navigation tabs
+	$("#tabs a").click(function(event){
+		event.preventDefault();
+		notify('<p>Please change your password before proceeding.</p>',true);
+		return false;
+	});
+
+	$('button').click(function(event){
 		event.preventDefault();
 
 		var pass = $('input[name="new_pass"]').val();

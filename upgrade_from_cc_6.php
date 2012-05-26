@@ -463,7 +463,7 @@ foreach ($msgs as $msg) {
 echo "Messages db upgraded <br />";
 
 echo "Upgrading password fields <br />";
-$q = $dbh->prepare("ALTER TABLE `cm_users`  ADD `force_new_password` INT(2) NOT NULL DEFAULT '0';ALTER TABLE  `cm_users` CHANGE  `password`  `password` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+$q = $dbh->prepare("ALTER TABLE `cm_users`  ADD `force_new_password` INT(2) NOT NULL DEFAULT '0';ALTER TABLE  `cm_users` CHANGE  `password`  `password` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';
 ");
 
 $q->execute();
