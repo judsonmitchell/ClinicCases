@@ -9,7 +9,7 @@
  *
  *  @return string derived key
  *
- *  http://www.itnewb.com/tutorial/Encrypting-Passwords-with-PHP-for-Storage-Using-the-RSA-PBKDF2-Standard
+ *  Thanks to this gentleman: http://goo.gl/MIhTm
 */
 function pbkdf2( $p, $s, $c, $kl, $a = 'sha256' ) {
 

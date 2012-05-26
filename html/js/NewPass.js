@@ -18,7 +18,17 @@ $(document).ready(function() {
 			if (errors.length < 1)
 				{
 					//submit the form
-					alert('good');
+					$.post('lib/php/auth/change_password.php',{'upgrade' : 'y','pass':pass},function(data){
+						var serverResponse = $.parseJSON(data);
+						if (serverResponse.error === true)
+						{
+							notify(serverResponse.message, true);
+						}
+						else
+						{
+							notify(serverResponse.message);
+						}
+					});
 				}
 			else
 				{

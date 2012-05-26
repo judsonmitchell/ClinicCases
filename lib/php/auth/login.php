@@ -7,29 +7,36 @@ include 'pbkdf2.php';
 //Check if password needs to be updated
 function force_new_password($dbh,$user)
 {
-	$q = $dbh->prepare("SELECT username FROM cm_users WHERE username = ?");
+	$q = $dbh->prepare("SELECT username,force_new_password FROM cm_users WHERE username = ?");
 
 	$q->bindParam(1,$user);
 
 	$q->execute();
 
-	$nu = $q->fetch();
+	$nu = $q->fetch(PDO::FETCH_ASSOC);
 
-	if ($nu['force_new_password'] = "1")
-		{return true;}
+	if ($nu['force_new_password'] == '1')
+		{
+			$result = 'yes';
+		}
 	else
-		{return false;}
+		{
+			$result = 'no';
+		}
+
+		return $result;
 }
 
 //Set variables
 $update_password = force_new_password($dbh,$_POST['username']);
 
-if ($update_password === true)
+if ($update_password === 'yes')
 {
 	$password = md5($_POST['password']);
 }
 else
 {
+	$salt = CC_SALT;
 	$hash = pbkdf2($_POST['password'], $salt, 1000, 32);
 	$password = base64_encode($hash);
 }
@@ -114,7 +121,7 @@ else
 	$_SESSION['cc_session_id'] = $sess_id;
 	write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
 
-	if ($update_password === true)
+	if ($update_password === 'yes')
 		{
 			//direct user to new password page
 			$target_url = CC_BASE_URL . "index.php?i=New_Pass.php";
