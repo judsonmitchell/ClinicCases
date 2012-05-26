@@ -7,8 +7,10 @@ define("CC_DBUSERNAME","");
 define("CC_DBPASSWD", "");
 define("CC_DATABASE_NAME","");
 
-//If sqlite, define path to db
-//define("CC_SQLITE_PATH","my/database/path/database.db");
+//Define a salt for passwords.
+//You can use php's uniqid function to generate this, e.g from the command line:
+//php -r 'echo uniqid();'
+define("CC_SALT","");
 
 //Full path to ClinicCases on your server, e.g. "/var/www/clinicases"
 define("CC_PATH","");
@@ -45,7 +47,7 @@ define("CC_SCHOOL_COLOR","");
 define("ALLOWED_FILE_TYPES", serialize(array('doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz','pdf')));
 
 //Define constants for sending email notifications
-define("CC_EMAIL_FROM","");  //e.g. no-reply@yourserver.com
+define("CC_EMAIL_FROM","no-reply@cliniccases.com");  //e.g. no-reply@yourserver.com
 define("CC_EMAIL_HEADERS","From: " . CC_EMAIL_FROM . "\n" . "Reply-To: " . CC_EMAIL_FROM . "\n" . "X-Mailer: PHP/" . phpversion());
 define("CC_EMAIL_FOOTER","Please log on ClinicCases at " . CC_BASE_URL . " to view the entire message");
 

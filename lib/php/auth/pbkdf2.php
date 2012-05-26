@@ -1,5 +1,4 @@
 <?php
-include '../../../.htaccess';
 /** PBKDF2 Implementation (described in RFC 2898)
  *
  *  @param string p password
