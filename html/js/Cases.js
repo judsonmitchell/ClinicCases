@@ -162,7 +162,7 @@ $(document).ready(function() {
                     "iDisplayLength": 50,
                     "aaSorting": [[4, "asc"]],
                     "aoColumns": aoColumns,
-                    "sDom": 'R<"H"fTC<"reset">i>rt',
+                    "sDom": 'R<"H"fTCi>rt',
                     "oColVis": {"aiExclude": [0],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
                             $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
                                 this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
@@ -170,9 +170,8 @@ $(document).ready(function() {
                         }},
                     "oTableTools": {
                         "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
-                        "aButtons": [{"sExtends":"text","sButtonText":"New Case"},
-
-                            {
+                        "aButtons": [
+                         {
                                 "sExtends": "collection",
                                 "sButtonText": "Print/Export",
                                 "aButtons": [
@@ -196,7 +195,12 @@ $(document).ready(function() {
                                         "mColumns": "visible"
                                     }
                                 ]
-                            }
+                            },
+                        {"sExtends":"text","sButtonText":"Reset"},
+                        {"sExtends":"text","sButtonText":"New Case","sButtonClass":"DTTT_button_new_case","sButtonClassHover":"DTTT_button_new_case_hover"}
+
+
+
                         ]
                     },
                     "sAjaxSource": 'lib/php/data/cases_load.php',
@@ -228,28 +232,13 @@ $(document).ready(function() {
                         //Have ColVis and reset buttons pick up the DTTT class
                         $('div.ColVis button').removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
 
-                        //Add the reset button
-                        $(".reset").html("<button class='DTTT_button ui-button ui-state-default'>Reset</button>");
-
-                        $('div.reset').addClass('ColVis TableTools');
-
-                        $('div.reset button').addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
-
-                        $('div.reset button').css({'background': '0','padding-right': '5px'});
-
-                        //Add the DTTT hover styles for the reset and columns buttons
-                        $('div.reset button,div.ColVis.TableTools button ').live('mouseover', function(event) {
-                            $(this).addClass('DTTT_button DTTT_button_collection_hover ui-button ui-state-default ui-state-hover ui-state-focus');
-                        });
-
-                        $('div.reset button, div.ColVis.TableTools button').live('mouseout', function(event) {
-                            $(this).removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
-                        });
-
-                        $(".reset").click(function() {
+                        //Event for reset button
+                        $("#ToolTables_table_cases_6").click(function() { //reset button
                             fnResetAllFilters();
                         });
 
+                        //Check if user can add cases; if not, remove new case button
+                        if (!$('#table_cases').hasClass('can_add')) {$('#ToolTables_table_cases_7').remove();}
 
                         //Change the case status select
                         $('#chooser').live('change', function(event) {

@@ -42,7 +42,7 @@ button.DTTT_button {
 	position: relative;
 	float: left;
 	height: 30px;
-	margin-right: 3px;
+	margin-right: 3px !important;
 	padding: 3px 5px;
 	border: 1px solid #d0d0d0;
 	background-color: #fff;
@@ -123,6 +123,16 @@ button.DTTT_button_print_hover {
 
 button.DTTT_button_text {
 	background: url(../images/clear.png) no-repeat center right;
+}
+
+button.DTTT_button_new_case {
+	background: url(../../../../../../html/ico/add.png) no-repeat center right;
+	padding-right:30px;
+}
+
+button.DTTT_button_new_case_hover {
+	background: url(../../../../../../html/ico/add.png) no-repeat center right !important;
+	padding-right:30px;
 }
 
 button.DTTT_button_text_hover {
