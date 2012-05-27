@@ -41,7 +41,7 @@ var aoColumns;
         var aiRows;
 
         // use only filtered rows
-        if (bFiltered == true)
+        if (bFiltered === true)
             aiRows = oSettings.aiDisplay;
         // use all rows
         else
@@ -62,11 +62,11 @@ var aoColumns;
             var sValue = aData[iColumn];
 
             // ignore empty values?
-            if (bIgnoreEmpty == true && sValue.length == 0)
+            if (bIgnoreEmpty === true && sValue.length === 0)
                 continue;
 
             // ignore unique values?
-            else if (bUnique == true && jQuery.inArray(sValue, asResultData) > -1)
+            else if (bUnique === true && jQuery.inArray(sValue, asResultData) > -1)
                 continue;
 
             // else push the value onto the result data array
@@ -75,7 +75,7 @@ var aoColumns;
         }
 
         return asResultData;
-    }
+    };
 }(jQuery));
 
 
@@ -170,7 +170,8 @@ $(document).ready(function() {
                         }},
                     "oTableTools": {
                         "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
-                        "aButtons": [
+                        "aButtons": [{"sExtends":"text","sButtonText":"New Case"},
+
                             {
                                 "sExtends": "collection",
                                 "sButtonText": "Print/Export",
@@ -426,16 +427,16 @@ $(document).ready(function() {
 
         //reset the user display for inputs and selects
         $("input").each(function() {
-            this.value = ''
+            this.value = '';
         });
         $("select").each(function() {
-            this.selectedIndex = '0'
+            this.selectedIndex = '0';
         });
         $('#addOpenRow, #addCloseRow').each(function() {
-            $(this).text('Add Condition')
+            $(this).text('Add Condition');
         });
         $("#second_open_cell, #second_closed_cell").css({'visibility': 'hidden'});
-        $('thead tr.advanced_2').hide('slow')
+        $('thead tr.advanced_2').hide('slow');
 
         //return to default open cases filter
         oTable.fnFilter('^$', oTable.fnGetColumnIndex("Date Close"), true, false);
@@ -485,13 +486,13 @@ function(oSettings, aData, iDataIndex) {
     var clRow = clRowRaw.substring(6, 10) + clRowRaw.substring(0, 2) + clRowRaw.substring(3, 5);
 
     //no filtering
-    if (opField == '' && clField == '')
+    if (opField === '' && clField === '')
     {
         return true;
     }
 
     //filtering by date open only
-    if (opField !== '' && clField == '' && opField2 == '' && clField2 == '')
+    if (opField !== '' && clField === '' && opField2 === '' && clField2 === '')
     {
         if (opOperator == 'equals' && opRow == opField)
         {

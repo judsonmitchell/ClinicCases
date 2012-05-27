@@ -5,7 +5,7 @@
  * Language:    Javascript
  * License:     LGPL / 3 point BSD
  * Project:     DataTables
- * 
+ *
  * Copyright 2010 Allan Jardine, all rights reserved.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -50,7 +50,7 @@ button.DTTT_button {
 	*cursor: hand;
 }
 
-button.DTTT_button::-moz-focus-inner { 
+button.DTTT_button::-moz-focus-inner {
 	border: none !important;
 	padding: 0;
 }
@@ -122,6 +122,7 @@ button.DTTT_button_print_hover {
 
 
 button.DTTT_button_text {
+	background: url(../images/clear.png) no-repeat center right;
 }
 
 button.DTTT_button_text_hover {
@@ -229,13 +230,13 @@ div.DTTT_collection button.DTTT_button {
 	background-color: #3f3f3f;
 	color: white;
 	padding: 10px 30px;
-	
+
 	opacity: 0.9;
-	
+
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	
+
 	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
