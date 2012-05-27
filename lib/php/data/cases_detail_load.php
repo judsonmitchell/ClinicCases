@@ -47,7 +47,7 @@ $assigned_users_query = $dbh->prepare("SELECT cm_case_assignees.id as assign_id,
 	//Check to see if the user has permission to view the case selected.  This is for the situation when a case is called via url.
 	$check_permission = array_searchRecursive($username,$assigned_users_data);
 
-	if (!$check_permission)
+	if (!$check_permission AND !$_SESSION['permissions']['view_all_cases'] == '1')
 		{echo "Sorry, you do not have permission to view this case.";die;}
 
 include '../../../html/templates/interior/cases_detail.php';

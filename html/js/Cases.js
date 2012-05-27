@@ -239,6 +239,27 @@ $(document).ready(function() {
 
                         //Check if user can add cases; if not, remove new case button
                         if (!$('#table_cases').hasClass('can_add')) {$('#ToolTables_table_cases_7').remove();}
+                        else //add listener
+                            {$('#ToolTables_table_cases_7').click(function(){
+                                //Add new row to cm_cases_table
+                                $.post('lib/php/utilities/create_new_case.php',function(data){
+                                    var serverResponse = $.parseJSON(data);
+                                    if (serverResponse.error === true)
+                                        {
+                                            notify(serverResponse.message, true);
+                                        }
+                                        else
+                                        {
+                                            var newId = serverResponse.newId;
+                                            callCaseWindow(newId);
+                                            $('li#item2').livequery(function(){
+                                                $(this).addClass('new_case');
+                                                $(this).trigger('click');
+                                            });
+                                        }
+                                });
+
+                            });}
 
                         //Change the case status select
                         $('#chooser').live('change', function(event) {
@@ -369,6 +390,7 @@ $(document).ready(function() {
                             oTable.fnDraw();
                         });
 
+                        //Listen for click on table row; open case
                         $('#table_cases tbody').click(function(event) {
                             var iPos = oTable.fnGetPosition(event.target.parentNode);
                             var aData = oTable.fnGetData(iPos);
