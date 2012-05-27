@@ -196,7 +196,7 @@ $(document).ready(function() {
                                     }
                                 ]
                             },
-                        {"sExtends":"text","sButtonText":"Reset"},
+                        {"sExtends":"text","sButtonText":"Reset","sButtonClass":"DTTT_button_reset","sButtonClassHover":"DTTT_button_reset_hover"},
                         {"sExtends":"text","sButtonText":"New Case","sButtonClass":"DTTT_button_new_case","sButtonClassHover":"DTTT_button_new_case_hover"}
 
 
