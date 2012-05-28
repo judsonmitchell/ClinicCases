@@ -22,7 +22,7 @@
 			<li class="slide closed"><a>Assigned:</a></li>
 
 
-		<?php foreach ($assigned_users_data as $user)
+		<?php if ($assigned_users_data){ foreach ($assigned_users_data as $user)
 		{
 			$thumbnail = thumbify($user['picture_url']);
 
@@ -38,10 +38,10 @@
 			}
 
 
-		}
+		}}
 
 		if ($_SESSION['permissions']['assign_cases'] == "1")
-		{ echo "<li><span></span><img class='user_add_button' id='add_button_" . $user['case_id'] . "' src='people/tn_add_user.png'></span></li>";}
+		{ echo "<li><span></span><img class='user_add_button' id='add_button_" . $id . "' src='people/tn_add_user.png'></span></li>";}
 		?>
 
 		</ul>

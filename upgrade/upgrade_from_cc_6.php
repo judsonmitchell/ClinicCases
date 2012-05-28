@@ -41,7 +41,8 @@ else
 echo "Updating db fields<br />";
 
 $query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
-	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`");
+	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm` CHANGE  `clinic_id`  `clinic_id` VARCHAR( 255 ) NOT NULL
+");
 
 $query->execute();
 
@@ -473,6 +474,28 @@ $q = $dbh->prepare("UPDATE cm_users SET `force_new_password` = '1'");
 $q->execute();
 
 echo "Password upgrade successful.  Users will be asked to provide new password. <br />";
+
+echo "Updating case type database...</br >";
+
+$q = $dbh->prepare("ALTER TABLE  `cm_case_types` ADD  `clinic_code` VARCHAR( 50 ) NOT NULL");
+
+$q->execute();
+
+echo "Done updating case type databse.<br />";
+
+echo "Adding clinic type table.<br />";
+$q = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_clinic_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `clinic_name` text NOT NULL,
+  `clinic_code` varchar(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+
+$q->execute();
+
+echo "Done adding clinic type table. <br />";
+
+
 
 echo "Upgrade successful";
 
