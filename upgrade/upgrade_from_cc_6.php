@@ -483,17 +483,18 @@ $q->execute();
 
 echo "Done updating case type databse.<br />";
 
-echo "Adding clinic type table.<br />";
+echo "Adding clinic type table and case type code field.<br />";
 $q = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_clinic_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clinic_name` text NOT NULL,
   `clinic_code` varchar(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;ALTER TABLE  `cm_case_types` CHANGE  `clinic_code`  `case_type_code` VARCHAR( 50 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+");
 
 $q->execute();
 
-echo "Done adding clinic type table. <br />";
+echo "Done adding clinic type table and case type code field. <br />";
 
 
 
