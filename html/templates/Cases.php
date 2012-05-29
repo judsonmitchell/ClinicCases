@@ -127,7 +127,7 @@
 						//Check for date fields. They get special treatment.
 						$date_check = substr($col['db_name'],0,4);
 
-						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "input" && $date_check !== "date"):
+						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "text" && $date_check !== "date"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
 						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
