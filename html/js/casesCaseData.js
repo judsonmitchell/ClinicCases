@@ -14,8 +14,11 @@ $('.case_detail_nav #item2').live('click', function() {
 	else
 	{type = 'display';}
 
-    thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':type},function(){
+    thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':type},function(data){
 
+		//remove the id field
+		if (type === 'new')
+		{$('input[name="id"]').parent().remove();}
     });
 
 

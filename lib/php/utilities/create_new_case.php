@@ -1,6 +1,6 @@
 <?php //Creates a new case in database
-// session_start();
-// require('../auth/session_check.php');
+session_start();
+require('../auth/session_check.php');
 require('../../../db.php');
 
 function create_new_case_number($dbh)
@@ -72,7 +72,8 @@ function create_new_case_number($dbh)
 
 	return preg_replace("/[^0-9-]/", "",$result); //strip out rest of mask (alpha characters) for now.
 }
-echo create_new_case_number($dbh);die;
+
+$new_case_number =  create_new_case_number($dbh);
 
 $user = $_SESSION['login'];
 
@@ -80,12 +81,14 @@ $user = $_SESSION['login'];
 if (!$_SESSION['permissions']['add_cases'] == "1")
 	{
 		$response = array('error' => true,'message' => 'Sorry, you do not have permission to add cases.');
-		echo json_encode($response);die;
+		echo json_encode($response);
 	}
 
-$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `m_initial`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone1`, `phone2`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `notes`, `type1`, `type2`, `dispo`, `close_code`, `close_notes`, `referral`, `opened_by`, `time_opened`, `closed_by`, `time_closed`, `dingo`, `fringo`) VALUES (NULL, '0', '', '', '', 'New Case', CURDATE(), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ?, '', '', '', '', '');");
+$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `m_initial`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone1`, `phone2`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `notes`, `type1`, `type2`, `dispo`, `close_code`, `close_notes`, `referral`, `opened_by`, `time_opened`, `closed_by`, `time_closed`, `dingo`, `fringo`) VALUES (NULL, ?, '', '', '', 'New Case', CURDATE(), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ?, '', '', '', '', '');");
 
-$q->bindParam(1,$user);
+$q->bindParam(1,$new_case_number);
+
+$q->bindParam(2,$user);
 
 $q->execute();
 
