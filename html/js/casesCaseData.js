@@ -8,6 +8,10 @@ $('.case_detail_nav #item2').live('click', function() {
 	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     var type;
+    var toolsHeight = $(this).outerHeight();
+    var thisPanelHeight = $(this).closest('.case_detail_nav').height();
+    var documentsWindowHeight = thisPanelHeight - toolsHeight;
+
 
     if ($(this).hasClass('new_case'))
     {type = 'new';}
@@ -16,9 +20,22 @@ $('.case_detail_nav #item2').live('click', function() {
 
     thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':type},function(data){
 
-		//remove the id field
+        //Set css
+        $('div.case_detail_panel_tools').css({'height': toolsHeight});
+        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
+        $('div.case_detail_panel_tools_left').css({'width': '30%'});
+        $('div.case_detail_panel_tools_right').css({'width': '70%'});
+
+		//remove system fields
 		if (type === 'new')
-		{$('input[name="id"]').parent().remove();}
+		{
+			$('input[name="id"]').parent().remove();
+			$('input[name="opened_by"]').parent().remove();
+
+		}
+
+		//highlight the tab so user knows there are unsaved changes
+		$('#case_detail_tab_row').find('li.ui-state-active').addClass('ui-state-highlight');
     });
 
 

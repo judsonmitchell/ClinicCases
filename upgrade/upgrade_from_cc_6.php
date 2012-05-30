@@ -41,7 +41,8 @@ else
 echo "Updating db fields<br />";
 
 $query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
-	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm` CHANGE  `clinic_id`  `clinic_id` VARCHAR( 255 ) NOT NULL
+	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm` CHANGE  `clinic_id`  `clinic_id` VARCHAR( 255 ) NOT NULL;ALTER TABLE  `cm` ADD  `clinic_type` VARCHAR( 200 ) NOT NULL AFTER  `case_type`
+
 ");
 
 $query->execute();
@@ -498,7 +499,7 @@ $q->execute();
 
 echo "Done adding clinic type table and case type code field. <br />";
 
-echo "Removing unnecessary tables.<br />";
+echo "Cleaning up db tables.<br />";
 
 $q = $dbh->prepare("SELECT * FROM cm_dispos");
 
@@ -512,16 +513,13 @@ foreach ($dispos as $dispo) {
 
 }
 
+$dispo_string = serialize($array);
 
-// $dispo_string = serialize($array);
+$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$dispo_string' WHERE db_name = 'dispo'");
 
-// $update = $dbh->prepare("UPDATE cm_columns SET select_options = '$dispo_string' WHERE db_name = 'dispo'");
+$update->execute();
 
-// $update->execute();
-
-// $del = $dbh->prepare("DROP TABLE  `cm_dispos` ;");
-
-// $del->execute();
+$q = $dbh->prepare("ALTER TABLE  `cm_dispos` ADD  `dispo_code` VARCHAR( 200 ) NOT NULL;UPDATE cm_dispos SET dispo_code = dispo");
 
 //now do types
 
@@ -543,7 +541,8 @@ $update = $dbh->prepare("UPDATE cm_columns SET select_options = '$type_string' W
 
 $update->execute();
 
-$del = $dbh->prepare("DROP TABLE  `cm_case_types` ;");
+$del = $dbh->prepare("DROP TABLE `cm_bugs`;DROP TABLE `cm_drafts`;ALTER TABLE  `cm` DROP  `type1` ,
+DROP  `type2` ;ALTER TABLE  `cm` DROP  `close_code` ;");
 
 $del->execute();
 

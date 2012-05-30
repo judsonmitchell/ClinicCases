@@ -1,56 +1,83 @@
+<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
+
+</div>
+
+<div class="case_detail_panel_tools">
+
+	<div class="case_detail_panel_tools_left">
+
+		<b>Please enter new case data</b>
+
+	</div>
+
+	<div class="case_detail_panel_tools_right">
+
+	</div>
+
+</div>
+
+<div class="case_detail_panel_casenotes">
+
+
 <?php if ($type = 'new'){ ?>
 
-	<form>
+	<div class="new_case_data">
 
-		<?php foreach ($data as $d) {extract($d) ?>
+		<form>
 
-		<p>
-			<label><?php echo $display_name; ?></label>
+			<?php foreach ($data as $d) {extract($d) ?>
 
-			<?php if ($input_type === 'text'){ ?>
+			<p>
+				<label><?php echo $display_name; ?></label>
 
-				<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
+				<?php if ($input_type === 'text'){ ?>
 
-			<?php } elseif ($input_type === 'select') { ?>
+					<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
 
-				<select name = "<?php echo $db_name; ?>">
+				<?php } elseif ($input_type === 'select') { ?>
 
-					<option value=""> --- </option>
+					<select name = "<?php echo $db_name; ?>">
 
-					<?php
-						$s = unserialize($select_options);
+						<option value=""> --- </option>
 
-						foreach ($s as $key => $val) {
+						<?php
+							$s = unserialize($select_options);
 
-						if ($key == $value)
-							{echo "<option value = '$key' selected=selected>$val</option>";}
-						else
-							{echo "<option value = '$key'>$val</option>";}
+							foreach ($s as $key => $val) {
 
-					} ?>
+							if ($key == $value)
+								{echo "<option value = '$key' selected=selected>$val</option>";}
+							else
+								{echo "<option value = '$key'>$val</option>";}
 
-				</select>
+						} ?>
 
-			<?php } elseif ($input_type === 'select_multiple'){ ?>
+					</select>
 
-				<select multiple name = "<?php echo $db_name; ?>">
+				<?php } elseif ($input_type === 'select_multiple'){ ?>
 
-					<?php foreach ($variable as $key => $value) { ?>
-						# code...
-					<?php } ?>
+					<select multiple name = "<?php echo $db_name; ?>">
 
-				</select>
+						<?php foreach ($variable as $key => $value) { ?>
+							# code...
+						<?php } ?>
 
-			<?php } elseif ($input_type === 'textarea'){ ?>
+					</select>
 
-				<textarea name = "<?php echo $db_name; ?>"></textarea>
+				<?php } elseif ($input_type === 'textarea'){ ?>
+
+					<textarea name = "<?php echo $db_name; ?>"></textarea>
+
+				<?php } ?>
+
+			</p>
 
 			<?php } ?>
 
-		</p>
+		</form>
 
-		<?php } ?>
-
-	</form>
+	</div>
 
 <?php } else {} ?>
+
+</div>

@@ -20,7 +20,7 @@ $q->execute();
 $case_data = $q->fetch(PDO::FETCH_ASSOC);
 
 //Get columns config
-$q = $dbh->prepare("SELECT * from cm_columns");
+$q = $dbh->prepare("SELECT * from cm_columns ORDER BY display_order ASC");
 
 $q->execute();
 

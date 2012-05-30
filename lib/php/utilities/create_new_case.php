@@ -84,7 +84,7 @@ if (!$_SESSION['permissions']['add_cases'] == "1")
 		echo json_encode($response);
 	}
 
-$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `m_initial`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone1`, `phone2`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `notes`, `type1`, `type2`, `dispo`, `close_code`, `close_notes`, `referral`, `opened_by`, `time_opened`, `closed_by`, `time_closed`, `dingo`, `fringo`) VALUES (NULL, ?, '', '', '', 'New Case', CURDATE(), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ?, '', '', '', '', '');");
+$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`,`organization`, `date_open`,`opened_by`) VALUES (NULL, ?, 'New Case', CURDATE(),?);");
 
 $q->bindParam(1,$new_case_number);
 

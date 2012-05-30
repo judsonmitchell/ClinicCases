@@ -437,6 +437,10 @@ div.cse_msg_new{margin-top:3% !important;}
 
 .msg_number{color:red;}
 
+/* New case styles */
+div.new_case_data{width:60%;margin:auto;}
+div.new_case_data label {display:inline-block;margin:12px 0 0;width:145px;vertical-align:top;}
+div.new_case_data p {margin-bottom:15px;}
 
 ::-webkit-scrollbar {
     width: 12px;
