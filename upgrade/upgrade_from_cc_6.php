@@ -1,5 +1,5 @@
 <?php
-require('db.php');
+require('../db.php');
 require('lib/php/utilities/names.php');
 require('lib/php/utilities/convert_times.php');
 
@@ -480,7 +480,7 @@ echo "Password upgrade successful.  Users will be asked to provide new password.
 
 echo "Updating case type database...</br >";
 
-$q = $dbh->prepare("ALTER TABLE  `cm_case_types` ADD  `clinic_code` VARCHAR( 50 ) NOT NULL");
+$q = $dbh->prepare("ALTER TABLE  `cm_case_types` ADD  `case_type_code` VARCHAR( 200 ) NOT NULL;UPDATE cm_case_types SET case_type_code = case_type;");
 
 $q->execute();
 
@@ -492,14 +492,60 @@ $q = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_clinic_type` (
   `clinic_name` text NOT NULL,
   `clinic_code` varchar(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;ALTER TABLE  `cm_case_types` CHANGE  `clinic_code`  `case_type_code` VARCHAR( 50 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
-");
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
 
 $q->execute();
 
 echo "Done adding clinic type table and case type code field. <br />";
 
+echo "Removing unnecessary tables.<br />";
 
+$q = $dbh->prepare("SELECT * FROM cm_dispos");
+
+$q->execute();
+
+$dispos = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($dispos as $dispo) {
+
+	$array[$dispo['dispo']] = $dispo['dispo'];
+
+}
+
+
+// $dispo_string = serialize($array);
+
+// $update = $dbh->prepare("UPDATE cm_columns SET select_options = '$dispo_string' WHERE db_name = 'dispo'");
+
+// $update->execute();
+
+// $del = $dbh->prepare("DROP TABLE  `cm_dispos` ;");
+
+// $del->execute();
+
+//now do types
+
+$q = $dbh->prepare("SELECT * FROM cm_case_types");
+
+$q->execute();
+
+$types = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($types as $type) {
+
+	$array[$type['type']] = $type['type'];
+
+}
+
+$type_string = serialize($array);
+
+$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$type_string' WHERE db_name = 'case_type'");
+
+$update->execute();
+
+$del = $dbh->prepare("DROP TABLE  `cm_case_types` ;");
+
+$del->execute();
 
 echo "Upgrade successful";
 
