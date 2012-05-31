@@ -1,8 +1,11 @@
+//
 //Scripts for Case data
+//
+
+
+
 
 //User clicks on Case Data in left-side navigation
-
-
 $('.case_detail_nav #item2').live('click', function() {
 
 	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
@@ -94,7 +97,5 @@ $('.case_detail_nav #item2').live('click', function() {
         });
 
     });
-
-
 
 });

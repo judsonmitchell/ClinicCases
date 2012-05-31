@@ -206,6 +206,48 @@ function toggleTabs()
 
 }
 
+//Warns user if unsaved changes
+function warnDirty(el)
+{
+
+    if (el.hasClass('ui-state-highlight'))
+    {
+        var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes to your case data.  Lose these changes?</div>').dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            buttons: {
+                "Yes": function() {
+                    // $.post('lib/php/data/cases_events_process.php', {action: 'delete',event_id: eventId}, function(data) {
+                    //     var serverResponse = $.parseJSON(data);
+                    //     if (serverResponse.error === true)
+                    //     {
+                    //         notify(serverResponse.message, true);
+                    //     }
+                    //     else
+                    //     {
+                    //         notify(serverResponse.message);
+                    //     }
+                    // });
+
+                    $(this).dialog("destroy");
+                    return true;
+
+                },
+                "No": function() {
+                    $(this).dialog("destroy");
+                    return false;
+
+                }
+            }
+        });
+
+        $(dialogWin).dialog('open');
+    }
+    else
+        {return true;}
+
+}
 
 //Listeners
 
@@ -376,22 +418,27 @@ $('div.user_widget button.user-action-button').live('click', function() {
 //Close tabs
 $("span.ui-icon-close").live("click", function() {
 
-    //index of tab clicked
-    var index = $("li", $tabs).index($(this).parent());
+    var canClose = warnDirty($(this).parent());
 
-    var numberTabs = $("ul.ui-tabs-nav > li").length;
+    if (canClose === true)//http://stackoverflow.com/q/6049687/49359
+    {
+        //index of tab clicked
+        var index = $("li", $tabs).index($(this).parent());
 
-    //if there is only one tab left, close the window
-    if (numberTabs == 1)
-    {
-        $("#case_detail_window").hide('fold', 1000, function() {
-            $tabs.tabs('destroy');
-        });
-    }
-    //otherwise, remove the clicked tab
-    else
-    {
-        $tabs.tabs("remove", index);
+        var numberTabs = $("ul.ui-tabs-nav > li").length;
+
+        //if there is only one tab left, close the window
+        if (numberTabs == 1)
+        {
+            $("#case_detail_window").hide('fold', 1000, function() {
+                $tabs.tabs('destroy');
+            });
+        }
+        //otherwise, remove the clicked tab
+        else
+        {
+            $tabs.tabs("remove", index);
+        }
     }
 
 });

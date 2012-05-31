@@ -3,36 +3,35 @@
 
 //Information to access your database
 define("CC_DBHOST","localhost");
-define("CC_DBUSERNAME","");
-define("CC_DBPASSWD", "");
-define("CC_DATABASE_NAME","");
+define("CC_DBUSERNAME","cc7");
+define("CC_DBPASSWD", "cc7");
+define("CC_DATABASE_NAME","cc_live");
 
 //Define a salt for passwords.
 //You can use php's uniqid function to generate this, e.g from the command line:
 //php -r 'echo uniqid();'
-define("CC_SALT","");
+define("CC_SALT","4fc4fc24688ab");
 
 //Full path to ClinicCases on your server, e.g. "/var/www/clinicases"
-define("CC_PATH","");
+define("CC_PATH","/var/www/cc7/cliniccases");
 
 //Path of directory which will store uploaded documents.  For security purposes, this directory should not be out of the webroot.  Ensure that the directory has is writeable.  E.g "/var/cc_docs" or "/home/you/private/cc_docs"
-define("CC_DOC_PATH","");
+define("CC_DOC_PATH","/var/cc_docs");
 
-//Url where your Cliniccases installation will be run, e.g.
-//http://www.yourservername.com/yourdirectory/cliniccases/ .  Don't forget trailing slash!
-define("CC_BASE_URL","");
+//Url where your Cliniccases installation will be run, e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
+define("CC_BASE_URL","http://localhost/cc7/cliniccases/");
 
 //Your domain , e.g. http://www.yourserver.com
-define("CC_DOMAIN","");
+define("CC_DOMAIN","http://localhost");
 
 //Email address for the adminstrator who will deal with user questions
-define("CC_ADMIN_EMAIL","");
+define("CC_ADMIN_EMAIL","jmitchel@loyno.edu");
 
 //Default email for ClinicCases notifications, e.g. no-reply@yourserver.co
 define("CC_DEFAULT_EMAIL","");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
-define("CC_PROGRAM_NAME","");
+define("CC_PROGRAM_NAME","cc7 Development");
 
 //Minimum timekeeping unit.  Default is 5 minutes.  Some prefer 6
 define("CC_TIME_UNIT","5");
