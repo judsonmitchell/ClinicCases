@@ -34,6 +34,10 @@
 
 					<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
 
+				<?php } elseif ($input_type === 'date'){ ?>
+
+					<input type="hidden" class="date_field" name = "<?php echo $db_name; ?>" value = "<?php echo sql_date_to_us_date($value); ?>">
+
 				<?php } elseif ($input_type === 'select') { ?>
 
 					<select name = "<?php echo $db_name; ?>">

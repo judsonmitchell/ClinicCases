@@ -136,7 +136,7 @@
 						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
 							echo "<th class=\"addSelects\" name =\"" . $col['display_name'] . "\"></th>";
 
-						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
+						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select_multiple"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
 						elseif ($col['db_name'] == "date_open" || $col['db_name'] == "date_close"):

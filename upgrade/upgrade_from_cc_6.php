@@ -546,6 +546,8 @@ DROP  `type2` ;ALTER TABLE  `cm` DROP  `close_code` ;");
 
 $del->execute();
 
+$q->execute("ALTER TABLE `cm` CHANGE `m_initial` `middle_name` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+
 echo "Upgrade successful";
 
 

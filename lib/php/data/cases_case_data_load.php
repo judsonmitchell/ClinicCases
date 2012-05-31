@@ -2,6 +2,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+require('../utilities/convert_times.php');
 
 if (isset($_POST['id'])) {
 	$case_id = $_POST['id'];

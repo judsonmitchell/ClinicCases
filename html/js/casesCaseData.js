@@ -34,18 +34,65 @@ $('.case_detail_nav #item2').live('click', function() {
 
 		}
 
+        //Disable case number editing
+        thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
+
+        thisPanel.find('a.force_edit').click(function(event){event.preventDefault();$('input[name="clinic_id"]').attr('disabled',false).focus();$(this).remove();});
+
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
         //Add datepicker
-        thisPanel.find('input[name="date_open"],input[name="date_closed"]')
-            .datepicker({dateFormat: 'm/d/yy',showOn: 'focus'});
+        var dateVal;
+
+        thisPanel.find('input.date_field').each(function(){
+            dateVal = $(this).val();
+            $(this).datepicker({dateFormat: 'm/d/yy',showOn: 'button',buttonText:dateVal,onSelect: function(dateText, inst) {
+            $(this).next().html(dateText);
+            }});
+        });
 
         //Add textarea expander
         thisPanel.find('textarea').TextAreaExpander(100, 250);
 
 		//highlight the tab so user knows there are unsaved changes
 		$('#case_detail_tab_row').find('li.ui-state-active').addClass('ui-state-highlight');
+
+        //Apply shadow on scroll
+        $('.case_detail_panel_casenotes').bind('scroll', function() {
+            var scrollAmount = $(this).scrollTop();
+            if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
+            {
+                $(this).removeClass('csenote_shadow');
+            }
+            else
+            {
+                $(this).addClass('csenote_shadow');
+            }
+        });
+
+        //Change name on tab when user enters last name
+        thisPanel.find('input[name="first_name"]').focus();
+
+        $('input[name = "last_name"]').keyup(function(){
+            var fname = thisPanel.find('input[name="first_name"]').val();
+            $(this).closest('#case_detail_tab_row')
+                .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
+
+        });
+
+        //If there is no last name, put the organization name on the tab
+        $('input[name = "organization"]').keyup(function(event){
+
+            lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
+
+            if (lnameVal === '')
+            {
+             $(this).closest('#case_detail_tab_row')
+                .find('li.ui-state-active').find('a').html($(this).val());
+            }
+        });
+
     });
 
 
