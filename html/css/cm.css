@@ -85,7 +85,7 @@ select.gray{font-family:garamond, georgia, times, serif;font-size:14pt;color:rgb
 
 select{font-family:garamond, georgia, times, serif;font-size:14pt;color:black;}
 
-textarea{font-family:garamond, georgia, times, serif;font-size:14px;font-weight:normal;color:black;border:1px solid black;}
+textarea{font-family:garamond, georgia, times, serif;font-size:14px;font-weight:normal;color:black;border:1px solid #D8D1D1;}
 
 label{font-family:garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);}
 
@@ -441,6 +441,7 @@ div.cse_msg_new{margin-top:3% !important;}
 div.new_case_data{width:60%;margin:auto;}
 div.new_case_data label {display:inline-block;margin:12px 0 0;width:145px;vertical-align:top;}
 div.new_case_data p {margin-bottom:15px;}
+div.new_case_data input, div.new_case_data select, div.new_case_data textarea {min-width:250px;}
 
 ::-webkit-scrollbar {
     width: 12px;

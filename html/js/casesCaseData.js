@@ -34,6 +34,16 @@ $('.case_detail_nav #item2').live('click', function() {
 
 		}
 
+        //Add chosen to selects
+        thisPanel.find('select').chosen();
+
+        //Add datepicker
+        thisPanel.find('input[name="date_open"],input[name="date_closed"]')
+            .datepicker({dateFormat: 'm/d/yy',showOn: 'focus'});
+
+        //Add textarea expander
+        thisPanel.find('textarea').TextAreaExpander(100, 250);
+
 		//highlight the tab so user knows there are unsaved changes
 		$('#case_detail_tab_row').find('li.ui-state-active').addClass('ui-state-highlight');
     });

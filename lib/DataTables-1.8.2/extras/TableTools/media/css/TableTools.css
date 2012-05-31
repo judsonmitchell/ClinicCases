@@ -127,22 +127,22 @@ button.DTTT_button_text {
 
 button.DTTT_button_new_case {
 	background: url(../../../../../../html/ico/add.png) no-repeat center right;
-	padding-right:20px;
+	padding-right:22px;
 }
 
 button.DTTT_button_new_case_hover {
 	background: url(../../../../../../html/ico/add.png) no-repeat center right !important;
-	padding-right:20px;
+	padding-right:22px;
 }
 
 button.DTTT_button_reset {
 	background: url(../../../../../../html/ico/arrow_redo.png) no-repeat center right;
-	padding-right:20px;
+	padding-right:22px;
 }
 
 button.DTTT_button_reset_hover {
 	background: url(../../../../../../html/ico/arrow_redo.png) no-repeat center right !important;
-	padding-right:20px;
+	padding-right:22px;
 }
 
 button.DTTT_button_text_hover {
