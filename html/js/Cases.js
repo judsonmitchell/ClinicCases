@@ -251,11 +251,7 @@ $(document).ready(function() {
                                         else
                                         {
                                             var newId = serverResponse.newId;
-                                            callCaseWindow(newId);
-                                            $('li#item2').livequery(function(){
-                                                $(this).addClass('new_case');
-                                                $(this).trigger('click');
-                                            });
+                                            callCaseWindow(newId,true);
                                         }
                                 });
 

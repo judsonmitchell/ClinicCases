@@ -20,6 +20,7 @@
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 	<script src="lib/javascripts/timer.js" type="text/javascript"></script>
 
+
 	<?php if (!empty($_GET) AND !isset($_GET['force_close'])){ //if we are not on index page?>
 	<script src="html/js/idletimerStart.js" type="text/javascript"></script>
 	<script src="lib/javascripts/jquery.idletimer.js" type="text/javascript"></script>

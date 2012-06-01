@@ -49,7 +49,7 @@ function setDetailCss()
 }
 
 //Function which creates the tabs in the case_detail_tab_row div
-function addDetailTabs(id)
+function addDetailTabs(id,newCase)
 
 {
 
@@ -105,7 +105,6 @@ function addDetailTabs(id)
                     scroller = $('.assigned_people').jScrollPane();
 
                     //define the id of the clicked tab
-                    //panelTarget = '#' + ui.panel.id;
                     panelTarget = ui.panel;
 
 
@@ -113,9 +112,14 @@ function addDetailTabs(id)
                     //$(panelTarget + ' .case_detail_panel').data('CaseNumber',id);
                     $(panelTarget).find(' .case_detail_panel').data('CaseNumber',id);
 
-
-                    //load case notes for initial view
-                    loadCaseNotes(panelTarget, id);
+                    //If this is a new case, add new case class to to Case Data button and trigger it
+                    if (newCase === true)
+                        {$(panelTarget).find('.case_detail_nav li#item2').addClass('new_case').trigger('click');}
+                    else
+                        {
+                        //load case notes for initial view
+                        loadCaseNotes(panelTarget, id);
+                        }
 
                 }
 
@@ -132,7 +136,7 @@ function addDetailTabs(id)
 
 //Function which creates the case detail window.
 
-function callCaseWindow(id)
+function callCaseWindow(id,newCase)
 
 {
     //create window if user has yet to call it
@@ -144,7 +148,7 @@ function callCaseWindow(id)
 
         $("#case_detail_window").hide().show('fold', 600, function() {
             setDetailCss();
-            addDetailTabs(id);
+            addDetailTabs(id,newCase);
         });
 
         $("#case_detail_control").html("<button></button><button></button>");
@@ -160,13 +164,13 @@ function callCaseWindow(id)
         if ($("#case_detail_control button:first").text() == 'Maximize')  //window is in minimized state
         {
             toggleTabs();
-            addDetailTabs(id);
+            addDetailTabs(id,newCase);
         }
         else
         {
             $("#case_detail_window").hide().show('fold', 600, function() {
                 setDetailCss();
-                addDetailTabs(id);
+                addDetailTabs(id,newCase);
             });
         }
 
@@ -206,47 +210,80 @@ function toggleTabs()
 
 }
 
-//Warns user if unsaved changes
-function warnDirty(el)
+function closeCaseTab(canClose,el)
 {
-
-    if (el.hasClass('ui-state-highlight'))
+    if (canClose === true)
     {
-        var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes to your case data.  Lose these changes?</div>').dialog({
+        //index of tab clicked
+        var index = $("li", $tabs).index($(this).parent());
+
+        var numberTabs = $("ul.ui-tabs-nav > li").length;
+
+        //if there is only one tab left, close the window
+        if (numberTabs == 1)
+        {
+            $("#case_detail_window").hide('fold', 1000, function() {
+                $tabs.tabs('destroy');
+            });
+        }
+        //otherwise, remove the clicked tab
+        else
+        {
+            $tabs.tabs("remove", index);
+        }
+    }
+}
+
+// Check for unsaved changes
+
+function tabCheckDirty(el,id)
+{
+    var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes. Lose these changes?</div>');
+
+    var targetPanel = el.find('a').attr('href');
+
+    var caseId = $(targetPanel).find('.case_detail_panel').data('CaseNumber');
+
+    if (el.hasClass('ui-state-highlight'))//is dirty
+    {
+        dialogWin.dialog({
             autoOpen: false,
             resizable: false,
             modal: true,
             buttons: {
                 "Yes": function() {
-                    // $.post('lib/php/data/cases_events_process.php', {action: 'delete',event_id: eventId}, function(data) {
-                    //     var serverResponse = $.parseJSON(data);
-                    //     if (serverResponse.error === true)
-                    //     {
-                    //         notify(serverResponse.message, true);
-                    //     }
-                    //     else
-                    //     {
-                    //         notify(serverResponse.message);
-                    //     }
-                    // });
+                    $.post('lib/php/data/cases_case_data_process.php', {action: 'delete',id: caseId}, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                        {
+                            notify(serverResponse.message, true);
+                        }
+                        else
+                        {
+                            notify(serverResponse.message);
+                        }
+                    });
+
+                    closeCaseTab(true,el);
 
                     $(this).dialog("destroy");
-                    return true;
 
                 },
                 "No": function() {
+
+                    closeCaseTab(false);
+
                     $(this).dialog("destroy");
-                    return false;
 
                 }
             }
         });
 
         $(dialogWin).dialog('open');
+
     }
     else
-        {return true;}
-
+    {closeCaseTab(true,el);}
 }
 
 //Listeners
@@ -418,29 +455,7 @@ $('div.user_widget button.user-action-button').live('click', function() {
 //Close tabs
 $("span.ui-icon-close").live("click", function() {
 
-    var canClose = warnDirty($(this).parent());
-
-    if (canClose === true)//http://stackoverflow.com/q/6049687/49359
-    {
-        //index of tab clicked
-        var index = $("li", $tabs).index($(this).parent());
-
-        var numberTabs = $("ul.ui-tabs-nav > li").length;
-
-        //if there is only one tab left, close the window
-        if (numberTabs == 1)
-        {
-            $("#case_detail_window").hide('fold', 1000, function() {
-                $tabs.tabs('destroy');
-            });
-        }
-        //otherwise, remove the clicked tab
-        else
-        {
-            $tabs.tabs("remove", index);
-        }
-    }
-
+        tabCheckDirty($(this).parent());
 });
 
 //Adjust case detail div sizes on window resize

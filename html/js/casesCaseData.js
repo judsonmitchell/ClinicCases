@@ -14,6 +14,8 @@ $('.case_detail_nav #item2').live('click', function() {
     var toolsHeight = $(this).outerHeight();
     var thisPanelHeight = $(this).closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
+    if (typeof caseNotesWindowHeight == 'undefined')
+        {caseNotesWindowHeight = thisPanelHeight - toolsHeight;}
 
 
     if ($(this).hasClass('new_case'))
