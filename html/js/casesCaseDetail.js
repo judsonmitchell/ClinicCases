@@ -88,6 +88,7 @@ function addDetailTabs(id,newCase)
             $tabs.tabs({
                 add: function(event, ui) {
                     $tabs.tabs('select', '#' + ui.panel.id);
+
                 },
                 //cache keeps tabs from reloading each time clicked, so user won't lose their place.
                 cache: true,
@@ -96,6 +97,9 @@ function addDetailTabs(id,newCase)
                     setDetailCss();
 
                     $("#case_detail_bar").text(tabData);
+
+                    if (newCase === true)
+                        {$(ui.tab).parent().addClass('new_case');}
 
                     if ($('div.assigned_people  button').length > 0)
                     {
@@ -236,22 +240,56 @@ function closeCaseTab(canClose,el)
 
 // Check for unsaved changes
 
-function tabCheckDirty(el,id)
+function tabCheckDirty(el)
 {
+
     var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes. Lose these changes?</div>');
 
     var targetPanel = el.find('a').attr('href');
 
     var caseId = $(targetPanel).find('.case_detail_panel').data('CaseNumber');
 
-    if (el.hasClass('ui-state-highlight'))//is dirty
+    if (el.first().hasClass('ui-state-highlight'))//is dirty
     {
+        el.addClass('ui-state-error');
         dialogWin.dialog({
             autoOpen: false,
             resizable: false,
             modal: true,
             buttons: {
                 "Yes": function() {
+                    if (el.size() > 1  && el.hasClass('new_case'))
+                    //there is more than one dirty tab and it it a new case that can be deleted
+                    {
+
+                        var errors = [];
+
+                        el.each(function(){
+                            targetPanel = $(this).find('a').attr('href');
+                            caseId = $(targetPanel).find('.case_detail_panel').data('CaseNumber');
+                            $.post('lib/php/data/cases_case_data_process.php', {action: 'delete',id: caseId}, function(data) {
+                                serverResponse = $.parseJSON(data);
+                                if (serverResponse.error === true)
+                                {
+                                    errors.push('error');
+                                }
+                            });
+
+                        });
+
+                        if (errors.length > 0)
+                            {notify('Sorry, there was an error',true);}
+                        else
+                            {
+                                notify('Cases deleted.');
+                                $("#case_detail_window").hide('fold', 1000, function() {
+                                    $tabs.tabs('destroy');});
+                            }
+
+
+                    }
+                    else if (el.hasClass('new_case'))
+                    {
                     $.post('lib/php/data/cases_case_data_process.php', {action: 'delete',id: caseId}, function(data) {
                         var serverResponse = $.parseJSON(data);
                         if (serverResponse.error === true)
@@ -261,10 +299,14 @@ function tabCheckDirty(el,id)
                         else
                         {
                             notify(serverResponse.message);
+
+                            closeCaseTab(true,el);
+
                         }
                     });
 
-                    closeCaseTab(true,el);
+                    }
+
 
                     $(this).dialog("destroy");
 
@@ -288,14 +330,30 @@ function tabCheckDirty(el,id)
 
 //Listeners
 
+//User click the minimize, maximinze button on tab row
 $("#case_detail_control button:first").live('click', function() {
     toggleTabs();
 });
 
+//User clicks the close button on tab row
 $("#case_detail_control button + button").live('click', function() {
-    $("#case_detail_window").hide('fold', 1000, function() {
-        $tabs.tabs('destroy');
-    });
+
+    //find out if any of tabs has unsaved changes, if so return the first
+    var aDirtyTab = $('#case_detail_tab_row').find('li.ui-state-highlight');
+
+    if (!$.isEmptyObject(aDirtyTab))
+    {
+        tabCheckDirty(aDirtyTab);
+    }
+
+    else
+    {
+        $("#case_detail_window").hide('fold', 1000, function() {
+            $tabs.tabs('destroy');
+        });
+    }
+
+
 });
 
 $("ul.case_detail_nav_list > li").live("click", function() {

@@ -251,7 +251,7 @@ $(document).ready(function() {
                                         else
                                         {
                                             var newId = serverResponse.newId;
-                                            callCaseWindow(newId,true);
+                                            callCaseWindow(newId,true);//true for new case
                                         }
                                 });
 
