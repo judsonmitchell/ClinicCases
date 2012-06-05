@@ -36,8 +36,14 @@ $('.case_detail_nav #item2').live('click', function() {
 		{
 			$('input[name="id"]').parent().remove();
 			$('input[name="opened_by"]').parent().remove();
+            $('input[name="organization"]').val('');
 
 		}
+
+        //Add onbeforeunload event to prevent empty cases
+        $(window).bind('beforeunload', function(){
+            return "You have an unsaved new case.  Please either save it or close its tab before leaving this page";
+        });
 
         //Disable case number editing
         thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
@@ -96,6 +102,33 @@ $('.case_detail_nav #item2').live('click', function() {
              $(this).closest('#case_detail_tab_row')
                 .find('li.ui-state-active').find('a').html($(this).val());
             }
+        });
+
+        //Submit the form
+        $('button.new_case_submit').live('click',function(event){
+
+            event.preventDefault();
+
+            $(window).unbind("beforeunload");
+
+            var formVals = $(this).closest('form');
+
+            var errString = newCaseValidate(formVals);
+
+            //notify user or errors or submit form
+            if (errString.length)
+            {
+                notify(errString,true);
+                return false;
+            }
+            else
+            {
+                $.post('lib/php/data/cases_events_process.php', {});
+
+            }
+
+
+
         });
 
     });

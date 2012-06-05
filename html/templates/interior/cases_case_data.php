@@ -78,6 +78,8 @@
 
 			<?php } ?>
 
+			<p><button class="new_case_submit">Submit</button></p>
+
 		</form>
 
 	</div>

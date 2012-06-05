@@ -249,7 +249,7 @@ function tabCheckDirty(el)
 
     var caseId = $(targetPanel).find('.case_detail_panel').data('CaseNumber');
 
-    if (el.first().hasClass('ui-state-highlight'))//is dirty
+    if (el.first().hasClass('ui-state-highlight'))//check to see if dirty tabs exist
     {
         el.addClass('ui-state-error');
         dialogWin.dialog({
@@ -259,7 +259,7 @@ function tabCheckDirty(el)
             buttons: {
                 "Yes": function() {
                     if (el.size() > 1  && el.hasClass('new_case'))
-                    //there is more than one dirty tab and it it a new case that can be deleted
+                    //there is more than one dirty tab and it is a new case that can be deleted
                     {
 
                         var errors = [];
@@ -289,6 +289,7 @@ function tabCheckDirty(el)
 
                     }
                     else if (el.hasClass('new_case'))
+                        //there is only one dirty case and it can be deleted
                     {
                     $.post('lib/php/data/cases_case_data_process.php', {action: 'delete',id: caseId}, function(data) {
                         var serverResponse = $.parseJSON(data);
@@ -325,6 +326,7 @@ function tabCheckDirty(el)
 
     }
     else
+        //there are no dirty tabs; just go ahead and close
     {closeCaseTab(true,el);}
 }
 
