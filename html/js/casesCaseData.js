@@ -34,7 +34,7 @@ $('.case_detail_nav #item2').live('click', function() {
 		//remove system fields
 		if (type === 'new')
 		{
-			$('input[name="id"]').parent().remove();
+			$('input[name="id"]').parent().hide();
 			$('input[name="opened_by"]').parent().remove();
             $('input[name="organization"]').val('');
 
@@ -115,6 +115,12 @@ $('.case_detail_nav #item2').live('click', function() {
 
             var errString = newCaseValidate(formVals);
 
+            var formValsArray = formVals.serializeArray();
+
+            formValsArray.push({'name':'action','value':'update_new_case'});
+
+            console.log(formValsArray);
+
             //notify user or errors or submit form
             if (errString.length)
             {
@@ -123,7 +129,19 @@ $('.case_detail_nav #item2').live('click', function() {
             }
             else
             {
-                $.post('lib/php/data/cases_events_process.php', {});
+
+                $.post('lib/php/data/cases_case_data_process.php', formValsArray,function(data){
+                    var serverResponse = $.parseJSON(data);
+
+                    if (serverResponse.error === true)
+                        {notify(serverResponse.message, true);}
+                    else
+                    {
+                        notify(serverResponse.message);
+                        $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error');
+
+                    }
+                });
 
             }
 
