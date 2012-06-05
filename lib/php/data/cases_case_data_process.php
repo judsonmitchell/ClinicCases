@@ -4,6 +4,39 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
+function bindPostVals($query_string,$open_close)
+{
+	$cols = '';
+	$values = array();
+	foreach ($query_string as $key => $value) {
+		if ($key !== 'action')//'action' is not in the table column, so ignore it
+		{
+			$key_name = ":" . $key;
+			$cols .= "`$key` = " . "$key_name,";
+			$values[$key_name] = $value;
+		}
+	}
+
+	//Time opened and closed is not presented to user.  So, we add the values.
+	$now =  date('Y-m-d H:i:s');
+
+	if ($open_close === 'open')
+		{
+			$cols .= "`time_opened` = :time_opened";
+			$values[':time_opened'] = $now;
+		}
+
+	if ($open_close === 'close')
+		{
+			$cols .= "`time_closed` = :time_closed";
+			$values[':time_closed'] = $now;
+		}
+
+	$columns = rtrim($cols,',');
+
+	return array('columns'=>$columns,'values' => $values);
+}
+
 $action = $_POST['action'];
 
 if (isset($_POST['id']))
@@ -13,36 +46,38 @@ switch ($action) {
 
 	case 'update_new_case':
 
-	//Because we don't know all the table fields, we must loop through the
-	//$_POST request and do an update query for each field.
-	//Look at this http://stackoverflow.com/q/3773406/49359 if problems develop
-	foreach ($_POST as $key => $value) {
+		//Because we don't know all the table columns, we rely on an helper function,
+		//bindPostVals().  This was very helpful http://stackoverflow.com/q/3773406/49359
 
-		if ($key != 'action')//'action' is not in the table column, so ignore it
-		{
-			$q = $dbh->prepare("UPDATE cm SET :field = :value WHERE id = :id");
+		//First, determine if we are opening or closing a case
+		if (!empty($_POST['date_close']))
+			{$open_close = 'close';}
+		else
+			{$open_close = 'open';}
 
-			$col_name = "`" . $key . "`";
+		$post = bindPostVals($_POST,$open_close);
 
-			$data = array('field' => $col_name,'value' => $value,'id' => $id);
+		$q = $dbh->prepare("UPDATE cm SET " . $post['columns'] . " WHERE id = :id");
 
-			$q->execute($data);
-		}
-	}
+		$q->execute($post['values']);
 
-	$error = $q->errorInfo();
+		$error = $q->errorInfo();
+
+	break;
+
+	case 'modify':
 
 	break;
 
 	case 'delete':
 
-	$q = $dbh->prepare("DELETE FROM cm WHERE id = ?");
+		$q = $dbh->prepare("DELETE FROM cm WHERE id = ?");
 
-	$q->bindParam(1, $id);
+		$q->bindParam(1, $id);
 
-	$q->execute();
+		$q->execute();
 
-	$error = $q->errorInfo();
+		$error = $q->errorInfo();
 
 	break;
 
@@ -59,11 +94,21 @@ else
 
 		case 'update_new_case':
 			if (empty($_POST['first_name']) && empty($_POST['last_name']))
-				{$case_name = $_POST['organization'];}
+				{
+					$case_name = $_POST['organization'];
+				}
 				else
-				{$case_name = $_POST['first_name'] . " " . $_POST['middle_name'] . " " . $_POST['last_name'];}
+				{
+					$case_name = $_POST['first_name'] . " " . $_POST['middle_name']
+					. " " . $_POST['last_name'];
+				}
 
-			$return = array("message" => "$case_name is now opened.","error" => false);
+			if ($open_close === 'open')
+				{$text = 'opened';}
+			else
+				{$text = 'closed';}
+
+			$return = array("message" => "$case_name is now $text.","error" => false);
 			echo json_encode($return);
 
 		break;
