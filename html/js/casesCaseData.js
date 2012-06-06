@@ -71,12 +71,12 @@ $('.case_detail_nav #item2').live('click', function() {
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
-        //Add datepicker
-        var dateVal;
+        //Add datepickers
 
         thisPanel.find('input.date_field').each(function(){
-            dateVal = $(this).val();
-            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:dateVal,onSelect: function(dateText, inst) {
+            var b = $.datepicker.parseDate('yy-mm-dd',$(this).val());
+            var buttonVal = $.datepicker.formatDate('mm/dd/yy',b);
+            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:buttonVal,onSelect: function(dateText, inst) {
                 var c = $.datepicker.parseDate('yy-mm-dd',dateText);
                 var displayDate = $.datepicker.formatDate('mm/dd/yy',c);
             $(this).next().html(displayDate);
