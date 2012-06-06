@@ -133,6 +133,9 @@ $('.case_detail_nav #item2').live('click', function() {
 
             var formVals = $(this).closest('form');
 
+            //enable clinic_id field or else serializeArray won't pick up value
+            formVals.find('input[name="clinic_id"]').attr({'disabled':false});
+
             var errString = newCaseValidate(formVals);
 
             var formValsArray = formVals.serializeArray();
