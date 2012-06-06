@@ -7,7 +7,7 @@ include '../utilities/names.php';
 
 	$user = $_SESSION['login'];
 
-	//Get the columns from _CONFIG.php, excluding any hidden fields
+	//Get the columns from cm_columns table
 
 	$get_columns = $dbh->prepare('SELECT * from cm_columns');
 	$get_columns->execute();

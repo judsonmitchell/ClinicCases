@@ -219,7 +219,7 @@ function closeCaseTab(canClose,el)
     if (canClose === true)
     {
         //index of tab clicked
-        var index = $("li", $tabs).index($(this).parent());
+        var index = $("li", $tabs).index(el);
 
         var numberTabs = $("ul.ui-tabs-nav > li").length;
 
@@ -284,6 +284,8 @@ function tabCheckDirty(el)
                                 notify('Cases deleted.');
                                 $("#case_detail_window").hide('fold', 1000, function() {
                                     $tabs.tabs('destroy');});
+                                $(window).unbind("beforeunload");
+
                             }
 
 
@@ -302,6 +304,8 @@ function tabCheckDirty(el)
                             notify(serverResponse.message);
 
                             closeCaseTab(true,el);
+
+                            $(window).unbind("beforeunload");
 
                         }
                     });

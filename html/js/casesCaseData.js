@@ -40,6 +40,24 @@ $('.case_detail_nav #item2').live('click', function() {
 
 		}
 
+        //Enable dynamic replacement of clinic and case codes in case number
+
+        var cN = thisPanel.find('input[name="clinic_id"]');
+        var cnVal = cN.val();
+        if (cnVal.indexOf("ClinicType") != -1)
+            {
+                thisPanel.find('select[name="clinic_type"]').change(function(){
+                cN.val(cnVal.replace('ClinicType',$(this).val()));
+                });
+            }
+
+        if (cnVal.indexOf("CaseType") != -1)
+            {
+                thisPanel.find('select[name="case_type"]').change(function(){
+                cN.val(cnVal.replace('CaseType',$(this).val()));
+                });
+            }
+
         //Add onbeforeunload event to prevent empty cases
         $(window).bind('beforeunload', function(){
             return "You have an unsaved new case.  Please either save it or close its tab before leaving this page";
@@ -58,8 +76,10 @@ $('.case_detail_nav #item2').live('click', function() {
 
         thisPanel.find('input.date_field').each(function(){
             dateVal = $(this).val();
-            $(this).datepicker({dateFormat: 'm/d/yy',showOn: 'button',buttonText:dateVal,onSelect: function(dateText, inst) {
-            $(this).next().html(dateText);
+            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:dateVal,onSelect: function(dateText, inst) {
+                var c = $.datepicker.parseDate('yy-mm-dd',dateText);
+                var displayDate = $.datepicker.formatDate('mm/dd/yy',c);
+            $(this).next().html(displayDate);
             }});
         });
 
@@ -118,8 +138,6 @@ $('.case_detail_nav #item2').live('click', function() {
             var formValsArray = formVals.serializeArray();
 
             formValsArray.push({'name':'action','value':'update_new_case'});
-
-            console.log(formValsArray);
 
             //notify user or errors or submit form
             if (errString.length)

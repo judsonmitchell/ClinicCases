@@ -70,7 +70,8 @@ function create_new_case_number($dbh)
 	}
 	else {return $error;}
 
-	return preg_replace("/[^0-9-]/", "",$result); //strip out rest of mask (alpha characters) for now.
+	//return preg_replace("/[^0-9-]/", "",$result); //strip out rest of mask (alpha characters) for now.
+	return $result;
 }
 
 $new_case_number =  create_new_case_number($dbh);
