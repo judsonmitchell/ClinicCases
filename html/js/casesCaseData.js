@@ -109,6 +109,8 @@ $('.case_detail_nav #item2').live('click', function() {
             var fname = thisPanel.find('input[name="first_name"]').val();
             $(this).closest('#case_detail_tab_row')
                 .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
+            //Put client name on case title
+            $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
 
         });
 
@@ -119,8 +121,11 @@ $('.case_detail_nav #item2').live('click', function() {
 
             if (lnameVal === '')
             {
-             $(this).closest('#case_detail_tab_row')
+                $(this).closest('#case_detail_tab_row')
                 .find('li.ui-state-active').find('a').html($(this).val());
+
+                //Put organization name on case title
+                $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + $(this).val() + '</h2>');
             }
         });
 
