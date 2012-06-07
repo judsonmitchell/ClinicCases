@@ -160,7 +160,8 @@ $('.case_detail_nav #item2').live('click', function() {
                     {
                         notify(serverResponse.message);
                         $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error');
-
+                        //Refresh the table; see Cases.js
+                        oTable.fnReloadAjax();
                     }
                 });
 
