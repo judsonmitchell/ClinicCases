@@ -16,7 +16,7 @@
 
 			$r = $get_tab_config->fetch();
 
-			$group_tabs = json_decode($r['allowed_tabs']);
+			$group_tabs = unserialize($r['allowed_tabs']);
 
 			//output the tabs
 			ob_start();

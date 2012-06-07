@@ -1,7 +1,7 @@
 <?php
 require('../db.php');
-require('lib/php/utilities/names.php');
-require('lib/php/utilities/convert_times.php');
+require('../lib/php/utilities/names.php');
+require('../lib/php/utilities/convert_times.php');
 
 
 echo "Beginning upgrade process</br>";
@@ -89,12 +89,16 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
 
 $query->execute();
 
+$super_tabs = serialize(array("Home","Cases","Students","Users","Journals","Board","Utilities","Messages"));
+$admin_tabs = serialize(array("Home","Cases","Students","Users","Board","Utilities","Messages"));
+$student_tabs = serialize(array("Home","Cases","Journals","Board","Utilities","Messages"));
+$prof_tabs = serialize(array("Home","Cases","Students","Journals","Board","Utilities","Messages"));
 
-$query = $dbh->prepare("INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '[\'Home\',\'Cases\',\'Students\',\'Users\',\'Journals\',\'Board\',\'Utilities\',\'Messages\']', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '[\'Home\',\'Cases\',\'Students\',\'Users\',\'Board\',\'Utilities\',\'Messages\']', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '[\'Home\',\'Cases\',\'Journals\',\'Board\',\'Utilities\',\'Messages\']', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '[\'Home\',\'Cases\',\'Students\',\'Journals\',\'Board\',\'Utilities\',\'Messages\']', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);");
+$query = $dbh->prepare("INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`,`activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);");
 
 $query->execute();
 
@@ -141,6 +145,8 @@ echo "Done<br />";
 
 echo "Adding columns table<br />";
 
+$gender_choices =  serialize(array("M" => "Male","F" => "Female"));
+$race_choices = serialize(array("AA" => "African-American", "W" => "White", "H" => "Hispanic", "A" => "Asian", "O" => "Other"));
 $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_columns` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `db_name` varchar(50) NOT NULL,
@@ -158,7 +164,7 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (2, 'id', 'Id', 'true', 'text', '', 'false', 1),
 (3, 'clinic_id', 'Case Number', 'true', 'text', '', 'false', 1),
 (4, 'first_name', 'First Name', 'true', 'text', '', 'true', 1),
-(5, 'm_initial', 'Middle Initial', 'true', 'text', '', 'false', 1),
+(5, 'middle_name', 'Middle Name', 'true', 'text', '', 'false', 1),
 (6, 'last_name', 'Last Name', 'true', 'text', '', 'true', 1),
 (7, 'organization', 'Organization', 'true', 'text', '', 'false', 1),
 (8, 'date_open', 'Date Open', 'true', 'text', '', 'true', 1),
@@ -176,8 +182,8 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (20, 'ssn', 'SSN', 'true', 'text', '', 'false', 0),
 (21, 'dob', 'DOB', 'true', 'text', '', 'false', 0),
 (22, 'age', 'Age', 'true', 'text', '', 'false', 0),
-(23, 'gender', 'Gender', 'true', 'select', 'a:2:{s:1:"M";s:4:"Male";s:1:"F";s:6:"Female";}', 'false', 0),
-(24, 'race', 'Race', 'true', 'select', 'a:5:{s:2:"AA";s:16:"African-American";s:1:"W";s:5:"White";s:1:"H";s:8:"Hispanic";s:1:"A";s:5:"Asian";s:1:"O";s:5:"Other";}', 'false', 0),
+(23, 'gender', 'Gender', 'true', 'select', '$gender_choices', 'false', 0),
+(24, 'race', 'Race', 'true', 'select','$race_choices', 'false', 0),
 (25, 'income', 'Income', 'false', 'text', '', 'false', 0),
 (26, 'per', 'Per', 'false', 'text', '', 'false', 0),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0),
@@ -197,9 +203,9 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 
 ");
 
-//TODO FIX DOUBLE QUOTE ISSUE ON serialized arrays above
 
 $query->execute();
+
 //
 //Documents db has to be updated
 //
@@ -388,13 +394,6 @@ $query->execute();
 
 //Add text start date, makes old dates searchable by keyword
 
-extracts date and time from a mysql timestamp
-function extract_date_time($val)
-{
-	$date = date_create($val);
-	return date_format($date,'F j, Y g:i a');
-}
-
 $query = $dbh->prepare("SELECT id, start FROM cm_events");
 
 $query->execute();
@@ -546,7 +545,9 @@ DROP  `type2` ;ALTER TABLE  `cm` DROP  `close_code` ;");
 
 $del->execute();
 
-$q->execute("ALTER TABLE `cm` CHANGE `m_initial` `middle_name` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+$q = $dbh->prepare("ALTER TABLE `cm` CHANGE `m_initial` `middle_name` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+
+$q->execute();
 
 echo "Upgrade successful";
 
