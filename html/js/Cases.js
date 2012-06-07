@@ -122,8 +122,8 @@ function fnCreateSelect(aData)
         return -1;
     };
 }(jQuery));
-//End
 
+//Function to refresh DataTables via ajax source
 $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback, bStandingRedraw )
 {
     if ( typeof sNewSource !== 'undefined' && sNewSource !== null )
@@ -169,16 +169,12 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallba
     }, oSettings );
 };
 
+//End
 $(document).ready(function() {
 
     //set the intial value for the caseStatus span on load
     var chooserVal = "open";
 
-    //Handle errors
-
-    $('body').ajaxError(function() {
-        $('#error').text('There was an error connecting to the server.  Either the server is down or there is a problem with your internet connection.').dialog({modal: true,title: 'Connection Error'});
-    });
 
     //Get the column definitions to use in oTable
 
