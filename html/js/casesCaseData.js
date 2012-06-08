@@ -4,8 +4,9 @@
 
 function formatCaseData(thisPanel,type)
 {
-    var toolsHeight = thisPanel.outerHeight();
-    var thisPanelHeight = thisPanel.closest('.case_detail_nav').height();
+    var navItem = thisPanel.siblings('.case_detail_nav').find('#item2');
+    var toolsHeight = navItem.outerHeight();
+    var thisPanelHeight = navItem.closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
     if (typeof caseNotesWindowHeight == 'undefined')
         {caseNotesWindowHeight = thisPanelHeight - toolsHeight;}
@@ -142,64 +143,61 @@ $('.case_detail_nav #item2').live('click', function() {
         formatCaseData(thisPanel,type);
         });
 
-        //Submit the form
-        $('button.new_case_submit').live('click',function(event){
+    //Submit the form
+    $('button.new_case_submit').live('click',function(event){
 
-            event.preventDefault();
+        event.preventDefault();
 
-            $(window).unbind("beforeunload");
+        $(window).unbind("beforeunload");
 
-            var formVals = $(this).closest('form');
+        var formVals = $(this).closest('form');
 
-            //enable clinic_id field or else serializeArray won't pick up value
-            formVals.find('input[name="clinic_id"]').attr({'disabled':false});
+        //enable clinic_id field or else serializeArray won't pick up value
+        formVals.find('input[name="clinic_id"]').attr({'disabled':false});
 
-            var errString = newCaseValidate(formVals);
+        var errString = newCaseValidate(formVals);
 
-            var formValsArray = formVals.serializeArray();
+        var formValsArray = formVals.serializeArray();
 
-            formValsArray.push({'name':'action','value':'update_new_case'});
+        formValsArray.push({'name':'action','value':'update_new_case'});
 
-            //notify user or errors or submit form
-            if (errString.length)
-            {
-                notify(errString,true);
-                return false;
-            }
-            else
-            {
+        //notify user or errors or submit form
+        if (errString.length)
+        {
+            notify(errString,true);
+            return false;
+        }
+        else
+        {
 
-                $.post('lib/php/data/cases_case_data_process.php', formValsArray,function(data){
-                    var serverResponse = $.parseJSON(data);
+            $.post('lib/php/data/cases_case_data_process.php', formValsArray,function(data){
+                var serverResponse = $.parseJSON(data);
 
-                    if (serverResponse.error === true)
-                        {notify(serverResponse.message, true);}
-                    else
-                    {
-                        notify(serverResponse.message);
-                        $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error');
-                        //Refresh the table; see Cases.js
-                        oTable.fnReloadAjax();
-                    }
-                });
-
-            }
-
-        //Listen for edit
-        $('button.case_data_edit').live('click',function(){
-
-            thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':'new'},function(){
-                formatCaseData(thisPanel,'new');
-
+                if (serverResponse.error === true)
+                    {notify(serverResponse.message, true);}
+                else
+                {
+                    notify(serverResponse.message);
+                    $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error');
+                    //Refresh the table; see Cases.js
+                    oTable.fnReloadAjax();
+                }
             });
 
-        });
+        }
+    });
 
-        //Listen for print
-        $('button.case_data_print').live('click',function(){
-            alert('Working on it!');  //TODO add print functions
+    //Listen for edit
+    $('button.case_data_edit').live('click',function(){
+alert('click');
+        thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':'new'},function(){
+            formatCaseData(thisPanel,'new');
         });
+    });
 
+    //Listen for print
+    $('button.case_data_print').live('click',function(){
+        alert('Working on it!');  //TODO add print functions
     });
 
 });
