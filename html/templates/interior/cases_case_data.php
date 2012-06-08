@@ -8,11 +8,14 @@
 
 		<?php if ($type == 'new'){ echo "<b>Please enter new case data</b>";} ?>
 
+		<?php if ($type == 'edit'){ echo "<b>Edit Case Data below:</b>";} ?>
+
+
 	</div>
 
 	<div class="case_detail_panel_tools_right">
 
-		<?php if ($type !== 'new'){?>
+		<?php if ($type !== 'new' AND $type !== 'edit'){?>
 
 			<button class="case_data_edit">Edit</button>
 
@@ -27,7 +30,7 @@
 <div class="case_detail_panel_casenotes">
 
 
-<?php if ($type == 'new'){ ?>
+<?php if ($type == 'new' || $type == 'edit'){ ?>
 
 	<div class="new_case_data">
 
@@ -86,7 +89,11 @@
 
 			<?php } ?>
 
-			<p><button class="new_case_submit">Submit</button></p>
+			<p>
+				<button class="case_modify_submit <?php if ($type == 'new') {echo 'update_new_case';}?>">
+				Submit
+				</button>
+			</p>
 
 		</form>
 

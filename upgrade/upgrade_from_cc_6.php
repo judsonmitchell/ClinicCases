@@ -551,6 +551,11 @@ $q = $dbh->prepare("ALTER TABLE `cm` CHANGE `m_initial` `middle_name` VARCHAR(10
 
 $q->execute();
 
+//Add a couple of fields to cm table
+$q = $dbh->prepare("ALTER TABLE `cm`  ADD `time_opened` DATETIME NOT NULL,  ADD `closed_by` VARCHAR(50) NOT NULL,  ADD `time_closed` DATETIME NOT NULL");
+
+$q->execute();
+
 echo "Upgrade successful";
 
 

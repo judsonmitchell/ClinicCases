@@ -311,6 +311,20 @@ function tabCheckDirty(el)
                     });
 
                     }
+                    else if(el.size() > 1)
+                    {
+                        $("#case_detail_window").hide('fold', 1000, function() {
+                                    $tabs.tabs('destroy');});
+                        $(window).unbind("beforeunload");
+
+                    }
+
+                    else
+                    {
+                        closeCaseTab(true,el);
+
+                        $(window).unbind("beforeunload");
+                    }
 
 
                     $(this).dialog("destroy");
