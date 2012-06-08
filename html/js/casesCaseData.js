@@ -31,63 +31,106 @@ $('.case_detail_nav #item2').live('click', function() {
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
-		//remove system fields
+		//format the form
 		if (type === 'new')
 		{
 			$('input[name="id"]').parent().hide();
 			$('input[name="opened_by"]').parent().remove();
             $('input[name="organization"]').val('');
 
-		}
 
-        //Enable dynamic replacement of clinic and case codes in case number
 
-        var cN = thisPanel.find('input[name="clinic_id"]');
-        var cnVal = cN.val();
-        if (cnVal.indexOf("ClinicType") != -1)
-            {
-                thisPanel.find('select[name="clinic_type"]').change(function(){
-                cN.val(cnVal.replace('ClinicType',$(this).val()));
+            //Enable dynamic replacement of clinic and case codes in case number
+
+            var cN = thisPanel.find('input[name="clinic_id"]');
+            var cnVal = cN.val();
+            if (cnVal.indexOf("ClinicType") != -1)
+                {
+                    thisPanel.find('select[name="clinic_type"]').change(function(){
+                    cN.val(cnVal.replace('ClinicType',$(this).val()));
+                    });
+                }
+
+            if (cnVal.indexOf("CaseType") != -1)
+                {
+                    thisPanel.find('select[name="case_type"]').change(function(){
+                    cN.val(cnVal.replace('CaseType',$(this).val()));
+                    });
+                }
+
+            //Add onbeforeunload event to prevent empty cases
+            $(window).bind('beforeunload', function(){
+                return "You have an unsaved new case.  Please either save it or close its tab before leaving this page";
+            });
+
+            //Disable case number editing
+            thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
+
+            thisPanel.find('a.force_edit').click(function(event){event.preventDefault();$('input[name="clinic_id"]').attr('disabled',false).focus();$(this).remove();});
+
+            //Add chosen to selects
+            thisPanel.find('select').chosen();
+
+            //Add datepickers
+
+            thisPanel.find('input.date_field').each(function(){
+                var b = $.datepicker.parseDate('yy-mm-dd',$(this).val());
+                var buttonVal = $.datepicker.formatDate('mm/dd/yy',b);
+                $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:buttonVal,onSelect: function(dateText, inst) {
+                    var c = $.datepicker.parseDate('yy-mm-dd',dateText);
+                    var displayDate = $.datepicker.formatDate('mm/dd/yy',c);
+                $(this).next().html(displayDate);
+                }});
+            });
+
+            //Add textarea expander
+            thisPanel.find('textarea').TextAreaExpander(100, 250);
+
+            //highlight the tab so user knows there are unsaved changes
+            $('#case_detail_tab_row').find('li.ui-state-active').addClass('ui-state-highlight');
+
+            //Change name on tab when user enters last name
+            thisPanel.find('input[name="first_name"]').focus();
+
+            $('input[name = "last_name"]').keyup(function(){
+                var fname = thisPanel.find('input[name="first_name"]').val();
+                $(this).closest('#case_detail_tab_row')
+                    .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
+                //Put client name on case title
+                $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
+
+            });
+
+            //If there is no last name, put the organization name on the tab
+            $('input[name = "organization"]').keyup(function(event){
+
+                lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
+
+                if (lnameVal === '')
+                {
+                    $(this).closest('#case_detail_tab_row')
+                    .find('li.ui-state-active').find('a').html($(this).val());
+
+                    //Put organization name on case title
+                    $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + $(this).val() + '</h2>');
+                }
+            });
+        }
+
+        else //display case data
+        {
+            //format buttons
+            thisPanel.find('button.case_data_edit').button({icons: {primary: "fff-icon-page-edit"},text: true}).click(function() {
+                alert('click');
                 });
-            }
 
-        if (cnVal.indexOf("CaseType") != -1)
-            {
-                thisPanel.find('select[name="case_type"]').change(function(){
-                cN.val(cnVal.replace('CaseType',$(this).val()));
+             thisPanel.find('button.case_data_print').button({icons: {primary: "fff-icon-printer"},text: true}).click(function() {
+                alert('Working on it!');  //TODO add print functions
                 });
-            }
 
-        //Add onbeforeunload event to prevent empty cases
-        $(window).bind('beforeunload', function(){
-            return "You have an unsaved new case.  Please either save it or close its tab before leaving this page";
-        });
-
-        //Disable case number editing
-        thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
-
-        thisPanel.find('a.force_edit').click(function(event){event.preventDefault();$('input[name="clinic_id"]').attr('disabled',false).focus();$(this).remove();});
-
-        //Add chosen to selects
-        thisPanel.find('select').chosen();
-
-        //Add datepickers
-
-        thisPanel.find('input.date_field').each(function(){
-            var b = $.datepicker.parseDate('yy-mm-dd',$(this).val());
-            var buttonVal = $.datepicker.formatDate('mm/dd/yy',b);
-            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:buttonVal,onSelect: function(dateText, inst) {
-                var c = $.datepicker.parseDate('yy-mm-dd',dateText);
-                var displayDate = $.datepicker.formatDate('mm/dd/yy',c);
-            $(this).next().html(displayDate);
-            }});
-        });
-
-        //Add textarea expander
-        thisPanel.find('textarea').TextAreaExpander(100, 250);
-
-		//highlight the tab so user knows there are unsaved changes
-		$('#case_detail_tab_row').find('li.ui-state-active').addClass('ui-state-highlight');
+             //remove the id
+             thisPanel.find('div.id_display').remove();
+        }
 
         //Apply shadow on scroll
         $('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -99,33 +142,6 @@ $('.case_detail_nav #item2').live('click', function() {
             else
             {
                 $(this).addClass('csenote_shadow');
-            }
-        });
-
-        //Change name on tab when user enters last name
-        thisPanel.find('input[name="first_name"]').focus();
-
-        $('input[name = "last_name"]').keyup(function(){
-            var fname = thisPanel.find('input[name="first_name"]').val();
-            $(this).closest('#case_detail_tab_row')
-                .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
-            //Put client name on case title
-            $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
-
-        });
-
-        //If there is no last name, put the organization name on the tab
-        $('input[name = "organization"]').keyup(function(event){
-
-            lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
-
-            if (lnameVal === '')
-            {
-                $(this).closest('#case_detail_tab_row')
-                .find('li.ui-state-active').find('a').html($(this).val());
-
-                //Put organization name on case title
-                $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + $(this).val() + '</h2>');
             }
         });
 

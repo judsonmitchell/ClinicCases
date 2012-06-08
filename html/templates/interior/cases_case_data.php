@@ -6,11 +6,19 @@
 
 	<div class="case_detail_panel_tools_left">
 
-		<b>Please enter new case data</b>
+		<?php if ($type == 'new'){ echo "<b>Please enter new case data</b>";} ?>
 
 	</div>
 
 	<div class="case_detail_panel_tools_right">
+
+		<?php if ($type !== 'new'){?>
+
+			<button class="case_data_edit">Edit</button>
+
+			<button class="case_data_print">Print</button>
+
+		<?php } ?>
 
 	</div>
 
@@ -19,7 +27,7 @@
 <div class="case_detail_panel_casenotes">
 
 
-<?php if ($type = 'new'){ ?>
+<?php if ($type == 'new'){ ?>
 
 	<div class="new_case_data">
 
@@ -84,6 +92,23 @@
 
 	</div>
 
-<?php } else {} ?>
+<?php } else { ?>
 
+	<div class = "case_data">
+
+		<?php foreach ($data as $d) {extract($d) ?>
+
+		<div class = "<?php echo $db_name;?>_display case_data_display">
+				<div class = "case_data_name"><?php echo $display_name; ?></div>
+
+				<div class="case_data_value"><?php echo $value; ?></div>
+		</div>
+
+		<?php } ?>
+
+	</div>
+
+
+
+<?php } ?>
 </div>
