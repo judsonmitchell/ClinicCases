@@ -28,13 +28,13 @@
 
 			if ($user['user_case_status'] == "active")
 			{
-			echo "<li class = 'active'><span><img id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail'></span></li>";
+			echo "<li class = 'active'><span><img tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail'></span></li>";
 			}
 
 			else
 
 			{
-			echo "<li class = 'inactive'><span><img id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail'></span></li>";
+			echo "<li class = 'inactive'><span><img tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail'></span></li>";
 			}
 
 

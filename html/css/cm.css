@@ -259,9 +259,9 @@ div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration
 div.assigned_people img {border:3px solid #FFFFDC;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.user_widget{display:none;}
 
-div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0;z-index:100;outline:0;}
+div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;z-index:100;outline:0;border:1px solid #AAA;border-top:0;}
 div.user_display h3{color:green;}
-div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
+div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC;outline:0}
 div.inactive_user{color:gray;}
 div.inactive_user h3 {color:gray;}
 div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}

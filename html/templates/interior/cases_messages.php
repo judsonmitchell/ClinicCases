@@ -1,5 +1,5 @@
 <?php if ($replies === false AND $refresh === false){ ?>
-<div class="user_display ui-widget ui-widget-content ui-corner-bottom user_widget" tabindex="1">
+<div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
 </div>
 
