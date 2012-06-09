@@ -72,6 +72,36 @@ include '../utilities/names.php';
 						$result['date_close'] = sql_date_to_us_date($result['date_close']);
 					}
 
+				//Convert phones
+				if (!empty($result['phone']))
+				{
+
+					$phones = unserialize($result['phone']);
+
+					$phone_string = null;
+
+					foreach ($phones as $key => $phone) {
+						$phone_string .= "$phone ($key) ";
+					}
+
+					$result['phone'] = $phone_string;
+				}
+
+				//Convert emails
+				if (!empty($result['email']))
+				{
+
+					$emails = unserialize($result['email']);
+
+					$email_string = null;
+
+					foreach ($emails as $key => $email) {
+						$email_string .= "$email ($key)";
+					}
+
+					$result['email'] = $email_string;
+				}
+
 
 			//loop through results, create array, convert to json
 				foreach ($cols as $col)

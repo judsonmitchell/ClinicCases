@@ -556,6 +556,132 @@ $q = $dbh->prepare("ALTER TABLE `cm`  ADD `time_opened` DATETIME NOT NULL,  ADD 
 
 $q->execute();
 
+//
+//Change phone and email fields
+//
+
+//First change type/length of phone1 column
+
+$q = $dbh->prepare("ALTER TABLE  `cm` CHANGE  `phone1`  `phone1` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+");
+
+$q->execute();
+
+//Get all current phone values
+$query = $dbh->prepare('SELECT phone1, phone2,id FROM cm ORDER BY id asc');
+
+$query->execute();
+
+$phones = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($phones as $phone) {
+
+	//Make a guess at what kind of phone this is
+
+	if (stristr($phone['phone1'], 'cell')  || stristr($phone['phone1'], 'mobile')|| stristr($phone['phone1'], 'c'))
+		{
+			$phone1_type = 'mobile';
+		}
+		elseif (stristr($phone['phone1'], 'home')  || stristr($phone['phone1'], 'h'))
+		{
+			$phone1_type = 'home';
+		}
+		elseif (stristr($phone['phone1'], 'work')  || stristr($phone['phone1'], 'office') || stristr($phone['phone1'], 'w') || stristr($phone['phone1'], 'o'))
+		{
+			$phone1_type = 'office';
+		}
+		else
+			{$phone1_type = 'other';}
+
+	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
+		{
+			$phone2_type = 'mobile';
+		}
+		elseif (stristr($phone['phone2'], 'home')|| stristr($phone['phone2'], 'h'))
+		{
+			$phone2_type = 'home';
+		}
+		elseif (stristr($phone['phone2'], 'work')  || stristr($phone['phone2'], 'office')|| stristr($phone['phone2'], 'w') || stristr($phone['phone2'], 'o'))
+		{
+			$phone2_type = 'office';
+		}
+		else
+			{$phone2_type = 'other ';}
+
+		//Strip any text from column (users used to write 'mobile', etc along with phone number)
+
+	$phone1_s = preg_replace("/[^0-9-]/i", "", $phone['phone1']);
+
+	$phone2_s = preg_replace("/[^0-9-]/i", "", $phone['phone2']);
+
+	$new_phone = array($phone1_type => $phone1_s, $phone2_type => $phone2_s);
+
+	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
+
+	if (!empty($new_phone_filtered) AND is_array($new_phone_filtered))
+	{
+
+		$ser = serialize($new_phone_filtered);
+
+		$update = $dbh->prepare("UPDATE cm SET phone1 = :phone, phone2 = '' WHERE id = :id");
+
+		$data = array('phone'=>$ser,'id'=>$phone['id']);
+
+		$update->execute($data);
+
+	}
+	else
+	{
+		//This is for the rare situation where somebody put all text in the phone fields
+		//Just clear that out.  If not a proper array, it will throw php notices and crash
+		//javascript.
+		$update = $dbh->prepare("UPDATE cm SET phone1 = '', phone2 = '' WHERE id = :id");
+
+		$data = array('id'=>$phone['id']);
+
+		$update->execute($data);
+	}
+
+}
+
+//delete phone2; unnecessary
+
+$query = $dbh->prepare("ALTER TABLE `cm` DROP `phone2`;ALTER TABLE  `cm` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  ''");
+
+$query->execute();
+
+
+//update email field
+$q = $dbh->prepare("ALTER TABLE `cm` CHANGE `email` `email` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+
+$q->execute();
+
+$query = $dbh->prepare('SELECT id,email FROM cm');
+
+$query->execute();
+
+$emails = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($emails as $email) {
+
+	if ($email['email'])
+	{
+
+		$new_email = array('other' => $email['email']);
+
+		$ser = serialize($new_email);
+
+		$update = $dbh->prepare("UPDATE cm SET email = :email WHERE id = :id");
+
+		$data = array('email' => $ser, 'id' => $email['id']);
+
+		$update->execute($data);
+	}
+
+}
+
+
+
 echo "Upgrade successful";
 
 
