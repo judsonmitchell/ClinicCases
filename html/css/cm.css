@@ -451,6 +451,11 @@ div.case_data_value {display:inline-block;vertical-align:top;padding-left:20px;w
 
 div.case_data p {margin-bottom:15px;border-bottom:1px solid #AAA;}
 
+span.dual_input{display: inline-block;}
+span.dual_input select{min-width:80px !important;width:80px;}
+span.dual_input input{min-width:170px !important;width:170px;}
+
+
 ::-webkit-scrollbar {
     width: 12px;
 }

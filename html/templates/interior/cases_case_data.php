@@ -49,6 +49,53 @@
 
 					<input type="hidden" class="date_field" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
 
+				<?php } elseif ($input_type === 'dual'){ ?>
+
+						<?php if (!empty($value)){$items = unserialize($value);
+							foreach ($items as $key=>$val){?>
+
+						<span class = "<?php echo $db_name . "_dual dual_input"; ?>">
+
+							<select class="dual" name="<?php echo $db_name . '_select'; ?>">
+
+								<?php $options = unserialize($select_options);
+								foreach ($options as $o_key => $o){
+									if ($o_key  == $val){?>
+
+									<option selected=selected value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+									<?php } else{ ?>
+
+									<option value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+
+									<?php } ?>
+
+								<?php } ?>
+
+							</select>
+
+							<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $key; ?>">
+
+						</span>
+
+						<?php }} else { ?>
+
+							<span class = "<?php echo $db_name . "_dual dual_input"; ?>">
+
+								<select class="dual" name="<?php echo $db_name . '_select'; ?>">
+
+									<?php $options = unserialize($select_options);
+									foreach ($options as $o_key => $o){ ?>
+
+									<option value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+
+									<?php } ?>
+
+								</select>
+
+								<input type="text" name = "<?php echo $db_name; ?>" value = "">
+
+						<?php } ?>
+
 				<?php } elseif ($input_type === 'select') { ?>
 
 					<select name = "<?php echo $db_name; ?>">

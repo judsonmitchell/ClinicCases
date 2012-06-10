@@ -68,6 +68,14 @@ function formatCaseData(thisPanel,type)
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
+        //Align multiple phone and email fields with the first ones
+        thisPanel.find('span.dual_input').not('label + span.dual_input').css({'margin-left':'190px'});
+
+        //Add link to trigger a new email/phone field
+        thisPanel.find('span.phone_dual').last().after('<a class="add_another_phone small" href="#">Add another</a>');
+
+        thisPanel.find('span.email_dual').last().after('<a class="add_another_email small" href="#">Add another</a>');
+
         //Add datepickers
         thisPanel.find('input.date_field').each(function(){
             var b = $.datepicker.parseDate('yy-mm-dd',$(this).val());
@@ -221,5 +229,16 @@ $('button.case_modify_submit').live('click',function(event){
 $('button.case_data_print').live('click',function(){
     var thisPanel = $(this).closest('.case_detail_panel');
     alert('Working on it!');  //TODO add print functions
+});
+
+//Add another phone or email
+$('a.add_another_phone, a.add_another_email').live('click',function(event){
+    event.preventDefault();
+    var newPhone = $(this).prev('span').clone();
+    newPhone.find('select').val('');
+    newPhone.find('input').val('');
+    newPhone.css({'margin-left':'190px'});
+    $(this).prev('span').after(newPhone);
+
 });
 

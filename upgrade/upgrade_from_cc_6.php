@@ -591,7 +591,7 @@ foreach ($phones as $phone) {
 			$phone1_type = 'office';
 		}
 		else
-			{$phone1_type = 'other';}
+			{trim($phone1_type = 'other');}
 
 	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
 		{
@@ -606,15 +606,16 @@ foreach ($phones as $phone) {
 			$phone2_type = 'office';
 		}
 		else
-			{$phone2_type = 'other ';}
+			{trim($phone2_type = 'other');}
 
-		//Strip any text from column (users used to write 'mobile', etc along with phone number)
+	//Strip any text from column (users used to write 'mobile', etc along with phone number)
 
 	$phone1_s = preg_replace("/[^0-9-]/i", "", $phone['phone1']);
 
 	$phone2_s = preg_replace("/[^0-9-]/i", "", $phone['phone2']);
 
-	$new_phone = array($phone1_type => $phone1_s, $phone2_type => $phone2_s);
+	//Keys can't be duplicate, so put the type in the value
+	$new_phone = array($phone1_s => $phone1_type, $phone2_s => $phone2_type);
 
 	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
 
@@ -667,7 +668,7 @@ foreach ($emails as $email) {
 	if ($email['email'])
 	{
 
-		$new_email = array('other' => $email['email']);
+		$new_email = array($email['email'] => 'other');
 
 		$ser = serialize($new_email);
 
@@ -679,6 +680,7 @@ foreach ($emails as $email) {
 	}
 
 }
+
 
 
 
