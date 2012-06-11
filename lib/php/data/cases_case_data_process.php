@@ -43,6 +43,20 @@ $action = $_POST['action'];
 if (isset($_POST['id']))
 	{$id = $_POST['id'];}
 
+if (isset($_POST['phone']))
+	{
+		$phone = json_decode($_POST['phone']);
+		$phone_ser = serialize($phone);
+		$_POST['phone'] = $phone_ser;
+	}
+
+if (isset($_POST['email']))
+	{
+		$email = json_decode($_POST['email']);
+		$email_ser = serialize($email);
+		$_POST['email'] = $email_ser;
+	}
+
 switch ($action) {
 
 	case 'update_new_case':

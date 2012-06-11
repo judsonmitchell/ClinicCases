@@ -36,7 +36,7 @@
 
 		<form>
 
-			<?php foreach ($data as $d) {extract($d) ?>
+			<?php foreach ($data as $d) {extract($d); ?>
 
 			<p>
 				<label><?php echo $display_name; ?></label>
@@ -150,19 +150,39 @@
 
 	<div class = "case_data">
 
-		<?php foreach ($data as $d) {extract($d) ?>
+		<?php foreach ($data as $d) {extract($d);
+
+			if ($input_type == 'dual') //special handling for dual inputs
+				{ ?>
+
+					<div class = "<?php echo $db_name; ?>_display case_data_display">
+
+						<div class="case_data_name"><?php echo $display_name; ?></div>
+
+						<?php if (!empty($value)){$duals = unserialize($value);
+
+							foreach ($duals as $v => $type) { ?>
+
+							<div class="case_data_value"><?php echo $v . " (" . $type . ")"; ?></div>
+
+							<?php }?>
+
+						<?php }?>
+
+					</div>
+
+			<?php } else { ?>
 
 		<div class = "<?php echo $db_name;?>_display case_data_display">
 				<div class = "case_data_name"><?php echo $display_name; ?></div>
 
 				<div class="case_data_value"><?php echo $value; ?></div>
+
 		</div>
 
-		<?php } ?>
+			<?php }} ?>
 
 	</div>
-
-
 
 <?php } ?>
 </div>

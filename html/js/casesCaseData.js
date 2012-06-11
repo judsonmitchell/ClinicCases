@@ -18,6 +18,9 @@ function formatCaseData(thisPanel,type)
     $('div.case_detail_panel_tools_left').css({'width': '30%'});
     $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
+
+    thisPanel.find('div.case_data_value').not('div.case_data_name + div.case_data_value').css({'margin-left':'21%'});
+
     //Apply shadow on scroll
     $('.case_detail_panel_casenotes').bind('scroll', function() {
         var scrollAmount = $(this).scrollTop();
@@ -192,18 +195,55 @@ $('button.case_modify_submit').live('click',function(event){
 
     var formValsArray = formVals.serializeArray();
 
-    formValsArray.push({'name':'action','value':actionType});
 
     //notify user or errors or submit form
     if (errString.length)
     {
         notify(errString,true);
+
+        //Reapply onbeforeunload event to prevent empty cases
+        $(window).bind('beforeunload', function(){
+            return "You have unsaved changes.  Please either save it or close its tab before leaving this page";
+        });
+
+        $('input.ui-state-error').focus(function(){$(this).removeClass('ui-state-error');});
         return false;
     }
     else
     {
+        //I found it next to impossible to remove phone and email vals from
+        //formValsArray after combining them into a new object, so I just
+        //reserialize the from object like so:
 
-        $.post('lib/php/data/cases_case_data_process.php', formValsArray,function(data){
+        formValsOk = $(this).closest('form').find(':not(input[name="phone"], select[name="phone_select"],input[name="email"],select[name="email_select"])').serializeArray();
+
+        formValsOk.push({'name':'action','value':actionType});
+
+
+        //put multiple phone and email fields into json
+        var phoneData = {};
+        formVals.find('span.phone_dual').each(function() {
+            var phoneType = $(this).find('select.dual').val();
+            var phoneValue = $(this).find('input[name="phone"]').val();
+            phoneData[phoneValue] = phoneType;
+        });
+
+        phoneJson = JSON.stringify(phoneData);
+
+        formValsOk.push({'name':'phone','value':phoneJson});
+
+        var emailData = {};
+        formVals.find('span.email_dual').each(function() {
+            var emailType = $(this).find('select.dual').val();
+            var emailValue = $(this).find('input[name="email"]').val();
+            emailData[emailValue] = emailType;
+        });
+
+        emailJson = JSON.stringify(emailData);
+
+        formValsOk.push({'name':'email','value':emailJson});
+
+        $.post('lib/php/data/cases_case_data_process.php', formValsOk,function(data){
             var serverResponse = $.parseJSON(data);
 
             if (serverResponse.error === true)
@@ -235,10 +275,16 @@ $('button.case_data_print').live('click',function(){
 $('a.add_another_phone, a.add_another_email').live('click',function(event){
     event.preventDefault();
     var newPhone = $(this).prev('span').clone();
-    newPhone.find('select').val('');
     newPhone.find('input').val('');
+    newPhone.find('select').val('');
     newPhone.css({'margin-left':'190px'});
+
+    //deal with chosen
+    newPhone.find('select').removeClass('chzn-done').css({'display':'block'}).removeAttr('id').next('div').remove();
     $(this).prev('span').after(newPhone);
 
+    newPhone.find('select').chosen();
+
 });
+
 
