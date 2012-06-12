@@ -66,7 +66,28 @@ function formatCaseData(thisPanel,type)
         //Disable case number editing
         thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
 
-        thisPanel.find('a.force_edit').click(function(event){event.preventDefault();$('input[name="clinic_id"]').attr('disabled',false).focus();$(this).remove();});
+        thisPanel.find('a.force_edit').click(function(event){
+            event.preventDefault();
+            var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>ClinicCases automatically assigns the next available case number.  If your case number contains "CaseType" or "ClinicType", these values will be replaced when you change those fields below.</p><br /><p>Manually editing a case number may have undesirable results. Are you sure?</p></div>').dialog({
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    "Yes": function() {
+                        $('input[name="clinic_id"]').attr('disabled',false).focus();
+                        thisPanel.find('a.force_edit').remove();
+                        $(this).dialog("destroy");
+                    },
+                    "No": function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+
+            $(dialogWin).dialog('open');
+
+
+        });
 
         //Add chosen to selects
         thisPanel.find('select').chosen();
@@ -213,7 +234,7 @@ $('button.case_modify_submit').live('click',function(event){
     {
         //I found it next to impossible to remove phone and email vals from
         //formValsArray after combining them into a new object, so I just
-        //reserialize the from object like so:
+        //reserialized the form array like so:
 
         formValsOk = $(this).closest('form').find(':not(input[name="phone"], select[name="phone_select"],input[name="email"],select[name="email_select"])').serializeArray();
 

@@ -576,8 +576,13 @@ $phones = $query->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($phones as $phone) {
 
+	$phone1_s = null;
+	$phone1_type = null;
+	$phone2_s = null;
+	$phone2_type = null;
 	//Make a guess at what kind of phone this is
-
+	if (!empty($phone['phone1']))
+	{
 	if (stristr($phone['phone1'], 'cell')  || stristr($phone['phone1'], 'mobile')|| stristr($phone['phone1'], 'c'))
 		{
 			$phone1_type = 'mobile';
@@ -593,6 +598,12 @@ foreach ($phones as $phone) {
 		else
 			{trim($phone1_type = 'other');}
 
+		//Strip any text from column (users used to write 'mobile', etc along with phone number)
+		$phone1_s = preg_replace("/[^0-9-]/i", "", $phone['phone1']);
+
+	}
+	if (!empty($phone['phone2']))
+	{
 	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
 		{
 			$phone2_type = 'mobile';
@@ -608,16 +619,14 @@ foreach ($phones as $phone) {
 		else
 			{trim($phone2_type = 'other');}
 
-	//Strip any text from column (users used to write 'mobile', etc along with phone number)
+		$phone2_s = preg_replace("/[^0-9-]/i", "", $phone['phone2']);
 
-	$phone1_s = preg_replace("/[^0-9-]/i", "", $phone['phone1']);
+	}
 
-	$phone2_s = preg_replace("/[^0-9-]/i", "", $phone['phone2']);
-
-	//Keys can't be duplicate, so put the type in the value
 	$new_phone = array($phone1_s => $phone1_type, $phone2_s => $phone2_type);
 
 	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
+
 
 	if (!empty($new_phone_filtered) AND is_array($new_phone_filtered))
 	{
@@ -680,7 +689,6 @@ foreach ($emails as $email) {
 	}
 
 }
-
 
 
 

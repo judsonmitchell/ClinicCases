@@ -1,6 +1,6 @@
 <?php
 //Loads messages
-//[A brief explanation of how messages are set up:  If the id matches the thread_id, this is a parent message.  If it doesn't, then this is a reply to the parent message.  Whenever someone replies to a parent message, the parent message archive and read fields are cleared.  The parent message will then appear in the recipients inbox as a new message.  When recipient clicks on parent message header, all replies, including the one just sent, is loaded.  A reply should never have anything in its read or archive fields, unless there are some left over messages from cc6.  Apologies for this complexity.]
+//[A brief explanation of how messages are set up:  If the id matches the thread_id, this is a parent message.  If it doesn't, then this is a reply to the parent message.  Whenever someone replies to a parent message, the parent message archive and read fields are cleared.  The parent message will then appear in the recipients inbox as a new message.  When recipient clicks on parent message header, all replies, including the one just sent, are loaded.  A reply should never have anything in its read or archive fields, unless there are some left over messages from cc6.  Apologies for this complexity.]
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
@@ -12,14 +12,12 @@ require('../html/gen_select.php');
 
 function in_string($val,$string)
 {
-	$val_1 = ',' . $val .',';
+	$val_1 = ',' . $val . ',';
 	$val_2 = $val . ',';
 
 	if (stristr($string, $val_1))
 		{return true;}
 	elseif (stristr($string, $val_2))
-		{return true;}
-	elseif (stristr($string, $val))
 		{return true;}
 	else
 		{return false;}

@@ -151,7 +151,7 @@ $(document).ready(function() {
                     $('a.event_detail_delete').live('click', function(event) {
                         event.preventDefault();
                         var eventId = $(this).attr('data-id');
-                        var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Event?">This event will be permanently deleted.  Are you sure?</div>').dialog({
+                        var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Event?">This event will be permanently deleted.  Are you sure?</div>').dialog({
                             autoOpen: false,
                             resizable: false,
                             modal: true,

@@ -80,8 +80,8 @@ include '../utilities/names.php';
 
 					$phone_string = null;
 
-					foreach ($phones as $key => $phone) {
-						$phone_string .= "$phone ($key) ";
+					foreach ($phones as $val => $type) {
+						$phone_string .= "$val ($type) ";
 					}
 
 					$result['phone'] = $phone_string;
@@ -95,8 +95,8 @@ include '../utilities/names.php';
 
 					$email_string = null;
 
-					foreach ($emails as $key => $email) {
-						$email_string .= "$email ($key)";
+					foreach ($emails as $val => $type) {
+						$email_string .= "$val ($type) ";
 					}
 
 					$result['email'] = $email_string;
