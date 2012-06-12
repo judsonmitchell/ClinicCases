@@ -60,7 +60,7 @@ function formatCaseData(thisPanel,type)
 
         //Add onbeforeunload event to prevent empty cases
         $(window).bind('beforeunload', function(){
-            return "You have an unsaved new case.  Please either save it or close its tab before leaving this page";
+            return "You may have unsaved changes on a case.  Please either save any changes or close the case's tab before leaving this page";
         });
 
         //Disable case number editing
@@ -224,7 +224,7 @@ $('button.case_modify_submit').live('click',function(event){
 
         //Reapply onbeforeunload event to prevent empty cases
         $(window).bind('beforeunload', function(){
-            return "You have unsaved changes.  Please either save it or close its tab before leaving this page";
+            return "You may have unsaved changes on a case.  Please either save any changes or close the case's tab before leaving this page";
         });
 
         $('input.ui-state-error').focus(function(){$(this).removeClass('ui-state-error');});

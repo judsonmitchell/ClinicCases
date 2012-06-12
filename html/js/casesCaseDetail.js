@@ -243,7 +243,7 @@ function closeCaseTab(canClose,el)
 function tabCheckDirty(el)
 {
 
-    var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes. Lose these changes?</div>');
+    var dialogWin = $('<div title="Warning: Unsaved Changes">You are currently editing a case. Lose any changes?</div>');
 
     var targetPanel = el.find('a').attr('href');
 

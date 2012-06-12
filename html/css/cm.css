@@ -455,6 +455,8 @@ span.dual_input{display: inline-block;}
 span.dual_input select{min-width:80px !important;width:80px;}
 span.dual_input input{min-width:170px !important;width:170px;}
 
+/* Users page styles */
+
 
 ::-webkit-scrollbar {
     width: 12px;

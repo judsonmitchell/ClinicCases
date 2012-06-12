@@ -40,7 +40,7 @@ else
 
 echo "Updating db fields<br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
+$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `grp` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
 	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm` CHANGE  `clinic_id`  `clinic_id` VARCHAR( 255 ) NOT NULL;ALTER TABLE  `cm` ADD  `clinic_type` VARCHAR( 200 ) NOT NULL AFTER  `case_type`
 
 ");
