@@ -195,8 +195,75 @@ $(document).ready(function() {
                 oTable.fnFilter(regex, colIndex, true, false, false);
             });
 
-            $('#processing').hide(); //hide the "loading" div after load.
+            //Filter function for dates
+            $.fn.dataTableExt.afnFiltering.push(
 
+            function(oSettings, aData, iDataIndex) {
+
+                var dateOperator = document.getElementById('date_created_range').value;
+                var dateOperator2 = document.getElementById('date_created_range_2').value;
+                var dateFieldRaw = document.getElementById('date_created').value;
+                var dateFieldRaw2 = document.getElementById('date_created_2').value;
+                var dateRowRaw = aData[13];
+
+                //date conversions
+                var dateField = dateFieldRaw.substring(6, 10) + dateFieldRaw.substring(0, 2) + dateFieldRaw.substring(3, 5);
+                var dateField2 = dateFieldRaw2.substring(6, 10) + dateFieldRaw2.substring(0, 2) + dateFieldRaw2.substring(3, 5);
+                var dateRow = dateRowRaw.substring(6, 10) + dateRowRaw.substring(0, 2) + dateRowRaw.substring(3, 5);
+
+                //no filtering
+                if (dateField === '')
+                {
+                    return true;
+                }
+
+                //filtering by date created only
+                if (dateField !== ''&& dateField2 === '')
+                {
+                    if (dateOperator == 'equals' && dateRow == dateField)
+                    {
+                        return true;
+                    }
+
+                    else if (dateOperator == 'less' && dateRow < dateField)
+                    {
+                        return true;
+                    }
+
+                    else if (dateOperator == 'greater' && dateRow > dateField)
+                    {
+                        return true;
+                    }
+                }
+
+
+                //filter between dates created fields
+                if (dateField !== '' && dateField2 !== '')
+
+                {
+                    if (dateOperator == 'equals' && dateOperator2 == 'equals' && dateRow == dateField && dateRow == dateField2)
+                    {
+                        return true;
+                    }
+
+                    else if (dateOperator == 'greater' && dateOperator2 == 'less' && dateRow > dateField && dateRow < dateField2)
+                    {
+                        return true;
+                    }
+
+                    else if (dateOperator == 'less' && dateOperator2 == 'greater' && dateRow < dateField && dateRow > dateField2)
+                    {
+                        return true;
+                    }
+
+                }
+
+                return false;
+
+            }
+            );
+
+            $('#processing').hide(); //hide the "loading" div after load.
 
 			},
           "fnDrawCallback": function() {
@@ -232,11 +299,9 @@ function fnResetAllFilters() {
     $("select").each(function() {
         this.selectedIndex = '0';
     });
-    // $('#addOpenRow, #addCloseRow').each(function() {
-    //     $(this).text('Add Condition');
-    // });
+    $('#addOpenRow').text('Add Condition');
     // $("#second_open_cell, #second_closed_cell").css({'visibility': 'hidden'});
-    // $('thead tr.advanced_2').hide('slow');
+    $('thead tr.advanced_2').hide('slow');
 
     //return to default open cases filter
     oTable.fnFilter('active', oTable.fnGetColumnIndex("Status"), true, false);

@@ -113,7 +113,7 @@
 
 					<th class="complex">
 
-						<select id="date_created_range " title = "Date created is less, greater, or equal to...">
+						<select id="date_created_range" title = "Date created is less, greater, or equal to...">
 							<option value="equals" selected=selected>=</option>
 							<option value="greater">&gt;</option>
 							<option value="less">&lt;</option>
@@ -125,8 +125,33 @@
 
 					</th>
 
-
 				</tr>
+
+				<tr class="advanced_2">
+
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th>
+						<select id="date_created_range_2" title = "Date created is less, greater, or equal to...">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
+						</select>
+
+						<input type="text" name = "date_created_2" id="date_created_2" class="search_init" title="Select a Date" column = "date_created_"><br />
+					</th>
+
 
 			</thead>
 

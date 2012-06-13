@@ -337,8 +337,7 @@ $(document).ready(function() {
 
 });
 
-
-
+//Filtering for date fields
 $.fn.dataTableExt.afnFiltering.push(
 
 function(oSettings, aData, iDataIndex) {
@@ -390,17 +389,17 @@ function(oSettings, aData, iDataIndex) {
 
     //filtering by date closed only
 
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 == '')
+    if (opField === '' && clField !== '' && opField2 === '' && clField2 === '')
 
     {
         if (clOperator == 'equals' && clRow == clField)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'less' && clRow < clField)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'greater' && clRow > clField)
@@ -411,7 +410,7 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter range between open and closed dates
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 == '')
+    if (opField !== '' && clField !== '' && opField2 === '' && clField2 === '')
 
     {
         if (opOperator == 'equals' && clOperator == 'equals' && opRow == opField && clRow == clField)
@@ -432,17 +431,17 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter between open dates
-    if (opField !== '' && clField == '' && opField2 !== '' && clField2 == '')
+    if (opField !== '' && clField === '' && opField2 !== '' && clField2 === '')
 
     {
         if (opOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'less' && opOperator2 == 'greater' && opRow < opField && opRow > opField2)
@@ -453,17 +452,17 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter between close dates
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 !== '')
+    if (opField === '' && clField !== '' && opField2 === '' && clField2 !== '')
 
     {
         if (clOperator == 'equals' && clOperator2 == 'equals' && clRow == clField && clRow == clField2)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'greater' && clOperator2 == 'less' && clRow > clField && clRow < clField2)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'less' && clOperator2 == 'greater' && clRow < clField && clRow > clField2)
@@ -479,52 +478,52 @@ function(oSettings, aData, iDataIndex) {
     {
         if (opOperator == 'equals' && opOperator2 == 'equals' && clOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2 && clRow == clField && clRow == clField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2 && clRow > clField && clRow < clField2)
         {
-            return true
+            return true;
         }
 
     }
     //Find specific close date with an open range
-    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 == '')
+    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 === '')
 
     {
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'equals' && opRow > opField && opRow < opField2 && clRow == clField)
         {
-            return true
+            return true;
         }
 
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opRow > opField && opRow < opField2 && clRow > clField)
         {
-            return true
+            return true;
         }
 
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'less' && opRow > opField && opRow < opField2 && clRow < clField)
         {
-            return true
+            return true;
         }
     }
 
     //Find specific open date with a closed range
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 !== '')
+    if (opField !== '' && clField !== '' && opField2 === '' && clField2 !== '')
 
     {
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'equals' && clRow > clField && clRow < clField2 && opRow == opField)
         {
-            return true
+            return true;
         }
 
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'greater' && clRow > clField && clRow < clField2 && opRow > opField)
         {
-            return true
+            return true;
         }
 
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'less' && clRow > clField && clRow < clField2 && opRow < opField)
         {
-            return true
+            return true;
         }
     }
     return false;
