@@ -19,6 +19,13 @@ function extract_date_time($val)
 	return date_format($date,'F j, Y g:i a');
 }
 
+//extracts date and time from a mysql timestamp, sortable
+function extract_date_time_sortable($val)
+{
+	$date = date_create($val);
+	return date_format($date,'m/d/Y g:i a');
+}
+
 
 function sql_date_to_us_date ($date)
 

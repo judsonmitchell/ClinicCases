@@ -1,5 +1,4 @@
 <?php
-
 //This file includes all functions which deal with formatting names
 
 function username_to_lastname ($dbh,$name)
@@ -91,3 +90,44 @@ function username_to_userid ($dbh,$username)
 
 	return $user_id['id'];
 }
+
+//Used in Users page.  Creates array of group names and titles.  Saves having to do
+//a db call for each row
+function group_display_name_array($dbh)
+{
+
+	$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups");
+
+	$q->execute();
+
+	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$vals = array();
+
+	foreach ($groups as $group) {
+		$vals[$group['group_title']] = $group['group_name'];
+	}
+
+	return $vals;
+}
+
+//Also for Users page.  Returns an array of last names for users who supervise
+function supervisor_names_array($dbh)
+{
+	$q = $dbh->prepare("SELECT cm_groups.group_name,cm_groups.supervises,cm_users.last_name,cm_users.grp,cm_users.username
+		FROM cm_groups,cm_users
+		WHERE cm_groups.supervises = '1' and cm_users.grp = cm_groups.group_name");
+
+	$q->execute();
+
+	$names = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$vals = array();
+
+	foreach ($names as $name) {
+		$vals[$name['last_name']] = $name['username'];
+	}
+
+	return $vals;
+}
+

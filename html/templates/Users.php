@@ -18,6 +18,9 @@
 
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
+
+
 
 </head>
 <body>
@@ -77,6 +80,51 @@
 					<th>New</th>
 
 					<th>Date Created</th>
+
+				</tr>
+
+				<tr class="advanced">
+
+					<th><input type="text"  name = "id" class = "search_init"></th>
+
+					<th></th>
+
+					<th><input type="text"  name = "first_name" class = "search_init"></th>
+
+					<th><input type="text"  name = "last_name" class = "search_init"></th>
+
+					<th><input type="text"  name = "email" class = "search_init"></th>
+
+					<th><input type="text"  name = "mobile_phone" class = "search_init"></th>
+
+					<th><input type="text"  name = "office_phone" class = "search_init"></th>
+
+					<th><input type="text"  name = "home_phone" class = "search_init"></th>
+
+					<th class="addSelects" name = "group"></th>
+
+					<th><input type="text"  name = "username" class = "search_init"></th>
+
+					<th><input type="text"  name = "supervisors" class = "search_init"></th>
+
+					<th class="addSelects" name = "status"></th>
+
+					<th></th>
+
+					<th class="complex">
+
+						<select id="date_created_range " title = "Date created is less, greater, or equal to...">
+							<option value="equals" selected=selected>=</option>
+							<option value="greater">&gt;</option>
+							<option value="less">&lt;</option>
+						</select>
+
+						<input type="text" name = "date_created" id="date_created" class="search_init" title="Select a Date" column = "date_created"><br />
+
+						<a href="#" id="addDateRow" class="smallgray">Add Condition</a>
+
+					</th>
+
 
 				</tr>
 

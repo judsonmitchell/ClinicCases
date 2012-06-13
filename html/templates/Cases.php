@@ -78,8 +78,7 @@
 
 	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
 
-
-
+	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
 
 </head>
 <body>

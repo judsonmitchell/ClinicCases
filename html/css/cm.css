@@ -57,7 +57,6 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #processing {width:97%;height:95%;background-color:white; position:absolute;z-index:10000}
 
-#set_advanced{}
 .advanced, .advanced_2 {display:none;}
 
 UL {list-style-type: none;}
