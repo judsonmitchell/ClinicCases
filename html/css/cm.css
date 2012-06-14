@@ -57,7 +57,6 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #processing {width:97%;height:95%;background-color:white; position:absolute;z-index:10000}
 
-#set_advanced{}
 .advanced, .advanced_2 {display:none;}
 
 UL {list-style-type: none;}
@@ -225,7 +224,7 @@ td, th {text-align:left;}
 .ui-tabs{padding:0 !important}
 .ui-helper-reset, .ui-button-text {line-height:0.3 !important}
 .ui-tabs-panel{padding:0 !important}
-.ui-widget-content{border:0 !important}
+.ui-widget-content{border:0}
 #case_detail_tab_row.ui-widget{border:0;}
 /* This below to fix a bug in jqueryui in Firefox http://stackoverflow.com/questions/6691199/jquery-ui-close-icon-appearing-wrong-in-firefox */
 #case_detail_tab_row li .ui-icon-close { float: left; margin: 0.1em 0.2em 0 0; cursor: pointer; }
@@ -259,9 +258,9 @@ div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration
 div.assigned_people img {border:3px solid #FFFFDC;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.user_widget{display:none;}
 
-div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;border-top:0;z-index:100;outline:0;}
+div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;z-index:100;outline:0;border:1px solid #AAA;border-top:0;}
 div.user_display h3{color:green;}
-div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
+div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC;outline:0}
 div.inactive_user{color:gray;}
 div.inactive_user h3 {color:gray;}
 div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
@@ -439,10 +438,26 @@ div.cse_msg_new{margin-top:3% !important;}
 
 /* New case styles */
 div.new_case_data{width:60%;margin:auto;}
-div.new_case_data label {display:inline-block;margin:12px 0 0;width:145px;vertical-align:top;}
+div.new_case_data label {display:inline-block;margin:12px 20px 0;width:145px;vertical-align:top;text-align:right;}
 div.new_case_data p {margin-bottom:15px;}
 div.new_case_data input, div.new_case_data select, div.new_case_data textarea {min-width:250px;}
 div.new_case_data button.ui-datepicker-trigger {min-width:115px;}
+
+div.case_data{width:60%;margin:auto;}
+div.case_data_display{width:100%;min-height:30px;margin-bottom:20px;border-bottom:1px solid #AAA;}
+div.case_data_name {font-family:garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);display:inline-block;width:20%;vertical-align:top;text-align:right;}
+div.case_data_value {display:inline-block;vertical-align:top;padding-left:20px;width:75%;}
+
+div.case_data p {margin-bottom:15px;border-bottom:1px solid #AAA;}
+
+span.dual_input{display: inline-block;}
+span.dual_input select{min-width:80px !important;width:80px;}
+span.dual_input input{min-width:170px !important;width:170px;}
+
+/* Users page styles */
+div.user_action{text-align: left;margin-left: 10px;}
+div.user_action select {margin-left: 10px;font-size: 12pt}
+#date_created, #date_created_2{width:60%;}
 
 ::-webkit-scrollbar {
     width: 12px;
