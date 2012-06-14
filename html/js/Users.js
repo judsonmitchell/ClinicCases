@@ -2,10 +2,11 @@
 var oTable;
 var aoColumns;
 
+//set the intial value for the userStatus span on load
+var chooserVal = "active";
+
 $(document).ready(function() {
 
-    //set the intial value for the userStatus span on load
-    var chooserVal = "active";
 
     //Load dataTables
     oTable = $('#table_users').dataTable(
@@ -14,10 +15,11 @@ $(document).ready(function() {
 		"sAjaxSource": 'lib/php/users/users_load.php',
 		"bScrollInfinite": true,
 		"bDeferRender": true,
-		"bScrollCollapse": true,
+		"bScrollCollapse": false,
 		"iDisplayLength": 20,
 		"bSortCellsTop": true,
-        "sScrollY": Math.round(0.8 * $('#content').height()),
+        "aaSorting": [[3, "asc"]],
+        "sScrollY": Math.round(0.80 * $('#content').height()),
         "aoColumns":
         [
         { "bSearchable": false, "bVisible": false },
@@ -35,7 +37,7 @@ $(document).ready(function() {
         { "bSearchable": false, "bVisible": false },
         {"sType": "date"}
         ],
-        "sDom":'<"H"lfTrCi>t<"F">',
+        "sDom":'<"H"lfTrCi>t<"F"<"user_action">>',
         "oColVis": {"aiExclude": [0],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
                             $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
                                 this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
@@ -99,6 +101,9 @@ $(document).ready(function() {
             //Add case status seletctor
             $('div.dataTables_filter').append('<select id="chooser"><option value="active" selected=selected>Active Users</option><option value="inactive">Inactive Users</option><option value="all">All Users</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
 
+            //Add user action selector
+            $('div.user_action').html('<label>With displayed users:</label><select><option value="" selected=selected>Choose Action</option><option value="activate">Make Active</option><option value="deactivate">Make Inactive</option></select>');
+
             //Change the case status select
             $('#chooser').live('change', function(event) {
 
@@ -143,25 +148,62 @@ $(document).ready(function() {
                 if ($("tr.advanced, tr.advanced_2").css("display") !== "none")
                 {
                     $("tr.advanced, tr.advanced_2").css({'display': 'none'});
+
+                    //Reset scroll height
+                    var defaultHeight = Math.round(0.80 * $('#content').height());
+                    $(".dataTables_scrollBody").height(defaultHeight);
+
+                    //return to default active users filter
+                    oTable.fnFilter('^active', oTable.fnGetColumnIndex("Status"), true, false);
+                    $('#chooser').val('active');
+                    chooserVal = "active";
                 }
 
                 else {
                     $("th.ui-state-default").css({'border-bottom': '0px'});
                     $(".complex").children().css({'display': 'inline','margin-bottom': '0px'});
                     $("#date_created_range").css({'margin-top': '18px'});
-                    $("thead tr.advanced").toggle('slow');
+                    $("thead tr.advanced").toggle('fast');
                     //$("#second_open_cell, #second_close_cell").css({'visibility': 'hidden'});
 
-                    //Set the big filter to all cases
+                    //Change height so that footer can be seen
+                    var cHeight = $('.dataTables_scrollBody').height();
+                    var rHeight = $('tr.advanced').height();
+                    $(".dataTables_scrollBody").height(cHeight - rHeight);
 
-                    // oTable.fnFilter('', oTable.fnGetColumnIndex("Date Close"), true, false);
-                    // $('#chooser').val('all');
-                    // chooserVal = "open and closed";
+                    //Set the big filter to all users
+                    oTable.fnFilter('', oTable.fnGetColumnIndex("Status"), true, false);
+                    $('#chooser').val('all');
+                    chooserVal = "active and inactive";
                 }
 
                 oTable.fnDraw();
 
             });
+
+            $('#addDateRow').click(function(event) {
+                event.preventDefault();
+                if ($("#second_open_cell").css('visibility') == 'visible')
+                {
+                    $(this).text('Add Condition');
+                    $("#second_open_cell").css({'visibility': 'hidden'});
+                    $('thead tr.advanced_2').hide('fast');
+
+                }
+                else
+                {
+                    $(this).text('AND IS');
+                    $("#second_open_cell").css({'visibility': 'visible'});
+                    $('thead tr.advanced_2').show('fast');
+
+                    //Change height so that footer can be seen
+                    var cHeight = $('.dataTables_scrollBody').height();
+                    var rHeight = $('tr.advanced_2').height();
+                    $(".dataTables_scrollBody").height(cHeight - rHeight);
+
+                }
+            });
+
 
             //Code for advanced search using inputs
             $("thead input").live('keyup', function() {
@@ -174,7 +216,7 @@ $(document).ready(function() {
 
             //Add datepickers
             $(function() {
-                $('input[name="date_created"]').datepicker({
+                $('input[name="date_created"], input[name="date_created_2"]').datepicker({
                     changeMonth: true,
                     changeYear: true,
                     onSelect: function() {
@@ -184,7 +226,6 @@ $(document).ready(function() {
                 });
             });
 
-
             //Enable search via selects in advanced search
             $("div.dataTables_scrollHeadInner tr.advanced th.addSelects select").live('change', function() {
                 Oparent = $(this).parent();
@@ -193,6 +234,46 @@ $(document).ready(function() {
                 //regex needed to avoid, e.g., a search on "Guilty" from also returning "Not Guilty
                 regex = ("^" + val + "$");
                 oTable.fnFilter(regex, colIndex, true, false, false);
+            });
+
+            //Get action from user_action
+            $('div.user_action select').live('change',function(){
+                var filteredData = oTable.fnGetFilteredData();
+                var affectedUsers = [];
+
+                //Loop through filtered data to get user ids
+                $.each(filteredData,function(){
+                    affectedUsers.push($(this)[0]);
+                });
+
+                var dialogWin = $('<div title="Are you sure?">This will ' + $(this).val() + ' ' + filteredData.length + ' users.  Are you sure you want to do that?</div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            $.post('lib/php/users/users_process.php', {'action': $(this).val(),'users':affectedUsers}, function(data) {
+                                var serverResponse = $.parseJSON(data);
+                                if (serverResponse.error === true)
+                                {
+                                    notify(serverResponse.message, true);
+                                }
+                                else
+                                {
+                                    notify(serverResponse.message);
+                                }
+                            });
+
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
+                    }
+                });
+
+                $(dialogWin).dialog('open');
+
             });
 
             //Filter function for dates
@@ -269,8 +350,7 @@ $(document).ready(function() {
           "fnDrawCallback": function() {
 
             $("#userStatus").text(chooserVal);
-            //this ensures that the text of the date is visible
-            $(".hasDatepicker").css({'width': '60%'});
+
             //this ensures that the range select doesn't go out of line
             $(".complex").css({'min-width': '160px'});
             }
@@ -299,16 +379,20 @@ function fnResetAllFilters() {
     $("select").each(function() {
         this.selectedIndex = '0';
     });
-    $('#addOpenRow').text('Add Condition');
+    $('#addDateRow').text('Add Condition');
     // $("#second_open_cell, #second_closed_cell").css({'visibility': 'hidden'});
-    $('thead tr.advanced_2').hide('slow');
+    $('tr.advanced, tr.advanced_2').hide('fast');
 
-    //return to default open cases filter
-    oTable.fnFilter('active', oTable.fnGetColumnIndex("Status"), true, false);
-    chooserVal = "open";
+    //return to default active users filter
+    oTable.fnFilter('^active', oTable.fnGetColumnIndex("Status"), true, false);
+    chooserVal = "active";
 
     //return to default sort - Last Name
     oTable.fnSort([[oTable.fnGetColumnIndex("Last Name"), 'asc']]);
+
+    //Reset scroll height
+    var defaultHeight = Math.round(0.80 * $('#content').height());
+    $(".dataTables_scrollBody").height(defaultHeight);
 
     //redraw the table so that all columns line up
     oTable.fnDraw();

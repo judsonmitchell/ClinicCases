@@ -455,7 +455,9 @@ span.dual_input select{min-width:80px !important;width:80px;}
 span.dual_input input{min-width:170px !important;width:170px;}
 
 /* Users page styles */
-
+div.user_action{text-align: left;margin-left: 10px;}
+div.user_action select {margin-left: 10px;font-size: 12pt}
+#date_created, #date_created_2{width:60%;}
 
 ::-webkit-scrollbar {
     width: 12px;
