@@ -40,7 +40,7 @@ else
 
 echo "Updating db fields<br />";
 
-$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `group` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
+$query = $dbh->prepare("ALTER TABLE  `cm_users` CHANGE  `class`  `grp` VARCHAR( 20 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_users` CHANGE  `assigned_prof`  `supervisors` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` CHANGE  `last_ping`  `type` VARCHAR( 200 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_logs` ADD  `last_msg_check` DATETIME NOT NULL;
 	ALTER TABLE  `cm` ADD FULLTEXT (`professor`);ALTER TABLE  `cm` ADD  `organization` VARCHAR( 250 ) NOT NULL AFTER  `last_name`;ALTER TABLE  `cm` CHANGE  `clinic_id`  `clinic_id` VARCHAR( 255 ) NOT NULL;ALTER TABLE  `cm` ADD  `clinic_type` VARCHAR( 200 ) NOT NULL AFTER  `case_type`
 
 ");
@@ -156,50 +156,52 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_columns` (
   `select_options` text NOT NULL,
   `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
   `required` int(11) NOT NULL DEFAULT '0' COMMENT 'ClinicCases cannot function without this field',
+  `display_order` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=41 ;
 
-INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_table`, `input_type`, `select_options`, `display_by_default`, `required`) VALUES
-(2, 'id', 'Id', 'true', 'text', '', 'false', 1),
-(3, 'clinic_id', 'Case Number', 'true', 'text', '', 'false', 1),
-(4, 'first_name', 'First Name', 'true', 'text', '', 'true', 1),
-(5, 'middle_name', 'Middle Name', 'true', 'text', '', 'false', 1),
-(6, 'last_name', 'Last Name', 'true', 'text', '', 'true', 1),
-(7, 'organization', 'Organization', 'true', 'text', '', 'false', 1),
-(8, 'date_open', 'Date Open', 'true', 'text', '', 'true', 1),
-(9, 'date_close', 'Date Close', 'true', 'text', '', 'true', 1),
-(10, 'case_type', 'Case Type', 'true', 'select', '', 'true', 1),
-(11, 'professor', 'Professor', 'false', 'text', '', 'false', 0),
-(12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0),
-(13, 'address2', 'Address 2', 'false', 'text', '', 'false', 0),
-(14, 'city', 'City', 'false', 'text', '', 'false', 0),
-(15, 'state', 'State', 'false', 'text', '', 'false', 0),
-(16, 'zip', 'Zip', 'false', 'text', '', 'false', 0),
-(17, 'phone1', 'Phone 1', 'false', 'text', '', 'false', 0),
-(18, 'phone2', 'Phone 2', 'false', 'text', '', 'false', 0),
-(19, 'email', 'Email', 'true', 'text', '', 'false', 0),
-(20, 'ssn', 'SSN', 'true', 'text', '', 'false', 0),
-(21, 'dob', 'DOB', 'true', 'text', '', 'false', 0),
-(22, 'age', 'Age', 'true', 'text', '', 'false', 0),
-(23, 'gender', 'Gender', 'true', 'select', '$gender_choices', 'false', 0),
-(24, 'race', 'Race', 'true', 'select','$race_choices', 'false', 0),
-(25, 'income', 'Income', 'false', 'text', '', 'false', 0),
-(26, 'per', 'Per', 'false', 'text', '', 'false', 0),
-(27, 'judge', 'Judge', 'false', 'text', '', 'false', 0),
-(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'text', '', 'false', 0),
-(29, 'court', 'Court', 'false', 'text', '', 'false', 0),
-(30, 'section', 'Section', 'false', 'text', '', 'false', 0),
-(31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0),
-(32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0),
-(33, 'notes', 'Notes', 'false', 'text', '', 'false', 0),
-(34, 'type1', 'Type 1', 'false', 'text', '', 'false', 0),
-(35, 'type2', 'Type 2', 'false', 'text', '', 'false', 0),
-(36, 'dispo', 'Disposition', 'true', 'select', '', 'true', 0),
-(37, 'close_code', 'Closing Code', 'false', 'text', '', 'false', 0),
-(38, 'close_notes', 'Closing Notes', 'false', 'text', '', 'false', 0),
-(39, 'referral', 'Referred By', 'true', 'text', '', 'false', 0),
-(40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1);
+--
+-- Dumping data for table `cm_columns`
+--
+
+INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_table`, `input_type`, `select_options`, `display_by_default`, `required`, `display_order`) VALUES
+(2, 'id', 'Id', 'true', 'text', '', 'false', 1, 2),
+(3, 'clinic_id', 'Case Number', 'true', 'text', '', 'false', 1, 3),
+(4, 'first_name', 'First Name', 'true', 'text', '', 'true', 1, 4),
+(5, 'middle_name', 'Middle Name', 'true', 'text', '', 'false', 1, 5),
+(6, 'last_name', 'Last Name', 'true', 'text', '', 'true', 1, 6),
+(7, 'organization', 'Organization', 'true', 'text', '', 'false', 1, 7),
+(8, 'date_open', 'Date Open', 'true', 'date', '', 'true', 1, 8),
+(9, 'date_close', 'Date Close', 'true', 'date', '', 'true', 1, 41),
+(10, 'case_type', 'Case Type', 'true', 'select', '', 'true', 1, 10),
+(11, 'clinic_type', 'Clinic Type', 'true', 'select', '', 'false', 0, 11),
+(12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0, 12),
+(13, 'address2', 'Address 2', 'false', 'text', '', 'false', 0, 13),
+(14, 'city', 'City', 'false', 'text', '', 'false', 0, 14),
+(15, 'state', 'State', 'false', 'text', '', 'false', 0, 15),
+(16, 'zip', 'Zip', 'false', 'text', '', 'false', 0, 16),
+(17, 'phone1', 'Phone 1', 'false', 'text', '', 'false', 0, 17),
+(18, 'phone2', 'Phone 2', 'false', 'text', '', 'false', 0, 18),
+(19, 'email', 'Email', 'true', 'text', '', 'false', 0, 19),
+(20, 'ssn', 'SSN', 'true', 'text', '', 'false', 0, 20),
+(21, 'dob', 'DOB', 'true', 'text', '', 'false', 0, 21),
+(22, 'age', 'Age', 'true', 'text', '', 'false', 0, 22),
+(23, 'gender', 'Gender', 'true', 'select', '$gender_choices', 'false', 0, 23),
+(24, 'race', 'Race', 'true', 'select', '$race_choices', 'false', 0, 24),
+(25, 'income', 'Income', 'false', 'text', '', 'false', 0, 25),
+(26, 'per', 'Per', 'false', 'text', '', 'false', 0, 26),
+(27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
+(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'text', '', 'false', 0, 28),
+(29, 'court', 'Court', 'false', 'text', '', 'false', 0, 29),
+(30, 'section', 'Section', 'false', 'text', '', 'false', 0, 30),
+(31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
+(32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
+(33, 'notes', 'Notes', 'false', 'text', '', 'false', 0, 33),
+(36, 'dispo', 'Disposition', 'true', 'select', '', 'true', 0, 42),
+(38, 'close_notes', 'Closing Notes', 'false', 'text', '', 'false', 0, 44),
+(39, 'referral', 'Referred By', 'true', 'text', '', 'false', 0, 39),
+(40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
 
 ");
 
@@ -548,6 +550,147 @@ $del->execute();
 $q = $dbh->prepare("ALTER TABLE `cm` CHANGE `m_initial` `middle_name` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
 
 $q->execute();
+
+//Add a couple of fields to cm table
+$q = $dbh->prepare("ALTER TABLE `cm`  ADD `time_opened` DATETIME NOT NULL,  ADD `closed_by` VARCHAR(50) NOT NULL,  ADD `time_closed` DATETIME NOT NULL");
+
+$q->execute();
+
+//
+//Change phone and email fields
+//
+
+//First change type/length of phone1 column
+
+$q = $dbh->prepare("ALTER TABLE  `cm` CHANGE  `phone1`  `phone1` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''
+");
+
+$q->execute();
+
+//Get all current phone values
+$query = $dbh->prepare('SELECT phone1, phone2,id FROM cm ORDER BY id asc');
+
+$query->execute();
+
+$phones = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($phones as $phone) {
+
+	$phone1_s = null;
+	$phone1_type = null;
+	$phone2_s = null;
+	$phone2_type = null;
+	//Make a guess at what kind of phone this is
+	if (!empty($phone['phone1']))
+	{
+	if (stristr($phone['phone1'], 'cell')  || stristr($phone['phone1'], 'mobile')|| stristr($phone['phone1'], 'c'))
+		{
+			$phone1_type = 'mobile';
+		}
+		elseif (stristr($phone['phone1'], 'home')  || stristr($phone['phone1'], 'h'))
+		{
+			$phone1_type = 'home';
+		}
+		elseif (stristr($phone['phone1'], 'work')  || stristr($phone['phone1'], 'office') || stristr($phone['phone1'], 'w') || stristr($phone['phone1'], 'o'))
+		{
+			$phone1_type = 'office';
+		}
+		else
+			{trim($phone1_type = 'other');}
+
+		//Strip any text from column (users used to write 'mobile', etc along with phone number)
+		$phone1_s = preg_replace("/[^0-9-]/i", "", $phone['phone1']);
+
+	}
+	if (!empty($phone['phone2']))
+	{
+	if (stristr($phone['phone2'], 'cell')  || stristr($phone['phone2'], 'mobile') || stristr($phone['phone2'], 'c'))
+		{
+			$phone2_type = 'mobile';
+		}
+		elseif (stristr($phone['phone2'], 'home')|| stristr($phone['phone2'], 'h'))
+		{
+			$phone2_type = 'home';
+		}
+		elseif (stristr($phone['phone2'], 'work')  || stristr($phone['phone2'], 'office')|| stristr($phone['phone2'], 'w') || stristr($phone['phone2'], 'o'))
+		{
+			$phone2_type = 'office';
+		}
+		else
+			{trim($phone2_type = 'other');}
+
+		$phone2_s = preg_replace("/[^0-9-]/i", "", $phone['phone2']);
+
+	}
+
+	$new_phone = array($phone1_s => $phone1_type, $phone2_s => $phone2_type);
+
+	$new_phone_filtered = array_filter($new_phone);//take out empty phone fields
+
+
+	if (!empty($new_phone_filtered) AND is_array($new_phone_filtered))
+	{
+
+		$ser = serialize($new_phone_filtered);
+
+		$update = $dbh->prepare("UPDATE cm SET phone1 = :phone, phone2 = '' WHERE id = :id");
+
+		$data = array('phone'=>$ser,'id'=>$phone['id']);
+
+		$update->execute($data);
+
+	}
+	else
+	{
+		//This is for the rare situation where somebody put all text in the phone fields
+		//Just clear that out.  If not a proper array, it will throw php notices and crash
+		//javascript.
+		$update = $dbh->prepare("UPDATE cm SET phone1 = '', phone2 = '' WHERE id = :id");
+
+		$data = array('id'=>$phone['id']);
+
+		$update->execute($data);
+	}
+
+}
+
+//delete phone2; unnecessary
+
+$query = $dbh->prepare("ALTER TABLE `cm` DROP `phone2`;ALTER TABLE  `cm` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  ''");
+
+$query->execute();
+
+
+//update email field
+$q = $dbh->prepare("ALTER TABLE `cm` CHANGE `email` `email` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+
+$q->execute();
+
+$query = $dbh->prepare('SELECT id,email FROM cm');
+
+$query->execute();
+
+$emails = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($emails as $email) {
+
+	if ($email['email'])
+	{
+
+		$new_email = array($email['email'] => 'other');
+
+		$ser = serialize($new_email);
+
+		$update = $dbh->prepare("UPDATE cm SET email = :email WHERE id = :id");
+
+		$data = array('email' => $ser, 'id' => $email['id']);
+
+		$update->execute($data);
+	}
+
+}
+
+
 
 echo "Upgrade successful";
 

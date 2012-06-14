@@ -31,6 +31,7 @@ function bindPostVals($query_string,$open_close)
 			$cols .= "`time_closed` = :time_closed";
 			$values[':time_closed'] = $now;
 		}
+		//If $open_close is 'edit', we don't need to add these fields
 
 	$columns = rtrim($cols,',');
 
@@ -41,6 +42,20 @@ $action = $_POST['action'];
 
 if (isset($_POST['id']))
 	{$id = $_POST['id'];}
+
+if (isset($_POST['phone']))
+	{
+		$phone = json_decode($_POST['phone']);
+		$phone_ser = serialize($phone);
+		$_POST['phone'] = $phone_ser;
+	}
+
+if (isset($_POST['email']))
+	{
+		$email = json_decode($_POST['email']);
+		$email_ser = serialize($email);
+		$_POST['email'] = $email_ser;
+	}
 
 switch ($action) {
 
@@ -65,7 +80,17 @@ switch ($action) {
 
 	break;
 
-	case 'modify':
+	case 'edit':
+
+		$open_close = 'edit';
+
+		$post = bindPostVals($_POST,$open_close);
+
+		$q = $dbh->prepare("UPDATE cm SET " . $post['columns'] . " WHERE id = :id");
+
+		$q->execute($post['values']);
+
+		$error = $q->errorInfo();
 
 	break;
 
@@ -109,6 +134,22 @@ else
 				{$text = 'closed';}
 
 			$return = array("message" => "$case_name is now $text.","error" => false);
+			echo json_encode($return);
+
+		break;
+
+		case 'edit':
+			if (empty($_POST['first_name']) && empty($_POST['last_name']))
+				{
+					$case_name = $_POST['organization'];
+				}
+				else
+				{
+					$case_name = $_POST['first_name'] . " " . $_POST['middle_name']
+					. " " . $_POST['last_name'];
+				}
+
+			$return = array("message" => "$case_name case edited.","error" => false);
 			echo json_encode($return);
 
 		break;

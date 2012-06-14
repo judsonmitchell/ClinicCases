@@ -243,7 +243,7 @@ function closeCaseTab(canClose,el)
 function tabCheckDirty(el)
 {
 
-    var dialogWin = $('<div title="Warning: Unsaved Changes">You have unsaved changes. Lose these changes?</div>');
+    var dialogWin = $('<div title="Warning: Unsaved Changes">You are currently editing a case. Lose any changes?</div>');
 
     var targetPanel = el.find('a').attr('href');
 
@@ -310,6 +310,20 @@ function tabCheckDirty(el)
                         }
                     });
 
+                    }
+                    else if(el.size() > 1)
+                    {
+                        $("#case_detail_window").hide('fold', 1000, function() {
+                                    $tabs.tabs('destroy');});
+                        $(window).unbind("beforeunload");
+
+                    }
+
+                    else
+                    {
+                        closeCaseTab(true,el);
+
+                        $(window).unbind("beforeunload");
                     }
 
 
@@ -405,10 +419,12 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
             }
         }
 
-        $(this).show().focus();
+        $(this).show();
+        var userDetail = $(this).find('div.user_display_detail');
+        userDetail.focus();
         //hide the display and reset the clicked image border
-        $(this).focusout(function() {
-            $(this).hide();
+        userDetail.focusout(function() {
+            $(this).parent().hide();
             clickedImage.css({'border': '3px solid #FFFFCC'});
 
         });
@@ -465,8 +481,8 @@ $('div.assigned_people img.user_add_button').live('click', function() {
 
     });
 
-    $('div.user_display').show().focus();
-    $('div.user_display').focusout(function(){$(this).hide();});
+    $('div.user_display').show();
+    $('div.user_display form').focus().focusout(function(){$(this).hide();});
 
 });
 

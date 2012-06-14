@@ -1,175 +1,7 @@
  //init
 var oTable;
-
 var aoColumns;
 
-//function to create selects for advanced search
-
-(function($) {
-    /*
- * Function: fnGetColumnData
- * Purpose:  Return an array of table values from a particular column.
- * Returns:  array string: 1d data array
- * Inputs:   object:oSettings - dataTable settings object. This is always the last argument past to the function
- *           int:iColumn - the id of the column to extract the data from
- *           bool:bUnique - optional - if set to false duplicated values are not filtered out
- *           bool:bFiltered - optional - if set to false all the table data is used (not only the filtered)
- *           bool:bIgnoreEmpty - optional - if set to false empty values are not filtered from the result array
- * Author:   Benedikt Forchhammer <b.forchhammer /AT\ mind2.de>
- */
-
-    $.fn.dataTableExt.oApi.fnGetColumnData = function(oSettings, iColumn, bUnique, bFiltered, bIgnoreEmpty) {
-
-        // check that we have a column id
-        if (typeof iColumn == "undefined") {
-            return new Array();
-        }
-
-        // by default we only wany unique data
-        if (typeof bUnique == "undefined")
-            bUnique = true;
-
-        // by default we do want to only look at filtered data
-        if (typeof bFiltered == "undefined")
-            bFiltered = true;
-
-        // by default we do not wany to include empty values
-        if (typeof bIgnoreEmpty == "undefined")
-            bIgnoreEmpty = true;
-
-        // list of rows which we're going to loop through
-        var aiRows;
-
-        // use only filtered rows
-        if (bFiltered === true)
-            aiRows = oSettings.aiDisplay;
-        // use all rows
-        else
-            aiRows = oSettings.aiDisplayMaster; // all row numbers
-
-        //debug
-        if (oSettings.aiDisplayMaster.length < 1)
-        {
-            alert('this array is empty');
-        }
-
-        // set up data array
-        var asResultData = new Array();
-
-        for (var i = 0, c = aiRows.length; i < c; i++) {
-            iRow = aiRows[i];
-            var aData = this.fnGetData(iRow);
-            var sValue = aData[iColumn];
-
-            // ignore empty values?
-            if (bIgnoreEmpty === true && sValue.length === 0)
-                continue;
-
-            // ignore unique values?
-            else if (bUnique === true && jQuery.inArray(sValue, asResultData) > -1)
-                continue;
-
-            // else push the value onto the result data array
-            else
-                asResultData.push(sValue);
-        }
-
-        return asResultData;
-    };
-}(jQuery));
-
-
-function fnCreateSelect(aData)
-{
-
-    var r = '<select class="fltr_select"><option value=""></option>', i, iLen = aData.length;
-    for (i = 0; i < iLen; i++)
-    {
-        r += '<option value="' + aData[i] + '">' + aData[i] + '</option>';
-    }
-    return r + '</select>';
-}
-
-
-//End function to create selects for advanced search
-
-//Function to get the index of a column by column name
-(function($) {
-
-    /*
- * Function: fnGetColumnIndex
- * Purpose:  Return an integer matching the column index of passed in string representing sTitle
- * Returns:  int:x - column index, or -1 if not found
- * Inputs:   object:oSettings - automatically added by DataTables
- *           string:sCol - required - string matching the sTitle value of a table column
- */
-    $.fn.dataTableExt.oApi.fnGetColumnIndex = function(oSettings, sCol)
-    {
-        var cols = oSettings.aoColumns;
-
-        //strip underscores from name attribute, if necessary
-        if (sCol.indexOf("_") != "-1")
-        {
-            sCol = sCol.replace("_", " ");
-        }
-        for (var x = 0, xLen = cols.length; x < xLen; x++)
-        {
-            if (cols[x].sTitle.toLowerCase() == sCol.toLowerCase())
-            {
-                return x;
-            }
-        }
-        return -1;
-    };
-}(jQuery));
-
-//Function to refresh DataTables via ajax source
-$.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback, bStandingRedraw )
-{
-    if ( typeof sNewSource !== 'undefined' && sNewSource !== null )
-    {
-        oSettings.sAjaxSource = sNewSource;
-    }
-    this.oApi._fnProcessingDisplay( oSettings, true );
-    var that = this;
-    var iStart = oSettings._iDisplayStart;
-    var aData = [];
-
-    this.oApi._fnServerParams( oSettings, aData );
-
-    oSettings.fnServerData( oSettings.sAjaxSource, aData, function(json) {
-        /* Clear the old information from the table */
-        that.oApi._fnClearTable( oSettings );
-
-        /* Got the data - add it to the table */
-        var aData =  (oSettings.sAjaxDataProp !== "") ?
-            that.oApi._fnGetObjectDataFn( oSettings.sAjaxDataProp )( json ) : json;
-
-        for ( var i=0 ; i<aData.length ; i++ )
-        {
-            that.oApi._fnAddData( oSettings, aData[i] );
-        }
-
-        oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-        that.fnDraw();
-
-        if ( typeof bStandingRedraw != 'undefined' && bStandingRedraw === true )
-        {
-            oSettings._iDisplayStart = iStart;
-            that.fnDraw( false );
-        }
-
-        that.oApi._fnProcessingDisplay( oSettings, false );
-
-        /* Callback user function - for event handlers etc */
-        if ( typeof fnCallback == 'function' && fnCallback !== null )
-        {
-            fnCallback( oSettings );
-        }
-    }, oSettings );
-};
-
-//End
 $(document).ready(function() {
 
     //set the intial value for the caseStatus span on load
@@ -189,7 +21,6 @@ $(document).ready(function() {
             if (data)
             {
                 aoColumns = data.aoColumns;
-
 
                 oTable = $('#table_cases').dataTable({
                     "bJQueryUI": true,
@@ -506,8 +337,7 @@ $(document).ready(function() {
 
 });
 
-
-
+//Filtering for date fields
 $.fn.dataTableExt.afnFiltering.push(
 
 function(oSettings, aData, iDataIndex) {
@@ -559,17 +389,17 @@ function(oSettings, aData, iDataIndex) {
 
     //filtering by date closed only
 
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 == '')
+    if (opField === '' && clField !== '' && opField2 === '' && clField2 === '')
 
     {
         if (clOperator == 'equals' && clRow == clField)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'less' && clRow < clField)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'greater' && clRow > clField)
@@ -580,7 +410,7 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter range between open and closed dates
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 == '')
+    if (opField !== '' && clField !== '' && opField2 === '' && clField2 === '')
 
     {
         if (opOperator == 'equals' && clOperator == 'equals' && opRow == opField && clRow == clField)
@@ -601,17 +431,17 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter between open dates
-    if (opField !== '' && clField == '' && opField2 !== '' && clField2 == '')
+    if (opField !== '' && clField === '' && opField2 !== '' && clField2 === '')
 
     {
         if (opOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'less' && opOperator2 == 'greater' && opRow < opField && opRow > opField2)
@@ -622,17 +452,17 @@ function(oSettings, aData, iDataIndex) {
     }
 
     //filter between close dates
-    if (opField == '' && clField !== '' && opField2 == '' && clField2 !== '')
+    if (opField === '' && clField !== '' && opField2 === '' && clField2 !== '')
 
     {
         if (clOperator == 'equals' && clOperator2 == 'equals' && clRow == clField && clRow == clField2)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'greater' && clOperator2 == 'less' && clRow > clField && clRow < clField2)
         {
-            return true
+            return true;
         }
 
         else if (clOperator == 'less' && clOperator2 == 'greater' && clRow < clField && clRow > clField2)
@@ -648,52 +478,52 @@ function(oSettings, aData, iDataIndex) {
     {
         if (opOperator == 'equals' && opOperator2 == 'equals' && clOperator == 'equals' && opOperator2 == 'equals' && opRow == opField && opRow == opField2 && clRow == clField && clRow == clField2)
         {
-            return true
+            return true;
         }
 
         else if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opOperator2 == 'less' && opRow > opField && opRow < opField2 && clRow > clField && clRow < clField2)
         {
-            return true
+            return true;
         }
 
     }
     //Find specific close date with an open range
-    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 == '')
+    if (opField !== '' && clField !== '' && opField2 !== '' && clField2 === '')
 
     {
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'equals' && opRow > opField && opRow < opField2 && clRow == clField)
         {
-            return true
+            return true;
         }
 
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'greater' && opRow > opField && opRow < opField2 && clRow > clField)
         {
-            return true
+            return true;
         }
 
         if (opOperator == 'greater' && opOperator2 == 'less' && clOperator == 'less' && opRow > opField && opRow < opField2 && clRow < clField)
         {
-            return true
+            return true;
         }
     }
 
     //Find specific open date with a closed range
-    if (opField !== '' && clField !== '' && opField2 == '' && clField2 !== '')
+    if (opField !== '' && clField !== '' && opField2 === '' && clField2 !== '')
 
     {
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'equals' && clRow > clField && clRow < clField2 && opRow == opField)
         {
-            return true
+            return true;
         }
 
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'greater' && clRow > clField && clRow < clField2 && opRow > opField)
         {
-            return true
+            return true;
         }
 
         if (clOperator == 'greater' && clOperator2 == 'less' && opOperator == 'less' && clRow > clField && clRow < clField2 && opRow < opField)
         {
-            return true
+            return true;
         }
     }
     return false;

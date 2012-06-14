@@ -78,8 +78,7 @@
 
 	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
 
-
-
+	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
 
 </head>
 <body>
@@ -131,6 +130,9 @@
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
 						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "textarea" && $date_check !== "date"):
+							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
+
+						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "dual" && $date_check !== "date"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
 						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
@@ -196,7 +198,10 @@
 							?>
 					</tr>
 				</thead>
+
 			<tbody>
+
+			</tbody>
 
 		</table>
 

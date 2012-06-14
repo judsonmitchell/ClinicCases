@@ -86,7 +86,7 @@ else
 
 	$group_query = $dbh->prepare("SELECT * FROM cm_groups WHERE group_name = ? LIMIT 1");
 
-	$group_query->bindParam(1, $r->group);
+	$group_query->bindParam(1, $r->grp);
 
 	$group_query->execute();
 
@@ -97,7 +97,7 @@ else
 //Create Session Variables
 	$_SESSION['permissions'] = $permissions;
 	$_SESSION['login'] = $r->username;
-	$_SESSION['group'] = $r->group;
+	$_SESSION['group'] = $r->grp;
 	$_SESSION['first_name'] = $r->first_name;
 	$_SESSION['last_name'] = $r->last_name;
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
