@@ -15,7 +15,7 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #menus img{margin-top:10px;margin-right:10px;margin-bottom:-5px;}
 
-#nav_container{position:relative;width:94%;height:61px;background-color:rgb(195, 217, 255);margin:auto;/*width:1015px;*/}
+#nav_container{position:relative;width:94%;height:61px;background-color:rgb(195, 217, 255);margin:auto;max-width: 1290px}
 
 #notifications{display:none;position:absolute;top:10px;z-index:99;left:50%;margin-left:-150px;width:300px;background-color:white;font-weight:normal;border:1px solid gray;}
 
@@ -45,9 +45,7 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #timer_controls form>button {vertical-align:bottom;margin:5px;}
 
-
-
-#content{position:relative;width:94%;background-color:white;margin:auto;border:1px dotted rgb(192,192,192);z-index:1;padding:1.5%;overflow-y:hidden}
+#content{position:relative;width:94%;background-color:white;margin:auto;border:1px dotted rgb(192,192,192);z-index:1;padding:1.5%;overflow-y:hidden;max-width: 1290px;}
 
 #content_left{float:left;width:42%;margin-top:40px;margin-left:15px;text-align:left;}
 
@@ -458,6 +456,18 @@ span.dual_input input{min-width:170px !important;width:170px;}
 div.user_action{text-align: left;margin-left: 10px;}
 div.user_action select {margin-left: 10px;font-size: 12pt}
 #date_created, #date_created_2{width:60%;}
+#user_detail_window {width:97%;height:98%;background-color:white;position:absolute;top:1.5%;}
+div.user_detail_control{width:100%;height:6%;padding:5px;background-color:transparent;position:relative;;top:0;right:0;text-align:left;}
+div.user_detail_left{display:inline-block;width:49%;height:93%;border-right:1px solid #AAA;text-align: left;vertical-align: top;}
+div.user_detail_right{display:inline-block;width:48%;height:93%;border-left:1px solid #AAA;text-align: left;vertical-align: top;padding-left: 1.5%}
+span.name_display{color:black;font-size:20pt;font-weight:normal;text-shadow: 0 2px 3px gray;}
+div.active_case_list{max-height:45%;overflow:auto;padding-left:4%;}
+
+.user_detail_control button{position:absolute;right:10px;top:2px;}
+
+#user_detail_window label {display:inline-block;margin:12px 0 0;width:90px;}
+div.user_detail_actions{position:absolute;bottom:20px;right:20px;}
+
 
 ::-webkit-scrollbar {
     width: 12px;

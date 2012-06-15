@@ -19,7 +19,7 @@ $(document).ready(function() {
 		"iDisplayLength": 20,
 		"bSortCellsTop": true,
         "aaSorting": [[3, "asc"]],
-        "sScrollY": Math.round(0.80 * $('#content').height()),
+        "sScrollY": Math.round(0.85 * $('#content').height()),
         "aoColumns":
         [
         { "bSearchable": false, "bVisible": false },
@@ -74,8 +74,6 @@ $(document).ready(function() {
                 },
             {"sExtends":"text","sButtonText":"Reset","sButtonClass":"DTTT_button_reset","sButtonClassHover":"DTTT_button_reset_hover"},
             {"sExtends":"text","sButtonText":"New User","sButtonClass":"DTTT_button_new_case","sButtonClassHover":"DTTT_button_new_case_hover"}
-
-
 
             ]
         },
@@ -150,7 +148,7 @@ $(document).ready(function() {
                     $("tr.advanced, tr.advanced_2").css({'display': 'none'});
 
                     //Reset scroll height
-                    var defaultHeight = Math.round(0.80 * $('#content').height());
+                    var defaultHeight = Math.round(0.85 * $('#content').height());
                     $(".dataTables_scrollBody").height(defaultHeight);
 
                     //return to default active users filter
@@ -204,7 +202,6 @@ $(document).ready(function() {
                 }
             });
 
-
             //Code for advanced search using inputs
             $("thead input").live('keyup', function() {
 
@@ -240,6 +237,7 @@ $(document).ready(function() {
             $('div.user_action select').live('change',function(){
                 var filteredData = oTable.fnGetFilteredData();
                 var affectedUsers = [];
+                var action = $(this).val();
 
                 //Loop through filtered data to get user ids
                 $.each(filteredData,function(){
@@ -252,7 +250,7 @@ $(document).ready(function() {
                     modal: true,
                     buttons: {
                         "Yes": function() {
-                            $.post('lib/php/users/users_process.php', {'action': $(this).val(),'users':affectedUsers}, function(data) {
+                            $.post('lib/php/users/users_process.php', {'action': action,'users':affectedUsers}, function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 if (serverResponse.error === true)
                                 {
@@ -261,6 +259,7 @@ $(document).ready(function() {
                                 else
                                 {
                                     notify(serverResponse.message);
+                                    oTable.fnReloadAjax();
                                 }
                             });
 
@@ -344,6 +343,20 @@ $(document).ready(function() {
             }
             );
 
+            //Add trigger for when user changes less/greater/equal
+
+            $("#date_created_range, #date_created_range_2").live('change', function(event) {
+                oTable.fnDraw();
+            });
+
+            //Listen for click on table row; open case
+            $('#table_users tbody').click(function(event) {
+                var iPos = oTable.fnGetPosition(event.target.parentNode);
+                var aData = oTable.fnGetData(iPos);
+                var iId = aData[0];
+                showUserDetail(iId);
+            });
+
             $('#processing').hide(); //hide the "loading" div after load.
 
 			},
@@ -391,7 +404,7 @@ function fnResetAllFilters() {
     oTable.fnSort([[oTable.fnGetColumnIndex("Last Name"), 'asc']]);
 
     //Reset scroll height
-    var defaultHeight = Math.round(0.80 * $('#content').height());
+    var defaultHeight = Math.round(0.85 * $('#content').height());
     $(".dataTables_scrollBody").height(defaultHeight);
 
     //redraw the table so that all columns line up
@@ -402,5 +415,34 @@ function fnResetAllFilters() {
 //this.value = asInitVals[$("thead input").index(this)];
 //this.className = "search_init"
 //});
+
+}
+
+//Create user detail window
+function showUserDetail(id)
+{
+    //Define html for user window
+
+    if ($('div#user_detail_window').length < 1)
+    {
+        var userDetail = "<div id='user_detail_window'></div>";
+
+        $("#content").append(userDetail);
+    }
+
+    $("#user_detail_window").load('lib/php/users/user_detail_load.php',{'id':id},function(){
+        $(this).show('fold', 1000);
+
+        $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
+        click(function(){
+
+            $("#user_detail_window").hide('fold', 1000);
+
+        });
+    });
+
+
+
+
 
 }
