@@ -84,6 +84,9 @@ $supervisor_name_data  = supervisor_names_array($dbh);
 
 $id = $_POST['id'];
 
+if (isset($_POST['view']))
+{$view = $_POST['view'];}
+
 $q = $dbh->prepare("SELECT * FROM cm_users WHERE id = ?");
 
 $q->bindParam(1, $id);

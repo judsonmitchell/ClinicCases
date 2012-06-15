@@ -7,7 +7,6 @@ var chooserVal = "active";
 
 $(document).ready(function() {
 
-
     //Load dataTables
     oTable = $('#table_users').dataTable(
 		{
@@ -430,7 +429,7 @@ function showUserDetail(id)
         $("#content").append(userDetail);
     }
 
-    $("#user_detail_window").load('lib/php/users/user_detail_load.php',{'id':id},function(){
+    $("#user_detail_window").load('lib/php/users/user_detail_load.php',{'id':id,'view':'display'},function(){
         $(this).show('fold', 1000);
 
         $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
@@ -439,10 +438,16 @@ function showUserDetail(id)
             $("#user_detail_window").hide('fold', 1000);
 
         });
+
+        $(this).find('div.user_detail_actions button').click(function(){
+            $('#user_detail_window').load('lib/php/users/user_detail_load.php',{'id':id,'view':'edit'},function(){
+                 $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
+                    click(function(){
+                        $("#user_detail_window").hide('fold', 1000);
+                });
+            });
+        });
     });
-
-
-
 
 
 }

@@ -466,6 +466,7 @@ div.active_case_list{max-height:45%;overflow:auto;padding-left:4%;}
 .user_detail_control button{position:absolute;right:10px;top:2px;}
 
 #user_detail_window label {display:inline-block;margin:12px 0 0;width:90px;}
+#user_detail_window p {margin-bottom: 5px;}
 div.user_detail_actions{position:absolute;bottom:20px;right:20px;}
 
 
