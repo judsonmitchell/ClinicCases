@@ -7,6 +7,8 @@ include '../utilities/convert_case_time.php';
 include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 include '../auth/last_login.php';
+include '../html/gen_select.php';
+
 
 //Returns the name of open cases that user is assigned to
 function get_active_cases($dbh,$user)

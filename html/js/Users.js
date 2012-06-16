@@ -126,7 +126,6 @@ $(document).ready(function() {
 
             });
 
-
             $("div.dataTables_scrollHeadInner thead th.addSelects").each(function() {
 
                 //Get the index of the column from its name attribute
@@ -259,6 +258,7 @@ $(document).ready(function() {
                                 {
                                     notify(serverResponse.message);
                                     oTable.fnReloadAjax();
+                                    fnResetAllFilters();
                                 }
                             });
 
@@ -358,7 +358,51 @@ $(document).ready(function() {
 
             $('#processing').hide(); //hide the "loading" div after load.
 
-			},
+            //Check for new users and notify
+            $.post('lib/php/users/check_for_new_users.php',function(data){
+                var serverResponse = $.parseJSON(data);
+                if (serverResponse.new_user === true)
+                {
+                    var uText;
+                    var aText;
+
+                    if (serverResponse.number == 1)
+                        {
+                            uText = 'is one new user';
+                            aText = 'application';
+                        }
+                    else
+                        {
+                            uText = 'are ' + serverResponse.number + ' new users';
+                            aText = 'applications';
+                        }
+
+                    var dialogWin = $('<div title="New Users"><p>There ' +  uText + '   awaiting approval from you.</p> <br /><p>Would you like to review the ' + aText  + ' now?</p></div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            chooserVal = "new";
+                            $('#chooser').val('inactive');
+                            oTable.fnFilter('^inactive', oTable.fnGetColumnIndex("Status"), true, false);
+                            oTable.fnFilter('yes', oTable.fnGetColumnIndex("New"), true, false);
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
+                    }
+
+                    });
+
+                    $(dialogWin).dialog('open');
+                }
+            });
+
+
+
+            },
           "fnDrawCallback": function() {
 
             $("#userStatus").text(chooserVal);
@@ -409,12 +453,6 @@ function fnResetAllFilters() {
     //redraw the table so that all columns line up
     oTable.fnDraw();
 
-//reset the default values for advanced search
-//$("thead input").each( function (i) {
-//this.value = asInitVals[$("thead input").index(this)];
-//this.className = "search_init"
-//});
-
 }
 
 //Create user detail window
@@ -439,12 +477,90 @@ function showUserDetail(id)
 
         });
 
-        $(this).find('div.user_detail_actions button').click(function(){
+        //Listen for the delete button
+        $(this).find('div.user_detail_actions button.user_delete').click(function(){
+            var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            $.post('lib/php/users/users_process.php', {'action': 'delete','users':id}, function(data) {
+                                var serverResponse = $.parseJSON(data);
+                                if (serverResponse.error === true)
+                                {
+                                    notify(serverResponse.message, true);
+                                }
+                                else
+                                {
+                                    notify(serverResponse.message);
+                                    oTable.fnReloadAjax();
+
+                                    //Find out if there are any new users to be looked at
+                                    //If not, remove the "new" filter
+                                    $.post('lib/php/users/check_for_new_users.php',function(data){
+                                        var serverResponse = $.parseJSON(data);
+                                        if (parseInt(serverResponse.number) < 1)
+                                            {fnResetAllFilters();}
+                                    });
+
+                                    $("#user_detail_window").hide('fold', 1000);
+                                }
+                            });
+
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
+                    }
+                });
+
+                $(dialogWin).dialog('open');
+        });
+
+        //Listen for the edit button
+        $(this).find('div.user_detail_actions button.user_edit').click(function(){
             $('#user_detail_window').load('lib/php/users/user_detail_load.php',{'id':id,'view':'edit'},function(){
+
+                //Click close button
                  $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
                     click(function(){
                         $("#user_detail_window").hide('fold', 1000);
                 });
+
+                //Click cancel button
+                $('div.user_detail_edit_actions button:eq(0)').click(function(){
+                    $("#user_detail_window").hide('fold', 1000);
+                });
+
+                //Click submit button
+                 $('div.user_detail_edit_actions button:eq(1)').click(function(event){
+                    event.preventDefault();
+                    var formVals = $('div.user_detail_left form');
+                    var errString = validUser(formVals);
+                    if (errString.length)
+                        {
+                            notify(errString,true);
+
+                            formVals.find('.ui-state-error').click(function(){
+                                $(this).removeClass('ui-state-error');
+                            });
+
+                            return false;
+                        }
+                    else
+                        {
+                            formValsArray = formVals.serializeArray();
+                            $.post('lib/php/users/users_process.php',formValsArray,function(data){
+
+
+                            });
+                        }
+
+                });
+
+                $('select.supervisor_chooser,select.status_chooser').chosen();
             });
         });
     });

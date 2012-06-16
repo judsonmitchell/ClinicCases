@@ -7,7 +7,12 @@
 
 <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
 
+<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
+
+
 <!-- Jquery Calls Specific to this page -->
+<?php if ($_SESSION['permissions']['view_users']  == '1'){ ?>
+
 	<script  src="html/js/Users.js" type="text/javascript"></script>
 
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
@@ -20,7 +25,11 @@
 
 	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
+
+<?php } ?>
 
 </head>
 <body>
@@ -44,6 +53,8 @@
 	</div>
 
 	<div id="content">
+
+		<?php if ($_SESSION['permissions']['view_users']  !== '1'){die("Sorry, you do not have permission to view users.");} ?>
 
 		<div id="processing">Loading....</div>
 
@@ -109,7 +120,7 @@
 
 					<th class="addSelects" name = "status"></th>
 
-					<th></th>
+					<th class="addSelects" name = "new"></th>
 
 					<th class="complex">
 

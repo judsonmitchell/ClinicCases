@@ -6,6 +6,9 @@ include '../utilities/convert_times.php';
 include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 
+if ($_SESSION['permissions']['view_users'] == '1')
+{
+
 //Columns we want from the users table
 $columns = array("id", "picture_url","first_name", "last_name", "email", "mobile_phone", "office_phone", "home_phone", "grp", "username", "supervisors","status", "new", "date_created");
 
@@ -72,3 +75,9 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 	$json = json_encode($output);
 
 	echo $json;
+
+}
+else
+{
+	die("Sorry, you don't have permission to view users.");
+}

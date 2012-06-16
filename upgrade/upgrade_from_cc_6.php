@@ -63,6 +63,7 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `close_cases` int(2) NOT NULL,
   `view_all_cases` int(2) NOT NULL COMMENT 'User can view all cases or only cases to which they are assigned',
   `assign_cases` int(2) NOT NULL COMMENT 'Can the user assign cases to users?',
+  `view_users` int(2) NOT NULL,
   `add_users` int(2) NOT NULL,
   `delete_users` int(2) NOT NULL,
   `edit_users` int(2) NOT NULL,

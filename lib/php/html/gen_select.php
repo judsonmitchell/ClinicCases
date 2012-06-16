@@ -134,19 +134,6 @@ function generate_time_selector()
 
 
 
-function gen_select_multiple()
-
-	{
-		$get_prof = mysql_query("SELECT * FROM `cm_users` WHERE `class` = 'prof' AND `status` = 'active' ORDER BY `last_name` asc");
-
-		while ($result = mysql_fetch_array($get_prof))
-			{
-				$prof = $result['last_name'];
-				$prof_user = $result['username'];
-				echo "<option value='$prof_user'>$prof</option>";
-			}
-	}
-
 //Generates all open and active cases the user is on for use in a html select
 function generate_active_cases_select($dbh,$user)
 {
@@ -301,5 +288,49 @@ function all_active_users_and_groups($dbh,$case_num)
 
 	return $options;
 
+}
+
+//Used in user_detail.php
+function status_select($status)
+{
+	$choices = array('active' => 'Active','inactive' => 'Invactive');
+
+	$options = null;
+
+	foreach($choices as $key=>$value){
+
+		if ($key == $status)
+			{$selected = "selected=selected";}
+		else
+			{$selected = "";}
+
+		$options .= "<option value= '$key' $selected>$value</option>";
+	}
+
+	return $options;
+
+}
+
+//Also used in user_detail.php
+//$supervisor is a string
+//$supervisor_name_data is an array
+function supervisors_select($supervisors,$supervisor_name_data)
+{
+	$options = null;
+	$sups = explode(',', $supervisors);
+	foreach ($supervisor_name_data as $key => $value)
+	{
+		if (in_array($value, $sups))
+		{
+			$options .= "<option value='$value' selected=selected>$key</option>";
+		}
+		else
+		{
+			$options .= "<option value='$value'>$key</option>";
+		}
+
+	}
+
+	return $options;
 }
 

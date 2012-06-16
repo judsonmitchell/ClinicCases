@@ -457,6 +457,7 @@ div.user_action{text-align: left;margin-left: 10px;}
 div.user_action select {margin-left: 10px;font-size: 12pt}
 #date_created, #date_created_2{width:60%;}
 #user_detail_window {width:97%;height:98%;background-color:white;position:absolute;top:1.5%;}
+#user_detail_window input,#user_detail_window select{width:300px;}
 div.user_detail_control{width:100%;height:6%;padding:5px;background-color:transparent;position:relative;;top:0;right:0;text-align:left;}
 div.user_detail_left{display:inline-block;width:49%;height:93%;border-right:1px solid #AAA;text-align: left;vertical-align: top;}
 div.user_detail_right{display:inline-block;width:48%;height:93%;border-left:1px solid #AAA;text-align: left;vertical-align: top;padding-left: 1.5%}
@@ -467,7 +468,7 @@ div.active_case_list{max-height:45%;overflow:auto;padding-left:4%;}
 
 #user_detail_window label {display:inline-block;margin:12px 0 0;width:90px;}
 #user_detail_window p {margin-bottom: 5px;}
-div.user_detail_actions{position:absolute;bottom:20px;right:20px;}
+div.user_detail_actions,div.user_detail_edit_actions{position:absolute;bottom:20px;right:20px;}
 
 
 ::-webkit-scrollbar {
