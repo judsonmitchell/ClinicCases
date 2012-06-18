@@ -7,7 +7,11 @@
 
 <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
 
+<link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
+
 <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
+
+<link type="text/css" href="lib/javascripts/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet"/>
 
 
 <!-- Jquery Calls Specific to this page -->
@@ -28,6 +32,10 @@
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/Jcrop/js/jquery.Jcrop.min.js"></script>
 
 <?php } ?>
 

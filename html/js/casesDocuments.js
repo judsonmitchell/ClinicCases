@@ -604,8 +604,6 @@ $('button.doc_upload').live('click', function() {
         }
     });
 
-    //TODO Difficult bug.  If user selects context menu (jquery.contextMenu.js), the file chooser will not open when clicking on the upload button.  The element still gets the click, but no dialog.
-
     var uploader = new qq.FileUploader({
         // pass the dom node (ex. $(selector)[0] for jQuery users)
         element: $('.upload_dialog_file')[0],

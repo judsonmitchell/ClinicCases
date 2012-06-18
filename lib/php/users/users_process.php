@@ -5,31 +5,19 @@ require('../auth/session_check.php');
 require('../../../db.php');
 
 function bindPostVals($query_string)
-{print_r($query_string);die;
+{
 	$cols = '';
 	$values = array();
 	$supervisor_string = null;
 	foreach ($query_string as $key => $value) {
-		if ($key !== 'action' && $key !=='supervisors')
+		if ($key !== 'action')
 		{
 			$key_name = ":" . $key;
 			$cols .= "`$key` = " . "$key_name,";
 			$values[$key_name] = $value;
 		}
-		//Put supervisors into one string
-		if ($key === 'supervisors')
-			{
-				if ($value)
-				{
-					$supervisor_string .= $value . ',';
-				}
-			}
-	}
 
-	//add supervisors
-	$key_name = ":supervisors";
-	$cols .= "`supervisors` = $key_name,";
-	$values[$key_name] = $supervisor_string;
+	}
 
 	$columns = rtrim($cols,',');
 
@@ -92,13 +80,13 @@ switch ($action) {
 
 		$post = bindPostVals($_POST);
 
-		//$q = $dbh->prepare("UPDATE cm SET " . $post['columns'] . " WHERE id = :id");
+		$q = $dbh->prepare("UPDATE cm_users SET " . $post['columns'] . " WHERE id = :id");
 
-		//$q->execute($post['values']);
-
-		print_r($post);die;
+		$q->execute($post['values']);
 
 		$error = $q->errorInfo();
+
+		break;
 
 }
 
@@ -124,6 +112,11 @@ if($error[1])
 
 				case 'delete':
 					$return = array('message'=>'User deleted.');
+					echo json_encode($return);
+					break;
+
+				case 'update':
+					$return = array('message'=>'User edited.');
 					echo json_encode($return);
 					break;
 

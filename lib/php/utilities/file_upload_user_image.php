@@ -3,25 +3,6 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
-$username = $_SESSION['login'];
-
-if (isset($_GET['case_id'])) {
-    $case_id = $_GET['case_id'];
-}
-
-if (isset($_GET['path'])) {
-    $path = $_GET['path'];
-
-    //if this is a subfolder, create container path
-    if (stristr($path, '/'))
-        {
-            $last_slash = strpos($path, '/');
-            $container = substr($path, 0,$last_slash);
-        }
-        else
-            {$container = '';}
-}
-
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -183,50 +164,35 @@ $sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 
 $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 
-$result = $uploader->handleUpload('../../../uploads/');
+$result = $uploader->handleUpload(CC_PATH . '/uploads/');
 
  if (array_key_exists("error", $result))  //upload fails
      {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
  else
  {
-    $upload_doc_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, username, case_id, date_modified) VALUES (NULL, :name, '', :extension, :folder,:user, :case_id, CURRENT_TIMESTAMP);");
+    if (isset($_GET['preview']))
+    {
+        $img = 'uploads/' . $result['file'] . '.' . $result['ext'];
+        $img_path = CC_PATH . '/' . $img;
+        //rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
+        //scale the picture if height is more than 400px
 
-    $users_file_name = $result['file'] . "." . $result['ext'];
-
-    $data = array('name' => $users_file_name, 'extension' => $result["ext"], 'folder' => $path,'user' => $username, 'case_id' => $case_id);
-
-    $upload_doc_query->execute($data);
-
-    $error = $upload_doc_query->errorInfo();
-
-    if ($error[1])
-        {
-            $result = array('error'=>$error[1]);
-            htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-            die;
-        };
-
-    $doc_id = $dbh->lastInsertId();
-
-    //now update the local_file_name field with the id and the extension
-
-    $local_file_name = $doc_id . "." . $result['ext'];
-
-    $update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$local_file_name' WHERE id = '$doc_id'");
-
-    $update_name->execute();
-
-    if (!is_writable(CC_DOC_PATH))
-        {
-            $return = array('error' => 'Error: Documents directory is not writable');
-            echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
-        }
+        $img_info = getimagesize($img_path);
+        if ($img_info[0] > 400  || $img_info[1] > 400) //length or width
+            {
+                echo "shit";die;
+            }
         else
+            {
+                $return = array('success'=>true,'img' => $img);
+                echo json_encode($return);
+            }
 
-        {
-            rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
-            $return = array('success'=>true);
-            echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
-        }
+    }
+    else
+    {
+        $return = array('success'=>true,'test'=>'tester');
+        echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
+    }
 
  }

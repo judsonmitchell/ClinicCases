@@ -14,6 +14,8 @@
 
 </div>
 
+<span class="user_data_display_area">
+
 <div class = "user_detail_left">
 
 	<p><label>First Name</label><?php echo $first_name; ?></p>
@@ -99,6 +101,8 @@
 	</div>
 
 </div>
+
+</span>
 <?php } else { //this is an edit ?>
 
 <div class = "user_detail_control">
@@ -114,6 +118,8 @@
 	<button>Close</button>
 
 </div>
+
+<span class="user_data_display_area">
 
 <div class = "user_detail_left">
 
@@ -165,9 +171,9 @@
 
 <div class = "user_detail_right">
 
-	<img src = "<?php echo $picture_url;?>">
+	<div class="user_picture"><img src = "<?php echo $picture_url;?>"></div>
 
-	<a href="#">Change picture</a>
+	<div class="user_change_picture">Change picture</div>
 
 
 	<div class="user_detail_edit_actions">
@@ -179,5 +185,7 @@
 	</div>
 
 </div>
+
+</span>
 
 <?php } ?>

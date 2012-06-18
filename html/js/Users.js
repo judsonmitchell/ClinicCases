@@ -316,7 +316,7 @@ $(document).ready(function() {
                 }
 
 
-                //filter between dates created fields
+                //filter between date_created fields
                 if (dateField !== '' && dateField2 !== '')
 
                 {
@@ -478,7 +478,7 @@ function showUserDetail(id)
         });
 
         //Listen for the delete button
-        $(this).find('div.user_detail_actions button.user_delete').click(function(){
+        $(this).find('div.user_detail_actions button.user_delete').live('click',function(){
             var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
                     autoOpen: false,
                     resizable: false,
@@ -520,7 +520,7 @@ function showUserDetail(id)
         });
 
         //Listen for the edit button
-        $(this).find('div.user_detail_actions button.user_edit').click(function(){
+        $(this).find('div.user_detail_actions button.user_edit').live('click',function(){
             $('#user_detail_window').load('lib/php/users/user_detail_load.php',{'id':id,'view':'edit'},function(){
 
                 //Click close button
@@ -552,8 +552,31 @@ function showUserDetail(id)
                     else
                         {
                             formValsArray = formVals.serializeArray();
-                            $.post('lib/php/users/users_process.php',formValsArray,function(data){
+                            //Turn supervisors into a string
+                            var supString = '';
+                            $.each(formValsArray,function(i,field){
+                                if (field.name == 'supervisors')
+                                {
+                                    supString += field.value + ",";
+                                }
+                            });
 
+                            formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
+
+                            formValsOk.push({'name':'supervisors','value':supString});
+
+                            $.post('lib/php/users/users_process.php',formValsOk,function(data){
+                                var serverResponse = $.parseJSON(data);
+                                if (serverResponse.error === true)
+                                {
+                                    notify(serverResponse.message, true);
+                                }
+                                else
+                                {
+                                    notify(serverResponse.message);
+                                    $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area',{'id':id,'view':'display'});
+                                    oTable.fnReloadAjax();
+                                }
 
                             });
                         }
@@ -561,6 +584,26 @@ function showUserDetail(id)
                 });
 
                 $('select.supervisor_chooser,select.status_chooser').chosen();
+
+                //Add change picture functions
+                var uploader = new qq.FileUploader({
+                    // pass the dom node (ex. $(selector)[0] for jQuery users)
+                    element: $('div.user_change_picture')[0],
+                    // path to server-side upload script
+                    action: 'lib/php/utilities/file_upload_user_image.php',
+                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                    params: {'preview': 'yes'},
+                    template: '<div class="qq-uploader">' +
+                    '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                    '<div class="qq-upload-button">Change Picture</div>' +
+                    '<ul class="qq-upload-list"></ul>' +
+                    '</div>',
+                    onComplete: function(id,fileName,responseJSON) {
+                        $('div.user_picture').html('<img src="' + responseJSON.img + '">');
+                        $('div.user_picture img').Jcrop({aspectRatio: 1});
+
+                        }
+                });
             });
         });
     });
