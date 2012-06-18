@@ -469,7 +469,7 @@ div.active_case_list{max-height:45%;overflow:auto;padding-left:4%;}
 #user_detail_window label {display:inline-block;margin:12px 0 0;width:90px;}
 #user_detail_window p {margin-bottom: 5px;}
 div.user_detail_actions,div.user_detail_edit_actions{position:absolute;bottom:20px;right:20px;}
-
+div.user_picture_preview{position:absolute;right:65px;top:80px;width:100px;height:100px;overflow:hidden;margin-left:5px;}
 
 ::-webkit-scrollbar {
     width: 12px;

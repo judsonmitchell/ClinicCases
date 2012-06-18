@@ -591,7 +591,7 @@ function showUserDetail(id)
                     element: $('div.user_change_picture')[0],
                     // path to server-side upload script
                     action: 'lib/php/utilities/file_upload_user_image.php',
-                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
                     params: {'preview': 'yes'},
                     template: '<div class="qq-uploader">' +
                     '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
@@ -599,9 +599,32 @@ function showUserDetail(id)
                     '<ul class="qq-upload-list"></ul>' +
                     '</div>',
                     onComplete: function(id,fileName,responseJSON) {
-                        $('div.user_picture').html('<img src="' + responseJSON.img + '">');
-                        $('div.user_picture img').Jcrop({aspectRatio: 1});
+                        $('div.user_picture').html('<img src="' + responseJSON.img + '">').
+                            append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+                        $('div.user_picture img').Jcrop({
+                            aspectRatio: 1,
+                            onChange: showPreview,
+                            onSelect: showPreview
+                            });
 
+                        var $preview = $('#preview');
+
+                        function showPreview(coords)
+                          {
+                            if (parseInt(coords.w) > 0)
+                            {
+                              var rx = 100 / coords.w;
+                              var ry = 100 / coords.h;
+
+                              $preview.css({
+                                width: Math.round(rx * 500) + 'px',
+                                height: Math.round(ry * 370) + 'px',
+                                marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                                marginTop: '-' + Math.round(ry * coords.y) + 'px',
+                                visibility:'visible'
+                              }).show();
+                            }
+                          }
                         }
                 });
             });

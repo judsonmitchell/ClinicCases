@@ -2,6 +2,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+require('resize.image.class.php');
 
 /**
  * Handle file uploads via XMLHttpRequest
@@ -180,7 +181,32 @@ $result = $uploader->handleUpload(CC_PATH . '/uploads/');
         $img_info = getimagesize($img_path);
         if ($img_info[0] > 400  || $img_info[1] > 400) //length or width
             {
-                echo "shit";die;
+                $image = new Resize_Image;
+
+                $image->new_width = 400;
+
+                $image->image_to_resize = $img_path;
+
+                $image->ratio = true;
+
+                $image->new_image_name = $result['file'] . '_display';
+
+                $image->save_folder = '../../../uploads/';
+
+                $process = $image->resize();
+
+                if($process['result'] && $image->save_folder)
+                    {
+                        $new = 'uploads/' . $process['new_name'];
+
+                        $return = array('success'=> true,'img'=> $new);
+
+                        echo json_encode($return);
+                    }
+            }
+        elseif ($img_info[0] < 128 || $img_info[1] < 128)
+            {
+                $return = array('success' => false,'msg' => 'This image is too small. The image must be at least 128 x 128 pixels');
             }
         else
             {
