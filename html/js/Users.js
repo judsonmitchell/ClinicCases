@@ -1,4 +1,4 @@
-//Scripts for users page
+ //Scripts for users page
 var oTable;
 var aoColumns;
 
@@ -9,44 +9,44 @@ $(document).ready(function() {
 
     //Load dataTables
     oTable = $('#table_users').dataTable(
-		{
-		"bJQueryUI": true,
-		"sAjaxSource": 'lib/php/users/users_load.php',
-		"bScrollInfinite": true,
-		"bDeferRender": true,
-		"bScrollCollapse": false,
-		"iDisplayLength": 20,
-		"bSortCellsTop": true,
+    {
+        "bJQueryUI": true,
+        "sAjaxSource": 'lib/php/users/users_load.php',
+        "bScrollInfinite": true,
+        "bDeferRender": true,
+        "bScrollCollapse": false,
+        "iDisplayLength": 20,
+        "bSortCellsTop": true,
         "aaSorting": [[3, "asc"]],
         "sScrollY": Math.round(0.85 * $('#content').height()),
         "aoColumns":
         [
-        { "bSearchable": false, "bVisible": false },
-        { "bSortable": false, "sWidth" : "40px"},
-        null,
-        null,
-        {"bVisible": false},
-        {"bVisible": false},
-        {"bVisible": false},
-        {"bVisible": false},
-        null,
-        null,
-        null,
-        null,
-        { "bSearchable": false, "bVisible": false },
-        {"sType": "date"}
+            {"bSearchable": false,"bVisible": false},
+            {"bSortable": false,"sWidth": "40px"},
+            null,
+            null,
+            {"bVisible": false},
+            {"bVisible": false},
+            {"bVisible": false},
+            {"bVisible": false},
+            null,
+            null,
+            null,
+            null,
+            {"bSearchable": false,"bVisible": false},
+            {"sType": "date"}
         ],
-        "sDom":'<"H"lfTrCi>t<"F"<"user_action">>',
+        "sDom": '<"H"lfTrCi>t<"F"<"user_action">>',
         "oColVis": {"aiExclude": [0],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
-                            $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
-                                this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
-                            });
-                        }},
+                $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
+                    this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
+                });
+            }},
         "oTableTools":
         {
             "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
             "aButtons": [
-             {
+                {
                     "sExtends": "collection",
                     "sButtonText": "Print/Export",
                     "aButtons": [
@@ -71,13 +71,13 @@ $(document).ready(function() {
                         }
                     ]
                 },
-            {"sExtends":"text","sButtonText":"Reset","sButtonClass":"DTTT_button_reset","sButtonClassHover":"DTTT_button_reset_hover"},
-            {"sExtends":"text","sButtonText":"New User","sButtonClass":"DTTT_button_new_case","sButtonClassHover":"DTTT_button_new_case_hover"}
+                {"sExtends": "text","sButtonText": "Reset","sButtonClass": "DTTT_button_reset","sButtonClassHover": "DTTT_button_reset_hover"},
+                {"sExtends": "text","sButtonText": "New User","sButtonClass": "DTTT_button_new_case","sButtonClassHover": "DTTT_button_new_case_hover"}
 
             ]
         },
         "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='userStatus'></span> users","sInfoFiltered": "from a total of <b>_MAX_</b> users"},
-		"fnInitComplete": function(){
+        "fnInitComplete": function() {
 
             //When page loads, default filter is applied: active users
             oTable.fnFilter('^active', oTable.fnGetColumnIndex("Status"), true, false);
@@ -135,8 +135,8 @@ $(document).ready(function() {
             });
 
             //hide picture column header
-            $('thead .DataTables_sort_wrapper').first().css({'color':'white'});
-            $('th').first().css({'border-left':'1px solid white','border-bottom':'1px solid white'});
+            $('thead .DataTables_sort_wrapper').first().css({'color': 'white'});
+            $('th').first().css({'border-left': '1px solid white','border-bottom': '1px solid white'});
 
             //Set css for advanced date function; make room for the operator selects
             $('#set_advanced').live('click', function(event) {
@@ -232,13 +232,13 @@ $(document).ready(function() {
             });
 
             //Get action from user_action
-            $('div.user_action select').live('change',function(){
+            $('div.user_action select').live('change', function() {
                 var filteredData = oTable.fnGetFilteredData();
                 var affectedUsers = [];
                 var action = $(this).val();
 
                 //Loop through filtered data to get user ids
-                $.each(filteredData,function(){
+                $.each(filteredData, function() {
                     affectedUsers.push($(this)[0]);
                 });
 
@@ -248,7 +248,7 @@ $(document).ready(function() {
                     modal: true,
                     buttons: {
                         "Yes": function() {
-                            $.post('lib/php/users/users_process.php', {'action': action,'users':affectedUsers}, function(data) {
+                            $.post('lib/php/users/users_process.php', {'action': action,'users': affectedUsers}, function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 if (serverResponse.error === true)
                                 {
@@ -297,7 +297,7 @@ $(document).ready(function() {
                 }
 
                 //filtering by date created only
-                if (dateField !== ''&& dateField2 === '')
+                if (dateField !== '' && dateField2 === '')
                 {
                     if (dateOperator == 'equals' && dateRow == dateField)
                     {
@@ -359,7 +359,7 @@ $(document).ready(function() {
             $('#processing').hide(); //hide the "loading" div after load.
 
             //Check for new users and notify
-            $.post('lib/php/users/check_for_new_users.php',function(data){
+            $.post('lib/php/users/check_for_new_users.php', function(data) {
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.new_user === true)
                 {
@@ -367,32 +367,32 @@ $(document).ready(function() {
                     var aText;
 
                     if (serverResponse.number == 1)
-                        {
-                            uText = 'is one new user';
-                            aText = 'application';
-                        }
-                    else
-                        {
-                            uText = 'are ' + serverResponse.number + ' new users';
-                            aText = 'applications';
-                        }
-
-                    var dialogWin = $('<div title="New Users"><p>There ' +  uText + '   awaiting approval from you.</p> <br /><p>Would you like to review the ' + aText  + ' now?</p></div>').dialog({
-                    autoOpen: false,
-                    resizable: false,
-                    modal: true,
-                    buttons: {
-                        "Yes": function() {
-                            chooserVal = "new";
-                            $('#chooser').val('inactive');
-                            oTable.fnFilter('^inactive', oTable.fnGetColumnIndex("Status"), true, false);
-                            oTable.fnFilter('yes', oTable.fnGetColumnIndex("New"), true, false);
-                            $(this).dialog("destroy");
-                        },
-                        "No": function() {
-                            $(this).dialog("destroy");
-                        }
+                    {
+                        uText = 'is one new user';
+                        aText = 'application';
                     }
+                    else
+                    {
+                        uText = 'are ' + serverResponse.number + ' new users';
+                        aText = 'applications';
+                    }
+
+                    var dialogWin = $('<div title="New Users"><p>There ' + uText + '   awaiting approval from you.</p> <br /><p>Would you like to review the ' + aText + ' now?</p></div>').dialog({
+                        autoOpen: false,
+                        resizable: false,
+                        modal: true,
+                        buttons: {
+                            "Yes": function() {
+                                chooserVal = "new";
+                                $('#chooser').val('inactive');
+                                oTable.fnFilter('^inactive', oTable.fnGetColumnIndex("Status"), true, false);
+                                oTable.fnFilter('yes', oTable.fnGetColumnIndex("New"), true, false);
+                                $(this).dialog("destroy");
+                            },
+                            "No": function() {
+                                $(this).dialog("destroy");
+                            }
+                        }
 
                     });
 
@@ -402,16 +402,16 @@ $(document).ready(function() {
 
 
 
-            },
-          "fnDrawCallback": function() {
+        },
+        "fnDrawCallback": function() {
 
             $("#userStatus").text(chooserVal);
 
             //this ensures that the range select doesn't go out of line
             $(".complex").css({'min-width': '160px'});
-            }
-		});
- });
+        }
+    });
+});
 
 //Reset displayed data
 function fnResetAllFilters() {
@@ -467,123 +467,127 @@ function showUserDetail(id)
         $("#content").append(userDetail);
     }
 
-    $("#user_detail_window").load('lib/php/users/user_detail_load.php',{'id':id,'view':'display'},function(){
+    $("#user_detail_window").load('lib/php/users/user_detail_load.php', {'id': id,'view': 'display'}, function() {
         $(this).show('fold', 1000);
 
         $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
-        click(function(){
+        click(function() {
 
             $("#user_detail_window").hide('fold', 1000);
 
         });
 
         //Listen for the delete button
-        $(this).find('div.user_detail_actions button.user_delete').live('click',function(){
+        $(this).find('div.user_detail_actions button.user_delete').live('click', function() {
             var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
-                    autoOpen: false,
-                    resizable: false,
-                    modal: true,
-                    buttons: {
-                        "Yes": function() {
-                            $.post('lib/php/users/users_process.php', {'action': 'delete','users':id}, function(data) {
-                                var serverResponse = $.parseJSON(data);
-                                if (serverResponse.error === true)
-                                {
-                                    notify(serverResponse.message, true);
-                                }
-                                else
-                                {
-                                    notify(serverResponse.message);
-                                    oTable.fnReloadAjax();
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    "Yes": function() {
+                        $.post('lib/php/users/users_process.php', {'action': 'delete','users': id}, function(data) {
+                            var serverResponse = $.parseJSON(data);
+                            if (serverResponse.error === true)
+                            {
+                                notify(serverResponse.message, true);
+                            }
+                            else
+                            {
+                                notify(serverResponse.message);
+                                oTable.fnReloadAjax();
 
-                                    //Find out if there are any new users to be looked at
-                                    //If not, remove the "new" filter
-                                    $.post('lib/php/users/check_for_new_users.php',function(data){
-                                        var serverResponse = $.parseJSON(data);
-                                        if (parseInt(serverResponse.number) < 1)
-                                            {fnResetAllFilters();}
-                                    });
+                                //Find out if there are any new users to be looked at
+                                //If not, remove the "new" filter
+                                $.post('lib/php/users/check_for_new_users.php', function(data) {
+                                    var serverResponse = $.parseJSON(data);
+                                    if (parseInt(serverResponse.number) < 1)
+                                    {
+                                        fnResetAllFilters();
+                                    }
+                                });
 
-                                    $("#user_detail_window").hide('fold', 1000);
-                                }
-                            });
+                                $("#user_detail_window").hide('fold', 1000);
+                            }
+                        });
 
-                            $(this).dialog("destroy");
-                        },
-                        "No": function() {
-                            $(this).dialog("destroy");
-                        }
+                        $(this).dialog("destroy");
+                    },
+                    "No": function() {
+                        $(this).dialog("destroy");
                     }
-                });
+                }
+            });
 
-                $(dialogWin).dialog('open');
+            $(dialogWin).dialog('open');
         });
 
         //Listen for the edit button
-        $(this).find('div.user_detail_actions button.user_edit').live('click',function(){
-            $('#user_detail_window').load('lib/php/users/user_detail_load.php',{'id':id,'view':'edit'},function(){
+        $(this).find('div.user_detail_actions button.user_edit').live('click', function() {
+            $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': id,'view': 'edit'}, function() {
+
+                var userId = id;
 
                 //Click close button
-                 $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
-                    click(function(){
-                        $("#user_detail_window").hide('fold', 1000);
+                $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
+                click(function() {
+                    $("#user_detail_window").hide('fold', 1000);
                 });
 
                 //Click cancel button
-                $('div.user_detail_edit_actions button:eq(0)').click(function(){
+                $('div.user_detail_edit_actions button:eq(0)').click(function() {
                     $("#user_detail_window").hide('fold', 1000);
                 });
 
                 //Click submit button
-                 $('div.user_detail_edit_actions button:eq(1)').click(function(event){
+                $('div.user_detail_edit_actions button:eq(1)').click(function(event) {
                     event.preventDefault();
                     var formVals = $('div.user_detail_left form');
                     var errString = validUser(formVals);
                     if (errString.length)
-                        {
-                            notify(errString,true);
+                    {
+                        notify(errString, true);
 
-                            formVals.find('.ui-state-error').click(function(){
-                                $(this).removeClass('ui-state-error');
-                            });
+                        formVals.find('.ui-state-error').click(function() {
+                            $(this).removeClass('ui-state-error');
+                        });
 
-                            return false;
-                        }
+                        return false;
+                    }
                     else
-                        {
-                            formValsArray = formVals.serializeArray();
-                            //Turn supervisors into a string
-                            var supString = '';
-                            $.each(formValsArray,function(i,field){
-                                if (field.name == 'supervisors')
-                                {
-                                    supString += field.value + ",";
-                                }
-                            });
+                    {
+                        formValsArray = formVals.serializeArray();
+                        //Turn supervisors into a string
+                        var supString = '';
+                        $.each(formValsArray, function(i, field) {
+                            if (field.name == 'supervisors')
+                            {
+                                supString += field.value + ",";
+                            }
+                        });
 
-                            formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
+                        formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
 
-                            formValsOk.push({'name':'supervisors','value':supString});
+                        formValsOk.push({'name': 'supervisors','value': supString});
 
-                            $.post('lib/php/users/users_process.php',formValsOk,function(data){
-                                var serverResponse = $.parseJSON(data);
-                                if (serverResponse.error === true)
-                                {
-                                    notify(serverResponse.message, true);
-                                }
-                                else
-                                {
-                                    notify(serverResponse.message);
-                                    $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area',{'id':id,'view':'display'});
-                                    oTable.fnReloadAjax();
-                                }
+                        $.post('lib/php/users/users_process.php', formValsOk, function(data) {
+                            var serverResponse = $.parseJSON(data);
+                            if (serverResponse.error === true)
+                            {
+                                notify(serverResponse.message, true);
+                            }
+                            else
+                            {
+                                notify(serverResponse.message);
+                                $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area', {'id': id,'view': 'display'});
+                                oTable.fnReloadAjax();
+                            }
 
-                            });
-                        }
+                        });
+                    }
 
                 });
 
-                $('select.supervisor_chooser,select.status_chooser').chosen();
+                $('select.supervisor_chooser,select.status_chooser,select.group_chooser').chosen();
 
                 //Add change picture functions
                 var uploader = new qq.FileUploader({
@@ -598,38 +602,86 @@ function showUserDetail(id)
                     '<div class="qq-upload-button">Change Picture</div>' +
                     '<ul class="qq-upload-list"></ul>' +
                     '</div>',
-                    onComplete: function(id,fileName,responseJSON) {
+                    onComplete: function(id, fileName, responseJSON) {
                         $('div.user_picture').html('<img src="' + responseJSON.img + '">').
-                            append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+                        append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+
+                        //hide any li with info about previously uploaded images
+                        if ($('ul.qq-upload-list').length > 0)
+                        {
+                            $('ul.qq-upload-list li:first').hide();
+                        }
+
+                        //Add jcrop to crop picture
                         $('div.user_picture img').Jcrop({
                             aspectRatio: 1,
                             onChange: showPreview,
-                            onSelect: showPreview
-                            });
+                            onSelect: updateCoords
+                        });
 
                         var $preview = $('#preview');
 
+                        //Show user selected area in preview panel
                         function showPreview(coords)
-                          {
+                        {
                             if (parseInt(coords.w) > 0)
                             {
-                              var rx = 100 / coords.w;
-                              var ry = 100 / coords.h;
+                                var rx = 100 / coords.w;
+                                var ry = 100 / coords.h;
 
-                              $preview.css({
-                                width: Math.round(rx * 500) + 'px',
-                                height: Math.round(ry * 370) + 'px',
-                                marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                                marginTop: '-' + Math.round(ry * coords.y) + 'px',
-                                visibility:'visible'
-                              }).show();
+                                $preview.css({
+                                    width: Math.round(rx * 500) + 'px',
+                                    height: Math.round(ry * 370) + 'px',
+                                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                                    marginTop: '-' + Math.round(ry * coords.y) + 'px',
+                                    visibility: 'visible'
+                                }).show();
                             }
-                          }
                         }
+
+                        //Get coordinates of user selection
+                        function updateCoords(c)
+                        {
+                            $('div.user_picture img').data('cd',{x:c.x,y:c.y,w:c.w,h:c.h});
+                        }
+
+                        //Prompt user to crop and save
+                        if ($('div.crop_msg').length < 1)
+                        {
+                            $('div.qq-uploader').append('<div class="crop_msg">Click and drag to crop image and then <button class="image_save">Save</button> or <button class="image_cancel">Cancel</button></div>');
+                        }
+                    }
+
                 });
+
+                $('button.image_cancel').live('click', function() {
+                    $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': userId,'view': 'edit'});
+                    $('div.crop_msg').remove();
+                });
+
+                $('button.image_save').live('click', function() {
+                    //generate an array of all the images user has uploaded;
+                    //they will have to be deleted later
+                    var uploadedImages = [];
+                    $('span.qq-upload-file').each(function() {
+                        uploadedImages.push($(this).text());
+                    });
+
+                    //get user selected coordinates and image name
+                    var selCoord = $('div.user_picture img').data();
+
+                    //Get the last image the user uploaded.  This is the one
+                    //to be saved.
+                    var selectedImage = $('span.qq-upload-file:last').text();
+
+                    $.post('lib/php/utilities/file_upload_user_image.php',{'id':userId,'img':selectedImage,'del':uploadedImages,'x':selCoord.cd.x,'y':selCoord.cd.y,'h':selCoord.cd.h,'w':selCoord.cd.w},function(){
+                        $.noop();
+                    });
+
+                });
+
             });
         });
     });
-
 
 }

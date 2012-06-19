@@ -137,7 +137,14 @@
 
 	<p><label>Home Phone</label><input name = "home_phone" type="text" value="<?php echo $home_phone; ?>"></p>
 
-	<p><label>Group</label><?php echo array_search($grp, $group_name_data); ?></p>
+	<p><label>Group</label>
+
+		<select name="grp" class="group_chooser" data-placeholder="None">
+
+			<?php echo group_select($dbh,$grp) ?>
+
+		</select>
+	</p>
 
 	<p><label>Supervisors</label>
 

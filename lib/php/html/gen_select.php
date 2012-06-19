@@ -259,10 +259,10 @@ function all_active_users_and_groups($dbh,$case_num)
 	}
 
 	//Then get every supervisor
-	$q = $dbh->prepare("SELECT cm_groups.group_name, cm_groups.supervises, cm_users.group, cm_users.username
+	$q = $dbh->prepare("SELECT cm_groups.group_name, cm_groups.supervises, cm_users.grp, cm_users.username
 		FROM cm_groups, cm_users
 		WHERE cm_groups.supervises =  '1'
-		AND cm_users.group = cm_groups.group_name
+		AND cm_users.grp = cm_groups.group_name
 		AND cm_users.status =  'active'
 		ORDER BY cm_users.username ASC");
 
@@ -329,6 +329,32 @@ function supervisors_select($supervisors,$supervisor_name_data)
 			$options .= "<option value='$value'>$key</option>";
 		}
 
+	}
+
+	return $options;
+}
+
+//also used in Users.php.  Get all groups
+function group_select($dbh,$val)
+{
+	$q = $dbh->prepare("SELECT DISTINCT `group_name`, `group_title`  FROM `cm_groups`");
+
+	$q->execute();
+
+	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$options = null;
+
+	foreach ($groups as $group) {
+
+		if ($group['group_name'] == $val)
+			{
+				$options .= '<option name = "'. $group['group_name'] . '" selected=selected>' . $group['group_title'] . '</option>';
+			}
+		else
+			{
+				$options .= '<option name = "'. $group['group_name'] . '">' . $group['group_title'] . '</option>';
+			}
 	}
 
 	return $options;
