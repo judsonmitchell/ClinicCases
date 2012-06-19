@@ -171,7 +171,7 @@ $result = $uploader->handleUpload(CC_PATH . '/uploads/');
      {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
  else
  {
-    if (isset($_GET['preview']))
+    if (isset($_GET['preview'])) //user needs to review and crop image
     {
         $img = 'uploads/' . $result['file'] . '.' . $result['ext'];
         $img_path = CC_PATH . '/' . $img;
@@ -215,8 +215,11 @@ $result = $uploader->handleUpload(CC_PATH . '/uploads/');
             }
 
     }
-    else
+    else //user has cropped and submited the image
     {
+
+
+
         $return = array('success'=>true,'test'=>'tester');
         echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
     }
