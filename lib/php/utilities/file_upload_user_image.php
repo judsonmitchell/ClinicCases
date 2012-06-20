@@ -129,10 +129,10 @@ class qqFileUploader {
         }
 
         $pathinfo = pathinfo($this->file->getName());
-        $filename = $pathinfo['filename'];
+        $filename = strtolower($pathinfo['filename']);
 
         if (isset($pathinfo['extension']))
-        {$ext = $pathinfo['extension'];}
+        {$ext = strtolower($pathinfo['extension']);}
         else
         {$ext = '';}
 
@@ -158,70 +158,157 @@ class qqFileUploader {
     }
 }
 
-//$allowed_file_types is set in the config file
-$allowedExtensions = unserialize(ALLOWED_FILE_TYPES);
 
-$sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
-
-$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-
-$result = $uploader->handleUpload(CC_PATH . '/uploads/');
-
- if (array_key_exists("error", $result))  //upload fails
-     {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
- else
- {
-    if (isset($_GET['preview'])) //user needs to review and crop image
+if (isset($_GET['preview'])) //user needs to review and crop image
     {
-        $img = 'uploads/' . $result['file'] . '.' . $result['ext'];
-        $img_path = CC_PATH . '/' . $img;
-        //rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
-        //scale the picture if height is more than 400px
+        //$allowed_file_types is set in the config file
+        $allowedExtensions = unserialize(ALLOWED_FILE_TYPES);
 
-        $img_info = getimagesize($img_path);
-        if ($img_info[0] > 400  || $img_info[1] > 400) //length or width
-            {
-                $image = new Resize_Image;
+        $sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 
-                $image->new_width = 400;
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 
-                $image->image_to_resize = $img_path;
+        $result = $uploader->handleUpload(CC_PATH . '/uploads/');
 
-                $image->ratio = true;
 
-                $image->new_image_name = $result['file'] . '_display';
-
-                $image->save_folder = '../../../uploads/';
-
-                $process = $image->resize();
-
-                if($process['result'] && $image->save_folder)
-                    {
-                        $new = 'uploads/' . $process['new_name'];
-
-                        $return = array('success'=> true,'img'=> $new);
-
-                        echo json_encode($return);
-                    }
-            }
-        elseif ($img_info[0] < 128 || $img_info[1] < 128)
-            {
-                $return = array('success' => false,'msg' => 'This image is too small. The image must be at least 128 x 128 pixels');
-            }
+        if (array_key_exists("error", $result))  //upload fails
+            {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
         else
-            {
-                $return = array('success'=>true,'img' => $img);
-                echo json_encode($return);
-            }
+        {
+            $img = 'uploads/' . $result['file'] . '.' . $result['ext'];
 
+            $img_path = CC_PATH . '/' . $img;
+
+            //scale the picture if height is more than 400px
+            $img_info = getimagesize($img_path);
+
+            if ($img_info[0] > 400  || $img_info[1] > 400) //length or width
+                {
+                    $image = new Resize_Image;
+
+                    $image->new_width = 400;
+
+                    $image->source_x = 0;
+
+                    $image->source_y = 0;
+
+                    $image->dest_x = 0;
+
+                    $image->dest_y = 0;
+
+                    $image->image_to_resize = $img_path;
+
+                    $image->ratio = true;
+
+                    $image->new_image_name = $result['file'] ;
+
+                    $image->save_folder = '../../../uploads/';
+
+                    $process = $image->resize();
+
+                    if($process['result'] && $image->save_folder)
+                        {
+                            $new = 'uploads/' . $process['new_name'];
+
+                            $return = array('success'=> true,'img'=> $new);
+
+                            echo json_encode($return);
+                        }
+                }
+            elseif ($img_info[0] < 128 || $img_info[1] < 128)
+                {
+                    $return = array('error' => 'This image is too small. The image must be at least 128 x 128 pixels');
+
+                    echo json_encode($return);
+                }
+            else
+                {
+                    $return = array('success'=>true,'img' => $img);
+                    echo json_encode($return);
+                }
+
+        }
     }
     else //user has cropped and submited the image
     {
 
+        $image = new Resize_Image;
 
+        $image->new_width = 128;
 
-        $return = array('success'=>true,'test'=>'tester');
-        echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
+        $image->new_height = 128;
+
+        $image->width = $_POST['w'];
+
+        $image->height = $_POST['h'];
+
+        $image->crop = true;
+
+        $image->source_x = $_POST['x'];
+
+        $image->source_y = $_POST['y'];
+
+        $image->dest_x = 0;
+
+        $image->dest_y = 0;
+
+        $image->image_to_resize = CC_PATH . '/uploads/' . $_POST['img'];
+
+        $image->ratio = false;
+
+        $image->new_image_name = $_POST['id'];
+
+        $image->save_folder = '../../../people/';
+
+        $process = $image->resize();
+
+        if($process['result'] && $image->save_folder)
+            {
+
+                foreach ($_POST['del'] as $value) {
+                    unlink("../../../uploads/$value");
+                }
+
+                $new = 'people/' . $process['new_name'];
+
+                //update db
+                $q = $dbh->prepare("UPDATE cm_users SET picture_url = :url WHERE id = :id");
+
+                $data = array('url' => $new, 'id' => $_POST['id']);
+
+                $q->execute($data);
+
+                //now make the thumbnail
+                $thumb = new Resize_Image;
+
+                $thumb->new_width = 32;
+
+                $thumb->source_x = 0;
+
+                $thumb->source_y = 0;
+
+                $thumb->dest_x = 0;
+
+                $thumb->dest_y = 0;
+
+                $thumb->image_to_resize = CC_PATH . '/' . $new;
+
+                $thumb->ratio = true;
+
+                $thumb->new_image_name = 'tn_' . $_POST['id'] ;
+
+                $thumb->save_folder = '../../../people/';
+
+                $process = $thumb->resize();
+
+                if($process['result'] && $thumb->save_folder)
+                {
+
+                    $return = array('success'=> true,'img'=> $new);
+
+                    echo json_encode($return);
+
+                }
+            }
+
     }
-
- }

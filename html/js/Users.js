@@ -603,13 +603,17 @@ function showUserDetail(id)
                     '<ul class="qq-upload-list"></ul>' +
                     '</div>',
                     onComplete: function(id, fileName, responseJSON) {
-                        $('div.user_picture').html('<img src="' + responseJSON.img + '">').
-                        append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+
+                        if (!responseJSON.error)
+                        {
+                            $('div.user_picture').html('<img src="' + responseJSON.img + '">').
+                            append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+                        }
 
                         //hide any li with info about previously uploaded images
                         if ($('ul.qq-upload-list').length > 0)
                         {
-                            $('ul.qq-upload-list li:first').hide();
+                            $('ul.qq-upload-list li:not(:last)').hide();
                         }
 
                         //Add jcrop to crop picture
@@ -645,10 +649,15 @@ function showUserDetail(id)
                             $('div.user_picture img').data('cd',{x:c.x,y:c.y,w:c.w,h:c.h});
                         }
 
+                        //if previously hidden, ensure displayed
+                        if ($('ul.qq-upload-list, div.crop_msg').css({'display':'none'}))
+                        {
+                            $('ul.qq-upload-list, div.crop_msg').show();
+                        }
                         //Prompt user to crop and save
                         if ($('div.crop_msg').length < 1)
                         {
-                            $('div.qq-uploader').append('<div class="crop_msg">Click and drag to crop image and then <button class="image_save">Save</button> or <button class="image_cancel">Cancel</button></div>');
+                            $('div.qq-uploader').append('<div class="crop_msg">Select the part of the image to be used and then <button class="image_save">Save</button> or <button class="image_cancel">Cancel</button></div>');
                         }
                     }
 
@@ -662,9 +671,10 @@ function showUserDetail(id)
                 $('button.image_save').live('click', function() {
                     //generate an array of all the images user has uploaded;
                     //they will have to be deleted later
+
                     var uploadedImages = [];
                     $('span.qq-upload-file').each(function() {
-                        uploadedImages.push($(this).text());
+                        uploadedImages.push($(this).text().toLowerCase());
                     });
 
                     //get user selected coordinates and image name
@@ -672,11 +682,33 @@ function showUserDetail(id)
 
                     //Get the last image the user uploaded.  This is the one
                     //to be saved.
-                    var selectedImage = $('span.qq-upload-file:last').text();
+                    var selectedImage = $('span.qq-upload-file:last').text().toLowerCase();
 
-                    $.post('lib/php/utilities/file_upload_user_image.php',{'id':userId,'img':selectedImage,'del':uploadedImages,'x':selCoord.cd.x,'y':selCoord.cd.y,'h':selCoord.cd.h,'w':selCoord.cd.w},function(){
-                        $.noop();
-                    });
+                    if (typeof selCoord.cd == 'undefined')
+                        {
+                            notify('<p>Please use your mouse to select the part of the image which will be userd.</p>', true);
+
+                            return false;
+                        }
+
+                    else
+                    {
+
+                        $.post('lib/php/utilities/file_upload_user_image.php',{'id':userId,'img':selectedImage,'del':uploadedImages,'x':selCoord.cd.x,'y':selCoord.cd.y,'h':selCoord.cd.h,'w':selCoord.cd.w},function(){
+
+                            //now refresh the images displayed to user
+                            $('p.top_row').load('lib/php/users/user_detail_load.php p.top_row', {'id': id,'view': 'edit'});
+
+                            $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': id,'view': 'edit'});
+
+                            //hide the upload/crop controls
+                            $('ul.qq-upload-list, div.crop_msg').hide();
+
+                            //Reload thumbnails on users table
+                            oTable.fnReloadAjax();
+
+                        });
+                    }
 
                 });
 

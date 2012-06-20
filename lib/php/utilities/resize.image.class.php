@@ -14,6 +14,12 @@ var $new_height;
 var $ratio;
 var $new_image_name;
 var $save_folder;
+//Mitchell adds
+var $crop;
+var $source_x;
+var $source_y;
+var $dest_x;
+var $dest_y;
 
 function resize()
 {
@@ -29,8 +35,17 @@ if(empty($info))
   exit("The file ".$this->image_to_resize." doesn't seem to be an image.");
 }
 
-$width = $info[0];
-$height = $info[1];
+if ($this->crop)
+	{
+		$width = $this->width;
+		$height = $this->height;
+	}
+	else
+	{
+		$width = $info[0];
+		$height = $info[1];
+	}
+
 $mime = $info['mime'];
 
 /* Keep Aspect Ratio? */
@@ -102,18 +117,6 @@ case 'gif':
 	$new_image_ext = 'gif';
     break;
 
-case 'vnd.wap.wbmp':
-    $image_create_func = 'ImageCreateFromWBMP';
-    $image_save_func = 'ImageWBMP';
-	$new_image_ext = 'bmp';
-    break;
-
-case 'xbm':
-    $image_create_func = 'ImageCreateFromXBM';
-    $image_save_func = 'ImageXBM';
-	$new_image_ext = 'xbm';
-    break;
-
 default:
 	$image_create_func = 'ImageCreateFromJPEG';
     $image_save_func = 'ImageJPEG';
@@ -125,7 +128,7 @@ default:
 
 	$new_image = $image_create_func($this->image_to_resize);
 
-	ImageCopyResampled($image_c, $new_image, 0, 0, 0, 0, $this->new_width, $this->new_height, $width, $height);
+	ImageCopyResampled($image_c, $new_image, $this->dest_x, $this->dest_y, $this->source_x, $this->source_y, $this->new_width, $this->new_height, $width, $height);
 
         if($this->save_folder)
 		{

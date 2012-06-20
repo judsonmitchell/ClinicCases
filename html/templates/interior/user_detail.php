@@ -2,7 +2,7 @@
 
 <div class = "user_detail_control">
 
-	<p>
+	<p class="top_row">
 
 		<img src="<?php echo return_thumbnail($dbh,$username); ?>">
 
@@ -107,7 +107,7 @@
 
 <div class = "user_detail_control">
 
-	<p>
+	<p class="top_row">
 
 		<img src="<?php echo return_thumbnail($dbh,$username); ?>">
 
