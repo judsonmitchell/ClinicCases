@@ -4,7 +4,7 @@
 
 	<p class="top_row">
 
-		<img src="<?php echo return_thumbnail($dbh,$username); ?>">
+		<img src="<?php echo return_thumbnail($dbh,$username) . '?' . rand(); ?>">
 
 		<span class="name_display"><?php echo $first_name . " " . $last_name; ?></span>
 
@@ -14,7 +14,7 @@
 
 </div>
 
-<span class="user_data_display_area">
+<span class="user_data_display_area" data-id = "<?php echo $id; ?>">
 
 <div class = "user_detail_left">
 
@@ -109,7 +109,7 @@
 
 	<p class="top_row">
 
-		<img src="<?php echo return_thumbnail($dbh,$username); ?>">
+		<img src="<?php echo return_thumbnail($dbh,$username)  . '?' . rand(); ?>">
 
 		<span class="name_display"><?php echo $first_name . " " . $last_name; ?></span>
 
@@ -119,7 +119,7 @@
 
 </div>
 
-<span class="user_data_display_area">
+<span class="user_data_display_area" data-id = "<?php echo $id; ?>">
 
 <div class = "user_detail_left">
 
@@ -178,7 +178,7 @@
 
 <div class = "user_detail_right">
 
-	<div class="user_picture"><img src = "<?php echo $picture_url;?>"></div>
+	<div class="user_picture"><img src = "<?php echo $picture_url  . '?' . rand();?>"></div>
 
 	<div class="user_change_picture">Change picture</div>
 

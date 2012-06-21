@@ -182,11 +182,42 @@ if (isset($_GET['preview'])) //user needs to review and crop image
             //scale the picture if height is more than 400px
             $img_info = getimagesize($img_path);
 
-            if ($img_info[0] > 400  || $img_info[1] > 400) //length or width
-                {
-                    $image = new Resize_Image;
+            //The goal here is to get a preview image that is no more than 400px
+            //in height and width.  God help us.
+            if ($img_info[0] > 400 || $img_info[1] > 400)
+            {
+                $image = new Resize_Image;
 
-                    $image->new_width = 400;
+                if ($img_info[0] > 400  && $img_info[1] > 400) //width or height
+                    {
+                        if ($img_info[0] > $img_info[1])
+                        {
+                            $image->new_width = 400;
+                        }
+                        elseif ($img_info[0] < $img_info[1])
+                        {
+                            $image->new_height = 400;
+                        }
+                        else
+                        {
+                            $image->new_width = 400;
+                        }
+
+                        $image->ratio = true;
+                    }
+                elseif ($img_info[0] > 400 && $img_info[1] < 400)
+                    {
+                        $image->new_width = 400;
+
+                        $image->ratio = true;
+                    }
+
+                elseif ($img_info[0] < 400 && $img_info[1] > 400)
+                    {
+                        $image->new_height = 400;
+
+                        $image->ratio = true;
+                    }
 
                     $image->source_x = 0;
 
@@ -197,8 +228,6 @@ if (isset($_GET['preview'])) //user needs to review and crop image
                     $image->dest_y = 0;
 
                     $image->image_to_resize = $img_path;
-
-                    $image->ratio = true;
 
                     $image->new_image_name = $result['file'] ;
 
@@ -214,7 +243,7 @@ if (isset($_GET['preview'])) //user needs to review and crop image
 
                             echo json_encode($return);
                         }
-                }
+            }
             elseif ($img_info[0] < 128 || $img_info[1] < 128)
                 {
                     $return = array('error' => 'This image is too small. The image must be at least 128 x 128 pixels');
@@ -229,7 +258,14 @@ if (isset($_GET['preview'])) //user needs to review and crop image
 
         }
     }
-    else //user has cropped and submited the image
+elseif (isset($_POST['cancel']))
+    {
+        foreach ($_POST['del'] as $value)
+            {
+                unlink("../../../uploads/$value");
+            }
+    }
+else //user has cropped and submited the image
     {
 
         $image = new Resize_Image;

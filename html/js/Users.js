@@ -348,7 +348,7 @@ $(document).ready(function() {
                 oTable.fnDraw();
             });
 
-            //Listen for click on table row; open case
+            //Listen for click on table row; open user
             $('#table_users tbody').click(function(event) {
                 var iPos = oTable.fnGetPosition(event.target.parentNode);
                 var aData = oTable.fnGetData(iPos);
@@ -470,6 +470,7 @@ function showUserDetail(id)
     $("#user_detail_window").load('lib/php/users/user_detail_load.php', {'id': id,'view': 'display'}, function() {
         $(this).show('fold', 1000);
 
+        //Listen for close window button
         $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
         click(function() {
 
@@ -477,243 +478,291 @@ function showUserDetail(id)
 
         });
 
-        //Listen for the delete button
-        $(this).find('div.user_detail_actions button.user_delete').live('click', function() {
-            var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
-                autoOpen: false,
-                resizable: false,
-                modal: true,
-                buttons: {
-                    "Yes": function() {
-                        $.post('lib/php/users/users_process.php', {'action': 'delete','users': id}, function(data) {
-                            var serverResponse = $.parseJSON(data);
-                            if (serverResponse.error === true)
-                            {
-                                notify(serverResponse.message, true);
-                            }
-                            else
-                            {
-                                notify(serverResponse.message);
-                                oTable.fnReloadAjax();
+    });
+}
 
-                                //Find out if there are any new users to be looked at
-                                //If not, remove the "new" filter
-                                $.post('lib/php/users/check_for_new_users.php', function(data) {
-                                    var serverResponse = $.parseJSON(data);
-                                    if (parseInt(serverResponse.number) < 1)
-                                    {
-                                        fnResetAllFilters();
-                                    }
-                                });
+//
+//Listen for user data editing buttons
+//
 
-                                $("#user_detail_window").hide('fold', 1000);
-                            }
-                        });
+//Listen for the edit button
+$('div.user_detail_actions button.user_edit').live('click',function() {
 
-                        $(this).dialog("destroy");
-                    },
-                    "No": function() {
-                        $(this).dialog("destroy");
-                    }
-                }
-            });
-
-            $(dialogWin).dialog('open');
-        });
-
-        //Listen for the edit button
-        $(this).find('div.user_detail_actions button.user_edit').live('click', function() {
-            $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': id,'view': 'edit'}, function() {
-
-                var userId = id;
-
-                //Click close button
-                $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
-                click(function() {
-                    $("#user_detail_window").hide('fold', 1000);
-                });
-
-                //Click cancel button
-                $('div.user_detail_edit_actions button:eq(0)').click(function() {
-                    $("#user_detail_window").hide('fold', 1000);
-                });
-
-                //Click submit button
-                $('div.user_detail_edit_actions button:eq(1)').click(function(event) {
-                    event.preventDefault();
-                    var formVals = $('div.user_detail_left form');
-                    var errString = validUser(formVals);
-                    if (errString.length)
-                    {
-                        notify(errString, true);
-
-                        formVals.find('.ui-state-error').click(function() {
-                            $(this).removeClass('ui-state-error');
-                        });
-
-                        return false;
-                    }
-                    else
-                    {
-                        formValsArray = formVals.serializeArray();
-                        //Turn supervisors into a string
-                        var supString = '';
-                        $.each(formValsArray, function(i, field) {
-                            if (field.name == 'supervisors')
-                            {
-                                supString += field.value + ",";
-                            }
-                        });
-
-                        formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
-
-                        formValsOk.push({'name': 'supervisors','value': supString});
-
-                        $.post('lib/php/users/users_process.php', formValsOk, function(data) {
-                            var serverResponse = $.parseJSON(data);
-                            if (serverResponse.error === true)
-                            {
-                                notify(serverResponse.message, true);
-                            }
-                            else
-                            {
-                                notify(serverResponse.message);
-                                $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area', {'id': id,'view': 'display'});
-                                oTable.fnReloadAjax();
-                            }
-
-                        });
-                    }
-
-                });
-
-                $('select.supervisor_chooser,select.status_chooser,select.group_chooser').chosen();
-
-                //Add change picture functions
-                var uploader = new qq.FileUploader({
-                    // pass the dom node (ex. $(selector)[0] for jQuery users)
-                    element: $('div.user_change_picture')[0],
-                    // path to server-side upload script
-                    action: 'lib/php/utilities/file_upload_user_image.php',
-                    allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
-                    params: {'preview': 'yes'},
-                    template: '<div class="qq-uploader">' +
-                    '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                    '<div class="qq-upload-button">Change Picture</div>' +
-                    '<ul class="qq-upload-list"></ul>' +
-                    '</div>',
-                    onComplete: function(id, fileName, responseJSON) {
-
-                        if (!responseJSON.error)
-                        {
-                            $('div.user_picture').html('<img src="' + responseJSON.img + '">').
-                            append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
-                        }
-
-                        //hide any li with info about previously uploaded images
-                        if ($('ul.qq-upload-list').length > 0)
-                        {
-                            $('ul.qq-upload-list li:not(:last)').hide();
-                        }
-
-                        //Add jcrop to crop picture
-                        $('div.user_picture img').Jcrop({
-                            aspectRatio: 1,
-                            onChange: showPreview,
-                            onSelect: updateCoords
-                        });
-
-                        var $preview = $('#preview');
-
-                        //Show user selected area in preview panel
-                        function showPreview(coords)
-                        {
-                            if (parseInt(coords.w) > 0)
-                            {
-                                var rx = 100 / coords.w;
-                                var ry = 100 / coords.h;
-
-                                $preview.css({
-                                    width: Math.round(rx * 500) + 'px',
-                                    height: Math.round(ry * 370) + 'px',
-                                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-                                    marginTop: '-' + Math.round(ry * coords.y) + 'px',
-                                    visibility: 'visible'
-                                }).show();
-                            }
-                        }
-
-                        //Get coordinates of user selection
-                        function updateCoords(c)
-                        {
-                            $('div.user_picture img').data('cd',{x:c.x,y:c.y,w:c.w,h:c.h});
-                        }
-
-                        //if previously hidden, ensure displayed
-                        if ($('ul.qq-upload-list, div.crop_msg').css({'display':'none'}))
-                        {
-                            $('ul.qq-upload-list, div.crop_msg').show();
-                        }
-                        //Prompt user to crop and save
-                        if ($('div.crop_msg').length < 1)
-                        {
-                            $('div.qq-uploader').append('<div class="crop_msg">Select the part of the image to be used and then <button class="image_save">Save</button> or <button class="image_cancel">Cancel</button></div>');
-                        }
-                    }
-
-                });
-
-                $('button.image_cancel').live('click', function() {
-                    $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': userId,'view': 'edit'});
-                    $('div.crop_msg').remove();
-                });
-
-                $('button.image_save').live('click', function() {
-                    //generate an array of all the images user has uploaded;
-                    //they will have to be deleted later
-
-                    var uploadedImages = [];
-                    $('span.qq-upload-file').each(function() {
-                        uploadedImages.push($(this).text().toLowerCase());
-                    });
-
-                    //get user selected coordinates and image name
-                    var selCoord = $('div.user_picture img').data();
-
-                    //Get the last image the user uploaded.  This is the one
-                    //to be saved.
-                    var selectedImage = $('span.qq-upload-file:last').text().toLowerCase();
-
-                    if (typeof selCoord.cd == 'undefined')
-                        {
-                            notify('<p>Please use your mouse to select the part of the image which will be userd.</p>', true);
-
-                            return false;
-                        }
-
-                    else
-                    {
-
-                        $.post('lib/php/utilities/file_upload_user_image.php',{'id':userId,'img':selectedImage,'del':uploadedImages,'x':selCoord.cd.x,'y':selCoord.cd.y,'h':selCoord.cd.h,'w':selCoord.cd.w},function(){
-
-                            //now refresh the images displayed to user
-                            $('p.top_row').load('lib/php/users/user_detail_load.php p.top_row', {'id': id,'view': 'edit'});
-
-                            $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': id,'view': 'edit'});
-
-                            //hide the upload/crop controls
-                            $('ul.qq-upload-list, div.crop_msg').hide();
-
-                            //Reload thumbnails on users table
-                            oTable.fnReloadAjax();
-
-                        });
-                    }
-
-                });
-
-            });
-        });
+    $(window).bind('beforeunload', function(){
+        return "You may have unsaved changes to this user.";
     });
 
-}
+    var userId = $('.user_data_display_area').attr('data-id');
+
+    $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': userId,'view': 'edit'}, function() {
+        //Click close button
+        $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
+        click(function() {
+            $("#user_detail_window").hide('fold', 1000);
+        });
+
+        //Click cancel button
+        $('div.user_detail_edit_actions button:eq(0)').click(function() {
+            $("#user_detail_window").hide('fold', 1000);
+            $(window).unbind("beforeunload");
+
+        });
+
+        //Click submit button
+        $('div.user_detail_edit_actions button:eq(1)').click(function(event) {
+            event.preventDefault();
+            var formVals = $('div.user_detail_left form');
+            var errString = validUser(formVals);
+            if (errString.length)
+            {
+                notify(errString, true);
+
+                formVals.find('.ui-state-error').click(function() {
+                    $(this).removeClass('ui-state-error');
+                });
+
+                return false;
+            }
+            else
+            {
+                formValsArray = formVals.serializeArray();
+                //Turn supervisors into a string
+                var supString = '';
+                $.each(formValsArray, function(i, field) {
+                    if (field.name == 'supervisors')
+                    {
+                        supString += field.value + ",";
+                    }
+                });
+
+                formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
+
+                formValsOk.push({'name': 'supervisors','value': supString});
+
+                console.log(formValsOk);
+
+                $.post('lib/php/users/users_process.php', formValsOk, function(data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                    else
+                    {
+                        notify(serverResponse.message);
+                        $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area', {'id': userId,'view': 'display'});
+                        oTable.fnReloadAjax();
+                        $(window).unbind("beforeunload");
+
+                    }
+
+                });
+            }
+
+        });
+
+        $('select.supervisor_chooser,select.status_chooser,select.group_chooser').chosen();
+
+        //Add change picture functions
+        var uploader = new qq.FileUploader({
+            // pass the dom node (ex. $(selector)[0] for jQuery users)
+            element: $('div.user_change_picture')[0],
+            // path to server-side upload script
+            action: 'lib/php/utilities/file_upload_user_image.php',
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
+            params: {'preview': 'yes'},
+            template: '<div class="qq-uploader">' +
+            '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+            '<div class="qq-upload-button">Change Picture</div>' +
+            '<ul class="qq-upload-list"></ul>' +
+            '</div>',
+            onComplete: function(id, fileName, responseJSON) {
+
+                if (!responseJSON.error)
+                {
+                    $('div.user_picture').html('<img src="' + responseJSON.img + '">').
+                    append('<div class = "user_picture_preview"><img id = "preview" src="' + responseJSON.img + '"></div>');
+                }
+
+                //hide any li with info about previously uploaded images
+                if ($('ul.qq-upload-list').length > 0)
+                {
+                    $('ul.qq-upload-list li:not(:last)').hide();
+                }
+
+                //Add jcrop to crop picture
+                $('div.user_picture img').Jcrop({
+                    aspectRatio: 1,
+                    onChange: showPreview,
+                    onSelect: updateCoords
+                });
+
+                var $preview = $('#preview');
+
+                //Show user selected area in preview panel
+                function showPreview(coords)
+                {
+                    if (parseInt(coords.w) > 0)
+                    {
+                        var rx = 100 / coords.w;
+                        var ry = 100 / coords.h;
+
+                        var imgWidth = $('div.user_picture img').width();
+                        var imgHeight = $('div.user_picture img').height();
+
+                        $preview.css({
+                            width: Math.round(rx * imgWidth) + 'px',
+                            height: Math.round(ry * imgHeight) + 'px',
+                            marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                            marginTop: '-' + Math.round(ry * coords.y) + 'px',
+                            visibility: 'visible'
+                        }).show();
+                    }
+                }
+
+                //Get coordinates of user selection
+                function updateCoords(c)
+                {
+                    $('div.user_picture img').data('cd', {x: c.x,y: c.y,w: c.w,h: c.h});
+                }
+
+                //if previously hidden, ensure displayed
+                if ($('ul.qq-upload-list, div.crop_msg').css({'display': 'none'}))
+                {
+                    $('ul.qq-upload-list, div.crop_msg').show();
+                }
+                //Prompt user to crop and save
+                if ($('div.crop_msg').length < 1)
+                {
+                    $('div.qq-uploader').append('<div class="crop_msg">Select the part of the image to be used and then <button class="image_save">Save</button> or <button class="image_cancel">Discard</button></div>');
+                }
+                //Disable form edit and cancel buttons while
+                //we are holding an uploaded image
+                $('div.user_detail_edit_actions').find('button').attr('disabled','disabled');
+            }
+
+        });
+    });
+});
+
+//Listen for the delete button
+$('div.user_detail_actions button.user_delete').live('click',function() {
+
+    var userId = $('.user_data_display_area').attr('data-id');
+
+    var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/users/users_process.php', {'action': 'delete','users': userId}, function(data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                    else
+                    {
+                        notify(serverResponse.message);
+                        oTable.fnReloadAjax();
+
+                        //Find out if there are any new users to be looked at
+                        //If not, remove the "new" filter
+                        $.post('lib/php/users/check_for_new_users.php', function(data) {
+                            var serverResponse = $.parseJSON(data);
+                            if (parseInt(serverResponse.number) < 1)
+                            {
+                                fnResetAllFilters();
+                            }
+                        });
+
+                        $("#user_detail_window").hide('fold', 1000);
+                    }
+                });
+
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+    });
+
+    $(dialogWin).dialog('open');
+});
+
+//
+//Listen for image editing buttons
+//
+$('button.image_cancel').live('click', function() {
+    var userId = $('.user_data_display_area').attr('data-id');
+    var uploadedImages = [];
+
+    //Get all the images the user has uploaded so we keep
+    //the uploads directory clean
+    $('span.qq-upload-file').each(function() {
+        uploadedImages.push($(this).text().toLowerCase());
+    });
+
+    //now delete them
+    $.post('lib/php/utilities/file_upload_user_image.php', {'cancel':'yes','del':uploadedImages});
+
+    //Re-show the former image
+    $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': userId,'view': 'edit'});
+    $('div.crop_msg').remove();
+    $('ul.qq-upload-list').hide();
+
+    //Re-enable the edit save/cancel buttons
+    $('div.user_detail_edit_actions').find('button').removeAttr('disabled');
+});
+
+$('button.image_save').live('click', function() {
+    var userId = $('.user_data_display_area').attr('data-id');
+
+    //generate an array of all the images user has uploaded;
+    //they will have to be deleted later
+    var uploadedImages = [];
+    $('span.qq-upload-file').each(function() {
+        uploadedImages.push($(this).text().toLowerCase());
+    });
+
+    //get user selected coordinates and image name
+    var selCoord = $('div.user_picture img').data();
+
+    //Get the last image the user uploaded.  This is the one
+    //to be saved.
+    var selectedImage = $('span.qq-upload-file:last').text().toLowerCase();
+
+    if (typeof selCoord.cd == 'undefined')
+    {
+        notify('<p>Please use your mouse to select the part of the image which will be used.</p>', true);
+
+        return false;
+    }
+
+    else
+    {
+
+        $.post('lib/php/utilities/file_upload_user_image.php', {'id': userId,'img': selectedImage,'del': uploadedImages,'x': selCoord.cd.x,'y': selCoord.cd.y,'h': selCoord.cd.h,'w': selCoord.cd.w}, function() {
+
+            //now refresh the images displayed to user
+            $('p.top_row').load('lib/php/users/user_detail_load.php p.top_row', {'id': userId,'view': 'edit'});
+
+            $('div.user_picture').load('lib/php/users/user_detail_load.php div.user_picture', {'id': userId,'view': 'edit'});
+
+            //hide the upload/crop controls
+            $('ul.qq-upload-list, div.crop_msg').hide();
+
+            //Re-enable the edit save/cancel buttons
+            $('div.user_detail_edit_actions').find('button').removeAttr('disabled');
+
+            //Reload thumbnails on users table
+            oTable.fnReloadAjax();
+
+        });
+    }
+
+});
+
+//TODO improve beforeunload function and put similar function for the window close button

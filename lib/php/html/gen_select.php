@@ -349,11 +349,11 @@ function group_select($dbh,$val)
 
 		if ($group['group_name'] == $val)
 			{
-				$options .= '<option name = "'. $group['group_name'] . '" selected=selected>' . $group['group_title'] . '</option>';
+				$options .= '<option value = "'. $group['group_name'] . '" selected=selected>' . $group['group_title'] . '</option>';
 			}
 		else
 			{
-				$options .= '<option name = "'. $group['group_name'] . '">' . $group['group_title'] . '</option>';
+				$options .= '<option value = "'. $group['group_name'] . '">' . $group['group_title'] . '</option>';
 			}
 	}
 
