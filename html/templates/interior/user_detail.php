@@ -34,15 +34,15 @@
 
 	<p><label>Username</label><?php echo $username; ?></p>
 
-	<p><label>Supervisors</label>
-		<?php if ($supervisors){$sups = explode(',', $supervisors); $sup_names = array();foreach($sups as $sup){$sup_names[] = array_search($sup, $supervisor_name_data);} echo rtrim(implode(', ', $sup_names),', ');} ?>
-	</p>
+	<p><label>Supervisors</label><?php if ($supervisors){$sups = explode(',', $supervisors); $sup_names = array();foreach($sups as $sup){$sup_names[] = array_search($sup, $supervisor_name_data);} echo rtrim(implode(', ', $sup_names),', ');} ?></p>
 
 	<p><label>Status</label><?php echo $status; ?></p>
 
 	<p><label>Date Created</label><?php echo extract_date_time($date_created); ?></p>
 
-	<p><label>Last Login</label><?php echo extract_date_time(get_last_login($dbh,$username)) ?></p>
+	<p><label>Last Login</label><?php
+			$last_login = get_last_login($dbh,$username);
+			if ($last_login){echo extract_date_time($last_login);}else{echo "Never";} ?></p>
 
 	<p><label>Last Case Activity</label><?php echo get_last_case_activity($dbh,$username);?></p>
 

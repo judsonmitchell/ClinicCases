@@ -503,9 +503,6 @@ function showUserDetail(id)
 
 function userEdit(userId,newUser)
 {
-    $(window).bind('beforeunload', function(){
-        return "You may have unsaved changes to this user.";
-    });
 
     var view;
     if (typeof newUser == 'undefined')
@@ -528,19 +525,57 @@ function userEdit(userId,newUser)
 
     $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': userId,'view': view}, function() {
 
-        $(this).show('fold', 1000);
+        if ($(this).css('display') == 'none')
+        {
+            $(this).show('fold', 1000);
+        }
+
+        //Listen for user changes
+        $(this).find('input,select').change(function(){
+
+            $('#user_detail_window').data('dirty','true');
+
+            $(window).bind('beforeunload', function(){
+                return "You have unsaved changes to this user. If you proceed, they will be lost.";
+            });
+
+        });
 
         //Click close button
         $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
         click(function() {
-            $("#user_detail_window").hide('fold', 1000);
+            if ($('#user_detail_window').data('dirty') === 'true')
+            {
+                notify("<p>You have unsaved changes to this user.  Please either submit the changes or cancel.</p>",true);
+                return false;
+            }
+            else
+            {
+                $("#user_detail_window").hide('fold', 1000);
+            }
         });
 
         //Click cancel button
         $('div.user_detail_edit_actions button:eq(0)').click(function() {
-            $("#user_detail_window").hide('fold', 1000);
-            $(window).unbind("beforeunload");
+            if (view === 'create') //this is a new user
+            {
+                $.post('lib/php/users/users_process.php', {'action': 'delete','users': userId}, function(data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                    {
+                        notify("There was an error cancelling this user.",true);
+                    }
+                    else
+                    {
+                        notify("New user deleted");
+                    }
 
+                });
+            }
+
+            $("#user_detail_window").data('dirty','false');
+            $(window).unbind("beforeunload");
+            $("#user_detail_window").hide('fold', 1000);
         });
 
         //Click submit button
@@ -585,6 +620,7 @@ function userEdit(userId,newUser)
                         notify(serverResponse.message);
                         $('span.user_data_display_area').load('lib/php/users/user_detail_load.php span.user_data_display_area', {'id': userId,'view': 'display'});
                         oTable.fnReloadAjax();
+                        $("#user_detail_window").data('dirty','false');
                         $(window).unbind("beforeunload");
 
                     }
@@ -596,6 +632,10 @@ function userEdit(userId,newUser)
 
         //Add chosen to selects
         $('select.supervisor_chooser,select.status_chooser,select.group_chooser').chosen();
+
+        //A little css hack
+        $('select.supervisor_chooser').next().css({'margin-top':'10px'});
+        $('select.supervisor_chooser').prev().css({'vertical-align':'top'});
 
         //Listen for changes to name fields, display them.
         $('.user_detail_left input[name="first_name"],.user_detail_left input[name="last_name"]').keyup(function(){
@@ -701,7 +741,7 @@ $('div.user_detail_actions button.user_delete').live('click',function() {
 
     var userId = $('.user_data_display_area').attr('data-id');
 
-    var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.  You should only delete if this user account was created by error or as a result of spam.</p><br /><p>Are you sure you want to delete?</p></div>').dialog({
+    var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, rather than delete, a user account.</p><br /><p>To deactivate, click the edit button below and then change the user status.</p><br /> <p>You should only delete if this user account was created by error or as a result of spam. Are you sure you want to delete?</p></div>').dialog({
         autoOpen: false,
         resizable: false,
         modal: true,
@@ -815,5 +855,3 @@ $('button.image_save').live('click', function() {
     }
 
 });
-
-//TODO improve beforeunload function and put similar function for the window close button

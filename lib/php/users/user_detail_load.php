@@ -74,7 +74,14 @@ function get_last_case_activity($dbh,$user)
 
 	$c = $q->fetch();
 
-	$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh,$c['case_id']) . "</a> case.";
+	if ($c)
+	{
+		$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh,$c['case_id']) . "</a> case.";
+	}
+	else
+	{
+		$data = "None";
+	}
 
 	return $data;
 
