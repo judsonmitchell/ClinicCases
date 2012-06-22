@@ -3,6 +3,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+require('../auth/pbkdf2.php');
 
 function bindPostVals($query_string)
 {
@@ -88,6 +89,113 @@ switch ($action) {
 
 		break;
 
+	case 'create':
+
+		$post = bindPostVals($_POST);
+
+		$q = $dbh->prepare("UPDATE cm_users SET " . $post['columns'] . " WHERE id = :id");
+
+		$q->execute($post['values']);
+
+		$error = $q->errorInfo();
+
+		if (!$error[1])
+		{
+			//Create username
+			$fname = trim(str_replace(' ', '', $_POST['first_name']));
+
+			$lname = trim(str_replace(' ', '', $_POST['last_name']));
+
+			$proposed_username = substr($fname, 0,1) . $lname;
+
+			function check_uniqueness($dbh,$proposed_username)
+			{
+				$q = $dbh->prepare("SELECT username FROM cm_users WHERE username = '$proposed_username'");
+
+				$q->execute();
+
+				if ($q->rowCount() > 0)
+					{return true;}
+				else
+					{return false;}
+
+			}
+
+			//Loop until we get a unique username
+			while (check_uniqueness($dbh,$proposed_username))
+			{
+				if (is_numeric(substr($proposed_username, -1)))
+				//we have already tried to make username unique by adding a number
+				{
+					$digit = substr($proposed_username, -1) + 1;
+
+					$proposed_username = substr($proposed_username, 0,-1) . $digit;
+				}
+				else
+				{$proposed_username = $proposed_username . "1";}
+			}
+
+			$new_username = strtolower($proposed_username);
+
+			//Create temp password
+			function generatePassword ($length = 8)
+			{
+			  // start with a blank password
+			  $password = "";
+
+			  // define possible characters
+			  $possible = "0123456789bcdfghjkmnpqrstvwxyz";
+
+			  // set up a counter
+			  $i = 0;
+
+			  // add random characters to $password until $length is reached
+			  while ($i < $length) {
+
+			    // pick a random character from the possible ones
+			    $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+
+			    // we don't want this character if it's already in the password
+			    if (!strstr($password, $char)) {
+			      $password .= $char;
+			      $i++;
+			    }
+
+			  }
+
+			  return $password;
+
+			}
+
+			$gen_pass = generatePassword();
+
+			$salt = CC_SALT;
+
+			$hash = pbkdf2($gen_pass, $salt, 1000, 32);
+
+			$pass = base64_encode($hash);
+
+			//Update database with this info
+			$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass WHERE id = :id");
+
+			$data = array('user' => $new_username,'pass' => $pass,'id' =>$_POST['id']);
+
+			$q->execute($data);
+
+			//Notify new user
+			$email = $_POST['email'];
+
+			$subject = "ClincCases: Your new account has been created";
+
+			$body = "You new ClinicCases account has been created. Your username is $new_username.
+			Your temporary password is $gen_pass.  Please log on to ClinicCases at ". CC_BASE_URL ." . Please then change your password by clicking on Preferences.";
+
+			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			//TODO test on mail server
+
+		}
+
+
 }
 
 if($error[1])
@@ -117,6 +225,11 @@ if($error[1])
 
 				case 'update':
 					$return = array('message'=>'User edited.');
+					echo json_encode($return);
+					break;
+
+				case 'create':
+					$return = array('message'=>'New account created.  The user has been notified by email');
 					echo json_encode($return);
 					break;
 

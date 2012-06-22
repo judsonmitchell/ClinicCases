@@ -139,7 +139,9 @@
 
 	<p><label>Group</label>
 
-		<select name="grp" class="group_chooser" data-placeholder="None">
+		<select name="grp" class="group_chooser" data-placeholder="Please Select">
+
+			<option selected=selected></option>
 
 			<?php echo group_select($dbh,$grp) ?>
 
@@ -158,7 +160,7 @@
 
 	<p><label>Status</label>
 
-		<select name="status" class="status_chooser">
+		<select name="status" class="status_chooser" data-placeholder = "Please Select">
 
 			<?php echo status_select($status); ?>
 
@@ -169,7 +171,15 @@
 
 	<input type="hidden" name="id" value="<?php echo $id; ?>">
 
-	<input type="hidden" name="action" value="update">
+	<!--  Value is set to yes only when a new user is being created from the new_account page.
+		  Yes triggers the alert to admins to check the user.  Here, the admin is creating
+		  account, so it's not necessary.
+	-->
+	<input type="hidden" name="new" value="no">
+
+	<input type="hidden" name="action" value="<?php echo $view; ?>">
+
+
 
 
 	</form>

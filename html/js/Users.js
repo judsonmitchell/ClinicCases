@@ -1,4 +1,4 @@
- //Scripts for users page
+//Scripts for users page
 var oTable;
 var aoColumns;
 
@@ -400,6 +400,26 @@ $(document).ready(function() {
                 }
             });
 
+            //Listen for new user button
+            $('button#ToolTables_table_users_7').click(function(){
+                $.post('lib/php/users/new_user.php',function(data){
+
+                var serverResponse = $.parseJSON(data);
+                if (serverResponse.error === true)
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                    else
+                    {
+                        var newId = serverResponse.id;
+                        userEdit(newId,true);
+                    }
+
+                });
+
+            });
+
+
 
 
         },
@@ -481,20 +501,35 @@ function showUserDetail(id)
     });
 }
 
-//
-//Listen for user data editing buttons
-//
-
-//Listen for the edit button
-$('div.user_detail_actions button.user_edit').live('click',function() {
-
+function userEdit(userId,newUser)
+{
     $(window).bind('beforeunload', function(){
         return "You may have unsaved changes to this user.";
     });
 
-    var userId = $('.user_data_display_area').attr('data-id');
+    var view;
+    if (typeof newUser == 'undefined')
+    {
+        view = 'update';
+    }
+    else
+    {
+        view = 'create';
+    }
 
-    $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': userId,'view': 'edit'}, function() {
+    //Define html for user window
+
+    if ($('div#user_detail_window').length < 1)
+    {
+        var userDetail = "<div id='user_detail_window'></div>";
+
+        $("#content").append(userDetail);
+    }
+
+    $('#user_detail_window').load('lib/php/users/user_detail_load.php', {'id': userId,'view': view}, function() {
+
+        $(this).show('fold', 1000);
+
         //Click close button
         $("div.user_detail_control button").button({icons: {primary: "fff-icon-cancel"},label: "Close"}).
         click(function() {
@@ -539,8 +574,6 @@ $('div.user_detail_actions button.user_edit').live('click',function() {
 
                 formValsOk.push({'name': 'supervisors','value': supString});
 
-                console.log(formValsOk);
-
                 $.post('lib/php/users/users_process.php', formValsOk, function(data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error === true)
@@ -561,7 +594,15 @@ $('div.user_detail_actions button.user_edit').live('click',function() {
 
         });
 
+        //Add chosen to selects
         $('select.supervisor_chooser,select.status_chooser,select.group_chooser').chosen();
+
+        //Listen for changes to name fields, display them.
+        $('.user_detail_left input[name="first_name"],.user_detail_left input[name="last_name"]').keyup(function(){
+            var fname = $('.user_detail_left input[name="first_name"]').val();
+            var lname = $('.user_detail_left input[name="last_name"]').val();
+            $('span.name_display').html(fname + ' ' + lname);
+        });
 
         //Add change picture functions
         var uploader = new qq.FileUploader({
@@ -643,6 +684,16 @@ $('div.user_detail_actions button.user_edit').live('click',function() {
 
         });
     });
+}
+
+//
+//Listen for user data editing buttons
+//
+
+//Listen for the edit button
+$('div.user_detail_actions button.user_edit').live('click',function() {
+    var userId = $('.user_data_display_area').attr('data-id');
+    userEdit(userId);
 });
 
 //Listen for the delete button
