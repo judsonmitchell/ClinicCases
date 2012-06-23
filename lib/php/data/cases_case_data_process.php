@@ -57,6 +57,14 @@ if (isset($_POST['email']))
 		$_POST['email'] = $email_ser;
 	}
 
+if (isset($_POST['adverse_parties']))
+	{
+		$adv = json_decode($_POST['adverse_parties']);
+		$adv_ser = serialize($adv);
+		$_POST['adverse_parties'] = $adv_ser;
+	}
+
+
 switch ($action) {
 
 	case 'update_new_case':
@@ -77,6 +85,24 @@ switch ($action) {
 		$q->execute($post['values']);
 
 		$error = $q->errorInfo();
+
+			//now put adverse parties in cm_adverse_parties table
+			if (!$error[1])
+			{
+				if (isset($_POST['adverse_parties']))
+				{
+					$ap = unserialize($_POST['adverse_parties']);
+
+					foreach ($ap as $a) {
+
+						$q = $dbh->prepare("INSERT INTO cm_adverse_parties (id, case_id, name) VALUES (NULL, :case_id, :name);");
+
+						$data = array('case_id' => $_POST['id'],'name' => $a);
+
+						$q->execute($data);
+					}
+				}
+			}
 
 	break;
 

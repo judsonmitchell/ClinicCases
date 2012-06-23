@@ -129,6 +129,9 @@
 						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "text" && $date_check !== "date"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
+						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "multi-text" && $date_check !== "date"):
+							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
+
 						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "textarea" && $date_check !== "date"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 

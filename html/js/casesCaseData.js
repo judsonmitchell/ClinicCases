@@ -95,10 +95,16 @@ function formatCaseData(thisPanel,type)
         //Align multiple phone and email fields with the first ones
         thisPanel.find('span.dual_input').not('label + span.dual_input').css({'margin-left':'190px'});
 
+        //Align multiple phone and email fields with the first ones
+        thisPanel.find('span.multi-text').not('label + span.multi-text').css({'margin-left':'190px'});
+
         //Add link to trigger a new email/phone field
         thisPanel.find('span.phone_dual').last().after('<a class="add_another_phone small" href="#">Add another</a>');
 
         thisPanel.find('span.email_dual').last().after('<a class="add_another_email small" href="#">Add another</a>');
+
+        //Add link to trigger a new adverse party
+        thisPanel.find('input[name="adverse_parties"]').after('<a class="add_another_adv_p small" href="#">Add another</a>');
 
         //Add datepickers
         thisPanel.find('input.date_field').each(function(){
@@ -235,8 +241,9 @@ $('button.case_modify_submit').live('click',function(event){
         //I found it next to impossible to remove phone and email vals from
         //formValsArray after combining them into a new object, so I just
         //reserialized the form array like so:
+        //UPDATE: add adverse parties to this
 
-        formValsOk = $(this).closest('form').find(':not(input[name="phone"], select[name="phone_select"],input[name="email"],select[name="email_select"])').serializeArray();
+        formValsOk = $(this).closest('form').find(':not(input[name="phone"], select[name="phone_select"],input[name="email"],select[name="email_select"],input[name="adverse_parties"])').serializeArray();
 
         formValsOk.push({'name':'action','value':actionType});
 
@@ -246,24 +253,53 @@ $('button.case_modify_submit').live('click',function(event){
         formVals.find('span.phone_dual').each(function() {
             var phoneType = $(this).find('select.dual').val();
             var phoneValue = $(this).find('input[name="phone"]').val();
-            phoneData[phoneValue] = phoneType;
+            if (phoneValue.length > 0)
+            {
+                phoneData[phoneValue] = phoneType;
+            }
         });
 
-        phoneJson = JSON.stringify(phoneData);
+        if (!$.isEmptyObject(phoneData))
+        {
+            phoneJson = JSON.stringify(phoneData);
 
-        formValsOk.push({'name':'phone','value':phoneJson});
+            formValsOk.push({'name':'phone','value':phoneJson});
+        }
 
         var emailData = {};
         formVals.find('span.email_dual').each(function() {
             var emailType = $(this).find('select.dual').val();
             var emailValue = $(this).find('input[name="email"]').val();
-            emailData[emailValue] = emailType;
+            if (emailValue.length > 0)
+            {
+                emailData[emailValue] = emailType;
+            }
         });
 
-        emailJson = JSON.stringify(emailData);
+        if (!$.isEmptyObject(phoneData))
+        {
+            emailJson = JSON.stringify(emailData);
 
-        formValsOk.push({'name':'email','value':emailJson});
+            formValsOk.push({'name':'email','value':emailJson});
+        }
 
+        //Deal with adverse parties
+        var advData = [];
+        formVals.find('input[name="adverse_parties"]').each(function() {
+            if ($(this).val().length > 0)
+            {
+                advData.push($(this).val());
+            }
+        });
+
+        if (advData.length > 0)
+        {
+            advJson = JSON.stringify(advData);
+
+            formValsOk.push({'name':'adverse_parties','value':advJson});
+        }
+
+        //Submit to server
         $.post('lib/php/data/cases_case_data_process.php', formValsOk,function(data){
             var serverResponse = $.parseJSON(data);
 
@@ -306,6 +342,16 @@ $('a.add_another_phone, a.add_another_email').live('click',function(event){
 
     newPhone.find('select').chosen();
 
+});
+
+//Add another adverse party
+$('a.add_another_adv_p').live('click',function(event){
+    event.preventDefault();
+    var newAdvP = $(this).parent().clone();
+    newAdvP.find('input').val('');
+    $(this).parent().after(newAdvP);
+    $(this).remove();
+    newAdvP.find('input').focus();
 });
 
 

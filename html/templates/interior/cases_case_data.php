@@ -49,7 +49,21 @@
 
 					<input type="hidden" class="date_field" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
 
-				<?php } elseif ($input_type === 'dual'){ ?>
+				<?php } elseif ($input_type === 'multi-text'){ ?>
+
+						<?php if (!empty($value)){$items = unserialize($value);
+							foreach ($items as $item) {?>
+
+						<span class = "<?php echo $db_name . "_multi-text multi-text"; ?>">
+
+						<input class="multi-text" name = "<?php echo $db_name; ?>" value="<?php echo $item; ?>">
+
+						</span>
+
+						<?php } ?>
+
+
+				<?php }} elseif ($input_type === 'dual'){ ?>
 
 						<?php if (!empty($value)){$items = unserialize($value);
 							foreach ($items as $key=>$val){?>
@@ -176,7 +190,21 @@
 		<div class = "<?php echo $db_name;?>_display case_data_display">
 				<div class = "case_data_name"><?php echo $display_name; ?></div>
 
-				<div class="case_data_value"><?php echo $value; ?></div>
+				<div class="case_data_value">
+				<?php //first check if this is a serialized value
+				$items = @unserialize($value);
+				if ($items !== false)
+				{
+					$val = null;
+					foreach ($items as $item) {
+						$val .= $item . ", ";
+					}
+
+					echo substr($val, 0,-2);
+				}
+				else
+				{echo $value;}?>
+				</div>
 
 		</div>
 

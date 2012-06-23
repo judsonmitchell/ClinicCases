@@ -3,7 +3,7 @@
 //This script is to update the clinic_id field in the cm table when upgrading to cc7.
 //The clinic_id field is a string that functions as a case number for the user.
 //In cc6, this was by default just a number that was auto-incremented; the year was
-//added to this number by a php script.
+//added to this number only when displayed to the user.
 
 //Now, the field should have at least a year and a case number value;  The case
 //number can be customized -- see _CONFIG.php -- to have a 2 or 4 year date, and
@@ -12,7 +12,7 @@
 // i.e., a family law case opened in 2012 bearing the case number 00126).
 
 //Do not run this script if you have in any way customized your case numbering
-//in cc6.  If you have questions, contact Judson Mitchell at jmitchel AT loyno.
+//in cc6.  If you have questions, contact Judson Mitchell at jmitchel@loyno.edu.
 
 //As always with these upgrade scripts, please create a backup of your db
 //before running.
@@ -33,6 +33,39 @@ $count = $q->rowCount();
 if ($count > 0)
 
 	{die('You have ' . $count . ' case records which have an empty date_open field.  This needs to be fixed before you proceed.  Please go to the `cm` table in your db and enter a date value for these fields.');}
+
+//Next, change adverse parties table to show case_ids, not clinic_ids
+$q = $dbh->prepare("SELECT id,clinic_id FROM cm_adverse_parties");
+
+$q->execute();
+
+$numbers = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($numbers as $n) {
+	//get case id
+	$q2 = $dbh->prepare("SELECT id FROM cm WHERE clinic_id = ?");
+
+	$q2->bindParam(1, $n['clinic_id']);
+
+	$q2->execute();
+
+	$vals = $q2->fetch(PDO::FETCH_ASSOC);
+
+	//replace clinic_id with case_id
+	$q3 = $dbh->prepare("UPDATE cm_adverse_parties SET clinic_id = ? WHERE id = ?");
+
+	$q3->bindParam(1, $vals['id']);
+
+	$q3->bindParam(2, $n['id']);
+
+	$q->execute();
+
+}
+
+//change field title for clarity
+$q = $dbh->prepare("ALTER TABLE `cm_adverse_parties` CHANGE `clinic_id` `case_id` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''");
+
+$q->execute();
 
 //Proceed with upgrade
 $q = $dbh->prepare("SELECT * FROM cm");

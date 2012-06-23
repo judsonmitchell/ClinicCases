@@ -71,7 +71,7 @@ include '../utilities/names.php';
 					{
 						$result['date_close'] = sql_date_to_us_date($result['date_close']);
 					}
-
+//THESE SHOULD BE ABSTRACTED
 				//Convert phones
 				if (!empty($result['phone']))
 				{
@@ -101,6 +101,25 @@ include '../utilities/names.php';
 
 					$result['email'] = $email_string;
 				}
+				//Convert adverse parties
+				if (!empty($result['adverse_parties']))
+				{
+
+					$adv = unserialize($result['adverse_parties']);
+
+					$adv_string = null;
+
+					foreach ($adv as $val) {
+						$adv_string .= "$val, ";
+					}
+
+					$result['adverse_parties'] = substr($adv_string,0,-2);
+				}
+
+				// //This is a test
+				// $data = @unserialize($result);
+				// if ($data !== false) {
+    // 				echo "ok";
 
 
 			//loop through results, create array, convert to json

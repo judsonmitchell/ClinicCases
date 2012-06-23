@@ -203,6 +203,7 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (38, 'close_notes', 'Closing Notes', 'false', 'text', '', 'false', 0, 44),
 (39, 'referral', 'Referred By', 'true', 'text', '', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
+(41, 'adverse_parties', 'Adverse Party', 'true', 'text', '', 'false', 1, 32.5)
 
 ");
 
@@ -691,6 +692,25 @@ foreach ($emails as $email) {
 
 }
 
+//Put in adverse parties place holder in cases table.
+$q = $dbh->prepare("ALTER TABLE  `cm` ADD  `adverse_parties` TEXT NOT NULL AFTER  `case_name`
+");
+
+$q->execute();
+
+//Get rid of all caps in adverse parties db.
+$q = $dbh->prepare("SELECT id,name FROM cm_adverse_parties");
+
+$q->execute();
+
+$n = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($n as $value) {
+	$id = $value['id'];
+	$uc = ucwords(strtolower($value['name']));
+	$update = $dbh->prepare("UPDATE cm_adverse_parties SET name = '$uc' WHERE id = '$id'");
+	$update->execute();
+}
 
 
 echo "Upgrade successful";
