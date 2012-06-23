@@ -202,17 +202,17 @@ $(document).ready(function() {
 
                         $('#addcloseRow').click(function(event) {
                             event.preventDefault();
-                            if ($("#second_closed_cell").css('visibility') == 'visible')
+                            if ($("#second_close_cell").css('visibility') == 'visible')
                             {
                                 $(this).text('Add Condition');
-                                $("#second_closed_cell").css({'visibility': 'hidden'});
+                                $("#second_close_cell").css({'visibility': 'hidden'});
                                 $('thead tr.advanced_2').hide('slow');
 
                             }
                             else
                             {
                                 $(this).text('AND IS');
-                                $("#second_closed_cell").css({'visibility': 'visible'});
+                                $("#second_close_cell").css({'visibility': 'visible'});
                                 $("#date_open_2 , #date_close_2").css({'width': '60%'});
                                 $('thead tr.advanced_2').show('slow');
                             }
@@ -313,7 +313,7 @@ $(document).ready(function() {
         $('#addOpenRow, #addCloseRow').each(function() {
             $(this).text('Add Condition');
         });
-        $("#second_open_cell, #second_closed_cell").css({'visibility': 'hidden'});
+        $("#second_open_cell, #second_close_cell").css({'visibility': 'hidden'});
         $('thead tr.advanced_2').hide('slow');
 
         //return to default open cases filter

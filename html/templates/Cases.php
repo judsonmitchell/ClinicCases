@@ -123,19 +123,16 @@
 					<?php
 					foreach($CC_columns as $key=>$col){
 
-						//Check for date fields. They get special treatment.
-						$date_check = substr($col['db_name'],0,4);
-
-						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "text" && $date_check !== "date"):
+						if ($col['include_in_case_table'] == "true"  && $col['input_type'] == "text"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
-						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "multi-text" && $date_check !== "date"):
+						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "multi-text"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
-						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "textarea" && $date_check !== "date"):
+						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "textarea"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
-						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "dual" && $date_check !== "date"):
+						elseif ($col['include_in_case_table'] == "true"  && $col['input_type'] == "dual"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
 						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select"):
@@ -144,7 +141,7 @@
 						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "select_multiple"):
 							echo "<th><input type=\"text\" name = \"" . $col['db_name'] . "\" class = \"search_init\"></th>";
 
-						elseif ($col['db_name'] == "date_open" || $col['db_name'] == "date_close"):
+						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == "date"):
 							//Create id variable
 							$date_type = substr($col['db_name'],5);
 
@@ -175,13 +172,12 @@
 						//Check for date fields. They get special treatment.
 						$date_check = substr($col['db_name'],0,4);
 
-						if ($col['include_in_case_table'] == "true"  && $date_check !== "date"):
+						if ($col['include_in_case_table'] == "true" && $col['input_type'] !== 'date'):
 						 echo "<th></th>";
 
-						elseif ($col['db_name'] == "date_open" || $col['db_name']== "date_close"):
+						elseif ($col['include_in_case_table'] == "true" && $col['input_type'] == 'date'):
 							//Create id variable
 							$date_type = substr($col['db_name'],5);
-
 							echo "
 							<th class=\"complex\" id=\"second_" . $date_type . "_cell\">
 

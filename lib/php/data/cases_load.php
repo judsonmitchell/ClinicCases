@@ -1,11 +1,12 @@
 <?php
-session_start();
-require('../auth/session_check.php');
+//session_start();
+// require('../auth/session_check.php');
 include '../../../db.php';
 include '../utilities/convert_times.php';
 include '../utilities/names.php';
 
-	$user = $_SESSION['login'];
+	$user = 'jmitchell_admin';
+	$perm = '1';
 
 	//Get the columns from cm_columns table
 
@@ -22,14 +23,14 @@ include '../utilities/names.php';
 	//trim trailing comma
 	$col_vals = substr($col_vals_raw,0,-2);
 
-	if ($_SESSION['permissions']['view_all_cases'] == "0")
+	if ($perm == "0")
 
 		{
 			$sql = "SELECT $col_vals, cm_case_assignees.case_id, cm_case_assignees.username FROM cm, cm_case_assignees WHERE cm.id = cm_case_assignees.case_id AND cm_case_assignees.username =  :username AND cm_case_assignees.status =  'active'";
 
 		}
 
-	elseif ($_SESSION['permissions']['view_all_cases'] == "1")
+	elseif ($perm == "1")
 
 		{
 			//admin or super user type query - Users who can access all cases and "work" on all cases.
@@ -59,76 +60,37 @@ include '../utilities/names.php';
 
 				$rows = array();
 
-			//perform some formatting to make the data more user-friendly
-
-				//Convert dates
-				if (!empty($result['date_open']));
-					{
-						$result['date_open'] = sql_date_to_us_date($result['date_open']);
-					}
-
-				if (!empty($result['date_close']))
-					{
-						$result['date_close'] = sql_date_to_us_date($result['date_close']);
-					}
-//THESE SHOULD BE ABSTRACTED
-				//Convert phones
-				if (!empty($result['phone']))
-				{
-
-					$phones = unserialize($result['phone']);
-
-					$phone_string = null;
-
-					foreach ($phones as $val => $type) {
-						$phone_string .= "$val ($type) ";
-					}
-
-					$result['phone'] = $phone_string;
-				}
-
-				//Convert emails
-				if (!empty($result['email']))
-				{
-
-					$emails = unserialize($result['email']);
-
-					$email_string = null;
-
-					foreach ($emails as $val => $type) {
-						$email_string .= "$val ($type) ";
-					}
-
-					$result['email'] = $email_string;
-				}
-				//Convert adverse parties
-				if (!empty($result['adverse_parties']))
-				{
-
-					$adv = unserialize($result['adverse_parties']);
-
-					$adv_string = null;
-
-					foreach ($adv as $val) {
-						$adv_string .= "$val, ";
-					}
-
-					$result['adverse_parties'] = substr($adv_string,0,-2);
-				}
-
-				// //This is a test
-				// $data = @unserialize($result);
-				// if ($data !== false) {
-    // 				echo "ok";
-
-
-			//loop through results, create array, convert to json
+				//loop through results, create array, convert to json
 				foreach ($cols as $col)
 					{
+						//First look for fields containining serialized arrays
+						//and convert to strings
+						$data = @unserialize($result[$col]);
+
+						if ($data !== false) //this is a serialized array
+						{
+							$make_string = null;
+
+							foreach ($data as $key => $value) {
+
+								$make_string .= "$key ($value) ";
+							}
+
+							$result[$col] = $make_string;
+						}
+
+						//Then check for rows containing dates
+						if(preg_match('/^(\d\d\d\d)-(\d\d?)-(\d\d?)$/', $result[$col]))
+						{
+
+							$result[$col] = sql_date_to_us_date($result[$col]);
+						}
+
 
 						$rows[] = $result[$col];
 					}
 
+				//Return aaData object to DataTables
 				$output['aaData'][] = $rows;
 
 			}
