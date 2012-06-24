@@ -42,16 +42,26 @@ function create_new_case_number($dbh)
 
 	if (stristr($m, 'Number'))
 	{
-		//Set search value based on year position
-		if ($pos === 'beginning')
-			{$search = $year . '-%';}
-		elseif ($pos === 'middle')
-			{$search = '%-' . $year . '-%';}
+		if (stristr($m, 'Infinite'))
+		//our case number doesn't reset to zero at the beginning of each year
+		{
+			$sql = "SELECT MAX(clinic_id) FROM cm";
+		}
 		else
-			{$search = '%-' . $year;}
+		{
+			//Set search value based on year position
+			if ($pos === 'beginning')
+				{$search = $year . '-%';}
+			elseif ($pos === 'middle')
+				{$search = '%-' . $year . '-%';}
+			else
+				{$search = '%-' . $year;}
 
-		//check and see if a case has been opened already this year
-		$q = $dbh->prepare("SELECT MAX(clinic_id) FROM cm WHERE  `clinic_id` LIKE  '$search'");
+			//check if a case has been opened already this year
+			$sql = "SELECT MAX(clinic_id) FROM cm WHERE  `clinic_id` LIKE  '$search'";
+		}
+
+		$q = $dbh->prepare($sql);
 		$q->execute();
 		$r = $q->fetch(PDO::FETCH_ASSOC);
 		if (!$r['MAX(clinic_id)'])
@@ -67,10 +77,14 @@ function create_new_case_number($dbh)
 
 		$result = str_replace('Number', $number, $result);
 
+		if (stristr($result, 'Infinite'))
+			{
+				$result =	str_replace('Infinite', '', $result);
+			}
+
 	}
 	else {return $error;}
 
-	//return preg_replace("/[^0-9-]/", "",$result); //strip out rest of mask (alpha characters) for now.
 	return $result;
 }
 
