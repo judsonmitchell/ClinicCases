@@ -92,19 +92,22 @@ function formatCaseData(thisPanel,type)
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
-        //Align multiple phone and email fields with the first ones
+        //Align dual input fields with the first ones
         thisPanel.find('span.dual_input').not('label + span.dual_input').css({'margin-left':'190px'});
 
-        //Align multiple phone and email fields with the first ones
+        //Align multi-text fields and email fields with the first ones
         thisPanel.find('span.multi-text').not('label + span.multi-text').css({'margin-left':'190px'});
 
-        //Add link to trigger a new email/phone field
-        thisPanel.find('span.phone_dual').last().after('<a class="add_another_phone small" href="#">Add another</a>');
+        //Add link to trigger a new dual field
+        thisPanel.find('p').has('span.dual_input').each(function(){
 
-        thisPanel.find('span.email_dual').last().after('<a class="add_another_email small" href="#">Add another</a>');
+            $(this).find('span.dual_input').last().after('<a class="add_another small" href="#">Add another</a>');
+        });
 
-        //Add link to trigger a new adverse party
-        thisPanel.find('input[name="adverse_parties"]').after('<a class="add_another_adv_p small" href="#">Add another</a>');
+        //Add link to a new multi-text field
+        thisPanel.find('p').has('span.multi-text').each(function(){
+            $(this).find('span.multi-text').last().after('<a class="add_another small" href="#">Add another</a>');
+        });
 
         //Add datepickers
         thisPanel.find('input.date_field').each(function(){
@@ -247,57 +250,58 @@ $('button.case_modify_submit').live('click',function(event){
 
         formValsOk.push({'name':'action','value':actionType});
 
+        //Extract values from all multi-text fields
+        formVals.find('p').has('.multi-text').each(function(){
 
-        //put multiple phone and email fields into json
-        var phoneData = {};
-        formVals.find('span.phone_dual').each(function() {
-            var phoneType = $(this).find('select.dual').val();
-            var phoneValue = $(this).find('input[name="phone"]').val();
-            if (phoneValue.length > 0)
+            var dataObj = {};
+
+            var dataName = $(this).find('input').attr('name');
+
+            $(this).find('span.multi-text').each(function(){
+
+                var dataValue = $(this).find('input').val();
+
+                if (dataValue.length > 0)
+                {
+                    dataObj[dataValue] = 'name';
+                }
+            });
+
+            if (!$.isEmptyObject(dataObj))
             {
-                phoneData[phoneValue] = phoneType;
+                dataJson = JSON.stringify(dataObj);
+
+                formValsOk.push({'name':dataName,'value':dataJson});
             }
+
         });
 
-        if (!$.isEmptyObject(phoneData))
-        {
-            phoneJson = JSON.stringify(phoneData);
+        //Extract values from all dual inputs
+        formVals.find('p').has('.dual_input').each(function(){
 
-            formValsOk.push({'name':'phone','value':phoneJson});
-        }
+            var dataObj = {};
 
-        var emailData = {};
-        formVals.find('span.email_dual').each(function() {
-            var emailType = $(this).find('select.dual').val();
-            var emailValue = $(this).find('input[name="email"]').val();
-            if (emailValue.length > 0)
+            var dataName = $(this).find('input:last').attr('name');
+
+            $(this).find('span.dual_input').each(function(){
+
+                var dataType = $(this).find('select.dual').val();
+                var dataValue = $(this).find('input:last').val();
+                if (dataValue.length > 0)
+                {
+                    dataObj[dataValue] = dataType;
+                }
+
+            });
+
+            if (!$.isEmptyObject(dataObj))
             {
-                emailData[emailValue] = emailType;
+                dataJson = JSON.stringify(dataObj);
+
+                formValsOk.push({'name':dataName,'value':dataJson});
             }
+
         });
-
-        if (!$.isEmptyObject(phoneData))
-        {
-            emailJson = JSON.stringify(emailData);
-
-            formValsOk.push({'name':'email','value':emailJson});
-        }
-
-        //Deal with adverse parties
-        var advData = [];
-        formVals.find('input[name="adverse_parties"]').each(function() {
-            if ($(this).val().length > 0)
-            {
-                advData.push($(this).val());
-            }
-        });
-
-        if (advData.length > 0)
-        {
-            advJson = JSON.stringify(advData);
-
-            formValsOk.push({'name':'adverse_parties','value':advJson});
-        }
 
         //Submit to server
         $.post('lib/php/data/cases_case_data_process.php', formValsOk,function(data){
@@ -328,30 +332,20 @@ $('button.case_data_print').live('click',function(){
     alert('Working on it!');  //TODO add print functions
 });
 
-//Add another phone or email
-$('a.add_another_phone, a.add_another_email').live('click',function(event){
+//Add another multi-text or dual
+$('a.add_another').live('click',function(event){
     event.preventDefault();
-    var newPhone = $(this).prev('span').clone();
-    newPhone.find('input').val('');
-    newPhone.find('select').val('');
-    newPhone.css({'margin-left':'190px'});
+    var newField = $(this).prev('span').clone();
+    newField.find('input').val('');
+    newField.find('select').val('');
+    newField.css({'margin-left':'190px'});
 
     //deal with chosen
-    newPhone.find('select').removeClass('chzn-done').css({'display':'block'}).removeAttr('id').next('div').remove();
-    $(this).prev('span').after(newPhone);
+    newField.find('select').removeClass('chzn-done').css({'display':'block'}).removeAttr('id').next('div').remove();
 
-    newPhone.find('select').chosen();
+    //Insert new field, format
+    $(this).prev('span').after(newField);
+    newField.find('select').chosen();
+    newField.find('input').focus();
 
 });
-
-//Add another adverse party
-$('a.add_another_adv_p').live('click',function(event){
-    event.preventDefault();
-    var newAdvP = $(this).parent().clone();
-    newAdvP.find('input').val('');
-    $(this).parent().after(newAdvP);
-    $(this).remove();
-    newAdvP.find('input').focus();
-});
-
-

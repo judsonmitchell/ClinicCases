@@ -52,16 +52,21 @@
 				<?php } elseif ($input_type === 'multi-text'){ ?>
 
 						<?php if (!empty($value)){$items = unserialize($value);
-							foreach ($items as $item) {?>
+							foreach ($items as $key => $item) {?>
 
 						<span class = "<?php echo $db_name . "_multi-text multi-text"; ?>">
 
-						<input class="multi-text" name = "<?php echo $db_name; ?>" value="<?php echo $item; ?>">
+						<input class="multi-text" name = "<?php echo $db_name; ?>" value="<?php echo $key; ?>">
 
 						</span>
 
-						<?php } ?>
+						<?php }}else{ ?>
 
+						<span class = "<?php echo $db_name . "_multi-text multi-text"; ?>">
+
+						<input class="multi-text" name = "<?php echo $db_name; ?>">
+
+						</span>
 
 				<?php }} elseif ($input_type === 'dual'){ ?>
 
@@ -196,8 +201,8 @@
 				if ($items !== false)
 				{
 					$val = null;
-					foreach ($items as $item) {
-						$val .= $item . ", ";
+					foreach ($items as $key => $item) {
+						$val .= $key . ", ";
 					}
 
 					echo substr($val, 0,-2);

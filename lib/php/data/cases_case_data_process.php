@@ -43,27 +43,22 @@ $action = $_POST['action'];
 if (isset($_POST['id']))
 	{$id = $_POST['id'];}
 
-if (isset($_POST['phone']))
-	{
-		$phone = json_decode($_POST['phone']);
-		$phone_ser = serialize($phone);
-		$_POST['phone'] = $phone_ser;
-	}
+//check for json in post values; convert to serialized array
+foreach ($_POST as $key => $value) {
 
-if (isset($_POST['email']))
+	if (substr($value, 0,1) === "{" || substr($value, 0,1 ==="["))
+	//this is to stop php from turning integers (like id) into json
 	{
-		$email = json_decode($_POST['email']);
-		$email_ser = serialize($email);
-		$_POST['email'] = $email_ser;
-	}
+		$json_test = @json_decode($value);
 
-if (isset($_POST['adverse_parties']))
-	{
-		$adv = json_decode($_POST['adverse_parties']);
-		$adv_ser = serialize($adv);
-		$_POST['adverse_parties'] = $adv_ser;
-	}
+		if ($json_test)
+		{
+			$serialize = serialize($json_test);
 
+			$_POST[$key] = $serialize;
+		}
+	}
+}
 
 switch ($action) {
 
@@ -91,13 +86,14 @@ switch ($action) {
 			{
 				if (isset($_POST['adverse_parties']))
 				{
+
 					$ap = unserialize($_POST['adverse_parties']);
 
-					foreach ($ap as $a) {
+					foreach ($ap as $key => $a) {
 
 						$q = $dbh->prepare("INSERT INTO cm_adverse_parties (id, case_id, name) VALUES (NULL, :case_id, :name);");
 
-						$data = array('case_id' => $_POST['id'],'name' => $a);
+						$data = array('case_id' => $_POST['id'],'name' => $key);
 
 						$q->execute($data);
 					}
@@ -117,6 +113,36 @@ switch ($action) {
 		$q->execute($post['values']);
 
 		$error = $q->errorInfo();
+
+			//deal with any changes to adverse parties
+			if (!$error[1])
+			{
+
+				if (isset($_POST['adverse_parties']))
+				{
+					//remove old adverse parties
+					$q = $dbh->prepare("DELETE FROM cm_adverse_parties WHERE case_id = ?");
+
+					$q->bindParam(1, $_POST['id']);
+
+					$q->execute();
+
+					//put in new adverse parties
+					$ap = unserialize($_POST['adverse_parties']);
+
+					foreach ($ap as $key => $a) {
+
+						$q = $dbh->prepare("INSERT INTO cm_adverse_parties (id, case_id, name) VALUES (NULL, :case_id, :name);");
+
+						$data = array('case_id' => $_POST['id'],'name' => $key);
+
+						$q->execute($data);
+					}
+
+				}
+
+			}
+
 
 	break;
 
