@@ -196,19 +196,27 @@
 				<div class = "case_data_name"><?php echo $display_name; ?></div>
 
 				<div class="case_data_value">
-				<?php //first check if this is a serialized value
-				$items = @unserialize($value);
-				if ($items !== false)
-				{
-					$val = null;
-					foreach ($items as $key => $item) {
-						$val .= $key . ", ";
-					}
+					<?php
+					//first check if this is a serialized value
+					$items = @unserialize($value);
+					if ($items !== false)
+					{
+						$val = null;
+						foreach ($items as $key => $item) {
+							$val .= $key . ", ";
+						}
 
-					echo substr($val, 0,-2);
-				}
-				else
-				{echo $value;}?>
+						echo substr($val, 0,-2);
+					}
+					elseif ($input_type === 'date')
+					//then check if it's a date
+					{
+						echo sql_date_to_us_date($value);
+					}
+					else
+					{
+						echo $value;
+					}?>
 				</div>
 
 		</div>

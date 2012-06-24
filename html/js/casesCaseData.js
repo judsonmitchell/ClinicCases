@@ -312,7 +312,7 @@ $('button.case_modify_submit').live('click',function(event){
             else
             {
                 notify(serverResponse.message);
-                $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error');
+                $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error new_case');
 
                 resultTarget.load('lib/php/data/cases_case_data_load.php',{'id':thisCaseId,'type':'display'},function(data){
                         formatCaseData(resultTarget,'display');
