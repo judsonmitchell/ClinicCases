@@ -246,7 +246,7 @@ $('button.case_modify_submit').live('click',function(event){
         //reserialized the form array like so:
         //UPDATE: add adverse parties to this
 
-        formValsOk = $(this).closest('form').find(':not(input[name="phone"], select[name="phone_select"],input[name="email"],select[name="email_select"],input[name="adverse_parties"])').serializeArray();
+        formValsOk = $(this).closest('form').find(':not(span.dual_input input, span.dual_input select, span.multi-text input)').serializeArray();
 
         formValsOk.push({'name':'action','value':actionType});
 
