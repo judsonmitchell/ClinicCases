@@ -100,6 +100,7 @@ else
 	$_SESSION['group'] = $r->grp;
 	$_SESSION['first_name'] = $r->first_name;
 	$_SESSION['last_name'] = $r->last_name;
+	$_SESSION['email'] = $r->email;
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
 	$_SESSION['pref_journal'] = $r->pref_journal;
 	$_SESSION['pref_case'] = $r->pref_case;

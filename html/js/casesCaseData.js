@@ -241,10 +241,8 @@ $('button.case_modify_submit').live('click',function(event){
     }
     else
     {
-        //I found it next to impossible to remove phone and email vals from
-        //formValsArray after combining them into a new object, so I just
-        //reserialized the form array like so:
-        //UPDATE: add adverse parties to this
+        //Reserialize form, taking out dual_inputs and multi-texts.  They are
+        //dealt with seperately.
 
         formValsOk = $(this).closest('form').find(':not(span.dual_input input, span.dual_input select, span.multi-text input)').serializeArray();
 
