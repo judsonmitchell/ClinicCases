@@ -13,7 +13,7 @@ function bindPostVals($query_string,$open_close)
 		{
 			$key_name = ":" . $key;
 			$cols .= "`$key` = " . "$key_name,";
-			$values[$key_name] = $value;
+			$values[$key_name] = trim($value);
 		}
 	}
 
@@ -28,8 +28,10 @@ function bindPostVals($query_string,$open_close)
 
 	if ($open_close === 'close')
 		{
-			$cols .= "`time_closed` = :time_closed";
+			$cols .= "`time_closed` = :time_closed,`closed_by` = :closed_by";
 			$values[':time_closed'] = $now;
+			$values[':closed_by'] = $_SESSION['login'];
+
 		}
 		//If $open_close is 'edit', we don't need to add these fields
 
@@ -67,11 +69,11 @@ switch ($action) {
 		//Because we don't know all the table columns, we rely on an helper function,
 		//bindPostVals().  This was very helpful http://stackoverflow.com/q/3773406/49359
 
-		//First, determine if we are opening or closing a case
+		//First, determine if we are editing or closing a case
 		if (!empty($_POST['date_close']))
 			{$open_close = 'close';}
 		else
-			{$open_close = 'open';}
+			{$open_close = 'edit';}
 
 		$post = bindPostVals($_POST,$open_close);
 
@@ -104,7 +106,11 @@ switch ($action) {
 
 	case 'edit':
 
-		$open_close = 'edit';
+		//First, determine if we are opening or closing a case
+		if (!empty($_POST['date_close']))
+			{$open_close = 'close';}
+		else
+			{$open_close = 'open';}
 
 		$post = bindPostVals($_POST,$open_close);
 
@@ -113,6 +119,9 @@ switch ($action) {
 		$q->execute($post['values']);
 
 		$error = $q->errorInfo();
+
+		if ($error[1])
+			{print_r($error);}
 
 			//deal with any changes to adverse parties
 			if (!$error[1])

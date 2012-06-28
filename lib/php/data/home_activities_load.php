@@ -359,6 +359,87 @@ foreach ($ev_assigns as $e) {
 	$activities[] = $item;
 }
 
+//
+//Here are special queries for people who open/close cases (admins)
+//
+
+//cases that have opened
+if ($_SESSION['permissions']['add_cases'] == '1')
+{
+	$get_opened_cases = $dbh->prepare("SELECT * FROM cm
+		WHERE time_opened >= '$mysqldate'");
+
+	$get_opened_cases->execute();
+
+	$opened = $get_opened_cases->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($opened as $open) {
+		$activity_type = 'opening';
+
+		if ($open['opened_by'] === $username) {
+			$by = 'You';
+		} else {
+			$by = username_to_fullname($dbh,$open['opened_by']);
+		}
+
+		$thumb = return_thumbnail($dbh,$open['opened_by']);
+		$action_text = " opened a case: ";
+		$casename = case_id_to_casename($dbh,$open['id']);
+		$time_done = $open['time_opened'];
+		$time_formatted = extract_date_time($open['time_opened']);
+		$id = $open['id'];
+		$what = $open['notes'];
+		$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
+
+		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+			'time_formatted' => $time_formatted);
+
+		$activities[] = $item;
+	}
+}
+
+//cases that have been closed
+if ($_SESSION['permissions']['close_cases'] == '1')
+{
+	$get_closed_cases = $dbh->prepare("SELECT * FROM cm
+	WHERE time_closed >= '$mysqldate'");
+
+$get_closed_cases->execute();
+
+$closed = $get_closed_cases->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($closed as $close) {
+	$activity_type = 'closing';
+
+	if ($close['closed_by'] === $username) {
+		$by = 'You';
+	} else {
+		$by = username_to_fullname($dbh,$close['closed_by']);
+	}
+
+	$thumb = return_thumbnail($dbh,$close['closed_by']);
+	$action_text = " closed a case: ";
+	$casename = case_id_to_casename($dbh,$close['id']);
+	$time_done = $close['time_closed'];
+	$time_formatted = extract_date_time($close['time_closed']);
+	$id = $close['id'];
+	$what = $close['close_notes'];
+	$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
+
+	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+		'time_formatted' => $time_formatted);
+
+	$activities[] = $item;
+
+	}
+
+}
+
+
 //TODO  add journals, board post
 
 if (!empty($activities)) {
