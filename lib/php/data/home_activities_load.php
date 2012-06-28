@@ -406,38 +406,74 @@ if ($_SESSION['permissions']['close_cases'] == '1')
 	$get_closed_cases = $dbh->prepare("SELECT * FROM cm
 	WHERE time_closed >= '$mysqldate'");
 
-$get_closed_cases->execute();
+	$get_closed_cases->execute();
 
-$closed = $get_closed_cases->fetchAll(PDO::FETCH_ASSOC);
+	$closed = $get_closed_cases->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($closed as $close) {
-	$activity_type = 'closing';
+	foreach ($closed as $close) {
+		$activity_type = 'closing';
 
-	if ($close['closed_by'] === $username) {
-		$by = 'You';
-	} else {
-		$by = username_to_fullname($dbh,$close['closed_by']);
-	}
+		if ($close['closed_by'] === $username) {
+			$by = 'You';
+		} else {
+			$by = username_to_fullname($dbh,$close['closed_by']);
+		}
 
-	$thumb = return_thumbnail($dbh,$close['closed_by']);
-	$action_text = " closed a case: ";
-	$casename = case_id_to_casename($dbh,$close['id']);
-	$time_done = $close['time_closed'];
-	$time_formatted = extract_date_time($close['time_closed']);
-	$id = $close['id'];
-	$what = $close['close_notes'];
-	$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
+		$thumb = return_thumbnail($dbh,$close['closed_by']);
+		$action_text = " closed a case: ";
+		$casename = case_id_to_casename($dbh,$close['id']);
+		$time_done = $close['time_closed'];
+		$time_formatted = extract_date_time($close['time_closed']);
+		$id = $close['id'];
+		$what = $close['close_notes'];
+		$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
 
-	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
-		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
-		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+			'time_formatted' => $time_formatted);
 
-	$activities[] = $item;
+		$activities[] = $item;
 
-	}
+		}
 
 }
+
+//new users who have requested access
+if ($_SESSION['permissions']['activate_users'] == '1')
+{
+	$get_new_users = $dbh->prepare("SELECT * FROM cm_users
+		WHERE date_created >= '$mysqldate' AND new = 'yes'");
+
+	$get_new_users->execute();
+
+	$news = $get_new_users->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($news as $new) {
+
+		$activity_type = 'new_user';
+		$by = username_to_fullname($dbh,$new['username']);
+		$thumb = 'people/tn_no_picture.png';
+		$action_text = " signed up for ClinicCases ";
+		$time_done = $new['date_created'];
+		$time_formatted = extract_date_time($new['date_created']);
+		$what = 'Please review this application.';
+		$follow_url = 'index.php?i=Users.php';
+		$casename = '(view here)';
+		$id = null;
+
+		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+				'time_formatted' => $time_formatted);
+
+		$activities[] = $item;
+	}
+}
+
+//So what do admins see?  Any new user signups, any opening or closing of cases,
+//and any events that they created or were assigned to
+//End queries for admins
 
 
 //TODO  add journals, board post
