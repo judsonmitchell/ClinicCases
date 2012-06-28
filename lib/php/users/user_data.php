@@ -21,7 +21,7 @@ function user_email($dbh,$user)
 //Return all users in a group
 function all_users_in_group($dbh,$group)
 {
-	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `group` = ? AND `status` = 'active'");
+	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `grp` = ? AND `status` = 'active'");
 
 	$q->bindParam(1, $group);
 

@@ -52,6 +52,7 @@ $get_notes = $dbh->prepare("SELECT *,cm_case_assignees.id as assign_id,
 	cm_case_notes.username as note_user
 	FROM cm_case_assignees,cm_case_notes
 	WHERE cm_case_assignees.username = '$username'
+	AND cm_case_assignees.status = 'active'
 	AND cm_case_notes.case_id = cm_case_assignees.case_id
 	AND cm_case_notes.datestamp >= '$mysqldate'");
 

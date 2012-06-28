@@ -9,11 +9,11 @@
 	<?php include 'html/templates/interior/timer.php' ?>
 
 	<?php include 'html/templates/interior/idletimeout.php' ?>
-	
+
 	<div id = "nav_container">
 
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
-		
+
 		<div id="menus">
 			<?php include 'html/templates/Menus.php'; ?>
 		</div>
@@ -22,7 +22,7 @@
 
 	<div id="content">
 
-This is the utilities file.
+		<p>This page is undergoing a major renovation for ClinicCases 7.  Please check back soon!</p>
 
 	</div>
 

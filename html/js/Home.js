@@ -331,12 +331,21 @@ $(document).ready(function() {
         }
         else
         {
+            var allDayVal = null;
+            if (evForm.find('input[name = "all_day"]').is(':checked'))
+            {
+                allDayVal = "on";
+            }
+            else
+            {
+                allDayVal = "off";
+            }
             $.post('lib/php/data/cases_events_process.php', {
                 'task': evForm.find('input[name = "task"]').val(),
                 'where': evForm.find('input[name = "where"]').val(),
                 'start': evForm.find('input[name = "start"]').val(),
                 'end': evForm.find('input[name = "end"]').val(),
-                'all_day': evForm.find('input[name = "all_day"]').val(),
+                'all_day': allDayVal,
                 'notes': evForm.find('textarea[name = "notes"]').val(),
                 'responsibles': resps,
                 'action': 'add',
@@ -360,6 +369,11 @@ $(document).ready(function() {
 
                     }
                     $('a.quick_add_close').trigger('click');
+
+                    //reset selects
+                    evForm.find('select').each(function(){$(this).val('').trigger("liszt:updated");});
+
+
                 }
             });
         }

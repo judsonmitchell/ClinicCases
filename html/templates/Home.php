@@ -110,7 +110,10 @@
 							<!-- Note Chosen seems to require the inline style width -->
 								<option value="NC">Non-Case Time</option>
 
-								<?php include('lib/php/html/gen_select.php');
+								<?php
+								include('lib/php/utilities/names.php');
+
+								include('lib/php/html/gen_select.php');
 
 								$options = generate_active_cases_select($dbh,$_SESSION['login']);
 
@@ -164,7 +167,7 @@
 
 						<p><label>End: </label><input type="text" id="ev_end" name="end"></p>
 
-						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day"></p>
+						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
 
 						<p><label>Case: </label>
 
@@ -184,9 +187,7 @@
 
 							<select multiple id="ev_users" style="width:230px;" data-placeholder="Select Users" name="responsibles">
 
-								<option value = "all" selected=selected>All Users</option>
-
-								<?php echo all_active_users($dbh); ?>
+								<?php echo all_active_users_and_groups($dbh,false); ?>
 
 							</select>
 

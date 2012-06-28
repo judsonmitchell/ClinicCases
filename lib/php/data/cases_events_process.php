@@ -3,6 +3,21 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+include('../users/user_data.php');
+include('../utilities/names.php');
+
+function flatten_array($mArray) {
+	$sArray = array();
+    foreach ($mArray as $row) {
+        if ( !(is_array($row)) ) {
+            if($sArray[] = $row){
+            }
+        } else {
+            $sArray = array_merge($sArray,flatten_array($row));
+        }
+    }
+    return $sArray;
+}
 
 //Get variables
 
@@ -75,33 +90,50 @@ switch ($action) {
 
 		if (!$error[1])
 		{
+			$resps = array();
+
 			foreach ($responsibles as $responsible) {
 
-				if ($responsible == 'all')
+				if (stristr($responsible, '_grp_'))
 				{
-					$get_all = $dbh->prepare("SELECT username,status FROM cm_users WHERE status = 'active'");
-
-					$get_all->execute();
-
-					$alls = $get_all->fetchAll(PDO::FETCH_ASSOC);
-
-					foreach ($alls as $all) {
-
-						$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
-
-						$data = array('last_id' => $last_id,'resp' => $all['username']);
-
-						$add_resp->execute($data);
-					}
+				//user has selected a group as defined in config
+					$group = substr($responsible, 5);
+					$all_in_group = all_users_in_group($dbh,$group);
+					$resps[] = $all_in_group;
+				}
+				elseif(stristr($responsible, '_spv_'))
+				//user has selected a group that is defined by who the supervisor is
+				{
+					$supervisor= substr($responsible, 5);
+					$all_in_group = all_users_by_supvsr($dbh,$supervisor);
+					$resps[] = $all_in_group;
+				}
+				elseif (stristr($responsible, '_all_users_'))
+				{
+					$resps[] = all_active_users($dbh);
 				}
 				else
 				{
-					$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
-
-					$data = array('last_id' => $last_id,'resp' => $responsible);
-
-					$add_resp->execute($data);
+					$resps[] = $responsible;
 				}
+			}
+
+			$resps_flat = flatten_array($resps);
+
+			for ($i=0; $i < sizeof($resps_flat); $i++) {
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
+				$data = array('last_id' => $last_id,'resp' => $resps_flat[$i]);
+
+				$add_resp->execute($data);
+
+				//notify user via email
+				$email = user_email($dbh,$user);
+				$subject = "ClincCases: You have been assigned to an event";
+				$body = "You have been assigned to an event in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
+				mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					//TODO test on mail server
+
 			}
 		}
 
@@ -119,19 +151,77 @@ switch ($action) {
 
 		if (!$error[1])
 		{
+			//First, find out who is currently on the event and put
+			//in an array for later use.
+
+			$current = $dbh->prepare("SELECT username FROM cm_events_responsibles WHERE event_id = :event_id");
+
+			$data = array('event_id' => $event_id);
+
+			$current->execute($data);
+
+			$curs = $current->fetchAll(PDO::FETCH_ASSOC);
+
+			$curs_flat = flatten_array($curs);
+
+			//Then delete all of the current assignments
 			$delete_old = $dbh->prepare("DELETE FROM cm_events_responsibles WHERE event_id = :event_id");
 
 			$data = array('event_id' => $event_id);
 
 			$delete_old->execute($data); //remove previously assigned users
 
-			foreach ($responsibles as $responsible) { //add new ones
+			//Then put in the current assignments
+			$resps = array();
 
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :event_id,:resp,NOW())");
+			foreach ($responsibles as $responsible) {
 
-				$data = array('event_id' => $event_id,'resp' => $responsible);
+				if (stristr($responsible, '_grp_'))
+				{
+				//user has selected a group as defined in config
+					$group = substr($responsible, 5);
+					$all_in_group = all_users_in_group($dbh,$group);
+					$resps[] = $all_in_group;
+				}
+				elseif(stristr($responsible, '_spv_'))
+				//user has selected a group that is defined by who the supervisor is
+				{
+					$supervisor= substr($responsible, 5);
+					$all_in_group = all_users_by_supvsr($dbh,$supervisor);
+					$resps[] = $all_in_group;
+				}
+				elseif (stristr($responsible, '_all_users_'))
+				{
+					$resps[] = all_active_users($dbh);
+				}
+				else
+				{
+					$resps[] = $responsible;
+				}
+			}
+
+			$resps_flat = flatten_array($resps);
+
+			for ($i=0; $i < sizeof($resps_flat); $i++) {
+				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
+				$data = array('last_id' => $event_id,'resp' => $resps_flat[$i]);
 
 				$add_resp->execute($data);
+			}
+
+			//Then notify only the newly-added users of the assignement via email
+			$new_assignees = array_diff($resps_flat, $curs_flat);
+
+			if (!empty($new_assignees))
+			{
+				foreach ($new_assignees as $n) {
+					$email = user_email($dbh,$user);
+					$subject = "ClincCases: You have been assigned to an event";
+					$body = "You have been assigned to an event in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
+					mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					//TODO test on mail server
+				}
 			}
 		}
 
