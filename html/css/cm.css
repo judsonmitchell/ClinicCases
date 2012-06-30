@@ -472,7 +472,22 @@ div.user_detail_actions,div.user_detail_edit_actions{position:absolute;bottom:20
 div.user_picture_preview{position:absolute;right:65px;top:80px;width:100px;height:100px;overflow:hidden;margin-left:5px;}
 
 /* Bug form styles */
+div.bug_form {position:relative;display: none;}
+div.bug_form a.bug_close {position:absolute;right:5px;top:10px;outline: none}
 div.bug_form textarea{width:280px;height: 280px}
+
+/* Prefences styles */
+div.pref_form{position:relative;display:none;}
+div.pref_form label {display:inline-block;margin:12px 0 0;width:90px;}
+div#pref_nav a {color:#AAA;text-decoration:underline;outline:none;}
+div#pref_nav a.active {color:black;text-decoration:none;outline:none;}
+div#pref_nav a.pref_close {position:absolute;right:5px;top:10px;}
+div#pref_body{margin-top:10px;text-align:left;}
+div#pref_body p{margin-bottom:10px}
+div#pref_body a{color:blue}
+div.pref{display: none;padding-top: 10px;}
+p.pref_submit{text-align: right;margin-top: 10px;}
+p.pref_error{color:red;}
 
 ::-webkit-scrollbar {
     width: 12px;
