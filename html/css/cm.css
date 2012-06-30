@@ -149,6 +149,7 @@ div.force_new_password_content label{display:inline-block;margin:12px 0 0;width:
 /* Home page styles */
 
 div#home_nav {position:relative;width:100%;height:5%;padding-top:5px;}
+img.ical {margin-right: 15px;}
 div#home_data {position:absolute;left:15px;top:5px;}
 div#home_data div {font-size:1.2em;color:#555;display: inline-block;}
 div#home_data div.small {font-size: .8em;color:white;margin-left:10px;display: inline-block;}

@@ -42,7 +42,7 @@
 
 	<div id="content">
 
-		<div id = "home_nav">
+		<div id = "home_nav" data-key = "<?php echo $_SESSION['private_key'];?>">
 
 			<div id = "home_data">
 

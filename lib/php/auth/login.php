@@ -102,9 +102,9 @@ else
 	$_SESSION['last_name'] = $r->last_name;
 	$_SESSION['email'] = $r->email;
 	$_SESSION['timezone_offset'] = $r->timezone_offset;
-	$_SESSION['pref_journal'] = $r->pref_journal;
-	$_SESSION['pref_case'] = $r->pref_case;
 	$_SESSION['picture_url'] = $r->picture_url;
+	$_SESSION['private_key'] = $r->private_key;
+
 
 
 //Set remember me cookie
