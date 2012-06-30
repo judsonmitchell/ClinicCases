@@ -60,7 +60,7 @@
 
 	<form id = "change_private_key">
 
-		<p>This is your private key which is used for web-based services (Google Calendar, etc) to access your account information, e.g. calendar and RSS feeds. Do not share it with anyone.  If you suspect that your key has been compromised, please reset it.</p>
+		<p>This is your private key which is used for web-based services to access your account information. Do not share it with anyone.  If you suspect that your key has been compromised, please reset it.</p>
 
 		<p>Your private key: <?php echo $private_key; ?></p>
 
