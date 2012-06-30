@@ -19,7 +19,9 @@
 	<script src="html/js/sizeContentWindow.js" type="text/javascript"></script>
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 	<script src="lib/javascripts/timer.js" type="text/javascript"></script>
+	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
+
 
 
 

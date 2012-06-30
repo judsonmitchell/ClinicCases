@@ -5,8 +5,6 @@
 
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
-	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>

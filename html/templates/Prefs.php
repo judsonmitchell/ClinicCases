@@ -56,6 +56,8 @@
 
 <div class = "pref pref_private_key">
 
+	<p class="pref_error" id = "private_key_error"></p>
+
 	<form id = "change_private_key">
 
 		<p>This is your private key which is used for web-based services (Google Calendar, etc) to access your account information, e.g. calendar and RSS feeds. Do not share it with anyone.  If you suspect that your key has been compromised, please reset it.</p>
@@ -66,7 +68,7 @@
 
 		<p>Your RSS feed of ClinicCases Activity: <a href = "<?php echo CC_BASE_URL . 'activity_feed.php?key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'activity_feed.php?key=' . $private_key;?></a></p>
 
-		<p class="pref_submit"><button class = "change_private_key_form_submit">Reset Key</button></p>
+		<p class="pref_submit"><button class = "change_private_key_form_submit" data-id="<?php echo $id; ?>">Reset Key</button></p>
 
 
 	</form>

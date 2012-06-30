@@ -31,8 +31,6 @@
 
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
-	<script type="text/javascript" src="lib/javascripts/validations.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
 
 	<script type="text/javascript" src="lib/javascripts/Jcrop/js/jquery.Jcrop.min.js"></script>

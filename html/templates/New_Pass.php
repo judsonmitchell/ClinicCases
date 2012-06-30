@@ -1,7 +1,5 @@
 <script type="text/javascript" src="html/js/NewPass.js"></script>
 
-<script type="text/javascript" src="lib/javascripts/validations.js"></script>
-
 </head>
 
 <body>
