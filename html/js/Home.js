@@ -83,7 +83,10 @@ $(document).ready(function() {
                 },
                 eventSources: ['lib/php/data/home_events_load.php'],
                 viewDisplay: function(view){
+                    if($('img.ical').length < 1)
+                    {
                     $('span.fc-button-month').before('<a href="feeds/ical.php?key=' + $('#home_nav').attr('data-key') + '" target="_new"><img class="ical" title="Your iCal feed" src="html/ico/ical.png"></a>');
+                    }
                 },
                 eventClick: function(event) {
                     if (event.allDay === false)
