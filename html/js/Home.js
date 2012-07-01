@@ -199,7 +199,7 @@ $(document).ready(function() {
 
         clearInterval(window.activitiesRefresh);
 
-        target.html('<p>Trends Here</p>');
+        target.html('<p>Trends is a new feature which shows you real-time stats about the work you and your group are doing.  Coming soon!</p>');
 
     });
 

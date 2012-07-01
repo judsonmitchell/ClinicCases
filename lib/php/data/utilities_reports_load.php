@@ -1,0 +1,1 @@
+<p>The reports generator is undergoing a major renovation for ClinicCases 7.  Please check back soon!</p>

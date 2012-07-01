@@ -89,6 +89,7 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `view_board` int(2) NOT NULL,
   `edit_posts` int(2) NOT NULL,
   `change_permissions` int(2) NOT NULL,
+  `can_configure` int(2) NOT NULL,
   `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
   `is_supervised` int(2) NOT NULL COMMENT 'This user works on cases,but is supervised by another user',
   PRIMARY KEY (`id`)
@@ -102,10 +103,10 @@ $student_tabs = serialize(array("Home","Cases","Journals","Board","Utilities","M
 $prof_tabs = serialize(array("Home","Cases","Students","Journals","Board","Utilities","Messages"));
 
 $query = $dbh->prepare("INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`,`activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0);");
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,0,1, 0);");
 
 $query->execute();
 
@@ -200,7 +201,7 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (26, 'per', 'Per', 'false', 'text', '', 'false', 0, 26),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
 (28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'text', '', 'false', 0, 28),
-(29, 'court', 'Court', 'false', 'text', '', 'false', 0, 29),
+(29, 'court', 'Court', 'true', 'select', '', 'false', 0, 29),
 (30, 'section', 'Section', 'false', 'text', '', 'false', 0, 30),
 (31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
 (32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
@@ -718,6 +719,72 @@ foreach ($n as $value) {
 	$update->execute();
 }
 
+
+//Upgrade courts
+$q = $dbh->prepare("SELECT * FROM cm_courts");
+
+$q->execute();
+
+$courts = $q->fetchAll(PDO::FETCH_ASSOC);
+
+$arr = array();
+
+foreach ($courts as $c) {
+	$arr[] =$c['court'];
+}
+
+if (count($arr) > 0)
+{
+	$s = serialize($arr);
+
+	$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$s' WHERE db_name = 'court'");
+
+	$update->execute();
+}
+
+//Upgrade dispos
+$q = $dbh->prepare("SELECT * FROM cm_dispos");
+
+$q->execute();
+
+$courts = $q->fetchAll(PDO::FETCH_ASSOC);
+
+$arr = array();
+
+foreach ($courts as $c) {
+	$arr[] =$c['dispo'];
+}
+
+if (count($arr) > 0)
+{
+	$s = serialize($arr);
+
+	$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$s' WHERE db_name = 'dispo'");
+
+	$update->execute();
+}
+
+//Upgrade referrals
+$q = $dbh->prepare("SELECT * FROM cm_referral");
+
+$q->execute();
+
+$courts = $q->fetchAll(PDO::FETCH_ASSOC);
+
+$arr = array();
+
+foreach ($courts as $c) {
+	$arr[] =$c['referral'];
+}
+
+if (count($arr) > 0)
+{
+	$s = serialize($arr);
+
+	$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$s' WHERE db_name = 'referral'");
+
+	$update->execute();
+}
 
 echo "Upgrade successful";
 
