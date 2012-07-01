@@ -2,7 +2,7 @@
 
 	<div class = "activities_feed">
 
-		<a href="#"><img src="html/ico/rss.png" title="RSS Feed of Activity" border="0"></a>
+		<a href="feeds/rss.php?type=activities&amp;key=<?php echo $_SESSION['private_key']; ?>" target="_new"><img src="html/ico/rss.png" title="RSS Feed of Activity" border="0"></a>
 
 	</div>
 

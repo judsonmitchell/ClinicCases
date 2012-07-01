@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require('../auth/session_check.php');
+require('../auth/session_check.php');
 require('../../../db.php');
 include('../utilities/thumbnails.php');
 include('../utilities/names.php');
@@ -9,7 +9,6 @@ include('../auth/last_login.php');
 include('../html/gen_select.php');
 
 //function to sort the activities array by subkey - date
-
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
 
     foreach ($array as $subarray) {
