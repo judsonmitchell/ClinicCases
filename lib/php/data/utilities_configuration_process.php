@@ -48,15 +48,122 @@ switch ($type) {
 		break;
 
 	case 'dispo':
-		# code...
+		//if first array element is empty, delete it
+		if ($_POST['dispo'][0] == '')
+		{
+			unset($_POST['dispo'][0]);
+		}
+
+		//clear old values
+		$q = $dbh->prepare("TRUNCATE TABLE  `cm_dispos`");
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		if ($error[1]){$result_errors[] = $error[1];}
+
+		//update db
+		foreach ($_POST['dispo'] as $key => $value) {
+			$update = $dbh->prepare('INSERT INTO cm_dispos (`id`,`dispo`) VALUES (NULL,?)');
+
+			$update->bindParam(1,$value);
+
+			$update->execute();
+
+			$error = $update->errorInfo();
+
+			if ($error[1]){$result_errors[] = $error[1];}
+		}
+
+		//update column definition
+		$s = serialize($_POST['dispo']);
+		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'dispo'");
+		$col_update->bindParam(1,$s);
+		$col_update->execute();
+		$error = $col_update->errorInfo();
+		if ($error[1]){$result_errors[] = $error[1];}
+
 		break;
 
 	case 'clinic':
-		# code...
+		//if first array element is empty, delete it
+		if ($_POST['clinic_code'][0] == '')
+		{
+			unset($_POST['clinic_code'][0]);
+			unset($_POST['clinic_name'][0]);
+		}
+		//clear old values
+		$q = $dbh->prepare("TRUNCATE TABLE  `cm_clinic_type`");
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		if ($error[1]){$result_errors[] = $error[1];}
+
+		$clinics = array_combine($_POST['clinic_code'], $_POST['clinic_name']);
+
+		foreach ($clinics as $key => $value) {
+			$update = $dbh->prepare("INSERT INTO cm_clinic_type (`id`,`clinic_name`,`clinic_code`) VALUES (NULL,?,?)");
+
+			$update->bindParam(1,$value);
+
+			$update->bindParam(2,$key);
+
+			$update->execute();
+
+			$error = $update->errorInfo();
+
+			if ($error[1]){$result_errors[] = $error[1];}
+		}
+
+		$s = serialize($clinics);
+		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'clinic_type'");
+		$col_update->bindParam(1,$s);
+		$col_update->execute();
+		$error = $col_update->errorInfo();
+		if ($error[1]){$result_errors[] = $error[1];}
+
 		break;
 
 	case 'referral':
-		# code...
+		//if first array element is empty, delete it
+		if ($_POST['referral'][0] == '')
+		{
+			unset($_POST['referral'][0]);
+		}
+
+		//clear old values
+		$q = $dbh->prepare("TRUNCATE TABLE  `cm_referral`");
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		if ($error[1]){$result_errors[] = $error[1];}
+
+		//update db
+		foreach ($_POST['referral'] as $key => $value) {
+			$update = $dbh->prepare('INSERT INTO cm_referral (`id`,`referral`) VALUES (NULL,?)');
+
+			$update->bindParam(1,$value);
+
+			$update->execute();
+
+			$error = $update->errorInfo();
+
+			if ($error[1]){$result_errors[] = $error[1];}
+		}
+
+		//update column definition
+		$s = serialize($_POST['referral']);
+		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'referral'");
+		$col_update->bindParam(1,$s);
+		$col_update->execute();
+		$error = $col_update->errorInfo();
+		if ($error[1]){$result_errors[] = $error[1];}
+
 		break;
 }
 
