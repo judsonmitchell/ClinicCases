@@ -1,3 +1,5 @@
 _CONFIG.php
-people/
+people/*.jpg
 uploads/
+_INSTALL/
+_UPGRADE/
