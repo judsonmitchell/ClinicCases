@@ -105,7 +105,7 @@
 
 		?>
 
-		<p>Please provide the configuration information (hover your mouse over each field for more information).  All fields are required.</p>
+		<p id="instruction">Please provide the configuration information (hover your mouse over each field for more information).  All fields are required.</p>
 
 		<p id="error_display"></p>
 

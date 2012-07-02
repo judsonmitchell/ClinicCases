@@ -46,6 +46,7 @@ $(document).ready(function() {
 					{
 						notify(serverResponse.message);
 						$('form').remove();
+						$('p#instruction').remove();
 						$('div#upshot').html(serverResponse.html);
 					}
 			});
