@@ -1,5 +1,28 @@
 <?php
 
+function deleteDir($dirPath) {
+
+    if (! is_dir($dirPath)) {
+        throw new InvalidArgumentException('$dirPath must be a directory');
+    }
+
+    if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+        $dirPath .= '/';
+    }
+
+    $files = glob($dirPath . '*', GLOB_MARK);
+
+    foreach ($files as $file) {
+        if (is_dir($file)) {
+            self::deleteDir($file);
+        } else {
+            unlink($file);
+        }
+    }
+
+    rmdir($dirPath);
+ }
+
 //Check if docs file is writable
 
 if (!is_writable($_POST['doc_path']) || !is_dir($_POST['doc_path']))
@@ -73,6 +96,10 @@ else
 	unlink('../_CONFIG.php.bak');
 
 	chmod('../_CONFIG.php', 0664);
+
+	deleteDir($_POST['cc_path']. '/_UPGRADE');
+
+	deleteDir($_POST['cc_path']. '/_INSTALL');
 
 	$html = "<p class='good'>Installation successful.</p><p>Now you can log on to ClinicCases by going to <a href='" . $_POST['base_url']. "' target='_new'>" . $_POST['base_url'] . "</a> and logging in with the username 'admin' and the password 'admin'.  You will then be prompted to change this password.</p><p>After that, please go to the Users tab and create at least one new user who is in the Administrator group.  Then delete the Temp Admin account.  Further configuration instructions are available at the <a href='https://cliniccases.com/help'>ClinicCases site</a></p>";
 
