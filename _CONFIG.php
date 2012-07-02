@@ -5,7 +5,7 @@
 define("CC_DBHOST","%db_host%");
 define("CC_DBUSERNAME","%db_user%");
 define("CC_DBPASSWD", "%db_pass%");
-define("CC_DATABASE_NAME","%db_name");
+define("CC_DATABASE_NAME","%db_name%");
 
 //Define a salt for passwords.
 //You can use php's uniqid function to generate this, e.g from the command line:

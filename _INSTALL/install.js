@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 		function validate(fields)
 		{
-			var errorString = null;
+			var errorString = '';
 			$.each(fields,function(){
 				if ($(this).val() === '')
 					{
@@ -28,6 +28,7 @@ $(document).ready(function() {
 		{
 			notify('There are empty fields');
 			$('div#upshot').html('<p class="config_error">All fields are required. Please fix this.</p>');
+			$('input.ui-state-error').focus(function(){$(this).removeClass('ui-state-error');});
 		}
 		else
 		{
