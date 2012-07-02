@@ -1,0 +1,6 @@
+#content{text-align:left;}
+
+p {margin-bottom: 1em;}
+label{display:inline-block;margin:12px 0 0;width:145px;}
+.config_error {color:red;font-weight: bold;}
+.good {color:green;}
