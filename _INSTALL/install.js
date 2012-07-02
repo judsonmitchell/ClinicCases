@@ -45,6 +45,7 @@ $(document).ready(function() {
 					else
 					{
 						notify(serverResponse.message);
+						$('form').remove();
 						$('div#upshot').html(serverResponse.html);
 					}
 			});
