@@ -105,7 +105,7 @@
 
 		?>
 
-		<p>Please provide the configuration information (hover your mouse over each field for more information):</p>
+		<p>Please provide the configuration information (hover your mouse over each field for more information).  All fields are required.</p>
 
 		<p id="error_display"></p>
 
@@ -135,7 +135,7 @@
 
 			<p><label>Your Program Name</label><input type="text" name="program_name" value="Your Law Clinic's Name" title="The name of your clinic or organization"></p>
 
-			<p><label>Your School Color (optional)</label><input type="text" name="school_color" value="" title="An rgb or hex value"></p>
+			<p><label>Your School Color</label><input type="text" name="school_color" value="#FFFFFF" title="An rgb or hex value"></p>
 
 			<p><label>Timekeeping Unit</label>
 				<select name="t_unit" title="The unit of time used for timekeeping on cases.  5 is the default">
@@ -152,7 +152,9 @@
 
 		</form>
 
+		<div id="upshot">
 
+		</div>
 
 
 	</div>

@@ -38,20 +38,45 @@ function update_config($vals,$config)
 
 
 $new = update_config($_POST,$config);
-echo $new;die;
+
 file_put_contents('../_CONFIG.php', $new);
 
-
+$sql = file_get_contents('default.sql');
 
 //See if the db works
-$q = $dbh;
+$q = $dbh->prepare($sql);
 
-	//If errror, delete _CONFIG.php and rename _CONFIG.php.bak to _CONFIG.php
+$q->execute();
 
-//Run the sql
+$error = $q->errorInfo();
 
-//chmod _CONFIG.php 664
+if ($error[1])
+{
+	$error_string = null;
 
-//delete _CONFIG.php.bak
+	foreach ($error as $key => $value) {
+		$error_string .= $error[2] . "<br />";
+	}
 
+	$resp = array('error' => true,'message' => 'There was an error adding data to your database.  Here is what the database said:' . $error_string);
 
+	//delete the current config
+	unlink('../_CONFIG.php');
+
+	copy('../_CONFIG.php.bak','../_CONFIG.php');
+
+	echo json_encode($resp);
+}
+else
+{
+	unlink('../_CONFIG.php.bak');
+
+	chmod('../_CONFIG.php', 0664);
+
+	$html = "<p class='good'>Installation successful.</p><p>Now you can log on to ClinicCases by going to <a href='" . $_POST['base_url']. "' target='_new'>" . $_POST['base_url'] . "</a> and logging in with the username 'admin' and the password 'admin'.  You will then be prompted to change this password.</p><p>After that, please go to the Users tab and create at least one new user who is in the Administrator group.  Then delete the Temp Admin account.  Further configuration instructions are available at the <a href='https://cliniccases.com/help'>ClinicCases site</a></p>";
+
+	$resp = array('error' => false,'message' => 'Installation successful','html' => $html);
+
+	echo json_encode($resp);
+
+}

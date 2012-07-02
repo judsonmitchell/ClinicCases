@@ -368,7 +368,7 @@ $query = $dbh->prepare("ALTER TABLE `cm_contacts` DROP `phone2`, DROP `fax`;");
 
 $query->execute();
 
-$query = $dbh->prepare("ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  ''");
+$query = $dbh->prepare("ALTER TABLE  `cm_contacts` CHANGE  `phone1`  `phone` TEXT NOT NULL DEFAULT  '';DROP TABLE `cm_contacts_types`");
 
 $query->execute();
 
