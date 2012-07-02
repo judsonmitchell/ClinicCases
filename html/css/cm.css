@@ -49,7 +49,7 @@ h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;co
 
 #content_left{float:left;width:42%;margin-top:40px;margin-left:15px;text-align:left;}
 
-#wrapper1 {min-height:760px;width:40%;height:100%;margin-top:7%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;}
+#wrapper1 {min-height:760px;width:40%;height:100%;background-color:rgb(255, 255, 204);margin:auto;border-left:2px solid #e0e0e0;border-right:2px solid #e0e0e0;}
 
 #nav{position:absolute;top:0;left:0;width:150px;height:100%;background-color:gray;}
 
@@ -64,6 +64,15 @@ LI {margin-bottom:20px;margin-top:20px;}
 UL.fr {list-style-top:circle;}
 
 LI.fr {margin-left:15px;margin-bottom:20px;margin-top:20px;}
+
+div.wrapper{width:80%;height:100%;background-color:rgb(255, 255, 204); margin:auto;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
+
+div.login_left{float:left;margin-left:8%;width:40%;height: 99%;text-align: left;padding-top:12%;background-color: transparent;}
+
+div.login_right{float:right;margin-right:8%;width:40%;height: 99%;text-align: left;padding-top:18%;}
+
+div.login_left label{display:inline-block;margin:12px 0 0;width:85px;vertical-align:center;}
+div.prog_name{font-size: 3em;text-shadow: 0 2px 3px gray;}
 
 
 
