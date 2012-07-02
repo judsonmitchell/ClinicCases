@@ -135,7 +135,7 @@
 
 			<p><label>Your Program Name</label><input type="text" name="program_name" value="Your Law Clinic's Name" title="The name of your clinic or organization"></p>
 
-			<p><label>Your School Color</label><input type="text" name="school_color" value="#FFFFFF" title="An rgb or hex value"></p>
+			<p><label>Your School Color</label><input type="text" name="school_color" value="#000000" title="An rgb or hex value"></p>
 
 			<p><label>Timekeeping Unit</label>
 				<select name="t_unit" title="The unit of time used for timekeeping on cases.  5 is the default">
