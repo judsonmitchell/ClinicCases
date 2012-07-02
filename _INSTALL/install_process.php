@@ -1,5 +1,4 @@
 <?php
-require('../db.php');
 
 //Check if docs file is writable
 
@@ -40,6 +39,8 @@ function update_config($vals,$config)
 $new = update_config($_POST,$config);
 
 file_put_contents('../_CONFIG.php', $new);
+
+include('../db.php');
 
 $sql = file_get_contents('default.sql');
 
