@@ -1,6 +1,6 @@
 <?php
-// session_start();
-// require('../auth/session_check.php');
+session_start();
+require('../auth/session_check.php');
 include '../../../db.php';
 
 $temp_username = rand();
