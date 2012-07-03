@@ -1,12 +1,15 @@
-<?php 	include '../db.php';
-		include '../lib/php/html/gen_select.php';
+<?php
+include '../db.php';
+include '../lib/php/html/gen_select.php';
 ?>
 <!DOCTYPE html>
 
 <head>
-	<title>ClinicCases - Online Case Management Software for Law School Clinics</title>
+	<title>ClinicCases - Apply for an Account</title>
 	<meta name="robots" content="noindex">
 	<link rel="stylesheet" href="../html/css/cm.css" type="text/css">
+	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
+
 	<script src="../lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script>
 	<script src="../lib/jqueryui/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
 	<script src="../lib/javascripts/validations.js" type="text/javascript"></script>
@@ -24,73 +27,68 @@
 
 </head>
 
-<body>
-	<div id="content">
+<body class="login">
 
-		<div id="content_left">
+	<div id="content" class="content_login">
 
-			<h1>Set Up Your <br>ClinicCases Account</h1>
-			<p>Please apply for an account only after you have been asked to do so by your clinic instructor. If you have any questions, please contact your <a href="mailto:<?php echo CC_ADMIN_EMAIL; ?>">Law Clinic's adminstrator</a>.</p>
+		<div class="wrapper">
 
-		</div>
+			<div class="new_account_left">
 
-		<div id="content_right">
+				<h1>Set Up Your <br>ClinicCases Account for <?php echo CC_PROGRAM_NAME; ?></h1>
+				<p>Submit the form to the right to apply for a ClinicCases account.  Your application will be reviewed and approved by your administrator. If you have any questions, please contact your <a href="mailto:<?php echo CC_ADMIN_EMAIL; ?>">adminstrator</a>.</p>
 
-			<p>Fields in <span style="color:red">red</span> are required.</p>
+			</div>
 
-			<form name="newAccount" id="newAccount" action="index.php" method="post" onSubmit="return valAcct();">
+			<div class="new_account_right">
 
-			<p><label for "first_name" class="req">First Name</label>
-				<input type="text" name="first_name" id="first_name"></p><br />
+				<p>Fields with an <span style="color:red">asterisk</span> are required.</p>
 
-			<p><label for "last_name" class="req">Last Name</label>
-				<input type="text" name="last_name" id="last_name"></p><br />
+				<form name="newAccount" id="newAccount" action="index.php" method="post" onSubmit="return valAcct();">
 
-			<p><div><label for "email" class="req">Email</label></div>
-				<input type="text" name="email" id="email"></p><br />
+				<p><label for "first_name" class="req">First Name</label>
+					<input type="text" name="first_name" id="first_name"></p><br />
 
-			<p><div><label for "confirm" class="req">Type again to confirm:</label></div>
-				<input type="text" name="confirm" id="confirm"></p>	<br />
+				<p><label for "last_name" class="req">Last Name</label>
+					<input type="text" name="last_name" id="last_name"></p><br />
 
-			<p><div><label for "password" class="req">Password (at least 6 characters)</label></div>
-				<input type="password" name="password" id="password"></p>	<br />
+				<p><label for "email" class="req">Email</label>
+					<input type="text" name="email" id="email"></p><br />
 
-			<p><div><label for "confirm_password" class="req">Type again to confirm:</label></div>
-				<input type="password" name="confirm_password" id="confirm_password"></p>	<br />
+				<p><label for "confirm" class="req">Type again to confirm:</label>
+					<input type="text" name="confirm" id="confirm"></p>	<br />
 
-			<p><div><label for "prof" class="req">Select your professors(s)</label></div>
-				<select class="mult" multiple="multiple" name="assigned_prof[]" id="prof">
+				<p><label for "password" class="req">Password (at least 8 characters)</label>
+					<input type="password" name="password" id="password"></p>	<br />
 
-				<?php gen_select_multiple(); ?>
+				<p><label for "confirm_password" class="req">Type again to confirm:</label>
+					<input type="password" name="confirm_password" id="confirm_password"></p>	<br />
 
-				</select></p><br />
+				<p><label for "grp" class="req">Select your group</label>
+					<select name = "grp" >
 
-			<p><div><label for "mobile" class="req">Mobile Phone (include area code)</label></div>
-				<input type="text" name="mobile" id="mobile"></p><br />
+					<?php $v = '*';group_select($dbh,$v); ?>
 
-			<p><div><label for "home_phone">Home Phone (include area code)</label></div>
-				<input type="text" name="home_phone" id="home_phone"></p><br />
+					</select></p><br />
 
-			<p><div><label for "timezone" class="req">Your Time Zone</label></div>
-				<select id="timezone" name="timezone">
-				<option value = "5" selected = "selected">U.S. Central</option>
-				<option value = "4">U.S. Eastern</option>
-				<option value = "6">U.S. Mountain</option>
-				<option value = "7">U.S. Pacific</option>
-				</select>
-				</p><br />
+				<p><label for "mobile" class="req">Mobile Phone(include area code)</label>
+					<input type="text" name="mobile" id="mobile"></p><br />
 
-			<p><img src="server.php" onclick="javasript:this.src='server.php?'+Math.random();" ></p>
+				<p><label for "home_phone">Home Phone(include area code)</label>
+					<input type="text" name="home_phone" id="home_phone"></p><br />
 
-			<p><div><label for "captcha">Can't read it? Click image.</label></div>
-				<input type="text" name="captcha" id="captcha" value="Enter Text in Graphic"onFocus="this.value='';"></p><br />
+				<p><label for "timezone" class="req">Your Time Zone</label>
+					<select id="timezone" name="timezone">
+					<option value = "5" selected = "selected">U.S. Central</option>
+					<option value = "4">U.S. Eastern</option>
+					<option value = "6">U.S. Mountain</option>
+					<option value = "7">U.S. Pacific</option>
+					</select>
+					</p><br />
 
-			<p><input type="button" id="sbmt" name="sbmt" value="Submit"></p>
+				<p><input type="button" id="sbmt" name="sbmt" value="Submit"></p>
 
-
-
-
-
+			</div>
 
 		</div>
 

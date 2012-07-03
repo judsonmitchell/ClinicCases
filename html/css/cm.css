@@ -75,8 +75,12 @@ div.login_left label{display:inline-block;margin:12px 0 0;width:85px;vertical-al
 div.prog_name{font-size: 3em;text-shadow: 0 2px 3px gray;}
 div.forgot_form a.forgot_close {position:absolute;right:5px;top:10px;outline: none}
 
-
-
+/* Styles for new account */
+div.new_account_left{float:left;margin-left:8%;width:40%;height: 99%;text-align: left;padding-top:1%;background-color: transparent;}
+div.new_account_right{float:right;margin-right:8%;width:40%;height: 99%;text-align: left;padding-top:1%;}
+div.new_account_right ul{list-style-type:circle;}
+div.new_account_right label{display:inline-block;margin:12px 0 0;width:85px;vertical-align:center;}
+label.req:after {color:red;content:" *";}
 
 /* Styles specific to index page */
 
