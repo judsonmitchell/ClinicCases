@@ -63,11 +63,20 @@ $new = update_config($_POST,$config);
 
 file_put_contents('../_CONFIG_template.php', $new);
 
-include('../db.php');
+//See if the db works
+try {
+		$dbh = new PDO("mysql:host=" . $_POST['db_host'] . ";dbname=" . $_POST['db_name'] , $_POST['db_user'], $_POST['db_pass']);
+    }
+catch(PDOException $e)
+    {
+		//400 is sent to trigger an error for ajax requests.
+		header('HTTP/1.1 400 Bad Request');
+
+		echo $e->getMessage();
+    }
 
 $sql = file_get_contents('default.sql');
 
-//See if the db works
 $q = $dbh->prepare($sql);
 
 $q->execute();
