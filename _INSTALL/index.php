@@ -90,14 +90,12 @@
 
 		echo "<p class='good'>People and Uploads directories are writable.  Good.</p>";
 
-		if (!is_writable('../_CONFIG.php'))
+		if (!is_writable('../_CONFIG_template.php'))
 	    {
-		    $uploads = @chmod('../CONFIG.php', 0777);
+		    $uploads = @chmod('../_CONFIG_template.php', 0777);
 		    if ($uploads === false)
 		    {
-		    	die("<p class='config_error'>I was unable to change the permissions on the _CONFIG.php file.  Please do this manually (chmod 777 _CONFIG.php).");
-
-		    	//must be returned to 664 at end of script
+		    	die("<p class='config_error'>I was unable to change the permissions on the _CONFIG_template.php file.  Please do this manually (chmod 777 _CONFIG.php).");
 		    }
 		}
 
