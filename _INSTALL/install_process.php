@@ -33,7 +33,7 @@ if (!is_writable($_POST['doc_path']) || !is_dir($_POST['doc_path']))
 }
 
 //create a backup of the default config file
-$copy = copy('../_CONFIG.php','../_CONFIG.php.bak');
+$copy = copy('../_CONFIG_template.php','../_CONFIG_template.php.bak');
 if (!$copy)
 {
 	$resp = array("error" => true, "message" => "<p class='config_error'>Sorry, I need to create a backup copy of your config file and the server wouldn't let me do that.</p>");
@@ -42,7 +42,7 @@ if (!$copy)
 }
 
 //Write config file
-$config = file_get_contents('../_CONFIG.php');
+$config = file_get_contents('../_CONFIG_template.php');
 
 function update_config($vals,$config)
 {
@@ -61,7 +61,7 @@ function update_config($vals,$config)
 
 $new = update_config($_POST,$config);
 
-file_put_contents('../_CONFIG.php', $new);
+file_put_contents('../_CONFIG_template.php', $new);
 
 include('../db.php');
 
@@ -85,15 +85,17 @@ if ($error[1])
 	$resp = array('error' => true,'message' => 'There was an error adding data to your database.  Here is what the database said:' . $error_string);
 
 	//delete the current config
-	unlink('../_CONFIG.php');
+	unlink('../_CONFIG_template.php');
 
-	copy('../_CONFIG.php.bak','../_CONFIG.php');
+	copy('../_CONFIG_template.php.bak','../_CONFIG_template.php');
 
 	echo json_encode($resp);
 }
 else
 {
-	unlink('../_CONFIG.php.bak');
+	unlink('../_CONFIG_template.php.bak');
+
+	rename('../_CONFIG_template.php', '../_CONFIG.php');
 
 	chmod('../_CONFIG.php', 0664);
 

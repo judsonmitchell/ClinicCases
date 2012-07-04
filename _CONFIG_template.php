@@ -54,15 +54,25 @@ define("CC_EMAIL_HEADERS","From: " . CC_EMAIL_FROM . "\n" . "Reply-To: " . CC_EM
 define("CC_EMAIL_FOOTER","Please log on ClinicCases at " . CC_BASE_URL . " to view the entire message");
 
 //Define case number mask
-	//Possible values:
-	//YYYY or YY for four digit or two digit year
-	//ClinicType (derived from cm_clinic_type table) or CaseType (derived from cm_case_types table)
-	//Number or NumberInfinite - Number resets to one at the beginning of each year; NumberInifinite
-	//does not.
-	//
-	//Your mask must have at least a year value and Number/NumberInfinite, seperated by dash
-	//Default YYYY-Number
+        //Possible values:
+        //YYYY or YY for four digit or two digit year
+        //ClinicType (derived from cm_clinic_type table) or CaseType (derived from cm_case_types table)
+        //Number or NumberInfinite - Number resets to one at the beginning of each year; NumberInifinite
+        //does not.
+        //
+        //Your mask must have at least a year value and Number/NumberInfinite, seperated by dash
+        //Default YYYY-Number
 define("CC_CASE_NUMBER_MASK","%mask%");
+
+//ReCaptcha is used to prevent spam from the newaccounts/index.php form.  It strongly
+//recommended, but not required, to use this feature.  If you need ReCaptcha keys,
+//please get them at http://recaptcha.net
+define("RECAPTCHA_PUBLIC_KEY","%recaptcha_public%");
+define("RECAPTCHA_PRIVATE_KEY","%recaptcha_private%");
+
+//Nothing further needs to be changed.
+
+define("CC_VERSION","Beta 1.0");
 
 //Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.
 
@@ -75,7 +85,8 @@ if ( in_array( strtolower( ini_get( 'magic_quotes_gpc' ) ), array( '1', 'on' ) )
 
 //Error reporting.
 
-ini_set("error_reporting", "false");
-error_reporting(E_ALL|E_STRCT);
+//ini_set("error_reporting", "true");
+//error_reporting(E_ALL|E_STRCT);
+error_reporting(0);
 
 ?>

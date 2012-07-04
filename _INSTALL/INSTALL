@@ -28,9 +28,10 @@ STEPS - New Installation
 5. 	When the installation is complete, log in to your installation of ClinicCases
 	using the username 'admin' and the password 'admin'.  You will be prompted to
 	change the password on this temporary account. Next, go to the users tab and add
-	a new user account for yourself.  Make sure that you put yourself in the Adminstrator group
-	and that you provide your valid email address.  Next, check your email. You should receive
-	an email from your server which contains a temporary password. (Check spam folder as well!).
+	a new user account for yourself.  Make sure that you put yourself in the Adminstrator
+	group, that you make the account 'active', and that you provide your valid email
+	address.  Next, check your email. You should receive an email from your server
+	which contains a temporary password. (Check spam folder as well!).
 
 Log out of ClinicCases and then log in again using your new user name and the password provided.
 You can then change this password by click on the Preferences link in the upper right
