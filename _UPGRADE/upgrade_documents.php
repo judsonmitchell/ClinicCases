@@ -4,8 +4,15 @@
 
 require('../db.php');
 
+ini_set("error_reporting", "true");
+error_reporting(E_ALL|E_STRCT);
+ini_set('memory_limit', '-1');
+
 //Specify the full path to your old ClinicCases doc file
 $path_to_old_docs = '/var/www/cliniccases/docs';
+
+//Specify path to your old installation of ClinicCases
+$path_to_old_cc = '/var/www/cliniccases';
 
 //Check to see if the new doc folder has been created
 if (file_exists(CC_DOC_PATH))
@@ -62,7 +69,7 @@ foreach ($docs as $doc)
 
 	$new_doc_name = $doc['id'] . '.' . $doc['extension'];
 
-    $old_doc_path = $old_file_name;
+    $old_doc_path = $path_to_old_cc . "/" .  $doc['local_file_name'];
 
 	$new_doc_path = CC_DOC_PATH . '/' .  $new_doc_name;
 
