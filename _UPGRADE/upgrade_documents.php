@@ -1,8 +1,8 @@
 <?php
-//Upgrade documents from ClinicCases 6 to 7.  Files are moved out 
+//Upgrade documents from ClinicCases 6 to 7.  Files are moved out
 //of the webroot and the renamed to relevant db id number
 
-require('db.php');
+require('../db.php');
 
 //Specify the full path to your old ClinicCases doc file
 $path_to_old_docs = '/var/www/cliniccases/docs';
@@ -21,9 +21,9 @@ else
 
 //Check to see if the new doc folder is writable
 if (is_writable(CC_DOC_PATH))
-	
+
 	{echo "Good, Your new docs folder is writable.  Let's proceed.\n";}
-	
+
 	else
 
     {die( "Your new docs folder as defined in the config file (CC_DOC_PATH) is not
@@ -65,7 +65,7 @@ foreach ($docs as $doc)
     $old_doc_path = $old_file_name;
 
 	$new_doc_path = CC_DOC_PATH . '/' .  $new_doc_name;
-	
+
 	rename($old_doc_path,$new_doc_path);
 
 	if (!empty($doc['folder']))
@@ -73,13 +73,13 @@ foreach ($docs as $doc)
 	else
 	{$escaped_folder = '';}
 
-    $update_db = $dbh->prepare("UPDATE cm_documents 
+    $update_db = $dbh->prepare("UPDATE cm_documents
     SET local_file_name = :new_doc,folder = :folder	WHERE id = :id ");
-	
+
 	$data = array('new_doc' => $new_doc_name, 'id' => $doc_id, 'folder' => $escaped_folder);
-	
+
 	$update_db->execute($data);
-	
+
 	$done = $done + 1;
 
 	$completed = $done / $count * 100;

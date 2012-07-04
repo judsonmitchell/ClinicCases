@@ -6,6 +6,10 @@
 
 <body  class="login">
 
+<div id="idletimeout">
+                You have been logged off due to 20 minutes inactivity. Please log in again.
+</div>
+
 <div id="notifications"></div>
 
 <div id="content" class="content_login">

@@ -3,6 +3,9 @@ require('../db.php');
 require('../lib/php/utilities/names.php');
 require('../lib/php/utilities/convert_times.php');
 
+ini_set("error_reporting", "true");
+error_reporting(E_ALL|E_STRCT);
+ini_set('memory_limit', '-1');
 
 echo "Beginning upgrade process</br>";
 
@@ -57,6 +60,11 @@ echo "Done updating db fields<br />";
 
 echo "Adding groups table to db</br>";
 
+$super_tabs = serialize(array("Home","Cases","Students","Users","Journals","Board","Utilities","Messages"));
+$admin_tabs = serialize(array("Home","Cases","Students","Users","Board","Utilities","Messages"));
+$student_tabs = serialize(array("Home","Cases","Journals","Board","Utilities","Messages"));
+$prof_tabs = serialize(array("Home","Cases","Students","Journals","Board","Utilities","Messages"));
+
 $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(50) NOT NULL,
@@ -93,20 +101,18 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
   `is_supervised` int(2) NOT NULL COMMENT 'This user works on cases,but is supervised by another user',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Allows admin to create user groups and set definitions' AUTO_INCREMENT=5 ;");
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Allows admin to create user groups and set definitions' AUTO_INCREMENT=5 ;
 
-$query->execute();
+--
+-- Dumping data for table `cm_groups`
+--
 
-$super_tabs = serialize(array("Home","Cases","Students","Users","Journals","Board","Utilities","Messages"));
-$admin_tabs = serialize(array("Home","Cases","Students","Users","Board","Utilities","Messages"));
-$student_tabs = serialize(array("Home","Cases","Journals","Board","Utilities","Messages"));
-$prof_tabs = serialize(array("Home","Cases","Students","Journals","Board","Utilities","Messages"));
-
-$query = $dbh->prepare("INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `add_users`, `delete_users`, `edit_users`,`activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,0,1, 0);");
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0);
+");
 
 $query->execute();
 
@@ -253,14 +259,11 @@ if (stristr($document['local_file_name'], 'http://') || stristr($document['local
 		$update = $dbh->prepare("UPDATE cm_documents SET extension = :ext WHERE id = :id");
 		$data = array(':ext'=>$ext,':id'=>$id);
 		$update->execute($data);
+		$error = $update->errorInfo();
+
 		}
 }
 
-//rename all files in docs directory to the id + extension; update local_file_name to the new name;then move them to new CC_DOC_PATH
-
-	// TODO
-
-$error = $query->errorInfo();
 
 if ($error[1])
 	{echo $error[1];}
