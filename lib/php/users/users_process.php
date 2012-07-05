@@ -50,7 +50,7 @@ switch ($action) {
 			//Notify new user
 			$email = user_email_from_id($dbh,$user);
 
-			$subject = "ClincCases: Your ClinicCases account is now activated.";
+			$subject = "ClinicCases: Your ClinicCases account is now activated.";
 
 			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$user)   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
 
@@ -104,7 +104,7 @@ switch ($action) {
 			//Notify new user
 			$email = $_POST['email'];
 
-			$subject = "ClincCases: Your ClinicCases account is now activated.";
+			$subject = "ClinicCases: Your ClinicCases account is now activated.";
 
 			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$_POST['id'])   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
 
@@ -217,10 +217,9 @@ switch ($action) {
 			//Notify new user
 			$email = $_POST['email'];
 
-			$subject = "ClincCases: Your new account has been created";
+			$subject = "ClinicCases: Your new account has been created";
 
-			$body = "You new ClinicCases account has been created. Your username is $new_username.
-			Your temporary password is $gen_pass.  Please log on to ClinicCases at ". CC_BASE_URL ." . Please then change your password by clicking on Preferences.";
+			$body = "You new ClinicCases account has been created. Your username is $new_username.  Your temporary password is $gen_pass .  Please log on to ClinicCases at ". CC_BASE_URL ." . Please then change your password by clicking on Preferences.";
 
 			mail($email,$subject,$body,CC_EMAIL_HEADERS);
 			//TODO test on mail server
