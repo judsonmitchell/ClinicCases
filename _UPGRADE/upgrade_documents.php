@@ -94,4 +94,24 @@ foreach ($docs as $doc)
 	echo round($completed, 2) . "% completed\n";
 }
 
+//Now url encode the folder names
+$q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %'");
+
+$q->execute();
+
+$fs = $q->fetchAll(PDF::FETCH_ASSOC);
+
+foreach ($fs as $f) {
+	$escaped_folder = rawurlencode($f['folder']);
+
+	$update = $dbh->prepare("UPDATE cm_documents SET folder = :escaped WHERE id = :id");
+
+	$data = array('escaped' => $escaped_folder,'id' => $f['id']);
+
+	$update->execute($data);
+
+}
+
+echo "Done";
+
 //TODO This still leaves files that have been uploaded via the board;  need to address these
