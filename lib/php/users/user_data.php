@@ -18,6 +18,21 @@ function user_email($dbh,$user)
 
 }
 
+function user_email_from_id($dbh,$id)
+{
+	$q = $dbh->prepare("SELECT email FROM cm_users WHERE id = ?");
+
+	$q->bindParam(1, $id);
+
+	$q->execute();
+
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+
+	return $data['email'];
+
+}
+
+
 //Return all users in a group
 function all_users_in_group($dbh,$group)
 {

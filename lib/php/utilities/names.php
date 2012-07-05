@@ -91,6 +91,17 @@ function username_to_userid ($dbh,$username)
 	return $user_id['id'];
 }
 
+function userid_to_username ($dbh,$id)
+{
+	$q = $dbh->prepare("SELECT id,username FROM cm_users WHERE id = '$id'");
+
+	$q->execute();
+
+	$user = $q->fetch(PDO::FETCH_ASSOC);
+
+	return $user['username'];
+}
+
 //Used in Users page.  Creates array of group names and titles.  Saves having to do
 //a db call for each row
 function group_display_name_array($dbh)

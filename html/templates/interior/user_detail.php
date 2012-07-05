@@ -175,7 +175,7 @@
 		  Yes triggers the alert to admins to check the user.  Here, the admin is creating
 		  account, so it's not necessary.
 	-->
-	<input type="hidden" name="new" value="no">
+	<input type="hidden" name="new" value="<?php echo $new ;?>">
 
 	<input type="hidden" name="action" value="<?php echo $view; ?>">
 

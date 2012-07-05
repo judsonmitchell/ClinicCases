@@ -185,10 +185,7 @@ else
 	//Send email
 	$subject = "Clinic Cases " . CC_PROGRAM_NAME . ": Thanks for applying";
 
-	$message = "Your application for ClinicCases has been received.  It will be reviewed
-	by your adminstrator.  When it is approved, your adminstrator will send you another
-	email letting you know your accout is active.\n\nIn the meantime, feel free to contact
-	your adminstrator at " . CC_ADMIN_EMAIL . "with any questions.";
+	$message = "Your application for ClinicCases has been received.  It will be reviewed by your adminstrator.  When it is approved, your adminstrator will send you another email letting you know your accout is active.\n\nIn the meantime, feel free to contact your adminstrator at " . CC_ADMIN_EMAIL . " with any questions.";
 
 	$headers = 'From: ' . CC_EMAIL_FROM . "\n" .
    'Reply-To: ' . CC_EMAIL_FROM . "\n" .

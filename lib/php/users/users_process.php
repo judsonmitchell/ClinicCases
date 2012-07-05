@@ -4,6 +4,8 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 require('../auth/pbkdf2.php');
+require('../utilities/names.php');
+require('../users/user_data.php');
 
 function bindPostVals($query_string)
 {
@@ -44,6 +46,15 @@ switch ($action) {
 			$data = array('id' => $user);
 
 			$q->execute($data);
+
+			//Notify new user
+			$email = user_email_from_id($dbh,$user);
+
+			$subject = "ClincCases: Your ClinicCases account is now activated.";
+
+			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$user)   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
+
+			mail($email,$subject,$body,CC_EMAIL_HEADERS);
 		}
 
 		$error = $q->errorInfo();
@@ -86,6 +97,27 @@ switch ($action) {
 		$q->execute($post['values']);
 
 		$error = $q->errorInfo();
+
+		//see if new was set to yes; if so send email.
+		if ($_POST['new'] === 'yes' || $_POST['status'] === 'active')
+		{
+			//Notify new user
+			$email = $_POST['email'];
+
+			$subject = "ClincCases: Your ClinicCases account is now activated.";
+
+			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$_POST['id'])   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
+
+			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+
+			//Set to not new
+			$q = $dbh->prepare("UPDATE cm_users SET new = '' WHERE id = ?");
+
+			$q->bindParam(1,$_POST['id']);
+
+			$q->execute();
+
+		}
 
 		break;
 
@@ -209,7 +241,7 @@ if($error[1])
 		{
 			switch ($action) {
 				case 'activate':
-					$return = array('message'=>'Users activated');
+					$return = array('message'=>'Users activated and notified by email.');
 					echo json_encode($return);
 					break;
 
@@ -224,7 +256,10 @@ if($error[1])
 					break;
 
 				case 'update':
-					$return = array('message'=>'User edited.');
+					if ($_POST['new'] === 'yes' || $_POST['status'] === 'active')
+						{$return = array('message' => 'User activated and notified by email.');}
+					else
+						{$return = array('message'=>'User edited.');}
 					echo json_encode($return);
 					break;
 
