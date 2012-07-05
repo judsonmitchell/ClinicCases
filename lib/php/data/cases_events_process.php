@@ -46,7 +46,7 @@ if (isset($_POST['end']))
 	}
 
 if (isset($_POST['responsibles']))
-	{$responsibles[] = $_POST['responsibles'];}
+	{$responsibles = $_POST['responsibles'];}
 
 if (isset($_POST['notes']))
 	{$notes = $_POST['notes'];}

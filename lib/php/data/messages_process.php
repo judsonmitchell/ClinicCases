@@ -69,15 +69,15 @@ if (isset($_POST['reply_text']))
 	{$reply_text = $_POST['reply_text'];}
 
 if (isset($_POST['forward_tos']))
-	{$forward_tos[] = $_POST['forward_tos'];}
+	{$forward_tos = $_POST['forward_tos'];}
 
 if (isset($_POST['new_tos']))
-	{$new_tos[] = $_POST['new_tos'];}
+	{$new_tos = $_POST['new_tos'];}
 
 if (isset($_POST['new_ccs']))
-	{$new_ccs[] = $_POST['new_ccs'];}
+	{$new_ccs = $_POST['new_ccs'];}
 	else
-	{$new_ccs[] = null;}
+	{$new_ccs = null;}
 
 if (isset($_POST['new_file_msg']))
 	{$assoc_case = $_POST['new_file_msg'];}
