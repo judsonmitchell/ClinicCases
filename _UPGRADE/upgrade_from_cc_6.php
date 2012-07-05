@@ -60,10 +60,10 @@ echo "Done updating db fields<br />";
 
 echo "Adding groups table to db</br>";
 
-$super_tabs = serialize(array("Home","Cases","Students","Users","Journals","Board","Utilities","Messages"));
-$admin_tabs = serialize(array("Home","Cases","Students","Users","Board","Utilities","Messages"));
+$super_tabs = serialize(array("Home","Cases","Group","Users","Journals","Board","Utilities","Messages"));
+$admin_tabs = serialize(array("Home","Cases","Users","Board","Utilities","Messages"));
 $student_tabs = serialize(array("Home","Cases","Journals","Board","Utilities","Messages"));
-$prof_tabs = serialize(array("Home","Cases","Students","Journals","Board","Utilities","Messages"));
+$prof_tabs = serialize(array("Home","Cases","Group","Journals","Board","Utilities","Messages"));
 
 $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `id` int(10) NOT NULL AUTO_INCREMENT,

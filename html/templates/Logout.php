@@ -30,7 +30,7 @@
 
 	<body class="login">
 
-		<div id="content" class="content_login">
+		<div id="content" class="content_login" style="height:560px">
 
 				<div class="wrapper">
 

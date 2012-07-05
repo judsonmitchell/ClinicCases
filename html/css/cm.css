@@ -66,8 +66,8 @@ LI.fr {margin-left:15px;margin-bottom:20px;margin-top:20px;}
 
 /*Styles for login */
 .login{background-color:#FFF;}
-.content_login{border:0px !important;margin-top: 25px !important;}
-div.wrapper{width:80%;height:100%;background-color:rgb(195, 217, 255); margin:auto;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;min-height: 480px}
+.content_login{border:0px !important;margin-top: 25px !important;min-height: 480px}
+div.wrapper{width:80%;height:100%;background-color:rgb(195, 217, 255); margin:auto;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.login_left{float:left;margin-left:8%;width:40%;height: 99%;text-align: left;padding-top:12%;background-color: transparent;}
 div.login_right{float:right;margin-right:8%;width:40%;height: 99%;text-align: left;padding-top:18%;}
 div.login_right ul{list-style-type:circle;}
