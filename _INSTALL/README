@@ -9,6 +9,7 @@ REQUIREMENTS:
 3. PHP version 5.2 or higher,compiled with GD libraries
 4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
+7. Magic Quotes must be turned off in your php.ini or ClinicCases will not work.
 
 STEPS - New Installation
 
