@@ -190,8 +190,8 @@ else
 	email letting you know your accout is active.\n\nIn the meantime, feel free to contact
 	your adminstrator at " . CC_ADMIN_EMAIL . "with any questions.";
 
-	$headers = 'From: ' . CC_DEFAULT_EMAIL . "\n" .
-   'Reply-To: ' . CC_DEFAULT_EMAIL . "\n" .
+	$headers = 'From: ' . CC_EMAIL_FROM . "\n" .
+   'Reply-To: ' . CC_EMAIL_FROM . "\n" .
    'X-Mailer: PHP/' . phpversion();
 
 	mail($_POST['email'],$subject,$message,$headers);
