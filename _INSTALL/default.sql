@@ -211,8 +211,7 @@ CREATE TABLE IF NOT EXISTS `cm_columns` (
   `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
   `required` int(11) NOT NULL DEFAULT '0' COMMENT 'ClinicCases cannot function without this field',
   `display_order` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=44 ;
 
 --

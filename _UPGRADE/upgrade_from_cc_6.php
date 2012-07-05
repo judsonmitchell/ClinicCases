@@ -161,6 +161,63 @@ echo "Adding columns table<br />";
 
 $gender_choices =  serialize(array("M" => "Male","F" => "Female"));
 $race_choices = serialize(array("AA" => "African-American", "W" => "White", "H" => "Hispanic", "A" => "Asian", "O" => "Other"));
+$phone_choices = serialize(array("home" => "Home","work"=>"Work","mobile"=>"Mobile","fax"=>"Fax","other"=>"Other"));
+$email_choices = serialize(array("Home" => "Home", "Work" => "Work", "Other" => "Other"));
+$state_choices = serialize(array('AL'=>"Alabama",
+			'AK'=>"Alaska",
+			'AZ'=>"Arizona",
+			'AR'=>"Arkansas",
+			'CA'=>"California",
+			'CO'=>"Colorado",
+			'CT'=>"Connecticut",
+			'DE'=>"Delaware",
+			'DC'=>"District Of Columbia",
+			'FL'=>"Florida",
+			'GA'=>"Georgia",
+			'HI'=>"Hawaii",
+			'ID'=>"Idaho",
+			'IL'=>"Illinois",
+			'IN'=>"Indiana",
+			'IA'=>"Iowa",
+			'KS'=>"Kansas",
+			'KY'=>"Kentucky",
+			'LA'=>"Louisiana",
+			'ME'=>"Maine",
+			'MD'=>"Maryland",
+			'MA'=>"Massachusetts",
+			'MI'=>"Michigan",
+			'MN'=>"Minnesota",
+			'MS'=>"Mississippi",
+			'MO'=>"Missouri",
+			'MT'=>"Montana",
+			'NE'=>"Nebraska",
+			'NV'=>"Nevada",
+			'NH'=>"New Hampshire",
+			'NJ'=>"New Jersey",
+			'NM'=>"New Mexico",
+			'NY'=>"New York",
+			'NC'=>"North Carolina",
+			'ND'=>"North Dakota",
+			'OH'=>"Ohio",
+			'OK'=>"Oklahoma",
+			'OR'=>"Oregon",
+			'PA'=>"Pennsylvania",
+			'RI'=>"Rhode Island",
+			'SC'=>"South Carolina",
+			'SD'=>"South Dakota",
+			'TN'=>"Tennessee",
+			'TX'=>"Texas",
+			'UT'=>"Utah",
+			'VT'=>"Vermont",
+			'VA'=>"Virginia",
+			'WA'=>"Washington",
+			'WV'=>"West Virginia",
+			'WI'=>"Wisconsin",
+			'WY'=>"Wyoming"));
+
+$per_choices = serialize(array("day" => "Day", "week" => "Week", "month" => "Month","year" => "Year"));
+$pd_choices = serialize(array("plaintiff" => "Plainiff", "defendant" => "Defendant", "other" => "Other"));
+
 $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_columns` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `db_name` varchar(50) NOT NULL,
@@ -171,8 +228,7 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_columns` (
   `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
   `required` int(11) NOT NULL DEFAULT '0' COMMENT 'ClinicCases cannot function without this field',
   `display_order` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=41 ;
 
 --
@@ -189,34 +245,33 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (8, 'date_open', 'Date Open', 'true', 'date', '', 'true', 1, 8),
 (9, 'date_close', 'Date Close', 'true', 'date', '', 'true', 1, 41),
 (10, 'case_type', 'Case Type', 'true', 'select', '', 'true', 1, 10),
+(41, 'adverse_parties', 'Adverse Party', 'true', 'multi-text', '', 'false', 1, 33),
 (11, 'clinic_type', 'Clinic Type', 'true', 'select', '', 'false', 0, 11),
 (12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0, 12),
 (13, 'address2', 'Address 2', 'false', 'text', '', 'false', 0, 13),
 (14, 'city', 'City', 'false', 'text', '', 'false', 0, 14),
-(15, 'state', 'State', 'false', 'text', '', 'false', 0, 15),
+(15, 'state', 'State', 'false', 'select', '$state_choices', 'false', 0, 15),
 (16, 'zip', 'Zip', 'false', 'text', '', 'false', 0, 16),
-(17, 'phone1', 'Phone 1', 'false', 'text', '', 'false', 0, 17),
-(18, 'phone2', 'Phone 2', 'false', 'text', '', 'false', 0, 18),
-(19, 'email', 'Email', 'true', 'text', '', 'false', 0, 19),
+(17, 'phone', 'Phone', 'true', 'dual', '$phone_choices', 'false', 1, 17),
+(19, 'email', 'Email', 'true', 'dual', '$email_choices', 'false', 1, 19),
 (20, 'ssn', 'SSN', 'true', 'text', '', 'false', 0, 20),
 (21, 'dob', 'DOB', 'true', 'text', '', 'false', 0, 21),
 (22, 'age', 'Age', 'true', 'text', '', 'false', 0, 22),
 (23, 'gender', 'Gender', 'true', 'select', '$gender_choices', 'false', 0, 23),
 (24, 'race', 'Race', 'true', 'select', '$race_choices', 'false', 0, 24),
 (25, 'income', 'Income', 'false', 'text', '', 'false', 0, 25),
-(26, 'per', 'Per', 'false', 'text', '', 'false', 0, 26),
+(26, 'per', 'Per', 'false', 'select', '$per_choices', 'false', 0, 26),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
-(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'text', '', 'false', 0, 28),
+(28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'select', '$pd_choices', 'false', 0, 28),
 (29, 'court', 'Court', 'true', 'select', '', 'false', 0, 29),
 (30, 'section', 'Section', 'false', 'text', '', 'false', 0, 30),
 (31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
 (32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
-(33, 'notes', 'Notes', 'false', 'text', '', 'false', 0, 33),
+(33, 'notes', 'Notes', 'false', 'textarea', '', 'false', 0, 33),
 (36, 'dispo', 'Disposition', 'true', 'select', '', 'true', 0, 42),
-(38, 'close_notes', 'Closing Notes', 'false', 'text', '', 'false', 0, 44),
+(38, 'close_notes', 'Closing Notes', 'false', 'textarea', '', 'false', 0, 44),
 (39, 'referral', 'Referred By', 'true', 'text', '', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
-(41, 'adverse_parties', 'Adverse Party', 'true', 'text', '', 'false', 1, 32.5)
 
 ");
 
@@ -514,25 +569,6 @@ echo "Done adding clinic type table and case type code field. <br />";
 
 echo "Cleaning up db tables.<br />";
 
-$q = $dbh->prepare("SELECT * FROM cm_dispos");
-
-$q->execute();
-
-$dispos = $q->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($dispos as $dispo) {
-
-	$array[$dispo['dispo']] = $dispo['dispo'];
-
-}
-
-$dispo_string = serialize($array);
-
-$update = $dbh->prepare("UPDATE cm_columns SET select_options = '$dispo_string' WHERE db_name = 'dispo'");
-
-$update->execute();
-
-$q = $dbh->prepare("ALTER TABLE  `cm_dispos` ADD  `dispo_code` VARCHAR( 200 ) NOT NULL;UPDATE cm_dispos SET dispo_code = dispo");
 
 //now do types
 
@@ -750,11 +786,11 @@ $q = $dbh->prepare("SELECT * FROM cm_dispos");
 
 $q->execute();
 
-$courts = $q->fetchAll(PDO::FETCH_ASSOC);
+$dispos = $q->fetchAll(PDO::FETCH_ASSOC);
 
 $arr = array();
 
-foreach ($courts as $c) {
+foreach ($dispos as $c) {
 	$arr[] =$c['dispo'];
 }
 
