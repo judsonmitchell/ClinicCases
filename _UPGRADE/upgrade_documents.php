@@ -99,7 +99,7 @@ $q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %'");
 
 $q->execute();
 
-$fs = $q->fetchAll(PDF::FETCH_ASSOC);
+$fs = $q->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($fs as $f) {
 	$escaped_folder = rawurlencode($f['folder']);
