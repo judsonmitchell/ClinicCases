@@ -31,7 +31,7 @@
 
 	<p><label>Group:</label></p>
 
-	<p><?php $grp = get_group_title($data['group'],$dbh); echo $grp ?> </p>
+	<p><?php $grp = get_group_title($data['grp'],$dbh); echo $grp ?> </p>
 
 	<p><label>Date Assigned:</label></p>
 
