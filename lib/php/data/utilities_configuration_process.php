@@ -102,12 +102,9 @@ switch ($type) {
 		if ($_POST['case'][0] == '')
 		{
 			unset($_POST['case'][0]);
+			unset($_POST['case_code'][0]);
 		}
-		else
-		{
-			array_unshift($_POST['case'], '');
-			unset($_POST['case'][0]);
-		}
+
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_case_types`");
@@ -119,10 +116,14 @@ switch ($type) {
 		if ($error[1]){$result_errors[] = $error[1];}
 
 		//update db
-		foreach ($_POST['case'] as $key => $value) {
-			$update = $dbh->prepare('INSERT INTO cm_case_types (`id`,`type`) VALUES (NULL,?)');
+		$cases = array_combine($_POST['case_code'], $_POST['case']);
+
+		foreach ($cases as $key => $value) {
+			$update = $dbh->prepare('INSERT INTO cm_case_types (`id`,`type`,`case_type_code`) VALUES (NULL,?,?)');
 
 			$update->bindParam(1,$value);
+
+			$update->bindParam(2,$key);
 
 			$update->execute();
 
@@ -132,7 +133,7 @@ switch ($type) {
 		}
 
 		//update column definition
-		$s = serialize($_POST['case']);
+		$s = serialize($cases);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'case_type'");
 		$col_update->bindParam(1,$s);
 		$col_update->execute();

@@ -47,14 +47,14 @@ function formatCaseData(thisPanel,type)
         if (cnVal.indexOf("ClinicType") != -1)
             {
                 thisPanel.find('select[name="clinic_type"]').change(function(){
-                cN.val(cnVal.replace('ClinicType',$(this).val()));
+                cN.val(cnVal.replace('ClinicType',$(this).find('option:selected').attr('data-code')));
                 });
             }
 
         if (cnVal.indexOf("CaseType") != -1)
             {
                 thisPanel.find('select[name="case_type"]').change(function(){
-                cN.val(cnVal.replace('CaseType',$(this).val()));
+                cN.val(cnVal.replace('CaseType',$(this).find('option:selected').attr('data-code')));
                 });
             }
 

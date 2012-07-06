@@ -127,9 +127,9 @@
 							foreach ($s as $key => $val) {
 
 							if ($val == $value)
-								{echo "<option value = '$val' selected=selected>$val</option>";}
+								{echo "<option value = '$val' data-code='$key' selected=selected>$val</option>";}
 							else
-								{echo "<option value = '$val'>$val</option>";}
+								{echo "<option value = '$val' data-code='$key'>$val</option>";}
 
 						} ?>
 

@@ -8,11 +8,20 @@
 
 			<form name = "case_form" class = "config_form" data-type="case">
 
-				<p><input name="case[]" type="text" class="val_add" title="Add a new case type"><a href="#" class="change_config add" title="Add a new case_type"><img src="html/ico/add.png"></a></p>
+				<p>
+					<label>Case Type Code</label>
+					<input name="case_code[]" class="cl_code" type="text" maxlength="4" title="Add a new case type code (4 letters max)">
+
+					<label>Case Type</label>
+					<input name="case[]" type="text" class="val_add" title="Add a new case type"><a href="#" class="change_config add" title="Add a new case_type"><img src="html/ico/add.png"></a></p>
 
 				<?php foreach($case_types as $ct){extract($ct)?>
 
 				<p>
+					<label>Case Type Code</label>
+					<input name="case_code[]" class="cl_code" type="text" value="<?php echo $case_type_code; ?>" maxlength="4">
+
+					<label>Case Type</label>
 					<input name="case[]" type="text" value="<?php echo $type;?>" data-id="<?php echo $id; ?>">
 
 					<a href="#" class="change_config" title="Delete <?php echo $type;?>"><img src="html/ico/cancel.png"></a>
