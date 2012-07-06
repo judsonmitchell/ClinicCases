@@ -24,8 +24,8 @@ $(document).ready(function() {
     //Deal with IE
     if ($('html').hasClass('ie7') || $('html').hasClass('ie6'))
     {
-        var warn = "<p>Sorry, your browser is out of date and cannot display with ClinicCases.  Please either <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/'>update your version of Internet Explorer</a> or, even better,install <a href='http://www.google.com/chrome'>Google Chrome</a>.</p>";
-        $('content').html(warn);
+        var warn = "<p>Sorry, your browser is out of date and cannot display ClinicCases.  Please either <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/'>update your version of Internet Explorer</a> or, even better, install <a href='http://www.google.com/chrome'>Google Chrome</a>.</p>";
+        $('#content').html(warn);
     }
 
     //Round corner
