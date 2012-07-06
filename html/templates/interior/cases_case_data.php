@@ -119,7 +119,7 @@
 
 					<select name = "<?php echo $db_name; ?>">
 
-						<option value="" <?php if($type == 'new'){echo "selected=selected";}?>> --- </option>
+						<option value="" <?php if($type == 'new'){echo "selected=selected";} //identify new users?>> --- </option>
 
 						<?php
 							$s = unserialize($select_options);

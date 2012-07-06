@@ -14,6 +14,12 @@ switch ($type) {
 		{
 			unset($_POST['court'][0]);
 		}
+		else
+		//Array must start at index 1 for html purposes, so:
+		{
+			array_unshift($_POST['court'], '');
+			unset($_POST['court'][0]);
+		}
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_courts`");
@@ -51,6 +57,11 @@ switch ($type) {
 		//if first array element is empty, delete it
 		if ($_POST['dispo'][0] == '')
 		{
+			unset($_POST['dispo'][0]);
+		}
+		else
+		{
+			array_unshift($_POST['dispo'], '');
 			unset($_POST['dispo'][0]);
 		}
 
@@ -131,6 +142,11 @@ switch ($type) {
 		//if first array element is empty, delete it
 		if ($_POST['referral'][0] == '')
 		{
+			unset($_POST['referral'][0]);
+		}
+		else
+		{
+			array_unshift($_POST['referral'], '');
 			unset($_POST['referral'][0]);
 		}
 
