@@ -75,7 +75,7 @@
 		    $people = @chmod('../people/', 0777);
 		    if ($people === false)
 		    {
-		    	die("<p class='config_error'>I was unable to change the permissions on the 'people' directory.  This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p> <pre>cd /YOURPATH/cliniccases</pre><pre>sudo chown -R www-data:www-data .*</pre><p class='config_error'>Please fix this to proceed.</p>");
+		    	die("<p class='config_error'>I was unable to change the permissions on the 'people' directory.  This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p> <pre>cd /YOURPATH/cliniccases</pre><pre>sudo chown -R www-data:www-data .</pre><p class='config_error'>Please fix this to proceed.</p>");
 		    }
 		}
 
