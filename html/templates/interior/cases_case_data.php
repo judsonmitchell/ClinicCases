@@ -126,10 +126,10 @@
 
 							foreach ($s as $key => $val) {
 
-							if ($key == $value)
-								{echo "<option value = '$key' selected=selected>$val</option>";}
+							if ($val == $value)
+								{echo "<option value = '$val' selected=selected>$val</option>";}
 							else
-								{echo "<option value = '$key'>$val</option>";}
+								{echo "<option value = '$val'>$val</option>";}
 
 						} ?>
 
