@@ -97,6 +97,50 @@ switch ($type) {
 
 		break;
 
+	case 'case':
+		//if first array element is empty, delete it
+		if ($_POST['case'][0] == '')
+		{
+			unset($_POST['case'][0]);
+		}
+		else
+		{
+			array_unshift($_POST['case'], '');
+			unset($_POST['case'][0]);
+		}
+
+		//clear old values
+		$q = $dbh->prepare("TRUNCATE TABLE  `cm_case_types`");
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		if ($error[1]){$result_errors[] = $error[1];}
+
+		//update db
+		foreach ($_POST['case'] as $key => $value) {
+			$update = $dbh->prepare('INSERT INTO cm_case_types (`id`,`type`) VALUES (NULL,?)');
+
+			$update->bindParam(1,$value);
+
+			$update->execute();
+
+			$error = $update->errorInfo();
+
+			if ($error[1]){$result_errors[] = $error[1];}
+		}
+
+		//update column definition
+		$s = serialize($_POST['case']);
+		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'case_type'");
+		$col_update->bindParam(1,$s);
+		$col_update->execute();
+		$error = $col_update->errorInfo();
+		if ($error[1]){$result_errors[] = $error[1];}
+
+		break;
+
 	case 'clinic':
 		//if first array element is empty, delete it
 		if ($_POST['clinic_code'][0] == '')
@@ -208,6 +252,11 @@ else
 
 		case 'clinic':
 			$response = array('error' => false, "message" => 'Your clinics have been updated.');
+			echo json_encode($response);
+			break;
+
+		case 'case':
+			$response = array('error' => false, "message" => 'Your case types have been updated.');
 			echo json_encode($response);
 			break;
 	}

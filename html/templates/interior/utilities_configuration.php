@@ -2,6 +2,32 @@
 
 	<div class="config_item">
 
+		<div id="case">
+
+			<a href="#" class="config_item_link closed">Change Case Types</a>
+
+			<form name = "case_form" class = "config_form" data-type="case">
+
+				<p><input name="case[]" type="text" class="val_add" title="Add a new case type"><a href="#" class="change_config add" title="Add a new case_type"><img src="html/ico/add.png"></a></p>
+
+				<?php foreach($case_types as $ct){extract($ct)?>
+
+				<p>
+					<input name="case[]" type="text" value="<?php echo $type;?>" data-id="<?php echo $id; ?>">
+
+					<a href="#" class="change_config" title="Delete <?php echo $type;?>"><img src="html/ico/cancel.png"></a>
+				</p>
+
+				<? } ?>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	<div class="config_item">
+
 		<div id="courts">
 
 			<a href="#" class="config_item_link closed">Change Courts</a>
