@@ -246,14 +246,14 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (26, 'per', 'Per', 'false', 'select', 'a:4:{s:3:"day";s:3:"Day";s:4:"week";s:4:"Week";s:5:"month";s:5:"Month";s:4:"year";s:4:"Year";}', 'false', 0, 26),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
 (28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'select', 'a:3:{s:9:"plaintiff";s:9:"Plaintiff";s:9:"defendant";s:9:"Defendant";s:5:"other";s:5:"Other";}', 'false', 0, 28),
-(29, 'court', 'Court', 'true', 'select', 'a:2:{i:0;s:38:"Federal Court for the Eastern District";i:1;s:14:"Superior Court";}', 'false', 0, 29),
+(29, 'court', 'Court', 'true', 'select', 'a:4:{i:1;s:10:"City Court";i:2;s:39:"Criminal Court for the County of Utopia";i:3;s:38:"Federal Court for the Eastern District";i:4;s:15:"Superior Court ";}', 'false', 0, 29),
 (30, 'section', 'Section', 'false', 'text', '', 'false', 0, 30),
 (31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
 (32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
 (33, 'notes', 'Notes', 'false', 'textarea', '', 'false', 0, 33),
-(36, 'dispo', 'Disposition', 'true', 'select', 'a:5:{i:0;s:11:"Advice Only";i:1;s:16:"Judgment Granted";i:2;s:6:"Guilty";i:3;s:10:"Not Guilty";i:4;s:15:"Client Withdrew";}', 'true', 0, 42),
+(36, 'dispo', 'Disposition', 'true', 'select', 'a:6:{i:1;s:15:"Judgment Denied";i:2;s:11:"Advice Only";i:3;s:15:"Client Withdrew";i:4;s:6:"Guilty";i:5;s:16:"Judgment Granted";i:6;s:10:"Not Guilty";}', 'true', 0, 42),
 (38, 'close_notes', 'Closing Notes', 'false', 'textarea', '', 'false', 0, 44),
-(39, 'referral', 'Referred By', 'true', 'text', 'a:3:{i:0;s:15:"Social Services";i:1;s:3:"LSC";i:2;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
+(39, 'referral', 'Referred By', 'true', 'select', 'a:4:{i:1;s:16:"Pro Bono Project";i:2;s:15:"Social Services";i:3;s:3:"LSC";i:4;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
 
 -- --------------------------------------------------------
