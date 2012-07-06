@@ -73,7 +73,7 @@ switch ($action) {
 		if (!empty($_POST['date_close']))
 			{$open_close = 'close';}
 		else
-			{$open_close = 'edit';}
+			{$open_close = 'open';}
 
 		$post = bindPostVals($_POST,$open_close);
 
@@ -110,7 +110,7 @@ switch ($action) {
 		if (!empty($_POST['date_close']))
 			{$open_close = 'close';}
 		else
-			{$open_close = 'open';}
+			{$open_close = 'edit';}
 
 		$post = bindPostVals($_POST,$open_close);
 
@@ -210,7 +210,12 @@ else
 					. " " . $_POST['last_name'];
 				}
 
-			$return = array("message" => "$case_name case edited.","error" => false);
+				if ($open_close === 'edit')
+				{$text = 'edited';}
+					else
+				{$text = 'closed';}
+
+			$return = array("message" => "$case_name case $text.","error" => false);
 			echo json_encode($return);
 
 		break;
