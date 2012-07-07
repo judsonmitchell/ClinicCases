@@ -498,6 +498,7 @@ $('div.user_widget button.user-action-adduser-button').live('click', function() 
             $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': usersCaseId});
             $('div.user_widget').hide();
             notify(data);
+            oTable.fnReloadAjax();
         }
     });
 });
@@ -521,6 +522,7 @@ $('div.user_widget button.user-action-button').live('click', function() {
                         $("div.user_widget").hide();
                         notify(data);
                         $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': caseId[1]});
+                        oTable.fnReloadAjax();
                     }});
 
                 $(this).dialog("close");

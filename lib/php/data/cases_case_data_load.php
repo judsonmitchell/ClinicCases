@@ -8,6 +8,7 @@ if (isset($_POST['id'])) {
 	$case_id = $_POST['id'];
 }
 
+
 if (isset($_POST['type'])) {
 	$type = $_POST['type'];
 }
@@ -31,10 +32,13 @@ $data = null;
 
 foreach ($columns as $col) {
 	//push the value of the field in case_data onto $columns
-	$field =  $col['db_name'];
-	$field_value = $case_data[$field];
-	$col['value'] = $field_value;
-	$data[] = $col;
+	if ($col['db_name'] !== 'assigned_users')//we don't want assigned users in this view
+	{
+		$field =  $col['db_name'];
+		$field_value = $case_data[$field];
+		$col['value'] = $field_value;
+		$data[] = $col;
+	}
 }
 
 include '../../../html/templates/interior/cases_case_data.php';

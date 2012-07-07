@@ -6,6 +6,8 @@ require('../auth/session_check.php');
 require('../../../db.php');
 require('user_data.php');
 require('../utilities/names.php');
+require('update_case_with_users.php');
+
 
 $case_id = $_GET['case_id'];
 $user_array = $_GET['users_add'];
@@ -103,9 +105,10 @@ foreach ($user_array as $user)
 				$insert_thread->execute();
 
 		}
-
-
 	}
+
+//Add current users to cm table
+update_case_with_users($dbh,$case_id);
 
 
 //Handle mysql errors

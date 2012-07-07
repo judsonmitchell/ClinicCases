@@ -72,10 +72,10 @@ $user = $_SESSION['login'];
 
 							foreach ($data as $key => $value) {
 
-								$make_string .= "$key ($value) ";
+								$make_string .= "$key, ";
 							}
 
-							$result[$col] = $make_string;
+							$result[$col] = rtrim($make_string, ' ,');
 						}
 
 						//Then check for rows containing dates
