@@ -88,6 +88,13 @@ $(document).ready(function() {
                     $('span.fc-button-month').before('<a href="feeds/ical.php?key=' + $('#home_nav').attr('data-key') + '" target="_new"><img class="ical" title="Your iCal feed" src="html/ico/ical.png"></a>');
                     }
                 },
+                dayClick: function(date, allDay, jsEvent, view) {
+                    console.log(date);
+                    $('#quick_add').trigger('click');
+                    $('#quick_add_nav a:eq(1)').trigger('click');
+                    $('#ev_start').datetimepicker('setDate',date);
+
+                },
                 eventClick: function(event) {
                     if (event.allDay === false)
                     {
@@ -395,6 +402,7 @@ $(document).ready(function() {
         }).find('p.error').html('');
         //Put date back to default - today
         $('#cn_date').datepicker('setDate', new Date());
+        $('#ev_start').datetimepicker('setDate','');
         //Reset case select value to Non-Case time
         $('select#cn_case').val('NC');
         $('input.ui-autocomplete-input').val($("select#cn_case option:selected").text());
