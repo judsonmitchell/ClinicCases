@@ -163,7 +163,12 @@
 			}
 
 			if (empty($contacts))
-				{echo "<p>No contacts found.</p>";}
+				{
+					if (isset($q))
+					{echo "<p>No contacts found matching <i>$q</i></p>";}
+					else
+					{echo "<p>No contacts in this case</p>";}
+				}
 ?>
 
 </div>

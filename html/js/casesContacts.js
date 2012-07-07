@@ -313,6 +313,11 @@ $('input.contacts_search').live('keyup', function() {
 
         resultTarget.scrollTop(0);
 
+        if (search.length)
+        {
+            resultTarget.highlight(search);
+        }
+
         sizeContacts($('.contact'), resultTarget);
 
         if (resultTarget.hasClass('csenote_shadow'))

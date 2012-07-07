@@ -83,8 +83,14 @@
 	</div>
 
 
-	<?php foreach($events as $event) {$resps = get_responsibles($dbh,$event['id']);extract($event);
-	 //Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  ?>
+	<?php if (empty($events)){
+			if (isset($q))
+				{echo "<p>No events found matching <i>$q</i></p>";die;}
+			else
+			{echo "<p>No events in this case</p>";die;}}
+
+	foreach($events as $event) {$resps = get_responsibles($dbh,$event['id']);extract($event);
+	//Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  ?>
 
 	<div class = "csenote event" data-id = "<?php echo $id; ?>">
 
@@ -129,7 +135,7 @@
 
 	</div>
 
-	<?php } ?>
+	<?php } if (empty($events)){echo "<p>No events found.</p>";}?>
 
 </div>
 

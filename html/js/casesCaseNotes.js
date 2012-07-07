@@ -197,6 +197,11 @@ $('input.casenotes_search').live('keyup', function() {
 
         resultTarget.scrollTop(0);
 
+         if (search.length)
+        {
+            resultTarget.highlight(search);
+        }
+
         sizeCaseNotes($('.csenote'), resultTarget);
 
         if (resultTarget.hasClass('csenote_shadow'))

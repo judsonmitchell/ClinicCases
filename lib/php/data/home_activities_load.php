@@ -363,7 +363,7 @@ foreach ($ev_assigns as $e) {
 //
 
 //cases that have opened
-if ($_SESSION['permissions']['add_cases'] == '1')
+if ($_SESSION['permissions']['add_cases'] == '1' && $_SESSION['permissions']['view_all_cases'] == '1')
 {
 	$get_opened_cases = $dbh->prepare("SELECT * FROM cm
 		WHERE time_opened >= '$mysqldate'");
@@ -400,7 +400,7 @@ if ($_SESSION['permissions']['add_cases'] == '1')
 }
 
 //cases that have been closed
-if ($_SESSION['permissions']['close_cases'] == '1')
+if ($_SESSION['permissions']['close_cases'] == '1' && $_SESSION['permissions']['view_all_cases'] == '1')
 {
 	$get_closed_cases = $dbh->prepare("SELECT * FROM cm
 	WHERE time_closed >= '$mysqldate'");

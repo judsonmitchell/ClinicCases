@@ -83,7 +83,12 @@ NEWNOTE;
 			}
 
 			if (empty($case_notes_data))
-				{echo "<p>No case notes found.</p>";}
+				{
+					if (isset($search))
+						{echo "<p>No case notes found matching <i>$search</i></p>";}
+					else
+						{echo "<p>No case notes found</p>";die;}
+				}
 
 		if (!isset($_POST['update'])){echo "</div>";}
 
