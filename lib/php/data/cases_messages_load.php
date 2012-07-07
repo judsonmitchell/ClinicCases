@@ -107,14 +107,5 @@ switch ($type) {
 	break;
 }
 
-if (empty($msgs) AND $replies === false AND $new_message === false)
-{
-
-	if (isset($s))
-		{echo "<p>No messages found matching <i>$s</i></p>";}
-	else
-		{echo "<p>No messages in this case</p>";die;}
-}
-
 include('../../../html/templates/interior/cases_messages.php');
 

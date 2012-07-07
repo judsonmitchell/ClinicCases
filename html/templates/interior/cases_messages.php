@@ -80,6 +80,8 @@
 	</form>
 
 </div>
+
+
 <?php }?>
 <!-- This displays messages and replies -->
 <?php
@@ -177,7 +179,14 @@ if ($replies === false) //these are not replies to a message
 	</div>
 
 
-<?php } } else {foreach($msgs as $msg) {extract($msg); //these are replies ?>
+<?php }  if (empty($msgs) AND $new_message === false)
+{
+
+	if (isset($s))
+		{echo "<p>No messages found matching <i>$s</i></p>";}
+	else
+		{echo "<p>No messages in this case</p>";}
+}} else {foreach($msgs as $msg) {extract($msg); //these are replies ?>
 
 	<div class = "msg_reply" data-id = "<?php echo $id; ?>">
 

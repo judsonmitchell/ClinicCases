@@ -150,7 +150,15 @@ $('.case_detail_nav #item5').live('click', function() {
         //Set buttons and handle sending of new message
         $('button.cse_new_msg').button({icons: {primary: "fff-icon-email-go"},text: true})
         .click(function() {
-            $(this).closest('.case_detail_panel').load('lib/php/data/cases_messages_load.php #msg_new', {'new_message': 'y','case_id': caseId}, function() {
+            $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').load('lib/php/data/cases_messages_load.php #msg_new', {'new_message': 'y','case_id': caseId}, function() {
+                //unbind the scroll so we don't see messages here on scroll
+                $(this).unbind('scroll.msg');
+
+                //if we are scrolled down, get rid of shadow
+                if ($(this).hasClass('csenote_shadow'))
+                {
+                    $(this).removeClass('csenote_shadow');
+                }
 
                 //define new messsage
                 var newMsg = $('div#msg_new');
@@ -163,6 +171,8 @@ $('.case_detail_nav #item5').live('click', function() {
                     $('#new_msg_form')[0].reset();
                     //show list of messages again
                     $(this).closest('.case_detail_panel').siblings('.case_detail_nav').find('li#item5').trigger('click');
+                    //Rebind the scroll
+                    $(this).bind('scroll.msg');
                     notify('New message cancelled');
                 });
 
@@ -190,6 +200,8 @@ $('.case_detail_nav #item5').live('click', function() {
                                 $('#new_msg_form')[0].reset();
                                 target.trigger('click');
                                 notify('Message sent');
+                                //bind scroll again
+                                $(this).bind('scroll.msg');
                             }
 
                         });
@@ -208,7 +220,7 @@ $('.case_detail_nav #item5').live('click', function() {
         thisPanel.data('searchOn', 'n');
 
         //Apply shadow on scroll
-        $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
+        $(this).children('.case_detail_panel_casenotes').bind('scroll.msg', function() {
             var scrollAmount = $(this).scrollTop();
             if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
             {
@@ -426,7 +438,7 @@ $('input.cse_msg_search').live('focusin', function() {
 
 $('input.cse_msg_search').live('keyup', function(event) {
 
-    if (event.which == 13) {
+    if (event.which == 13  && $(this).val().length) {
 
         var target = $(this).closest('.case_detail_panel');
 
@@ -450,6 +462,7 @@ $('input.cse_msg_search').live('keyup', function(event) {
             dataTarget.highlight(search);
 
         });
+
 
     }
 
