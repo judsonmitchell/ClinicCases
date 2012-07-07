@@ -89,7 +89,6 @@ $(document).ready(function() {
                     }
                 },
                 dayClick: function(date, allDay, jsEvent, view) {
-                    console.log(date);
                     $('#quick_add').trigger('click');
                     $('#quick_add_nav a:eq(1)').trigger('click');
                     $('#ev_start').datetimepicker('setDate',date);

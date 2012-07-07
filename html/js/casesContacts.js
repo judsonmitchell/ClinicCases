@@ -116,7 +116,6 @@ $('.case_detail_nav #item6').live('click', function() {
 //show hidden text on clipped contact
 $('div.contact_more').live('click', function(event) {
     event.preventDefault();
-    console.log('click');
     var contactParent = $(this).closest('.contact');
     var contactParentMaxHeight = $(this).closest('.contact').data('maxContactHeight');
     var contactParentMinHeight = $(this).closest('.contact').data('minContactHeight');
