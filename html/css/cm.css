@@ -466,7 +466,7 @@ div.new_case_data{width:60%;margin:auto;}
 div.new_case_data label {display:inline-block;margin:12px 20px 0;width:145px;vertical-align:top;text-align:right;}
 div.new_case_data p {margin-bottom:15px;}
 div.new_case_data input, div.new_case_data select, div.new_case_data textarea {min-width:250px;}
-div.new_case_data button.ui-datepicker-trigger {min-width:115px;}
+div.new_case_data button.ui-datepicker-trigger {min-width:115px;min-height: 30px;}
 
 div.case_data{width:60%;margin:auto;}
 div.case_data_display{width:100%;min-height:30px;margin-bottom:20px;border-bottom:1px solid #AAA;}
