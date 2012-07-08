@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `cm` (
   `dispo` varchar(100) NOT NULL DEFAULT '',
   `close_notes` text NOT NULL,
   `referral` varchar(100) NOT NULL DEFAULT '',
+  `assigned_users` text NOT NULL,
   `opened_by` varchar(50) NOT NULL,
   `time_opened` datetime NOT NULL,
   `closed_by` varchar(50) NOT NULL,
@@ -211,8 +212,9 @@ CREATE TABLE IF NOT EXISTS `cm_columns` (
   `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
   `required` int(11) NOT NULL DEFAULT '0' COMMENT 'ClinicCases cannot function without this field',
   `display_order` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=44 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `cm_columns`
@@ -227,9 +229,10 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (7, 'organization', 'Organization', 'true', 'text', '', 'false', 1, 7),
 (8, 'date_open', 'Date Open', 'true', 'date', '', 'true', 1, 8),
 (9, 'date_close', 'Date Close', 'true', 'date', '', 'true', 1, 41),
-(10, 'case_type', 'Case Type', 'true', 'select', 'a:4:{i:0;s:8:"Criminal";i:1;s:8:"Adoption";i:2;s:3:"SSI";i:3;s:7:"Divorce";}', 'true', 1, 10),
+(10, 'case_type', 'Case Type', 'true', 'select', 'a:5:{s:4:"MISD";s:22:"Criminal - Misdemeanor";s:3:"ADO";s:8:"Adoption";s:4:"CHSP";s:13:"Child Support";s:3:"FEL";s:17:"Criminal - Felony";s:3:"DIV";s:7:"Divorce";}', 'true', 1, 10),
+(44, 'assigned_users', 'Assigned Users', 'true', 'text', '', 'false', 0, 40),
 (41, 'adverse_parties', 'Adverse Party', 'true', 'multi-text', '', 'false', 1, 33),
-(11, 'clinic_type', 'Clinic Type', 'true', 'select', 'a:4:{s:3:"FAM";s:6:"Family";s:3:"CON";s:8:"Consumer";s:3:"HLT";s:10:"Health Law";s:3:"CRM";s:8:"Criminal";}', 'false', 0, 11),
+(11, 'clinic_type', 'Clinic Type', 'true', 'select', 'a:8:{s:3:"MSD";s:18:"Misdemeanor Clinic";s:3:"CMJ";s:17:"Community Justice";s:3:"CRM";s:8:"Criminal";s:3:"FAM";s:6:"Family";s:3:"IMM";s:11:"Immigration";s:3:"LTT";s:25:"Litigation and Technology";s:3:"TST";s:11:"Test Clinic";s:3:"WJS";s:17:"Workplace Justice";}', 'false', 0, 11),
 (12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0, 12),
 (13, 'address2', 'Address 2', 'false', 'text', '', 'false', 0, 13),
 (14, 'city', 'City', 'false', 'text', '', 'false', 0, 14),
@@ -246,15 +249,16 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (26, 'per', 'Per', 'false', 'select', 'a:4:{s:3:"day";s:3:"Day";s:4:"week";s:4:"Week";s:5:"month";s:5:"Month";s:4:"year";s:4:"Year";}', 'false', 0, 26),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
 (28, 'pl_or_def', 'Plaintiff/Defendant', 'false', 'select', 'a:3:{s:9:"plaintiff";s:9:"Plaintiff";s:9:"defendant";s:9:"Defendant";s:5:"other";s:5:"Other";}', 'false', 0, 28),
-(29, 'court', 'Court', 'true', 'select', 'a:4:{i:1;s:10:"City Court";i:2;s:39:"Criminal Court for the County of Utopia";i:3;s:38:"Federal Court for the Eastern District";i:4;s:15:"Superior Court ";}', 'false', 0, 29),
+(29, 'court', 'Court', 'true', 'select', 'a:13:{i:1;s:33:"Criminal District Court - Orleans";i:2;s:42:"Dept. of Social Services Office of Appeals";i:3;s:25:"Immigration Court - Other";i:4;s:29:"Juvenile Court Orleans Parish";i:5;s:30:"Municipal Court Orleans Parish";i:6;s:5:"Other";i:7;s:38:"Social Security Administration Hearing";i:8;s:32:"Supreme Court State of Louisiana";i:9;s:39:"Traffic Court for the Parish of Orleans";i:10;s:45:"U. S. District Court  Eastern District of La.";i:11;s:15:"U. S. Tax Court";i:12;s:43:"U.S. District Court Eastern District of La.";i:13;s:18:"U.S. Supreme Court";}', 'false', 0, 29),
 (30, 'section', 'Section', 'false', 'text', '', 'false', 0, 30),
 (31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
 (32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
 (33, 'notes', 'Notes', 'false', 'textarea', '', 'false', 0, 33),
-(36, 'dispo', 'Disposition', 'true', 'select', 'a:6:{i:1;s:15:"Judgment Denied";i:2;s:11:"Advice Only";i:3;s:15:"Client Withdrew";i:4;s:6:"Guilty";i:5;s:16:"Judgment Granted";i:6;s:10:"Not Guilty";}', 'true', 0, 42),
+(36, 'dispo', 'Disposition', 'true', 'select', 'a:45:{i:1;s:6:"Quit 2";i:2;s:6:"Denied";i:3;s:9:"Departure";i:4;s:8:"Deported";i:5;s:10:"Deposition";i:6;s:10:"Difference";i:7;s:5:"Dingo";i:8;s:9:"Dismissed";i:9;s:9:"Diversion";i:10;s:7:"Dropped";i:11;s:8:"Expunged";i:12;s:5:"Fined";i:13;s:7:"Granted";i:14;s:6:"Guilty";i:15;s:23:"Guilty of Lesser Charge";i:16;s:14:"Hired Attorney";i:17;s:8:"Judgment";i:18;s:11:"New Counsel";i:19;s:10:"Nolle Pros";i:20;s:10:"None Legal";i:21;s:12:"Not Achieved";i:22;s:11:"Not Awarded";i:23;s:11:"Not Granted";i:24;s:10:"Not Guilty";i:25;s:11:"Plea - Deal";i:26;s:24:"Plea - Guilty As Charged";i:27;s:7:"Quashed";i:28;s:4:"Quit";i:29;s:6:"R.O.C.";i:30;s:10:"Reconciled";i:31;s:7:"Reduced";i:32;s:14:"Refused Charge";i:33;s:10:"Reinstated";i:34;s:8:"Released";i:35;s:9:"Rescinded";i:36;s:8:"Resolved";i:37;s:10:"Settlement";i:38;s:8:"shitface";i:39;s:9:"Surrender";i:40;s:10:"Terminated";i:41;s:11:"Transferred";i:42;s:4:"Void";i:43;s:13:"Vol.Departure";i:44;s:8:"Withdrew";i:45;s:11:"Writ Denied";}', 'true', 0, 42),
 (38, 'close_notes', 'Closing Notes', 'false', 'textarea', '', 'false', 0, 44),
-(39, 'referral', 'Referred By', 'true', 'select', 'a:4:{i:1;s:16:"Pro Bono Project";i:2;s:15:"Social Services";i:3;s:3:"LSC";i:4;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
+(39, 'referral', 'Referred By', 'true', 'select', 'a:3:{i:1;s:15:"Social Services";i:2;s:3:"LSC";i:3;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
+
 
 -- --------------------------------------------------------
 
