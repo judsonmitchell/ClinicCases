@@ -230,7 +230,7 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (8, 'date_open', 'Date Open', 'true', 'date', '', 'true', 1, 8),
 (9, 'date_close', 'Date Close', 'true', 'date', '', 'true', 1, 41),
 (10, 'case_type', 'Case Type', 'true', 'select', 'a:5:{s:4:"MISD";s:22:"Criminal - Misdemeanor";s:3:"ADO";s:8:"Adoption";s:4:"CHSP";s:13:"Child Support";s:3:"FEL";s:17:"Criminal - Felony";s:3:"DIV";s:7:"Divorce";}', 'true', 1, 10),
-(44, 'assigned_users', 'Assigned Users', 'true', 'text', '', 'false', 0, 40),
+(44, 'assigned_users', 'Assigned Users', 'true', 'text', '', 'false', 0, 40.5),
 (41, 'adverse_parties', 'Adverse Party', 'true', 'multi-text', '', 'false', 1, 33),
 (11, 'clinic_type', 'Clinic Type', 'true', 'select', 'a:8:{s:3:"MSD";s:18:"Misdemeanor Clinic";s:3:"CMJ";s:17:"Community Justice";s:3:"CRM";s:8:"Criminal";s:3:"FAM";s:6:"Family";s:3:"IMM";s:11:"Immigration";s:3:"LTT";s:25:"Litigation and Technology";s:3:"TST";s:11:"Test Clinic";s:3:"WJS";s:17:"Workplace Justice";}', 'false', 0, 11),
 (12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0, 12),

@@ -2,6 +2,7 @@
 require('../db.php');
 require('../lib/php/utilities/names.php');
 require('../lib/php/utilities/convert_times.php');
+require('../lib/php/users/update_case_with_users.php');
 
 ini_set("error_reporting", "true");
 error_reporting(E_ALL|E_STRCT);
@@ -824,6 +825,20 @@ if (count($arr) > 0)
 
 	$update->execute();
 }
+
+//From beta 1.3: add assigned users to cm
+echo "Adding users to cases table<br />";
+$q = $dbh->prepare("SELECT * FROM cm");
+
+$q->execute();
+
+$cases = $q->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($cases as $case) {
+
+	update_case_with_users($dbh,$case['case_id']);
+}
+
 
 echo "Upgrade successful";
 
