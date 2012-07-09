@@ -4,6 +4,7 @@ include 'lib/php/load.php';
 include 'html/templates/Header.php';
 include 'lib/php/html/tabs.php';
 include 'lib/php/data/cases_columns_array.php';
+include 'lib/php/mobile_detect.php';
 
 
 
@@ -14,14 +15,14 @@ include 'lib/php/data/cases_columns_array.php';
 			//load session checker to ensure user is authorized to see page.
 			include 'lib/php/auth/session_check.php';
 
-			$pg = load($_GET['i']);		
-				
+			$pg = load($_GET['i']);
+
 		}
-		
+
 		else
-		
+
 		{
-			$pg = load('Login.php');	
+			$pg = load('Login.php');
 		}
 
 
@@ -33,11 +34,11 @@ include 'lib/php/data/cases_columns_array.php';
 		else
 		{include($pg);}
 
-		
+
 //Check to see if the user has been logged out for inactivity and notify them
-	
+
 	if (isset($_GET['force_close']))
-		{	
+		{
 		echo <<<FC
 		<script type = 'text/javascript'>
 		$('#idletimeout').css('display','block');
