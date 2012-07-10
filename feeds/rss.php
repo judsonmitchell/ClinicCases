@@ -340,7 +340,7 @@ else
 		}
 
 		//cases that have opened
-		if ($p['add_cases'] == '1')
+		if ($p['add_cases'] == '1'  && $p['view_all_cases'] == '1')
 		{
 			$get_opened_cases = $dbh->prepare("SELECT * FROM cm
 				WHERE time_opened >= '$mysqldate'");
@@ -373,7 +373,7 @@ else
 		}
 
 		//cases that have been closed
-		if ($p['close_cases'] == '1')
+		if ($p['close_cases'] == '1'  && $p['view_all_cases'] == '1')
 		{
 			$get_closed_cases = $dbh->prepare("SELECT * FROM cm
 			WHERE time_closed >= '$mysqldate'");
