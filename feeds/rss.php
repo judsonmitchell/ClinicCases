@@ -18,11 +18,9 @@ function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
 }
 
 //Define variables
-//$key = $_GET['key'];
-$key = "uC080A1b7I0n3S4xk6J4wPTovn4D9fLsO1T45hU1";
+$key = $_GET['key'];
 
-//$type = $_GET['type'];
-$type="activities";
+$type = $_GET['type'];
 
 $phpdate = strtotime('-60 days');
 
