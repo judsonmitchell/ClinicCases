@@ -29,7 +29,7 @@ STEPS - New Installation
 5. 	When the installation is complete, log in to your installation of ClinicCases
 	using the username 'admin' and the password 'admin'.  You will be prompted to
 	change the password on this temporary account. Next, go to the users tab and add
-	a new user account for yourself.  Make sure that you put yourself in the Adminstrator
+	a new user account for yourself.  Make sure that you put yourself in the Administrator
 	group, that you make the account 'active', and that you provide your valid email
 	address.  Next, check your email. You should receive an email from your server
 	which contains a temporary password. (Check spam folder as well!).
@@ -40,16 +40,16 @@ hand corner.
 
 GETTING STARTED
 
-You (or a clinic adminstrator) should then define your case types (criminal, family law, etc), dispositions (closed, judgment granted, referred, etc) and courts by navigating to the Utilities
+You (or a clinic administrator) should then define your case types (criminal, family law, etc), dispositions (closed, judgment granted, referred, etc) and courts by navigating to the Utilities
 tab and clicking Configuration.
 
 You can then add new users in one of two ways:
 	1. 	Go to the Users tab and click New User
 	2. 	Have the people in your clinic go http://YOURSERVER/cliniccases/newaccount and request
 		a new account.  Each new account will have to be approved by a user with
-		adminstrative privileges before the account can be used.
+		administrative privileges before the account can be used.
 
-After this, add cases via the Cases tab.  You must be logged in as an adminstrator to do this.
+After this, add cases via the Cases tab.  You must be logged in as an administrator to do this.
 
 Migrating existing cases from another case management system may take some expertise.
 Either contact your IT department or go to the forums for assistance.  Three Pipe Problem, LLC

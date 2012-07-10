@@ -11,6 +11,11 @@ var adjustedHeight = Math.round(viewportHeight * 0.84);
 $(document).ready(function(){
 	$("#content").css({'height':adjustedHeight + 'px'});
 
+	if (viewportHeight < 600)//we're dealing with a small screen
+	{
+		$("#content").css({'margin-bottom':'20px'});
+	}
+
 });
 
 //handle if user resizes window
@@ -19,5 +24,9 @@ $(window).resize(function() {
 	var newViewportHeight = $(window).height();
 	var newAdjustedHeight = Math.round(newViewportHeight * 0.84);
 	$("#content").css({'height':newAdjustedHeight + 'px'});
+	if (viewportHeight < 600)//we're dealing with a small screen
+	{
+		$("#content").css({'margin-bottom':'20px'});
+	}
 
 });

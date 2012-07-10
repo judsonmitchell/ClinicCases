@@ -84,6 +84,7 @@ $(document).ready(function() {
 
             //resizes the table whenever parent element size changes
             $(window).bind('resize', function() {
+                oTable.fnDraw(false);
                 oTable.fnAdjustColumnSizing();
             });
 
