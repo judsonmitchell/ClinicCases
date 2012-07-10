@@ -9,7 +9,7 @@
 	<div class="case_detail_panel_tools_right">
 
 
-		<button class = "events_print">Print</button>
+		<button class = "conflicts_print">Print</button>
 
 
 	</div>

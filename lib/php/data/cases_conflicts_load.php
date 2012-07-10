@@ -11,4 +11,4 @@ $user = $_SESSION['login'];
 $id = $_POST['case_id'];
 
 
-include('../../../html/templates/interior/cases_events.php');
+include('../../../html/templates/interior/cases_conflicts.php');
