@@ -64,9 +64,9 @@
 
 		<p>Your private key: <?php echo $private_key; ?></p>
 
-		<p>Your ICal feed of calendar events: <a href = "<?php echo CC_BASE_URL . 'ical_feed.php?key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'ical_feed.php?key=' . $private_key;?></a></p>
+		<p>Your ICal feed of calendar events: <a href = "<?php echo CC_BASE_URL . 'feeds/ical_feed.php?key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/ical_feed.php?key=' . $private_key;?></a></p>
 
-		<p>Your RSS feed of ClinicCases Activity: <a href = "<?php echo CC_BASE_URL . 'rss.php?type=activities&key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'activity_feed.php?type=activities&key=' . $private_key;?></a></p>
+		<p>Your RSS feed of ClinicCases Activity: <a href = "<?php echo CC_BASE_URL . 'feeds/rss.php?type=activities&key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/activity_feed.php?type=activities&key=' . $private_key;?></a></p>
 
 		<p class="pref_submit"><button class = "change_private_key_form_submit" data-id="<?php echo $id; ?>">Reset Key</button></p>
 
