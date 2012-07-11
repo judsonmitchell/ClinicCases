@@ -28,6 +28,7 @@ $(document).ready(function() {
                     "bScrollInfinite": true,
                     "bScrollCollapse": true,
                     "bSortCellsTop": true,
+                    "bStateSave":true,
                     "sScrollY": adjustedHeight - 95,
                     "sScrollX": "98%",
                     "iDisplayLength": 50,
