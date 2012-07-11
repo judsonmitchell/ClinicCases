@@ -318,6 +318,8 @@ $('button.case_modify_submit').live('click',function(event){
 
                 //Refresh the table; see Cases.js
                 oTable.fnReloadAjax();
+                //Notify of conflicts; see casesCaseDetail.js
+                checkConflicts(thisCaseId);
             }
         });
 

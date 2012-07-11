@@ -66,7 +66,7 @@
 
 		<li id="item6">Contacts</li>
 
-		<li id="item7">Conflicts</li>
+		<li id="item7">Conflicts <span class="conflicts_number"></span></li>
 
 	</ul>
 

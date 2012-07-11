@@ -123,6 +123,8 @@ function addDetailTabs(id,newCase)
                         {
                         //load case notes for initial view
                         loadCaseNotes(panelTarget, id);
+                        //Notify of conflicts
+                        checkConflicts(id);
                         }
 
                 }
@@ -346,6 +348,19 @@ function tabCheckDirty(el)
     else
         //there are no dirty tabs; just go ahead and close
     {closeCaseTab(true,el);}
+}
+
+//Check for conflicts
+function checkConflicts(caseId)
+{
+      $.post('lib/php/data/cases_conflicts_load.php',{'case_id':caseId,'type':'alert'},function(data){
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.conflicts === true)
+            {
+                $(panelTarget).find('span.conflicts_number').html('<span class="msg_number"> (' + serverResponse.number + ')</span>');
+            }
+
+        });
 }
 
 //Listeners

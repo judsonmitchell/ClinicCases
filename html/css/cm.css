@@ -528,6 +528,9 @@ div.config_item a{font-size:14pt;}
 div.config_item a.closed{background-image:url('../ico/bullet_toggle_plus.png'); background-position: -1px center;background-repeat: no-repeat;padding-left: 20px}
 div.config_item a.opened{background-image:url('../ico/bullet_toggle_minus.png'); background-position: -1px center;background-repeat: no-repeat;padding-left: 20px}
 
+/*Styles for conflicts */
+ol.conflicts{padding-left:30px;}
+
 
 ::-webkit-scrollbar {
     width: 12px;

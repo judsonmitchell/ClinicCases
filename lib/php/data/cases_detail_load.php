@@ -48,6 +48,6 @@ $assigned_users_query = $dbh->prepare("SELECT cm_case_assignees.id as assign_id,
 	$check_permission = array_searchRecursive($username,$assigned_users_data);
 
 	if (!$check_permission AND !$_SESSION['permissions']['view_all_cases'] == '1')
-		{echo "Sorry, you do not have permission to view this case.";die;}
+		{echo "Sorry, you do not have permission to view this case. <br /><br />If you need to see this case, please <a href='mailto:" . CC_ADMIN_EMAIL . "'> ask your administrator you to assign you to the case temporarily.";die;}
 
 include '../../../html/templates/interior/cases_detail.php';

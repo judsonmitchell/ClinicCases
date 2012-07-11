@@ -75,13 +75,13 @@ $('.case_detail_nav #item6').live('click', function() {
     //Get heights
     var toolsHeight = $(this).outerHeight();
     var thisPanelHeight = $(this).closest('.case_detail_nav').height();
-    var documentsWindowHeight = thisPanelHeight - toolsHeight;
+    var contactsWindowHeight = thisPanelHeight - toolsHeight;
 
     thisPanel.load('lib/php/data/cases_contacts_load.php', {'case_id': caseId}, function() {
 
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
-        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
+        $('div.case_detail_panel_casenotes').css({'height': contactsWindowHeight});
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
@@ -241,6 +241,8 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
                 {
                     notify(serverResponse.message);
                     target.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {'case_id': caseId});
+                    //check Conflicts; see casesCaseDetail.js
+                    checkConflicts(caseId);
                 }
 
             });
@@ -585,6 +587,8 @@ $('a.contact_edit').live('click', function(event) {
                         sizeContacts(target.find('.contact'), target);
                         editedContact = target.find('div.contact[data-id = "' + contactId + '"]');
                         target.scrollTop(editedContact.offset().top);
+                        //check conflicts; see casesCaseDetail.js
+                        checkConflicts(caseId);
 
                     });
                 }
