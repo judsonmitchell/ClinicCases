@@ -284,6 +284,26 @@ CREATE TABLE IF NOT EXISTS `cm_contacts` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+CREATE TABLE IF NOT EXISTS `cm_contacts_types` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `cm_contacts_types`
+--
+
+INSERT INTO `cm_contacts_types` (`id`, `type`) VALUES
+(1, 'Witness'),
+(2, 'Opposing Counsel'),
+(3, 'Opposing Party'),
+(4, 'Client Relative/Friend'),
+(5, 'Expert'),
+(6, 'Other');
+
+
 -- --------------------------------------------------------
 
 --
