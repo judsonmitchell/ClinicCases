@@ -120,15 +120,16 @@ switch ($action) {
 
 			$resps_flat = flatten_array($resps);
 
+			$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
 			for ($i=0; $i < sizeof($resps_flat); $i++) {
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
 
 				$data = array('last_id' => $last_id,'resp' => $resps_flat[$i]);
 
 				$add_resp->execute($data);
 
 				//notify user via email
-				$email = user_email($dbh,$user);
+				$email = user_email($dbh,$resps_flat[$i]);
 				$subject = "ClincCases: You have been assigned to an event";
 				$body = "You have been assigned to an event in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
 				mail($email,$subject,$body,CC_EMAIL_HEADERS);
@@ -202,8 +203,9 @@ switch ($action) {
 
 			$resps_flat = flatten_array($resps);
 
+			$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
+
 			for ($i=0; $i < sizeof($resps_flat); $i++) {
-				$add_resp = $dbh->prepare("INSERT INTO cm_events_responsibles (id,event_id,username,time_added) VALUES (NULL, :last_id,:resp,NOW())");
 
 				$data = array('last_id' => $event_id,'resp' => $resps_flat[$i]);
 
@@ -216,7 +218,7 @@ switch ($action) {
 			if (!empty($new_assignees))
 			{
 				foreach ($new_assignees as $n) {
-					$email = user_email($dbh,$user);
+					$email = user_email($dbh,$resps_flat[$i]);
 					$subject = "ClincCases: You have been assigned to an event";
 					$body = "You have been assigned to an event in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
 					mail($email,$subject,$body,CC_EMAIL_HEADERS);
