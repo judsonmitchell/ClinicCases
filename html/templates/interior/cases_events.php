@@ -124,7 +124,7 @@
 			<span class = "event_end"><?php if (!empty($end)  && $end != '0000-00-00 00:00:00'){echo extract_date_time($end);} ?></span>
 		</p>
 
-		<p><label>Where</label>
+		<p><label>Where:</label>
 			<span class = "event_location"><?php echo htmlentities($location); ?></span>
 		</p>
 

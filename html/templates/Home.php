@@ -75,7 +75,7 @@
 
 		</div>
 
-		<div id = "home_panel">Loading .... </div>
+		<div id = "home_panel" class="print_content">Loading .... </div>
 
 
 	</div>
