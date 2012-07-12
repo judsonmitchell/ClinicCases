@@ -7,7 +7,7 @@ include '../lib/php/html/gen_select.php';
 <head>
 	<title>ClinicCases - Apply for an Account</title>
 	<meta name="robots" content="noindex">
-	<link rel="stylesheet" href="../html/css/cm.css" type="text/css">
+	<link rel="stylesheet" href="../html/css/cm.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="../lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
 

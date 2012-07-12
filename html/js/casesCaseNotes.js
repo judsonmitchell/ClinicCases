@@ -309,9 +309,7 @@ $('.case_detail_panel_tools_right button.button2').live('click', function() {
 
 //Print displayed case notes
 $('.case_detail_panel_tools_right button.button3').live('click', function() {
-    alert('Working on it');
-//TODO printing
-
+    elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'),'Casenotes: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
 });
 
 

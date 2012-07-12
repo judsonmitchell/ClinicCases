@@ -159,9 +159,7 @@ function formatCaseData(thisPanel,type)
         //format buttons
         thisPanel.find('button.case_data_edit').button({icons: {primary: "fff-icon-page-edit"},text: true});
 
-         thisPanel.find('button.case_data_print').button({icons: {primary: "fff-icon-printer"},text: true}).click(function() {
-            alert('Working on it!');  //TODO add print functions
-            });
+         thisPanel.find('button.case_data_print').button({icons: {primary: "fff-icon-printer"},text: true});
 
          //remove the id
          thisPanel.find('div.id_display').remove();
@@ -328,8 +326,7 @@ $('button.case_modify_submit').live('click',function(event){
 
 //Listen for print
 $('button.case_data_print').live('click',function(){
-    var thisPanel = $(this).closest('.case_detail_panel');
-    alert('Working on it!');  //TODO add print functions
+   elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'),'Case Data: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
 });
 
 //Add another multi-text or dual

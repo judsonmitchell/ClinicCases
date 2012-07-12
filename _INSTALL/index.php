@@ -2,9 +2,9 @@
 
 <head>
 	<title>Install ClinicCases 7</title>
-	<link rel="stylesheet" href="../html/css/cm.css" type="text/css" />
-	<link rel="stylesheet" href="../html/css/cm_tabs.css" type="text/css" />
-	<link rel="stylesheet" href="install.css" type="text/css" />
+	<link rel="stylesheet" href="../html/css/cm.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="../html/css/cm_tabs.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="install.css" type="text/css"  media="screen" />
 	<link rel="stylesheet" href="../lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link type="text/css" href="../html/css/fff.icon.core.css" rel="stylesheet"/>
 	<link type="text/css" href="../html/css/fff.icon.icons.css" rel="stylesheet"/>

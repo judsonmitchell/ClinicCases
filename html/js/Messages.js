@@ -462,8 +462,7 @@ $(document).ready(function() {
 
     //Handle print
     $('a.print').live('click',function(){
-        alert('Working on it');
-        //TODO enable print
+        elPrint($(this).closest('.msg'),'Message');        //TODO enable print
     });
 
     //Expand 'to' field when it overflows

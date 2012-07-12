@@ -10,7 +10,7 @@
 ?>
 <html>
 	<head>
-		<link rel="stylesheet" href="../css/cm.css" type="text/css">
+		<link rel="stylesheet" href="../css/cm.css" type="text/css"  media="screen"/>
 
 
 <?php

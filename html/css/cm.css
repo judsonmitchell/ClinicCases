@@ -426,7 +426,8 @@ div.msg_bar_right a {font-size:1em;color:navy}
 span.msg_subject{font-size:1em;color:navy;margin-left:20px;}
 
 div.msg_body{font-size:16px;}
-div.msg_body_text, div.msg_replies, div.msg_actions{margin-left:120px !important;width:450px;}
+div.msg_body_text{margin-left: 10px}
+div.msg_replies, div.msg_actions{margin-left:120px !important;width:450px;}
 div.msg_actions{margin-top:30px;}
 div.msg_actions a{margin-right:15px;}
 div.msg_reply_text{margin-left:120px;margin-top:15px;width:450px;display: none}

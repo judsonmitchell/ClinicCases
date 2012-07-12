@@ -254,8 +254,7 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
 
 //Print displayed contacts
 $('.case_detail_panel_tools_right button.contact_print').live('click', function() {
-    alert('Working on it');
-//TODO printing
+    elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'),'Contacts: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
 
 });
 

@@ -32,7 +32,7 @@ $('.case_detail_nav #item7').live('click', function() {
         });
 
 		$('button.conflicts_print').button({icons: {primary: "fff-icon-printer"},text: true}).click(function() {
-            alert('Working on it!');  //TODO add print functions
+            elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'),'Conflicts: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
             });
 
 

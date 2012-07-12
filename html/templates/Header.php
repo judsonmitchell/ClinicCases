@@ -7,8 +7,8 @@
 <head>
 	<title>ClinicCases</title>
 	<meta name="robots" content="noindex">
-	<link rel="stylesheet" href="html/css/cm.css" type="text/css" />
-	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css" />
+	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
+	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/print.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link type="text/css" href="html/css/fff.icon.core.css" rel="stylesheet"/>
@@ -24,6 +24,8 @@
 	<script src="lib/javascripts/timer.js" type="text/javascript"></script>
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
+	<script src="lib/javascripts/print.js" type="text/javascript"></script>
+
 
 
 
