@@ -543,24 +543,35 @@ $('button.doc_new_folder').live('click', function() {
             var container = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('a.active').attr('path');
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
             var newName = $('#new_folder_name').val();
-            var newFolder = null;
-            if (container === '')
+
+            if (newName.indexOf("/") != -1)
             {
-                newFolder = escape(newName);
+                notify("Sorry, folder names cannot contain a foward slash.",true);
+                return false;
             }
             else
             {
-                newFolder = container + "/" + escape(newName);
-            }
-            $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
-                var serverResponse = $.parseJSON(data);
-                $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
-                $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
-                $('#new_folder_name').closest('p').html(newName);
-                createDragDrop();
-                notify(serverResponse.message);
 
-            });
+                var newFolder = null;
+                if (container === '')
+                {
+                    newFolder = escape(newName);
+                }
+                else
+                {
+                    newFolder = container + "/" + escape(newName);
+                }
+                $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
+                    var serverResponse = $.parseJSON(data);
+                    $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
+                    $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
+                    $('#new_folder_name').closest('p').html(newName);
+                    createDragDrop();
+                    notify(serverResponse.message);
+
+                });
+
+            }
         }
     });
 
