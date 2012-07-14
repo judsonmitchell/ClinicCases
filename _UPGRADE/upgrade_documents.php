@@ -76,9 +76,23 @@ foreach ($docs as $doc)
 	rename($old_doc_path,$new_doc_path);
 
 	if (!empty($doc['folder']))
-	{$escaped_folder = rawurlencode($doc['folder']);}
+	{
+		//remove forward slashes from the folder name
+		if (stristr($doc['folder'], '/'))
+		{
+			$f =str_replace('/', '-', $doc['folder']);
+
+			$escaped_folder = rawurlencode($f);
+		}
+		else
+		{
+			$escaped_folder = rawurlencode($doc['folder']);
+		}
+	}
 	else
-	{$escaped_folder = '';}
+	{
+		$escaped_folder = '';
+	}
 
     $update_db = $dbh->prepare("UPDATE cm_documents
     SET local_file_name = :new_doc,folder = :folder	WHERE id = :id ");
