@@ -2,17 +2,17 @@
 //Upgrade documents from ClinicCases 6 to 7.  Files are moved out
 //of the webroot and the renamed to relevant db id number
 
-require('../db.php');
+require('db.php');
 
 ini_set("error_reporting", "true");
 error_reporting(E_ALL|E_STRCT);
 ini_set('memory_limit', '-1');
 
 //Specify the full path to your old ClinicCases doc file
-$path_to_old_docs = '/var/www/cliniccases/docs';
+$path_to_old_docs = '/var/www/docs_test/docs';
 
 //Specify path to your old installation of ClinicCases
-$path_to_old_cc = '/var/www/cliniccases';
+$path_to_old_cc = '/var/www/docs_test';
 
 //Check to see if the new doc folder has been created
 if (file_exists(CC_DOC_PATH))
@@ -42,9 +42,9 @@ if ($handle = opendir($path_to_old_docs)) {
 
            /* This is the correct way to loop over the directory. */
            while (false !== ($entry = readdir($handle))) {
-                        echo "$entry\n";
-                        $old_file_name = 'docs/' . $entry;
-                        $clean_file_name = 'docs/' . str_replace("\\","",$entry);
+                        //echo "$entry\n";
+                        $old_file_name = $path_to_old_docs . '/' . $entry;
+                        $clean_file_name = $path_to_old_docs . '/' . str_replace("\\","",$entry);
                         rename($old_file_name,$clean_file_name);
            }
 }
@@ -55,6 +55,10 @@ $query = $dbh->prepare("SELECT * FROM cm_documents WHERE local_file_name != ''
 $query->execute();
 
 $count = $query->rowCount();
+
+
+$error = $query->errorInfo();
+
 
 echo "We will be moving $count documents from your old docs directory
     to ". CC_DOC_PATH . "\n";
@@ -109,14 +113,25 @@ foreach ($docs as $doc)
 }
 
 //Now url encode the folder names
-$q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %'");
+$q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %' OR folder 
+    LIKE '%/%'");
 
 $q->execute();
 
 $fs = $q->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($fs as $f) {
-	$escaped_folder = rawurlencode($f['folder']);
+
+    if (stristr($f['folder'], '/'))
+		{
+			$fix =str_replace('/', '-', $f['folder']);
+
+			$escaped_folder = rawurlencode($fix);
+		}
+		else
+		{
+			$escaped_folder = rawurlencode($f['folder']);
+		}
 
 	$update = $dbh->prepare("UPDATE cm_documents SET folder = :escaped WHERE id = :id");
 
