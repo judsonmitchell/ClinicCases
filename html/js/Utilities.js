@@ -42,11 +42,43 @@ $(document).ready(function() {
         //Create a table
         $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"></table>' );
 
-        //Load data from server
-        // oTable = $('#table_reports').dataTable({
-        //     "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=this_user',
-        //     "sDom": '<"toolbar">frtip'
-        // });
+        //Dynamically create dataTable, load data
+        $('button.report_submit').click(function(event){
+            event.preventDefault();
+
+            var q_type =$('select[name="type"]').val();
+
+            var start = $('input[name="date_start"]').val();
+
+            var end = $('input[name="date_end"]').val();
+
+            var query = [];
+
+            if (q_type.indexOf("_grp_") != -1) //user groups
+            {
+                query.push('grp',q_type);
+            }
+            else if (q_type.indexOf("_svn_") != -1) //supervisor groups
+            {
+                query.push('supvrsr_grp',q_type);
+            }
+            else if(q_type.indexOf("_cse_") != -1) //case
+            {
+                query.push('case',q_type);
+            }
+            else
+            {
+                query.push('user',q_type);//single user
+            }
+
+            //Load data from server
+            oTable = $('#table_reports').dataTable({
+                "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
+                '&val=' + query[1],
+                "sDom": '<"toolbar">frtip'
+            });
+
+        });
 
         //Create toolbar
         $('div.toolbar').html('toolbar here');

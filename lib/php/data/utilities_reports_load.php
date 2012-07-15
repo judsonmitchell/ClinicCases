@@ -25,7 +25,7 @@ if (isset($_GET['date_end']))
 //2. Case activity by individual (displays case notes)
 
 switch ($type) {
-	case 'this_user':
+	case 'user':
 		$sql = "SELECT * FROM cm_case_notes WHERE `username` = :user AND `date` > :date_start AND `date` < :date_end";
 
 		$q = $dbh->prepare($sql);
@@ -34,7 +34,7 @@ switch ($type) {
 
 		break;
 
-	case 'any_user':
+	case 'grp':
 		$sql = "SELECT * FROM cm_case_notes WHERE username = :user_group";
 
 		$q = $dbh->prepare($sql);
@@ -43,7 +43,7 @@ switch ($type) {
 
 		break;
 
-	case 'group':
+	case 'supvsr_grp':
 		$sql ="";
 		break;
 

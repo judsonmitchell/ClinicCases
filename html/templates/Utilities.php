@@ -1,9 +1,16 @@
 
 <!-- Jquery Calls Specific to this page -->
-   <script  src="html/js/Utilities.js" type="text/javascript"></script>
+	<script  src="html/js/Utilities.js" type="text/javascript"></script>
 
-   <script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
+	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
+
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColReorder/media/js/ColReorder.min.js"></script>
+
+	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script>
 
 <!-- CSS specific to this page -->
 
@@ -67,7 +74,7 @@
 
 			<p>
 				<label>Report on:</label>
-				<select name = "type" data-placeholder="Select users to report on">
+				<select name = "type" data-placeholder="Select users or cases to report on">
 					<option value=""></option>
 					<?php
 					include 'db.php';

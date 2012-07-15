@@ -536,6 +536,7 @@ ol.conflicts{padding-left:30px;}
 /*Styles for Time Reports */
 #report_chooser{display: none;}
 #report_chooser p {display: inline-block;}
+#utilities_panel ul.chzn-results{text-align: left;}
 
 
 ::-webkit-scrollbar {
