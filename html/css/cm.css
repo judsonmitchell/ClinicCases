@@ -533,6 +533,11 @@ div.config_item a.opened{background-image:url('../ico/bullet_toggle_minus.png');
 ol.conflicts{padding-left:30px;}
 
 
+/*Styles for Time Reports */
+#report_chooser{display: none;}
+#report_chooser p {display: inline-block;}
+
+
 ::-webkit-scrollbar {
     width: 12px;
 }

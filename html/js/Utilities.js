@@ -1,5 +1,7 @@
  //Scripts for utilities page
 
+var oTable;
+
 $(document).ready(function() {
 
     //set header widget
@@ -11,10 +13,46 @@ $(document).ready(function() {
     //Add navigation actions
     target = $('div#utilities_panel');
 
+    //User clicks reports button
     $('#reports_button').click(function() {
-        target.load('lib/php/data/utilities_reports_load.php');
+
+        //Show the report chooser
+        $('#report_chooser').appendTo('#utilities_panel').show();
+
+        //Add chosen
+        $('select[name="type"]').chosen();
+
+        //Add datepickers
+        $('input[name="date_start_display"]').datepicker({
+            dateFormat : "DD, MM d, yy",
+            altField:$('input[name = "date_start"]'),
+            altFormat: "yy-mm-dd"
+            });
+
+        $('input[name="date_start_display"]').datepicker('setDate', '-7');
+
+        $('input[name="date_end_display"]').datepicker({
+            dateFormat : "DD, MM d, yy",
+            altField:$('input[name = "date_end"]'),
+            altFormat: "yy-mm-dd"
+            });
+
+        $('input[name="date_end_display"]').datepicker('setDate', new Date());
+
+        //Create a table
+        $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"></table>' );
+
+        //Load data from server
+        // oTable = $('#table_reports').dataTable({
+        //     "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=this_user',
+        //     "sDom": '<"toolbar">frtip'
+        // });
+
+        //Create toolbar
+        $('div.toolbar').html('toolbar here');
     });
 
+    //User clicks configuration button
     $('#config_button').click(function() {
         target.load('lib/php/data/utilities_configuration_load.php');
 

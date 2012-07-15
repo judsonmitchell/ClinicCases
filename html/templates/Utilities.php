@@ -1,7 +1,28 @@
 
 <!-- Jquery Calls Specific to this page -->
-	<script  src="html/js/Utilities.js" type="text/javascript"></script>
-</head>
+   <script  src="html/js/Utilities.js" type="text/javascript"></script>
+
+   <script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+
+
+<!-- CSS specific to this page -->
+
+
+      <link rel="stylesheet" href="lib/DataTables-1.8.2/media/css/data_table_jui.css" type="text/css">
+
+      <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/TableTools/media/css/TableTools.css" type="text/css">
+
+      <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColVis/media/css/ColVis.css" type="text/css">
+
+      <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
+
+      <link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
+
+      <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
+
+
+   </head>
+
 <body>
 
 	<div id="notifications"></div>
@@ -26,7 +47,7 @@
 
 			<span class = "utilities_nav_choices">
 
-				<input type="radio" id="reports_button" name="radio" checked="checked" /><label for="reports_button">Reports</label>
+				<input type="radio" id="reports_button" name="radio" checked="checked" /><label for="reports_button">Time Reports</label>
 
 				<?php if ($_SESSION['permissions']['can_configure'] == '1'){?>
 
@@ -38,7 +59,42 @@
 
 		</div>
 
-		<div id = "utilities_panel">Loading...</div>
+		<div id = "utilities_panel">
+
+		</div>
+
+		<div id="report_chooser">
+
+			<p>
+				<label>Report on:</label>
+				<select name = "type" data-placeholder="Select users to report on">
+					<option value=""></option>
+					<?php
+					include 'db.php';
+					include 'lib/php/html/gen_select.php';
+					include 'lib/php/utilities/names.php';
+					echo reports_users_and_groups($dbh,null);
+					?>
+
+				</select>
+			</p>
+
+			<p>
+				<label>Date Start</label>
+				<input type="hidden" name="date_start">
+				<input type="text" name="date_start_display" class="report_date">
+			</p>
+
+			<p>
+				<label>Date End </label>
+				<input type="hidden" name="date_end">
+				<input type="text" name="date_end_display" class="report_date">
+
+			</p>
+
+			<p><button class="report_submit">Go</button></p>
+
+		</div>
 
 	</div>
 

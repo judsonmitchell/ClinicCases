@@ -34,7 +34,7 @@ echo <<<TOOLS
 
 		</div>
 
-		<div class="case_detail_panel_casenotes case_
+		<div class="print_content case_detail_panel_casenotes case_
 TOOLS;
 echo $case_notes_data[0]['case_id'] . "\">";
 }
