@@ -40,7 +40,7 @@ $(document).ready(function() {
         $('input[name="date_end_display"]').datepicker('setDate', new Date());
 
         //Create a table
-        $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"></table>' );
+        $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"><tfoot><tr></tr></tfoot></table>' );
 
         //Dynamically create dataTable, load data
         $('button.report_submit').click(function(event){
@@ -72,11 +72,90 @@ $(document).ready(function() {
             }
 
             //Load data from server
-            oTable = $('#table_reports').dataTable({
-                "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
-                '&val=' + query[1],
-                "sDom": '<"toolbar">frtip'
-            });
+            $.ajax({
+                url:'lib/php/data/utilities_reports_load.php?type=' + query[0] +
+                            '&columns_only=true',
+                dataType: 'json',
+                type: 'get',
+                error: function() {
+                    return true;
+                },
+                success: function(data) {
+                    if( data )
+                    {
+                        oTable = $('#table_reports').dataTable({
+                            "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
+                            '&val=' + query[1] + '&date_start=' + start + '&date_end=' + end,
+                            'aoColumns': data.aoColumns,
+                            "bProcessing": true,
+                            "bScrollInfinite": true,
+                            "bScrollCollapse": true,
+                            "bSortCellsTop": true,
+                            "bDestroy": true,
+                            "oTableTools":
+                            {
+                                "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                                "aButtons": [
+                                    {
+                                        "sExtends": "collection",
+                                        "sButtonText": "Print/Export",
+                                        "aButtons": [
+                                            {"sExtends": "copy",
+                                                "mColumns": "visible"
+                                            },
+
+                                            {"sExtends": "csv",
+                                                "mColumns": "visible"
+                                            },
+
+                                            {"sExtends": "xls",
+                                                "mColumns": "visible"
+                                            },
+
+                                            {"sExtends": "pdf",
+                                                "mColumns": "visible"
+                                            },
+
+                                            {"sExtends": "print",
+                                                "mColumns": "visible"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sDom": 'frTtip',
+                            "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                                //Note that this function gets called on each draw; there are
+                                //two draws with each dataTable. So, on the first one we add
+                                //the th elements to the foot, the second we work on the data
+                                if ($('tfoot th').length < 1)//th hasn't already been put in
+                                {
+                                    for (var i = data.aoColumns.length - 1; i >= 0; i--) {
+                                        $('tfoot tr').append('<th></th>');
+                                    }
+                                }
+                                else
+                                {
+                                    var totalTime = 0;
+                                    for ( var a=0 ; a<aaData.length ; a++ )
+                                    {
+                                        totalTime += aaData[a][1]*1;
+                                    }
+
+                                    var nCells = nRow.getElementsByTagName('th');
+
+                                    colIndex = oTable.fnGetColumnIndex('Time');
+
+                                    nCells[colIndex].innerHTML = totalTime + ' <b>Total</b>';
+
+
+                                }
+
+
+                            }
+                        });
+                    }}
+                });
 
         });
 

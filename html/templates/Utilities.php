@@ -12,6 +12,8 @@
 
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
+
 <!-- CSS specific to this page -->
 
 

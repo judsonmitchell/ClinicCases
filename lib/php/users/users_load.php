@@ -64,7 +64,7 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 			}
 			else
 			{
-			$rows[] = $result[$col];
+				$rows[] = $result[$col];
 			}
 		}
 
