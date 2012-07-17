@@ -1,7 +1,8 @@
 body{font-family:garamond, georgia, times, serif;}
 h3{margin-bottom: 5px;}
 .print_header{display: inline-block}
-.csenote_new,.csenote_bar_right a,.msg_forward,.msg_reply_text,.msg_actions,#msg_new{display: none}
+.csenote_new,.csenote_bar_right a,.more,.msg_forward,.msg_reply_text,.msg_actions,#msg_new{display: none}
+.csenote{height:auto !important}
 .msg_replies{margin-left: 30px}
 .msg_reply{margin-top: 20px;padding-top:10px;border-top: 1px solid #AAA}
 .msg_bar{width: 100%}

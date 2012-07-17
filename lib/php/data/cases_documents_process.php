@@ -121,6 +121,25 @@ function strstr_after($haystack, $needle, $case_insensitive = false) {
     return $pos;
 }
 
+//Checks to see if the folder path is unique; if not, increments name
+function check_folder_unique($dbh,$container,$new_folder,$case_id)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE '$container' and folder LIKE '$new_folder' AND case_id = '$case_id'  ORDER BY date_modified ASC");
+
+	$q->execute();
+
+	$r = $q->fetch(PDO::FETCH_ASSOC);
+
+	if ($q->rowCount() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 //Create New Folder
 $username = $_SESSION['login'];
 $action = $_POST['action'];
@@ -131,6 +150,8 @@ if (isset($_POST['case_id'])) {
 
 if (isset($_POST['container'])){
 	$container = $_POST['container'];}
+	else
+		{$container = '';}
 
 if (isset($_POST['new_folder'])) {
 	$new_folder = $_POST['new_folder'];
@@ -186,6 +207,12 @@ if (isset($_POST['selection_path'])) {
 
 if ($action == 'newfolder')
 {
+
+	if (check_folder_unique($dbh,$container,$new_folder,$case_id) === true)
+		{
+			$return = array('message'=>'Sorry, that folder name is already in use.  Please choose another name.','error'=>true);
+			echo json_encode($return);die;
+		};
 
 	$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', :new_folder, :container, '$username', :case_id, CURRENT_TIMESTAMP);");
 
@@ -254,6 +281,8 @@ if ($action == 'delete')
 {
 	if ($doc_type === 'folder')
 	{
+
+		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS?
 		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder LIKE :path_mask AND case_id = :case_id");
 
 		$path_mask = $path . '%';

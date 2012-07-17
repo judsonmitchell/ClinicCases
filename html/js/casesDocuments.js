@@ -273,7 +273,7 @@ $('.case_detail_nav #item3').live('click', function() {
 
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
-        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
+        $('div.case_detail_panel_casenotes').css({'height': documentsWindowHeight});
         $('div.case_detail_panel_tools_left').css({'width': '40%'});
         $('div.case_detail_panel_tools_right').css({'width': '60%'});
 
@@ -512,7 +512,8 @@ $('.case_detail_nav #item3').live('click', function() {
 });
 
 //User clicks a folder or document
-$('div.doc_item').live('click', function() {
+$('div.doc_item').live('click', function(event) {
+    event.preventDefault();
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
@@ -553,7 +554,7 @@ $('button.doc_new_folder').live('click', function() {
             {
 
                 var newFolder = null;
-                if (container === '')
+                if (container === ''  || typeof container == 'undefined')
                 {
                     newFolder = escape(newName);
                 }
@@ -563,11 +564,18 @@ $('button.doc_new_folder').live('click', function() {
                 }
                 $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
                     var serverResponse = $.parseJSON(data);
-                    $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
-                    $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
-                    $('#new_folder_name').closest('p').html(newName);
-                    createDragDrop();
-                    notify(serverResponse.message);
+                    if(serverResponse.error === true)
+                    {
+                        notify(serverResponse.message,true);
+                    }
+                    else
+                    {
+                        $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
+                        $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
+                        $('#new_folder_name').closest('p').html(newName);
+                        createDragDrop();
+                        notify(serverResponse.message);
+                    }
 
                 });
 
