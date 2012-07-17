@@ -512,7 +512,7 @@ $('.case_detail_nav #item3').live('click', function() {
 });
 
 //User clicks a folder or document
-$('div.doc_item').live('click', function(event) {
+$('div.doc_item').live('click', function() {
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
