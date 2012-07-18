@@ -46,11 +46,25 @@ $(document).ready(function() {
         $('button.report_submit').click(function(event){
             event.preventDefault();
 
+            var tableHeight = $('#utilities_panel').height() - $('#report_chooser').height() - 150;
+
+            if ($('tfoot th').length)
+            {
+                $('tfoot th').remove();
+            }
+
+            if ($('thead th').length)
+            {
+                $('thead th').remove();
+            }
+
             var q_type =$('select[name="type"]').val();
 
             var start = $('input[name="date_start"]').val();
 
             var end = $('input[name="date_end"]').val();
+
+            var detail = $('input[name="detail"]').val();
 
             var query = [];
 
@@ -58,9 +72,9 @@ $(document).ready(function() {
             {
                 query.push('grp',q_type);
             }
-            else if (q_type.indexOf("_svn_") != -1) //supervisor groups
+            else if (q_type.indexOf("_spv_") != -1) //supervisor groups
             {
-                query.push('supvrsr_grp',q_type);
+                query.push('supvsr_grp',q_type);
             }
             else if(q_type.indexOf("_cse_") != -1) //case
             {
@@ -81,17 +95,23 @@ $(document).ready(function() {
                     return true;
                 },
                 success: function(data) {
+
                     if( data )
                     {
                         oTable = $('#table_reports').dataTable({
                             "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
                             '&val=' + query[1] + '&date_start=' + start + '&date_end=' + end,
-                            'aoColumns': data.aoColumns,
+                            "aoColumns": data.aoColumns,
+                            "bAutoWidth":false,
                             "bProcessing": true,
                             "bScrollInfinite": true,
-                            "bScrollCollapse": true,
+                            "sScrollY":tableHeight,
+                            "iDisplayLength": 150,
                             "bSortCellsTop": true,
                             "bDestroy": true,
+                            "oLanguage": {
+                                "sEmptyTable": "No data found."
+                            },
                             "oTableTools":
                             {
                                 "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
@@ -113,7 +133,9 @@ $(document).ready(function() {
                                             },
 
                                             {"sExtends": "pdf",
-                                                "mColumns": "visible"
+                                                "mColumns": "visible",
+                                                "sTitle": "Report"
+
                                             },
 
                                             {"sExtends": "print",
@@ -123,7 +145,7 @@ $(document).ready(function() {
                                     }
                                 ]
                             },
-                            "sDom": 'frTtip',
+                            "sDom": 'frTt',
                             "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
                                 //Note that this function gets called on each draw; there are
                                 //two draws with each dataTable. So, on the first one we add
@@ -136,23 +158,31 @@ $(document).ready(function() {
                                 }
                                 else
                                 {
-                                    var totalTime = 0;
-                                    for ( var a=0 ; a<aaData.length ; a++ )
+                                    if (aaData.length > 0) //no need for footer if no data.
                                     {
-                                        totalTime += aaData[a][1]*1;
+                                        var totalTime = 0;
+
+                                        colIndex = oTable.fnGetColumnIndex('Time (hours)');
+
+                                        for ( var a=0 ; a<aaData.length ; a++ )
+                                        {
+                                            totalTime += parseInt(aaData[a][colIndex]);
+                                        }
+
+                                        var nCells = nRow.getElementsByTagName('th');
+
+                                        var previousCell = colIndex - 1;
+
+                                        nCells[previousCell].innerHTML = 'Total Hours';
+
+                                        nCells[colIndex].innerHTML = totalTime;
                                     }
-
-                                    var nCells = nRow.getElementsByTagName('th');
-
-                                    colIndex = oTable.fnGetColumnIndex('Time');
-
-                                    nCells[colIndex].innerHTML = totalTime + ' <b>Total</b>';
-
 
                                 }
 
 
                             }
+
                         });
                     }}
                 });

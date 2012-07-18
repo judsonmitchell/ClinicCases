@@ -30,7 +30,6 @@ $(document).ready(function() {
                     "bSortCellsTop": true,
                     "bStateSave":true,
                     "sScrollY": adjustedHeight - 95,
-                    "sScrollX": "98%",
                     "iDisplayLength": 50,
                     "aaSorting": [[4, "asc"]],
                     "aoColumns": aoColumns,

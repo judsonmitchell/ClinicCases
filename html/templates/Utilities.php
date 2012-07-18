@@ -72,7 +72,7 @@
 
 		</div>
 
-		<div id="report_chooser">
+		<div id="report_chooser" class="ui-toolbar ui-widget-header ui-corner-tl ui-corner-all">
 
 			<p>
 				<label>Report on:</label>

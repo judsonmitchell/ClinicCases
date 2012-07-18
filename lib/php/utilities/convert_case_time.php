@@ -34,6 +34,17 @@ function convert_case_time($time)
 
 	}
 
+//Convert to hours only
+function convert_to_hours($time)
+{
+	$hours = floor($time / 3600);
+	$minutes = $time - ($hours * 3600);
+	$minutes2 = $minutes / 60;
+	$min_format = round($minutes2/CC_TIME_UNIT,0) * CC_TIME_UNIT;
+	$time = "$hours" . ".$min_format";
+	return $time;
+}
+
 //Convert user-entered time into seconds
 function convert_to_seconds($hours,$minutes)
 

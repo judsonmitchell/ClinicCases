@@ -519,7 +519,7 @@ function reports_users_and_groups($dbh,$case_num)
 			}
 		}
 
-		$options .= "</optgroup";
+		$options .= "</optgroup>";
 
 	}
 
