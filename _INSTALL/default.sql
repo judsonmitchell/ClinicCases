@@ -3,21 +3,15 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 02, 2012 at 12:15 PM
+-- Generation Time: Jul 19, 2012 at 11:40 AM
 -- Server version: 5.1.63
 -- PHP Version: 5.3.6-13ubuntu3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- Database: `cc7_demo`
+-- Database: `default`
 --
 
 -- --------------------------------------------------------
@@ -76,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `cm` (
 -- Dumping data for table `cm`
 --
 
-INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `middle_name`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `clinic_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `adverse_parties`, `notes`, `dispo`, `close_notes`, `referral`, `opened_by`, `time_opened`, `closed_by`, `time_closed`) VALUES
-(1, '', 'Sample', '', 'Case', '', '2012-07-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', 'After you have added some cases, ask your server administrator to delete this case in the database.', '', '', '', 'tadmin', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `middle_name`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `clinic_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `adverse_parties`, `notes`, `dispo`, `close_notes`, `referral`, `assigned_users`, `opened_by`, `time_opened`, `closed_by`, `time_closed`) VALUES
+(1, '', 'Sample', '', 'Case', '', '2012-07-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', 'After you have added some cases, ask your server administrator to delete this case in the database.', '', '', '', '', 'tadmin', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -230,7 +224,7 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (8, 'date_open', 'Date Open', 'true', 'date', '', 'true', 1, 8),
 (9, 'date_close', 'Date Close', 'true', 'date', '', 'true', 1, 41),
 (10, 'case_type', 'Case Type', 'true', 'select', 'a:5:{s:4:"MISD";s:22:"Criminal - Misdemeanor";s:3:"ADO";s:8:"Adoption";s:4:"CHSP";s:13:"Child Support";s:3:"FEL";s:17:"Criminal - Felony";s:3:"DIV";s:7:"Divorce";}', 'true', 1, 10),
-(44, 'assigned_users', 'Assigned Users', 'true', 'text', '', 'false', 0, 40.5),
+(44, 'assigned_users', 'Assigned Users', 'true', 'text', '', 'false', 0, 41),
 (41, 'adverse_parties', 'Adverse Party', 'true', 'multi-text', '', 'false', 1, 33),
 (11, 'clinic_type', 'Clinic Type', 'true', 'select', 'a:8:{s:3:"MSD";s:18:"Misdemeanor Clinic";s:3:"CMJ";s:17:"Community Justice";s:3:"CRM";s:8:"Criminal";s:3:"FAM";s:6:"Family";s:3:"IMM";s:11:"Immigration";s:3:"LTT";s:25:"Litigation and Technology";s:3:"TST";s:11:"Test Clinic";s:3:"WJS";s:17:"Workplace Justice";}', 'false', 0, 11),
 (12, 'address1', 'Address 1', 'false', 'text', '', 'false', 0, 12),
@@ -259,7 +253,6 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (39, 'referral', 'Referred By', 'true', 'select', 'a:3:{i:1;s:15:"Social Services";i:2;s:3:"LSC";i:3;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
 
-
 -- --------------------------------------------------------
 
 --
@@ -284,6 +277,11 @@ CREATE TABLE IF NOT EXISTS `cm_contacts` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cm_contacts_types`
+--
 
 CREATE TABLE IF NOT EXISTS `cm_contacts_types` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
@@ -302,7 +300,6 @@ INSERT INTO `cm_contacts_types` (`id`, `type`) VALUES
 (4, 'Client Relative/Friend'),
 (5, 'Expert'),
 (6, 'Other');
-
 
 -- --------------------------------------------------------
 
@@ -439,12 +436,14 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
   `add_events` int(2) NOT NULL,
   `edit_events` int(2) NOT NULL,
   `delete_events` int(2) NOT NULL,
-  `add_contacts` int(2) NOT NULL DEFAULT '1',
-  `edit_contacts` int(2) NOT NULL DEFAULT '1',
-  `delete_contacts` int(2) NOT NULL DEFAULT '1',
+  `add_contacts` int(2) NOT NULL,
+  `edit_contacts` int(2) NOT NULL,
+  `delete_contacts` int(2) NOT NULL,
   `post_in_board` int(2) NOT NULL,
   `view_board` int(2) NOT NULL,
   `edit_posts` int(2) NOT NULL,
+  `reads_journals` int(2) NOT NULL,
+  `writes_journals` int(2) NOT NULL,
   `change_permissions` int(2) NOT NULL,
   `can_configure` int(2) NOT NULL,
   `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
@@ -456,11 +455,11 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
 -- Dumping data for table `cm_groups`
 --
 
-INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', 'a:8:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Students";i:3;s:5:"Users";i:4;s:8:"Journals";i:5;s:5:"Board";i:6;s:9:"Utilities";i:7;s:8:"Messages";}', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Users";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Journals";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 'a:7:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Group";i:3;s:8:"Journals";i:4;s:5:"Board";i:5;s:9:"Utilities";i:6;s:8:"Messages";}', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0);
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `reads_journals`, `writes_journals`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', 'a:8:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Students";i:3;s:5:"Users";i:4;s:8:"Journals";i:5;s:5:"Board";i:6;s:9:"Utilities";i:7;s:8:"Messages";}', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Users";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Journals";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 'a:7:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Group";i:3;s:8:"Journals";i:4;s:5:"Board";i:5;s:9:"Utilities";i:6;s:8:"Messages";}', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -471,11 +470,10 @@ INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`,
 CREATE TABLE IF NOT EXISTS `cm_journals` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL DEFAULT '',
-  `professor` varchar(150) NOT NULL DEFAULT '',
+  `reader` text NOT NULL,
   `text` text NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `temp_id` varchar(100) NOT NULL DEFAULT '',
-  `deleted` varchar(10) NOT NULL DEFAULT '',
+  `archived` varchar(10) NOT NULL DEFAULT '',
   `read` varchar(10) NOT NULL DEFAULT '',
   `commented` varchar(10) NOT NULL DEFAULT '',
   `comments` text NOT NULL,
@@ -585,7 +583,3 @@ CREATE TABLE IF NOT EXISTS `cm_users` (
 
 INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`, `office_phone`, `home_phone`, `grp`, `username`, `password`, `supervisors`, `picture_url`, `timezone_offset`, `status`, `new`, `date_created`, `pref_case`, `pref_journal`, `pref_case_prof`, `evals`, `private_key`, `force_new_password`) VALUES
 (1, 'Temp', 'Admin', '', '', '', '', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', 'people/no_picture.png', '1', 'active', '', '2012-07-02 14:57:44', 'on', '', 'on', '', '', 1);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

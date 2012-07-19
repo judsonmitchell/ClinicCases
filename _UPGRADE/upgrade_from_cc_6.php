@@ -91,12 +91,14 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
   `add_events` int(2) NOT NULL,
   `edit_events` int(2) NOT NULL,
   `delete_events` int(2) NOT NULL,
-  `add_contacts` int(2) NOT NULL DEFAULT '1',
-  `edit_contacts` int(2) NOT NULL DEFAULT '1',
-  `delete_contacts` int(2) NOT NULL DEFAULT '1',
+  `add_contacts` int(2) NOT NULL,
+  `edit_contacts` int(2) NOT NULL,
+  `delete_contacts` int(2) NOT NULL,
   `post_in_board` int(2) NOT NULL,
   `view_board` int(2) NOT NULL,
   `edit_posts` int(2) NOT NULL,
+  `reads_journals` int(2) NOT NULL,
+  `writes_journals` int(2) NOT NULL,
   `change_permissions` int(2) NOT NULL,
   `can_configure` int(2) NOT NULL,
   `supervises` int(2) NOT NULL COMMENT 'The user has other users under him who he supervises, e.g, students, associates',
@@ -108,11 +110,12 @@ $query = $dbh->prepare("CREATE TABLE IF NOT EXISTS `cm_groups` (
 -- Dumping data for table `cm_groups`
 --
 
-INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
-(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0);
+INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `reads_journals`, `writes_journals`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
+(1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', '$super_tabs', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
+(2, 'admin', 'Adminstrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', '$admin_tabs', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0),
+(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', '$student_tabs', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', '$prof_tabs', 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0);
+
 ");
 
 $query->execute();
@@ -826,6 +829,30 @@ if (count($arr) > 0)
 	$update->execute();
 }
 
+echo "Updating Journals</br>";
+$q = $dbh->prepare("ALTER TABLE `cm_journals`
+  DROP `temp_id`;ALTER TABLE `cm_journals` CHANGE `professor` `reader` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '';ALTER TABLE  `cm_journals` CHANGE  `reader`  `reader` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_journals` CHANGE  `deleted`  `archived` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';");
+
+$q->execute();
+
+$q = $dbh->prepare("SELECT id,reader FROM cm_journals");
+
+$q->execute();
+
+$r = $q->fetchAll(PDO::FETCH_ASSOC);
+
+$update = $dbh->prepare("UPDATE cm_journals SET reader = :val WHERE id = :id");
+
+foreach ($r as $value) {
+	$new_reader = $value['reader'] . ',';
+
+	$data = array('val'=>$new_reader,'id' => $value['id']);
+
+	$update->execute($data);
+}
+
+echo "Finished updating journals";
+
 //From beta 1.3: add assigned users to cm
 echo "Adding users to cases table<br />";
 $q = $dbh->prepare("SELECT * FROM cm");
@@ -838,6 +865,8 @@ foreach ($cases as $case) {
 
 	update_case_with_users($dbh,$case['case_id']);
 }
+
+
 
 
 echo "Upgrade successful";
