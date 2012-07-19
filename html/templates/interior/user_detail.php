@@ -40,15 +40,22 @@
 
 	<p><label>Date Created</label><?php echo extract_date_time($date_created); ?></p>
 
+
+
+</div>
+
+<div class = "user_detail_right">
+
+	<p><label>Photo</label>
+		<p><img src="<?php echo $picture_url?>" border="0"></p>
+
+	</p>
+
 	<p><label>Last Login</label><?php
 			$last_login = get_last_login($dbh,$username);
 			if ($last_login){echo extract_date_time($last_login);}else{echo "Never";} ?></p>
 
 	<p><label>Last Case Activity</label><?php echo get_last_case_activity($dbh,$username);?></p>
-
-</div>
-
-<div class = "user_detail_right">
 
 	<p><label>Active Cases</label>
 			<?php $active_cases = get_active_cases($dbh,$username);echo count($active_cases); ?>
