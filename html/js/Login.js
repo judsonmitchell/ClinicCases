@@ -24,7 +24,7 @@ $(document).ready(function() {
     //Deal with IE
     if ($('html').hasClass('ie7') || $('html').hasClass('ie6'))
     {
-        var warn = "<p>Sorry, your browser is out of date and cannot display ClinicCases.  Please either <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/'>update your version of Internet Explorer</a> or, even better, install <a href='http://www.google.com/chrome'>Google Chrome</a>.</p>";
+        var warn = "<p>Sorry, your browser is out of date and cannot display ClinicCases.  Please either <a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/'>update your version of Internet Explorer</a> or, even better, install <a href='http://www.google.com/chrome'>Google Chrome</a>.</p><br /><p>If you are not allowed to add or modify software on your system, you can use <a href='http://www.google.com/chromeframe/'>Chrome Frame</a>.";
         $('#content').html(warn);
     }
 
@@ -85,14 +85,6 @@ $(document).ready(function() {
     $("#login_button").bind('click', function(event) {
         event.preventDefault();
         login_user();
-    });
-
-    $("#status").ajaxSend(function(){
-        $(this).text('Sending...');
-    });
-
-    $("#status").ajaxError(function(){
-        $(this).text('Sorry, system error.');
     });
 
     $("#password").keyup(function(event) {
