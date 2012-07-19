@@ -98,6 +98,11 @@ $(document).ready(function() {
 
                     if( data )
                     {
+                        //Add footer to html
+                        for (var i = 0; i < data.aoColumns.length; i++) {
+                            $('tfoot tr').append('<th></th>');
+                        }
+
                         oTable = $('#table_reports').dataTable({
                             "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
                             '&val=' + query[1] + '&date_start=' + start + '&date_end=' + end,
@@ -134,7 +139,8 @@ $(document).ready(function() {
 
                                             {"sExtends": "pdf",
                                                 "mColumns": "visible",
-                                                "sTitle": "Report"
+                                                "sTitle": "Report",
+                                                "bFooter":"visible"
 
                                             },
 
@@ -150,14 +156,14 @@ $(document).ready(function() {
                                 //Note that this function gets called on each draw; there are
                                 //two draws with each dataTable. So, on the first one we add
                                 //the th elements to the foot, the second we work on the data
-                                if ($('tfoot th').length < 1)//th hasn't already been put in
-                                {
-                                    for (var i = data.aoColumns.length - 1; i >= 0; i--) {
-                                        $('tfoot tr').append('<th></th>');
-                                    }
-                                }
-                                else
-                                {
+                                // if ($('tfoot th').length < 1)//th hasn't already been put in
+                                // {
+                                //     for (var i = data.aoColumns.length - 1; i >= 0; i--) {
+                                //         $('tfoot tr').append('<th></th>');
+                                //     }
+                                // }
+                                // else
+                                // {
                                     if (aaData.length > 0) //no need for footer if no data.
                                     {
                                         var totalTime = 0;
@@ -178,7 +184,7 @@ $(document).ready(function() {
                                         nCells[colIndex].innerHTML = totalTime;
                                     }
 
-                                }
+                               // }
 
 
                             }
