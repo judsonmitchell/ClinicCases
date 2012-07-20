@@ -18,6 +18,20 @@ function user_email($dbh,$user)
 
 }
 
+//Return user picture
+function user_picture($dbh,$user)
+{
+	$q = $dbh->prepare("SELECT picture_url FROM cm_users WHERE username = ? LIMIT 1");
+
+	$q->bindParam(1,$user);
+
+	$q->execute();
+
+	$u = $q->fetch();
+
+	return $u['picture_url'];
+}
+
 function user_email_from_id($dbh,$id)
 {
 	$q = $dbh->prepare("SELECT email FROM cm_users WHERE id = ?");

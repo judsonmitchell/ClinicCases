@@ -9,7 +9,6 @@
 
 <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
 
-
 <link type="text/css" href="lib/javascripts/lwrte/jquery.rte.css" rel="stylesheet"/>
 
 <!-- Jquery Calls Specific to this page -->
@@ -66,7 +65,11 @@
 
 		<div id="processing">Loading....</div>
 
-			<table id="table_cases" class="display">
+			<table id="table_journals" class="display">
+
+				<thead></thead>
+
+				<tbody></tbody>
 
 			</table>
 
