@@ -851,6 +851,38 @@ foreach ($r as $value) {
 	$update->execute($data);
 }
 
+//convert journal comments to arrays
+
+$q = $dbh->prepare("SELECT id, reader, comments FROM cm_journals WHERE comments != ''");
+
+$q->execute();
+
+$comments = $q->fetchAll(PDO::FETCH_ASSOC);
+
+if ($q->rowCount() > 0)
+{
+	$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments WHERE id = :id");
+
+	foreach ($comments as $v) {
+
+		$c = array();
+
+		$time =  date('Y-m-d H:i:s');
+
+		$by = substr($v['reader'],0,-1);
+
+		$clean = stripslashes($v['comments']);
+
+		$c[] = array('id' => $v['id'],'by' =>  $by,'text' => $clean,'time' => $time);
+
+		$s = serialize($c);
+
+		$data = array('comments' => $s,'id' => $v['id']);
+
+		$update->execute($data);
+	}
+}
+
 echo "Finished updating journals";
 
 //From beta 1.3: add assigned users to cm

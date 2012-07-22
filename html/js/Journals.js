@@ -145,7 +145,30 @@ function callJournal(id)
         });
 
         //Handle textareas
-        $('textarea.expand').TextAreaExpander(40,300);
+        $('textarea.expand').livequery(function(){
+            $(this).TextAreaExpander(40,300).css({'color':'#AAA'}).bind('focus',function(){
+            $(this).val('').css({'color':'black'}).unbind('focus');
+            });
+        });
+
+        $('a.comment_save').live('click', function(event){
+            event.preventDefault();
+            var journalId = $(this).closest('div.journal_body').attr('data-id');
+            var commentText = $(this).siblings('textarea').val();
+            $.post('lib/php/data/journals_process.php',{'type': 'add_comment','id':journalId,'comment_text':commentText},function(data){
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                        {notify(serverResponse.message);}
+                    else
+                        {
+                            $('div.journal_comments').load('lib/php/data/journals_detail_load.php div.journal_comments', {'id': id});
+                            notify(serverResponse.message);
+                        }
+            });
+
+        });
+
+
 
     });
 }
