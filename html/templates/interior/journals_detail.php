@@ -29,11 +29,14 @@
 
 				foreach ($c_array as $key => $value) {?>
 
-					<div class = "comment" data-id="<?php echo $key; ?>">
+					<div class = "comment <?php if ($value['by'] == $_SESSION['login']){echo "can_delete";} ?>" data-id="<?php echo $key; ?>">
 
 						<img src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
 
-						<p><?php echo $value['text']; ?></p>
+						<p><?php echo strip_tags($value['text'],'<br>'); ?></p>
+
+						<a href="#" class="comment_delete">Delete</a>
+
 
 					</div>
 

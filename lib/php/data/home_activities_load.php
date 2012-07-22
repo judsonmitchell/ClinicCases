@@ -477,6 +477,63 @@ if ($_SESSION['permissions']['activate_users'] == '1')
 
 //TODO  add journals, board post
 
+//Journal comments
+	//select all journals that are newer than start date
+	//then take all serialized arrays from comments and add to $activities
+if ($_SESSION['permissions']['reads_journals'] == '1' ||
+	$_SESSION['permissions']['writes_journals'] == '1')
+{
+	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$phpdate'
+		AND comments != '' AND (reader LIKE '$username,%' OR reader LIKE '%,$username,%' OR username LIKE '$username'");
+	//query is constructed like this so that if there is more than one reader,
+	//they get to be notified of the other reader's comments
+
+	$get_journals->execute();
+
+	$journals = $get_journals->fetchAll(PDO::FETCH_ASSOC);
+
+	if (count($journals) > 0)
+	{
+		foreach ($journals as $j) {
+
+			$c = unserialize($j['comments']);
+
+			foreach ($c as $d) {
+				$activity_type = 'new_journal_comment';
+				if ($d['by'] === $username)
+				{
+					$by = 'You';
+				}
+				else
+				{
+					$by = username_to_fullname($dbh,$d['by']);
+				}
+				$thumb = return_thumbnail($dbh,$d['by']);
+				$action_text = " added a comment to a journal ";
+				$time_done = $d['time'];
+				$time_formatted = extract_date_time($d['time']);
+				$what = strip_tags($d['text']);
+				$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
+				$casename = "(view here)";
+				$id = null;
+
+				$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+				'time_formatted' => $time_formatted);
+
+				$activities[] = $item;
+
+			}
+
+		}
+	}
+
+}
+
+
+
+
 if (!empty($activities)) {
 	sortBySubkey($activities,'time_done');
 }

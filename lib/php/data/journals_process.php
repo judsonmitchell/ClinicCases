@@ -2,6 +2,8 @@
 session_start();
 require('../auth/session_check.php');
 include '../../../db.php';
+include '../utilities/names.php';
+include '../users/user_data.php';
 
 $id = $_POST['id'];
 
@@ -14,6 +16,15 @@ if (isset($_POST['comment_text']))
 else
 {
 	$comment_text = null;
+}
+
+if (isset($_POST['comment_id']))
+{
+	$comment_id = $_POST['comment_id'];
+}
+else
+{
+	$comment_id = null;
 }
 
 switch ($type) {
@@ -86,6 +97,73 @@ switch ($type) {
 
 			$error = $q->errorInfo();
 		}
+
+		//notify users via email
+
+		//figure out who needs to receive this notification
+		$q = $dbh->prepare("SELECT reader,username FROM cm_journals WHERE id =?");
+
+		$q->bindParam(1,$id);
+
+		$q->execute();
+
+		$u = $q->fetch(PDO::FETCH_ASSOC);
+
+		$involved = $u['reader'] . $u['username'];
+
+		$inv = explode(',', $involved);
+
+		$this_user = array($_SESSION['login']);
+
+		$notify = array_diff($inv,$this_user);
+
+		foreach ($notify as $user) {
+			$commenter = username_to_fullname($dbh,$_SESSION['login']);
+
+			$email = user_email($dbh,$user);
+
+			$subject = "ClincCases: $commenter has commented on a journal.";
+
+			$body = "$commenter has commented on a journal.n\n" . CC_EMAIL_FOOTER;
+
+			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+		}
+
+		//TODO test on mail server
+
+		break;
+
+	case 'delete_comment':
+
+		//Get current comment array for this journal
+		$q = $dbh->prepare('SELECT comments FROM cm_journals WHERE id = ?');
+
+		$q->bindParam(1,$id);
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		$result = $q->fetch(PDO::FETCH_ASSOC);
+
+		$old = unserialize($result['comments']);
+
+		unset($old[$comment_id]);
+
+		$new = serialize($old);
+
+		//put comment array back in db
+		$update = $dbh->prepare("UPDATE cm_journals SET comments = ? WHERE id = ?");
+
+		$update->bindParam(1,$new);
+
+		$update->bindParam(2,$id);
+
+		$update->execute();
+
+		$error = $update->errorInfo();
+
+		break;
 }
 
 if ($error[1])
@@ -107,8 +185,10 @@ else
 			echo json_encode($return);
 			break;
 
-		default:
-			# code...
+		case 'delete_comment':
+			$return = array('error' => false,'message' => 'Comment deleted');
+			echo json_encode($return);
 			break;
+
 	}
 }

@@ -869,11 +869,9 @@ if ($q->rowCount() > 0)
 
 		$time =  date('Y-m-d H:i:s');
 
-		$by = substr($v['reader'],0,-1);
-
 		$clean = stripslashes($v['comments']);
 
-		$c[] = array('id' => $v['id'],'by' =>  $by,'text' => $clean,'time' => $time);
+		$c[] = array('id' => $v['id'],'by' =>  $v['reader'],'text' => $clean,'time' => $time);
 
 		$s = serialize($c);
 

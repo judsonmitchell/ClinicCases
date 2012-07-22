@@ -7,7 +7,7 @@ include '../utilities/thumbnails.php';
 include '../utilities/convert_times.php';
 
 if($_SESSION['permissions']['reads_journals'] == '0' &&
-$_SESSION['permissions']['write_journals'] == '0')
+$_SESSION['permissions']['writes_journals'] == '0')
 {
 	die('Sorry, you do not have permission to read or write journals');
 }

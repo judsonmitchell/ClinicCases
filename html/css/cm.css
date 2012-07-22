@@ -549,11 +549,12 @@ div.journal_header{position:relative;text-align: left;padding:10px 0px 5px 10px;
 div.journal_header p{display: inline-block;font-size: 1.2em;font-weight:bold;}
 div.journal_body{text-align:left;padding: 1%;height:90%;overflow-y:auto;}
 div.journal_comments{margin-bottom: 30px}
-div.comment{border-left:5px solid #AAA;padding-left: 15px;margin-top:15px;margin-left: 20px}
+div.comment{border-left:5px solid #AAA;padding-left: 5px;margin-top:15px;}
 div.comment img, div.comment textarea,div.comment p {display: inline-block;vertical-align: top;}
-textarea.expand{width:400px;}
-div.comment p {width:40%;}
-a.comment_save{vertical-align: bottom;}
+textarea.expand{width:450px;}
+div.comment p {width:450px;}
+a.comment_save,a.comment_delete{vertical-align: bottom;}
+a.comment_delete{display:none;}
 
 
 

@@ -100,6 +100,9 @@ $(document).ready(function() {
 				oTable.fnAdjustColumnSizing();
 			});
 
+            //check hash; see if we need to open a journal
+            router();
+
 		},
 		"fnDrawCallback":function(){
 			$("#journalStatus").text(chooserVal);
@@ -150,25 +153,80 @@ function callJournal(id)
             $(this).val('').css({'color':'black'}).unbind('focus');
             });
         });
-
-        $('a.comment_save').live('click', function(event){
-            event.preventDefault();
-            var journalId = $(this).closest('div.journal_body').attr('data-id');
-            var commentText = $(this).siblings('textarea').val();
-            $.post('lib/php/data/journals_process.php',{'type': 'add_comment','id':journalId,'comment_text':commentText},function(data){
-                    var serverResponse = $.parseJSON(data);
-                    if (serverResponse.error === true)
-                        {notify(serverResponse.message);}
-                    else
-                        {
-                            $('div.journal_comments').load('lib/php/data/journals_detail_load.php div.journal_comments', {'id': id});
-                            notify(serverResponse.message);
-                        }
-            });
-
-        });
-
-
-
     });
 }
+
+//Listeners
+//Save comments
+$('a.comment_save').live('click', function(event){
+    event.preventDefault();
+    var journalId = $(this).closest('div.journal_body').attr('data-id');
+    var commentText = $(this).siblings('textarea').val();
+    $.post('lib/php/data/journals_process.php',{'type': 'add_comment','id':journalId,'comment_text':commentText},function(data){
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.error === true)
+                {notify(serverResponse.message);}
+            else
+                {
+                    $('div.journal_comments').load('lib/php/data/journals_detail_load.php div.journal_comments', {'id': journalId});
+                    notify(serverResponse.message);
+                }
+    });
+
+});
+
+//Delete comments
+$('a.comment_delete').live('click',function(event){
+    event.preventDefault();
+
+    var commentId = $(this).parent().attr('data-id');
+
+    var journalId = $(this).closest('div.journal_body').attr('data-id');
+
+    var dialogWin = $('<div title="Are you sure?"><p>Delete this comment?</p></div>').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/data/journals_process.php',{'type': 'delete_comment','id':journalId,'comment_id':commentId},function(data){
+                var serverResponse = $.parseJSON(data);
+
+                if (serverResponse.error === true)
+                    {notify(serverResponse.message);}
+                else
+                    {
+                        $('div.journal_comments').load('lib/php/data/journals_detail_load.php div.journal_comments', {'id': journalId});
+                        notify(serverResponse.message);
+                    }
+                });
+
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+
+    });
+
+    $(dialogWin).dialog('open');
+
+});
+
+//Add delete listener
+$(function() {
+
+    $('div.comment').livequery(function(){
+        if ($(this).hasClass('can_delete'))
+        {
+            $(this).mouseover(function(){
+                $(this).find('a.comment_delete').show();
+            })
+            .mouseout(function(){
+                $(this).find('a.comment_delete').hide();
+            });
+        }
+    });
+});
+
