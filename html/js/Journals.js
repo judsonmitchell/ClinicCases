@@ -22,6 +22,13 @@ $(document).ready(function() {
             { "sTitle" : "Commented","bVisible" : false},
             { "sTitle" : "Comments","bSearchable" : false,"bVisible" : false}
         ],
+        "oColVis": {"aiExclude": [0,1],"bRestore": true,"buttonText": "Columns"},
+        "oTableTools": {
+            "aButtons": [
+            {"sExtends":"text","sButtonText":"Reset","sButtonClass":"DTTT_button_reset","sButtonClassHover":"DTTT_button_reset_hover"},
+            {"sExtends":"text","sButtonText":"New Journal","sButtonClass":"DTTT_button_new_case","sButtonClassHover":"DTTT_button_new_case_hover"}
+            ]
+        },
         "aaSorting": [[5, "desc"]],
         "bDeferRender": true,
 		"bAutoWidth":false,
@@ -32,7 +39,7 @@ $(document).ready(function() {
 		"iDisplayLength": 30,
 		"iScrollLoadGap":200,
 		"bSortCellsTop": true,
-		"sDom": 'R<"H"fCi>rt<"F"<"journal_action">>',
+		"sDom": 'R<"H"fTCi>rt<"F"<"journal_action">>',
 		"oLanguage": {"sInfo": "Showing <b>_TOTAL_</b> <span id='journalStatus'></span> journals","sInfoFiltered": "from a total of <b>_MAX_</b>","sEmptyTable": "No journals found."},
 		"fnInitComplete":function(){
 
@@ -85,6 +92,37 @@ $(document).ready(function() {
             //Apply default filter - unread
             oTable.fnFilter('^$', oTable.fnGetColumnIndex("Read"), true, false);
 
+            //Have ColVis and reset buttons pick up the DTTT class
+            $('div.ColVis button').removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
+
+            //Event for reset button
+            $("#ToolTables_table_journals_0").click(function() { //reset button
+                fnResetAllFilters();
+            });
+
+            //Check if user can add journals; if not, remove new journal button
+            if (!$('#table_journals').hasClass('can_add'))
+                {$('#ToolTables_table_journals_1').remove();}
+            else //add listener
+                {
+                    $('#ToolTables_table_journals_1').click(function(){
+                    //Add new row to cm_journals table
+                    $.post('lib/php/data/journals_process.php',{'type': 'new'},function(data){
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error === true)
+                            {
+                                notify(serverResponse.message, true);
+                            }
+                            else
+                            {
+                                var newId = serverResponse.newId;
+                                callJournal(newId,true);//true for edit
+                            }
+                        });
+
+                    });
+                }
+
             //Listen for click on table row; open journal
             $('#table_journals tbody').click(function(event) {
                 var iPos = oTable.fnGetPosition(event.target.parentNode);
@@ -112,7 +150,7 @@ $(document).ready(function() {
 		});
 });
 
-function callJournal(id)
+function callJournal(id,edit)
 {
     //Define html for journal window
 
@@ -123,38 +161,135 @@ function callJournal(id)
         $("#content").append(journalDetail);
     }
 
-    $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id}, function() {
-        $(this).show('fold', 1000);
+    if (edit === true) //we are editing or writing a new journal
+    {
+        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id,'view':'edit'}, function() {
 
-        //Mark journal as read
-        // $.post('lib/php/data/journals_process.php',{'id':id,'type':'mark_read'},function(data){
-        //         var serverResponse = $.parseJSON(data);
-        //         if (serverResponse.error === true)
-        //             {notify(serverResponse.message);}
-        // });
+            $(this).show('fold', 1000,function(){
+                //Create lwrte
+                var arr = $(this).find('.journal_edit').rte({
+                css: ['lib/javascripts/lwrte/default2.css'],
+                width: 900,
+                height: 500,
+                controls_rte: rte_toolbar
+                });
 
-        //Define and listen for window buttons
-        $("div.journal_detail_control button").first()
-        .button({icons: {primary: "fff-icon-printer"},label: "Print"})
-        .click(function() {
-            alert('working on it');
-        })
-        .next()
-        .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
-        .click(function() {
-            oTable.fnReloadAjax();
-            $("#journal_detail_window").hide('fold', 1000);
+                //auto-save
+                var lastText = "";
+
+                var editor = $('#journal_detail_window');
+
+                var journalId = $(this).find('div.journal_body').attr('data-id');
+
+                function autoSave(lastText, arr)
+                {
+                    var text = arr[0].get_content();
+                    var status = 'Saving...';
+                    if (text != lastText)
+                    {
+                        editor.find('span.status').html(status);
+                        $.post('lib/php/data/journals_process.php', {'type': 'edit','id': journalId,'text': text}, function(data) {
+                            var serverResponse = $.parseJSON(data);
+                            if (serverResponse.error)
+                            {
+                                editor.find('span.status').html(serverResponse.message);
+                            }
+                            else
+                            {
+                                editor.find('span.status').html(serverResponse.message);
+                            }
+                        });
+
+                        lastText = text;
+                    }
+
+                    var t = setTimeout(function() {
+                        autoSave(lastText, arr);
+                    }, 3000);
+                }
+
+                autoSave(lastText, arr);
+            });
+
+             $("div.journal_detail_control button")
+            .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
+            .click(function() {
+                oTable.fnReloadAjax();
+                $("#journal_detail_window").hide('fold', 1000);
+
+            });
 
         });
+    }
+    else //we are viewing a journal
+    {
 
-        //Handle textareas
-        $('textarea.expand').livequery(function(){
-            $(this).TextAreaExpander(40,300).css({'color':'#AAA'}).bind('focus',function(){
-            $(this).val('').css({'color':'black'}).unbind('focus');
+        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id}, function() {
+            $(this).show('fold', 1000);
+
+            //Mark journal as read
+            // $.post('lib/php/data/journals_process.php',{'id':id,'type':'mark_read'},function(data){
+            //         var serverResponse = $.parseJSON(data);
+            //         if (serverResponse.error === true)
+            //             {notify(serverResponse.message);}
+            // });
+
+            //Define and listen for window buttons
+            $("div.journal_detail_control button").first()
+            .button({icons: {primary: "fff-icon-printer"},label: "Print"})
+            .click(function() {
+                alert('working on it');
+            })
+            .next()
+            .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
+            .click(function() {
+                oTable.fnReloadAjax();
+                $("#journal_detail_window").hide('fold', 1000);
+
+            });
+
+            //Handle textareas
+            $('textarea.expand').livequery(function(){
+                $(this).TextAreaExpander(40,300).css({'color':'#AAA'}).bind('focus',function(){
+                $(this).val('').css({'color':'black'}).unbind('focus');
+                });
             });
         });
-    });
+    }
 }
+
+
+function fnResetAllFilters() {
+
+    var oSettings = oTable.fnSettings();
+
+    //reset the main filter
+    oTable.fnFilter('');
+
+    //reset the columns to their original order.
+    ColReorder.fnReset(oTable);
+
+    //reset the user display for inputs and selects
+    $("input").each(function() {
+        this.value = '';
+    });
+
+    $("select").each(function() {
+        this.selectedIndex = '0';
+    });
+
+    //return to default unread filter
+    oTable.fnFilter('^$', oTable.fnGetColumnIndex("Read"), true, false);
+    chooserVal = "open";
+
+    //return to default sort - Date Submitted
+    oTable.fnSort([[oTable.fnGetColumnIndex("Date Submitted"), 'desc']]);
+
+    //redraw the table so that all columns line up
+    oTable.fnDraw();
+
+}
+
 
 //Listeners
 //Save comments

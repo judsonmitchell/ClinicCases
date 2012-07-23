@@ -5,9 +5,27 @@ include '../../../db.php';
 include '../utilities/names.php';
 include '../users/user_data.php';
 
-$id = $_POST['id'];
+$user = $_SESSION['login'];
 
 $type = $_POST['type'];
+
+if (isset($_POST['id']))
+{
+	$id = $_POST['id'];
+}
+else
+{
+	$id = null;
+}
+
+if (isset($_POST['text']))
+{
+	$text = $_POST['text'];
+}
+else
+{
+	$text = null;
+}
 
 if (isset($_POST['comment_text']))
 {
@@ -46,9 +64,42 @@ switch ($type) {
 
 	case 'new':
 
+		//Check to see if user has permission to do this.
+		if (!$_SESSION['permissions']['writes_journals'] == "1")
+			{
+				$response = array('error' => true,'message' => 'Sorry, you do not have permission to add journals.');
+
+				echo json_encode($response);die;
+			}
+
+		$q = $dbh->prepare("INSERT INTO `cm_journals` (`id`, `username`, `reader`, `text`, `date_added`, `archived`, `read`, `commented`, `comments`) VALUES (NULL, ?, '', '', NOW(), '', '', '', '');");
+
+		$q->bindParam(1,$user);
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		if (!$error[1])
+		{
+			$new_id = $dbh->lastInsertId();
+
+			$response = array('error' => false,'newId' => $new_id);
+
+			echo json_encode($response);
+		}
+
 		break;
 
 	case 'edit':
+
+		$q = $dbh->prepare("UPDATE cm_journals SET `text` = :text WHERE `id` = :id");
+
+		$data = array('text' => $text,'id' => $id);
+
+		$q->execute($data);
+
+		$error = $q->errorInfo();
 
 		break;
 
@@ -77,7 +128,7 @@ switch ($type) {
 
 			$new = serialize($old);
 
-			$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments WHERE id = :id");
+			$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments, commented = 'yes' WHERE id = :id");
 
 			$data = array('comments' => $new,'id' => $id);
 
@@ -87,7 +138,7 @@ switch ($type) {
 		}
 		else
 		{
-			$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments WHERE id = :id");
+			$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments, commented = 'yes' WHERE id = :id");
 
 			$new = serialize($c);
 
@@ -150,10 +201,21 @@ switch ($type) {
 
 		unset($old[$comment_id]);
 
-		$new = serialize($old);
+		if (count($old) > 0)
+		{
+			$new = serialize($old);
+
+			$sql = "UPDATE cm_journals SET comments = ? WHERE id = ?";
+		}
+		else
+		{
+			$new = '';
+
+			$sql = "UPDATE cm_journals SET comments = ?, commented = '' WHERE id = ?";
+		}
 
 		//put comment array back in db
-		$update = $dbh->prepare("UPDATE cm_journals SET comments = ? WHERE id = ?");
+		$update = $dbh->prepare($sql);
 
 		$update->bindParam(1,$new);
 
@@ -177,6 +239,11 @@ else
 	switch ($type) {
 		case 'mark_read':
 			$return = array('error' => false);
+			echo json_encode($return);
+			break;
+
+		case 'edit':
+			$return = array('error' => false,'message' => 'Changes Saved.');
 			echo json_encode($return);
 			break;
 

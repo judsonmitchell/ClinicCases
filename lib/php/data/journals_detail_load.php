@@ -14,6 +14,15 @@ $_SESSION['permissions']['writes_journals'] == '0')
 
 $id = $_POST['id'];
 
+if (isset($_POST['view']))
+{
+	$view = $_POST['view'];
+}
+else
+{
+	$view = null;
+}
+
 $q = $dbh->prepare("SELECT * FROM cm_journals WHERE id = ?");
 
 $q->bindParam(1,$id);

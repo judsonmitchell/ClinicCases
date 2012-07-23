@@ -9,7 +9,9 @@
 
 		<div class = "journal_detail_control">
 
+			<?php if ($view !== 'edit'){ //no print on edit?>
 			<button></button>
+			<?php } ?>
 
 			<button></button>
 
@@ -19,7 +21,16 @@
 
 	<div class="journal_body" data-id="<?php echo $id; ?>">
 
-		<?php echo $text; ?>
+		<?php if ($view == 'edit'){ ?>
+
+		<div class="text_editor_status">
+
+			<span class= "status">Unchanged</span>
+
+		</div>
+		<?php } ?>
+
+		<?php if ($view == 'edit'){echo "<textarea class='journal_edit'>$text</textarea>";}else{echo $text;} ?>
 
 		<div class="journal_comments">
 
@@ -44,6 +55,8 @@
 			}
 			?>
 
+			<?php if ($view !== 'edit'){ ?>
+
 			<div class = "comment">
 				<img src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
 
@@ -52,6 +65,8 @@
 				<a href="#" class="comment_save">Save</a>
 
 			</div>
+
+			<?php } ?>
 
 		</div>
 

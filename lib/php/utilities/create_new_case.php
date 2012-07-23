@@ -96,7 +96,7 @@ $user = $_SESSION['login'];
 if (!$_SESSION['permissions']['add_cases'] == "1")
 	{
 		$response = array('error' => true,'message' => 'Sorry, you do not have permission to add cases.');
-		echo json_encode($response);
+		echo json_encode($response);die;
 	}
 
 $q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`,`organization`, `date_open`,`opened_by`) VALUES (NULL, ?, 'New Case', CURDATE(),?);");

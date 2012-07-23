@@ -65,7 +65,7 @@
 
 		<div id="processing">Loading....</div>
 
-			<table id="table_journals" class="display">
+			<table id="table_journals" class="display <?php if ($_SESSION['permissions']['writes_journals'] == "1"){echo "can_add";}?>"
 
 				<thead></thead>
 
