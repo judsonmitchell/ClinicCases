@@ -201,6 +201,10 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay)
 
     if ($(el).hasClass('folder'))
     {
+        if ( $(el).hasClass('.ui-draggable-dragging') ) {
+                  return;
+            }
+
         $(el).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'container': path,'path': path,'update': 'y'}, function() {
             var pathString = createTrail(path);
             pathDisplay.html(pathString);
@@ -227,6 +231,10 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay)
     }
     else if ($(el).hasClass('url'))
     {
+        if ( $(el).hasClass('.ui-draggable-dragging') ) {
+                  return;
+            }
+
         $.post('lib/php/data/cases_documents_process.php', {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
             var serverResponse = $.parseJSON(data);
             window.open(serverResponse.target_url, '_blank');
@@ -234,6 +242,10 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay)
     }
     else if ($(el).hasClass('ccd'))
     {
+        if ( $(el).hasClass('.ui-draggable-dragging') ) {
+                  return;
+            }
+
         $.post('lib/php/data/cases_documents_process.php', {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
             var serverResponse = $.parseJSON(data);
             var target = $(el).closest('.case_detail_panel_casenotes');
@@ -242,6 +254,10 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay)
     }
     else
     {
+        if ( $(el).hasClass('.ui-draggable-dragging') ) {
+                  return;
+            }
+
         $.download('lib/php/data/cases_documents_process.php', {'item_id': itemId,'action': 'open','doc_type': docType});
     }
 
