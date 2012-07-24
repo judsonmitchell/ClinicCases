@@ -184,19 +184,20 @@ function callJournal(id,edit)
                 function autoSave(lastText, arr)
                 {
                     var text = arr[0].get_content();
+                    var readers = $('select[name="reader_select[]"]').val();
                     var status = 'Saving...';
                     if (text != lastText)
                     {
-                        editor.find('span.status').html(status);
-                        $.post('lib/php/data/journals_process.php', {'type': 'edit','id': journalId,'text': text}, function(data) {
+                        editor.find('span.save_status').html(status);
+                        $.post('lib/php/data/journals_process.php', {'type': 'edit','id': journalId,'text': text,'readers':readers}, function(data) {
                             var serverResponse = $.parseJSON(data);
                             if (serverResponse.error)
                             {
-                                editor.find('span.status').html(serverResponse.message);
+                                editor.find('span.save_status').html(serverResponse.message);
                             }
                             else
                             {
-                                editor.find('span.status').html(serverResponse.message);
+                                editor.find('span.save_status').html(serverResponse.message);
                             }
                         });
 
@@ -216,6 +217,38 @@ function callJournal(id,edit)
             .click(function() {
                 oTable.fnReloadAjax();
                 $("#journal_detail_window").hide('fold', 1000);
+
+            });
+
+            //Add chosen to select
+            $('select[name="reader_select[]"]').chosen();
+
+            //Set reader values if previously remembered
+            if ($.cookie('ClinicCases_journal') !== null)
+            {
+                var setVals = $.cookie('ClinicCases_journal').split(',');
+                $('select[name="reader_select[]"]').val(setVals);
+                $('select[name="reader_select[]"]').trigger("liszt:updated");
+            }
+
+
+            //Remember names of journal readers.
+            $('input[name = "remember_choice"]').change(function(){
+
+                var choice = $('select[name="reader_select[]"]').val();
+
+                if ($(this).is(':checked'))
+                {
+                    $.cookie('ClinicCases_journal', choice,{expires:365});
+                }
+                else
+                {
+                    //check for cookie; if exists, delete
+                    if ($.cookie('ClinicCases_journal') !== null)
+                    {
+                        $.cookie('ClinicCases_journal',null);
+                    }
+                }
 
             });
 

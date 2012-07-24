@@ -23,9 +23,23 @@
 
 		<?php if ($view == 'edit'){ ?>
 
-		<div class="text_editor_status">
+		<div class="journal_write_data">
 
-			<span class= "status">Unchanged</span>
+			<select multiple name="reader_select[]" data-placeholder="Submit this journal to" style="width:350px">
+
+				<option value = ""></option>
+				<?php echo get_journal_readers($dbh); ?>
+
+			</select>
+
+			<label>Remember</label>
+			<input type="checkbox" name="remember_choice">
+
+		</div>
+
+		<div class="journal_status">
+
+			<span class= "save_status">Unchanged</span>
 
 		</div>
 		<?php } ?>

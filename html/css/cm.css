@@ -547,7 +547,7 @@ div.journal_detail{width:100%;height:96%;padding:5px;background-color: white;}
 div.journal_detail_control{width:18%;height:4%;background-color:transparent;position:absolute;top:15px;right:5px;text-align: right;}
 div.journal_header{position:relative;text-align: left;padding:10px 0px 5px 10px;}
 div.journal_header p{display: inline-block;font-size: 1.2em;font-weight:bold;}
-div.journal_body{text-align:left;padding: 1%;height:90%;overflow-y:auto;}
+div.journal_body{position:relative;text-align:left;padding: 1%;height:90%;overflow-y:auto;}
 div.journal_comments{margin-bottom: 30px}
 div.comment{border-left:5px solid #AAA;padding-left: 5px;margin-top:15px;}
 div.comment img, div.comment textarea,div.comment p {display: inline-block;vertical-align: top;}
@@ -556,6 +556,10 @@ div.comment p {width:450px;}
 a.comment_save,a.comment_delete{vertical-align: bottom;}
 a.comment_delete{display:none;}
 textarea.journal_edit{display: none;}
+div.journal_write_data{width: 900px;height:40px;text-align: right;margin:auto;}
+div.journal_write_data ul{text-align:left;}
+div.journal_status{position: absolute;right:25px;top:5px;height:40px;color:#AAA;}
+
 
 
 

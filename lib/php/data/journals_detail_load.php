@@ -5,6 +5,7 @@ include '../../../db.php';
 include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 include '../utilities/convert_times.php';
+include '../html/gen_select.php';
 
 if($_SESSION['permissions']['reads_journals'] == '0' &&
 $_SESSION['permissions']['writes_journals'] == '0')

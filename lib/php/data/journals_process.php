@@ -45,6 +45,11 @@ else
 	$comment_id = null;
 }
 
+if (isset($_POST['readers']))
+{
+	$readers = $_POST['readers'];
+}
+
 switch ($type) {
 
 	case 'mark_read':
@@ -93,9 +98,11 @@ switch ($type) {
 
 	case 'edit':
 
-		$q = $dbh->prepare("UPDATE cm_journals SET `text` = :text WHERE `id` = :id");
+		$q = $dbh->prepare("UPDATE cm_journals SET `text` = :text, `reader` = :reader WHERE `id` = :id");
 
-		$data = array('text' => $text,'id' => $id);
+		$reader = implode(',', $readers) . ",";
+
+		$data = array('text' => $text,'id' => $id,'reader' => $reader);
 
 		$q->execute($data);
 
