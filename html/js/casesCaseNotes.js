@@ -170,7 +170,7 @@ $('div.more').live('click', function(event) {
     }
     else
     {
-        cseNoteParent.css({'height': cseNoteParentMaxHeight});
+        cseNoteParent.css({'height': 'auto'});
         $(this).find('a').html('Less');
     }
 });
