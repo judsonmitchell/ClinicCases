@@ -212,7 +212,7 @@ function callJournal(id,edit)
                 autoSave(lastText, arr);
             });
 
-             $("div.journal_detail_control button")
+            $('button.journal_close')
             .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
             .click(function() {
                 oTable.fnReloadAjax();
@@ -229,6 +229,7 @@ function callJournal(id,edit)
                 var setVals = $.cookie('ClinicCases_journal').split(',');
                 $('select[name="reader_select[]"]').val(setVals);
                 $('select[name="reader_select[]"]').trigger("liszt:updated");
+                $('input[name = "remember_choice"]').attr('checked','checked');
             }
 
 
@@ -260,6 +261,8 @@ function callJournal(id,edit)
         $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id}, function() {
             $(this).show('fold', 1000);
 
+            var journalId = $(this).find('div.journal_body').attr('data-id');
+
             //Mark journal as read
             // $.post('lib/php/data/journals_process.php',{'id':id,'type':'mark_read'},function(data){
             //         var serverResponse = $.parseJSON(data);
@@ -268,12 +271,63 @@ function callJournal(id,edit)
             // });
 
             //Define and listen for window buttons
-            $("div.journal_detail_control button").first()
-            .button({icons: {primary: "fff-icon-printer"},label: "Print"})
-            .click(function() {
-                alert('working on it');
-            })
-            .next()
+            if ($('button.journal_delete').length)
+            {
+                $('button.journal_delete').button({icons: {primary: "fff-icon-page-delete"}})
+                    .click(function() {
+                    var dialogWin = $('<div title="Are you sure?"><p>Permanently delete this journal?</p></div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            $.post('lib/php/data/journals_process.php',{'id':journalId,'type':'delete'},function(data){
+                                   var serverResponse = $.parseJSON(data);
+                                   if (serverResponse.error === true)
+                                   {
+                                       notify(serverResponse.message, true);
+                                   }
+                                   else
+                                   {
+                                       notify(serverResponse.message);
+                                       oTable.fnReloadAjax();
+                                       $("#journal_detail_window").hide('fold', 1000);
+                                   }
+
+                            });
+
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
+                    }
+
+                });
+
+                $(dialogWin).dialog('open');
+
+                });
+
+            }
+
+            if ($('button.journal_edit').length)
+            {
+                $('button.journal_edit').button({icons: {primary: "fff-icon-page-edit"}})
+                    .click(function() {
+                        callJournal(journalId,true);
+                });
+            }
+
+            if ($('button.journal_print').length)
+            {
+                $('button.journal_print').button({icons: {primary: "fff-icon-printer"}})
+                    .click(function() {
+                         alert('working on it');
+                });
+            }
+
+            $('button.journal_close')
             .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
             .click(function() {
                 oTable.fnReloadAjax();

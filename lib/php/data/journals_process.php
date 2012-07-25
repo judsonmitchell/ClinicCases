@@ -110,6 +110,18 @@ switch ($type) {
 
 		break;
 
+	case 'delete':
+
+		$q=$dbh->prepare("DELETE FROM cm_journals WHERE id = ?");
+
+		$q->bindParam(1,$id);
+
+		$q->execute();
+
+		$error = $q->errorInfo();
+
+		break;
+
 	case 'add_comment':
 
 		$c = array();
@@ -251,6 +263,11 @@ else
 
 		case 'edit':
 			$return = array('error' => false,'message' => 'Changes Saved.');
+			echo json_encode($return);
+			break;
+
+		case 'delete':
+			$return = array('error' => false,'message' => 'Journal Deleted.');
 			echo json_encode($return);
 			break;
 

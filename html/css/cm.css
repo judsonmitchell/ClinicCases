@@ -544,7 +544,7 @@ table.display tfoot th{font-weight: bold !important;}
 #journal_detail_window {width:97%;height:98%;background-color:white;position:absolute;top:1.5%;}
 div.journal_action{text-align: left;margin-left: 10px;}
 div.journal_detail{width:100%;height:96%;padding:5px;background-color: white;}
-div.journal_detail_control{width:18%;height:4%;background-color:transparent;position:absolute;top:15px;right:5px;text-align: right;}
+div.journal_detail_control{width:40%;height:4%;background-color:transparent;position:absolute;top:15px;right:5px;text-align: right;}
 div.journal_header{position:relative;text-align: left;padding:10px 0px 5px 10px;}
 div.journal_header p{display: inline-block;font-size: 1.2em;font-weight:bold;}
 div.journal_body{position:relative;text-align:left;padding: 1%;height:90%;overflow-y:auto;}
@@ -558,11 +558,9 @@ a.comment_delete{display:none;}
 textarea.journal_edit{display: none;}
 div.journal_write_data{width: 900px;height:40px;text-align: right;margin:auto;}
 div.journal_write_data ul{text-align:left;}
+div.journal_write_data label{vertical-align: text-top;}
 div.journal_status{position: absolute;right:25px;top:5px;height:40px;color:#AAA;}
-
-
-
-
+div.journal_text{min-height: 300px}
 
 
 ::-webkit-scrollbar {

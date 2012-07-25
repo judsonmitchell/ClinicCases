@@ -9,11 +9,18 @@
 
 		<div class = "journal_detail_control">
 
-			<?php if ($view !== 'edit'){ //no print on edit?>
-			<button></button>
-			<?php } ?>
+			<?php if ($view !== 'edit'  && $_SESSION['permissions']['writes_journals'] == '1'){ ?>
 
-			<button></button>
+			<button class="journal_delete">Delete</button>
+			<button class="journal_edit">Edit</button>
+			<button class="journal_print">Print</button>
+
+				<?php } elseif ($view !=='edit'){?>
+
+			<button class="journal_print">Print</button>
+				<?php } ?>
+
+			<button class="journal_close">Close</button>
 
 		</div>
 
@@ -24,6 +31,8 @@
 		<?php if ($view == 'edit'){ ?>
 
 		<div class="journal_write_data">
+
+			<label>Send to:</label>
 
 			<select multiple name="reader_select[]" data-placeholder="Submit this journal to" style="width:350px">
 
@@ -42,9 +51,14 @@
 			<span class= "save_status">Unchanged</span>
 
 		</div>
+
 		<?php } ?>
 
+		<div class="journal_text">
+
 		<?php if ($view == 'edit'){echo "<textarea class='journal_edit'>$text</textarea>";}else{echo $text;} ?>
+
+		</div>
 
 		<div class="journal_comments">
 
