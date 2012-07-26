@@ -7,6 +7,7 @@ include('../utilities/names.php');
 include('../utilities/convert_times.php');
 include('../auth/last_login.php');
 include('../html/gen_select.php');
+include('../utilities/format_text.php');
 
 //function to sort the activities array by subkey - date
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
@@ -74,7 +75,7 @@ foreach ($casenotes as $note) {
 	$time_done = $note['datestamp'];
 	$time_formatted = extract_date_time($note['datestamp']);
 	$id = $note['note_id'];
-	$what = htmlentities($note['description']);
+	$what = snippet(35,htmlentities($note['description']));
 	$follow_url = 'index.php?i=Cases.php#cases/' . $note['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -106,7 +107,7 @@ foreach ($noncases as $noncase) {
 	$time_done = $noncase['datestamp'];
 	$time_formatted = extract_date_time($noncase['datestamp']);
 	$id = $noncase['id'];
-	$what = htmlentities($noncase['description']);
+	$what = snippet(35,htmlentities($noncase['description']));
 	$follow_url = 'index.php?i=Cases.php#cases/' . $noncase['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -189,7 +190,7 @@ foreach ($opened as $open) {
 	$time_done = $open['time_opened'];
 	$time_formatted = extract_date_time($open['time_opened']);
 	$id = $open['id'];
-	$what = $open['notes'];
+	$what = snippet(35,$open['notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -229,7 +230,7 @@ foreach ($closed as $close) {
 	$time_done = $close['time_closed'];
 	$time_formatted = extract_date_time($close['time_closed']);
 	$id = $close['id'];
-	$what = $close['close_notes'];
+	$what = snippet(35,$close['close_notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -310,7 +311,7 @@ foreach ($events as $event) {
 	$time_done = $event['time_added'];
 	$time_formatted = extract_date_time($event['time_added']);
 	$id = $event['id'];
-	$what = $event['task'];
+	$what = snippet(35,$event['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'] . '/4';
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -347,7 +348,7 @@ foreach ($ev_assigns as $e) {
 	$time_done = $e['time_added'];
 	$time_formatted = extract_date_time($e['time_added']);
 	$id = $e['id'];
-	$what = $e['task'];
+	$what = snippet(35,$e['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'] .'/4';
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -387,7 +388,7 @@ if ($_SESSION['permissions']['add_cases'] == '1' && $_SESSION['permissions']['vi
 		$time_done = $open['time_opened'];
 		$time_formatted = extract_date_time($open['time_opened']);
 		$id = $open['id'];
-		$what = $open['notes'];
+		$what = snippet(35,$open['notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -424,7 +425,7 @@ if ($_SESSION['permissions']['close_cases'] == '1' && $_SESSION['permissions']['
 		$time_done = $close['time_closed'];
 		$time_formatted = extract_date_time($close['time_closed']);
 		$id = $close['id'];
-		$what = $close['close_notes'];
+		$what = snippet(35,$close['close_notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
@@ -474,9 +475,6 @@ if ($_SESSION['permissions']['activate_users'] == '1')
 //and any events that they created or were assigned to
 //End queries for admins
 
-
-//TODO  add journals, board post
-
 //Journal comments
 	//select all journals that are newer than start date
 	//then take all serialized arrays from comments and add to $activities
@@ -512,7 +510,7 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 				$action_text = " added a comment to a journal ";
 				$time_done = $d['time'];
 				$time_formatted = extract_date_time($d['time']);
-				$what = strip_tags($d['text']);
+				$what = snippet(35,strip_tags($d['text']));
 				$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
 				$casename = "(view here)";
 				$id = null;
@@ -531,8 +529,51 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 
 }
 
+//Journals
+if ($_SESSION['permissions']['reads_journals'] == '1' ||
+	$_SESSION['permissions']['writes_journals'] == '1')
+{
+	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$phpdate'
+		AND (reader LIKE '$username,%' OR reader LIKE '%,$username,%' OR username LIKE '$username')");
+
+	$get_journals->execute();
+
+	$journals = $get_journals->fetchAll(PDO::FETCH_ASSOC);
+
+	if (count($journals) > 0)
+	{
+		foreach ($journals as $j) {
+			$activity_type = 'new_journal';
+			if ($j['username'] === $username)
+			{
+				$by = 'You';
+			}
+			else
+			{
+				$by = username_to_fullname($dbh,$j['username']);
+			}
+			$thumb = return_thumbnail($dbh,$j['username']);
+			$action_text = " submitted a journal ";
+			$time_done = $j['date_added'];
+			$time_formatted = extract_date_time($j['date_added']);
+			$what = snippet(35,strip_tags($j['text']));
+			$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
+			$casename = "(view here)";
+			$id = null;
+
+			$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+			'time_formatted' => $time_formatted);
+
+			$activities[] = $item;
+		}
+	}
+
+}
 
 
+//TODO board posts
 
 if (!empty($activities)) {
 	sortBySubkey($activities,'time_done');

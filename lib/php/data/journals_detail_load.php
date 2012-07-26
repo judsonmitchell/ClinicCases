@@ -26,7 +26,7 @@ else
 
 $q = $dbh->prepare("SELECT * FROM cm_journals WHERE id = ?");
 
-$q->bindParam(1,$id);
+$q->bindParam(1,$id[0]);
 
 $q->execute();
 

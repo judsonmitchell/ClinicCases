@@ -50,20 +50,43 @@ if (isset($_POST['readers']))
 	$readers = $_POST['readers'];
 }
 
+// if (isset($_POST['batch']))
+// {
+// 	$batch = $_POST['batch'];
+// }
+
 switch ($type) {
 
 	case 'mark_read':
-		$q = $dbh->prepare("UPDATE cm_journals SET `read` = 'yes' WHERE `id` = ?");
+		$q = $dbh->prepare("UPDATE cm_journals SET `read` = REPLACE(`read`,:user,''),
+			`read` = CONCAT(`read`, :user) WHERE `id` = :id");
 
-		$q->bindParam(1,$id);
+		foreach ($id as $i) {
 
-		$q->execute();
+			$user_string = $user . ',';
+
+			$data = array('user' => $user_string, 'id' => $i);
+
+			$q->execute($data);
+		}
 
 		$error = $q->errorInfo();
 
 		break;
 
 	case 'archive':
+
+		$q = $dbh->prepare("UPDATE cm_journals SET `archived` = REPLACE(`archived`,:user,''),
+			`archived` = CONCAT(`archived`, :user) WHERE `id` = ?");
+
+		foreach ($id as $i) {
+
+			$data = array('user' => $user_string, 'id' => $i);
+
+			$q->execute($data);
+		}
+
+		$error = $q->errorInfo();
 
 		break;
 
@@ -92,6 +115,7 @@ switch ($type) {
 			$response = array('error' => false,'newId' => $new_id);
 
 			echo json_encode($response);
+
 		}
 
 		break;
@@ -102,7 +126,7 @@ switch ($type) {
 
 		$reader = implode(',', $readers) . ",";
 
-		$data = array('text' => $text,'id' => $id,'reader' => $reader);
+		$data = array('text' => $text,'id' => $id[0],'reader' => $reader);
 
 		$q->execute($data);
 
@@ -114,7 +138,7 @@ switch ($type) {
 
 		$q=$dbh->prepare("DELETE FROM cm_journals WHERE id = ?");
 
-		$q->bindParam(1,$id);
+		$q->bindParam(1,$id[0]);
 
 		$q->execute();
 
@@ -128,12 +152,12 @@ switch ($type) {
 
 		$time =  date('Y-m-d H:i:s');
 
-		$c = array('id' => $id,'by' =>  $_SESSION['login'],'text' => $comment_text,'time' => $time);
+		$c = array('id' => $id[0],'by' =>  $_SESSION['login'],'text' => $comment_text,'time' => $time);
 
 		//Get current comment thread, if any
 		$q = $dbh->prepare("SELECT comments FROM cm_journals WHERE id = ?");
 
-		$q->bindParam('1',$id);
+		$q->bindParam('1',$id[0]);
 
 		$q->execute();
 
@@ -149,7 +173,7 @@ switch ($type) {
 
 			$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments, commented = 'yes' WHERE id = :id");
 
-			$data = array('comments' => $new,'id' => $id);
+			$data = array('comments' => $new,'id' => $id[0]);
 
 			$update->execute($data);
 
@@ -161,7 +185,7 @@ switch ($type) {
 
 			$new = serialize($c);
 
-			$data = array('comments' => $new,'id' => $id);
+			$data = array('comments' => $new,'id' => $id[0]);
 
 			$update->execute($data);
 
@@ -173,7 +197,7 @@ switch ($type) {
 		//figure out who needs to receive this notification
 		$q = $dbh->prepare("SELECT reader,username FROM cm_journals WHERE id =?");
 
-		$q->bindParam(1,$id);
+		$q->bindParam(1,$id[0]);
 
 		$q->execute();
 
@@ -208,7 +232,7 @@ switch ($type) {
 		//Get current comment array for this journal
 		$q = $dbh->prepare('SELECT comments FROM cm_journals WHERE id = ?');
 
-		$q->bindParam(1,$id);
+		$q->bindParam(1,$id[0]);
 
 		$q->execute();
 
@@ -238,7 +262,7 @@ switch ($type) {
 
 		$update->bindParam(1,$new);
 
-		$update->bindParam(2,$id);
+		$update->bindParam(2,$id[0]);
 
 		$update->execute();
 
@@ -249,7 +273,7 @@ switch ($type) {
 
 if ($error[1])
 {
-	$return = array('error' => true,'message','Sorry, there was an error.');
+	$return = array('error' => true,'message'=>'Sorry, there was an error.');
 
 	echo json_encode($return);
 }
@@ -258,6 +282,11 @@ else
 	switch ($type) {
 		case 'mark_read':
 			$return = array('error' => false);
+			echo json_encode($return);
+			break;
+
+		case 'archive':
+			$return = array('error' => false,'message' => 'Journals Archived.');
 			echo json_encode($return);
 			break;
 
@@ -272,12 +301,12 @@ else
 			break;
 
 		case 'add_comment':
-			$return = array('error' => false,'message' => 'Comment added');
+			$return = array('error' => false,'message' => 'Comment Saved');
 			echo json_encode($return);
 			break;
 
 		case 'delete_comment':
-			$return = array('error' => false,'message' => 'Comment deleted');
+			$return = array('error' => false,'message' => 'Comment Deleted');
 			echo json_encode($return);
 			break;
 

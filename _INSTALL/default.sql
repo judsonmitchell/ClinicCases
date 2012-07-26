@@ -473,8 +473,8 @@ CREATE TABLE IF NOT EXISTS `cm_journals` (
   `reader` text NOT NULL,
   `text` text NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `archived` varchar(10) NOT NULL DEFAULT '',
-  `read` varchar(10) NOT NULL DEFAULT '',
+  `archived` text NOT NULL,
+  `read` text NOT NULL,
   `commented` varchar(10) NOT NULL DEFAULT '',
   `comments` text NOT NULL,
   PRIMARY KEY (`id`)

@@ -19,3 +19,7 @@ h3{margin-bottom: 5px;}
 div.event_group img{margin-right: 5px;}
 div.event {border-bottom: 1px solid #AAA;padding-top: 10px;}
 .event_task_title{font-weight: bold;}
+
+.journal_detail_control{display: none;}
+.journal_header p {display: inline-block;}
+.journal_comments{display: none}

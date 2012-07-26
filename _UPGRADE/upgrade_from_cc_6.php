@@ -830,8 +830,11 @@ if (count($arr) > 0)
 }
 
 echo "Updating Journals</br>";
-$q = $dbh->prepare("ALTER TABLE `cm_journals`
-  DROP `temp_id`;ALTER TABLE `cm_journals` CHANGE `professor` `reader` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '';ALTER TABLE  `cm_journals` CHANGE  `reader`  `reader` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';ALTER TABLE  `cm_journals` CHANGE  `deleted`  `archived` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';");
+$q = $dbh->prepare("ALTER TABLE `cm_journals` DROP `temp_id`;
+  ALTER TABLE `cm_journals` CHANGE `professor` `reader` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '';
+  ALTER TABLE  `cm_journals` CHANGE  `reader`  `reader` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';
+  ALTER TABLE  `cm_journals` CHANGE  `deleted`  `archived` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '';
+  ALTER TABLE  `cm_journals` CHANGE  `archived`  `archived` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  '',CHANGE  `read`  `read` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  ''");
 
 $q->execute();
 
@@ -880,6 +883,45 @@ if ($q->rowCount() > 0)
 		$update->execute($data);
 	}
 }
+
+//convert journal read and archive fields
+$q = $dbh->prepare("SELECT `id`, `reader`, `archived`, `read` FROM cm_journals");
+
+$q->execute();
+
+$journals = $q->fetchAll(PDO::FETCH_ASSOC);
+
+if ($q->rowCount() > 0)
+{
+	$update = $dbh->prepare("UPDATE cm_journals SET `read` = :read, `archived` = :archived WHERE id = :id");
+
+	foreach ($journals as $key => $v) {
+
+		if ($v['read'])
+		{
+			$read = $v['reader'];
+		}
+		else
+		{
+			$read = '';
+		}
+
+		if ($v['archived'])
+		{
+			$archived = $v['reader'];
+		}
+		else
+		{
+			$archived ='';
+		}
+
+		$data = array('id' => $v['id'],'read' => $read,'archived' => $archived);
+
+		$update->execute($data);
+
+	}
+}
+
 
 echo "Finished updating journals";
 

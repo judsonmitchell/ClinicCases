@@ -6,6 +6,19 @@ include '../utilities/convert_times.php';
 include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 
+function in_string($val,$string)
+{
+	$val_1 = ',' . $val . ',';
+	$val_2 = $val . ',';
+
+	if (stristr($string, $val_1))
+		{return true;}
+	elseif (stristr($string, $val_2))
+		{return true;}
+	else
+		{return false;}
+}
+
 $user = $_SESSION['login'];
 
 if ($_SESSION['permissions']['reads_journals'] == '1')
@@ -50,6 +63,25 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 		$result['username'] = username_to_fullname($dbh,$result['username']);
 
 		$result['date_added'] = extract_date_time_sortable($result['date_added']);
+
+		//Check to see if this user has read or archived this journal
+		if (in_string($user,$result['read']))
+		{
+			$result['read'] = 'yes';
+		}
+		else
+		{
+			$result['read'] = '';
+		}
+
+		if (in_string($user,$result['archived']))
+		{
+			$result['archived'] = 'yes';
+		}
+		else
+		{
+			$result['archived'] = '';
+		}
 
 		foreach ($cols as $col) {
 

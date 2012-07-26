@@ -51,7 +51,50 @@ $(document).ready(function() {
             .addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
 
              //Add journal action selector
-            $('div.journal_action').html('<label>With displayed journals:</label><select><option value="" selected=selected>Choose Action</option><option value="print">Print</option><option value="archive">Archive</option><option value="mark_read">Mark Read</option><option value="mark_unread">Mark Unread</option></select>');
+            $('div.journal_action').html('<label>With displayed journals:</label><select id="journal_action_chooser"><option value="" selected=selected>Choose Action</option><option value="print">Print</option><option value="archive">Archive</option><option value="mark_read">Mark Read</option><option value="mark_unread">Mark Unread</option></select>');
+
+            //Bulk actions
+            $('#journal_action_chooser').change(function(){
+                var filteredData = oTable.fnGetFilteredData();
+                var affectedJournals = [];
+                var action = $(this).val();
+                var actionText = action.replace('_',' as ');
+
+                //Loop through filtered data to get user ids
+                $.each(filteredData, function() {
+                    affectedJournals.push($(this)[1]);
+                });
+
+                var dialogWin = $('<div title="Are you sure?">This will ' + actionText + ' ' + filteredData.length + ' journals.  Are you sure you want to do that?</div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            $.post('lib/php/data/journals_process.php', {'type': action,'id': affectedJournals}, function(data) {
+                                var serverResponse = $.parseJSON(data);
+                                if (serverResponse.error === true)
+                                {
+                                    notify(serverResponse.message, true);
+                                }
+                                else
+                                {
+                                    notify(serverResponse.message);
+                                    oTable.fnReloadAjax();
+                                    fnResetAllFilters();
+                                }
+                            });
+
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
+                    }
+                });
+
+                $(dialogWin).dialog('open');
+            });
 
 			//Add view chooser
             $('div.dataTables_filter').append('<select id="chooser"><option value="unread" selected=selected>Unread</option><option value="read">Read</option><option value="archived">Archived</option><option value="all">All</option></select>');
@@ -64,26 +107,25 @@ $(document).ready(function() {
                     case 'unread':
                         chooserVal = "unread";
 						oTable.fnFilter('^$', oTable.fnGetColumnIndex("Read"), true, false);
-
+                        oTable.fnFilter('', oTable.fnGetColumnIndex("Archived"));
                         break;
 
                     case 'read':
                         chooserVal = "read";
                         oTable.fnFilter('yes', oTable.fnGetColumnIndex("Read"), true, false);
+                        oTable.fnFilter('', oTable.fnGetColumnIndex("Archived"));
                         break;
 
                     case 'archived':
                         chooserVal = "archived";
-                        oTable.fnFilter('yes', oTable.fnGetColumnIndex("Archived"), true, false);
-
+                        oTable.fnFilter('yes', oTable.fnGetColumnIndex("Archived"));
+                        oTable.fnFilter('', oTable.fnGetColumnIndex("Read"));
                         break;
 
                      case 'all':
                         chooserVal = "all";
                         oTable.fnFilter('', oTable.fnGetColumnIndex("Archived"), true, false);
                         oTable.fnFilter('', oTable.fnGetColumnIndex("Read"), true, false);
-
-
                         break;
                 }
 
@@ -153,6 +195,8 @@ $(document).ready(function() {
 function callJournal(id,edit)
 {
     //Define html for journal window
+    var journalId = [];
+    journalId.push(id);
 
     if ($('div#journal_detail_window').length < 1)
     {
@@ -163,7 +207,7 @@ function callJournal(id,edit)
 
     if (edit === true) //we are editing or writing a new journal
     {
-        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id,'view':'edit'}, function() {
+        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': journalId,'view':'edit'}, function() {
 
             $(this).show('fold', 1000,function(){
                 //Create lwrte
@@ -179,7 +223,7 @@ function callJournal(id,edit)
 
                 var editor = $('#journal_detail_window');
 
-                var journalId = $(this).find('div.journal_body').attr('data-id');
+                //var journalId = $(this).find('div.journal_body').attr('data-id');
 
                 function autoSave(lastText, arr)
                 {
@@ -258,17 +302,15 @@ function callJournal(id,edit)
     else //we are viewing a journal
     {
 
-        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': id}, function() {
+        $("#journal_detail_window").load('lib/php/data/journals_detail_load.php', {'id': journalId}, function() {
             $(this).show('fold', 1000);
 
-            var journalId = $(this).find('div.journal_body').attr('data-id');
-
             //Mark journal as read
-            // $.post('lib/php/data/journals_process.php',{'id':id,'type':'mark_read'},function(data){
-            //         var serverResponse = $.parseJSON(data);
-            //         if (serverResponse.error === true)
-            //             {notify(serverResponse.message);}
-            // });
+            $.post('lib/php/data/journals_process.php',{'id':journalId,'type':'mark_read'},function(data){
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                        {notify(serverResponse.message);}
+            });
 
             //Define and listen for window buttons
             if ($('button.journal_delete').length)
@@ -315,7 +357,7 @@ function callJournal(id,edit)
             {
                 $('button.journal_edit').button({icons: {primary: "fff-icon-page-edit"}})
                     .click(function() {
-                        callJournal(journalId,true);
+                        callJournal(journalId[0],true);
                 });
             }
 
@@ -323,7 +365,7 @@ function callJournal(id,edit)
             {
                 $('button.journal_print').button({icons: {primary: "fff-icon-printer"}})
                     .click(function() {
-                         alert('working on it');
+                         elPrint($('div.journal_detail'),'Journal');
                 });
             }
 
@@ -379,10 +421,12 @@ function fnResetAllFilters() {
 
 
 //Listeners
+
 //Save comments
 $('a.comment_save').live('click', function(event){
     event.preventDefault();
-    var journalId = $(this).closest('div.journal_body').attr('data-id');
+    var journalId = [];
+    journalId.push($(this).closest('div.journal_body').attr('data-id'));
     var commentText = $(this).siblings('textarea').val();
     $.post('lib/php/data/journals_process.php',{'type': 'add_comment','id':journalId,'comment_text':commentText},function(data){
             var serverResponse = $.parseJSON(data);
@@ -403,7 +447,8 @@ $('a.comment_delete').live('click',function(event){
 
     var commentId = $(this).parent().attr('data-id');
 
-    var journalId = $(this).closest('div.journal_body').attr('data-id');
+    var journalId = [];
+    journalId.push($(this).closest('div.journal_body').attr('data-id'));
 
     var dialogWin = $('<div title="Are you sure?"><p>Delete this comment?</p></div>').dialog({
         autoOpen: false,
