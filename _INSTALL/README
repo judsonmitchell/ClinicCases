@@ -7,7 +7,8 @@ REQUIREMENTS:
 1. Server running Linux and Apache
 2. Mysql
 3. PHP version 5.2 or higher,compiled with GD libraries
-4. Mail server (e.g, exim4, sendmail.  Most servers will already have this installed.).  Used for sending notifications to users.
+4. Mail server (e.g, exim4, sendmail.  Most servers will already
+have this installed.).  Used for sending notifications to users.
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).
 7. Magic Quotes must be turned off in your php.ini or ClinicCases will not work.
 
@@ -40,13 +41,15 @@ hand corner.
 
 GETTING STARTED
 
-You (or a clinic administrator) should then define your case types (criminal, family law, etc), dispositions (closed, judgment granted, referred, etc) and courts by navigating to the Utilities
+You (or a clinic administrator) should then define your case types
+(criminal, family law, etc), dispositions (closed, judgment granted,
+referred, etc) and courts by navigating to the Utilities
 tab and clicking Configuration.
 
 You can then add new users in one of two ways:
 	1. 	Go to the Users tab and click New User
-	2. 	Have the people in your clinic go http://YOURSERVER/cliniccases/newaccount and request
-		a new account.  Each new account will have to be approved by a user with
+	2. 	Have the people in your clinic go http://YOURSERVER/cliniccases/newaccount and
+		request a new account.  Each new account will have to be approved by a user with
 		administrative privileges before the account can be used.
 
 After this, add cases via the Cases tab.  You must be logged in as an administrator to do this.
@@ -60,6 +63,7 @@ CUSTOMIZATION
 Case fields and groups can be customized in ClinicCases 7.  For more information on how to do
 this, please visit https://www.cliniccases.com/help.
 
-If you have any questions, feel free to contact the developer, Judson Mitchell, at jmitchel@loyno.edu
+If you have any questions, feel free to contact the developer, Judson Mitchell,
+at jmitchel@loyno.edu
 
 
