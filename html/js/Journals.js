@@ -40,7 +40,7 @@ $(document).ready(function() {
 		"iScrollLoadGap":200,
 		"bSortCellsTop": true,
 		"sDom": 'R<"H"fTCi>rt<"F"<"journal_action">>',
-		"oLanguage": {"sInfo": "Showing <b>_TOTAL_</b> <span id='journalStatus'></span> journals","sInfoFiltered": "from a total of <b>_MAX_</b>","sEmptyTable": "No journals found."},
+		"oLanguage": {"sInfo": "Showing <b>_TOTAL_</b> <span id='journalStatus'></span> journals","sZeroRecords":"No <span id='journalStatus'></span> journals found.","sInfoEmpty":"Showing 0 journals","sInfoFiltered": "from a total of <b>_MAX_</b>","sEmptyTable": "No journals found."},
 		"fnInitComplete":function(){
 
 			//Hide processing div
@@ -51,7 +51,7 @@ $(document).ready(function() {
             .addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
 
              //Add journal action selector
-            $('div.journal_action').html('<label>With displayed journals:</label><select id="journal_action_chooser"><option value="" selected=selected>Choose Action</option><option value="print">Print</option><option value="archive">Archive</option><option value="mark_read">Mark Read</option><option value="mark_unread">Mark Unread</option></select>');
+            $('div.journal_action').html('<label>With displayed journals:</label><select id="journal_action_chooser"><option value="" selected=selected disabled>Choose Action</option><option value="archive">Archive</option><option value="mark_read">Mark Read</option><option value="mark_unread">Mark Unread</option></select>');
 
             //Bulk actions
             $('#journal_action_chooser').change(function(){
@@ -82,6 +82,7 @@ $(document).ready(function() {
                                     notify(serverResponse.message);
                                     oTable.fnReloadAjax();
                                     fnResetAllFilters();
+                                    chooserVal = 'unread';
                                 }
                             });
 
@@ -131,8 +132,10 @@ $(document).ready(function() {
 
             });
 
-            //Apply default filter - unread
+            //Apply default filter - unread and unarchived
             oTable.fnFilter('^$', oTable.fnGetColumnIndex("Read"), true, false);
+            oTable.fnFilter('^$', oTable.fnGetColumnIndex("Archived"), true, false);
+
 
             //Have ColVis and reset buttons pick up the DTTT class
             $('div.ColVis button').removeClass().addClass('DTTT_button DTTT_button_collection ui-button ui-state-default');
@@ -158,7 +161,7 @@ $(document).ready(function() {
                             else
                             {
                                 var newId = serverResponse.newId;
-                                callJournal(newId,true);//true for edit
+                                callJournal(newId,true,true);//true for edit,true for new
                             }
                         });
 
@@ -170,7 +173,7 @@ $(document).ready(function() {
                 var iPos = oTable.fnGetPosition(event.target.parentNode);
                 var aData = oTable.fnGetData(iPos);
                 var iId = aData[1];
-                callJournal(iId);
+                callJournal(iId,false,false);
 
             });
 
@@ -192,7 +195,7 @@ $(document).ready(function() {
 		});
 });
 
-function callJournal(id,edit)
+function callJournal(id,edit,newJournal)
 {
     //Define html for journal window
     var journalId = [];
@@ -222,8 +225,6 @@ function callJournal(id,edit)
                 var lastText = "";
 
                 var editor = $('#journal_detail_window');
-
-                //var journalId = $(this).find('div.journal_body').attr('data-id');
 
                 function autoSave(lastText, arr)
                 {
@@ -259,23 +260,52 @@ function callJournal(id,edit)
             $('button.journal_close')
             .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
             .click(function() {
-                oTable.fnReloadAjax();
-                $("#journal_detail_window").hide('fold', 1000);
+                var rSelect = $('select[name="reader_select[]"]');
+                if (rSelect.length > 0 && rSelect.val() === null)
+                {
+                    notify("<p>Please select the users to whom this journal is to be sent.</p>",true);
+                    rSelect.parent().find('label').first().addClass('ui-state-error');
+                    return false;
+                }
+                else
+                {
+                    oTable.fnReloadAjax();
+                    $("#journal_detail_window").hide('fold', 1000);
+                }
 
             });
 
             //Add chosen to select
-            $('select[name="reader_select[]"]').chosen();
+            $('select[name="reader_select[]"]').chosen().change(function(){
+                 if ($('input[name="remember_choice"]').is(':checked'))
+                {
+                    var choice = $('select[name="reader_select[]"]').val();
+
+                     $.cookie('ClinicCases_journal', choice,{expires:365});
+
+                     autoSave(lastText, arr);
+                }
+
+            });
 
             //Set reader values if previously remembered
-            if ($.cookie('ClinicCases_journal') !== null)
+            if (newJournal === true)
             {
-                var setVals = $.cookie('ClinicCases_journal').split(',');
-                $('select[name="reader_select[]"]').val(setVals);
-                $('select[name="reader_select[]"]').trigger("liszt:updated");
-                $('input[name = "remember_choice"]').attr('checked','checked');
+                if ($.cookie('ClinicCases_journal') !== null)
+                {
+                    var setVals = $.cookie('ClinicCases_journal').split(',');
+                    $('select[name="reader_select[]"]').val(setVals);
+                    $('select[name="reader_select[]"]').trigger("liszt:updated");
+                    $('input[name = "remember_choice"]').attr('checked','checked');
+                }
             }
-
+            else if(newJournal === false && edit === true)
+            {
+                if ($.cookie('ClinicCases_journal') !== null)
+                {
+                    $('input[name = "remember_choice"]').attr('checked','checked');
+                }
+            }
 
             //Remember names of journal readers.
             $('input[name = "remember_choice"]').change(function(){
@@ -357,7 +387,7 @@ function callJournal(id,edit)
             {
                 $('button.journal_edit').button({icons: {primary: "fff-icon-page-edit"}})
                     .click(function() {
-                        callJournal(journalId[0],true);
+                        callJournal(journalId[0],true,false);
                 });
             }
 
@@ -374,7 +404,6 @@ function callJournal(id,edit)
             .click(function() {
                 oTable.fnReloadAjax();
                 $("#journal_detail_window").hide('fold', 1000);
-
             });
 
             //Handle textareas

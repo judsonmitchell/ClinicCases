@@ -76,7 +76,7 @@ $(document).ready(function() {
 
             ]
         },
-        "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='userStatus'></span> users","sInfoFiltered": "from a total of <b>_MAX_</b> users"},
+        "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='userStatus'></span> users","sInfoFiltered": "from a total of <b>_MAX_</b> users","sZeroRecords":"No <span id='userStatus'></span> users found.","sInfoEmpty":"Showing 0 users"},
         "fnInitComplete": function() {
 
             //When page loads, default filter is applied: active users
@@ -100,7 +100,7 @@ $(document).ready(function() {
             $('div.dataTables_filter').append('<select id="chooser"><option value="active" selected=selected>Active Users</option><option value="inactive">Inactive Users</option><option value="all">All Users</option></select>  <a href="#" id="set_advanced">Advanced Search</a>');
 
             //Add user action selector
-            $('div.user_action').html('<label>With displayed users:</label><select><option value="" selected=selected>Choose Action</option><option value="activate">Make Active</option><option value="deactivate">Make Inactive</option></select>');
+            $('div.user_action').html('<label>With displayed users:</label><select><option value="" selected=selected disabled>Choose Action</option><option value="activate">Make Active</option><option value="deactivate">Make Inactive</option></select>');
 
             //Change the case status select
             $('#chooser').live('change', function(event) {

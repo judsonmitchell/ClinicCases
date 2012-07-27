@@ -532,7 +532,7 @@ function reports_users_and_groups($dbh,$case_num)
 
 }
 
-function get_journal_readers($dbh)
+function get_journal_readers($dbh,$current_readers)
 {
 	$q = $dbh->prepare("SELECT group_name FROM cm_groups WHERE reads_journals = '1'");
 
@@ -567,9 +567,20 @@ function get_journal_readers($dbh)
 
 	$options = null;
 
+	$current_readers_array = explode(',', $current_readers);
+
 	foreach ($readers as $reader) {
+
+		if (in_array($reader['username'], $current_readers_array))
+		{
+			$options .= "<option value='" . $reader['username'] . "' selected=selected>"
+		. $reader['first_name'] . " " . $reader['last_name'] . "</option>";
+		}
+		else
+		{
 		$options .= "<option value='" . $reader['username'] . "'>"
 		. $reader['first_name'] . " " . $reader['last_name'] . "</option>";
+		}
 	}
 
 	return $options;

@@ -50,10 +50,6 @@ if (isset($_POST['readers']))
 	$readers = $_POST['readers'];
 }
 
-// if (isset($_POST['batch']))
-// {
-// 	$batch = $_POST['batch'];
-// }
 
 switch ($type) {
 
@@ -74,10 +70,29 @@ switch ($type) {
 
 		break;
 
+	case 'mark_unread':
+		$q = $dbh->prepare("UPDATE cm_journals SET `read` = REPLACE(`read`,:user,'')
+			WHERE `id` = :id");
+
+		foreach ($id as $i) {
+
+			$user_string = $user . ',';
+
+			$data = array('user' => $user_string, 'id' => $i);
+
+			$q->execute($data);
+		}
+
+		$error = $q->errorInfo();
+
+		break;
+
 	case 'archive':
 
 		$q = $dbh->prepare("UPDATE cm_journals SET `archived` = REPLACE(`archived`,:user,''),
-			`archived` = CONCAT(`archived`, :user) WHERE `id` = ?");
+			`archived` = CONCAT(`archived`, :user) WHERE `id` = :id");
+
+		$user_string = $user . ',';
 
 		foreach ($id as $i) {
 
@@ -124,7 +139,14 @@ switch ($type) {
 
 		$q = $dbh->prepare("UPDATE cm_journals SET `text` = :text, `reader` = :reader WHERE `id` = :id");
 
-		$reader = implode(',', $readers) . ",";
+		if (is_array($readers))
+		{
+			$reader = implode(',', $readers) . ",";
+		}
+		else
+		{
+			$reader = '';
+		}
 
 		$data = array('text' => $text,'id' => $id[0],'reader' => $reader);
 
@@ -281,7 +303,12 @@ else
 {
 	switch ($type) {
 		case 'mark_read':
-			$return = array('error' => false);
+			$return = array('error' => false,'message' => "Journals Marked Read.");
+			echo json_encode($return);
+			break;
+
+		case 'mark_unread':
+			$return = array('error' => false,'message' => "Journals Marked Unread.");
 			echo json_encode($return);
 			break;
 

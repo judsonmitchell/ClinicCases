@@ -1,6 +1,6 @@
 <div class="journal_detail">
 
-	<div class="journal_header ui-widget-header ui-corner-tl ui-corner-all ui-helper-clearfix">
+	<div class="journal_header ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">
 
 		<img src="<?php echo return_thumbnail($dbh,$username); ?>" border="0">
 
@@ -37,7 +37,7 @@
 			<select multiple name="reader_select[]" data-placeholder="Submit this journal to" style="width:350px">
 
 				<option value = ""></option>
-				<?php echo get_journal_readers($dbh); ?>
+				<?php echo get_journal_readers($dbh,$reader); ?>
 
 			</select>
 
