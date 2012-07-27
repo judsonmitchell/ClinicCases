@@ -5,7 +5,7 @@ specifically for law school clinics.  It uses PHP and MySQL.
 ##Features
 
 ClinicCases is designed to be easy to use with a minimal learing curve for new users.
-Documentation is available at the [ClinicCases site] http://cliniccases.com.
+Documentation is available at the [ClinicCases site](http://cliniccases.com).
 
 * Complete case management: reports, case notes, calendaring, contacts
 * Self-contained messaging system to ensure completeness of case history
