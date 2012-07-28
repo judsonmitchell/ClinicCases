@@ -1,5 +1,14 @@
 <!-- Jquery Calls Specific to this page -->
 	<script  src="html/js/Board.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+
+
+<!-- Css Specific to this Page -->
+
+	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
+
+	<link type="text/css" href="lib/javascripts/lwrte/jquery.rte.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -23,7 +32,19 @@
 
 	<div id="content">
 
-		<p>The Board is undergoing a renovation for ClinicCases 7!  Check back soon to see the changes.</p>
+		<div id = "board_nav" class="ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr">
+
+			<label>Search:</label>
+
+			<input name="board_search">
+
+		</div>
+
+		<div id ="board_panel">
+
+			Board content here
+
+		</div>
 
 	</div>
 
