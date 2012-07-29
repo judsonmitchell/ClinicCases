@@ -38,11 +38,13 @@
 
 			<input name="board_search">
 
+			<button>New Post</button>
+
 		</div>
 
 		<div id ="board_panel">
 
-			Board content here
+			Loading...
 
 		</div>
 
