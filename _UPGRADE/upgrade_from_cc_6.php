@@ -927,6 +927,25 @@ echo "Finished updating journals";
 
 //From beta 1.3: add assigned users to cm
 echo "Adding users to cases table<br />";
+$q = $dbh->prepare("ALTER TABLE  `cm` ADD  `assigned_users` TEXT NOT NULL AFTER  `referral` ;INSERT INTO `cm_columns` (
+`id` ,
+`db_name` ,
+`display_name` ,
+`include_in_case_table` ,
+`input_type` ,
+`select_options` ,
+`display_by_default` ,
+`required` ,
+`display_order`
+)
+VALUES (
+NULL ,  'assigned_users',  'Assigned Users',  'true',  'text',  '',  'false',  '0',  '41'
+);
+");
+
+$q->execute();
+
+
 $q = $dbh->prepare("SELECT * FROM cm");
 
 $q->execute();
@@ -935,7 +954,7 @@ $cases = $q->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($cases as $case) {
 
-	update_case_with_users($dbh,$case['case_id']);
+	update_case_with_users($dbh,$case['id']);
 }
 
 

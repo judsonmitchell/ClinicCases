@@ -2,17 +2,17 @@
 //Upgrade documents from ClinicCases 6 to 7.  Files are moved out
 //of the webroot and the renamed to relevant db id number
 
-require('db.php');
+require('../db.php');
 
 ini_set("error_reporting", "true");
 error_reporting(E_ALL|E_STRCT);
 ini_set('memory_limit', '-1');
 
-//Specify the full path to your old ClinicCases doc file
-$path_to_old_docs = '/var/www/docs_test/docs';
+//Specify the full path to your old ClinicCases doc directory
+$path_to_old_docs = '/var/www/cliniccases/docs';
 
 //Specify path to your old installation of ClinicCases
-$path_to_old_cc = '/var/www/docs_test';
+$path_to_old_cc = '/var/www/cliniccases';
 
 //Check to see if the new doc folder has been created
 if (file_exists(CC_DOC_PATH))
@@ -113,7 +113,7 @@ foreach ($docs as $doc)
 }
 
 //Now url encode the folder names
-$q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %' OR folder 
+$q = $dbh->prepare("SELECT * FROM `cm_documents` WHERE folder LIKE '% %' OR folder
     LIKE '%/%'");
 
 $q->execute();
