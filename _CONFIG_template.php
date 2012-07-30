@@ -71,8 +71,8 @@ define("RECAPTCHA_PUBLIC_KEY","%recaptcha_public%");
 define("RECAPTCHA_PRIVATE_KEY","%recaptcha_private%");
 
 //Nothing further needs to be changed.
-
-define("CC_VERSION","Beta 1.0");
+include('version.php');
+define("CC_VERSION",$version);
 
 //Magic Quotes:  CC expects magic quotes to be turned off.  This fixes that if they are not.
 
