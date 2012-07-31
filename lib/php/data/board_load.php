@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('../auth/session_check.php');
+require('../utilities/thumbnails.php');
 require('../../../db.php');
 
 $q = $dbh->prepare("SELECT * FROM cm_board_7");

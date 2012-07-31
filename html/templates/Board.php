@@ -3,6 +3,10 @@
 
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.js"></script>
+
+	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.tb.js"></script>
+
 
 <!-- Css Specific to this Page -->
 
