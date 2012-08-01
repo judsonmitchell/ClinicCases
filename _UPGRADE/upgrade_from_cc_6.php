@@ -957,6 +957,34 @@ foreach ($cases as $case) {
 	update_case_with_users($dbh,$case['id']);
 }
 
+echo "Done. Upgrading Board...<br>";
+
+$q = $dbh->prepare("RENAME TABLE  `cm_board` TO  `cm_board_OLD` ;CREATE TABLE IF NOT EXISTS `cm_board` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) NOT NULL,
+  `body` text NOT NULL,
+  `color` varchar(50) NOT NULL,
+  `author` varchar(250) NOT NULL,
+  `viewers` text NOT NULL,
+  `time_added` datetime NOT NULL,
+  `time_edited` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
+  `id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `local_file_name` varchar(200) NOT NULL,
+  `extension` varchar(10) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `time_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+");
+
+$q->execute();
+
 
 
 
