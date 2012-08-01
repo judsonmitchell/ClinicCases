@@ -1,10 +1,12 @@
 <?php
 session_start();
 require('../auth/session_check.php');
-require('../utilities/thumbnails.php');
 require('../../../db.php');
+require('../utilities/thumbnails.php');
+require('../utilities/names.php');
+require('../html/gen_select.php');
 
-$q = $dbh->prepare("SELECT * FROM cm_board_7");
+$q = $dbh->prepare("SELECT * FROM cm_board");
 
 $q->execute();
 

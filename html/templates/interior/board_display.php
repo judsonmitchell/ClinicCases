@@ -1,10 +1,51 @@
 <div class="board_item new_post">
 
-	<input name="post_title" value="New Post Title">
+	<div class="board_new_item_menu">
 
-	<br />
+		<label>Title</label>
 
-	<textarea class="post_edit">text here</textarea>
+		<input name="post_title" value="New Post Title">
+
+		<label>Who Sees This?</label>
+
+		<select multiple name="viewer_select">
+
+			<option value=""></option>
+
+			<?php echo all_active_users_and_groups($dbh,false,true); ?>
+
+		</select>
+
+		<label>Color</label>
+
+		<select name="post_color">
+			<option value="255,250,240" style="background-color:rgba(255,250,240,0.5)">White</option>
+			<option value="0,255,0" style="background-color:rgba(0,255,0,0.5)">Green</option>
+			<option value="0,0,255" style="background-color:rgba(0,0,255,0.5)">Blue</option>
+			<option value="255,0,0" style="background-color:rgba(255,0,0,0.5)">Red</option>
+			<option value="255,255,0" style="background-color:rgba(255,255,0,0.5)">Yellow</option>
+		</select>
+
+	</div>
+
+	<textarea class="post_edit"></textarea>
+
+	<div class="board_new_item_menu_bottom">
+
+		<label>Attachments</label>
+
+		<div class="board_upload">
+
+		</div>
+
+		<div class = "board_new_item_menu_bottom_inner">
+
+			<button>Cancel</button>
+			<button>Save</button>
+
+		</div>
+
+	</div>
 
 </div>
 

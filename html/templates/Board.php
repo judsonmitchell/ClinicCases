@@ -7,12 +7,16 @@
 
 	<script type="text/javascript" src="lib/javascripts/lwrte/jquery.rte.tb.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/valums-file-uploader/client/fileuploader.js"></script>
+
 
 <!-- Css Specific to this Page -->
 
 	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
 
 	<link type="text/css" href="lib/javascripts/lwrte/jquery.rte.css" rel="stylesheet"/>
+
+	<link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
 </head>
 <body>
 

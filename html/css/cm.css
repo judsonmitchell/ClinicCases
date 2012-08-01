@@ -569,10 +569,22 @@ div#board_nav {position:relative;width:100%;height:6%;padding-top:5px;text-align
 div#board_panel{width:94%;height:84%;border-left:1px solid #AAA;border-right:1px solid #AAA;border-bottom:1px solid #AAA;border-top:0;overflow-x:hidden;overflow-y: auto;padding: 3%;}
 div.board_item{display:inline-block;text-align:left;margin:10px;padding:10px;border:1px solid #AAA;vertical-align:top;height:200px;width:200px;overflow:hidden;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.board_item h3{margin-bottom: 10px;display:inline;}
-div.new_post{display: none}
+div.new_post{display: none;overflow-y:auto;}
 div.new_post input {color:#AAA;}
+div.board_new_item_menu{margin-bottom: 10px;}
+div.board_new_item_menu label{vertical-align: text-bottom;margin-right: 10px}
+div.board_new_item_menu input{width:300px;}
+div.board_new_item_menu .chzn-container{vertical-align: bottom;font-size: 14pt}
+div.board_new_item_menu_bottom{width:100%;position:relative;margin-top: 10px;}
+div.board_new_item_menu_bottom div.qq-upload-button{display: inline-block;}
+div.board_new_item_menu_bottom ul.qq-upload-list{display: inline-block;margin:0px 35px;}
+div.board_new_item_menu_bottom ul.qq-upload-list li {margin:0px 0px 5px 0px}
 
-::-webkit-scrollbar {
+div.board_new_item_menu_bottom * {vertical-align: top}
+div.board_new_item_menu_bottom_inner{display:inline-block;position:absolute;width:40%;right:5px;text-align: right}
+div.board_upload{display: inline-block;}
+
+::-webkit-scrollbar
     width: 12px;
 }
 

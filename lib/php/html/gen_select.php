@@ -219,7 +219,7 @@ function all_active_users($dbh)
 }
 
 //Generate a list of all active users and all groups.  Used in messages.
-function all_active_users_and_groups($dbh,$case_num)
+function all_active_users_and_groups($dbh,$case_num,$you)
 {
 	$options = null;
 
@@ -282,7 +282,23 @@ function all_active_users_and_groups($dbh,$case_num)
 
 	foreach ($users as $user) {
 
+		if ($you === true)
+		{
+
+			if ($user['username'] == $_SESSION['login'] )
+				{
+					$options .= "<option selected=selected value='" . $user['username'] . "'>You</option>";
+				}
+				else
+				{
+					$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
+				}
+		}
+		else
+		{
+
 		$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
+		}
 	}
 
 	return $options;
@@ -363,29 +379,6 @@ function group_select($dbh,$val)
 function reports_users_and_groups($dbh,$case_num)
 {
 	$options = null;
-
-	// //If case, add ability to send to all on the case
-	// if ($case_num)
-	// {
-	// 	$q = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE `case_id` = '$case_num' AND `status` = 'active'");
-
-	// 	$q->execute();
-
-	// 	$count = $q->rowCount();
-
-	// 	$options .= "<option value='_all_on_case_'>All Users on this Case ($count)</option>";
-
-
-	// }
-
-	// //Determine total number of active users
-	// $q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
-
-	// $q->execute();
-
-	// $count = $q->rowCount();
-
-	// $options .= "<option value='_all_users_'>All Users ($count)</option>";
 
 	if ($_SESSION['permissions']['view_users'] == '1') //essentially an adminstrator
 	{
