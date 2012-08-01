@@ -1,5 +1,7 @@
 <div class="board_item new_post">
 
+	<form name = "new_post_form">
+
 	<div class="board_new_item_menu">
 
 		<label>Title</label>
@@ -8,7 +10,7 @@
 
 		<label>Who Sees This?</label>
 
-		<select multiple name="viewer_select">
+		<select multiple name="viewer_select[]">
 
 			<option value=""></option>
 
@@ -47,17 +49,49 @@
 
 	</div>
 
+	</form>
+
 </div>
 
 <?php foreach ($posts as $post) {extract($post) ?>
 
-<div class="board_item" style="background-color:rgba(<?php echo $color; ?>, 0.5)">
+<div class="board_item" style="background-color:rgba(<?php echo $color; ?>, 0.5)"
+	data-id="<?php echo $id; ?>">
 
 	<img class="board_thumb" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
 
 	<h3><?php echo $title; ?></h3>
 
 	<p><?php echo $body; ?></p>
+
+	<p>
+		<label>
+
+			Posted by <?php echo username_to_fullname($dbh,$author); ?> on
+
+			<?php echo extract_date_time($time_added); ?>
+
+		</label>
+
+	<?php if ($author = $_SESSION['login']){ ?>
+
+		<a href="#" class="small board_item_edit">Edit</a>
+
+		<a href="#" class="small board_item_delete">Delete</a>
+
+
+	<?php } ?>
+
+	</p>
+
+
+	<?php $attach = check_attachments($dbh,$id); if ($attach == true){ ?>
+
+	<p><label>Attachments:</label><p>
+
+	<p><?php echo $attach; ?> </p>
+
+	<?php } ?>
 
 </div>
 

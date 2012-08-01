@@ -38,7 +38,7 @@ $(document).ready(function() {
 			});
 
 			//Create lwrte
-            var arr = $('div.new_post').find('.post_edit').rte({
+            var bodyText = $('div.new_post').find('.post_edit').rte({
             css: ['lib/javascripts/lwrte/default2.css'],
             width: 900,
             height: 300,
@@ -53,7 +53,7 @@ $(document).ready(function() {
             });
 
             //Add Chosen to select
-            $('select[name="viewer_select"]').chosen();
+            $('select[name="viewer_select[]"]').chosen();
 
             //Add post color chooser
             $('select[name="post_color"]').change(function(){
@@ -62,7 +62,32 @@ $(document).ready(function() {
 
             });
 
-
+            //Cancel or submit
+			$('.board_new_item_menu_bottom button')
+			.first().click(function(event){
+				event.preventDefault();
+				alert('cancel');
+			})
+			.next().click(function(event){
+				event.preventDefault();
+				var formVals = $('form').serializeArray();
+				var postId = $('div.new_post').attr('data-id');
+				formVals.push({'name':'id','value':postId});
+				formVals.push({'name':'action','value': 'edit'});
+				formVals.push({'name':'text','value': bodyText[0].get_content()});
+				$.post('lib/php/data/board_process.php',formVals,function(data){
+					var serverResponse = $.parseJSON(data);
+					if (serverResponse.error === true)
+						{
+							notify(serverResponse.message,true);
+						}
+						else
+						{
+							notify(serverResponse.message);
+							$('#board_panel').load('lib/php/data/board_load.php');
+						}
+				});
+			});
 
     });
 
@@ -73,12 +98,66 @@ $(document).ready(function() {
 
 
 	//Listeners
-	$('.board_item').live('click.sizePost', function(){
 
+	//resize post on click
+	$('.board_item').live('click.sizePost', function(){
 		$(this).not('.new_post').animate({'width':'400','height':'300'},function(){
 			$(this).css({'height':'auto','max-width':'400'});
 			$('.board_item').not(this).animate({'width':'200','height':'200'});
 		});
 	});
+
+	//download attachments
+	$('a.attachment').live('click',function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		var itemId = $(this).attr('data-id');
+		$.download('lib/php/data/board_process.php', {'item_id': itemId,'action': 'download'});
+	});
+
+	//Delete post
+	$('a.board_item_delete').live('click',function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		var itemId = $(this).closest('div.board_item').attr('data-id');
+		var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">This post and any attachments will be permanently deleted.  Are you sure?</div>').dialog({
+			autoOpen: false,
+			resizable: false,
+			modal: true,
+			buttons: {
+			"Yes": function() {
+				$.post('lib/php/data/board_process.php', {'action': 'delete','item_id': itemId}, function(data) {
+					var serverResponse = $.parseJSON(data);
+					if (serverResponse.error === true)
+					{
+						notify(serverResponse.message, true);
+					}
+					else
+					{
+						notify(serverResponse.message);
+						$('#board_panel').load('lib/php/data/board_load.php');
+					}
+				});
+
+				$(this).dialog("destroy");
+				},
+				"No": function() {
+					$(this).dialog("destroy");
+				}
+			}
+		});
+
+		$(dialogWin).dialog('open');
+
+	});
+
+	//Edit post
+	$('a.board_item_edit').live('click',function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		alert('edit');
+
+	});
+
 
 });
