@@ -583,3 +583,35 @@ CREATE TABLE IF NOT EXISTS `cm_users` (
 
 INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`, `office_phone`, `home_phone`, `grp`, `username`, `password`, `supervisors`, `picture_url`, `timezone_offset`, `status`, `new`, `date_created`, `pref_case`, `pref_journal`, `pref_case_prof`, `evals`, `private_key`, `force_new_password`) VALUES
 (1, 'Temp', 'Admin', '', '', '', '', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', 'people/no_picture.png', '1', 'active', '', '2012-07-02 14:57:44', 'on', '', 'on', '', '', 1);
+
+--
+-- Table structure for table `cm_board`
+--
+
+CREATE TABLE IF NOT EXISTS `cm_board` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) NOT NULL,
+  `body` text NOT NULL,
+  `color` varchar(50) NOT NULL,
+  `author` varchar(250) NOT NULL,
+  `viewers` text NOT NULL,
+  `time_added` datetime NOT NULL,
+  `time_edited` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `cm_board_attachments`
+--
+
+CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
+  `id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `local_file_name` varchar(200) NOT NULL,
+  `extension` varchar(10) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `time_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
