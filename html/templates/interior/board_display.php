@@ -55,14 +55,18 @@
 
 <?php foreach ($posts as $post) {extract($post) ?>
 
-<div class="board_item" style="background-color:rgba(<?php echo $color; ?>, 0.5)"
+<div class="board_item" style="background-color:rgba(<?php echo $color; ?>,0.5)"
 	data-id="<?php echo $id; ?>">
 
 	<img class="board_thumb" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
 
 	<h3><?php echo $title; ?></h3>
 
-	<p><?php echo $body; ?></p>
+	<div class="body_text">
+
+		<?php echo $body; ?>
+
+	</div>
 
 	<p>
 		<label>
@@ -89,7 +93,11 @@
 
 	<p><label>Attachments:</label><p>
 
-	<p><?php echo $attach; ?> </p>
+	<div class="attachment_container">
+
+		<p><?php echo $attach; ?> </p>
+
+	</div>
 
 	<?php } ?>
 
