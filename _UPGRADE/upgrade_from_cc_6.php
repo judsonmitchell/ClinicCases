@@ -971,7 +971,7 @@ $q = $dbh->prepare("RENAME TABLE  `cm_board` TO  `cm_board_OLD` ;CREATE TABLE IF
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
   `local_file_name` varchar(200) NOT NULL,
   `extension` varchar(10) NOT NULL,
