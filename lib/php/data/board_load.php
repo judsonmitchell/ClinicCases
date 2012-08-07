@@ -6,6 +6,7 @@ require('../utilities/thumbnails.php');
 require('../utilities/names.php');
 require('../utilities/convert_times.php');
 require('../html/gen_select.php');
+require('../users/user_data.php');
 
 function check_attachments($dbh,$post_id)
 {
@@ -34,9 +35,19 @@ function check_attachments($dbh,$post_id)
 	}
 }
 
-$q = $dbh->prepare("SELECT * FROM cm_board ORDER BY time_added DESC");
+$this_users_groups = user_which_groups($dbh,$_SESSION['login']);
+
+$grps = implode("','", $this_users_groups);
+
+$q = $dbh->prepare("SELECT * FROM `cm_board` as all_posts
+JOIN
+(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
+ON
+all_posts.id = this_user.post_id ORDER BY all_posts.time_edited DESC");
 
 $q->execute();
+
+$error = $q->errorInfo();
 
 $posts = $q->fetchAll(PDO::FETCH_ASSOC);
 

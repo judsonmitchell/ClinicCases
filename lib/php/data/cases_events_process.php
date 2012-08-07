@@ -110,7 +110,7 @@ switch ($action) {
 				}
 				elseif (stristr($responsible, '_all_users_'))
 				{
-					$resps[] = all_active_users($dbh);
+					$resps[] = all_active_users_a($dbh);
 				}
 				else
 				{
@@ -193,7 +193,7 @@ switch ($action) {
 				}
 				elseif (stristr($responsible, '_all_users_'))
 				{
-					$resps[] = all_active_users($dbh);
+					$resps[] = all_active_users_a($dbh);
 				}
 				else
 				{

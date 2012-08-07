@@ -594,7 +594,6 @@ CREATE TABLE IF NOT EXISTS `cm_board` (
   `body` text NOT NULL,
   `color` varchar(50) NOT NULL,
   `author` varchar(250) NOT NULL,
-  `viewers` text NOT NULL,
   `time_added` datetime NOT NULL,
   `time_edited` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -614,4 +613,11 @@ CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
   `time_added` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cm_board_viewers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `viewer` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 

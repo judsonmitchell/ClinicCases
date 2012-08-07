@@ -92,7 +92,7 @@ function all_users_by_supvsr($dbh,$supvsr)
 }
 
 //Return all active users
-function all_active_users($dbh)
+function all_active_users_a($dbh)
 {
 	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
 
@@ -131,3 +131,54 @@ function all_users_on_case($dbh, $id)
 
 }
 
+//get groups user is in.  Used for Board
+function user_which_groups($dbh,$user)
+{
+	$groups = array();
+
+	$q = $dbh->prepare("SELECT grp FROM cm_users WHERE username = ?");
+
+	$q->bindParam(1,$user);
+
+	$q->execute();
+
+	$group = $q->fetch(PDO::FETCH_ASSOC);
+
+	$groups[] = "_grp_" . $group['grp'];
+
+	if ($_SESSION['permissions']['supervises'] == '1')
+	{
+		$groups[] = "_spv_" . $user;
+	}
+
+	//find out who supervisor is
+	if ($_SESSION['permissions']['is_supervised'] == '1')
+	{
+		$q = $dbh->prepare("SELECT supervisors FROM cm_users WHERE username = ?");
+
+		$q->bindParam(1,$user);
+
+		$q->execute();
+
+		$supervisors = $q->fetch(PDO::FETCH_ASSOC);
+
+		$sups = explode(',', $supervisors['supervisors']);
+
+		foreach ($sups as $sup) {
+
+			if ($sup !== '')
+			{
+				$groups[] = '_spv_' . $sup;
+			}
+		}
+
+	}
+
+	//Now add the individual user and the catch all
+	$groups[] = $user;
+
+	$groups[] = "_all_users_";
+
+	return $groups;
+
+}

@@ -147,7 +147,7 @@
 							<th class=\"complex\">
 
 								<select id=\"" . $date_type . "_range\" title=\"" . $date_type . " date is less, greater, or equal to...\">
-									<option value=\"equals\" selected=selected>=</option>
+									<option value=\"equals\" selected=selected>&#61;</option>
 									<option value=\"greater\">&gt;</option>
 									<option value=\"less\">&lt;</option>
 								</select>
@@ -180,7 +180,7 @@
 							<th class=\"complex\" id=\"second_" . $date_type . "_cell\">
 
 								<select id=\"" . $date_type . "_range_2\" title=\"" . $date_type . " date is less, greater, or equal to...\">
-									<option value=\"equals\" selected=selected>=</option>
+									<option value=\"equals\" selected=selected>&#61;</option>
 									<option value=\"greater\">&gt;</option>
 									<option value=\"less\">&lt;</option>
 								</select>

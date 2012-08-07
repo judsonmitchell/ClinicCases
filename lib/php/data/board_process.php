@@ -42,7 +42,7 @@ if (isset($_POST['viewer_select']))
 switch ($action) {
 
 	case 'new':
-		$q = $dbh->prepare("INSERT INTO `cm_board` (`id`, `title`, `body`, `color`, `author`, `viewers`, `time_added`, `time_edited`) VALUES (NULL, '', '', '', ?, '', NOW(), NOW());");
+		$q = $dbh->prepare("INSERT INTO `cm_board` (`id`, `title`, `body`, `color`, `author`, `time_added`, `time_edited`) VALUES (NULL, '', '', '', ?, NOW(), NOW());");
 
 		$q->bindParam(1,$user);
 
@@ -55,15 +55,25 @@ switch ($action) {
 		break;
 
 	case 'edit':
-		$q = $dbh->prepare("UPDATE `cm_board` SET `title` = :title, `body` = :body, `color` = :color, `viewers` = :viewers, `time_edited` = NOW() WHERE `id` = :id");
+		$q = $dbh->prepare("UPDATE `cm_board` SET `title` = :title, `body` = :body, `color` = :color, `time_edited` = NOW() WHERE `id` = :id");
 
-		$viewers_ser = serialize($viewers);
 
-		$data = array('title' => $title, 'body' => $text, 'color' => $color, 'viewers' => $viewers_ser,'id' => $id);
+		$data = array('title' => $title, 'body' => $text, 'color' => $color, 'id' => $id);
 
 		$q->execute($data);
 
 		$error = $q->errorInfo();
+
+		//now, update cm_board_viewers with users who are allowed to see post
+
+		$viewers_query = $dbh->prepare("INSERT INTO cm_board_viewers (`id`, `post_id`,`viewer`) VALUES (NULL,:post_id,:viewer)");
+
+		foreach ($viewers as $v) {
+
+			$data = array('post_id' => $id,'viewer' => $v);
+
+			$viewers_query->execute($data);
+		}
 
 		break;
 
