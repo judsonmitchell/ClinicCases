@@ -56,7 +56,7 @@
 <?php foreach ($posts as $post) {extract($post) ?>
 
 <div class="board_item" style="background-color:rgba(<?php echo $color; ?>,0.5)"
-	data-id="<?php echo $id; ?>">
+	data-id="<?php echo $post_id; ?>">
 
 	<img class="board_thumb" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
 

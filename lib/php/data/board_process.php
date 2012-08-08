@@ -57,7 +57,6 @@ switch ($action) {
 	case 'edit':
 		$q = $dbh->prepare("UPDATE `cm_board` SET `title` = :title, `body` = :body, `color` = :color, `time_edited` = NOW() WHERE `id` = :id");
 
-
 		$data = array('title' => $title, 'body' => $text, 'color' => $color, 'id' => $id);
 
 		$q->execute($data);
