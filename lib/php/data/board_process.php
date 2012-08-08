@@ -120,7 +120,7 @@ switch ($action) {
 
 		$open_query = $dbh->prepare("SELECT * FROM cm_board_attachments WHERE id = :item_id");
 
-		$open_query->bindParam('item_id',$item_id);
+		$open_query->bindParam(':item_id',$item_id);
 
 		$open_query->execute();
 
