@@ -282,18 +282,29 @@ if ($action == 'delete')
 	if ($doc_type === 'folder')
 	{
 
-		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS?
-		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder LIKE :path_mask AND case_id = :case_id");
+		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS? Not until the delete
+		//function is completely stable.
+		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder = :path OR folder LIKE :path_mask AND case_id = :case_id");
 
-		$path_mask = $path . '%';
+		$path_mask = $path . '/%';
+
+		$delete_query->bindParam(':path',$path);
 
 		$delete_query->bindParam(':path_mask',$path_mask);
 
 		$delete_query->bindParam(':case_id',$case_id);
 
-		$delete_query->execute();
+		//Temporary workaround to prevent deleting of all case documents
+		//if the path is empty; trying to find javascript error that
+		//causes this. TODO
+		if ($path !== '')
+		{
 
-		$error = $delete_query->errorInfo();
+			$delete_query->execute();
+
+			$error = $delete_query->errorInfo();
+
+		}
 	}
 
 	else
@@ -368,7 +379,7 @@ if ($action == 'open')
 	{
 		$open_query = $dbh->prepare("SELECT * FROM cm_documents WHERE id = :item_id");
 
-		$open_query->bindParam('item_id',$item_id);
+		$open_query->bindParam(':item_id',$item_id);
 
 		$open_query->execute();
 
