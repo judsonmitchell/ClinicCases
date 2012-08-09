@@ -89,7 +89,7 @@
 	</p>
 
 
-	<?php $attach = check_attachments($dbh,$id); if ($attach == true){ ?>
+	<?php $attach = check_attachments($dbh,$post_id); if ($attach == true){ ?>
 
 	<p><label>Attachments:</label><p>
 
