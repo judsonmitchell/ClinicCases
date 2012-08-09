@@ -196,7 +196,8 @@ $(document).ready(function() {
 
         });
 
-        editItem.find('select[name="post_color"] option').first().before("<option value='' selected=selected></option>");
+        //Set current value for color chooser
+        editItem.find('select[name="post_color"]').val(thisItem.attr('data-color'));
 
         //Set Values
         editItem.find('input[name="post_title"]').val(thisItem.find('h3').text())
@@ -209,6 +210,17 @@ $(document).ready(function() {
 
         //Add Chosen to select
         editItem.find('select[name="viewer_select[]"]').chosen();
+
+        //Set the current viewers
+        var currentViewers = thisItem.attr('data-viewers').split(',');
+        editItem.find('select[name="viewer_select[]"]')
+        .val(currentViewers)
+        .trigger("liszt:updated");
+
+
+        // currentViewers.each(function(index,value){
+
+        // });
 
         //Show the current attachments
         editItem.find('div.board_new_item_menu_bottom label').append(thisItem.find('div.attachment_container').html() + '<br />');

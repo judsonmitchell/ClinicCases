@@ -10,7 +10,7 @@
 
 		<label>Who Sees This?</label>
 
-		<select multiple name="viewer_select[]">
+		<select multiple name="viewer_select[]" data-placeholder ="Who Sees This?">
 
 			<option value=""></option>
 
@@ -56,7 +56,7 @@
 <?php foreach ($posts as $post) {extract($post) ?>
 
 <div class="board_item" style="background-color:rgba(<?php echo $color; ?>,0.5)"
-	data-id="<?php echo $post_id; ?>">
+	data-id="<?php echo $post_id; ?>" data-viewers = "<?php echo get_viewers($dbh,$post_id);?>" data-color = "<?php echo $color; ?>">
 
 	<img class="board_thumb" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
 

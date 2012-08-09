@@ -65,6 +65,15 @@ switch ($action) {
 
 		//now, update cm_board_viewers with users who are allowed to see post
 
+		//first, delete old viewers
+		$del_viewers = $dbh->prepare("DELETE FROM cm_board_viewers WHERE post_id = ?");
+
+		$del_viewers->bindParam(1,$id);
+
+		$del_viewers->execute();
+
+		//second, add current viewers
+
 		$viewers_query = $dbh->prepare("INSERT INTO cm_board_viewers (`id`, `post_id`,`viewer`) VALUES (NULL,:post_id,:viewer)");
 
 		foreach ($viewers as $v) {

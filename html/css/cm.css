@@ -573,7 +573,8 @@ div.board_item h3{margin-bottom: 10px;display:inline;}
 div.new_post{display: none;overflow-y:auto;}
 div.new_post input {color:#AAA;}
 div.board_new_item_menu{margin-bottom: 10px;}
-div.board_new_item_menu label{vertical-align: text-bottom;margin-right: 10px}
+div.board_new_item_menu * {vertical-align: top;}
+div.board_new_item_menu label{margin-right: 10px}
 div.board_new_item_menu input{width:300px;}
 div.board_new_item_menu .chzn-container{vertical-align: bottom;font-size: 14pt}
 div.board_new_item_menu_bottom{width:100%;position:relative;margin-top: 10px;}

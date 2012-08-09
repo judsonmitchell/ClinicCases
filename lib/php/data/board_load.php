@@ -35,6 +35,25 @@ function check_attachments($dbh,$post_id)
 	}
 }
 
+function get_viewers($dbh,$post_id)
+{
+	$q = $dbh->prepare("SELECT viewer FROM cm_board_viewers WHERE post_id = ?");
+
+	$q->bindParam('1',$post_id);
+
+	$q->execute();
+
+	$viewers = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$viewers_string = null;
+
+	foreach ($viewers as $v) {
+		$viewers_string .= $v['viewer'] . ',';
+	}
+
+	return rtrim($viewers_string, ',');
+}
+
 $this_users_groups = user_which_groups($dbh,$_SESSION['login']);
 
 $grps = implode("','", $this_users_groups);
