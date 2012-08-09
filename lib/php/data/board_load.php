@@ -58,11 +58,26 @@ $this_users_groups = user_which_groups($dbh,$_SESSION['login']);
 
 $grps = implode("','", $this_users_groups);
 
-$q = $dbh->prepare("SELECT * FROM `cm_board` as all_posts
-JOIN
-(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
-ON
-all_posts.id = this_user.post_id ORDER BY all_posts.time_edited DESC");
+if (isset($_POST['s']))
+{
+	$search = $_POST['s'];
+
+	$sql = "SELECT * FROM `cm_board` as all_posts
+	JOIN
+	(SELECT * FROM cm_board_viewers WHERE viewer IN ('jmitchell_admin') GROUP BY cm_board_viewers.post_id) AS  this_user
+	ON
+	all_posts.id = this_user.post_id AND (all_posts.title LIKE '%$search%' OR all_posts.body LIKE '%$search%') ORDER BY all_posts.time_edited DESC";
+}
+else
+{
+	$sql = "SELECT * FROM `cm_board` as all_posts
+	JOIN
+	(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
+	ON
+	all_posts.id = this_user.post_id ORDER BY all_posts.time_edited DESC";
+}
+
+$q = $dbh->prepare($sql);
 
 $q->execute();
 

@@ -11,6 +11,8 @@
 
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
+	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
+
 
 
 <!-- Css Specific to this Page -->
@@ -48,6 +50,8 @@
 			<label>Search:</label>
 
 			<input name="board_search">
+
+			<input type="button" class="casenotes_search_clear">
 
 			<button>New Post</button>
 

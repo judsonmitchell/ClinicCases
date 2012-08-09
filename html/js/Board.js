@@ -91,11 +91,8 @@ $(document).ready(function() {
 
     });
 
-    $('#board_panel').load('lib/php/data/board_load.php', function() {
-
-
-    });
-
+    //Load posts from server
+    $('#board_panel').load('lib/php/data/board_load.php');
 
     //Listeners
 
@@ -253,6 +250,27 @@ $(document).ready(function() {
         });
 
 
+
+    });
+
+    //Search
+    $('input[name = "board_search"]').keyup(function(){
+
+        //Show clear search button and reset board on click
+        $(this).next('.casenotes_search_clear').show().click(function(event){
+            event.preventDefault();
+            $(this).prev().val('');
+            $('#board_panel').load('lib/php/data/board_load.php');
+            $(this).hide();
+        });
+
+        var searchVal = $(this).val();
+
+        $('#board_panel').load('lib/php/data/board_load.php',{'s':searchVal},function(){
+
+            $(this).highlight(searchVal);
+
+        });
 
     });
 
