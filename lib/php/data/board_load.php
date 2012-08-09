@@ -64,7 +64,7 @@ if (isset($_POST['s']))
 
 	$sql = "SELECT * FROM `cm_board` as all_posts
 	JOIN
-	(SELECT * FROM cm_board_viewers WHERE viewer IN ('jmitchell_admin') GROUP BY cm_board_viewers.post_id) AS  this_user
+	(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
 	ON
 	all_posts.id = this_user.post_id AND (all_posts.title LIKE '%$search%' OR all_posts.body LIKE '%$search%') ORDER BY all_posts.time_edited DESC";
 }
