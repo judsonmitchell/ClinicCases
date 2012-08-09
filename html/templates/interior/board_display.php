@@ -77,7 +77,7 @@
 
 		</label>
 
-	<?php if ($author = $_SESSION['login']){ ?>
+	<?php if ($author == $_SESSION['login']){ ?>
 
 		<a href="#" class="small board_item_edit">Edit</a>
 
