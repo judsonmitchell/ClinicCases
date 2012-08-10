@@ -2,7 +2,7 @@
 	$(document).ready(function(){
 
 			$.idleTimeout('#idletimeout', '#idletimeout a', {
-				idleAfter: 1200, //20 minutes
+				idleAfter: 3600, //60 minutes
 				pollingInterval: 30,
 				keepAliveURL: 'lib/php/auth/keep_alive.php',
 				serverResponseEquals: 'OK',
