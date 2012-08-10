@@ -81,6 +81,13 @@ switch ($action) {
 			$data = array('post_id' => $id,'viewer' => $v);
 
 			$viewers_query->execute($data);
+
+			//Notify viewer; TODO test with mail server
+			$author = username_to_fullname ($dbh,$_SESSION['login']);
+			$email = user_email($dbh,$v);
+			$subject = "ClinicCases: $author posted on your Board";
+			$body = "$author posted on your Board in ClinicCases: $title.\n\n" . CC_EMAIL_FOOTER;
+			mail($email,$subject,$body,CC_EMAIL_HEADERS);
 		}
 
 		break;

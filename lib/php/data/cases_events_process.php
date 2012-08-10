@@ -130,7 +130,7 @@ switch ($action) {
 
 				//notify user via email
 				$email = user_email($dbh,$resps_flat[$i]);
-				$subject = "ClincCases: You have been assigned to an event";
+				$subject = "ClinicCases: You have been assigned to an event";
 				$body = "You have been assigned to an event (" . $_POST['task']  . ") in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
 				mail($email,$subject,$body,CC_EMAIL_HEADERS);
 					//TODO test on mail server
@@ -219,7 +219,7 @@ switch ($action) {
 			{
 				foreach ($new_assignees as $n) {
 					$email = user_email($dbh,$resps_flat[$i]);
-					$subject = "ClincCases: You have been assigned to an event";
+					$subject = "ClinicCases: You have been assigned to an event";
 					$body = "You have been assigned to an event (" . $_POST['task']  . ")in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
 					mail($email,$subject,$body,CC_EMAIL_HEADERS);
 					//TODO test on mail server

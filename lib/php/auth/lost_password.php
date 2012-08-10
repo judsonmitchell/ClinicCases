@@ -83,7 +83,7 @@ else
 
 		$email = $check['email'];
 
-		$subject = "ClincCases: Your Account Request";
+		$subject = "ClinicCases: Your Account Request";
 
 		$body = "This is in response to your forgot username/password request on ClinicCases.  Your username is $user.  Your temporary password is $gen_pass.\n\nPlease log in to ClinicCases using these credentials.  Then please change your password to something you can remember by clicking on the Preferences link.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);

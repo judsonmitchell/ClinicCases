@@ -77,7 +77,7 @@ foreach ($user_array as $user)
 
 		//Send email to user
 		$email = user_email($dbh,$user);
-		$subject = "ClincCases: You have been assigned to a case";
+		$subject = "ClinicCases: You have been assigned to a case";
 		$body = "You have been assigned to the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);
 			//TODO test on mail server

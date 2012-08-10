@@ -238,7 +238,7 @@ switch ($type) {
 
 			$email = user_email($dbh,$user);
 
-			$subject = "ClincCases: $commenter has commented on a journal.";
+			$subject = "ClinicCases: $commenter has commented on a journal.";
 
 			$body = "$commenter has commented on a journal.n\n" . CC_EMAIL_FOOTER;
 
