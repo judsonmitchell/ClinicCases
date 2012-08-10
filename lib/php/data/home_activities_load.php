@@ -8,6 +8,7 @@ include('../utilities/convert_times.php');
 include('../auth/last_login.php');
 include('../html/gen_select.php');
 include('../utilities/format_text.php');
+include('../users/user_data.php');
 
 //function to sort the activities array by subkey - date
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
@@ -573,7 +574,49 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 }
 
 
-//TODO board posts
+//Add board posts
+
+if ($_SESSION['permissions']['view_board'] == '1')
+{
+	$this_users_groups = user_which_groups($dbh,$_SESSION['login']);
+
+	$grps = implode("','", $this_users_groups);
+
+	$q = $dbh->prepare("SELECT * FROM `cm_board` as all_posts
+	JOIN
+	(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
+	ON
+	all_posts.id = this_user.post_id AND all_posts.time_added >= '$phpdate'");
+
+	$q->execute();
+
+	$posts = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($posts as $post) {
+
+		$activity_type = 'new_board_post';
+		if ($post['author'] === $username) {
+			$by = 'You';
+		} else {
+			$by = username_to_fullname($dbh,$post['author']);
+		}
+		$thumb = return_thumbnail($dbh,$post['author']);
+		$action_text = " posted on your Board ";
+		$time_done = $post['time_added'];
+		$time_formatted = extract_date_time($post['time_added']);
+		$what = $post['title'];
+		$follow_url = 'index.php?i=Board.php';
+		$casename = '';
+		$id = null;
+
+		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
+				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
+				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
+				'time_formatted' => $time_formatted);
+
+		$activities[] = $item;
+	}
+}
 
 if (!empty($activities)) {
 	sortBySubkey($activities,'time_done');

@@ -1,5 +1,9 @@
 <!-- Jquery Calls Specific to this page -->
+	<?php if ($_SESSION['permissions']['view_board'] == '1') { ?>
+
 	<script  src="html/js/Board.js" type="text/javascript"></script>
+
+	<?php } ?>
 
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
@@ -53,13 +57,26 @@
 
 			<input type="button" class="casenotes_search_clear">
 
+			<?php if  ($_SESSION['permissions']['post_in_board'] == '1') { ?>
+
 			<button>New Post</button>
+
+			<?php } ?>
 
 		</div>
 
 		<div id ="board_panel">
 
+			<?php if ($_SESSION['permissions']['view_board'] == '0') { ?>
+
+			<p>Sorry, you do not have permission to view the Board.</p>
+
+			<?php } else { ?>
+
 			Loading...
+
+
+			<?php } ?>
 
 		</div>
 
