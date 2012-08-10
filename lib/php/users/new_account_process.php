@@ -182,17 +182,42 @@ if ($error[1])
 }
 else
 {
-	//Send email
-	$subject = "Clinic Cases " . CC_PROGRAM_NAME . ": Thanks for applying";
+	//Send email to applicant
+	$subject = "ClinicCases " . CC_PROGRAM_NAME . ": Thanks for applying";
 
-	$message = "Your application for ClinicCases has been received.  It will be reviewed by your adminstrator.  When it is approved, your adminstrator will send you another email letting you know your accout is active.\n\nIn the meantime, feel free to contact your adminstrator at " . CC_ADMIN_EMAIL . " with any questions.";
+	$message = "Your application for ClinicCases has been received.  It will be reviewed by your adminstrator.  When it is approved, your adminstrator will send you another email letting you know your account is active.\n\nIn the meantime, feel free to contact your adminstrator at " . CC_ADMIN_EMAIL . " with any questions.";
 
-	$headers = 'From: ' . CC_EMAIL_FROM . "\n" .
-   'Reply-To: ' . CC_EMAIL_FROM . "\n" .
-   'X-Mailer: PHP/' . phpversion();
+	mail($_POST['email'],$subject,$message,CC_EMAIL_HEADERS);
 
-	mail($_POST['email'],$subject,$message,$headers);
-	//TODO test on mail server
+  //Send email to admins
+  $q = $dbh->prepare("SELECT * FROM cm_groups WHERE `activate_users` = '1'");
+
+  $q->execute();
+
+  $notified = $q->fetchAll(PDO::FETCH_ASSOC);
+
+  $notified_groups = null;
+
+  foreach ($notified as $grp) {
+    $notified_groups .= "'" . $grp['group_name'] . "',";
+  }
+
+  $notified_groups = rtrim($notified_groups,',');
+
+  $get_emails = $dbh->prepare("SELECT email FROM cm_users WHERE grp IN($notified_groups) AND status = 'active'");
+
+  $get_emails->execute();
+
+  $emails = $get_emails->fetchAll(PDO::FETCH_ASSOC);
+
+  $subject = "ClinicCases " . CC_PROGRAM_NAME . ": $first_name $last_name has applied for an account";
+
+  $message = "$first_name $last_name has applied for an account on ClinicCases.  Please log on, go to the Users tab, and review the application.";
+
+  foreach ($emails as $e) {
+
+      mail($e['email'],$subject,$message,CC_EMAIL_HEADERS);
+  }
 
 	//notify user
 	$response = array("error" => false, "message" => "Account application successful",
