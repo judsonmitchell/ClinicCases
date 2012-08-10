@@ -606,7 +606,7 @@ if ($_SESSION['permissions']['view_board'] == '1')
 		$time_formatted = extract_date_time($post['time_added']);
 		$what = $post['title'];
 		$follow_url = 'index.php?i=Board.php';
-		$casename = '';
+		$casename = "(view here)";
 		$id = null;
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
