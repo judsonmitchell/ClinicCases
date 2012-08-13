@@ -8,7 +8,7 @@ $(document).ready(function() {
         event.preventDefault();
 
         //Show hidden new post div
-        $('div.new_post').show().animate({'width': '900','height': '500'});
+        $('div.new_post').show().animate({'width': '900','height': '500'}).attr('data-new','yes');
 
         //Get the id of this post from server
         $.post('lib/php/data/board_process.php', {'action': 'new'}, function(data) {
@@ -38,12 +38,15 @@ $(document).ready(function() {
         });
 
         //Create lwrte
-        var bodyText = $('div.new_post').find('.post_edit').rte({
-            css: ['lib/javascripts/lwrte/default2.css'],
-            width: 900,
-            height: 300,
-            controls_rte: rte_toolbar
-        });
+        if ($('div.rte-zone').length < 1)
+        {
+                bodyText = $('div.new_post').find('.post_edit').rte({
+                css: ['lib/javascripts/lwrte/default2.css'],
+                width: 900,
+                height: 300,
+                controls_rte: rte_toolbar
+            });
+        }
 
         //Define post title
         $('input[name="post_title"]').focusin(function(event) {
@@ -66,7 +69,43 @@ $(document).ready(function() {
         $('.board_new_item_menu_bottom button')
         .first().click(function(event) {
             event.preventDefault();
-            alert('cancel');
+
+            var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">Are you sure you don\'t want to save this post?</div>').dialog({
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    "Yes": function() {
+                        var postId = $('div.new_post').attr('data-id');
+                        $('div.new_post').hide();
+                        $('form[name="new_post_form"]')[0].reset();
+                        $('select[name="viewer_select[]"]').trigger("liszt:updated");
+                        bodyText[0].set_content('');
+                        $('div.rte-zone').css({'background-color': '#FFF'});
+
+                        $.post('lib/php/data/board_process.php', {'action': 'delete','item_id':postId},
+                            function(data){
+                            var serverResponse = $.parseJSON(data);
+                            if (serverResponse.error === true)
+                            {
+                                notify(serverResponse.message, true);
+                            }
+                            else
+                            {
+                                notify(serverResponse.message);
+                            }
+
+                        });
+
+                        $(this).dialog("destroy");
+                    },
+                    "No": function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+
+            $(dialogWin).dialog('open');
         })
         .next().click(function(event) {
             event.preventDefault();
@@ -177,7 +216,7 @@ $(document).ready(function() {
             params: {'post_id': editId},
             template: '<div class="qq-uploader">' +
             '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-            '<div class="qq-upload-button">Choose More Files</div>' +
+            '<div class="qq-upload-button">Choose Files</div>' +
             '<ul class="qq-upload-list"></ul>' +
             '</div>'
 
@@ -214,18 +253,19 @@ $(document).ready(function() {
         .val(currentViewers)
         .trigger("liszt:updated");
 
-
-        // currentViewers.each(function(index,value){
-
-        // });
-
         //Show the current attachments
-        editItem.find('div.board_new_item_menu_bottom label').append(thisItem.find('div.attachment_container').html() + '<br />');
+        var currentAttch = thisItem.find('div.attachment_container').html();
+        if (currentAttch)
+        {
+            editItem.find('div.board_new_item_menu_bottom label').append(currentAttch + '<br />');
+        }
 
+        //Cancel or save edit
         editItem.find('button').first().click(function(event) {
             event.preventDefault();
             editItem.remove();
             thisItem.show();
+            notify('Edit cancelled.');
         })
         .next()
         .click(function(event) {
