@@ -146,6 +146,8 @@ switch ($action) {
 		$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 		header('Content-Description: File Transfer');
 		header("Content-type: application/force-download");
+		header("Pragma: "); 
+		header("Cache-Control: ");
 		//header("Content-type:" . finfo_file($finfo, $file));
 		//header('Content-Type: application/octet-stream');
 		header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
