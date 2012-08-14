@@ -272,7 +272,7 @@ $(document).ready(function() {
 
                     },
 
-                    "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of <b>_MAX_</b> cases"},
+                    "oLanguage": {"sInfo": "Found <b>_TOTAL_</b> <span id='caseStatus'></span> cases","sInfoFiltered": "from a total of <b>_MAX_</b> cases","sEmptyTable": "No cases found.","sZeroRecords":"No cases found."},
 
                     "fnDrawCallback": function() {
 

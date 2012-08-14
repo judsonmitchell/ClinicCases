@@ -63,7 +63,7 @@
 
 				<p><label>Who's Responsible?</label>
 
-					<select multiple name="responsibles" class="responsibles" data-placeholder="Select Users">
+					<select multiple name="responsibles" class="responsibles" data-placeholder="Select Users" style="width:350px;">
 
 						<?php echo users_on_case_select($dbh,$id); ?>
 

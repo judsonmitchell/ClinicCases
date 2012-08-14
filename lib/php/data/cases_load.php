@@ -94,6 +94,12 @@ $user = $_SESSION['login'];
 
 			}
 
+	//If no rows found, return empty array
+	if ($case_query->rowCount() < 1)
+	{
+		$output['aaData'] = array($cols);
+	}
+
 
 	$json = json_encode($output);
 	echo $json;
