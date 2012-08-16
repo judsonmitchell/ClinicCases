@@ -146,18 +146,16 @@ function createTextEditor(target, action, permission, title, content, id)
             $(this).html('<input type="text" value="">');
             $(this).find('input').val(unescape(ccdTitle)).focus();
         })
-        .keydown(function(e) {
-            if (e.which == 13 || e.which == 9) {
-                e.preventDefault();
+        .focusout(function() {
                 ccdTitle = escape($(this).find('input').val());
-                $(this).text(unescape(ccdTitle));
+                $(this).html(unescape(ccdTitle));
                 $(this).css({'color': 'black'});
                 var getText = arr[0].get_content();
-                $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitleArea.html(),'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText}, function(data) {
+                $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText}, function(data) {
                     var serverResponse = $.parseJSON(data);
                     notify(serverResponse.message);
                 });
-            }
+
         })
         .mouseleave(function() {
             $(this).css({'color': 'black'});
