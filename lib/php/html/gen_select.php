@@ -552,7 +552,7 @@ function get_journal_readers($dbh,$current_readers)
 	else
 		{die("<option value=''>No users assigned to read journals</option>");}
 
-	$users = $dbh->prepare("SELECT * FROM cm_users WHERE `grp` IN ('$r') AND `status` = 'active'ORDER BY `last_name` ASC");
+	$users = $dbh->prepare("SELECT * FROM cm_users WHERE `grp` IN ($r) AND `status` = 'active'ORDER BY `last_name` ASC");
 
 	$users->execute();
 
