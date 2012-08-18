@@ -113,6 +113,8 @@
 
 								<input type="text" name = "<?php echo $db_name; ?>" value = "">
 
+							</span>
+
 						<?php } ?>
 
 				<?php } elseif ($input_type === 'select') { ?>
