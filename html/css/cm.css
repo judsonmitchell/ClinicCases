@@ -288,7 +288,7 @@ div.user_display h3{color:green;}
 div.user_display_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC;outline:0}
 div.inactive_user{color:gray;}
 div.inactive_user h3 {color:gray;}
-div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC}
+div.add_user_detail{display:block;height:99%; width:99%;position:absolute;top:0;left:0;background-color:#FFFFDC;outline:0;}
 div.user_display_detail p {text-align:left;margin-left:5px;}
 div.dialog-user-remove{display:none;text-align:left;}
 button.user-action-button,button.user-action-adduser-button{position:absolute;bottom:10px;right:25px;}

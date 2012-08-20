@@ -9,3 +9,7 @@
     left:0;
     top:0;
   }
+/*Special class to hide nested elements*/
+.print_content_no{
+    display: none;
+  }
