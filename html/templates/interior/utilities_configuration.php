@@ -113,7 +113,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $clinic_name;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<?php} ?>
+				<?php } ?>
 
 			</form>
 
