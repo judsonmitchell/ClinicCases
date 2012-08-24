@@ -27,7 +27,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $type;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<? } ?>
+				<?php } ?>
 
 			</form>
 
@@ -53,7 +53,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $court;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<? } ?>
+				<?php } ?>
 
 			</form>
 
@@ -78,7 +78,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $dispo;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<? } ?>
+				<?php } ?>
 
 			</form>
 
@@ -113,7 +113,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $clinic_name;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<? } ?>
+				<?php} ?>
 
 			</form>
 
@@ -138,7 +138,7 @@
 					<a href="#" class="change_config" title="Delete <?php echo $referral;?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
-				<? } ?>
+				<?php } ?>
 			</form>
 
 		</div>
