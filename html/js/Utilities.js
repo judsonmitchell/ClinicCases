@@ -1,5 +1,21 @@
  //Scripts for utilities page
 
+ function convertToHours(totalTime,unit)
+ {
+    //This is a javascript port of the php function
+    //convert_to_hours in convert_times.php
+
+    var hours = Math.floor(totalTime / 3600);
+    var minutes = totalTime - (hours * 3600);
+    var minutes2 = minutes/ 60;
+    var minFormat = (Math.round(minutes2/unit) * unit) / 100;
+    var minFormatFixed = minFormat.toFixed(2);
+    var minVal = (minFormatFixed + "").split(".");
+    return hours + '.' + minVal[1];
+
+
+ }
+
 var oTable;
 
 $(document).ready(function() {
@@ -158,20 +174,23 @@ $(document).ready(function() {
                                     {
                                         var totalTime = 0;
 
-                                        colIndex = oTable.fnGetColumnIndex('Time (hours)');
+                                        var colIndex = oTable.fnGetColumnIndex('Seconds');
 
                                         for ( var a=0 ; a<aaData.length ; a++ )
                                         {
-                                            totalTime += parseInt(aaData[a][colIndex]);
+                                            totalTime += parseFloat(aaData[a][colIndex]);
+
                                         }
 
                                         var nCells = nRow.getElementsByTagName('th');
 
-                                        var previousCell = colIndex - 1;
+                                        var previousCell = colIndex - 2;
 
                                         nCells[previousCell].innerHTML = 'Total Hours';
 
-                                        nCells[colIndex].innerHTML = totalTime;
+                                        var unit = $('#utilities_panel').attr('data-unit');
+
+                                        nCells[colIndex - 1].innerHTML = convertToHours(totalTime,unit);
                                     }
 
                                // }

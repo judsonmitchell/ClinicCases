@@ -40,8 +40,9 @@ function convert_to_hours($time)
 	$hours = floor($time / 3600);
 	$minutes = $time - ($hours * 3600);
 	$minutes2 = $minutes / 60;
-	$min_format = round($minutes2/CC_TIME_UNIT,0) * CC_TIME_UNIT;
-	$time = "$hours" . ".$min_format";
+	$min_format = (round($minutes2/CC_TIME_UNIT) * CC_TIME_UNIT) / 100;
+	$min_val = explode('.', number_format($min_format,2));
+	$time = "$hours" . ".$min_val[1]";
 	return $time;
 }
 

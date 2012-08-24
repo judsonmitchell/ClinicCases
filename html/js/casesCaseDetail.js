@@ -439,8 +439,12 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
         userDetail.focus();
         //hide the display and reset the clicked image border
         userDetail.focusout(function() {
-            $(this).parent().hide();
-            clickedImage.css({'border': '3px solid #FFFFCC'});
+            //Add setTimeout to deal with Firefox
+            setTimeout(function(){
+                userDetail.parent().hide();
+                clickedImage.css({'border': '3px solid #FFFFCC'});
+            },100);
+
 
         });
 
@@ -492,12 +496,19 @@ $('div.assigned_people img.user_add_button').live('click', function() {
     $('div.user_display').load('lib/php/users/cases_detail_user_chooser_load.php', {'case_id': cseId}, function() {
         $('button.user-action-adduser-button').button({icons: {primary: "fff-icon-user-add"},text: true});
 
+        $('div.user_display').show();
+
         $('.chzn-select').chosen();
+
+        $('div.user_display').focus().blur(function(){
+            setTimeout(function(){
+            $('div.user_display').hide();
+            },100);
+        });
+
 
     });
 
-    $('div.user_display').show();
-    $('div.user_display form').focus().focusout(function(){$(this).hide();});
 
 });
 

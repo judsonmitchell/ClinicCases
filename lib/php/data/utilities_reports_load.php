@@ -54,7 +54,7 @@ else
 switch ($type) {
 	case 'user':
 
-		$cols = array("username","case_id", "date", "description", "time");
+		$cols = array("username","case_id", "date", "description", "time","seconds");
 
 		$col_data = array(
                 array(
@@ -71,6 +71,10 @@ switch ($type) {
                 ),
                 array(
                     'sTitle' => 'Time (hours)'
+                ),
+                array(
+                	'sTitle' => 'Seconds',
+                	'bVisible' => false
                 )
             );
 
@@ -100,7 +104,10 @@ switch ($type) {
 
 				$result['date'] = extract_date($result['date']);
 
+				$result['seconds'] = $result['time'];
+
 				$result['time'] = convert_to_hours($result['time']);
+
 
 				foreach ($cols as $col) {
 
@@ -123,7 +130,7 @@ switch ($type) {
 
 	case 'grp':
 
-			$cols = array("username","SUM(time)");
+			$cols = array("username","SUM(time)","seconds");
 
 			$col_data = array(
 	                array(
@@ -131,7 +138,11 @@ switch ($type) {
 	                ),
 	                array(
 	                    'sTitle' => 'Time (hours)'
-	                )
+	                ),
+	                array(
+                		'sTitle' => 'Seconds',
+                		'bVisible' => false
+                	)
 	            );
 
 			if ($columns_only)
@@ -161,6 +172,8 @@ switch ($type) {
 
 					$result['username'] = username_to_fullname($dbh,$result['username']);
 
+					$result['seconds'] = $result['SUM(time)'];
+
 					$result['SUM(time)'] = convert_to_hours($result['SUM(time)']);
 
 
@@ -185,7 +198,7 @@ switch ($type) {
 
 	case 'supvsr_grp':
 
-		$cols = array("username","SUM(time)");
+		$cols = array("username","SUM(time)","seconds");
 
 		$col_data = array(
                 array(
@@ -193,6 +206,10 @@ switch ($type) {
                 ),
                 array(
                     'sTitle' => 'Time (hours)'
+                ),
+                array(
+                	'sTitle' => 'Seconds',
+                	'bVisible' => false
                 )
             );
 
@@ -223,6 +240,8 @@ switch ($type) {
 
 				$result['username'] = username_to_fullname($dbh,$result['username']);
 
+				$result['seconds'] = $result['SUM(time)'];
+
 				$result['SUM(time)'] = convert_to_hours($result['SUM(time)']);
 
 
@@ -247,7 +266,7 @@ switch ($type) {
 
 	case 'case';
 
-		$cols = array("username","case_id", "date", "description", "time");
+		$cols = array("username","case_id", "date", "description", "time","seconds");
 
 		$col_data = array(
                 array(
@@ -264,6 +283,10 @@ switch ($type) {
                 ),
                 array(
                     'sTitle' => 'Time (hours)'
+                ),
+                array(
+                	'sTitle' => 'Seconds',
+                	'bVisible' => false
                 )
             );
 
@@ -293,6 +316,8 @@ switch ($type) {
 				$result['case_id'] = case_id_to_casename ($dbh,$result['case_id']);
 
 				$result['date'] = extract_date($result['date']);
+
+				$result['seconds'] = $result['time'];
 
 				$result['time'] = convert_to_hours($result['time']);
 

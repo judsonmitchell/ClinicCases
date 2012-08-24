@@ -68,7 +68,7 @@
 
 		</div>
 
-		<div id = "utilities_panel">
+		<div id = "utilities_panel" data-unit = "<?php echo CC_TIME_UNIT;?>">
 
 		</div>
 
