@@ -12,8 +12,6 @@
     var minFormatFixed = minFormat.toFixed(2);
     var minVal = (minFormatFixed + "").split(".");
     return hours + '.' + minVal[1];
-
-
  }
 
 var oTable;
@@ -64,9 +62,9 @@ $(document).ready(function() {
 
             var tableHeight = $('#utilities_panel').height() - $('#report_chooser').height() - 150;
 
-            if ($('tfoot th').length)
+            if ($('#table_reports tfoot th').length)
             {
-                $('tfoot th').remove();
+                $('#table_reports tfoot th').remove();
             }
 
             if ($('thead th').length)
@@ -116,7 +114,7 @@ $(document).ready(function() {
                     {
                         //Add footer to html
                         for (var i = 0; i < data.aoColumns.length; i++) {
-                            $('tfoot tr').append('<th></th>');
+                            $('#table_reports tfoot tr').append('<th></th>');
                         }
 
                         oTable = $('#table_reports').dataTable({
@@ -174,7 +172,7 @@ $(document).ready(function() {
                                     {
                                         var totalTime = 0;
 
-                                        var colIndex = oTable.fnGetColumnIndex('Seconds');
+                                        colIndex = oTable.fnGetColumnIndex('Seconds');
 
                                         for ( var a=0 ; a<aaData.length ; a++ )
                                         {
@@ -183,6 +181,8 @@ $(document).ready(function() {
                                         }
 
                                         var nCells = nRow.getElementsByTagName('th');
+
+                                        //problem has to do with adding a hidden column
 
                                         var previousCell = colIndex - 2;
 
