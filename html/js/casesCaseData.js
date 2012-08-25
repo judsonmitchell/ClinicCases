@@ -89,6 +89,33 @@ function formatCaseData(thisPanel,type)
 
         });
 
+        //Add case re-opening feature
+        thisPanel.find('input[name="date_close"]').after('<a class="force_reopen small" href="#">Re-open this case</a>');
+
+        thisPanel.find('a.force_reopen').click(function(event){
+            event.preventDefault();
+            var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>This will re-open the case. Are you sure?</p></div>').dialog({
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    "Yes": function() {
+                        $('input[name="date_close"]').datepicker("setDate",null).next().html('');
+                        $('select[name="dispo"]').val('').trigger("liszt:updated");
+                        thisPanel.find('a.force_reopen').remove();
+                        $(this).dialog("destroy");
+                    },
+                    "No": function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+
+            $(dialogWin).dialog('open');
+
+
+        });
+
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
