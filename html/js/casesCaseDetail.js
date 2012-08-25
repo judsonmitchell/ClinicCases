@@ -436,14 +436,14 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
 
         $(this).show();
         var userDetail = $(this).find('div.user_display_detail');
-        userDetail.focusin();
+        userDetail.focus();
         //hide the display and reset the clicked image border
-        userDetail.focusout(function() {
+        userDetail.blur(function() {
             //Add setTimeout to deal with Firefox
             setTimeout(function(){
                 userDetail.parent().hide();
                 clickedImage.css({'border': '3px solid #FFFFCC'});
-            },100);
+            },500);
 
 
         });
