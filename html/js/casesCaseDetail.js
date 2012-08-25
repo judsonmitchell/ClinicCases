@@ -436,7 +436,7 @@ $("div.assigned_people img:not(.user_add_button)").live("click", function() {
 
         $(this).show();
         var userDetail = $(this).find('div.user_display_detail');
-        userDetail.focus();
+        userDetail.focusin();
         //hide the display and reset the clicked image border
         userDetail.focusout(function() {
             //Add setTimeout to deal with Firefox
@@ -500,10 +500,10 @@ $('div.assigned_people img.user_add_button').live('click', function() {
 
         $('.chzn-select').chosen();
 
-        $('div.user_display').focus().blur(function(){
+        $('div.user_display form').focus().blur(function(){//blur fails in IE
             setTimeout(function(){
             $('div.user_display').hide();
-            },100);
+            },500);
         });
 
 
