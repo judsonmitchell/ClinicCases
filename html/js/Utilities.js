@@ -4,7 +4,6 @@
  {
     //This is a javascript port of the php function
     //convert_to_hours in convert_times.php
-
     var hours = Math.floor(totalTime / 3600);
     var minutes = totalTime - (hours * 3600);
     var minutes2 = minutes/ 60;
@@ -64,7 +63,6 @@ $(document).ready(function() {
 
             if ($('#table_reports tfoot th').length)
             {
-                //$('#table_reports tfoot th').remove();
                 $('#table_reports').dataTable().fnDestroy();
 
                 $('#table_reports tfoot tr').empty();
@@ -130,7 +128,6 @@ $(document).ready(function() {
                             "sScrollY":tableHeight,
                             "iDisplayLength": 150,
                             "bSortCellsTop": true,
-                            "bDestroy": true,
                             "oLanguage": {
                                 "sEmptyTable": "No data found."
                             },
