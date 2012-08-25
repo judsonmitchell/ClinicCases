@@ -9,13 +9,13 @@
 
 			if ($user->user_case_status == "active")
 			{
-			echo "<li class = 'active'><span><img tabindex='0' id='imgid_" . $user->case_id . "_" . $user->username  . "' src='$thumbnail'></span></li>";
+			echo "<li class = 'active'><span><img tabindex='0' id='imgid_" . $user->case_id . "_" . $user->username  . "' src='$thumbnail' title='$user->first_name $user->last_name'></span></li>";
 			}
 
 			else
 
 			{
-			echo "<li class = 'inactive'><span><img tabindex='0' id='imgid_" . $user->case_id . "_" . $user->username  . "' src='$thumbnail'></span></li>";
+			echo "<li class = 'inactive'><span><img tabindex='0' id='imgid_" . $user->case_id . "_" . $user->username  . "' src='$thumbnail' title='$user->first_name $user->last_name'></span></li>";
 			}
 
 			$case_id = $user->case_id;
