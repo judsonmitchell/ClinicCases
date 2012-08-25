@@ -64,7 +64,10 @@ $(document).ready(function() {
 
             if ($('#table_reports tfoot th').length)
             {
-                $('#table_reports tfoot th').remove();
+                //$('#table_reports tfoot th').remove();
+                $('#table_reports').dataTable().fnDestroy();
+
+                $('#table_reports tfoot tr').empty();
             }
 
             if ($('thead th').length)
