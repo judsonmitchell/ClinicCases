@@ -1,8 +1,8 @@
-//
+ //
 //Scripts for Case data
 //
 
-function formatCaseData(thisPanel,type)
+function formatCaseData(thisPanel, type)
 {
 
     //Apply CSS
@@ -11,7 +11,9 @@ function formatCaseData(thisPanel,type)
     var thisPanelHeight = navItem.closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
     if (typeof caseNotesWindowHeight == 'undefined')
-        {caseNotesWindowHeight = thisPanelHeight - toolsHeight;}
+    {
+        caseNotesWindowHeight = thisPanelHeight - toolsHeight;
+    }
 
     $('div.case_detail_panel_tools').css({'height': toolsHeight});
     $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
@@ -19,7 +21,7 @@ function formatCaseData(thisPanel,type)
     $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
 
-    thisPanel.find('div.case_data_value').not('div.case_data_name + div.case_data_value').css({'margin-left':'21%'});
+    thisPanel.find('div.case_data_value').not('div.case_data_name + div.case_data_value').css({'margin-left': '21%'});
 
     //Apply shadow on scroll
     $('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -35,7 +37,7 @@ function formatCaseData(thisPanel,type)
     });
 
     //format the form
-    if (type === 'new'  || type === 'edit')
+    if (type === 'new' || type === 'edit')
     {
         $('input[name="id"]').parent().hide();
         $('input[name="opened_by"]').parent().remove();
@@ -45,28 +47,28 @@ function formatCaseData(thisPanel,type)
         var cN = thisPanel.find('input[name="clinic_id"]');
         var cnVal = cN.val();
         if (cnVal.indexOf("ClinicType") != -1)
-            {
-                thisPanel.find('select[name="clinic_type"]').change(function(){
-                cN.val(cnVal.replace('ClinicType',$(this).find('option:selected').attr('data-code')));
-                });
-            }
+        {
+            thisPanel.find('select[name="clinic_type"]').change(function() {
+                cN.val(cnVal.replace('ClinicType', $(this).find('option:selected').attr('data-code')));
+            });
+        }
 
         if (cnVal.indexOf("CaseType") != -1)
-            {
-                thisPanel.find('select[name="case_type"]').change(function(){
-                cN.val(cnVal.replace('CaseType',$(this).find('option:selected').attr('data-code')));
-                });
-            }
+        {
+            thisPanel.find('select[name="case_type"]').change(function() {
+                cN.val(cnVal.replace('CaseType', $(this).find('option:selected').attr('data-code')));
+            });
+        }
 
         //Add onbeforeunload event to prevent empty cases
-        $(window).bind('beforeunload', function(){
+        $(window).bind('beforeunload', function() {
             return "You may have unsaved changes on a case.  Please either save any changes or close the case's tab before leaving this page";
         });
 
         //Disable case number editing
-        thisPanel.find('input[name="clinic_id"]').attr('disabled',true).after('<a class="force_edit small" href="#">Let me edit this</a>');
+        thisPanel.find('input[name="clinic_id"]').attr('disabled', true).after('<a class="force_edit small" href="#">Let me edit this</a>');
 
-        thisPanel.find('a.force_edit').click(function(event){
+        thisPanel.find('a.force_edit').click(function(event) {
             event.preventDefault();
             var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>ClinicCases automatically assigns the next available case number.  If your case number contains "CaseType" or "ClinicType", these values will be replaced when you change those fields below.</p><br /><p>Manually editing a case number may have undesirable results. Are you sure?</p></div>').dialog({
                 autoOpen: false,
@@ -74,7 +76,7 @@ function formatCaseData(thisPanel,type)
                 modal: true,
                 buttons: {
                     "Yes": function() {
-                        $('input[name="clinic_id"]').attr('disabled',false).focus();
+                        $('input[name="clinic_id"]').attr('disabled', false).focus();
                         thisPanel.find('a.force_edit').remove();
                         $(this).dialog("destroy");
                     },
@@ -90,61 +92,63 @@ function formatCaseData(thisPanel,type)
         });
 
         //Add case re-opening feature
-        thisPanel.find('input[name="date_close"]').after('<a class="force_reopen small" href="#">Re-open this case</a>');
+        if (thisPanel.find('input[name="date_close"]').val() !== '')
+        {
+            thisPanel.find('input[name="date_close"]').after('<a class="force_reopen small" href="#">Re-open this case</a>');
 
-        thisPanel.find('a.force_reopen').click(function(event){
-            event.preventDefault();
-            var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>This will re-open the case. Are you sure?</p></div>').dialog({
-                autoOpen: false,
-                resizable: false,
-                modal: true,
-                buttons: {
-                    "Yes": function() {
-                        $('input[name="date_close"]').datepicker("setDate",null).next().html('');
-                        $('select[name="dispo"]').val('').trigger("liszt:updated");
-                        thisPanel.find('a.force_reopen').remove();
-                        $(this).dialog("destroy");
-                    },
-                    "No": function() {
-                        $(this).dialog("destroy");
+            thisPanel.find('a.force_reopen').click(function(event) {
+                event.preventDefault();
+                var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>This will re-open the case. Are you sure?</p></div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Yes": function() {
+                            $('input[name="date_close"]').datepicker("setDate", null).next().html('');
+                            $('select[name="dispo"]').val('').trigger("liszt:updated");
+                            thisPanel.find('a.force_reopen').remove();
+                            $(this).dialog("destroy");
+                        },
+                        "No": function() {
+                            $(this).dialog("destroy");
+                        }
                     }
-                }
+                });
+
+                $(dialogWin).dialog('open');
+
+
             });
-
-            $(dialogWin).dialog('open');
-
-
-        });
-
+        }
         //Add chosen to selects
         thisPanel.find('select').chosen();
 
         //Align dual input fields with the first ones
-        thisPanel.find('span.dual_input').not('label + span.dual_input').css({'margin-left':'190px'});
+        thisPanel.find('span.dual_input').not('label + span.dual_input').css({'margin-left': '190px'});
 
         //Align multi-text fields and email fields with the first ones
-        thisPanel.find('span.multi-text').not('label + span.multi-text').css({'margin-left':'190px'});
+        thisPanel.find('span.multi-text').not('label + span.multi-text').css({'margin-left': '190px'});
 
         //Add link to trigger a new dual field
-        thisPanel.find('p').has('span.dual_input').each(function(){
+        thisPanel.find('p').has('span.dual_input').each(function() {
 
             $(this).find('span.dual_input').last().after('<a class="add_another small" href="#">Add another</a>');
         });
 
         //Add link to a new multi-text field
-        thisPanel.find('p').has('span.multi-text').each(function(){
+        thisPanel.find('p').has('span.multi-text').each(function() {
             $(this).find('span.multi-text').last().after('<a class="add_another small" href="#">Add another</a>');
         });
 
         //Add datepickers
-        thisPanel.find('input.date_field').each(function(){
-            var b = $.datepicker.parseDate('yy-mm-dd',$(this).val());
-            var buttonVal = $.datepicker.formatDate('mm/dd/yy',b);
-            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText:buttonVal,onSelect: function(dateText, inst) {
-                var c = $.datepicker.parseDate('yy-mm-dd',dateText);
-                var displayDate = $.datepicker.formatDate('mm/dd/yy',c);
-            $(this).next().html(displayDate);
-            }});
+        thisPanel.find('input.date_field').each(function() {
+            var b = $.datepicker.parseDate('yy-mm-dd', $(this).val());
+            var buttonVal = $.datepicker.formatDate('mm/dd/yy', b);
+            $(this).datepicker({dateFormat: 'yy-mm-dd',showOn: 'button',buttonText: buttonVal,onSelect: function(dateText, inst) {
+                    var c = $.datepicker.parseDate('yy-mm-dd', dateText);
+                    var displayDate = $.datepicker.formatDate('mm/dd/yy', c);
+                    $(this).next().html(displayDate);
+                }});
         });
 
         //Add textarea expander
@@ -156,17 +160,17 @@ function formatCaseData(thisPanel,type)
         //Change name on tab when user enters last name
         thisPanel.find('input[name="first_name"]').focus();
 
-        $('input[name = "last_name"]').keyup(function(){
+        $('input[name = "last_name"]').keyup(function() {
             var fname = thisPanel.find('input[name="first_name"]').val();
             $(this).closest('#case_detail_tab_row')
-                .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
+            .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
             //Put client name on case title
             $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
 
         });
 
         //If there is no last name, put the organization name on the tab
-        $('input[name = "organization"]').keyup(function(event){
+        $('input[name = "organization"]').keyup(function(event) {
 
             lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
 
@@ -181,15 +185,15 @@ function formatCaseData(thisPanel,type)
         });
     }
 
-    else //display case data
+    else  //display case data
     {
         //format buttons
         thisPanel.find('button.case_data_edit').button({icons: {primary: "fff-icon-page-edit"},text: true});
 
-         thisPanel.find('button.case_data_print').button({icons: {primary: "fff-icon-printer"},text: true});
+        thisPanel.find('button.case_data_print').button({icons: {primary: "fff-icon-printer"},text: true});
 
-         //remove the id
-         thisPanel.find('div.id_display').remove();
+        //remove the id
+        thisPanel.find('div.id_display').remove();
     }
 }
 
@@ -197,34 +201,38 @@ function formatCaseData(thisPanel,type)
 //User clicks on Case Data in left-side navigation
 $('.case_detail_nav #item2').live('click', function() {
 
-	var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
+    var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     var type;
 
     if ($(this).hasClass('new_case'))
-    {type = 'new';}
-	else
-	{type = 'display';}
+    {
+        type = 'new';
+    }
+    else
+    {
+        type = 'display';
+    }
 
-    thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':caseId,'type':type},function(data){
-        formatCaseData(thisPanel,type);
-        });
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': caseId,'type': type}, function(data) {
+        formatCaseData(thisPanel, type);
+    });
 });
 
 
 
 //Listen for edit
-$('button.case_data_edit').live('click',function(){
+$('button.case_data_edit').live('click', function() {
 
     var thisPanel = $(this).closest('.case_detail_panel');
     var thisCaseId = thisPanel.data('CaseNumber');
-    thisPanel.load('lib/php/data/cases_case_data_load.php',{'id':thisCaseId,'type':'edit'},function(){
-        formatCaseData(thisPanel,'edit');
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId,'type': 'edit'}, function() {
+        formatCaseData(thisPanel, 'edit');
     });
 });
 
 //Submit the form
-$('button.case_modify_submit').live('click',function(event){
+$('button.case_modify_submit').live('click', function(event) {
 
     event.preventDefault();
 
@@ -235,16 +243,20 @@ $('button.case_modify_submit').live('click',function(event){
     //this is a new case which is just being opened or this is an
     //existing case which is being edited.  So, set variable:
     if ($(this).hasClass('update_new_case'))
-        {actionType = 'update_new_case';}
+    {
+        actionType = 'update_new_case';
+    }
     else
-        {actionType = 'edit';}
+    {
+        actionType = 'edit';
+    }
 
     $(window).unbind("beforeunload");
 
     var formVals = $(this).closest('form');
 
     //enable clinic_id field or else serializeArray won't pick up value
-    formVals.find('input[name="clinic_id"]').attr({'disabled':false});
+    formVals.find('input[name="clinic_id"]').attr({'disabled': false});
 
     var errString = newCaseValidate(formVals);
 
@@ -254,14 +266,16 @@ $('button.case_modify_submit').live('click',function(event){
     //notify user or errors or submit form
     if (errString.length)
     {
-        notify(errString,true);
+        notify(errString, true);
 
         //Reapply onbeforeunload event to prevent empty cases
-        $(window).bind('beforeunload', function(){
+        $(window).bind('beforeunload', function() {
             return "You may have unsaved changes on a case.  Please either save any changes or close the case's tab before leaving this page";
         });
 
-        $('input.ui-state-error').focus(function(){$(this).removeClass('ui-state-error');});
+        $('input.ui-state-error').focus(function() {
+            $(this).removeClass('ui-state-error');
+        });
         return false;
     }
     else
@@ -271,16 +285,16 @@ $('button.case_modify_submit').live('click',function(event){
 
         formValsOk = $(this).closest('form').find(':not(span.dual_input input, span.dual_input select, span.multi-text input)').serializeArray();
 
-        formValsOk.push({'name':'action','value':actionType});
+        formValsOk.push({'name': 'action','value': actionType});
 
         //Extract values from all multi-text fields
-        formVals.find('p').has('.multi-text').each(function(){
+        formVals.find('p').has('.multi-text').each(function() {
 
             var dataObj = {};
 
             var dataName = $(this).find('input').attr('name');
 
-            $(this).find('span.multi-text').each(function(){
+            $(this).find('span.multi-text').each(function() {
 
                 var dataValue = $(this).find('input').val();
 
@@ -294,19 +308,19 @@ $('button.case_modify_submit').live('click',function(event){
             {
                 dataJson = JSON.stringify(dataObj);
 
-                formValsOk.push({'name':dataName,'value':dataJson});
+                formValsOk.push({'name': dataName,'value': dataJson});
             }
 
         });
 
         //Extract values from all dual inputs
-        formVals.find('p').has('.dual_input').each(function(){
+        formVals.find('p').has('.dual_input').each(function() {
 
             var dataObj = {};
 
             var dataName = $(this).find('input:last').attr('name');
 
-            $(this).find('span.dual_input').each(function(){
+            $(this).find('span.dual_input').each(function() {
 
                 var dataType = $(this).find('select.dual').val();
                 var dataValue = $(this).find('input:last').val();
@@ -321,25 +335,27 @@ $('button.case_modify_submit').live('click',function(event){
             {
                 dataJson = JSON.stringify(dataObj);
 
-                formValsOk.push({'name':dataName,'value':dataJson});
+                formValsOk.push({'name': dataName,'value': dataJson});
             }
 
         });
 
         //Submit to server
-        $.post('lib/php/data/cases_case_data_process.php', formValsOk,function(data){
+        $.post('lib/php/data/cases_case_data_process.php', formValsOk, function(data) {
             var serverResponse = $.parseJSON(data);
 
             if (serverResponse.error === true)
-                {notify(serverResponse.message, true);}
+            {
+                notify(serverResponse.message, true);
+            }
             else
             {
                 notify(serverResponse.message);
                 $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error new_case');
 
-                resultTarget.load('lib/php/data/cases_case_data_load.php',{'id':thisCaseId,'type':'display'},function(data){
-                        formatCaseData(resultTarget,'display');
-                        });
+                resultTarget.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId,'type': 'display'}, function(data) {
+                    formatCaseData(resultTarget, 'display');
+                });
 
                 //Refresh the table; see Cases.js
                 oTable.fnReloadAjax();
@@ -352,20 +368,20 @@ $('button.case_modify_submit').live('click',function(event){
 });
 
 //Listen for print
-$('button.case_data_print').live('click',function(){
-   elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'),'Case Data: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
+$('button.case_data_print').live('click', function() {
+    elPrint($(this).closest('div.case_detail_panel_tools').siblings('div.case_detail_panel_casenotes'), 'Case Data: ' + $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
 });
 
 //Add another multi-text or dual
-$('a.add_another').live('click',function(event){
+$('a.add_another').live('click', function(event) {
     event.preventDefault();
     var newField = $(this).prev('span').clone();
     newField.find('input').val('');
     newField.find('select').val('');
-    newField.css({'margin-left':'190px'});
+    newField.css({'margin-left': '190px'});
 
     //deal with chosen
-    newField.find('select').removeClass('chzn-done').css({'display':'block'}).removeAttr('id').next('div').remove();
+    newField.find('select').removeClass('chzn-done').css({'display': 'block'}).removeAttr('id').next('div').remove();
 
     //Insert new field, format
     $(this).prev('span').after(newField);
