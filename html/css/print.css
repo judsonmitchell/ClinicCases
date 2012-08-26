@@ -1,10 +1,10 @@
  body * {
     visibility:hidden;
   }
-  .print_content, .print_content * {
+.print_content, .print_content * {
     visibility:visible;
   }
-  .print_content {
+.print_content {
     position:absolute;
     left:0;
     top:0;

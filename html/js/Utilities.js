@@ -166,6 +166,27 @@ $(document).ready(function() {
                                 ]
                             },
                             "sDom": 'frTt',
+                            "fnInitComplete":function(){
+                                $('#table_reports').addClass('print_content');
+                                //$('tr.advanced, tr.advanced_2').addClass('print_content_no');
+                                $('#ToolTables_table_reports_5').live('click',function(){
+                                    //the dataTables default print dialog is not working, so
+                                    //add our own
+                                    var dialogWin = $('<div class="dialog-casenote-delete" title="Print">Please use your browser\'s print function to print this table. Press escape when finished.</div>').dialog({
+                                        autoOpen: false,
+                                        resizable: false,
+                                        modal: true,
+                                        buttons: {"OK":function()
+                                        {
+                                            $(this).dialog("destroy");
+                                        }
+                                        }
+                                    });
+
+                                    $(dialogWin).dialog('open');
+
+                                });
+                            },
                             "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 
                                     if (aaData.length > 0) //no need for footer if no data.
@@ -192,9 +213,6 @@ $(document).ready(function() {
 
                                         nCells[colIndex - 1].innerHTML = convertToHours(totalTime,unit);
                                     }
-
-                               // }
-
 
                             }
 
@@ -282,3 +300,4 @@ $('a.change_config').live('click', function(event) {
 
     });
 });
+

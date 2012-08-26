@@ -420,6 +420,27 @@ $(document).ready(function() {
 
             });
 
+            //Set table for printing, if user clicks dataTables print
+            $('#table_users').addClass('print_content');
+            $('tr.advanced, tr.advanced_2').addClass('print_content_no');
+            $('#ToolTables_table_users_5').live('click',function(){
+                //the dataTables default print dialog is not working, so
+                //add our own
+                var dialogWin = $('<div class="dialog-casenote-delete" title="Print">Please use your browser\'s print function to print this table. Press escape when finished.</div>').dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    buttons: {"OK":function()
+                    {
+                        $(this).dialog("destroy");
+                    }
+                    }
+                });
+
+                $(dialogWin).dialog('open');
+
+            });
+
 
 
 
