@@ -29,8 +29,15 @@ You will then be prompted to change your password.  Once that is done, click on 
 
 Be sure to include your email address in the new user information.  Check to see if your mail server is working and then check your email for an email with a temporary password to the new account.  Log on to CC with these credentials and then [change your password](#change_password).  You can now delete the Temp Admin account by going to Users, opening Temp Admin and pressing delete.
 
+Other users can get accounts in one of two ways: 1) You can add them by clicking on "New User" and inputting the appropriate information for each user or 2) new users can sign themselves up. To do the latter, users should click on "Need an Account?" on the login page.  They will be prompted for the information.  You should then receive an email from CC notifying you that a new user has signed up.  You (or anyone with an adminstrative account) must approve the application before that user has access.  To do this, go to the Users tab.  You should see a dialog prompting you to approve the application like this:
 
+![New User Prompt](img/new_user_prompt.png)
 
+If you click yes, you will be brought to a list of new users to be activated.  You can either 1). click on each individual user, review the information, and then set his/her status to active or 2) using the menu at the bottom of the screen (where it says "With Displayed Users"), select "Make Active."  It is important that an adminstrator review each new user application to ensure that it is a legitimate application and not spam.
+
+Once you have activated the new user, he or she will receive an email confirming that the account is now activated.  The user can log in with the username provided in the email and the password that he or she provided when submitting the application.
+
+If the user application is invalid (a spam sign-up or a duplicate account, for example), you can delete the account by pressing "Delete."
 
 
 
