@@ -39,9 +39,12 @@ function formatCaseData(thisPanel, type)
     //format the form
     if (type === 'new' || type === 'edit')
     {
-        $('input[name="id"]').parent().hide();
-        $('input[name="opened_by"]').parent().remove();
-        $('input[name="organization"]').val('');
+        thisPanel.find('input[name="id"]').parent().hide();
+        thisPanel.find('input[name="opened_by"]').parent().remove();
+        if (thisPanel.find('input[name="organization"]').val() == 'New Case')
+        {
+            thisPanel.find('input[name="organization"]').val('');
+        }
 
         //Enable dynamic replacement of clinic and case codes in case number
         var cN = thisPanel.find('input[name="clinic_id"]');
