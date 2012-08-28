@@ -121,18 +121,18 @@ h5 {
 <p>An RSS feed of this activity is available.  Click the RSS icon next to the activity stream and you will be directed to your rss feed.  Add the URL of the feed to your favorite feed reader.  The feed is secured using a private key which is known only to you.  If you suspect that your feed may have been compromised, you can reset the key by going to <a href="#preferences">Preferences</a> and clicking on Private Key.</p>
 </li>
 <li>
-<p><strong><a href="#home_tab_upcoming">Upcoming</a></strong> - Shows upcoming events which are relevant to you.</p>
+<p><strong><a href="#home_tab_upcoming">Upcoming</a></strong> - <a id=""></a>Shows upcoming events which are relevant to you.</p>
 <p><img alt="Home Upcoming View" src="img/home_upcoming.png" /></p>
 <p>This is a calendar which shows all events to which you have been assigned.  Events can be added in two ways 1) From inside a case, by clicking Events and then "New Event" or 2) using the <a href="#home_quick_add">Quick Add</a> button on the Home page.  You can switch between Month, Week, and Day views.  Clicking on an event will bring up a details dialog which will show who is assigned to the event and other relevant information.</p>
 <p>An Ical feed of your events is available by clicking on the Ical icon at the top of the calendar.  Add the URL of the feed to your calendaring program (e.g, Google Calendar).  Instructions on how to do this for your specific calendaring program are probably available by Googling "how to add Ical feed to [insert name of your calendaring program]."</p>
 </li>
 <li>
-<p><strong><a href="#home_tab_trends">Trends</a></strong> - Shows graphical data about user and case activity.</p>
+<p><strong><a href="#home_tab_trends">Trends</a></strong> - <a id=""></a>Shows graphical data about user and case activity.</p>
 <p>Depending on your group, Trends shows you graphical information about activity on ClinicCases.  Professors will see which students are the most active over time and which cases have the most activity.  Students will see information about their activity and the activity of others in their group.  Administrators will see clinic-wide information about case and user activity.</p>
 <p>As of Beta 4.2, Trends is not yet implemented.  Further documentation will be added once the feature is complete.</p>
 </li>
 <li>
-<p><strong><a href="#home_tab_quick_add">Quick Add</a></strong> <a id="home_quick_add"></a> - Quickly add data to ClinicCases</p>
+<p><strong><a href="#home_tab_quick_add">Quick Add</a></strong> <a id="home_tab_quick_add"></a> - Quickly add data to ClinicCases</p>
 <p><img alt="Quick Add Dialog" src="img/quick_add.png" /></p>
 <p>The Quick Add button is designed for you to quickly enter case notes and events without having to take the extra steps of navigating into a case.  Clicking on the button will bring up a dialog with a choice to add a case note or an event.</p>
 <p>With a case note, you select the appropriate case from the list of case to which you are assigned, add a time value, and then add a note.  After you click "Add", the case note will be automatically filed in the case.  Note that the default choice in the case list is "Non-Case Time."  This is the only place in ClinicCases to record activity not associated with a case.  Activity filed here can include things such as class time, attending orientation, etc.  As of Beta 4.2, there is no way to delete or edit non-case time.</p>
@@ -145,32 +145,32 @@ h5 {
 <p>The cases table shows you a list of all cases you are allowed to view.  If you have administrative privileges (i.e.,"view_all_cases" is set to "1" for your group in the cm_groups table - <em>see <a href="#customization_groups">customizing groups</a></em>), you will see all cases on the system.  All other groups only see cases to which they have been assigned.</p>
 <ul>
 <li>
-<p><strong><a href="#cases_tab_filter">Open/Close Filter</a></strong> - The default filter is set to display only cases that are open.  An open case is defined simply as any case which has no date closed.  You can switch the filter to show only closed cases or all cases.</p>
+<p><strong><a href="#cases_tab_filter">Open/Close Filter</a></strong> - <a id="cases_tab_filter"></a>The default filter is set to display only cases that are open.  An open case is defined simply as any case which has no date closed.  You can switch the filter to show only closed cases or all cases.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_search">Search</a></strong> - The search box searches through all rows and columns (including those that are not displayed) for the search text you input.</p>
+<p><strong><a href="#cases_tab_search">Search</a></strong> - <a id="cases_tab_search"></a>The search box searches through all rows and columns (including those that are not displayed) for the search text you input.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_advanced_search">Advanced Search</a></strong> - Do fine-grained searches
+<p><strong><a href="#cases_tab_advanced_search">Advanced Search</a></strong><a id="cases_tab_advanced_search"></a> - Do fine-grained searches
     <img alt="Advanced Search" src="img/advanced_search.png" /></p>
 <p>Clicking on advanced search will bring up a sub-header which allows you to search a specific column or combination of columns.  You can, for example, search for all cases opened between two dates, search for all cases with a specific disposition, etc.  When you are finished with your advanced search, click Reset and the table will be returned to its original state.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_sort">Sort</a></strong> - You can sort each column row by clicking on table header for that row (e.g, "Last Name").  Clicking the header again will toggle between an ascending and descending sort.</p>
+<p><strong><a href="#cases_tab_sort">Sort</a></strong><a id="cases_tab_sort"></a> - You can sort each column row by clicking on table header for that row (e.g, "Last Name").  Clicking the header again will toggle between an ascending and descending sort.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_columns">Columns</a></strong> -  ClinicCases allows each user to determine which columns are displayed in his or her table.</p>
+<p><strong><a href="#cases_tab_columns">Columns</a></strong><a id="cases_tab_columns"></a> -  ClinicCases allows each user to determine which columns are displayed in his or her table.</p>
 <p><img alt="Choose Columns" src="img/columns.png" /></p>
 <p>Different users need different information from the cases table.  An administrator might be interested in who opened a case and the case number, but a professor might be more interested in who is assigned to the case and what court is in.  Because of this,  ClinicCases allows you to choose which columns are displayed in your table.  Just click on the Columns button and add a check by those columns which you wish to see.  ClinicCases will remember your chosen columns and display them every time you return to the Cases tab.  If you ever decide to go back to the default, just click "Restore Original" at the bottom of the columns list.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_print_export">Print/Export</a></strong> - There are a number of options for getting your data out of ClinicCases. When you click on the "Print/Export" button you will see choices to Copy to Clipboard, Export to CSV, Export to Excel, Export to PDF, or Print.  These actions will export the currently filtered data to the chosen format.  Print/Export is useful for generating reports and for exporting your data to a spreadsheet program for further analysis.</p>
+<p><strong><a href="#cases_tab_print_export">Print/Export</a></strong><a id="cases_tab_print_export"></a> - There are a number of options for getting your data out of ClinicCases. When you click on the "Print/Export" button you will see choices to Copy to Clipboard, Export to CSV, Export to Excel, Export to PDF, or Print.  These actions will export the currently filtered data to the chosen format.  Print/Export is useful for generating reports and for exporting your data to a spreadsheet program for further analysis.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_reset">Reset</a></strong> - Clicking the Reset button resets all filters on the table to the default (i.e, open cases).  Note that ClinicCases remembers the state of your filter.  So, if you were to search for all clients named "Smith" and then log off, when you return to the cases table later it will still display all clients named "Smith."  You must press reset to clear that filter.</p>
+<p><strong><a href="#cases_tab_reset">Reset</a></strong><a id="cases_tab_reset"></a> - Clicking the Reset button resets all filters on the table to the default (i.e, open cases).  Note that ClinicCases remembers the state of your filter.  So, if you were to search for all clients named "Smith" and then log off, when you return to the cases table later it will still display all clients named "Smith."  You must press reset to clear that filter.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_new_case">New Case</a></strong> - Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - _see <a href="#customization_groups">customizing groups</a>) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next <a href="#assign_users">assign users</a> to the case.</p>
+<p><strong><a href="#cases_tab_new_case">New Case</a></strong><a id="cases_tab_new_case"></a> - Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - _see <a href="#customization_groups">customizing groups</a>) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next <a href="#assign_users">assign users</a> to the case.</p>
 </li>
 </ul>
 <h3>Case Detail</h3>
@@ -179,16 +179,16 @@ h5 {
 <p>Think of this as opening the manila folder your physical files are kept in and seeing everything divided into neat tabbed sections.  There are seven sections for each ClinicCases file.</p>
 <ul>
 <li>
-<p><strong><a href="#cases_tab_casenotes">Case Notes</a></strong> - Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (<em>see <a href="#configuration">configuration</a></em>).</p>
+<p><strong><a href="#cases_tab_casenotes">Case Notes</a></strong><a id="cases_tab_casenotes"></a> - Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (<em>see <a href="#configuration">configuration</a></em>).</p>
 <p>There are three buttons above the case note list: 1) Add 2) Timer and 3) Print.  The first and third are self-explanatory.  The timer button will launch a timer that records your activity on the case.  This is useful for situations when you are working on a case in front of your computer (e.g, doing legal research).</p>
 <p><img alt="View of Timer" src="img/timer.png" /></p>
 <p>Once you have clicked "Timer", it will continue to run until you turn it off.  This means that, even if you close your browser, when you return to ClinicCases, the timer will still be running. It is therefore important to remember to click "Stop" to turn it off.  When you do this, a dialog will ask you for a description of what you did.  Once you  provide that and click "Add", the case note will be filed away in the case with the correct time and information.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_case_data">Case Data</a></strong> - Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (_see <a href="#configuration">configuration</a>) can do this.  By default, all users have this permission.</p>
+<p><strong><a href="#cases_tab_case_data">Case Data</a></strong><a id="cases_tab_case_data"></a> - Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (_see <a href="#configuration">configuration</a>) can do this.  By default, all users have this permission.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_documents">Documents</a></strong> - ClinicCases has a fully-featured file manager.</p>
+<p><strong><a href="#cases_tab_documents">Documents</a></strong><a id="cases_tab_documents"></a> - ClinicCases has a fully-featured file manager.</p>
 <p><img alt="View of Documents" src="img/documents.png" /></p>
 <ul>
 <li>
@@ -206,15 +206,15 @@ h5 {
 </ul>
 </li>
 <li>
-<p><strong><a href="#cases_tab_events">Events</a></strong> -</p>
+<p><strong><a href="#cases_tab_events">Events</a></strong><a id="cases_tab_events"></a> -</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_messages">Messages</a></strong> -</p>
+<p><strong><a href="#cases_tab_messages">Messages</a></strong><a id="cases_tab_messages"></a> -</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_contacts">Contacts</a></strong> -</p>
+<p><strong><a href="#cases_tab_contacts">Contacts</a></strong><a id="cases_tab_contacts"></a> -</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_conflicts">Conflicts</a></strong> -</p>
+<p><strong><a href="#cases_tab_conflicts">Conflicts</a></strong><a id="cases_tab_conflicts"></a> -</p>
 </li>
 </ul></body></html>
