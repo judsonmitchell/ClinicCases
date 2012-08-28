@@ -1,3 +1,4 @@
+![ClinicCases logo](img/logo.png)
 #ClinicCases 7 Documentation
 
 ## [Table of Contents](#contents)
@@ -8,7 +9,9 @@
 * [Journals Tab](#journals_tab)
 * [Users Tab](#users_tab)
 * [Utilities Tab](#utilities_tab)
+* [Board Tab](#board_tab)
 * [Messages Tab](#messages_tab)
+* [Preferences](#preferences)
 * [Installation](#install)
 * [Customization](#customization)
 * [Source Code](#source)
@@ -38,6 +41,24 @@ If you click yes, you will be brought to a list of new users to be activated.  Y
 Once you have activated the new user, he or she will receive an email confirming that the account is now activated.  The user can log in with the username provided in the email and the password that he or she provided when submitting the application.
 
 If the user application is invalid (a spam sign-up or a duplicate account, for example), you can delete the account by pressing "Delete."
+
+Once you have your users set up, you will want to enter some [cases](#new_case).
+
+##Home Tab <a id="home_tab"></a>
+
+The Home tab is designed to give you a quick look at what's going on.  It's broken up into three sections, Activity, Upcoming, and Trends.
+
+* Activity - Shows you the latest actions taken on ClinicCases which are relevant to you.
+
+    ![Home Activity View](img/home_activity.png)
+
+	Assuming the default [groups](#customization_groups) are set, professors see every action on a case to which they are assigned and every action taken by users who they supervise.  Students see only every action taken on any case to which they are assigned.  Adminstrators see information about the opening and closing of cases and about new account requests.  All users see information about [board posts](#board_tab).
+
+	An RSS feed of this activity is available.  Click the RSS
+
+* Upcoming - Shows upcoming events which are relevant to you.
+
+	![Home Upcoming View](img/home_upcoming.png)
 
 
 
