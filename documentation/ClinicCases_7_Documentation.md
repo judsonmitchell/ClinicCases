@@ -21,7 +21,6 @@
 * [About ClinicCases](#about)
 
 ##Getting Started <a id="getting_started"></a>
-ClinicCases is a web-based case management system designed specifically for law school clinics. It is designed to be easy-to-use with a minimal learning curve.
 
 Once your ClinicCases is installed on your server (see [Installation](#install)), here's how to get started. ClinicCases ships with three pre-defined user groups: Administrators, Professors, and Students.  These groups can be [customized](#customization).  You should log in using the default administrator account:
 
@@ -58,7 +57,7 @@ The Home tab is designed to give you a quick look at what's going on.  It's brok
 
 	An RSS feed of this activity is available.  Click the RSS icon next to the activity stream and you will be directed to your rss feed.  Add the URL of the feed to your favorite feed reader.  The feed is secured using a private key which is known only to you.  If you suspect that your feed may have been compromised, you can reset the key by going to [Preferences](#preferences) and clicking on Private Key.
 
-* __[Upcoming](#home_tab_upcoming)__ - <a id=""></a>Shows upcoming events which are relevant to you.
+* __[Upcoming](#home_tab_upcoming)__ - <a id="home_tab_upcoming"></a>Shows upcoming events which are relevant to you.
 
 	![Home Upcoming View](img/home_upcoming.png)
 
@@ -66,7 +65,7 @@ The Home tab is designed to give you a quick look at what's going on.  It's brok
 
 	An Ical feed of your events is available by clicking on the Ical icon at the top of the calendar.  Add the URL of the feed to your calendaring program (e.g, Google Calendar).  Instructions on how to do this for your specific calendaring program are probably available by Googling "how to add Ical feed to [insert name of your calendaring program]."
 
-* __[Trends](#home_tab_trends)__ - <a id=""></a>Shows graphical data about user and case activity.
+* __[Trends](#home_tab_trends)__ - <a id="home_tab_trends"></a>Shows graphical data about user and case activity.
 
 	Depending on your group, Trends shows you graphical information about activity on ClinicCases.  Professors will see which students are the most active over time and which cases have the most activity.  Students will see information about their activity and the activity of others in their group.  Administrators will see clinic-wide information about case and user activity.
 
@@ -151,6 +150,64 @@ Think of this as opening the manila folder your physical files are kept in and s
 * __[Conflicts](#cases_tab_conflicts)__<a id="cases_tab_conflicts"></a> -
 
 
+##Group Tab <a id="group_tab"></a>
+
+##Journals Tab <a id="journals_tab"></a>
+
+##Users Tab <a id="users_tab"></a>
+
+##Utilities Tab <a id="utilities_tab"></a>
+
+##Board Tab <a id="board_tab"></a>
+
+##Messages Tab <a id="messages_tab"></a>
+
+##Preferences <a id="preferences"></a>
+
+##Mobile <a id="mobile"></a>
+
+##Installation <a id="install"></a>
+
+##Customization <a id="customization"></a>
+
+##Source Code <a id="source"></a>
+
+The source code for ClinicCases is freely available at [Google Code](https://code.google.com/p/cliniccases/) and [Github](https://github.com/judsonmitchell/ClinicCases).
+
+##More Information <a id="more_information"></a>
+More information about ClinicCases is available at the [ClinicCases site](http://cliniccases.com) and on the [ClinicCases Forum](https://cliniccases.com/forums/).
+
+##MIT License <a id="license"></a>
+ClinicCases 7 is offered under the MIT License:
+
+>Copyright (c) 2012 R. Judson Mitchell, Jr., Three Pipe Problem, LLC
+
+>ClinicCases 7 - Case Management Software
+
+>Permission is hereby granted, free of charge, to any person obtaining
+>a copy of this software and associated documentation files (the
+>"Software"), to deal in the Software without restriction, including
+>without limitation the rights to use, copy, modify, merge, publish,
+>distribute, sublicense, and/or sell copies of the Software, and to
+>permit persons to whom the Software is furnished to do so, subject to
+>the following conditions:
+
+>The above copyright notice and this permission notice shall be
+>included in all copies or substantial portions of the Software.
+
+>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+>EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+>MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+>NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+>LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+>OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+>WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+##About ClinicCases <a id="about"></a>
+
+ClinicCases is a web-based case management system designed specifically for law school clinics. Because law school clinics get new practitioners every year (sometimes every semester), ClinicCases is designed to be easy-to-use with a minimal learning curve.  It was first released in 2007 and has undergone revisions and upgrades continually since that time.
+
+ClinicCases is developed by [Judson Mitchell](http://law.loyno.edu/bio/r-judson-mitchell), as Assistant Clincal Professor at [Loyola College of Law, New Orleans](http://law.loyno.edu).
 
 
 
