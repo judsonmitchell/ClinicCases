@@ -200,23 +200,30 @@ h5 {
 <p>Upload - Clicking upload will prompt you to either upload files from your computer or to save a URL.  Multiple files can be uploaded at the same time (in Chrome, Firefox, and Safari, not Internet Explorer) by holding down the control key as you select files.  The types of files which can be uploaded are controlled by your configuration.  By default, the following extensions are allowed: 'doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz',and 'pdf'.</p>
 </li>
 <li>
-<p>Renaming, Deleting, and Moving Files and Folders - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, etc) by selecting "Properties" from the right-click menu.</p>
+<p>Renaming, Deleting, and Moving Files and Folders - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, time of upload, etc) by selecting "Properties" from the right-click menu.</p>
 </li>
 </ul>
 </li>
 <li>
-<p><strong><a href="#cases_tab_events">Events</a></strong><a id="cases_tab_events"></a> -</p>
+<p><strong><a href="#cases_tab_events">Events</a></strong><a id="cases_tab_events"></a> - All case-related events are saved here.  These events will show up on the Home page calendar and Ical feeds of everybody who is assigned to the case.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_messages">Messages</a></strong><a id="cases_tab_messages"></a> -</p>
+<p><strong><a href="#cases_tab_messages">Messages</a></strong><a id="cases_tab_messages"></a> - This shows all messages related to this case.  To ensure that a message shows up here, remember to select this case name under "File In" when composing the message (this is done automatically if you compose a message from this screen).  Any user who is assigned to this case or has permission to view this case can see these messages.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_contacts">Contacts</a></strong><a id="cases_tab_contacts"></a> -</p>
+<p><strong><a href="#cases_tab_contacts">Contacts</a></strong><a id="cases_tab_contacts"></a> - This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database (<em>see <a href="#customization">customization</a></em>).</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_conflicts">Conflicts</a></strong><a id="cases_tab_conflicts"></a> -</p>
+<p><strong><a href="#cases_tab_conflicts">Conflicts</a></strong><a id="cases_tab_conflicts"></a> - This shows the result of a conflicts check that is done every time you open the case detail.   ClinicCases uses the algorithm contained in PHP's similar text function to determine if there is a potential for a conflict in your case. The following data is checked for name similarity:</p>
+<ul>
+<li>The name of the current client against all previous adverse parties</li>
+<li>The names of the adverse parties in the current case against all previous clients</li>
+<li>The names contained in the current cases's contacts against all previous clients and adverse parties.</li>
+<li>When a name has more than an 80% similarity as determined by the algorithm, you are alerted to the potential conflict.</li>
+</ul>
 </li>
 </ul>
+<p>Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.</p>
 <h2>Group Tab <a id="group_tab"></a></h2>
 <h2>Journals Tab <a id="journals_tab"></a></h2>
 <h2>Users Tab <a id="users_tab"></a></h2>

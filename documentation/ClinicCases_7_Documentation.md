@@ -139,15 +139,22 @@ Think of this as opening the manila folder your physical files are kept in and s
 
 	* Upload - Clicking upload will prompt you to either upload files from your computer or to save a URL.  Multiple files can be uploaded at the same time (in Chrome, Firefox, and Safari, not Internet Explorer) by holding down the control key as you select files.  The types of files which can be uploaded are controlled by your configuration.  By default, the following extensions are allowed: 'doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz',and 'pdf'.
 
-	* Renaming, Deleting, and Moving Files and Folders - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, etc) by selecting "Properties" from the right-click menu.
+	* Renaming, Deleting, and Moving Files and Folders - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, time of upload, etc) by selecting "Properties" from the right-click menu.
 
-* __[Events](#cases_tab_events)__<a id="cases_tab_events"></a> -
+* __[Events](#cases_tab_events)__<a id="cases_tab_events"></a> - All case-related events are saved here.  These events will show up on the Home page calendar and Ical feeds of everybody who is assigned to the case.
 
-* __[Messages](#cases_tab_messages)__<a id="cases_tab_messages"></a> -
+* __[Messages](#cases_tab_messages)__<a id="cases_tab_messages"></a> - This shows all messages related to this case.  To ensure that a message shows up here, remember to select this case name under "File In" when composing the message (this is done automatically if you compose a message from this screen).  Any user who is assigned to this case or has permission to view this case can see these messages.
 
-* __[Contacts](#cases_tab_contacts)__<a id="cases_tab_contacts"></a> -
+* __[Contacts](#cases_tab_contacts)__<a id="cases_tab_contacts"></a> - This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database (_see [customization](#customization)_).
 
-* __[Conflicts](#cases_tab_conflicts)__<a id="cases_tab_conflicts"></a> -
+* __[Conflicts](#cases_tab_conflicts)__<a id="cases_tab_conflicts"></a> - This shows the result of a conflicts check that is done every time you open the case detail.   ClinicCases uses the algorithm contained in PHP's similar text function to determine if there is a potential for a conflict in your case. The following data is checked for name similarity:
+
+	* The name of the current client against all previous adverse parties
+	* The names of the adverse parties in the current case against all previous clients
+	* The names contained in the current cases's contacts against all previous clients and adverse parties.
+	* When a name has more than an 80% similarity as determined by the algorithm, you are alerted to the potential conflict.
+
+Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.
 
 
 ##Group Tab <a id="group_tab"></a>
