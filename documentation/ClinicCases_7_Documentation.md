@@ -158,8 +158,33 @@ Of course, other potential types of conflicts exist. For example, if your studen
 
 
 ##Group Tab <a id="group_tab"></a>
+The Group tab is for those who supervise (any user for whom "supervises" is set to "1" for your group in the cm_groups table - _see [customizing groups](#customization_groups)_ ), allowing them to see who is in their supervisory group and their activity.
+
+![View of Group Tab](img/group_tab.png)
+
+The functionality is very similar to the [Cases](#cases_tab) tab.  You can do basic and advanced searches, print and export data, sort, etc.  By default, the Group tab displays supervisees whose accounts are active.  By changing the filter to "inactive", you can display information about users whose accounts are inactive.
+
+When you click on a table row, a detail screen will come up which shows specific information about the user, including their total hours, the cases to which they are assigned, and their latest activity.
+
+![View of Group Detail](img/group_detail.png)
 
 ##Journals Tab <a id="journals_tab"></a>
+
+Journaling is an important part of clinical activity and ClinicCases makes it easy to view, send, and store student journals.
+
+* __[Writing Journals](#writing_journals)__<a id="writing_journals"></a> Users who have permission to write journals (any user for whom "writes_journals" is set to "1" for their group in cm_groups _see [customizing groups](#customization_groups)_ ), will see a "new journal" button in the upper-right hand corner of the journal screen.
+
+	![New Journal Button](img/new_journal_button.png)
+
+	When the student clicks on this button, a text-editor will display for the student to type in their journal.
+
+	![View of New Journal](img/new_journal.png)
+
+	It is important for the student to designate to whom the journal is to be sent in the "Send To:" box at the top.  A drop-down menu will display of all users who have been designated as journal readers (any user for whom "reads_journals" is set to "1" for their group in cm_groups _see [customizing groups](#customization_groups)_ ); the student can select from one or more of these users.
+
+	Journals are automatically saved as they are typed, so there is no needs to press save or submit after you have completed your journal.
+
+* __[Reading Journals](#reading_journals)__<a id="reading_journals"></a>
 
 ##Users Tab <a id="users_tab"></a>
 
