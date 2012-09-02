@@ -1,7 +1,7 @@
 ![ClinicCases logo](img/logo.png)
 #ClinicCases 7 Documentation
 
-## [Table of Contents](#contents)
+## [Table of Contents](#contents) <a id="contents"></a>
 * [Getting Started](#getting_started)
 * [Home Tab](#home_tab)
 * [Cases Tab](#cases_tab)
@@ -45,6 +45,8 @@ If the user application is invalid (a spam sign-up or a duplicate account, for e
 
 Once you have your users set up, you will want to enter some [cases](#new_case).
 
+[Go to Top](#contents)
+
 ##Home Tab <a id="home_tab"></a>
 
 The Home tab is designed to give you a quick look at what's going on.  It's broken up into three sections, Activity, Upcoming, and Trends.
@@ -81,9 +83,11 @@ The Home tab is designed to give you a quick look at what's going on.  It's brok
 
 	With an event, you enter the title of the event, where it is taking place, and the start and end times.  You can then associate the event with a case by selecting from the drop-down list.  In the field labeled "Who?", you type in the names of everyone who is responsible for this event.  If you choose a group, everyone in that group will be responsible and will see the event in their calendar feeds. Please note that if you do not add yourself to the event or you are not in one of the assigned groups, you will not see the event in your calendar.
 
+	[Go to Top](#contents)
+
 ##Cases Tab <a id="cases_tab"></a>
 
-###Cases Table
+###Cases Table <a id="cases_table"></a>
 ![Cases Table](img/cases_table.png)
 
 The cases table shows you a list of all cases you are allowed to view.  If you have administrative privileges (i.e.,"view_all_cases" is set to "1" for your group in the cm_groups table - _see [customizing groups](#customization_groups)_), you will see all cases on the system.  All other groups only see cases to which they have been assigned.
@@ -137,7 +141,8 @@ Think of this as opening the manila folder your physical files are kept in and s
 
 	* New Folder - Clicking on this button creates a new folder. You name the folder by clicking under the folder ("New Folder"), typing in the desired name, and then pressing enter. Subfolders can be created by clicking into the folder and then repeating this process.
 
-	* Upload - Clicking upload will prompt you to either upload files from your computer or to save a URL.  Multiple files can be uploaded at the same time (in Chrome, Firefox, and Safari, not Internet Explorer) by holding down the control key as you select files.  The types of files which can be uploaded are controlled by your configuration.  By default, the following extensions are allowed: 'doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz',and 'pdf'.
+	* Upload - Clicking upload will prompt you to either upload files from your computer or to save a URL.  Multiple files can be uploaded at the same time (in Chrome, Firefox, and Safari, not Internet Explorer) by holding down the control key as you select files.  The types of files which can be uploaded are controlled by your configuration.  By default, the following extensions are allowed: 'doc','docx','odt','rtf','txt','wpd','xls','ods','csv','mp3','wav','ogg','aif','aiff','mpeg','avi','mp4','mpg','mov','qt','ovg','webm',
+	'ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz',and 'pdf'.
 
 	* Renaming, Deleting, and Moving Files and Folders - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, time of upload, etc) by selecting "Properties" from the right-click menu.
 
@@ -156,6 +161,7 @@ Think of this as opening the manila folder your physical files are kept in and s
 
 Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.
 
+[Go to Top](#contents)
 
 ##Group Tab <a id="group_tab"></a>
 The Group tab is for those who supervise (any user for whom "supervises" is set to "1" for your group in the cm_groups table - _see [customizing groups](#customization_groups)_ ), allowing them to see who is in their supervisory group and their activity.
@@ -167,6 +173,8 @@ The functionality is very similar to the [Cases](#cases_tab) tab.  You can do ba
 When you click on a table row, a detail screen will come up which shows specific information about the user, including their total hours, the cases to which they are assigned, and their latest activity.
 
 ![View of Group Detail](img/group_detail.png)
+
+[Go to Top](#contents)
 
 ##Journals Tab <a id="journals_tab"></a>
 
@@ -194,9 +202,68 @@ Journaling is an important part of clinical activity and ClinicCases makes it ea
 
 	It is also possible to archive old journals.  This is most useful at the end of a semester or school year, when you no longer wish to see the journals of students who have finished the course or graduated.  Just set the filter for "All" journals and then, using the "With displayed journals" select at the bottom of the screen, select "Archive."  All journals will then be moved to the archive.  If you ever wish to see archived journals again, just select "Archive" from the filter and you can search for and view the old journals.
 
+	[Go to Top](#contents)
+
 ##Users Tab <a id="users_tab"></a>
 
+The Users tab is where those with administrative privileges can add, delete, and edit information about users.  By default, the tab shows a list of all users whose accounts are active.
+
+![View of Users tab](img/users_tab.png)
+
+By changing the filter, you can change this view to "inactive" users or "all" users.  Clicking on "Advanced Search" will allow you to do fine-grained searches for users, e.g. generating a list of all students from the fall semester or a list of all professors, etc.
+
+Much like the [Cases table](#cases_table), the Columns button at  the upper-right hand corner allows you to change which columns are visible in the Users table.
+
+Print/Export allows you to extract data from the Users table by either printing from the browser, generating a pdf file, or generating an excel or csv file.
+
+The "Reset" button will restore the filter to the original "Active" users view.
+
+Clicking on "New User" will bring up a dialog which allows you to enter a new user.  Note that each user must be assigned to a group and their status must be changed to "active."  When you click on "Change Picture", a file upload dialog will prompt you to select a user photo from you computer.  Note that pictures must be at least 128 x 128 pixels.  After the upload is complete, you can crop the picture by dragging your mouse over the displayed image. Once the photo is cropped to your satisfaction, click "Save" and the image will be saved to the server.
+
+When you have finished entering the new user's data, click "Submit" and the new user will receive an email at the address you specified advising him that his account is active and giving him his username and a temporary password.
+
+[Go to Top](#contents)
+
 ##Utilities Tab <a id="utilities_tab"></a>
+
+As of Beta 5, the Utilities tab contains two views: 1) Time Reports and 2) Configuration.
+
+* __[Time Reports](#time_reports)__<a id="time_reports"></a>
+
+	![View of Time Reports](img/time_reports.png)
+
+	The type of reports which can be run depend on the user's permissions.  These are set in the cm_groups table in the ClinicCases database.
+
+	* If the field "view_users" is set to "1" (default administrator group), the reports can be run showing the time of all users, all groups, and all cases.
+
+	* If the field "supervises" is set to "1" (default professors group), then the user can run time reports on all users he or she supervises, and on all cases to which he or she is assigned.
+
+	* If neither of these is set (default students group), then the user can only a report on his or her time entered.
+
+	To run a report, you should select the type of report you want and then select a date range.  After you click "Go", a table will display showing the relevant data.  This data can be sorted by clicking on the table row header.  Clicking on Print/Export allows you to print the table or export the data to pdf, csv, or excel.
+
+	In these reports, time is expressed by hours and then minutes.  So, for example, a value of 2.15 means "two hours, fifteen minutes."
+
+* __[Configuration](#utilities_configuration)__<a id="utilities_configuration"></a>
+
+	![View of Utilities Configuration](img/utilities_configuration.png)
+
+	Configuration allows an adminstrative user (a user in a group for whom "can_configure" is set to "1" in the cm_groups table) to change various default options for ClinicCases.  To change any of the values below, just enter the value(s) and then press the green "plus" button and the value will be added to ClinicCases.  It will now show up in the appropriate drop-menus when you are entering a new case or searching through cases.  To delete these values, click the red "x" button next to the value you wish to delete.
+
+	* Change Case Types - Case types are codes and text describing the type for a case.  Typical examples would include "Custody", "Civil Rights", "Criminal", "SSI", etc.  ClinicCases requires that each type have a full text description ("Criminal") and a three-letter code ("CRM").  Note that, depending upon your [Configuration](#configuration), this case type may be appended to the case number, e.g. 2012-00050-CRM.
+
+	* Change Courts - This is the list of courts where your clinic practices.  Here, you only have to enter a full text description of the court ("Superior Court for the County of Jefferson") and no code is necessary.
+
+	* Change Dispositions - These describe why a case was closed.  Only a full text description is necessary.
+
+	* Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your [Configuration](#configuration), the clinic type may be appended to the case number, e.g. 2012-00050-FAM.
+
+	* Change Referrals - Some clinics like to keep track of their referral sources (e.g., Legal Aid, LSC provider, Social Services).  This is where you add those sources.
+
+
+
+
+	[Go to Top](#contents)
 
 ##Board Tab <a id="board_tab"></a>
 
@@ -208,24 +275,68 @@ Journaling is an important part of clinical activity and ClinicCases makes it ea
 
 ##Installation <a id="install"></a>
 
-Here are the instructions to install ClinicCases 7 on your server:
+* __[New Installation](#new_installation)__ <a id="new_installation"></a> Here are the instructions to install ClinicCases 7 on your server:
 
-Either download the latest source package from [Google Code](https://code.google.com/p/cliniccases/downloads/list) or, using git, issue the command:
+	Either download the latest source package from [Google Code](https://code.google.com/p/cliniccases/downloads/list) or, using git, issue the command:
 
-    git clone https://code.google.com/p/cliniccases.
+        git clone https://code.google.com/p/cliniccases.
 
-If you downloaded the package, then next extract the ClinicCases package to your web root.
+	If you downloaded the package, then next extract the ClinicCases package to your web root.
 
-Create a directory outside of your web root called cc_docs (e.g., /var/cc_docs). If you do not have access to anything outside of your web root, you can put the directory in your web root (e.g., /var/www/cliniccases/cc_docs), but be warned that this is insecure.  Anybody with the specific file url can access your clinic's documents! In either case, make sure that this directory is writable (e.g. sudo chmod 777 cc_docs)
+	Create a directory outside of your web root called cc_docs (e.g., /var/cc_docs). If you do not have access to anything outside of your web root, you can put the directory in your web root (e.g., /var/www/cliniccases/cc_docs), but be warned that this is insecure.  Anybody with the specific file url can access your clinic's documents! In either case, make sure that this directory is writable (e.g. sudo chmod 777 cc_docs)
 
-Go to http://YOURSERVER/cliniccases/_INSTALL/ and follow the instructions.
+	Go to http://YOURSERVER/cliniccases/_INSTALL/ and follow the instructions.
 
-When the installation is complete, log in to your installation of ClinicCases using the username 'admin' and the password 'admin'.  You will be prompted to change the password on this temporary account. Next, go to the users tab and add a new user account for yourself.  Make sure that you put yourself in the Administrator group, that you make the account 'active', and that you provide your valid email address.  Next, check your email. You should receive an email from your server which contains a temporary password. (Check spam folder as well!).
+	When the installation is complete, log in to your installation of ClinicCases using the username 'admin' and the password 'admin'.  You will be prompted to change the password on this temporary account. Next, go to the users tab and add a new user account for yourself.  Make sure that you put yourself in the Administrator group, that you make the account 'active', and that you provide your valid email address.  Next, check your email. You should receive an email from your server which contains a temporary password. (Check spam folder as well!).
 
-Log out of ClinicCases and then log in again using your new user name and the password provided. You can then change this password by clicking on the Preferences link in the upper right hand corner.
+	Log out of ClinicCases and then log in again using your new user name and the password provided. You can then change this password by clicking on the Preferences link in the upper right hand corner.
 
+* __[Upgrade from ClinicCases 6](#upgrade)__ <a id="upgrade"></a>
+
+	* Make a full and complete backup of your current ClinicCases installation.This should include your db and everything in the docs/ and people/ directories. Put the backup someplace safe (out your webroot).  You will need this data later in the upgrade.
+
+	* Get the package files by either downloading from https://code.google.com/p/cliniccases or (if you have git installed), issuing this command:
+    git clone https://code.google.com/p/cliniccases/
+
+	* Make a copy (not delete) of the _UPGRADE directory and put it in your web root.
+
+	* Delete the old ClinicCases tables from your db and leave an empty database
+
+	* Run the install script located at _/INSTALL/index.php
+
+	* Check to make sure that the new install is working well.
+
+	* Here comes the fun part: Delete all the newly installed tables from your database
+
+	* Put the old tables from your backup into your database
+
+	* Move the copy of the _UPGRADE directory you created in step 3 into the root directory of your new ClinicCases installation.
+
+	_Note that the following scripts can be run in your browser, but it is probably a better
+	idea to run them from the command line.  Some of them may take a very long time to execute
+	and may run up against max execution time limits if you run them in the browser_.
+
+	* Execute upgrade_from_cc6.php
+
+	* Execute upgrade_case_numbers.php
+
+	* Double check to make sure that your documents backup is good before executing the next step.
+
+	* Open upgrade_documents.php and on line 8 insert the complete path to the directory
+	where your ClinicCases documents are kept (e.g., /var/www/cliniccases/docs); Now,
+	execute this script.
+
+	* Move the user pictures from your old /people directory to your new /people directory
 
 ##Customization <a id="customization"></a>
+
+	#Customize Groups
+
+	#Customize Tabs
+
+	#Customize Case Fields
+
+	#Customizing Case Numbers
 
 ##Source Code <a id="source"></a>
 
@@ -264,7 +375,7 @@ ClinicCases 7 is offered under the MIT License:
 
 ClinicCases is a web-based case management system designed specifically for law school clinics. Because law school clinics get new practitioners every year (sometimes every semester), ClinicCases is designed to be easy-to-use with a minimal learning curve.  It was first released in 2007 and has undergone revisions and upgrades continually since that time.
 
-ClinicCases is developed by [Judson Mitchell](http://law.loyno.edu/bio/r-judson-mitchell), as Assistant Clincal Professor at [Loyola College of Law, New Orleans](http://law.loyno.edu).
+ClinicCases is developed by [Judson Mitchell](http://law.loyno.edu/bio/r-judson-mitchell), an Assistant Clincal Professor at [Loyola College of Law, New Orleans](http://law.loyno.edu).
 
 
 
