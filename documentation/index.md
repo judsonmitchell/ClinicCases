@@ -182,9 +182,17 @@ Journaling is an important part of clinical activity and ClinicCases makes it ea
 
 	It is important for the student to designate to whom the journal is to be sent in the "Send To:" box at the top.  A drop-down menu will display of all users who have been designated as journal readers (any user for whom "reads_journals" is set to "1" for their group in cm_groups _see [customizing groups](#customization_groups)_ ); the student can select from one or more of these users.
 
-	Journals are automatically saved as they are typed, so there is no needs to press save or submit after you have completed your journal.
+	Journals are automatically saved as they are typed, so there is no need to press save or submit after you have completed your journal.
 
 * __[Reading Journals](#reading_journals)__<a id="reading_journals"></a>
+
+	Journal readers will see a list of submitted journals, sorted by those most recently submitted.  Clicking on a row will bring up the text of the journal.  The reader can then comment on the journal by entering comment text in the box below the journal.  Journal writers can then comment back, making it possible to have a two-way discussion about the journal entry.
+
+	![View of a journal](img/journal_read.png)
+
+	After the reader has read the journal, it will be marked as read and will disappear from the default list.  To see read journals, just select "Read" from the filter.
+
+	It is also possible to archive old journals.  This is most useful at the end of a semester or school year, when you no longer wish to see the journals of students who have finished the course or graduated.  Just set the filter for "All" journals and then, using the "With displayed journals" select at the bottom of the screen, select "Archive."  All journals will then be moved to the archive.  If you ever wish to see archived journals again, just select "Archive" from the filter and you can search for and view the old journals.
 
 ##Users Tab <a id="users_tab"></a>
 
@@ -199,6 +207,23 @@ Journaling is an important part of clinical activity and ClinicCases makes it ea
 ##Mobile <a id="mobile"></a>
 
 ##Installation <a id="install"></a>
+
+Here are the instructions to install ClinicCases 7 on your server:
+
+Either download the latest source package from [Google Code](https://code.google.com/p/cliniccases/downloads/list) or, using git, issue the command:
+
+    git clone https://code.google.com/p/cliniccases.
+
+If you downloaded the package, then next extract the ClinicCases package to your web root.
+
+Create a directory outside of your web root called cc_docs (e.g., /var/cc_docs). If you do not have access to anything outside of your web root, you can put the directory in your web root (e.g., /var/www/cliniccases/cc_docs), but be warned that this is insecure.  Anybody with the specific file url can access your clinic's documents! In either case, make sure that this directory is writable (e.g. sudo chmod 777 cc_docs)
+
+Go to http://YOURSERVER/cliniccases/_INSTALL/ and follow the instructions.
+
+When the installation is complete, log in to your installation of ClinicCases using the username 'admin' and the password 'admin'.  You will be prompted to change the password on this temporary account. Next, go to the users tab and add a new user account for yourself.  Make sure that you put yourself in the Administrator group, that you make the account 'active', and that you provide your valid email address.  Next, check your email. You should receive an email from your server which contains a temporary password. (Check spam folder as well!).
+
+Log out of ClinicCases and then log in again using your new user name and the password provided. You can then change this password by clicking on the Preferences link in the upper right hand corner.
+
 
 ##Customization <a id="customization"></a>
 
