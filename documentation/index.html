@@ -175,7 +175,7 @@ h5 {
 <p><strong><a href="#cases_tab_reset">Reset</a></strong> <a id="cases_tab_reset"></a>  Clicking the Reset button resets all filters on the table to the default (i.e, open cases).  Note that ClinicCases remembers the state of your filter.  So, if you were to search for all clients named "Smith" and then log off, when you return to the cases table later it will still display all clients named "Smith."  You must press reset to clear that filter.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_new_case">New Case</a></strong> <a id="cases_tab_new_case"></a>  Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - <strong>see <a href="#customization_groups">customizing groups</a></strong>) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next <a href="#assign_users">assign users</a> to the case.</p>
+<p><strong><a href="#cases_tab_new_case">New Case</a></strong> <a id="cases_tab_new_case"></a>  Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - <em>see <a href="#customization_groups">customizing groups</a></em>) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next <a href="#assign_users">assign users</a> to the case.</p>
 </li>
 </ul>
 <h3>Case Detail</h3>
@@ -185,14 +185,14 @@ h5 {
 <ul>
 <li>
 <p><strong><a href="#cases_tab_casenotes">Case Notes</a></strong> <a id="cases_tab_casenotes"></a>
- Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (<em>see <a href="#configuration">configuration</a></em>).</p>
+ Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (<em>see <a href="#customization_case_numbers">configuration</a></em>).</p>
 <p>There are three buttons above the case note list: 1) Add 2) Timer and 3) Print.  The first and third are self-explanatory.  The timer button will launch a timer that records your activity on the case.  This is useful for situations when you are working on a case in front of your computer (e.g, doing legal research).</p>
 <p><img alt="View of Timer" src="img/timer.png" /></p>
 <p>Once you have clicked "Timer", it will continue to run until you turn it off.  This means that, even if you close your browser, when you return to ClinicCases, the timer will still be running. It is therefore important to remember to click "Stop" to turn it off.  When you do this, a dialog will ask you for a description of what you did.  Once you  provide that and click "Add", the case note will be filed away in the case with the correct time and information.</p>
 </li>
 <li>
 <p><strong><a href="#cases_tab_case_data">Case Data</a></strong> <a id="cases_tab_case_data"></a>
- Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc.) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (_see <a href="#configuration">configuration</a>) can do this.  By default, all users have this permission.</p>
+ Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc.) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (<em>see <a href="#customization_groups">configuration</a></em>) can do this.  By default, all users have this permission.</p>
 </li>
 <li>
 <p><strong><a href="#cases_tab_documents">Documents</a></strong> <a id="cases_tab_documents"></a>
@@ -222,7 +222,7 @@ h5 {
  This shows all messages related to this case.  To ensure that a message shows up here, remember to select this case name under "File In" when composing the message (this is done automatically if you compose a message from this screen).  Any user who is assigned to this case or has permission to view this case can see these messages.</p>
 </li>
 <li>
-<p><strong><a href="#cases_tab_contacts">Contacts</a></strong><a id="cases_tab_contacts"></a>  This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database (<em>see <a href="#customization">customization</a></em>).</p>
+<p><strong><a href="#cases_tab_contacts">Contacts</a></strong><a id="cases_tab_contacts"></a>  This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database.</p>
 </li>
 <li>
 <p><strong><a href="#cases_tab_conflicts">Conflicts</a></strong> <a id="cases_tab_conflicts"></a>
@@ -233,9 +233,9 @@ h5 {
 <li>The names contained in the current cases's contacts against all previous clients and adverse parties.</li>
 <li>When a name has more than an 80% similarity as determined by the algorithm, you are alerted to the potential conflict.</li>
 </ul>
+<p>Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.</p>
 </li>
 </ul>
-<p>Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.</p>
 <p><a id = "assign_users"></a></p>
 <h3>Assign Users to a Case</h3>
 <p>To assign users to a case, you click on the person icon with a green plus at the top of the case detail.</p>

@@ -120,7 +120,7 @@ The cases table shows you a list of all cases you are allowed to view.  If you h
 
 * __[Reset](#cases_tab_reset)__ <a id="cases_tab_reset"></a>  Clicking the Reset button resets all filters on the table to the default (i.e, open cases).  Note that ClinicCases remembers the state of your filter.  So, if you were to search for all clients named "Smith" and then log off, when you return to the cases table later it will still display all clients named "Smith."  You must press reset to clear that filter.
 
-* __[New Case](#cases_tab_new_case)__ <a id="cases_tab_new_case"></a>  Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - __see [customizing groups](#customization_groups)__) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next [assign users](#assign_users) to the case.
+* __[New Case](#cases_tab_new_case)__ <a id="cases_tab_new_case"></a>  Administrative users (i.e, those with "add_cases" set to "1" for their group in the cm_groups table - _see [customizing groups](#customization_groups)_) will see a "New Case" button after the Reset button.  Clicking on this will open a new case and prompt you to input the intake information for the new case.  Once you have entered in the intake information, be sure to click "Submit".  The new case will now be opened.  You should next [assign users](#assign_users) to the case.
 
 ###Case Detail
 
@@ -131,7 +131,7 @@ When you click on a table row in the cases table, the case detail will be opened
 Think of this as opening the manila folder your physical files are kept in and seeing everything divided into neat tabbed sections.  There are seven sections for each ClinicCases file.
 
 * __[Case Notes](#cases_tab_casenotes)__ <a id="cases_tab_casenotes"></a>
- Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (_see [configuration](#configuration)_).
+ Case Notes are the primary means of recording information about case activity.  They are the replacement for the "Timesheets" or "Memos to File" you may have in your paper files.  Each case note records the date on which the activity took place, the amount of time in took, and a description of the activity.  Note that in ClinicCases time is measured in 5 minute intervals by default.  You can change this to 6 minute intervals by editing the configuration file (_see [configuration](#customization_case_numbers)_).
 
 	There are three buttons above the case note list: 1) Add 2) Timer and 3) Print.  The first and third are self-explanatory.  The timer button will launch a timer that records your activity on the case.  This is useful for situations when you are working on a case in front of your computer (e.g, doing legal research).
 
@@ -140,7 +140,7 @@ Think of this as opening the manila folder your physical files are kept in and s
 	Once you have clicked "Timer", it will continue to run until you turn it off.  This means that, even if you close your browser, when you return to ClinicCases, the timer will still be running. It is therefore important to remember to click "Stop" to turn it off.  When you do this, a dialog will ask you for a description of what you did.  Once you  provide that and click "Add", the case note will be filed away in the case with the correct time and information.
 
 * __[Case Data](#cases_tab_case_data)__ <a id="cases_tab_case_data"></a>
- Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc.) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (_see [configuration](#configuration)) can do this.  By default, all users have this permission.
+ Case Data is where intake information about the client (Address, date of birth, SSN, case type, etc.) is kept.  Users who are authorized can click "Edit" and change the intake information.  Any user who is in a group with "edit_cases" set to "1" in the cm_groups table (_see [configuration](#customization_groups)_) can do this.  By default, all users have this permission.
 
 * __[Documents](#cases_tab_documents)__ <a id="cases_tab_documents"></a>
  ClinicCases has a fully-featured file manager.
@@ -161,7 +161,7 @@ Think of this as opening the manila folder your physical files are kept in and s
 * __[Messages](#cases_tab_messages)__ <a id="cases_tab_messages"></a>
  This shows all messages related to this case.  To ensure that a message shows up here, remember to select this case name under "File In" when composing the message (this is done automatically if you compose a message from this screen).  Any user who is assigned to this case or has permission to view this case can see these messages.
 
-* __[Contacts](#cases_tab_contacts)__<a id="cases_tab_contacts"></a>  This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database (_see [customization](#customization)_).
+* __[Contacts](#cases_tab_contacts)__<a id="cases_tab_contacts"></a>  This is a listing of all contacts associated with this case.  Note that, under "Type", the default contact types are displayed.  You are not limited to the default contact types and can type in any type you like.  If you wish to change the default contact types, this can be done by editing the cm_contact_types table in the ClinicCases database.
 
 * __[Conflicts](#cases_tab_conflicts)__ <a id="cases_tab_conflicts"></a>
  This shows the result of a conflicts check that is done every time you open the case detail. ClinicCases uses the algorithm contained in PHP's similar text function to determine if there is a potential for a conflict in your case. The following data is checked for name similarity:
@@ -171,7 +171,7 @@ Think of this as opening the manila folder your physical files are kept in and s
 	* The names contained in the current cases's contacts against all previous clients and adverse parties.
 	* When a name has more than an 80% similarity as determined by the algorithm, you are alerted to the potential conflict.
 
-Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.
+	Of course, other potential types of conflicts exist. For example, if your student clerked at a firm which now represents the defendants in one of your cases, ClinicCases has no way of knowing that. The accuracy of your conflicts checks depends on the quality of the data you put it. It is best to encourage your users to record all adverse parties and case contacts thoroughly and with the correct spelling.
 
 <a id = "assign_users"></a>
 
@@ -283,13 +283,13 @@ As of Beta 5, the Utilities tab contains two views: 1) Time Reports and 2) Confi
 
 	Configuration allows an adminstrative user (a user in a group for whom "can_configure" is set to "1" in the cm_groups table) to change various default options for ClinicCases.  To change any of the values below, just enter the value(s) and then press the green "plus" button and the value will be added to ClinicCases.  It will now show up in the appropriate drop-menus when you are entering a new case or searching through cases.  To delete these values, click the red "x" button next to the value you wish to delete.
 
-	* Change Case Types - Case types are codes and text describing the type for a case.  Typical examples would include "Custody", "Civil Rights", "Criminal", "SSI", etc.  ClinicCases requires that each type have a full text description ("Criminal") and a three-letter code ("CRM"). Note that, depending upon your [Configuration](#configuration), this case type may be appended to the case number, e.g. 2012-00050-CRM.
+	* Change Case Types - Case types are codes and text describing the type for a case.  Typical examples would include "Custody", "Civil Rights", "Criminal", "SSI", etc.  ClinicCases requires that each type have a full text description ("Criminal") and a three-letter code ("CRM"). Note that, depending upon your [Configuration](#customization_case_numbers), this case type may be appended to the case number, e.g. 2012-00050-CRM.
 
 	* Change Courts - This is the list of courts where your clinic practices.  Here, you only have to enter a full text description of the court ("Superior Court for the County of Jefferson") and no code is necessary.
 
 	* Change Dispositions - These describe why a case was closed.  Only a full text description is necessary.
 
-	* Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your [Configuration](#configuration), the clinic type may be appended to the case number, e.g. 2012-00050-FAM.
+	* Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your [Configuration](#customization_case_numbers), the clinic type may be appended to the case number, e.g. 2012-00050-FAM.
 
 	* Change Referrals - Some clinics like to keep track of their referral sources (e.g., Legal Aid, LSC provider, Social Services).  This is where you add those sources.
 
@@ -324,7 +324,7 @@ When you click the Messages tab, you are shown a list of messages that are in yo
 
 ![View of Messages](img/messages_view.png)
 
-From this point, Messages operates much like any other electronic message client.  You can reply to the message or forward it to others.  By clicking the star in the upper right-hand corner of the message, you can mark it is important for later use.
+From this point, Messages operates much like any other electronic message client.  You can reply to the message or forward it to others.  By clicking the star in the upper right-hand corner of the message, you can mark it is as important for later use.
 
 To compose a new message, click "New Message" in the upper right-hand corner of the screen.  A dialog will appear.
 
@@ -471,14 +471,14 @@ Each field for the Cases table must be defined in both the cm table AND the cm_c
 	* select - a standard html select
 	* multi-text - a ClinicCases widget which presents an input to the user along with a link to "Add Another".  If clicked, another input will be created.  This is used by default for adverse parties.
 	![View of multi-text](img/multi-text.png)
-	* dual - a ClinicCases widget which contains two pieces of information: 1) a select with pre-defined types and 2) an input for string data.  This is used by default in ClinicCases for phone numbers.
+	* dual - a ClinicCases widget which contains two pieces of information: 1) a select with pre-defined types and 2) an input for string data.  This is used by default in ClinicCases for phone numbers and emails.
 	![View of Dual](img/dual.png)
 * select_options - any time you use a select to define a field (input_type is "select" or "dual"), you must define the choices to be displayed to the user in the select.  This is done by adding a serialized array of choices to the select_options field.  So, for example, if our select choices are "Choice 1", "Choice 2", "Choice 3", we would create an array and call php's serialize function on it:
 
     $choices = array('Choice 1', 'Choice 2', 'Choice 3');
     echo serialize($choices);
 
-The output of this code would be placed in the select_options field.
+	The output of this code would be placed in the select_options field.
 
 * display_by_default - whether or not this field is shown to the user in the Cases table by default.  If this is set to "false", the user will have to click on "Columns" in the Cases tab and place a check by the field name to make it visible.
 
@@ -486,7 +486,7 @@ The output of this code would be placed in the select_options field.
 
 * display_order - the order in which this field will appear when the user is entering a new case.
 
-Any row which does not have "required" set to "1" may be deleted (required fields are needed for ClinicCases to function properly).  To delete the field delete the relevant row from the cm_columns table AND the cm table.
+Any row which does not have "required" set to "1" may be deleted (required fields are needed for ClinicCases to function properly).  To delete the field, delete the relevant row from the cm_columns table AND the cm table.
 <a id="customization_case_numbers"></a>
 
 ###Customizing Case Numbers
