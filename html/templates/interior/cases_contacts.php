@@ -12,12 +12,11 @@
 
 		<input type="button" class="contacts_search_clear">
 
+		<?php
+			if ($_SESSION['permissions']['add_contacts'] == '1')
+				{echo "<button class='new_contact'>New Contact</button>";}
 
-<?php
-	if ($_SESSION['permissions']['add_contacts'] == '1')
-		{echo "<button class='new_contact'>New Contact</button>";}
-
-?>
+		?>
 
 		<button class = "contact_print">Print</button>
 
@@ -34,7 +33,7 @@
 
 				<div class = 'csenote_bar_left new_contact_left'>
 
-					<h4><span class="first_name_live">New Contact</span> <span class="last_name_live"></span><h4>
+					<h4><span class="first_name_live">New Contact</span> <span class="last_name_live"></span></h4>
 
 					<h5><span class="contact_type_live"></span></h5>
 
@@ -101,7 +100,7 @@
 
 							else
 
-							{echo "<h4><span class='cnt_first_name'>". $contact['first_name'] . "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</h4>";}
+							{echo "<h4><span class='cnt_first_name'>". $contact['first_name'] . "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</span></h4>";}
 
 						echo "<h5><span class='cnt_type'>" . $contact['type']  . "</span></h5></div>
 						<div class = 'csenote_bar_right'>";
