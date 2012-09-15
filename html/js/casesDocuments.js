@@ -48,7 +48,7 @@ function createDragDrop()
 
 function createTextEditor(target, action, permission, title, content, id)
 {
-    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">New Document</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' + title + '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
 
     //Add title area and textarea
     target.html(editor);
@@ -68,7 +68,6 @@ function createTextEditor(target, action, permission, title, content, id)
         currentPath = '';
     }
 
-
     //Create lwrte
     var arr = target.find('.text_editor').rte({
         css: ['lib/javascripts/lwrte/default2.css'],
@@ -81,7 +80,7 @@ function createTextEditor(target, action, permission, title, content, id)
     if (action === 'view')
     {
         arr[0].set_content(content);
-        ccdTitleArea.html(title);
+        ccdTitleArea.html(unescape(title));
         docIdArea.attr('data-id', id);
     }
 
@@ -144,17 +143,29 @@ function createTextEditor(target, action, permission, title, content, id)
         .click(function() {
             $(this).css({'color': 'red'});
             $(this).html('<input type="text" value="">');
-            $(this).find('input').val(unescape(ccdTitle)).focus();
+            $(this).find('input').val(unescape(ccdTitle)).focus().select();
         })
-        .focusout(function() {
+        .bind('focusout keyup', function(e) {
+            if (e.type == 'focusout' || e.which == 13) {
                 ccdTitle = escape($(this).find('input').val());
-                $(this).html(unescape(ccdTitle));
-                $(this).css({'color': 'black'});
-                var getText = arr[0].get_content();
-                $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText}, function(data) {
-                    var serverResponse = $.parseJSON(data);
-                    notify(serverResponse.message);
-                });
+
+                if(ccdTitle === '' || ccdTitle == '\n')
+                {
+                    notify('Please give your document a title.',true);
+                    $(this).find('input').addClass('ui-state-error').focus();
+                    return false;
+                }
+                else
+                {
+                    $(this).html(unescape(ccdTitle));
+                    $(this).css({'color': 'black'});
+                    var getText = arr[0].get_content();
+                    $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText}, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        notify(serverResponse.message);
+                    });
+                }
+            }
 
         })
         .mouseleave(function() {
@@ -540,20 +551,28 @@ $('div.doc_item').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function() {
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    createTextEditor(target, 'new', 'yes');
+    createTextEditor(target, 'new', 'yes','New Document');
 });
 
 
 //User clicks new folder button
 $('button.doc_new_folder').live('click', function() {
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+
+    //if this is an empty folder, remove the "No Documents Found" message
+    if ($('span.docs_empty'))
+    {
+        $('span.docs_empty').remove();
+    }
+
     target.prepend("<div class='doc_item folder' path='' data-id=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
+
     $('#new_folder_name').addClass('user_input')
     .mouseenter(function() {
         $(this).val('').focus().css({'background-color': 'white'});
     })
-    .keypress(function(e) {
-        if (e.which == 13) {
+    .bind('blur keyup', function(e) {
+        if (e.type == 'blur' || e.which == 13) {
             e.preventDefault();
             var container = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('a.active').attr('path');
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
@@ -564,17 +583,25 @@ $('button.doc_new_folder').live('click', function() {
                 notify("Sorry, folder names cannot contain a foward slash.",true);
                 return false;
             }
+            else if (newName ==  '\n') //user has only pressed return (inserting
+                // a new line character, but no file name)
+            {
+                notify("Please provde a name for your folder.",true);
+                return false;
+            }
             else
             {
-
                 var newFolder = null;
+
                 if (container === ''  || typeof container == 'undefined')
                 {
-                    newFolder = escape(newName);
+                    newFolder = escape(newName.replace(/[\n\r]$/,""));
+                    //replace method removes any new line characters that
+                    //may have been added by the user pressing enter
                 }
                 else
                 {
-                    newFolder = container + "/" + escape(newName);
+                    newFolder = container + "/" + escape(newName.replace(/[\n\r]$/,""));
                 }
                 $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
                     var serverResponse = $.parseJSON(data);
@@ -605,6 +632,12 @@ $('button.doc_upload').live('click', function() {
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
 
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    //if this is an empty folder, remove the "No Documents Found" message
+    if ($('span.docs_empty'))
+    {
+        $('span.docs_empty').remove();
+    }
 
     //Tells user which directory files will be uploaded to
     var activeDirectory = $(this).parent().siblings().find('a.active').text();
@@ -666,17 +699,23 @@ $('button.doc_upload').live('click', function() {
         $(this).parents('.upload_dialog_url').siblings('.upload_dialog_file').hide();
     });
 
-    $('button.upload_url_submit').click(function() {
+    $('button.upload_url_submit').unbind('click').click(function() {
         var url = $(this).siblings('input.url_upload').val();
         var urlName = $(this).siblings('input.url_upload_name').val();
         if (isUrl(url) === false)
         {
             $(document).find('p.upload_url_form_error_url').html('Sorry, your URL is invalid.  It must begin with http://, https:// or ftp://');
+            $(this).siblings('input.url_upload').focus(function(){
+                $(document).find('p.upload_url_form_error_url').html('');
+            });
             return false;
         }
         else if (urlName === '')
         {
             $(document).find('p.upload_url_form_error_name').html('Please give this URL a title.');
+            $(this).siblings('input.url_upload_name').focus(function(){
+                $(document).find('p.upload_url_form_error_name').html('');
+            });
             return false;
         }
         else
@@ -687,7 +726,7 @@ $('button.doc_upload').live('click', function() {
                     $(this).html('');
                 });
                 $('.upload_dialog').find('input').val('');
-                thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+                thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
                     unescapeNames();
                 });
             });

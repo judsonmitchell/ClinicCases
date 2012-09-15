@@ -80,7 +80,7 @@ TOOLS;
 		}
 
 	if (empty($folders) AND empty($documents))
-		{echo "No documents found.";}
+		{echo "<span class='docs_empty'>No documents found.</a>";}
 
 	echo "<div class='doc_spacing_fix'></div>";
 

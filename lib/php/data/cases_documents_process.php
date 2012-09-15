@@ -433,14 +433,22 @@ if ($action == 'cut')
 		//change the path of the selected folder
 
 		if (stristr($selection_path, '/'))
-
-			{$folder_name = substr(strrchr($selection_path,'/'),1);}
-
+		{
+			$folder_name = substr(strrchr($selection_path,'/'),1);
+		}
 		else
+		{
+			$folder_name = $selection_path;
+		}
 
-			{$folder_name = $selection_path;}
-
-		$new_selection_path = $target_path . "/" . $folder_name;
+		if ($target_path == '')
+		{
+			$new_selection_path = $folder_name;
+		}
+		else
+		{
+			$new_selection_path = $target_path . "/" . $folder_name;
+		}
 
 		$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = :new_selection_path, containing_folder = :target_path WHERE id = :item_id");
 
