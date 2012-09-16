@@ -85,9 +85,8 @@ else
 
 		$subject = "ClinicCases: Your Account Request";
 
-		$body = "This is in response to your forgot username/password request on ClinicCases.  Your username is $user.  Your temporary password is $gen_pass.\n\nPlease log in to ClinicCases using these credentials.  Then please change your password to something you can remember by clicking on the Preferences link.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
+		$body = "This is in response to your forgot username/password request on ClinicCases.  Your username is $user.  Your temporary password is $gen_pass\n\nPlease log in to ClinicCases using these credentials.  Then please change your password to something you can remember by clicking on the Preferences link.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);
-		//TODO test on mail server
 
 		$resp = array('error' => false, 'message' => "Your username and a new temporary password have been emailed to " . $email . ".  If it does not arrive in a few minutes, please check your spam folder.");
 
