@@ -138,7 +138,9 @@ switch ($action) {
 
 			$lname = trim(str_replace(' ', '', $_POST['last_name']));
 
-			$proposed_username = substr($fname, 0,1) . $lname;
+			$concat_name = substr($fname, 0,1) . $lname;
+
+			$proposed_username =  preg_replace("/[^a-zA-Z0-9]/", "", $concat_name);
 
 			function check_uniqueness($dbh,$proposed_username)
 			{
