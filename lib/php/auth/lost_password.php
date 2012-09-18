@@ -61,7 +61,7 @@ else
 
 	$pass = base64_encode($hash);
 
-	$update = $dbh->prepare("UPDATE cm_users SET password = :pass WHERE email = :email");
+	$update = $dbh->prepare("UPDATE cm_users SET password = :pass, force_new_password = '0' WHERE email = :email");
 
 	$data = array('pass' => $pass,'email' => $email);
 
