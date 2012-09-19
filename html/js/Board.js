@@ -52,7 +52,10 @@ $(document).ready(function() {
         $('input[name="post_title"]').focusin(function(event) {
             event.stopPropagation();
             $(this).parent().unbind('click.sizePost');
-            $(this).val('').css({'color': 'black'});
+            if ($(this).val() == 'New Post Title')
+            {
+                $(this).val('').css({'color': 'black'});
+            }
         });
 
         //Add Chosen to select
@@ -306,11 +309,21 @@ $(document).ready(function() {
 
         var searchVal = $(this).val();
 
-        $('#board_panel').load('lib/php/data/board_load.php',{'s':searchVal},function(){
+        if (searchVal !== '') //searching on empty value crashes browser
+        {
 
-            $(this).highlight(searchVal);
+            $('#board_panel').load('lib/php/data/board_load.php',{'s':searchVal},function(){
 
-        });
+                $(this).highlight(searchVal);
+
+            });
+        }
+        else
+        {
+            $('#board_panel').load('lib/php/data/board_load.php',function(){
+                $('.casenotes_search_clear').hide();
+            });
+        }
 
     });
 
