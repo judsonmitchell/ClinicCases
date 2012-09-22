@@ -3,6 +3,11 @@ INSTALL
 Below are instructions on how to install ClinicCases 7.
 If you need help, please visit http://www.cliniccases.com/help.
 
+When you have successfully completed your ClinicCases install, please
+register your installation at https://cliniccases.com/registration/
+By registering, you will be informed of important security updates and
+receive early access to new features, improvements, and bug fixes.
+
 REQUIREMENTS:
 1. Server running Linux and Apache
 2. Mysql
