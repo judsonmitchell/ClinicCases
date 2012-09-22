@@ -75,14 +75,14 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 			}
 		}
 
+	$output['aaData'][] = $rows;
+
+}
+
 	if ($q->rowCount() < 1)
 	{
 		$output['aaData'] = array();
 	}
-
-	$output['aaData'][] = $rows;
-
-}
 
 	$json = json_encode($output);
 
