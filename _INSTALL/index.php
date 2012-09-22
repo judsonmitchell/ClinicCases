@@ -72,31 +72,23 @@
 	    //Change directory permissions
 	    if (!is_writable('../people'))
 	    {
-		    $people = @chmod('../people/', 0777);
-		    if ($people === false)
-		    {
-		    	die("<p class='config_error'>I was unable to change the permissions on the 'people' directory.  This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p> <pre>cd /YOURPATH/cliniccases</pre><pre>sudo chown -R www-data:www-data .</pre><p class='config_error'>Please fix this to proceed.</p>");
-		    }
+
+	    	die("<p class='config_error'>The 'people' directory is not writable.  This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p> <pre>cd /YOURPATH/cliniccases</pre><pre>sudo chown -R www-data:www-data .</pre><p class='config_error'>Please fix this to proceed.</p>");
+
 		}
 
 	    if (!is_writable('../uploads'))
 	    {
-		    $uploads = @chmod('../uploads/', 0777);
-		    if ($uploads === false)
-		    {
-		    	die("<p class='config_error'>I was unable to change the permissions on the 'uploads' directory. This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p><pre>cd /YOURPATH/cliniccases</pre> <pre>sudo chown -R www-data:www-data .</pre><p class='config_error'>Please fix this to proceed.</p> ");
-		    }
+	    	die("<p class='config_error'>The 'uploads' directory is not writable.  This is usually because the ClinicCases files you just added are not owned by the same user that owns the server (on Apache, usually 'www-data'). The command to fix this might be something like:</p><pre>cd /YOURPATH/cliniccases</pre> <pre>sudo chown -R www-data:www-data .</pre><p class='config_error'>Please fix this to proceed.</p> ");
 		}
 
 		echo "<p class='good'>People and Uploads directories are writable.  Good.</p>";
 
 		if (!is_writable('../_CONFIG_template.php'))
 	    {
-		    $uploads = @chmod('../_CONFIG_template.php', 0777);
-		    if ($uploads === false)
-		    {
-		    	die("<p class='config_error'>I was unable to change the permissions on the _CONFIG_template.php file.  Please do this manually (chmod 777 _CONFIG.php).");
-		    }
+
+		    die("<p class='config_error'>I was unable to write to the  _CONFIG_template.php file.  Please do this manually (chmod 777 _CONFIG.php).");
+
 		}
 
 		echo "<p class='good'>The config file is writable.  Good.</p>";
