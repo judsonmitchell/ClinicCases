@@ -11,7 +11,7 @@ receive early access to new features, improvements, and bug fixes.
 REQUIREMENTS:
 1. Server running Linux and Apache
 2. Mysql
-3. PHP version 5.2 or higher,compiled with GD libraries
+3. PHP version 5.1 or higher,compiled with GD libraries
 4. Mail server (e.g, exim4, sendmail.  Most servers will already
 have this installed.).  Used for sending notifications to users.
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).

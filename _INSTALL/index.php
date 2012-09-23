@@ -60,7 +60,7 @@
 			//add form to do config values
 			//run sql
 
-		if (strnatcmp(phpversion(),'5.2') >= 0)
+		if (strnatcmp(phpversion(),'5.1') >= 0)
 	    {
 	        echo "<p class='good'>Your php version is " . phpversion() . ". Good.</p>";
 	    }
@@ -138,9 +138,9 @@
 
 			<p><label>Case Number Mask</label><input type="text" name="mask" value="YYYY-Number" title="Default case number format. Possible values: YYYY or YY for four digit or two digit year;ClinicType (derived from cm_clinic_type table) or CaseType (derived from cm_case_types table);Number or NumberInfinite - Number resets to one at the beginning of each year, NumberInifinite does not.Your mask must have at least a year value and Number/NumberInfinite, seperated by dash"></p>
 
-			<p><label>reCAPTCHA Public Key</label><input type="text" name="recaptcha_public" title="The reCAPTCHA public key for this domain.  reCAPTCHA is used to prevent spam from the New Accounts form.  This is optional.  For more information, please visit http://recaptcha.net"></p>
+			<p><label>reCAPTCHA Public Key</label><input type="text" value="(optional)" name="recaptcha_public" title="The reCAPTCHA public key for this domain.  reCAPTCHA is used to prevent spam from the New Accounts form.  This is optional.  For more information, please visit http://recaptcha.net"></p>
 
-			<p><label>reCAPTCHA Private Key</label><input type="text" name="recaptcha_private" title="The reCAPTCHA private key for this domain.  reCAPTCHA is used to prevent spam from the New Accounts form.  This is optional.  For more information, please visit http://recaptcha.net"></p>
+			<p><label>reCAPTCHA Private Key</label><input type="text" value="(optional)" name="recaptcha_private" title="The reCAPTCHA private key for this domain.  reCAPTCHA is used to prevent spam from the New Accounts form.  This is optional.  For more information, please visit http://recaptcha.net"></p>
 
 			<button class="config_submit">Submit</button>
 
