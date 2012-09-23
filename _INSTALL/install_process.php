@@ -83,9 +83,15 @@ try {
 catch(PDOException $e)
     {
 		//400 is sent to trigger an error for ajax requests.
-		header('HTTP/1.1 400 Bad Request');
+		//header('HTTP/1.1 400 Bad Request');
 
-		echo $e->getMessage();
+		$html = "<p>I was unable to connect to your database.  Here is what the database said:</p><p>" . $e->getMessage() . "</p>";
+
+		$resp = array('error' => true,'message' => 'Sorry, I was unable to connect to your database','html' => $html);
+
+		echo json_encode($resp);die();
+
+		//echo $e->getMessage();
     }
 
 $sql = file_get_contents('default.sql');
