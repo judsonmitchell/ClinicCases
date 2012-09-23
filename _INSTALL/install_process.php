@@ -40,6 +40,23 @@ if (!is_writable($_POST['cc_path']) || !is_dir($_POST['cc_path']))
 	echo json_encode($resp);die;
 }
 
+//See if the db works
+try {
+		$dbh = new PDO("mysql:host=" . $_POST['db_host'] . ";dbname=" . $_POST['db_name'] , $_POST['db_user'], $_POST['db_pass']);
+    }
+catch(PDOException $e)
+    {
+		//400 is sent to trigger an error for ajax requests.
+		//header('HTTP/1.1 400 Bad Request');
+
+		$message = "<p>I was unable to connect to your database.  Here is what the database said:</p><p>" . $e->getMessage() . "</p>";
+
+		$resp = array('error' => true,'message' => $message,'html' => '');
+
+		echo json_encode($resp);die();
+
+    }
+
 //create a backup of the default config file
 
 $source = '../_CONFIG_template.php';
@@ -75,23 +92,6 @@ function update_config($vals,$config)
 $new = update_config($_POST,$config);
 
 file_put_contents('../_CONFIG_template.php', $new);
-
-//See if the db works
-try {
-		$dbh = new PDO("mysql:host=" . $_POST['db_host'] . ";dbname=" . $_POST['db_name'] , $_POST['db_user'], $_POST['db_pass']);
-    }
-catch(PDOException $e)
-    {
-		//400 is sent to trigger an error for ajax requests.
-		//header('HTTP/1.1 400 Bad Request');
-
-		$message = "<p>I was unable to connect to your database.  Here is what the database said:</p><p>" . $e->getMessage() . "</p>";
-
-		$resp = array('error' => true,'message' => $message,'html' => '');
-
-		echo json_encode($resp);die();
-
-    }
 
 $sql = file_get_contents('default.sql');
 
