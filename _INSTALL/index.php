@@ -115,7 +115,7 @@
 
 			<p><label>Path to Documents</label><input type="text" name="doc_path" value="/var/cc_docs" title="You must create a directory outside of the web root to store uploaded documents in.  This directory must be writable."></p>
 
-			<p><label>Base URL</label><input type="text" name="base_url" value="https://yourserver.com/cliniccases/" title="The url to your installation of ClinicCases.  Do not forget the trailing slash!"></p>
+			<p><label>Base URL</label><input type="text" name="base_url" value="https://yourserver.com/cliniccases/" title="The url to your installation of ClinicCases.  Please ensure that your url has the correct protocol (http or https) and that it ends with a slash"></p>
 
 			<p><label>Domain</label><input type="text" name="domain" value="https://yourserver.com" title="The domain of your web server.  No trailing slash"></p>
 

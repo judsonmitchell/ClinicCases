@@ -24,6 +24,14 @@ $(document).ready(function() {
 
 		var error = validate(fields);
 
+		//Check that base_url has trailing slash
+		var baseUrl = $('input[name="base_url"]').val();
+
+		if(baseUrl.charAt( baseUrl.length-1 ) !== "/")
+		{
+			baseUrl = baseUrl + '/';
+		}
+
 		if (error.length)
 		{
 			notify('There are empty fields');
