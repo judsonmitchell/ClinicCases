@@ -33,13 +33,6 @@ if (!is_writable($_POST['doc_path']) || !is_dir($_POST['doc_path']))
 }
 
 //create a backup of the default config file
-// $copy = @copy('../_CONFIG_template.php','../_CONFIG_template.php.bak');
-// if (!$copy)
-// {
-// 	$resp = array("error" => true, "message" => "<p class='config_error'>Sorry, I need to create a backup copy of your config file and the server wouldn't let me do that.</p>");
-
-// 	echo json_encode($resp);die;
-// }
 
 $source = '../_CONFIG_template.php';
 
@@ -117,8 +110,6 @@ else
 	unlink('../_CONFIG_template.php.bak');
 
 	rename('../_CONFIG_template.php', '../_CONFIG.php');
-
-	//chmod('../_CONFIG.php', 0664);
 
 	deleteDir($_POST['cc_path']. '/_UPGRADE');
 

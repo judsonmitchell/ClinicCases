@@ -29,7 +29,9 @@ $(document).ready(function() {
 
 		if(baseUrl.charAt( baseUrl.length-1 ) !== "/")
 		{
-			baseUrl = baseUrl + '/';
+			baseUrlFixed = baseUrl + '/';
+
+			$('input[name="base_url"]').val(baseUrlFixed);
 		}
 
 		if (error.length)
