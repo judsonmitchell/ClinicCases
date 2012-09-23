@@ -118,7 +118,7 @@ else
 
 	rename('../_CONFIG_template.php', '../_CONFIG.php');
 
-	chmod('../_CONFIG.php', 0664);
+	//chmod('../_CONFIG.php', 0664);
 
 	deleteDir($_POST['cc_path']. '/_UPGRADE');
 
