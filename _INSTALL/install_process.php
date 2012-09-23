@@ -32,6 +32,14 @@ if (!is_writable($_POST['doc_path']) || !is_dir($_POST['doc_path']))
 	echo json_encode($resp);die;
 }
 
+//Check if path is correct
+if (!is_writable($_POST['cc_path']) || !is_dir($_POST['cc_path']))
+{
+	$resp = array("error" => true, "message" => "<p class='config_error'>Sorry, it appears that the path you specified (" . $_POST['cc_path'] . ") either does not exist or is not writable.  Please fix this and try again.</p>");
+
+	echo json_encode($resp);die;
+}
+
 //create a backup of the default config file
 
 $source = '../_CONFIG_template.php';
