@@ -66,12 +66,6 @@ CREATE TABLE IF NOT EXISTS `cm` (
   FULLTEXT KEY `professor` (`professor`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `cm`
---
-
-INSERT INTO `cm` (`id`, `clinic_id`, `first_name`, `middle_name`, `last_name`, `organization`, `date_open`, `date_close`, `case_type`, `clinic_type`, `professor`, `address1`, `address2`, `city`, `state`, `zip`, `phone`, `email`, `ssn`, `dob`, `age`, `gender`, `race`, `income`, `per`, `judge`, `pl_or_def`, `court`, `section`, `ct_case_no`, `case_name`, `adverse_parties`, `notes`, `dispo`, `close_notes`, `referral`, `assigned_users`, `opened_by`, `time_opened`, `closed_by`, `time_closed`) VALUES
-(1, '', 'Sample', '', 'Case', '', '2012-07-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '', '', '', '', 'After you have added some cases, ask your server administrator to delete this case in the database.', '', '', '', '', 'tadmin', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
