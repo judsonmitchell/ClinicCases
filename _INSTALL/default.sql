@@ -84,27 +84,7 @@ CREATE TABLE IF NOT EXISTS `cm_adverse_parties` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cm_board`
---
 
-CREATE TABLE IF NOT EXISTS `cm_board` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `title` varchar(150) NOT NULL DEFAULT '',
-  `body` text NOT NULL,
-  `created_by` varchar(100) NOT NULL DEFAULT '',
-  `last_modified_by` varchar(100) NOT NULL DEFAULT '',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_modified` datetime DEFAULT NULL,
-  `attachment` text NOT NULL,
-  `locked` varchar(10) NOT NULL DEFAULT '',
-  `is_form` varchar(10) NOT NULL,
-  `hidden` varchar(10) NOT NULL DEFAULT '',
-  `is_comment` varchar(10) NOT NULL DEFAULT '',
-  `orig_post_id` int(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `cm_case_assignees`
