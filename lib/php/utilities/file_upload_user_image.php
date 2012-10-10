@@ -248,7 +248,7 @@ if (isset($_GET['preview'])) //user needs to review and crop image
                 {
                     $return = array('error' => 'This image is too small. The image must be at least 128 x 128 pixels');
 
-                    echo json_encode($return);
+                    echo json_encode($return);die;
                 }
             else
                 {
