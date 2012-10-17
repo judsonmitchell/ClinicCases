@@ -8,6 +8,7 @@ include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 include '../auth/last_login.php';
 include '../html/gen_select.php';
+include 'user_data.php';
 
 
 //Returns the name of open cases that user is assigned to

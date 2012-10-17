@@ -510,7 +510,8 @@ function userEdit(userId,newUser)
         });
 
         //Click cancel button
-        $('div.user_detail_edit_actions button:eq(0)').click(function() {
+        $('div.user_detail_edit_actions button:eq(0)').click(function(event) {
+            event.preventDefault();
             if (view === 'create') //this is a new user
             {
                 $.post('lib/php/users/users_process.php', {'action': 'delete','users': userId}, function(data) {
@@ -535,7 +536,7 @@ function userEdit(userId,newUser)
         //Click submit button
         $('div.user_detail_edit_actions button:eq(1)').click(function(event) {
             event.preventDefault();
-            var formVals = $('div.user_detail_left form');
+            var formVals = $('form[name="user_edit_form"]');
             var errString = validUser(formVals);
             if (errString.length)
             {
@@ -559,7 +560,7 @@ function userEdit(userId,newUser)
                     }
                 });
 
-                formValsOk = $('div.user_detail_left form :not(select[name="supervisors"])').serializeArray();
+                formValsOk = $('form[name="user_edit_form"] :not(select[name="supervisors"])').serializeArray();
 
                 formValsOk.push({'name': 'supervisors','value': supString});
 

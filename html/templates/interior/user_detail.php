@@ -40,6 +40,11 @@
 
 	<p><label>Date Created</label><?php echo extract_date_time($date_created); ?></p>
 
+	<p><label>Last Login</label><?php
+			$last_login = get_last_login($dbh,$username);
+			if ($last_login){echo extract_date_time($last_login);}else{echo "Never";} ?></p>
+
+	<p><label>Last Case Activity</label><?php echo get_last_case_activity($dbh,$username);?></p>
 
 
 </div>
@@ -51,44 +56,44 @@
 
 	</p>
 
-	<p><label>Last Login</label><?php
-			$last_login = get_last_login($dbh,$username);
-			if ($last_login){echo extract_date_time($last_login);}else{echo "Never";} ?></p>
-
-	<p><label>Last Case Activity</label><?php echo get_last_case_activity($dbh,$username);?></p>
-
 	<p><label>Active Cases</label>
 			<?php $active_cases = get_active_cases($dbh,$username);echo count($active_cases); ?>
 	</p>
 
-	<p class ="active_case_list">
 
-		<div class="active_case_list">
+	<div class="active_case_list">
 
-		<?php
-		if (!empty($active_cases))
-			{
-				$ac = null;
+	<?php
+	if (!empty($active_cases))
+		{
+			$ac = null;
 
-				foreach ($active_cases as $key => $value) {
-				  $ac .= "<a href='index.php?i=Cases.php#cases/$key' target='_new'>$value</a>" . "<br />";
-				}
-
-				echo $ac;
+			foreach ($active_cases as $key => $value) {
+			  $ac .= "<a href='index.php?i=Cases.php#cases/$key' target='_new'>$value</a>" . ", ";
 			}
-			else
-				{echo "This user is not currently assigned to any open cases.";}
-		?>
 
-		</div>
+			echo rtrim($ac,', ');
+		}
+		else
+			{echo "This user is not currently assigned to any open cases.";}
+	?>
 
-
-	</p>
+	</div>
 
 	<p><label>Total Hours</label>
 
 		<?php $t = get_total_hours($dbh,$username); echo implode(' ', $t); ?>
 	<p>
+
+	<?php if ($_SESSION['permissions']['supervises'] == '1'){ ?>
+
+	<p><label>Evaluations</label>
+
+		<div class="eval_display">
+			<?php echo nl2br(htmlentities($evals)); ?>
+		</div>
+
+	<?php } ?>
 
 
 	<div class="user_detail_actions">
@@ -128,9 +133,10 @@
 
 <span class="user_data_display_area" data-id = "<?php echo $id; ?>">
 
+<form name="user_edit_form">
+
 <div class = "user_detail_left">
 
-	<form>
 
 	<p><label>First Name</label><input name = "first_name" type="text" value="<?php echo $first_name; ?>"></p>
 
@@ -187,10 +193,6 @@
 	<input type="hidden" name="action" value="<?php echo $view; ?>">
 
 
-
-
-	</form>
-
 </div>
 
 <div class = "user_detail_right">
@@ -198,6 +200,22 @@
 	<div class="user_picture"><img src = "<?php echo $picture_url  . '?' . rand();?>"></div>
 
 	<div class="user_change_picture">Change picture</div>
+
+	<?php if ($_SESSION['permissions']['supervises'] == '1'){
+
+		$supervisees = all_users_by_supvsr($dbh,$_SESSION['login']);
+
+		if (in_array($username, $supervisees)){ ?>
+
+			<div class="user_eval">
+
+				<label>Evaluations</label> <br />
+
+				<textarea name="evals" class="eval_block"><?php echo $evals; ?></textarea>
+
+			</div>
+
+	<?php }} ?>
 
 
 	<div class="user_detail_edit_actions">
@@ -209,6 +227,9 @@
 	</div>
 
 </div>
+
+</form>
+
 
 </span>
 

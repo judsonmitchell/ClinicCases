@@ -578,7 +578,8 @@ function userEdit(userId,newUser)
         });
 
         //Click cancel button
-        $('div.user_detail_edit_actions button:eq(0)').click(function() {
+        $('div.user_detail_edit_actions button:eq(0)').click(function(event) {
+            event.preventDefault();
             if (view === 'create') //this is a new user
             {
                 $.post('lib/php/users/users_process.php', {'action': 'delete','users': userId}, function(data) {
