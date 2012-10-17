@@ -198,6 +198,8 @@ The functionality is very similar to the [Cases](#cases_tab) tab.  You can do ba
 
 When you click on a table row, a detail screen will come up which shows specific information about the user, including their total hours, the cases to which they are assigned, and their latest activity.
 
+The evaluations box allows you to save notes about this user in free-form text.  These evaluations are only viewable by those who supervise the user in question.  So, for example, if student John Doe is supervised by you and Prof. Smith, only you and Prof. Smith can see what is written in the evaluation box.
+
 ![View of Group Detail](img/group_detail.png)
 
 [Go to Top](#contents)

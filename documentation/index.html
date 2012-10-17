@@ -1,12 +1,12 @@
-<html><meta charset="UTF-8"><style>html {
-    font-size: 100%;
-    overflow-y: scroll;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
+<html><meta charset="UTF-8"><style>html { 
+    font-size: 100%; 
+    overflow-y: scroll; 
+    -webkit-text-size-adjust: 100%; 
+    -ms-text-size-adjust: 100%; 
 }
 
 body{
-    font-family: garamond, georgia, times, serif;
+    font-family: helvetica, arial, freesans, clean, sans-serif;
     color: #333;
     background-color: #fff;
     border-color: #999999;
@@ -30,10 +30,14 @@ code{
     padding: 1px 3px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 2px; 
+}
+pre code {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 li p{
-    margin: 0.3em 0.3em 0.6em 0.3em;
+    margin: 0.3em;
 }
 ul > li{
     list-style-type: disc;
@@ -71,7 +75,7 @@ h5 {
 .shadow{
     -webkit-box-shadow:0 5px 15px #000;
     -moz-box-shadow:0 5px 15px #000;
-    box-shadow:0 5px 15px #000;
+    box-shadow:0 5px 15px #000;     
 }
 </style><body><p><img alt="ClinicCases logo" src="img/logo.png" /></p>
 <h1>ClinicCases 7 Documentation</h1>
@@ -249,6 +253,7 @@ h5 {
 <p><img alt="View of Group Tab" src="img/group_tab.png" /></p>
 <p>The functionality is very similar to the <a href="#cases_tab">Cases</a> tab.  You can do basic and advanced searches, print and export data, sort, etc.  By default, the Group tab displays supervisees whose accounts are active.  By changing the filter to "inactive", you can display information about users whose accounts are inactive.</p>
 <p>When you click on a table row, a detail screen will come up which shows specific information about the user, including their total hours, the cases to which they are assigned, and their latest activity.</p>
+<p>The evaluations box allows you to save notes about this user in free-form text.  These evaluations are only viewable by those who supervise the user in question.  So, for example, if student John Doe is supervised by you and Prof. Smith, only you and Prof. Smith can see what is written in the evaluation box.</p>
 <p><img alt="View of Group Detail" src="img/group_detail.png" /></p>
 <p><a href="#contents">Go to Top</a>
 <a id="journals_tab"></a></p>
@@ -315,7 +320,7 @@ h5 {
 <p>Configuration allows an adminstrative user (a user in a group for whom "can_configure" is set to "1" in the cm_groups table) to change various default options for ClinicCases.  To change any of the values below, just enter the value(s) and then press the green "plus" button and the value will be added to ClinicCases.  It will now show up in the appropriate drop-menus when you are entering a new case or searching through cases.  To delete these values, click the red "x" button next to the value you wish to delete.</p>
 <ul>
 <li>
-<p>Change Case Types - Case types are codes and text describing the type for a case.  Typical examples would include "Custody", "Civil Rights", "Criminal", "SSI", etc.  ClinicCases requires that each type have a full text description ("Criminal") and a three-letter code ("CRM"). Note that, depending upon your <a href="#configuration">Configuration</a>, this case type may be appended to the case number, e.g. 2012-00050-CRM.</p>
+<p>Change Case Types - Case types are codes and text describing the type for a case.  Typical examples would include "Custody", "Civil Rights", "Criminal", "SSI", etc.  ClinicCases requires that each type have a full text description ("Criminal") and a three-letter code ("CRM"). Note that, depending upon your <a href="#customization_case_numbers">Configuration</a>, this case type may be appended to the case number, e.g. 2012-00050-CRM.</p>
 </li>
 <li>
 <p>Change Courts - This is the list of courts where your clinic practices.  Here, you only have to enter a full text description of the court ("Superior Court for the County of Jefferson") and no code is necessary.</p>
@@ -324,7 +329,7 @@ h5 {
 <p>Change Dispositions - These describe why a case was closed.  Only a full text description is necessary.</p>
 </li>
 <li>
-<p>Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your <a href="#configuration">Configuration</a>, the clinic type may be appended to the case number, e.g. 2012-00050-FAM.</p>
+<p>Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your <a href="#customization_case_numbers">Configuration</a>, the clinic type may be appended to the case number, e.g. 2012-00050-FAM.</p>
 </li>
 <li>
 <p>Change Referrals - Some clinics like to keep track of their referral sources (e.g., Legal Aid, LSC provider, Social Services).  This is where you add those sources.</p>
@@ -349,7 +354,7 @@ h5 {
 correspond about case matters using Messages rather than email.  That way, this data becomes a permanent part of the case file, rather than being lost to on some distant email server.</p>
 <p>When you click the Messages tab, you are shown a list of messages that are in your Inbox.  Clicking on the indididual message will expand it to show the entire text.</p>
 <p><img alt="View of Messages" src="img/messages_view.png" /></p>
-<p>From this point, Messages operates much like any other electronic message client.  You can reply to the message or forward it to others.  By clicking the star in the upper right-hand corner of the message, you can mark it is important for later use.</p>
+<p>From this point, Messages operates much like any other electronic message client.  You can reply to the message or forward it to others.  By clicking the star in the upper right-hand corner of the message, you can mark it is as important for later use.</p>
 <p>To compose a new message, click "New Message" in the upper right-hand corner of the screen.  A dialog will appear.</p>
 <p><img alt="View of New Message" src="img/message_new.png" /></p>
 <p>Under "To" and "CC", begin typing the names of the users you would like to receive the message.  A popup dialog will autocomplete the name for you.  You can select to send the message to one or more users, supervisory groups, or user groups.</p>
@@ -480,7 +485,7 @@ execute this script.</p>
 <li>select - a standard html select</li>
 <li>multi-text - a ClinicCases widget which presents an input to the user along with a link to "Add Another".  If clicked, another input will be created.  This is used by default for adverse parties.
 <img alt="View of multi-text" src="img/multi-text.png" /></li>
-<li>dual - a ClinicCases widget which contains two pieces of information: 1) a select with pre-defined types and 2) an input for string data.  This is used by default in ClinicCases for phone numbers.
+<li>dual - a ClinicCases widget which contains two pieces of information: 1) a select with pre-defined types and 2) an input for string data.  This is used by default in ClinicCases for phone numbers and emails.
 <img alt="View of Dual" src="img/dual.png" /></li>
 </ul>
 </li>
@@ -488,10 +493,8 @@ execute this script.</p>
 <p>select_options - any time you use a select to define a field (input_type is "select" or "dual"), you must define the choices to be displayed to the user in the select.  This is done by adding a serialized array of choices to the select_options field.  So, for example, if our select choices are "Choice 1", "Choice 2", "Choice 3", we would create an array and call php's serialize function on it:</p>
 <p>$choices = array('Choice 1', 'Choice 2', 'Choice 3');
 echo serialize($choices);</p>
-</li>
-</ul>
 <p>The output of this code would be placed in the select_options field.</p>
-<ul>
+</li>
 <li>
 <p>display_by_default - whether or not this field is shown to the user in the Cases table by default.  If this is set to "false", the user will have to click on "Columns" in the Cases tab and place a check by the field name to make it visible.</p>
 </li>
@@ -502,7 +505,7 @@ echo serialize($choices);</p>
 <p>display_order - the order in which this field will appear when the user is entering a new case.</p>
 </li>
 </ul>
-<p>Any row which does not have "required" set to "1" may be deleted (required fields are needed for ClinicCases to function properly).  To delete the field delete the relevant row from the cm_columns table AND the cm table.
+<p>Any row which does not have "required" set to "1" may be deleted (required fields are needed for ClinicCases to function properly).  To delete the field, delete the relevant row from the cm_columns table AND the cm table.
 <a id="customization_case_numbers"></a></p>
 <h3>Customizing Case Numbers</h3>
 <p>Different clinics format their case numbers differently.  ClinicCases allows you to have the following elements in your case numbers:</p>
