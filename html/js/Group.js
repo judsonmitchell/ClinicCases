@@ -741,7 +741,8 @@ $('div.user_detail_actions button.user_delete').live('click',function() {
 //
 //Listen for image editing buttons
 //
-$('button.image_cancel').live('click', function() {
+$('button.image_cancel').live('click', function(event) {
+    event.preventDefault();
     var userId = $('.user_data_display_area').attr('data-id');
     var uploadedImages = [];
 
@@ -763,7 +764,8 @@ $('button.image_cancel').live('click', function() {
     $('div.user_detail_edit_actions').find('button').removeAttr('disabled');
 });
 
-$('button.image_save').live('click', function() {
+$('button.image_save').live('click', function(event){
+    event.preventDefault();
     var userId = $('.user_data_display_area').attr('data-id');
 
     //generate an array of all the images user has uploaded;
