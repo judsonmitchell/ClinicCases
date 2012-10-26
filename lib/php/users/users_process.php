@@ -257,7 +257,7 @@ if($error[1])
 					break;
 
 				case 'update':
-					if ($_POST['new'] === 'yes' || $_POST['status'] === 'active')
+                   if ($_POST['new'] === 'yes' && $_POST['status'] === 'active')
 						{$return = array('message' => 'User activated and notified by email.');}
 					else
 						{$return = array('message'=>'User edited.');}
