@@ -284,7 +284,7 @@ if ($action == 'delete')
 
 		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS? Not until the delete
 		//function is completely stable.
-		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE folder = :path OR folder LIKE :path_mask AND case_id = :case_id");
+		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE (folder = :path OR folder LIKE :path_mask) AND case_id = :case_id");
 
 		$path_mask = $path . '/%';
 
