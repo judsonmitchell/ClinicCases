@@ -482,7 +482,7 @@ if ($_SESSION['permissions']['activate_users'] == '1')
 if ($_SESSION['permissions']['reads_journals'] == '1' ||
 	$_SESSION['permissions']['writes_journals'] == '1')
 {
-	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$phpdate'
+	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$mysqldate'
 		AND comments != '' AND (reader LIKE '$username,%' OR reader LIKE '%,$username,%' OR username LIKE '$username'");
 	//query is constructed like this so that if there is more than one reader,
 	//they get to be notified of the other reader's comments
@@ -534,7 +534,7 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 if ($_SESSION['permissions']['reads_journals'] == '1' ||
 	$_SESSION['permissions']['writes_journals'] == '1')
 {
-	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$phpdate'
+	$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$mysqldate'
 		AND (reader LIKE '$username,%' OR reader LIKE '%,$username,%' OR username LIKE '$username')");
 
 	$get_journals->execute();
@@ -586,7 +586,7 @@ if ($_SESSION['permissions']['view_board'] == '1')
 	JOIN
 	(SELECT * FROM cm_board_viewers WHERE viewer IN ('$grps') GROUP BY cm_board_viewers.post_id) AS  this_user
 	ON
-	all_posts.id = this_user.post_id AND all_posts.time_added >= '$phpdate'");
+	all_posts.id = this_user.post_id AND all_posts.time_added >= '$mysqldate'");
 
 	$q->execute();
 
