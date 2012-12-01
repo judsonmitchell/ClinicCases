@@ -251,8 +251,6 @@ if ($action == 'rename')
 
 			$rename_query->bindParam(':new_path',$new_path);
 
-			//TODO must change the paths of every file and folder contained in the changed folder
-
 		}
 		else
 		{
