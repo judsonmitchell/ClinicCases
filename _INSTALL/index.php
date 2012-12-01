@@ -66,20 +66,24 @@
 	    }
 	    else
 	    {
-	        die("<p class='config_error'>Your php version is " . phpversion() . ".  ClinicCases requires at least php 5.1.  Sorry, but you will have to upgrade php before proceeding with the install.</p>");
+	        die("<p class='config_error'>Your php version is " . phpversion() . ".  
+            ClinicCases requires at least php 5.1.  Sorry, but you will have to 
+            upgrade php before proceeding with the install.</p>");
 	    }
 
 	    //Change directory permissions
 	    if (!is_writable('../people'))
 	    {
 
-	    	die("<p class='config_error'>The 'people' directory is not writable. Please fix this to proceed.</p>");
+	    	die("<p class='config_error'>The 'people' directory is not writable. 
+            Please fix this to proceed.</p>");
 
 		}
 
 	    if (!is_writable('../uploads'))
 	    {
-	    	die("<p class='config_error'>The 'uploads' directory is not writable. Please fix this to proceed.</p> ");
+	    	die("<p class='config_error'>The 'uploads' directory is not writable.
+            Please fix this to proceed.</p> ");
 		}
 
 		echo "<p class='good'>People and Uploads directories are writable.  Good.</p>";
@@ -87,7 +91,21 @@
 		if (!is_writable('../_CONFIG_template.php'))
 	    {
 
-		    die("<p class='config_error'>I was unable to write to the  _CONFIG_template.php file.  Please do this manually.");
+		    die("<p class='config_error'>I was unable to write to the
+            _CONFIG_template.php file.  Please do this manually.</p>");
+
+		}
+
+		echo "<p class='good'>The config file is writable.  Good.</p>";
+
+		if (get_magic_quotes_gpc())
+	    {
+
+		    die("<p class='config_error'>Your server's installation of php has
+            <a target = '_new'  href = 'http://php.net/manual/en/security.magicquotes.php'>magic
+            quotes</a> turned on. ClinicCases will not run with magic quotes
+            enabled.  Please contact your hosting provider to learn how to turn
+            them off.</p>");
 
 		}
 
@@ -95,7 +113,8 @@
 
 		?>
 
-		<p id="instruction">Please provide the configuration information (hover your mouse over each field for more information).  All fields are required.</p>
+		<p id="instruction">Please provide the configuration information (hover 
+        your mouse over each field for more information).  All fields are required.</p>
 
 		<p id="error_display"></p>
 
