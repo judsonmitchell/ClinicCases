@@ -19,7 +19,7 @@ and confidentiality
 
 * Server running Linux and Apache
 * MySQL
-* PHP version 5.1 or higher, compiled with GD libraries
+* PHP version 5.2 or higher, compiled with GD libraries
 * Mail server (e.g, exim4, sendmail.  Most servers will already
 have this installed.).  Used for sending notifications to users.
 
