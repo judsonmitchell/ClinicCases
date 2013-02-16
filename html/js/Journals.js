@@ -8,7 +8,7 @@ $(document).ready(function() {
 	var chooserVal = 'unread';
 
 	oTable = $('#table_journals').dataTable({
-		"sAjaxSource": 'lib/php/data/journals_load',
+		"sAjaxSource": 'lib/php/data/journals_load.php',
 		"aoColumns":
         [
             { "sTitle" : "","bSortable" : false,"sWidth" : "40px"},
