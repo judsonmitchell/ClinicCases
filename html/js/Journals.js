@@ -257,6 +257,17 @@ function callJournal(id,edit,newJournal)
                 autoSave(lastText, arr);
             });
 
+            //Add event to prevent submitting journal without a reader
+            $(window).bind('beforeunload', function() {
+                var rSelect = $('select[name="reader_select[]"]');
+                if (rSelect.length > 0 && rSelect.val() === null)
+                {
+                    rSelect.parent().find('label').first().addClass('ui-state-error');
+                    return "You haven't specified who is supposed to read this journal.  Please select a reader in the box below.";
+                }   
+            });
+
+
             $('button.journal_close')
             .button({icons: {primary: "fff-icon-cancel"},label: "Close"})
             .click(function() {
