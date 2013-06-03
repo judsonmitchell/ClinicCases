@@ -149,7 +149,7 @@
 
 				<?php } elseif ($input_type === 'textarea'){ ?>
 
-					<textarea name = "<?php echo $db_name; ?>"></textarea>
+					<textarea name = "<?php echo $db_name; ?>"><?php echo $value; ?></textarea>
 
 				<?php } ?>
 
