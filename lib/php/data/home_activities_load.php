@@ -1,14 +1,14 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-include('../utilities/thumbnails.php');
-include('../utilities/names.php');
-include('../utilities/convert_times.php');
-include('../auth/last_login.php');
-include('../html/gen_select.php');
-include('../utilities/format_text.php');
-include('../users/user_data.php');
+@session_start();
+require(__DIR__ . '/../../../db.php');
+require(CC_PATH . '/lib/php/auth/session_check.php');
+include(CC_PATH . '/lib/php/utilities/thumbnails.php');
+include(CC_PATH . '/lib/php/utilities/names.php');
+include(CC_PATH . '/lib/php/utilities/convert_times.php');
+include(CC_PATH . '/lib/php/auth/last_login.php');
+include(CC_PATH . '/lib/php/html/gen_select.php');
+include(CC_PATH . '/lib/php/utilities/format_text.php');
+include(CC_PATH . '/lib/php/users/user_data.php');
 
 //function to sort the activities array by subkey - date
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {
@@ -622,4 +622,6 @@ if (!empty($activities)) {
 	sortBySubkey($activities,'time_done');
 }
 
-include('../../../html/templates/interior/home_activities.php');
+if (!$_SESSION['mobile']){
+    include('../../../html/templates/interior/home_activities.php');
+}

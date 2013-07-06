@@ -32,7 +32,9 @@ include 'lib/php/mobile_detect.php';
 	if ($pg === false)
 		{echo "Invalid File Request";}
 		else
-		{include($pg);}
+		{
+                include($pg);
+        }
 
 
 //Check to see if the user has been logged out for inactivity and notify them

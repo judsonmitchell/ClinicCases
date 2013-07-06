@@ -12,7 +12,11 @@
 			if (in_array($requested_include,$allowed_includes,true))
 
 				{
-					$include = "html/templates/" . $page;
+                    if ($_SESSION['mobile']){
+                        $include = "html/templates/mobile/" . $page;
+                    } else {
+                        $include = "html/templates/" . $page;
+                    }
 					return $include;
 				}
 

@@ -18,7 +18,7 @@ function return_thumbnail($dbh,$username)
 
 		$thumbnail = 'people/tn_' . $user['id'] . '.jpg';
 
-		if (file_exists('../../../' . $thumbnail))
+		if (file_exists(CC_PATH . '/' . $thumbnail))
 			{return $thumbnail;}
 		else
 			{return 'people/tn_no_picture.png';}
