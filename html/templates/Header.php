@@ -5,15 +5,19 @@
 <!--[if IE 7]>    <html class="ie7"> <![endif]-->
 
 <head>
-	<title>ClinicCases</title>
+	<title>ClinicCases <?php echo CC_PROGRAM_NAME; ?></title>
+    <meta charset="utf-8">
 	<meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width">
+
     <?php if ($_SESSION['mobile']){ ?>
 	<link rel="stylesheet" href="html/css/bootstrap.min.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
-	<script src="lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
+	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>

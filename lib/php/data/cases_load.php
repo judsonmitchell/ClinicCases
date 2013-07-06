@@ -5,6 +5,16 @@ require(CC_PATH . '/lib/php/auth/session_check.php');
 include(CC_PATH . '/lib/php/utilities/convert_times.php');
 include(CC_PATH . '/lib/php/utilities/names.php');
 
+function sortBySubkey(&$array, $subkey, $sortType = SORT_ASC) {
+
+    foreach ($array as $subarray) {
+
+        $keys[] = $subarray[$subkey];
+    }
+
+    array_multisort($keys, $sortType, $array);
+}
+
 $user = $_SESSION['login'];
 
 	//Get the columns from cm_columns table
@@ -47,6 +57,7 @@ $user = $_SESSION['login'];
 		$case_query->bindParam(':username',$user);
 		$case_query->execute();
         $raw_results = $case_query->fetchAll();//used for mobile
+        sortBySubkey($raw_results,'last_name');
 	//Create array of column names for json output
 	foreach ($col_result as $value)
 	{
