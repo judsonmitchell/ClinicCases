@@ -1,9 +1,9 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-include '../../../db.php';
-include '../utilities/convert_times.php';
-include '../utilities/names.php';
+@session_start();
+require(__DIR__ . '/../../../db.php');
+require(CC_PATH . '/lib/php/auth/session_check.php');
+include(CC_PATH . '/lib/php/utilities/convert_times.php');
+include(CC_PATH . '/lib/php/utilities/names.php');
 
 $user = $_SESSION['login'];
 
@@ -46,7 +46,7 @@ $user = $_SESSION['login'];
 		$case_query = $dbh->prepare($sql);
 		$case_query->bindParam(':username',$user);
 		$case_query->execute();
-
+        $raw_results = $case_query->fetchAll();//used for mobile
 	//Create array of column names for json output
 	foreach ($col_result as $value)
 	{
@@ -95,11 +95,12 @@ $user = $_SESSION['login'];
 			}
 
 	//If no rows found, return empty array
-	if ($case_query->rowCount() < 1)
-	{
+	if ($case_query->rowCount() < 1) {
 		$output['aaData'] = array($cols);
 	}
 
 
-	$json = json_encode($output);
-	echo $json;
+    if (!$_SESSION['mobile']){
+        $json = json_encode($output);
+        echo $json;
+    }
