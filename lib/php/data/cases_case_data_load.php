@@ -1,8 +1,8 @@
 <?php //scripts for case data tab in case detail
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-require('../utilities/convert_times.php');
+@session_start();
+require(__DIR__ . '/../../../db.php');
+require(CC_PATH . '/lib/php/auth/session_check.php');
+require(CC_PATH . '/lib/php/utilities/convert_times.php');
 
 if (isset($_POST['id'])) {
 	$case_id = $_POST['id'];
@@ -41,4 +41,6 @@ foreach ($columns as $col) {
 	}
 }
 
-include '../../../html/templates/interior/cases_case_data.php';
+if (!$_SESSION['mobile']){
+    include '../../../html/templates/interior/cases_case_data.php';
+}

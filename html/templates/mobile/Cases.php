@@ -44,7 +44,7 @@ include 'lib/php/data/cases_load.php';
                     } else {
                         echo "<li class='table-case-open'>";
                     }
-                    echo "<a href='#'>$first_name $last_name <i class=\"pull-right icon-circle-arrow-right\"></i></a></li>";
+                    echo "<a href='index.php?i=Case.php&id=$id'>$first_name $last_name <i class=\"pull-right icon-circle-arrow-right\"></i></a></li>";
                 }
             echo "</ul>";
         }
