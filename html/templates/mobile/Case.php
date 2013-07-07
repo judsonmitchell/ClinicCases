@@ -2,6 +2,7 @@
 $case_id = $_GET['id'];
 include 'html/templates/interior/idletimeout.php'; 
 include 'lib/php/data/cases_case_data_load.php';
+include 'lib/php/data/cases_casenotes_load.php';
 ?>
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
@@ -25,47 +26,58 @@ include 'lib/php/data/cases_case_data_load.php';
     </div>
 </div>
 
-
 <div class="container">
     <div id="notifications"></div>
     <ul class="nav nav-tabs" id="myTab">
         <li class="active" data-toggle="tab"><a href="#caseNotes">Case Notes</a></li>
         <li><a href="#caseData" data-toggle="tab">Case Data</a></li>
-        <li><a href="#caseContacts" data-toggle="tab">Contacts</a></li>
-        <li><a href="#caseEvents" data-toggle="tab">Events</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="#caseDocs" data-toggle="tab">Documents</a></li>
+                <li><a href="#caseContacts" data-toggle="tab">Contacts</a></li>
+                <li><a href="#caseEvents" data-toggle="tab">Events</a></li>
+            </ul>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="caseNotes">
-            Case notes here. 
+            <dl class="dl-sectioned">
+            <?php foreach ($case_notes_data as $c) {extract($c);
+                $thumb = thumbify($picture_url);
+                $date_human = extract_date($date);
+                $tc = convert_case_time($time);
+                echo "<dd><img src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
+                <dt>" . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></dt> ";
+            }
+            ?>
+            </dl>
         </div>
         <div class="tab-pane" id="caseData">
+            <dl class="dl-horizontal">
             <?php foreach ($data as $d) {extract($d);
 
                 if ($input_type == 'dual') //special handling for dual inputs
                     { ?>
 
-                        <div class = "<?php echo $db_name; ?>_display case_data_display">
+                        <dt><?php echo $display_name; ?></dt>
 
-                            <div class="case_data_name"><?php echo $display_name; ?></div>
-
+                            <dd>
                             <?php if (!empty($value)){$duals = unserialize($value);
 
                                 foreach ($duals as $v => $type) { ?>
 
-                                <div class="case_data_value"><?php echo $v . " (" . $type . ")"; ?></div>
+                                <?php echo $v . " (" . $type . ")"; ?>
 
                                 <?php }?>
 
                             <?php }?>
-
-                        </div>
+                            </dd>
 
                 <?php } else { ?>
 
-            <div class = "<?php echo $db_name;?>_display case_data_display">
-                    <div class = "case_data_name"><?php echo $display_name; ?></div>
-
-                    <div class="case_data_value">
+                    <dt><?php echo $display_name; ?></dt>
+                    <dd>
                         <?php
                         //first check if this is a serialized value
                         $items = @unserialize($value);
@@ -87,12 +99,11 @@ include 'lib/php/data/cases_case_data_load.php';
                         {
                             echo $value;
                         }?>
-                    </div>
-
-            </div>
+                    </dd>
 
                 <?php }} ?>
 
+            </dl>
         </div>
 
         <div class="tab-pane" id="caseContacts">

@@ -1,17 +1,24 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-include('../utilities/thumbnails.php');
-include('../utilities/names.php');
-include('../utilities/convert_times.php');
-include('../utilities/convert_case_time.php');
-include('../html/gen_select.php');
+@session_start();
+require(__DIR__ . '/../../../db.php');
+require(CC_PATH . '/lib/php/auth/session_check.php');
+include(CC_PATH . '/lib/php/utilities/thumbnails.php');
+include(CC_PATH . '/lib/php/utilities/names.php');
+include_once(CC_PATH . '/lib/php/utilities/convert_times.php');
+include_once(CC_PATH . '/lib/php/utilities/convert_case_time.php');
+include(CC_PATH . '/lib/php/html/gen_select.php');
 
 
 //Load all case notes for a given case, along with user data
 
-$id = $_POST['case_id'];
+if (isset($_POST['case_id']))
+    {$case_id = $_POST['case_id'];}
+if (isset($_GET['start'])) {
+    $start = $_GET['start'];
+} else {
+    $start='0';
+}
+
 $limit = '20';
 
 if (isset($_POST['start']))
@@ -29,12 +36,14 @@ if (isset($search))
 
 $case_notes_query = $dbh->prepare($sql);
 
-$case_notes_query->bindParam(':id',$id);
+$case_notes_query->bindParam(':id',$case_id);
 
 $case_notes_query->execute();
 
 $case_notes_data = $case_notes_query->fetchAll(PDO::FETCH_ASSOC);
 
-include('../../../html/templates/interior/cases_casenotes.php');
+if (!$_SESSION['mobile']){
+    include('../../../html/templates/interior/cases_casenotes.php');
+}
 
 
