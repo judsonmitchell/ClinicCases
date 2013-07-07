@@ -4,13 +4,12 @@ require(__DIR__ . '/../../../db.php');
 require(CC_PATH . '/lib/php/auth/session_check.php');
 require(CC_PATH . '/lib/php/utilities/convert_times.php');
 
-if (isset($_POST['id'])) {
-	$case_id = $_POST['id'];
+if (isset($_REQUEST['id'])) {
+	$case_id = $_REQUEST['id'];
 }
 
-
-if (isset($_POST['type'])) {
-	$type = $_POST['type'];
+if (isset($_REQUEST['type'])) {
+	$type = $_REQUEST['type'];
 }
 
 //Get case data

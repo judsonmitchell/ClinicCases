@@ -1,20 +1,21 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-include('../utilities/names.php');
-include('../utilities/convert_times.php');
+@session_start();
+require(__DIR__ . '/../../../db.php');
+require(CC_PATH . '/lib/php/auth/session_check.php');
+include_once(CC_PATH . '/lib/php/utilities/names.php');
+include_once(CC_PATH . '/lib/php/utilities/convert_times.php');
 
-$id = $_POST['id'];
+if (isset($_REQUEST['id']))
+{ $case_id = $_REQUEST['id'];}
 
-if (isset($_POST['container']))
-{$container = $_POST['container'];}
+if (isset($_REQUEST['container']))
+{$container = $_REQUEST['container'];}
 
-if (isset($_POST['path']))
-{$path = $_POST['path'];}
+if (isset($_REQUEST['path']))
+{$path = $_REQUEST['path'];}
 
-if (isset($_POST['update']))
-{$update = $_POST['update'];}
+if (isset($_REQUEST['update']))
+{$update = $_REQUEST['update'];}
 
 //append the file type to each document array element.  Used to determine icon
 function append_file_type(&$value,$key)
@@ -81,7 +82,7 @@ else //Is in the root directory.  Empty local_file_name indicates that this is a
 
 $folder_query = $dbh->prepare($sql);
 
-$folder_query->bindParam(':id',$id);
+$folder_query->bindParam(':id',$case_id);
 
 if (isset($container))
 {
@@ -105,7 +106,7 @@ else
 
 $documents_query = $dbh->prepare($sql);
 
-$documents_query->bindParam(':id',$id);
+$documents_query->bindParam(':id',$case_id);
 
 if (isset($path))
 {$documents_query->bindParam(':path',$path);}
@@ -116,4 +117,6 @@ $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
 array_walk($documents, 'append_file_type');
 
-include('../../../html/templates/interior/cases_documents.php');
+if (!$_SESSION['mobile']){
+    include('../../../html/templates/interior/cases_documents.php');
+}

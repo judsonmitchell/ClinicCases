@@ -11,22 +11,26 @@ include(CC_PATH . '/lib/php/html/gen_select.php');
 
 //Load all case notes for a given case, along with user data
 
-if (isset($_POST['case_id']))
-    {$case_id = $_POST['case_id'];}
+if (isset($_REQUEST['case_id']))
+    {$case_id = $_REQUEST['case_id'];}
 if (isset($_GET['start'])) {
     $start = $_GET['start'];
 } else {
     $start='0';
 }
 
-$limit = '20';
+if ($_SESSION['mobile']){ //temporary cop-out for implimenting inf scroll on mobile
+    $limit = '1000';
+} else {
+    $limit = '20';
+}
 
-if (isset($_POST['start']))
-	{$start = $_POST['start'];}
-if (isset($_POST['update']))
-	{$update = $_POST['update'];}
-if (isset($_POST['search']))
-	{$search = $_POST['search'];}
+if (isset($_REQUEST['start']))
+	{$start = $_REQUEST['start'];}
+if (isset($_REQUEST['update']))
+	{$update = $_REQUEST['update'];}
+if (isset($_REQUEST['search']))
+	{$search = $_REQUEST['search'];}
 
 
 if (isset($search))

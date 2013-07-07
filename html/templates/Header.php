@@ -18,6 +18,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
 	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="html/js/mobile.js" type="text/javascript"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>

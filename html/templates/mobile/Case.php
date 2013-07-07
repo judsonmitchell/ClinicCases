@@ -1,8 +1,8 @@
 <?php 
-$case_id = $_GET['id'];
 include 'html/templates/interior/idletimeout.php'; 
 include 'lib/php/data/cases_case_data_load.php';
 include 'lib/php/data/cases_casenotes_load.php';
+include 'lib/php/data/cases_documents_load.php';
 ?>
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
@@ -29,7 +29,7 @@ include 'lib/php/data/cases_casenotes_load.php';
 <div class="container">
     <div id="notifications"></div>
     <ul class="nav nav-tabs" id="myTab">
-        <li class="active" data-toggle="tab"><a href="#caseNotes">Case Notes</a></li>
+        <li data-toggle="tab"><a class="default-tab" href="#caseNotes">Case Notes</a></li>
         <li><a href="#caseData" data-toggle="tab">Case Data</a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
@@ -41,7 +41,7 @@ include 'lib/php/data/cases_casenotes_load.php';
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="caseNotes">
+        <div class="tab-pane" id="caseNotes">
             <dl class="dl-sectioned">
             <?php foreach ($case_notes_data as $c) {extract($c);
                 $thumb = thumbify($picture_url);
@@ -111,6 +111,19 @@ include 'lib/php/data/cases_casenotes_load.php';
         </div>
         <div class="tab-pane" id="caseEvents">
             Case Events here. 
+        </div>
+        <div class="tab-pane" id="caseDocs">
+            <ul class="unstyled">
+            <?php foreach ($folders as $f){
+                $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . "&container=" . $f['folder'];
+                echo "<li><a href='$ref'><img src='html/ico/folder.png'>" . urldecode($f['folder']) . "</a></li>";
+            } ?>
+            </ul>
+            <ul class="unstyled">
+            <?php foreach ($documents as $d){
+                echo "<li><a href='#'><img src='" . get_icon($d['type']). "'>" . urldecode($d['name']) . "</a></li>";
+            } ?>
+            </ul>
         </div>
     </div>
 </div>
