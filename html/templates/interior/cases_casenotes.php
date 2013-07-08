@@ -45,7 +45,7 @@ echo $case_notes_data[0]['case_id'] . "\">";
 			$this_fname = $_SESSION['first_name'];
 			$this_lname = $_SESSION['last_name'];
 			$selector = generate_time_selector();
-			$this_case_id = $id;
+			$this_case_id = $case_id;
 			$this_user = $_SESSION['login'];
 
 echo <<<NEWNOTE

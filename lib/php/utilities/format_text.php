@@ -34,3 +34,11 @@ function text_prepare($str)
 }
 
 
+//I made some extremely bad decisions in dealing with documents and it's too late
+//to fix them now.  So, this preserves the slashes in the document path after a
+//rawurlencode has been called - makes rawurlencode mimic js's escape.  Geez.
+function preserve_slashes($val){
+
+    return str_replace('%2F','/',$val);
+
+}

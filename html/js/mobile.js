@@ -15,4 +15,12 @@ $(document).ready(function() {
     } else {
         $('#myTab a.default-tab').tab('show');
     }
+
+    //Adds tabsection to url for tab-panes which will have
+    //multiple levels; preserves navigation by back button
+    $('#myTab a.multi-level').click(function () {
+        var current = document.location.search;
+        var addTab = $(this).attr('href').substring(1);
+        document.location.search = current + '&tabsection=' + addTab;
+    });
 });

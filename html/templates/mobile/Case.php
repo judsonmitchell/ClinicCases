@@ -34,7 +34,7 @@ include 'lib/php/data/cases_documents_load.php';
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#caseDocs" data-toggle="tab">Documents</a></li>
+                <li><a class="multi-level" href="#caseDocs" data-toggle="tab">Documents</a></li>
                 <li><a href="#caseContacts" data-toggle="tab">Contacts</a></li>
                 <li><a href="#caseEvents" data-toggle="tab">Events</a></li>
             </ul>
@@ -115,7 +115,8 @@ include 'lib/php/data/cases_documents_load.php';
         <div class="tab-pane" id="caseDocs">
             <ul class="unstyled">
             <?php foreach ($folders as $f){
-                $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . "&container=" . $f['folder'];
+                $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . 
+                "&path=" . $f['folder'] . "&container=" . $f['folder'];
                 echo "<li><a href='$ref'><img src='html/ico/folder.png'>" . urldecode($f['folder']) . "</a></li>";
             } ?>
             </ul>

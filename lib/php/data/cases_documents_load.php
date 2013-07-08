@@ -4,15 +4,27 @@ require(__DIR__ . '/../../../db.php');
 require(CC_PATH . '/lib/php/auth/session_check.php');
 include_once(CC_PATH . '/lib/php/utilities/names.php');
 include_once(CC_PATH . '/lib/php/utilities/convert_times.php');
+include_once(CC_PATH . '/lib/php/utilities/format_text.php');
 
-if (isset($_REQUEST['id']))
-{ $case_id = $_REQUEST['id'];}
+if (isset($_REQUEST['id'])) {
+    $case_id = $_REQUEST['id'];
+}
 
-if (isset($_REQUEST['container']))
-{$container = $_REQUEST['container'];}
+if (isset($_REQUEST['container'])) {
+    if ($_SESSION['mobile']){
+        $container = preserve_slashes(rawurlencode($_REQUEST['container']));
+    } else {
+        $container = $_REQUEST['container'];
+    }
+}
 
-if (isset($_REQUEST['path']))
-{$path = $_REQUEST['path'];}
+if (isset($_REQUEST['path'])) {
+    if ($_SESSION['mobile']){
+        $path = preserve_slashes(rawurlencode($_REQUEST['path']));
+    } else {
+        $path = $_REQUEST['path'];
+    }
+}
 
 if (isset($_REQUEST['update']))
 {$update = $_REQUEST['update'];}
