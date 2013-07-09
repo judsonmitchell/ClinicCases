@@ -578,3 +578,103 @@ function get_journal_readers($dbh,$current_readers)
 
 	return $options;
 }
+
+function gen_mobile_datepicker($add_time) {
+
+    $months = array(
+        '01' => 'January',
+        '02' => 'February',
+        '03' => 'March',
+        '04' => 'April',
+        '05' => 'May',
+        '06' => 'June',
+        '07' => 'July',
+        '08' => 'August',
+        '09' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December');
+
+    $days = array(
+        '01' => '1','02' => '2','03' => '3','04' => '4','05' => '5','06' => '6',
+        '07' => '7','08' => '8','09' => '9','10' => '10','11' => '11','12' => '12',
+        '13' => '13','14' => '14','15' => '15','16' => '16','17' => '17','18' => '18',
+        '19' => '19','20' => '20','21' => '21','22' => '22','23' => '23','24' => '24',
+        '25' => '25','26' => '26','27' => '27','28' => '28','29' => '29','30' => '30','31' => '31');
+
+    $mdp = "<div class='control-group'><div class='control'><select name='c_month'>";
+    
+    foreach ($months as $key => $value) {
+        $this_month = date('m');
+        if ($key == $this_month){
+            $mdp .= "<option selected=selected value='$key'>$value</option>";
+        } else {
+            $mdp .= "<option value='$key'>$value</option>";
+        }
+    }
+
+    $mdp .="</select></div><div class='control'><select name='c_day'>";
+
+    foreach ($days as $key => $value) {
+        $today = date('d');
+        if ($key == $today){
+            $mdp .= "<option selected=selected value='$key'>$value</option>";
+        } else {
+            $mdp .= "<option value='$key'>$value</option>";
+        }
+    }
+
+    $mdp .="</select></div><div class='control'><select name='c_year'>";
+    
+    $mdp .="<option value='" . (date('Y') - 1) . "'>" .  (date('Y') - 1) . "</option>";
+    $mdp .="<option selected=selected value='" . date('Y') . "'>" .  date('Y') . "</option>";
+    $mdp .="<option value='" . (date('Y') + 1) . "'>" .  (date('Y') + 1) . "</option>";
+    $mdp .="<option value='" . (date('Y') + 2) . "'>" .  (date('Y') + 2) . "</option>";
+
+    $mdp .="</select></div></div>";
+
+    if ($add_time){
+        $hours = array(
+            '01' => '1', '02' => '2','03' => '3','04' => '4','05' => '5','06' => '6',
+            '07' => '7','08' => '8','09' => '9','10' => '10','11' => '11','12' => '12');
+
+        $minutes = array(
+            '00' => '00', '05' => '05', '10' => '10', '15' => '15', '20' => '20', '25' => '25',
+            '30' => '30', '35' => '35', '40' => '40', '45' => '45', '50' => '50', '55' => '55' );
+
+        $mdp .= "<div class='control-group'><div class='control'><select name='c_hours'>";
+        
+        foreach ($hours as $key => $value) {
+            $this_hour = date('g');
+            if ($key == $this_hour){
+                $mdp .= "<option selected=selected value='$key'>$value</option>";
+            } else {
+                $mdp .= "<option value='$key'>$value</option>";
+            }
+        }
+
+        $mdp .="</select></div><div class='control'><select name='c_minutes'>";
+
+        foreach ($minutes as $key => $value) {
+            if ($key == '00'){
+                $mdp .= "<option selected=selected value='$key'>$value</option>";
+            } else {
+                $mdp .= "<option value='$key'>$value</option>";
+            }
+        }
+
+        $mdp .="</select></div><div class='control'><select name='c_ampm'>";
+
+        $this_ampm = date('A');
+        if ($this_ampm == 'AM'){
+            $mdp .= "<option value='AM' selected=selected>AM</option><option value='PM'>PM</option>";
+        } else {
+            $mdp .= "<option value='AM'>AM</option><option value='PM' selected=selected>PM</option>";
+        }
+
+        $mdp .="</select></div></div>";
+    }
+
+    return $mdp;
+}
+
