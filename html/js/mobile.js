@@ -54,4 +54,8 @@ $(document).ready(function () {
         }
     });
 
+    //Add chosen to selects
+    //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
+    $('#ev_users').chosen({ width: '16em' });
+
 });

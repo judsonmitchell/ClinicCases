@@ -14,11 +14,13 @@
 	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
+    <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
 	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="html/js/mobile.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
+	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
@@ -46,9 +48,4 @@
 	<script src="lib/javascripts/jquery.idletimeout.js" type="text/javascript"></script>
 	<script src="lib/javascripts/messageChecker.js" type="text/javascript"></script>
 	<?php }?>
-
-
-
-
-
 
