@@ -6,7 +6,7 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     //Select correct subtab based on url
     var tab = getParameterByName('tabsection');
 

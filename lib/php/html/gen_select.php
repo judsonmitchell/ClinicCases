@@ -602,7 +602,7 @@ function gen_mobile_datepicker($add_time) {
         '19' => '19','20' => '20','21' => '21','22' => '22','23' => '23','24' => '24',
         '25' => '25','26' => '26','27' => '27','28' => '28','29' => '29','30' => '30','31' => '31');
 
-    $mdp = "<div class='control-group'><div class='control'><select name='c_month'>";
+    $mdp = "<div class='control-group'><label>Date</label><div class='controls'><select class='small-select' name='c_month'>";
     
     foreach ($months as $key => $value) {
         $this_month = date('m');
@@ -613,7 +613,7 @@ function gen_mobile_datepicker($add_time) {
         }
     }
 
-    $mdp .="</select></div><div class='control'><select name='c_day'>";
+    $mdp .="</select><select class='small-select' name='c_day'>";
 
     foreach ($days as $key => $value) {
         $today = date('d');
@@ -624,7 +624,7 @@ function gen_mobile_datepicker($add_time) {
         }
     }
 
-    $mdp .="</select></div><div class='control'><select name='c_year'>";
+    $mdp .="</select><select  class='small-select' name='c_year'>";
     
     $mdp .="<option value='" . (date('Y') - 1) . "'>" .  (date('Y') - 1) . "</option>";
     $mdp .="<option selected=selected value='" . date('Y') . "'>" .  date('Y') . "</option>";
@@ -642,7 +642,7 @@ function gen_mobile_datepicker($add_time) {
             '00' => '00', '05' => '05', '10' => '10', '15' => '15', '20' => '20', '25' => '25',
             '30' => '30', '35' => '35', '40' => '40', '45' => '45', '50' => '50', '55' => '55' );
 
-        $mdp .= "<div class='control-group'><div class='control'><select name='c_hours'>";
+        $mdp .= "<div class='control-group'><label>Time</label><div class='controls'><select  class='small-select' name='c_hours'>";
         
         foreach ($hours as $key => $value) {
             $this_hour = date('g');
@@ -653,7 +653,7 @@ function gen_mobile_datepicker($add_time) {
             }
         }
 
-        $mdp .="</select></div><div class='control'><select name='c_minutes'>";
+        $mdp .="</select><select  class='small-select' name='c_minutes'>";
 
         foreach ($minutes as $key => $value) {
             if ($key == '00'){
@@ -663,7 +663,7 @@ function gen_mobile_datepicker($add_time) {
             }
         }
 
-        $mdp .="</select></div><div class='control'><select name='c_ampm'>";
+        $mdp .="</select><select  class='small-select' name='c_ampm'>";
 
         $this_ampm = date('A');
         if ($this_ampm == 'AM'){

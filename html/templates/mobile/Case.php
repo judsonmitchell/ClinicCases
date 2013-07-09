@@ -29,7 +29,7 @@ include 'lib/php/data/cases_documents_load.php';
 <div class="container">
     <div id="notifications"></div>
     <ul class="nav nav-tabs" id="myTab">
-        <li data-toggle="tab"><a class="default-tab" href="#caseNotes">Case Notes</a></li>
+        <li><a class="default-tab" data-toggle="tab" href="#caseNotes">Case Notes</a></li>
         <li><a href="#caseData" data-toggle="tab">Case Data</a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
