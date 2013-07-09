@@ -4,7 +4,7 @@
 <!--[if IE 7]>    <html class="ie7"> <![endif]-->
 
 <head>
-	<title>ClinicCases <?php echo CC_PROGRAM_NAME; ?></title>
+	<title>ClinicCases - <?php echo CC_PROGRAM_NAME; ?></title>
     <meta charset="utf-8">
 	<meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width">
@@ -18,6 +18,7 @@
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
 	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="html/js/mobile.js" type="text/javascript"></script>
+	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
