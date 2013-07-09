@@ -13,7 +13,7 @@
                     <li ><a href="index.php?i=Cases.php">Cases</a></li>
                     <li><a href="index.php?i=Messages.php">Messages</a>
                     <li><a href="index.php?i=QuickAdd.php">Quick Add</a>
-                    <li><a href="index.php?i=Login.php">Login</a>
+                    <li><a href="index.php?i=Logout.php">Logout</a>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

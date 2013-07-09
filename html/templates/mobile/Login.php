@@ -16,10 +16,7 @@
             <a class="brand" href="#"><img src="html/images/logo_sm.png"></a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li ><a href="index.php?i=Home.php">Home</a></li>
-                    <li ><a href="index.php?i=Cases.php">Cases</a></li>
-                    <li><a href="index.php?i=Messages.php">Messages</a>
-                    <li><a href="index.php?i=QuickAdd.php">Quick Add</a>
+                    <li><a href="https://cliniccases.com/help">Help</a>
                     <li class="active"><a href="index.php?i=Login.php">Login</a>
                 </ul>
             </div><!--/.nav-collapse -->

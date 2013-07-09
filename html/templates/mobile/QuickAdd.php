@@ -17,7 +17,7 @@ include_once('lib/php/utilities/names.php');
                     <li><a href="index.php?i=Cases.php">Cases</a></li>
                     <li><a href="index.php?i=Messages.php">Messages</a>
                     <li class="active" ><a href="index.php?i=QuickAdd.php">Quick Add</a>
-                    <li><a href="index.php?i=Login.php">Login</a>
+                    <li><a href="index.php?i=Logout.php">Logout</a>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -77,7 +77,7 @@ include_once('lib/php/utilities/names.php');
 								echo $options;?>
 							</select>
 						</p>
-						<p><label>Who?</label>
+						<p><label>Who Sees This?</label>
 							<select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles">
 								<?php echo all_active_users_and_groups($dbh,false); ?>
 							</select>
