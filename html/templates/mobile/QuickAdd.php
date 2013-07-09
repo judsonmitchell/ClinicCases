@@ -53,7 +53,7 @@ include_once('lib/php/utilities/names.php');
                 </p>
                 <p>
                     <label>Description</label><br />
-                    <textarea name="csenote_description"></textarea>
+                    <textarea name="csenote_description" required></textarea>
                 </p>
                 <input type="hidden" name="query_type" value="add">
                 <input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
