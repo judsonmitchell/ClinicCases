@@ -39,7 +39,7 @@ include_once('lib/php/utilities/names.php');
     <div class="tab-content">
         <div class="tab-pane" id="qaCaseNote">
             <form name="quick_cn">
-                <p class="error"></p>
+                <p class="error text-error"></p>
                 <input type="hidden" name="csenote_date" id="cn_date"></p>
                 <?php echo gen_mobile_datepicker(false); ?>
                 <p><label>Case</label>
@@ -60,6 +60,7 @@ include_once('lib/php/utilities/names.php');
                 </p>
                 <input type="hidden" name="query_type" value="add">
                 <input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
+                <input type="hidden" name="csenote_date">
                 <p id = "quick_add_cn">
                     <button id="quick_add_cn_submit">Add</button>
                 </p>

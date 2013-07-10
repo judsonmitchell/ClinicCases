@@ -78,7 +78,25 @@ $(document).ready(function () {
     //Submit Quick Adds
     $('form[name="quick_cn"]').submit(function (event) {
         event.preventDefault();
-        alert('you submitted');
+        var form = $(this);
+        var dateVal = $('select[name="c_month"]').val() + '/' + $('select[name="c_day"]').val() + '/' + $('select[name="c_year"]').val();
+        $('input[name="csenote_date"]').val(dateVal);
+
+        $.post('lib/php/data/cases_casenotes_process.php', form.serialize(), function (data) {
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.error === true) {
+                $('p.error').html(serverResponse.message);
+            } else {
+                var successMsg = '<p class="text-success">' + serverResponse.message +
+                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                form[0].reset();
+                var hideForm = $('form[name="quick_cn"]').detach();
+                $('#qaCaseNote').append(successMsg);
+                $('a.show-form').click(function () {
+                    $('#qaCaseNote').html('').append(hideForm);
+                });
+            }
+        });
 
     });
 
