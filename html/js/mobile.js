@@ -58,6 +58,8 @@ $(document).ready(function () {
     //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
     $('#ev_users').chosen({ width: '16em' });
 
+    //Submit Quick Adds
+    //Case notes
     $.validator.addMethod('timeReq', function (value) {
         return !(value === '0' && $('select[name="csenote_hours"]').val() === '0');
     }, 'You must enter some time.');
@@ -70,12 +72,6 @@ $(document).ready(function () {
         }
     });
 
-    $('form[name="quick_event"]').validate({
-        errorClass: 'text-error',
-        errorElement: 'span'
-    });
-
-    //Submit Quick Adds
     $('form[name="quick_cn"]').submit(function (event) {
         event.preventDefault();
         var form = $(this);
@@ -100,9 +96,65 @@ $(document).ready(function () {
 
     });
 
+    //Case events
+    $('form[name="quick_event"]').validate({
+        errorClass: 'text-error',
+        errorElement: 'span'
+    });
+
     $('form[name="quick_event"]').submit(function (event) {
         event.preventDefault();
-        alert('you submitted');
+        var form = $(this);
+        var startVal = $('select[name="c_month"]').eq(0).val() + '/' + $('select[name="c_day"]').eq(0).val() +
+        '/' + $('select[name="c_year"]').eq(0).val() + ' ' +  $('select[name="c_hours"]').eq(0).val() +
+        ':' + $('select[name="c_minutes"]').eq(0).val() +
+        ' ' + $('select[name="c_ampm"]').eq(0).val();
+        $('input[name="start"]').val(startVal);
+
+        var endVal = $('select[name="c_month"]').eq(1).val() + '/' + $('select[name="c_day"]').eq(1).val() +
+        '/' + $('select[name="c_year"]').eq(1).val() + ' ' +  $('select[name="c_hours"]').eq(1).val() +
+        ':' + $('select[name="c_minutes"]').eq(1).val() +
+        ' ' + $('select[name="c_ampm"]').eq(1).val();
+        $('input[name="end"]').val(endVal);
+
+        //serialize form values
+        var evVals = form.not('select[name="responsibles"]').serializeArray();
+        var resps = form.find('select[name="responsibles"]').val();
+        var resps_obj = $.extend({}, resps);
+        evVals.unshift(resps_obj); //put this object at the beginning
+        var allDayVal = null;
+        if (form.find('input[name = "all_day"]').is(':checked')) {
+            allDayVal = 'on';
+        } else {
+            allDayVal = 'off';
+        }
+        
+        $.post('lib/php/data/cases_events_process.php', {
+            'task': form.find('input[name = "task"]').val(),
+            'where': form.find('input[name = "where"]').val(),
+            'start': form.find('input[name = "start"]').val(),
+            'end': form.find('input[name = "end"]').val(),
+            'all_day': allDayVal,
+            'notes': form.find('textarea[name = "notes"]').val(),
+            'responsibles': resps,
+            'action': 'add',
+            'case_id': form.find('select[name = "case_id"]').val()
+        }, function (data) {
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.error === true) {
+                $('p.error').html(serverResponse.message);
+            } else {
+                var successMsg = '<p class="text-success">' + serverResponse.message +
+                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                form[0].reset();
+                $('#ev_users').trigger("liszt:updated")
+                var hideForm = $('form[name="quick_event"]').detach();
+                $('#qaEvent').append(successMsg);
+                $('a.show-form').click(function () {
+                    $('#qaEvent').html('').append(hideForm);
+                });
+            }
+        });
 
     });
 });

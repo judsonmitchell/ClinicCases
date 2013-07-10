@@ -82,14 +82,16 @@ include_once('lib/php/utilities/names.php');
                     </select>
                 </p>
                 <p><label>Who Sees This?</label>
-                    <select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles">
-                        <?php echo all_active_users_and_groups($dbh,false); ?>
+                    <select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles" class="required">
+                        <?php echo all_active_users_and_groups($dbh,false,$_SESSION['login']); ?>
                     </select>
                 </p>
                 <p><label>Notes</label>
                     <textarea name="notes"></textarea>
                 </p>
                 <input type="hidden" name="action" value="add">
+                <input type="hidden" name="start">
+                <input type="hidden" name="end">
                 <p id = "quick_add_ev">
                     <button id="quick_add_ev_submit">Add</button>
                 </p>

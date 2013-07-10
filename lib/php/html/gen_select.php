@@ -282,7 +282,7 @@ function all_active_users_and_groups($dbh,$case_num,$you)
 
 	foreach ($users as $user) {
 
-		if ($you === true)
+		if ($you)
 		{
 
 			if ($user['username'] == $_SESSION['login'] )
