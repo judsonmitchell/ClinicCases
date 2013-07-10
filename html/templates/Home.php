@@ -185,7 +185,7 @@
 
 							<select multiple id="ev_users" style="width:230px;" data-placeholder="Select Users" name="responsibles">
 
-								<?php echo all_active_users_and_groups($dbh,false); ?>
+								<?php echo all_active_users_and_groups($dbh,false,$_SESSION['login']); ?>
 
 							</select>
 

@@ -383,7 +383,8 @@ $(document).ready(function() {
                     $('a.quick_add_close').trigger('click');
 
                     //reset selects
-                    evForm.find('select').each(function(){$(this).val('').trigger("liszt:updated");});
+                    evForm[0].reset;
+                    $('#ev_users').trigger("liszt:updated")
 
 
                 }
