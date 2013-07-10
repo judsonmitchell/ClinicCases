@@ -7,7 +7,7 @@
 	<title>ClinicCases - <?php echo CC_PROGRAM_NAME; ?></title>
     <meta charset="utf-8">
 	<meta name="robots" content="noindex">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width,initial-scale=.8, maximum-scale=1,target-densitydpi=device-dpi">
 
     <?php if ($_SESSION['mobile']){ ?>
 	<link rel="stylesheet" href="html/css/bootstrap.min.css" type="text/css"  media="screen"/>

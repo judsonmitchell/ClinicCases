@@ -1,10 +1,13 @@
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+            <a class="btn btn-navbar btn-push-down" data-toggle="collapse" data-target=".nav-collapse">
+                Menu
+                <i class="icon-chevron-down icon-white"></i>
+            </a>
+            <a class="btn btn-navbar btn-push-down" href="index.php?i=QuickAdd.php">
+                Quick Add
+                <i class="icon-plus icon-white"></i>
             </a>
             <a class="brand" href="#"><img src="html/images/logo_sm.png"></a>
             <div class="nav-collapse collapse">
