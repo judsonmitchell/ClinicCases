@@ -63,33 +63,33 @@ include_once('lib/php/utilities/names.php');
             </form>
         </div>
         <div class="tab-pane" id="qaEvent">
-					<form name = "quick_event">
-						<p class="error"></p>
-						<p><label>What: </label><input type="text" name="task"></p>
-						<p><label>Where: </label><input type="text" name="where"></p>
-						<p><label>Start: </label> <?php echo gen_mobile_datepicker(true); ?> </p>
-                        <p><label>End: </label><?php echo gen_mobile_datepicker(true); ?></p>
-						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
-						<p><label>Case: </label>
-							<select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
-								<option selected=selected value="NC">Non-Case</option>
-								<?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
-								echo $options;?>
-							</select>
-						</p>
-						<p><label>Who Sees This?</label>
-							<select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles">
-								<?php echo all_active_users_and_groups($dbh,false); ?>
-							</select>
-						</p>
-						<p><label>Notes</label>
-							<textarea name="notes"></textarea>
-						</p>
-						<input type="hidden" name="action" value="add">
-						<p id = "quick_add_ev">
-							<button id="quick_add_ev_submit">Add</button>
-						</p>
-					</form>
+            <form name = "quick_event">
+                <p class="error"></p>
+                <p><label>What: </label><input type="text" name="task" class="required"></p>
+                <p><label>Where: </label><input type="text" name="where"></p>
+                <p><label>Start: </label> <?php echo gen_mobile_datepicker(true); ?> </p>
+                <p><label>End: </label><?php echo gen_mobile_datepicker(true); ?></p>
+                <p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
+                <p><label>Case: </label>
+                    <select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
+                        <option selected=selected value="NC">Non-Case</option>
+                        <?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
+                        echo $options;?>
+                    </select>
+                </p>
+                <p><label>Who Sees This?</label>
+                    <select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles">
+                        <?php echo all_active_users_and_groups($dbh,false); ?>
+                    </select>
+                </p>
+                <p><label>Notes</label>
+                    <textarea name="notes"></textarea>
+                </p>
+                <input type="hidden" name="action" value="add">
+                <p id = "quick_add_ev">
+                    <button id="quick_add_ev_submit">Add</button>
+                </p>
+            </form>
 
         </div>
         <div class="tab-pane" id="qaContact">

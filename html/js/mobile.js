@@ -58,15 +58,23 @@ $(document).ready(function () {
     //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
     $('#ev_users').chosen({ width: '16em' });
 
-    $.validator.addMethod('timeReq', function () {
-        return $('select[name="csenote_minutes"]').val() !== '0' && $('select[name="csenote_hours"]').val() !== '0';
+    $.validator.addMethod('timeReq', function (value) {
+        return !(value === '0' && $('select[name="csenote_hours"]').val() === '0');
     }, 'You must enter some time.');
 
     $('form[name="quick_cn"]').validate({
+        errorClass: 'text-error',
+        errorElement: 'span',
         rules: {
             csenote_minutes: {timeReq: true}
         }
     });
+
+    $('form[name="quick_event"]').validate({
+        errorClass: 'text-error',
+        errorElement: 'span'
+    });
+
     //Submit Quick Adds
     $('form[name="quick_cn"]').submit(function (event) {
         event.preventDefault();
@@ -74,4 +82,9 @@ $(document).ready(function () {
 
     });
 
+    $('form[name="quick_event"]').submit(function (event) {
+        event.preventDefault();
+        alert('you submitted');
+
+    });
 });
