@@ -58,7 +58,7 @@
 				<p><label>Contact Type</label><select name="contact_type" id="contact_type">
 						<option value=''></option>
 
-						<?php $type_list = contact_types($dbh,$case_id); echo $type_list; ?>
+						<?php $type_list = gen_contact_types($dbh,$case_id); echo $type_list; ?>
 
 					</select></p>
 

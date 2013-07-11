@@ -579,6 +579,39 @@ function get_journal_readers($dbh,$current_readers)
 	return $options;
 }
 
+function gen_contact_types ($dbh,$case_id)
+{
+	// get default contact types for this ClinicCases installation
+
+	$get_default_types = $dbh->prepare("SELECT type from cm_contacts_types ORDER BY type ASC");
+
+	$get_default_types->execute();
+
+	$default_types = $get_default_types->fetchAll(PDO::FETCH_ASSOC);
+
+	// add any user-defined contact types
+
+	$get_db_types = $dbh->prepare("SELECT DISTINCT type from  `cm_contacts` WHERE assoc_case = :case_id");
+
+	$data = array('case_id' => $case_id);
+
+	$get_db_types->execute($data);
+
+	$db_types = $get_db_types->fetchAll(PDO::FETCH_ASSOC);
+
+	//$custom_types = array_diff_assoc($default_types, $db_types);
+
+	$all_types = array_unique_deep(array_merge($db_types,$default_types));
+
+	$type_options = null;
+
+	foreach ($all_types as $type) {
+		$type_options .= "<option value = '$type'>$type</option>";
+	}
+
+	return $type_options;
+}
+
 function gen_mobile_datepicker($add_time) {
 
     $months = array(
