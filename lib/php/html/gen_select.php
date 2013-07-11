@@ -612,6 +612,25 @@ function gen_contact_types ($dbh,$case_id)
 	return $type_options;
 }
 
+function gen_default_contact_types($dbh)
+{
+	// get only default contact types for this ClinicCases installation
+
+	$get_default_types = $dbh->prepare("SELECT type from cm_contacts_types ORDER BY type ASC");
+
+	$get_default_types->execute();
+
+	$default_types = $get_default_types->fetchAll(PDO::FETCH_ASSOC);
+
+	$type_options = '';
+
+	foreach ($default_types as $type) {
+		$type_options .= "<option value = '" . $type['type'] . "'>" . $type['type'] . "</option>";
+	}
+
+	return $type_options;
+}
+
 function gen_mobile_datepicker($add_time) {
 
     $months = array(

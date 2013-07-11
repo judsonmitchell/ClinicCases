@@ -22,6 +22,7 @@
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="lib/javascripts/additional-methods.js"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>

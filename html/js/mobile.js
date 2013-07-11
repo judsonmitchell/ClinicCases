@@ -163,4 +163,10 @@ $(document).ready(function () {
         });
 
     });
+
+    //Case contacts
+    $('form[name="quick_contact"]').validate({
+        errorClass: 'text-error',
+        errorElement: 'span'
+    });
 });

@@ -1,6 +1,7 @@
 <?php 
 include_once('lib/php/html/gen_select.php');
 include_once('lib/php/utilities/names.php');
+include_once('lib/php/utilities/states.php');
 ?>
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
@@ -99,7 +100,28 @@ include_once('lib/php/utilities/names.php');
 
         </div>
         <div class="tab-pane" id="qaContact">
-            Contact here.
+            <form name = "quick_contact">
+                <p><label>First Name</label><input type="text" name="first_name"></p>
+                <p><label>Last Name</label><input type="text" name="last_name"></p>
+                <p><label>Organization</label><input type="text" name="organization"></p>
+                <p><label>Contact Type</label><select name="contact_type">
+                <option></option>
+                <?php echo gen_default_contact_types($dbh); ?></select></p>
+                <p><label>File In:</label><select name="case_id">
+                <option></option>
+                <?php echo generate_active_cases_select($dbh,$_SESSION['login']); ?></select></p>
+                <p><label>Email</label><input type="text" name="email" class="email"></p>
+                <p><label>Phone</label><input type="text" name="phone" class="phoneUS"></p>
+                <p><label>Address</label><input type="text" name="address"></p>
+                <p><label>City</label><input type="text" name="city"></p>
+                <p><label>State</label>
+                <?php echo state_selector('state','state'); ?> 
+                </p>
+                <p><label>Zip</label><input type="text" name="zip"></p>
+                <p><label>Notes</label>
+                    <textarea name="notes"></textarea>
+                </p>
+            </form>
         </div>
     </div>
 </div>
