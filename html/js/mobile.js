@@ -102,6 +102,12 @@ $(document).ready(function () {
         errorElement: 'span'
     });
 
+    //Convenience method for advancing end date
+    $('form[name="quick_event"] div.date-picker:eq(0) select').change(function () {
+        var el = $(this).attr('name');
+        $(this).closest('.date-picker').siblings('.date-picker').find('select[name=' + el + ']').val($(this).val());
+    });
+
     $('form[name="quick_event"]').submit(function (event) {
         event.preventDefault();
         var form = $(this);

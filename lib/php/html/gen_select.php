@@ -602,7 +602,7 @@ function gen_mobile_datepicker($add_time) {
         '19' => '19','20' => '20','21' => '21','22' => '22','23' => '23','24' => '24',
         '25' => '25','26' => '26','27' => '27','28' => '28','29' => '29','30' => '30','31' => '31');
 
-    $mdp = "<div class='control-group'><label>Date</label><div class='controls'><select class='small-select' name='c_month'>";
+    $mdp = "<div class='control-group date-picker'><label>Date</label><div class='controls'><select class='small-select' name='c_month'>";
     
     foreach ($months as $key => $value) {
         $this_month = date('m');
@@ -631,7 +631,7 @@ function gen_mobile_datepicker($add_time) {
     $mdp .="<option value='" . (date('Y') + 1) . "'>" .  (date('Y') + 1) . "</option>";
     $mdp .="<option value='" . (date('Y') + 2) . "'>" .  (date('Y') + 2) . "</option>";
 
-    $mdp .="</select></div></div>";
+    $mdp .="</select></div>";
 
     if ($add_time){
         $hours = array(
@@ -675,6 +675,7 @@ function gen_mobile_datepicker($add_time) {
         $mdp .="</select></div></div>";
     }
 
+    $mdp .="</div>";
     return $mdp;
 }
 
