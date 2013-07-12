@@ -101,6 +101,7 @@ include_once('lib/php/utilities/states.php');
         </div>
         <div class="tab-pane" id="qaContact">
             <form name = "quick_contact">
+                <p class="error"></p>
                 <p><label>First Name</label><input type="text" name="first_name"></p>
                 <p><label>Last Name</label><input type="text" name="last_name"></p>
                 <p><label>Organization</label><input type="text" name="organization"></p>
@@ -110,9 +111,31 @@ include_once('lib/php/utilities/states.php');
                 <p><label>File In:</label><select name="case_id">
                 <option></option>
                 <?php echo generate_active_cases_select($dbh,$_SESSION['login']); ?></select></p>
-                <p><label>Email</label><input type="text" name="email" class="email"></p>
-                <p><label>Phone</label><input type="text" name="phone" class="phoneUS"></p>
-                <p><label>Address</label><input type="text" name="address"></p>
+                <div class="control-group">
+                    <label class="control-label">Email</label>
+                    <div class="controls"> 
+                    <select name="email_type" class="inline small-select">
+                        <option value="home">Home</option>
+                        <option value="work">Work</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="email" class="email">
+                    </div>
+                </div>
+                <p><label>Website</label><input type="text" name="url" class="url"></p>
+                <div class="control-group">
+                    <label class="control-label">Phone</label>
+                    <div class="controls"> 
+                    <select name="phone_type" class="inline small-select">
+                        <option value="mobile">Mobile</option>
+                        <option value="home">Home</option>
+                        <option value="work">Work</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="phone" class="phoneUS">
+                    </div>
+                </div>
+                <p><label>Address</label><textarea name="address"></textarea></p>
                 <p><label>City</label><input type="text" name="city"></p>
                 <p><label>State</label>
                 <?php echo state_selector('state','state'); ?> 
@@ -120,6 +143,9 @@ include_once('lib/php/utilities/states.php');
                 <p><label>Zip</label><input type="text" name="zip"></p>
                 <p><label>Notes</label>
                     <textarea name="notes"></textarea>
+                </p>
+                <input type="hidden" name="action" value="add">
+                <p><button>Add</button>
                 </p>
             </form>
         </div>

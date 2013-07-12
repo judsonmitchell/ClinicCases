@@ -40,7 +40,8 @@ $(document).ready(function () {
             {'item_id': itemId, 'action': 'open', 'doc_type': 'document'},
             function (data) {
                 var serverResponse = $.parseJSON(data);
-                var ccdItem = '<a class="ccd-clear" href="#">Back</a><h2>' + unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
+                var ccdItem = '<a class="ccd-clear" href="#">Back</a><h2>' +
+                unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
                 var hideList = $('.doc-list').detach();
                 $('#caseDocs').append(ccdItem);
                 console.log(serverResponse);
@@ -88,7 +89,8 @@ $(document).ready(function () {
                 form[0].reset();
                 var hideForm = $('form[name="quick_cn"]').detach();
                 $('#qaCaseNote').append(successMsg);
-                $('a.show-form').click(function () {
+                $('a.show-form').click(function (event) {
+                    event.preventDefault();
                     $('#qaCaseNote').html('').append(hideForm);
                 });
             }
@@ -134,7 +136,7 @@ $(document).ready(function () {
         } else {
             allDayVal = 'off';
         }
-        
+
         $.post('lib/php/data/cases_events_process.php', {
             'task': form.find('input[name = "task"]').val(),
             'where': form.find('input[name = "where"]').val(),
@@ -156,7 +158,8 @@ $(document).ready(function () {
                 $('#ev_users').trigger("liszt:updated")
                 var hideForm = $('form[name="quick_event"]').detach();
                 $('#qaEvent').append(successMsg);
-                $('a.show-form').click(function () {
+                $('a.show-form').click(function (event) {
+                    event.preventDefault();
                     $('#qaEvent').html('').append(hideForm);
                 });
             }
@@ -168,5 +171,49 @@ $(document).ready(function () {
     $('form[name="quick_contact"]').validate({
         errorClass: 'text-error',
         errorElement: 'span'
+    });
+
+    $('form[name="quick_contact"]').submit(function (event) {
+        event.preventDefault();
+        var form = $(this);
+        var phoneData = {};
+        phoneData[$('#qaContact select[name="phone_type"]').val()] = $('#qaContact input[name="phone"]').val();
+        var phone = JSON.stringify(phoneData);
+        var emailData = {};
+        emailData[$('#qaContact select[name="email_type"]').val()] = $('#qaContact input[name="email"]').val();
+        var email = JSON.stringify(emailData);
+        console.log(phone + ' and ' + email);
+        $.post('lib/php/data/cases_contacts_process.php', {
+                'first_name': form.find('input[name = "first_name"]').val(),
+                'last_name': form.find('input[name = "last_name"]').val(),
+                'organization': form.find('input[name = "organization"]').val(),
+                'contact_type': form.find('select[name = "contact_type"]').val(),
+                'address': form.find('textarea[name = "address"]').val(),
+                'city': form.find('input[name = "city"]').val(),
+                'state': form.find('select[name = "state"]').val(),
+                'zip': form.find('input[name = "zip"]').val(),
+                'phone': phone,
+                'email': email,
+                'url': form.find('input[name = "url"]').val(),
+                'notes': form.find('textarea[name = "notes"]').val(),
+                'action': 'add',
+                'case_id': form.find('select[name = "case_id"]').val()
+                }, function (data) {
+            var serverResponse = $.parseJSON(data);
+            if (serverResponse.error === true) {
+                $('p.error').html(serverResponse.message);
+            } else {
+                var successMsg = '<p class="text-success">' + serverResponse.message +
+                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                form[0].reset();
+                var hideForm = $('form[name="quick_contact"]').detach();
+                $('#qaContact').append(successMsg);
+                $('a.show-form').click(function (event) {
+                    event.preventDefault();
+                    $('#qaContact').html('').append(hideForm);
+                });
+            }
+        });
+
     });
 });
