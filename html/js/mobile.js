@@ -47,11 +47,13 @@ $(document).ready(function () {
             } else {
                 $(this).addClass('search-result-miss');
             }
-
-
         });
 
     });
+
+    //Hide system case id
+    $('#caseData dd:eq(0)').hide();
+    $('#caseData dt:eq(0)').hide();
 
     //Handle document downloads
     $('a.doc-item').click(function () {

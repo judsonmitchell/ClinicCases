@@ -3,6 +3,8 @@ include 'html/templates/interior/idletimeout.php';
 include 'lib/php/data/cases_case_data_load.php';
 include 'lib/php/data/cases_casenotes_load.php';
 include 'lib/php/data/cases_documents_load.php';
+include 'lib/php/data/cases_contacts_load.php';
+include 'lib/php/data/cases_events_load.php';
 ?>
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
@@ -57,51 +59,58 @@ include 'lib/php/data/cases_documents_load.php';
             </dl>
         </div>
         <div class="tab-pane" id="caseData">
-            <dl class="dl-horizontal">
+            <dl class="mobile-list">
             <?php foreach ($data as $d) {extract($d);
 
                 if ($input_type == 'dual') //special handling for dual inputs
                     { ?>
 
-                        <dt><?php echo $display_name; ?></dt>
+                        <dt class="muted"><?php echo $display_name; ?></dt>
 
                             <dd>
                             <?php if (!empty($value)){$duals = unserialize($value);
 
-                                foreach ($duals as $v => $type) { ?>
+                                foreach ($duals as $v => $type) {
+                                
+                                 if ($display_name === "Phone"){
+                                    echo "<a href='tel:$v'>$v</a> (" . $type . ")<br />"; 
+                                 } else if ($display_name === "Email"){
+                                    echo "<a href='mailto:$v'>$v</a>" . " (" . $type . ")<br />"; 
+                                 } else {
+                                    echo $v . " (" . $type . ")"; 
+                                 }
 
-                                <?php echo $v . " (" . $type . ")"; ?>
+                                 }?>
 
-                                <?php }?>
-
-                            <?php }?>
+                            <?php } else { echo "<br />";} ?>
                             </dd>
 
                 <?php } else { ?>
 
-                    <dt><?php echo $display_name; ?></dt>
+                    <dt class="muted"><?php echo $display_name; ?></dt>
                     <dd>
                         <?php
                         //first check if this is a serialized value
                         $items = @unserialize($value);
-                        if ($items !== false)
-                        {
-                            $val = null;
-                            foreach ($items as $key => $item) {
-                                $val .= $key . ", ";
-                            }
+                        if ($value !== ''){
+                            if ($items !== false) {
+                                $val = null;
+                                foreach ($items as $key => $item) {
+                                    $val .= $key . ", ";
+                                }
 
-                            echo substr($val, 0,-2);
+                                echo substr($val, 0,-2);
+                            }
+                            elseif ($input_type === 'date') {
+                            //then check if it's a date
+                                echo sql_date_to_us_date($value);
+                            } else {
+                                echo $value;
+                            }
+                        } else {
+                            echo "<br />";
                         }
-                        elseif ($input_type === 'date')
-                        //then check if it's a date
-                        {
-                            echo sql_date_to_us_date($value);
-                        }
-                        else
-                        {
-                            echo $value;
-                        }?>
+                            ?>
                     </dd>
 
                 <?php }} ?>
@@ -110,10 +119,22 @@ include 'lib/php/data/cases_documents_load.php';
         </div>
 
         <div class="tab-pane" id="caseContacts">
-            Case Contacts here. 
+            <?php var_dump($contacts); ?>
+            <ul class="unstyled">
+            <?php foreach ($contacts as $c) {extract($c); ?>
+                <!-- idea is user click on li element, nested ul is revealed; no new page necessary -->
+                <li><a href="#" class="li-expand"><?php echo $first_name . " "  . $last_name; ?></a></li>
+                    <ul class="unstyled">
+                        <li><?php echo $address ; ?></li>
+                        <li><?php echo $city . " " .  $state . " " .  $zip ; ?></li>
+                        <li><?php echo $type; ?></li>
+                        <li><?php echo $notes; ?></li>
+                    </ul>
+            <?php } ?>
+            </ul>
         </div>
         <div class="tab-pane" id="caseEvents">
-            Case Events here. 
+            <?php var_dump($events); ?>
         </div>
         <div class="tab-pane" id="caseDocs">
             <div class="doc-list">

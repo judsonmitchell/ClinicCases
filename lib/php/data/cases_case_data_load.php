@@ -1,8 +1,8 @@
 <?php //scripts for case data tab in case detail
 @session_start();
-require(__DIR__ . '/../../../db.php');
-require(CC_PATH . '/lib/php/auth/session_check.php');
-require(CC_PATH . '/lib/php/utilities/convert_times.php');
+require_once(__DIR__ . '/../../../db.php');
+require_once(CC_PATH . '/lib/php/auth/session_check.php');
+require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
 
 if (isset($_REQUEST['id'])) {
 	$case_id = $_REQUEST['id'];

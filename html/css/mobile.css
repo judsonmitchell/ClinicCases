@@ -10,5 +10,8 @@
 .dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
 .btn-push-down{margin-top:25px !important}
+/* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
+/* Mobile description lists */
+dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;}
