@@ -24,6 +24,35 @@ $(document).ready(function () {
         document.location.search = current + '&tabsection=' + addTab;
     });
 
+    //Display cases based on open/closed status
+    $('select[name="case-status"]').change(function () {
+        $('li.table-case-item').removeClass('search-result-hit search-result-miss');
+        $('.table-case-item').toggle();
+    });
+
+    //Search Cases
+    $('input.case-search').keyup(function () {
+        var searchVal = $(this).val().toLowerCase();;
+        var caseStatus = $('select[name="case-status"]').val();
+        var targetClass;
+        if (caseStatus === 'open') {
+            targetClass = 'table-case-open';
+        } else {
+            targetClass = 'table-case-closed';
+        }
+        $('li.table-case-item').removeClass('search-result-hit search-result-miss');
+        $('li.' + targetClass).each(function () {
+            if ($(this).find('a').text().toLowerCase().indexOf(searchVal) !== -1) {
+                $(this).addClass('search-result-hit');
+            } else {
+                $(this).addClass('search-result-miss');
+            }
+
+
+        });
+
+    });
+
     //Handle document downloads
     $('a.doc-item').click(function () {
         var itemId = $(this).attr('data-id');

@@ -33,7 +33,11 @@ include 'lib/php/data/cases_load.php';
         <div id="notifications"></div>
         <h1>Cases</h1>
         <form class="navbar-search pull-left">
-            <input type="text" class="search-query" placeholder="Search">
+            <input type="text" class="case-search search-query" placeholder="Search">
+            <select name="case-status" class="inline small-select search-query">
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+            </select>
         </form>
     </div>
     <div class="row">
@@ -43,9 +47,9 @@ include 'lib/php/data/cases_load.php';
             echo "<ul class=\"nav nav-pills nav-stacked\">";
                 foreach ($raw_results as $r) {extract($r);
                     if ($date_close !== ''){
-                        echo "<li class='table-case-closed'>";
+                        echo "<li class='table-case-item table-case-closed'>";
                     } else {
-                        echo "<li class='table-case-open'>";
+                        echo "<li class='table-case-item table-case-open'>";
                     }
                     echo "<a href='index.php?i=Case.php&id=$id'>$first_name $last_name <i class=\"pull-right icon-chevron-right\"></i></a></li>";
                 }

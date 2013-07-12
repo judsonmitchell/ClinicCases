@@ -10,3 +10,5 @@
 .dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
 .btn-push-down{margin-top:25px !important}
+.search-result-hit{display:block !important}
+.search-result-miss{display:none !important}
