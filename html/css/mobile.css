@@ -15,3 +15,5 @@
 .search-result-miss{display:none !important}
 /* Mobile description lists */
 dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;}
+/* Hide nested lists*/
+.li-expand ul {display:none; margin-left:10px}

@@ -36,7 +36,7 @@
 
 		<form>
 
-			<?php foreach ($data as $d) {extract($d); ?>
+			<?php foreach ($dta as $d) {extract($d); ?>
 
 			<p>
 				<label><?php echo $display_name; ?></label>
@@ -171,7 +171,7 @@
 
 	<div class = "case_data">
 
-		<?php foreach ($data as $d) {extract($d);
+		<?php foreach ($dta as $d) {extract($d);
 
 			if ($input_type == 'dual') //special handling for dual inputs
 				{ ?>

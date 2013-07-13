@@ -60,13 +60,11 @@ include 'lib/php/data/cases_events_load.php';
         </div>
         <div class="tab-pane" id="caseData">
             <dl class="mobile-list">
-            <?php foreach ($data as $d) {extract($d);
+            <?php foreach ($dta as $d) {extract($d);
 
                 if ($input_type == 'dual') //special handling for dual inputs
                     { ?>
-
                         <dt class="muted"><?php echo $display_name; ?></dt>
-
                             <dd>
                             <?php if (!empty($value)){$duals = unserialize($value);
 
@@ -119,16 +117,41 @@ include 'lib/php/data/cases_events_load.php';
         </div>
 
         <div class="tab-pane" id="caseContacts">
-            <?php var_dump($contacts); ?>
             <ul class="unstyled">
             <?php foreach ($contacts as $c) {extract($c); ?>
-                <!-- idea is user click on li element, nested ul is revealed; no new page necessary -->
-                <li><a href="#" class="li-expand"><?php echo $first_name . " "  . $last_name; ?></a></li>
+                <li class="li-expand"><a href="#">
+                <?php 
+                    if ($first_name === '' && $last_name === ''){
+                            echo $organization;
+                        } else {
+                            echo $first_name . " " . $last_name;
+                        }
+                    ?>
+                    </a>
                     <ul class="unstyled">
-                        <li><?php echo $address ; ?></li>
-                        <li><?php echo $city . " " .  $state . " " .  $zip ; ?></li>
-                        <li><?php echo $type; ?></li>
-                        <li><?php echo $notes; ?></li>
+                        <?php foreach (array_filter($c) as $key => $value) {
+                            if (in_array($key,array('id','assoc_case','first_name','last_name'))) { //srip unnecessary elements
+                                continue;
+                            } else {
+                                if (is_array(json_decode($value, true))){ //if json encoded values
+                                   $v = json_decode($value, true);
+                                   foreach ($v as $k => $vl) {
+                                       if (!empty($vl)){
+                                            if ($key === 'phone'){
+                                                    echo "Phone: <a href='tel:$vl'>$vl ($k) </a><br /> "; 
+                                            } else if ($key === 'email'){
+                                                    echo "Email <a href='mailto:$vl'>$vl ($k) </a><br /> "; 
+                                            } else {
+                                                    echo "$v ($k) ";
+                                            }
+                                       }
+                                   }
+                                } else {
+                                    echo "<li>" . ucwords(str_replace('_', ' ',$key)) . ": $value </li>";
+                                }
+                            }
+                        }
+                        ?>
                     </ul>
             <?php } ?>
             </ul>

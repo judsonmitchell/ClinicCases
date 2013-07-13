@@ -186,7 +186,7 @@ $(document).ready(function () {
                 var successMsg = '<p class="text-success">' + serverResponse.message +
                 '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
                 form[0].reset();
-                $('#ev_users').trigger("liszt:updated")
+                $('#ev_users').trigger('liszt:updated')
                 var hideForm = $('form[name="quick_event"]').detach();
                 $('#qaEvent').append(successMsg);
                 $('a.show-form').click(function (event) {
@@ -229,22 +229,27 @@ $(document).ready(function () {
                 'notes': form.find('textarea[name = "notes"]').val(),
                 'action': 'add',
                 'case_id': form.find('select[name = "case_id"]').val()
-                }, function (data) {
-            var serverResponse = $.parseJSON(data);
-            if (serverResponse.error === true) {
-                $('p.error').html(serverResponse.message);
-            } else {
-                var successMsg = '<p class="text-success">' + serverResponse.message +
-                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                form[0].reset();
-                var hideForm = $('form[name="quick_contact"]').detach();
-                $('#qaContact').append(successMsg);
-                $('a.show-form').click(function (event) {
-                    event.preventDefault();
-                    $('#qaContact').html('').append(hideForm);
+            }, function (data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true) {
+                        $('p.error').html(serverResponse.message);
+                    } else {
+                        var successMsg = '<p class="text-success">' + serverResponse.message +
+                        '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                        form[0].reset();
+                        var hideForm = $('form[name="quick_contact"]').detach();
+                        $('#qaContact').append(successMsg);
+                        $('a.show-form').click(function (event) {
+                            event.preventDefault();
+                            $('#qaContact').html('').append(hideForm);
+                        });
+                    }
                 });
-            }
-        });
-
+    });
+    
+    //Case sections
+    $('.li-expand a').click(function (event) {
+        event.preventDefault();
+        $(this).parent().find('ul').toggle();
     });
 });

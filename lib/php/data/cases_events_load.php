@@ -7,7 +7,6 @@ require_once(CC_PATH . '/lib/php/utilities/names.php');
 require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
 require_once(CC_PATH . '/lib/php/html/gen_select.php');
 
-
 $user = $_SESSION['login'];
 
 if (isset($_GET['id'])) {
@@ -17,12 +16,13 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_REQUEST['q'])) {
-    $q = $_REQUEST['q'];}
-else {
+    $q = $_REQUEST['q'];
+} else {
     $q = null;
 }
 
-function get_responsibles($dbh,$event_id) { //get names of all users on event
+function get_responsibles($dbh,$event_id) 
+{ //get names of all users on event
 
 	$q = $dbh->prepare("SELECT * FROM cm_events_responsibles
 		WHERE event_id = '$event_id'");
@@ -42,11 +42,13 @@ function get_responsibles($dbh,$event_id) { //get names of all users on event
 	return $responsibles;
 }
 
-function generate_thumbs($responsibles){ //create thumbnail row for assigned users
+function generate_thumbs($responsibles)
+{ //create thumbnail row for assigned users
 
 	$thumb_row = null;
 	foreach ($responsibles as $resp) {;
-		$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] . "'><img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
+		$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
+        "'><img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
 	}
 
 	return $thumb_row;
@@ -54,7 +56,8 @@ function generate_thumbs($responsibles){ //create thumbnail row for assigned use
 
 
 if (isset($q)) {  //searching events
-    $sql = "SELECT * from cm_events WHERE case_id = :id and (task LIKE :q OR location LIKE :q OR notes LIKE :q OR start_text LIKE :q OR end_text LIKE :q)";
+    $sql = "SELECT * from cm_events WHERE case_id = :id and (task LIKE :q OR location
+    LIKE :q OR notes LIKE :q OR start_text LIKE :q OR end_text LIKE :q)";
     $search_term = '%' . $q . '%';
 } else {//listing all events on a case
     $sql = "SELECT * from cm_events WHERE case_id = :id ORDER BY start DESC";
