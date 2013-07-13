@@ -192,19 +192,23 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
             //Make objects of phone/email types and phone numbers/email addresses.  Store each object in one db field, allowing user to enter unlimited email addresses and phone numbers.
 
             var phoneData = {};
-            contactForm.find('p.contact_phone_group').each(function() {
+            contactForm.find('p.contact_phone_group').each(function () {
                 var phoneKey = $(this).find('select.contact_phone_type').val();
                 var phoneValue = $(this).find('input.contact_phone_value').val();
-                phoneData[phoneKey] = phoneValue;
+                if (phoneValue.length) {
+                    phoneData[phoneKey] = phoneValue;
+                }
             });
 
             phoneJson = JSON.stringify(phoneData);
 
             var emailData = {};
-            contactForm.find('p.contact_email_group').each(function() {
+            contactForm.find('p.contact_email_group').each(function () {
                 var emailKey = $(this).find('select.contact_email_type').val();
                 var emailValue = $(this).find('input.contact_email_value').val();
-                emailData[emailKey] = emailValue;
+                if (emailValue.length) {
+                    emailData[emailKey] = emailValue;
+                }
             });
 
             emailJson = JSON.stringify(emailData);
