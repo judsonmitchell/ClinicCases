@@ -49,12 +49,17 @@ include 'lib/php/data/cases_events_load.php';
     <div class="tab-content">
         <div class="tab-pane" id="caseNotes">
             <dl class="dl-sectioned">
-            <?php foreach ($case_notes_data as $c) {extract($c);
-                $thumb = thumbify($picture_url);
-                $date_human = extract_date($date);
-                $tc = convert_case_time($time);
-                echo "<dd><img class='img-rounded' src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
-                <dt>" . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></dt> ";
+            <?php 
+                if (empty($case_notes_data)){
+                    echo "No case notes found";
+                } else {
+                    foreach ($case_notes_data as $c) {extract($c);
+                    $thumb = thumbify($picture_url);
+                    $date_human = extract_date($date);
+                    $tc = convert_case_time($time);
+                    echo "<dd><img class='img-rounded' src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
+                    <dt>" . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></dt> ";
+                }
             }
             ?>
             </dl>
@@ -119,47 +124,57 @@ include 'lib/php/data/cases_events_load.php';
 
         <div class="tab-pane" id="caseContacts">
             <ul class="unstyled">
-            <?php foreach ($contacts as $c) {extract($c); ?>
-                <li class="li-expand"><a href="#">
-                <?php 
-                    if ($first_name === '' && $last_name === ''){
-                            echo $organization;
-                        } else {
-                            echo $first_name . " " . $last_name;
-                        }
-                    ?>
-                    </a>
-                    <ul class="unstyled">
-                        <?php foreach (array_filter($c) as $key => $value) {
-                            if (in_array($key,array('id','assoc_case','first_name','last_name'))) { //srip unnecessary elements
-                                continue;
+            <?php 
+            if (empty($contacts)){
+                echo "No contacts found.";
+            } else {
+                foreach ($contacts as $c) {extract($c); ?>
+                    <li class="li-expand"><a href="#">
+                    <?php 
+                        if ($first_name === '' && $last_name === ''){
+                                echo $organization;
                             } else {
-                                if (is_array(json_decode($value, true))){ //if json encoded values
-                                   $v = json_decode($value, true);
-                                   foreach ($v as $k => $vl) {
-                                       if (!empty($vl)){
-                                            if ($key === 'phone'){
-                                                    echo "Phone: <a href='tel:$vl'>$vl</a> ($k)<br /> "; 
-                                            } else if ($key === 'email'){
-                                                    echo "Email <a href='mailto:$vl'>$vl</a> ($k)<br /> "; 
-                                            } else {
-                                                    echo "$v ($k) ";
-                                            }
-                                       }
-                                   }
+                                echo $first_name . " " . $last_name;
+                            }
+                        ?>
+                        </a>
+                        <ul class="unstyled">
+                            <?php foreach (array_filter($c) as $key => $value) {
+                                if (in_array($key,array('id','assoc_case','first_name','last_name'))) { //srip unnecessary elements
+                                    continue;
                                 } else {
-                                    echo "<li>" . ucwords(str_replace('_', ' ',$key)) . ": $value </li>";
+                                    if (is_array(json_decode($value, true))){ //if json encoded values
+                                    $v = json_decode($value, true);
+                                    foreach ($v as $k => $vl) {
+                                        if (!empty($vl)){
+                                                if ($key === 'phone'){
+                                                        echo "Phone: <a href='tel:$vl'>$vl</a> ($k)<br /> "; 
+                                                } else if ($key === 'email'){
+                                                        echo "Email <a href='mailto:$vl'>$vl</a> ($k)<br /> "; 
+                                                } else {
+                                                        echo "$v ($k) ";
+                                                }
+                                        }
+                                    }
+                                    } else {
+                                        echo "<li>" . ucwords(str_replace('_', ' ',$key)) . ": $value </li>";
+                                    }
                                 }
                             }
-                        }
-                        ?>
-                    </ul>
-            <?php } ?>
+                            ?>
+                        </ul>
+                <?php }
+            }
+            ?>
             </ul>
         </div>
         <div class="tab-pane" id="caseEvents">
             <ul class="unstyled">
-            <?php foreach ($events as $e) {extract($e); ?>
+            <?php 
+            if (empty($events)){
+                echo "No events found";
+            } else {
+            foreach ($events as $e) {extract($e); ?>
                 <li class="li-expand"><a href="#"><?php echo extract_date($start) . "</a> " .  $task; ?>
                     <ul>
                         <li>Start: <?php echo $e['start_text']; ?>  </li>
@@ -169,17 +184,24 @@ include 'lib/php/data/cases_events_load.php';
                         <li>Notes: <?php echo nl2br($e['notes']); ?>  </li>
                     </ul>
                 </li>
-            <?php } ?>
+            <?php }
+            } ?>
             </ul>
         </div>
         <div class="tab-pane" id="caseDocs">
             <div class="doc-list">
                 <ul class="unstyled">
-                <?php foreach ($folders as $f){
-                    $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . 
-                    "&path=" . $f['folder'] . "&container=" . $f['folder'];
-                    echo "<li class='mobile-doc-list'><a href='$ref'><img src='html/ico/folder.png'>" . urldecode($f['folder']) . "</a></li>";
-                } ?>
+                <?php if (empty($folders) && empty($documents)){
+                    echo "No documents found"; 
+                } else {
+                    foreach ($folders as $f){
+                        $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . 
+                        "&path=" . $f['folder'] . "&container=" . $f['folder'];
+                        echo "<li class='mobile-doc-list'><a href='$ref'><img src='html/ico/folder.png'>"
+                        . urldecode($f['folder']) . "</a></li>";
+                    }
+                } 
+                ?>
                 </ul>
                 <ul class="unstyled">
                 <?php foreach ($documents as $d){
