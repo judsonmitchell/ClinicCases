@@ -78,11 +78,12 @@ foreach ($casenotes as $note) {
 	$id = $note['note_id'];
 	$what = snippet(35,htmlentities($note['description']));
 	$follow_url = 'index.php?i=Cases.php#cases/' . $note['case_id'];
+	$mobile_url = 'index.php?i=Case.php&id=' . $note['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted, 'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -110,11 +111,12 @@ foreach ($noncases as $noncase) {
 	$id = $noncase['id'];
 	$what = snippet(35,htmlentities($noncase['description']));
 	$follow_url = 'index.php?i=Cases.php#cases/' . $noncase['case_id'];
+	$mobile_url = 'index.php?i=Case.php&id=' . $noncase['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -153,12 +155,13 @@ foreach ($documents as $document) {
 	$doc_title = htmlentities(urldecode($document['name']));
 	$what = "<a href='#' data-id='" . $id . "' class='doc_view " . $document['extension'] . "'>" . $doc_title . "</a>";
 	$follow_url = 'index.php?i=Cases.php#cases/' . $document['case_id'] . '/3';
+	$mobile_url = 'index.php?i=Case.php&id=' . $document['case_id'];
 	//3 indicates third item in nav list
 
 	$item = array('activity_type' => $activity_type, 'by' => $by,'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 }
@@ -193,11 +196,12 @@ foreach ($opened as $open) {
 	$id = $open['id'];
 	$what = snippet(35,$open['notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
+    $mobile_url = 'index.php?i=Case.php?id=' . $open['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -233,11 +237,12 @@ foreach ($closed as $close) {
 	$id = $close['id'];
 	$what = snippet(35,$close['close_notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
+    $mobile_url = 'index.php?i=Case.php?id=' . $close['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -277,11 +282,12 @@ foreach ($assignments as $assign) {
 	$id = $assign['id'];
 	$what = '';
 	$follow_url = 'index.php?i=Cases.php#cases/' . $assign['case_id'];
+    $mobile_url = 'index.php?i=Case.php?id=' . $assign['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -314,11 +320,11 @@ foreach ($events as $event) {
 	$id = $event['id'];
 	$what = snippet(35,$event['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'] . '/4';
-
+    $mobile_url = 'index.php?i=Case.php?id=' . $event['case_id'];
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 
@@ -351,11 +357,12 @@ foreach ($ev_assigns as $e) {
 	$id = $e['id'];
 	$what = snippet(35,$e['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'] .'/4';
+    $mobile_url = 'index.php?i=Case.php?id=' . $e['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-		'time_formatted' => $time_formatted);
+		'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 	$activities[] = $item;
 }
@@ -391,11 +398,12 @@ if ($_SESSION['permissions']['add_cases'] == '1' && $_SESSION['permissions']['vi
 		$id = $open['id'];
 		$what = snippet(35,$open['notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
+        $mobile_url = 'index.php?i=Case.php?id=' . $open['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-			'time_formatted' => $time_formatted);
+			'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 		$activities[] = $item;
 	}
@@ -428,11 +436,12 @@ if ($_SESSION['permissions']['close_cases'] == '1' && $_SESSION['permissions']['
 		$id = $close['id'];
 		$what = snippet(35,$close['close_notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
+        $mobile_url = 'index.php?i=Case.php?id=' . $close['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-			'time_formatted' => $time_formatted);
+			'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 		$activities[] = $item;
 
@@ -460,13 +469,14 @@ if ($_SESSION['permissions']['activate_users'] == '1')
 		$time_formatted = extract_date_time($new['date_created']);
 		$what = 'Please review this application.';
 		$follow_url = 'index.php?i=Users.php';
+        $mobile_url = '#'; //not supported
 		$casename = '(view here)';
 		$id = null;
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-				'time_formatted' => $time_formatted);
+				'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 		$activities[] = $item;
 	}
@@ -513,13 +523,14 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 				$time_formatted = extract_date_time($d['time']);
 				$what = snippet(35,strip_tags($d['text']));
 				$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
+                $mobile_url = '#'; //not supported
 				$casename = "(view here)";
 				$id = null;
 
 				$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-				'time_formatted' => $time_formatted);
+				'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 				$activities[] = $item;
 
@@ -559,13 +570,14 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 			$time_formatted = extract_date_time($j['date_added']);
 			$what = snippet(35,strip_tags($j['text']));
 			$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
+            $mobile_url = '#'; //not supported
 			$casename = "(view here)";
 			$id = null;
 
 			$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 			'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-			'time_formatted' => $time_formatted);
+			'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 			$activities[] = $item;
 		}
