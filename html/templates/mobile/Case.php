@@ -53,7 +53,7 @@ include 'lib/php/data/cases_events_load.php';
                 $thumb = thumbify($picture_url);
                 $date_human = extract_date($date);
                 $tc = convert_case_time($time);
-                echo "<dd><img src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
+                echo "<dd><img class='img-rounded' src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
                 <dt>" . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></dt> ";
             }
             ?>
