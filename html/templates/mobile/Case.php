@@ -33,6 +33,7 @@ include 'lib/php/data/cases_events_load.php';
 
 <div class="container">
     <div id="notifications"></div>
+    <div class="row"><h3><?php echo case_id_to_casename($dbh,$id); ?></h3></div>
     <ul class="nav nav-tabs" id="myTab">
         <li><a class="default-tab" data-toggle="tab" href="#caseNotes">Case Notes</a></li>
         <li><a href="#caseData" data-toggle="tab">Case Data</a></li>
