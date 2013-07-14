@@ -179,12 +179,12 @@ include 'lib/php/data/cases_events_load.php';
                 <?php foreach ($folders as $f){
                     $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . 
                     "&path=" . $f['folder'] . "&container=" . $f['folder'];
-                    echo "<li><a href='$ref'><img src='html/ico/folder.png'>" . urldecode($f['folder']) . "</a></li>";
+                    echo "<li class='mobile-doc-list'><a href='$ref'><img src='html/ico/folder.png'>" . urldecode($f['folder']) . "</a></li>";
                 } ?>
                 </ul>
                 <ul class="unstyled">
                 <?php foreach ($documents as $d){
-                    echo "<li><a class='doc-item' data-id='" . $d['id'] . "' data-ext='" . $d['extension'] ."'  href='#'><img src='" . get_icon($d['type']). "'>" . urldecode($d['name']) . "</a></li>";
+                    echo "<li class='mobile-doc-list'><a class='doc-item'  data-id='" . $d['id'] . "' data-ext='" . $d['extension'] ."'  href='#'><img src='" . get_icon($d['type']). "'>" . urldecode($d['name']) . "</a></li>";
                 } ?>
                 </ul>
             </div>

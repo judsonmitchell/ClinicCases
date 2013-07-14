@@ -34,7 +34,10 @@
 }
 
 foreach ($activities as $activity) {
-    echo "<h5><img class='img-rounded' src='" . $activity['thumb'] . "'>&nbsp&nbsp" . $activity['by'] . $activity['action_text'] . "<a href='" .  $activity['mobile_url'] ."'>" . $activity['casename'] . "</a></h5><p>" . $activity['what'] ."</p><p class='muted'>" . $activity['time_formatted'] . "</p><hr>";
+    echo "<h5><img class='img-rounded' src='" . $activity['thumb'] . "'> " .
+    $activity['by'] . $activity['action_text'] . "<a style='font-size:1em' href='" .  $activity['mobile_url'] .
+    "'>" . $activity['casename'] . "</a></h5><p>" . $activity['what'] .
+    "</p><p class='muted'>" . $activity['time_formatted'] . "</p><hr>";
 }
 ?>
 

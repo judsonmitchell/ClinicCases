@@ -4,6 +4,7 @@
                 padding-bottom: 40px;
             }
 }
+a{font-size:1.2em}
 #idletimeout{display:none}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
@@ -15,6 +16,8 @@ hr{border-bottom:1px solid #ddd}
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
 /* Mobile description lists */
-dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;}
+dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #aaa}
 /* Hide nested lists*/
 .li-expand ul {display:none; margin-left:10px}
+
+.mobile-doc-list{margin-bottom:20px}
