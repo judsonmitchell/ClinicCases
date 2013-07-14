@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=.8, maximum-scale=1,target-densitydpi=device-dpi">
 
     <?php if ($_SESSION['mobile']){ ?>
-	<link rel="stylesheet" href="html/css/bootstrap.min.css" type="text/css"  media="screen"/>
+	<link rel="stylesheet" href="html/css/bootstrap.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
