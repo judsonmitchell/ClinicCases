@@ -196,7 +196,7 @@ foreach ($opened as $open) {
 	$id = $open['id'];
 	$what = snippet(35,$open['notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
-    $mobile_url = 'index.php?i=Case.php?id=' . $open['case_id'];
+    $mobile_url = 'index.php?i=Case.php&id=' . $open['id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -237,7 +237,7 @@ foreach ($closed as $close) {
 	$id = $close['id'];
 	$what = snippet(35,$close['close_notes']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
-    $mobile_url = 'index.php?i=Case.php?id=' . $close['case_id'];
+    $mobile_url = 'index.php?i=Case.php&id=' . $close['id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -282,7 +282,7 @@ foreach ($assignments as $assign) {
 	$id = $assign['id'];
 	$what = '';
 	$follow_url = 'index.php?i=Cases.php#cases/' . $assign['case_id'];
-    $mobile_url = 'index.php?i=Case.php?id=' . $assign['case_id'];
+    $mobile_url = 'index.php?i=Case.php&id=' . $assign['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -320,7 +320,7 @@ foreach ($events as $event) {
 	$id = $event['id'];
 	$what = snippet(35,$event['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $event['case_id'] . '/4';
-    $mobile_url = 'index.php?i=Case.php?id=' . $event['case_id'];
+    $mobile_url = 'index.php?i=Case.php&id=' . $event['case_id'];
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 		'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
@@ -357,7 +357,7 @@ foreach ($ev_assigns as $e) {
 	$id = $e['id'];
 	$what = snippet(35,$e['task']);
 	$follow_url = 'index.php?i=Cases.php#cases/' . $e['case_id'] .'/4';
-    $mobile_url = 'index.php?i=Case.php?id=' . $e['case_id'];
+    $mobile_url = 'index.php?i=Case.php&id=' . $e['case_id'];
 
 	$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 		'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -398,7 +398,7 @@ if ($_SESSION['permissions']['add_cases'] == '1' && $_SESSION['permissions']['vi
 		$id = $open['id'];
 		$what = snippet(35,$open['notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $open['id'];
-        $mobile_url = 'index.php?i=Case.php?id=' . $open['id'];
+        $mobile_url = 'index.php?i=Case.php&id=' . $open['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
@@ -436,7 +436,7 @@ if ($_SESSION['permissions']['close_cases'] == '1' && $_SESSION['permissions']['
 		$id = $close['id'];
 		$what = snippet(35,$close['close_notes']);
 		$follow_url = 'index.php?i=Cases.php#cases/' . $close['id'];
-        $mobile_url = 'index.php?i=Case.php?id=' . $close['id'];
+        $mobile_url = 'index.php?i=Case.php&id=' . $close['id'];
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 			'action_text' => $action_text,'casename' => $casename, 'id' => $id,
