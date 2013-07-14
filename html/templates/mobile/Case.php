@@ -158,7 +158,6 @@ include 'lib/php/data/cases_events_load.php';
             </ul>
         </div>
         <div class="tab-pane" id="caseEvents">
-            <?php var_dump($events); ?>
             <ul class="unstyled">
             <?php foreach ($events as $e) {extract($e); ?>
                 <li class="li-expand"><a href="#"><?php echo extract_date($start) . "</a> " .  $task; ?>

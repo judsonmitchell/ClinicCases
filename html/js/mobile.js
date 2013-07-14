@@ -71,7 +71,7 @@ $(document).ready(function () {
             {'item_id': itemId, 'action': 'open', 'doc_type': 'document'},
             function (data) {
                 var serverResponse = $.parseJSON(data);
-                var ccdItem = '<a class="ccd-clear" href="#">Back</a><h2>' +
+                var ccdItem = '<a class="ccd-clear btn" href="#"><i class="icon-chevron-left"></i> Back</a><h2>' +
                 unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
                 var hideList = $('.doc-list').detach();
                 $('#caseDocs').append(ccdItem);
