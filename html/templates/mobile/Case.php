@@ -158,6 +158,19 @@ include 'lib/php/data/cases_events_load.php';
         </div>
         <div class="tab-pane" id="caseEvents">
             <?php var_dump($events); ?>
+            <ul class="unstyled">
+            <?php foreach ($events as $e) {extract($e); ?>
+                <li class="li-expand"><a href="#"><?php echo extract_date($start) . "</a> " .  $task; ?>
+                    <ul>
+                        <li>Start: <?php echo $e['start_text']; ?>  </li>
+                        <li>End: <?php echo $e['end_text']; ?>  </li>
+                        <li>All Day: <?php if($e['all_day'] === '1'){echo "Yes";}else{echo "No";} ?>  </li>
+                        <li>Where: <?php echo $e['location']; ?>  </li>
+                        <li>Notes: <?php echo nl2br($e['notes']); ?>  </li>
+                    </ul>
+                </li>
+            <?php } ?>
+            </ul>
         </div>
         <div class="tab-pane" id="caseDocs">
             <div class="doc-list">

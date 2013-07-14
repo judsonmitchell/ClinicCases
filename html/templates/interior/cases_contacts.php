@@ -13,9 +13,9 @@
 		<input type="button" class="contacts_search_clear">
 
 		<?php
-			if ($_SESSION['permissions']['add_contacts'] == '1')
-				{echo "<button class='new_contact'>New Contact</button>";}
-
+			if ($_SESSION['permissions']['add_contacts'] == '1') {
+                echo "<button class='new_contact'>New Contact</button>";
+            }
 		?>
 
 		<button class = "contact_print">Print</button>
@@ -86,92 +86,97 @@
 
 <?php
 
-	foreach($contacts as $contact)
-			{
+	foreach($contacts as $contact) {
+            echo "
+            <div class='csenote contact' data-id = '$contact[id]'>
+                <div class='csenote_bar contact_bar'>
+                    <div class = 'csenote_bar_left'>";
 
-				echo "
-				<div class='csenote contact' data-id = '$contact[id]'>
-					<div class='csenote_bar contact_bar'>
-						<div class = 'csenote_bar_left'>";
+                    if (empty($contact['first_name']) and empty($contact['last_name'])) {
+                        echo "<h4>" . $contact['organization'] . "</h4>";
+                    } else {
+                        echo "<h4><span class='cnt_first_name'>". $contact['first_name'] .
+                        "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</span></h4>";
+                    }
 
-						if (empty($contact['first_name']) and empty($contact['last_name']))
+                    echo "<h5><span class='cnt_type'>" . $contact['type']  . "</span></h5></div>
+                    <div class = 'csenote_bar_right'>";
 
-							{echo "<h4>" . $contact['organization'] . "</h4>";}
+                    if ($_SESSION['permissions']['edit_contacts'] == '1') {
+                        echo "<a href='#' class='contact_edit'>Edit</a> ";
+                    }
 
-							else
+                    if ($_SESSION['permissions']['delete_contacts'] == '1') {
+                        echo "<a href='#' class='contact_delete'>Delete</a>";
+                    }
 
-							{echo "<h4><span class='cnt_first_name'>". $contact['first_name'] . "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</span></h4>";}
+                    echo "
+                    </div>
+                </div>
 
-						echo "<h5><span class='cnt_type'>" . $contact['type']  . "</span></h5></div>
-						<div class = 'csenote_bar_right'>";
+                <div class='contact_left'>";
 
-						if ($_SESSION['permissions']['edit_contacts'] == '1')
-							{echo "<a href='#' class='contact_edit'>Edit</a> ";}
+                    if ($contact['organization']) {
+                        echo "<p><label>Organization: </label><span class='cnt_organization'>$contact[organization]</span></p>";
+                    }
 
-						if ($_SESSION['permissions']['delete_contacts'] == '1')
-							{echo "<a href='#' class='contact_delete'>Delete</a>";}
+                    if ($contact['phone']) {
+                        $phones = json_decode($contact['phone'],true);
 
-						echo "
-						</div>
-					</div>
-
-					<div class='contact_left'>";
-
-						if ($contact['organization'])
-							{echo "<p><label>Organization: </label><span class='cnt_organization'>$contact[organization]</span></p>";}
-
-						if ($contact['phone'])
-						{
-							$phones = json_decode($contact['phone'],true);
-
-							foreach ($phones as $key => $value) {
-                                if(!empty($value)){
-                                    echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>$key</span>)</label><span  class='contact_phone_value'> $value </span></p>";
-							 }
-                             }
-						}
-
-						if ($contact['email'])
-						{
-							$emails = json_decode($contact['email'],true);
-
-							foreach ($emails as $key => $value) {
-								if(!empty($value)){
-                                    echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>$key</span>)</label><a href='mailto:$value' target='_blank'><span class='contact_email_value'>$value</span></a></p>";
-							}
+                        foreach ($phones as $key => $value) {
+                            if(!empty($value)){
+                                echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>
+                                $key</span>)</label><span  class='contact_phone_value'> $value </span></p>";
                             }
-						}
+                        }
+                    }
 
-						if (empty($contact['organization']) and empty($contact['phone']) and empty($contact['email']))
-							{echo "<p><label>....</label></p>";}
+                    if ($contact['email']) {
+                        $emails = json_decode($contact['email'],true);
 
-					echo "</div>
+                        foreach ($emails as $key => $value) {
+                            if(!empty($value)){
+                                echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>
+                                $key</span>)</label><a href='mailto:$value' target='_blank'>
+                                <span class='contact_email_value'>$value</span></a></p>";
+                            }
+                        }
+                    }
 
+                    if (empty($contact['organization']) and empty($contact['phone']) and empty($contact['email'])) {
+                        echo "<p><label>....</label></p>";
+                    }
 
-					<div class='contact_right'>";
+                echo "</div>
 
-					if ($contact['address'])
-						{echo "<p><label>Address:</label><span class='cnt_address'>$contact[address]</span><br /><span class='cnt_city'>$contact[city]</span> <span class='cnt_state'>$contact[state]</span> <span class='cnt_zip'>$contact[zip]</span></p>";}
-					if ($contact['url'])
-						{echo "<p><label>Website:</label><a href='" . $contact['url'] . "' target='_blank'><span class='cnt_url'>" . $contact['url'] . "</span></a>";}
-					if ($contact['notes'])
-						{echo "<p><label>Notes:</label><span class='cnt_notes'>" . nl2br($contact['notes']) . "</span></p>";}
+                <div class='contact_right'>";
 
+                if ($contact['address']) {
+                    echo "<p><label>Address:</label><span class='cnt_address'>$contact[address]</span><br />
+                    <span class='cnt_city'>$contact[city]</span> <span class='cnt_state'>$contact[state]
+                    </span> <span class='cnt_zip'>$contact[zip]</span></p>";
+                }
+                if ($contact['url']) {
+                    echo "<p><label>Website:</label><a href='" . $contact['url'] . 
+                    "' target='_blank'><span class='cnt_url'>" . $contact['url'] . "</span></a>";
+                }
+                if ($contact['notes']) {
+                    echo "<p><label>Notes:</label><span class='cnt_notes'>" . nl2br($contact['notes']) . "</span></p>";
+                }
 
+                echo "</div>
 
-					echo "</div>
+            </div>";
 
-				</div>";
+        }
 
-			}
-
-			if (empty($contacts))
-				{
-					if (isset($q))
-					{echo "<p>No contacts found matching <i>$q</i></p>";}
-					else
-					{echo "<p>No contacts in this case</p>";}
-				}
+        if (empty($contacts)) {
+            if (isset($q)) {
+                echo "<p>No contacts found matching <i>$q</i></p>";
+            } else {
+                echo "<p>No contacts in this case</p>";
+            }
+        }
 ?>
 
 </div>
