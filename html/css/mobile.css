@@ -5,6 +5,7 @@
             }
 }
 #idletimeout{display:none}
+hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
 .dl-sectioned img {margin-right:5px}
