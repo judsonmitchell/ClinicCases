@@ -248,7 +248,7 @@ $(document).ready(function () {
     });
     
     //Case sections
-    $('.li-expand a').click(function (event) {
+    $('.li-expand > a').click(function (event) {
         event.preventDefault();
         $(this).parent().find('ul').toggle();
     });

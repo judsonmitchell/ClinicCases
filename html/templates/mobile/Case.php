@@ -139,9 +139,9 @@ include 'lib/php/data/cases_events_load.php';
                                    foreach ($v as $k => $vl) {
                                        if (!empty($vl)){
                                             if ($key === 'phone'){
-                                                    echo "Phone: <a href='tel:$vl'>$vl ($k) </a><br /> "; 
+                                                    echo "Phone: <a href='tel:$vl'>$vl</a> ($k)<br /> "; 
                                             } else if ($key === 'email'){
-                                                    echo "Email <a href='mailto:$vl'>$vl ($k) </a><br /> "; 
+                                                    echo "Email <a href='mailto:$vl'>$vl</a> ($k)<br /> "; 
                                             } else {
                                                     echo "$v ($k) ";
                                             }
