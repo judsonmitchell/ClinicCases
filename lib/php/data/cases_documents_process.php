@@ -402,14 +402,12 @@ if ($action == 'open')
 				break;
 
 			default:
-				//$finfo = finfo_open(FILEINFO_MIME);
+				$mime = finfo_open(FILEINFO_MIME_TYPE);
 				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 				header('Content-Description: File Transfer');
-				header("Content-type: application/force-download");
 				//this added to deal with IE8: see: http://stackoverflow.com/a/4465299/49359
+                header("Content-type: $mime");
 				header("Pragma: "); header("Cache-Control: ");
-				//header("Content-type:" . finfo_file($finfo, $file));
-				//header('Content-Type: application/octet-stream');
 				header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
 				header('Content-Transfer-Encoding:  binary');
 				header("Content-Length: ". filesize($file));
