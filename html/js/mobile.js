@@ -56,7 +56,8 @@ $(document).ready(function () {
     $('#caseData dt:eq(0)').hide();
 
     //Handle document downloads
-    $('a.doc-item').click(function () {
+    $('a.doc-item').click(function (event) {
+        event.preventDefault();
         var itemId = $(this).attr('data-id');
         var itemExt = $(this).attr('data-ext');
         if (itemExt === 'url') {
@@ -71,15 +72,26 @@ $(document).ready(function () {
             {'item_id': itemId, 'action': 'open', 'doc_type': 'document'},
             function (data) {
                 var serverResponse = $.parseJSON(data);
+                var hideList;
                 var ccdItem = '<a class="ccd-clear btn" href="#"><i class="icon-chevron-left"></i> Back</a><h2>' +
                 unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
-                var hideList = $('.doc-list').detach();
-                $('#caseDocs').append(ccdItem);
-                console.log(serverResponse);
-                //Close a ccd document after viewing
-                $('.tab-content').on('click', 'a.ccd-clear', function () {
-                    $('#caseDocs').html('').append(hideList);
-                });
+                if ($('.doc-list').length) {
+                    hideList = $('.doc-list').detach();
+                    $('#caseDocs').append(ccdItem);
+                    //Close a ccd document after viewing
+                    $('.tab-content').on('click', 'a.ccd-clear', function (event) {
+                        event.preventDefault();
+                        $('#caseDocs').html('').append(hideList);
+                    });
+                } else {
+                    hideList = $('#activities_feed').detach();
+                    $('.home-container').append(ccdItem);
+                    $('.home-container').on('click', 'a.ccd-clear', function (event) {
+                        event.preventDefault();
+                        $('#caseDocs').html('').append(hideList);
+                        $('.home-container').html('').append(hideList);
+                    });
+                }
             });
         } else {
             $.download('lib/php/data/cases_documents_process.php', {'item_id': itemId, 'action': 'open', 'doc_type': 'document'});

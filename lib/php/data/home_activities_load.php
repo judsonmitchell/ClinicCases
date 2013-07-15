@@ -153,7 +153,8 @@ foreach ($documents as $document) {
 	$time_formatted = extract_date_time($document['date_modified']);
 	$id = $document['doc_id'];
 	$doc_title = htmlentities(urldecode($document['name']));
-	$what = "<a href='#' data-id='" . $id . "' class='doc_view " . $document['extension'] . "'>" . $doc_title . "</a>";
+	$what = "<a href='#' data-id='" . $id . "' class='doc-item doc_view " . $document['extension'] . 
+    "' data-ext='" . $document['extension'] ."'>" . $doc_title . "</a>";
 	$follow_url = 'index.php?i=Cases.php#cases/' . $document['case_id'] . '/3';
 	$mobile_url = 'index.php?i=Case.php&id=' . $document['case_id'];
 	//3 indicates third item in nav list
