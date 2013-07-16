@@ -31,7 +31,11 @@ include 'lib/php/data/cases_load.php';
 <div class="container">
     <div class="row">
         <div id="notifications"></div>
+    </div>
+    <div class="row">
         <h1>Cases</h1>
+    </div>
+    <div class="row">
         <form class="navbar-search pull-left">
             <input type="text" class="case-search search-query" placeholder="Search">
             <select name="case-status" class="inline small-select search-query">
@@ -51,7 +55,8 @@ include 'lib/php/data/cases_load.php';
                     } else {
                         echo "<li class='table-case-item table-case-open'>";
                     }
-                    echo "<a href='index.php?i=Case.php&id=$id'>$first_name $last_name <i class=\"pull-right icon-chevron-right\"></i></a></li>";
+                    echo "<a href='index.php?i=Case.php&id=$id'>$first_name $last_name
+                    <i class=\"pull-right icon-chevron-right\"></i></a></li>";
                 }
             echo "</ul>";
         }

@@ -1,14 +1,14 @@
 <?php
 //Loads messages
 //[A brief explanation of how messages are set up:  If the id matches the thread_id, this is a parent message.  If it doesn't, then this is a reply to the parent message.  Whenever someone replies to a parent message, the parent message archive and read fields are cleared.  The parent message will then appear in the recipients inbox as a new message.  When recipient clicks on parent message header, all replies, including the one just sent, are loaded.  A reply should never have anything in its read or archive fields, unless there are some left over messages from cc6.  Apologies for this complexity.]
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-require('../utilities/names.php');
-require('../utilities/convert_times.php');
-require('../utilities/thumbnails.php');
-require('../utilities/format_text.php');
-require('../html/gen_select.php');
+@session_start();
+require_once(__DIR__ . '/../../../db.php');
+require_once(CC_PATH . '/lib/php/auth/session_check.php');
+require_once(CC_PATH . '/lib/php/utilities/names.php');
+require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
+require_once(CC_PATH . '/lib/php/utilities/thumbnails.php');
+require_once(CC_PATH . '/lib/php/utilities/format_text.php');
+require_once(CC_PATH . '/lib/php/html/gen_select.php');
 
 function in_string($val,$string)
 {
@@ -58,25 +58,35 @@ function apply_labels($dbh,$id,$user)
 $username = $_SESSION['login'];
 $limit = '20';
 
-if (isset($_POST['type']))
-	{$type = $_POST['type'];}
+if (isset($_REQUEST['type'])) {
+    $type = $_REQUEST['type'];
+} else {
+    $type = 'inbox';
+}
 
-if (isset($_POST['start']))
-	{$start = $_POST['start'];}
+if (isset($_REQUEST['start'])) {
+    $start = $_REQUEST['start'];
+} else {
+    $start = '0';
+}
 
-if (isset($_POST['id']))
-	{$id = $_POST['id'];}
+if (isset($_REQUEST['id'])) {
+    $id = $_REQUEST['id'];
+}
 
-if (isset($_POST['thread_id']))
-	{$thread_id = $_POST['thread_id'];}
+if (isset($_REQUEST['thread_id'])) {
+    $thread_id = $_REQUEST['thread_id'];
+} 
 
-if (isset($_POST['new_message']))
-	{$new_message = true;}
-	else
-	{$new_message = false;}
+if (isset($_REQUEST['new_message'])) {
+    $new_message = true;
+} else {
+    $new_message = false;
+}
 
-if (isset($_POST['s']))
-	{$s = $_POST['s'];}
+if (isset($_REQUEST['s'])) {
+    $s = $_REQUEST['s'];
+}
 
 $replies = false;
 
@@ -163,15 +173,16 @@ switch ($type) {
 	break;
 }
 
-if (empty($msgs) AND $replies === false AND $new_message === false)
+if (empty($msgs) AND $replies === false AND $new_message === false) {
 	//i.e, there are no messages to display, we are not loading replies, and
 	//this is not a request for the new message html
-	{
-
-		if (isset($s))
-			{echo "<p>No messages found matching <i>$s</i></p>";}
-		else
-			{echo "<p>There are no messages in your $type folder</p>";die;}
+		if (isset($s)) {
+            echo "<p>No messages found matching <i>$s</i></p>";
+        } else {
+            echo "<p>There are no messages in your $type folder</p>";die;
+        }
 	}
 
-include('../../../html/templates/interior/messages_display.php');
+if (!$_SESSION['mobile']){
+    include('../../../html/templates/interior/messages_display.php');
+}

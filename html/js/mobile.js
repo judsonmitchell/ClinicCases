@@ -258,10 +258,48 @@ $(document).ready(function () {
                     }
                 });
     });
-    
+
     //Case sections
     $('.li-expand > a').click(function (event) {
         event.preventDefault();
         $(this).parent().find('ul').toggle();
     });
+
+    //Messages
+    $('li.li-expand-msg').click(function (event) {
+        event.preventDefault();
+        $(this).find('ul').toggle();
+    });
+
+    $('.truncate').click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $(this).toggleClass('truncate');
+    });
+
+    var folderType = getParameterByName('type');
+    var folder;
+
+    if (folderType) {
+        folder =  folderType;
+        if (folderType === 'search') {
+            $('.search-query').val(getParameterByName('s'));
+            $('select[name="msg-status"]').append('<option  value="sr">Search Results</option>');
+            setTimeout(function () {
+                $('select[name="msg-status"] option').last().prop('selected', true);
+            }, 1);
+        }
+    } else {
+        folder = 'inbox';
+    }
+
+    $('select[name="msg-status"]').val(getParameterByName('type')).change(function () {
+        location.href = 'index.php?i=Messages.php&type=' + $(this).val();
+    });
+
+    $('.search-submit').click(function () {
+        location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
+    });
+
+
 });
