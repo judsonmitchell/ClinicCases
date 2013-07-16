@@ -23,6 +23,7 @@
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/additional-methods.js"></script>
+	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 
     <?php } else { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>

@@ -1,7 +1,28 @@
 <?php 
-include 'html/templates/interior/idletimeout.php'; 
-include 'lib/php/data/messages_load.php';
-?>
+require_once(__DIR__ . '/../../../db.php');
+include( CC_PATH . '/lib/php/data/messages_load.php');
+
+if ($replies) { //render replies partial; called by ajax 
+
+    echo "<ul class='ul-reply'>";
+    foreach ($msgs as $m) {extract($m);  ?>
+        <li>
+            <div class="reply-item">
+                <img class="img-rounded" src="<?php echo return_thumbnail($dbh,$from);?>">
+                <span>
+                    <?php echo username_to_fullname($dbh,$from); ?> - 
+                    <?php echo extract_date_time($time_sent); ?> 
+                </span> 
+            </div>
+            <?php echo stripslashes($body); ?>
+        </li>
+    <?php } ?> 
+        <li>
+            <textarea class="reply-text-box"></textarea><a class="btn btn-small send-reply" href="#">Reply</a>
+        </li>
+    </ul>
+<?php } else { ?>
+<?php include( CC_PATH . '/html/templates/interior/idletimeout.php');  ?>
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
@@ -57,17 +78,23 @@ include 'lib/php/data/messages_load.php';
     <div class="row msg_display">
         <ul class="unstyled">
             <?php foreach ($msgs as $m) {extract($m);?>
-                <li class="li-expand-msg">
-                    <div><img class="img-rounded" src="<?php echo return_thumbnail($dbh,$from);?>">
-                    <span><?php echo username_to_fullname($dbh,$from); ?> - 
-                          <?php echo extract_date_time($time_sent); ?> 
-                    </span> 
+                <li class="li-expand-msg" data-thread="<?php echo $thread_id; ?>">
+                    <div class="msg-header">
+                        <div>
+                        <img class="img-rounded" src="<?php echo return_thumbnail($dbh,$from);?>">
+                        <span><?php echo username_to_fullname($dbh,$from); ?> - 
+                            <?php echo extract_date_time($time_sent); ?> 
+                        </span> 
+                        </div>
+                        <h5><?php echo htmlentities($subject); ?></h5> 
                     </div>
-                    <h5><?php echo htmlentities($subject); ?></h5> 
                     <ul class="unstyled">
                         <li class="truncate">To: <?php echo format_name_list($dbh,$to); ?></li> 
                         <?php if (!empty($ccs)){ ?>
                         <li>Cc: <?php echo format_name_list($dbh,$ccs); ?></li>
+                        <?php } ?>
+                        <?php if (!empty($assoc_case)){ ?>
+                        <li>Filed In: <?php echo case_id_to_casename($dbh,$assoc_case); ?></li>
                         <?php } ?>
                         <br />
                         <li><?php echo stripslashes($body); ?> </li>
@@ -78,4 +105,4 @@ include 'lib/php/data/messages_load.php';
         </ul>
     </div>
 </div>
-
+<?php } ?>

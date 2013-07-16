@@ -225,7 +225,6 @@ $(document).ready(function () {
         var emailData = {};
         emailData[$('#qaContact select[name="email_type"]').val()] = $('#qaContact input[name="email"]').val();
         var email = JSON.stringify(emailData);
-        console.log(phone + ' and ' + email);
         $.post('lib/php/data/cases_contacts_process.php', {
                 'first_name': form.find('input[name = "first_name"]').val(),
                 'last_name': form.find('input[name = "last_name"]').val(),
@@ -266,9 +265,18 @@ $(document).ready(function () {
     });
 
     //Messages
-    $('li.li-expand-msg').click(function (event) {
-        event.preventDefault();
-        $(this).find('ul').toggle();
+    $('.container').on('click', 'div.msg-header', function (event) {
+        event.stopPropagation();
+        var target = $(this).closest('li');
+        $(this).next('ul').toggle();
+        if (!target.find('.ul-reply').length) { //if we haven't already loaded replies
+            $.get('html/templates/mobile/Messages.php', {type: 'replies', thread_id: target.attr('data-thread')}, function (data) {
+                target.find('li').last().append(data);
+                //mark as read
+                $.post('lib/php/data/messages_process.php', {action: 'mark_read', id: target.attr('data-thread')});
+
+            });
+        }
     });
 
     $('.truncate').click(function (event) {
@@ -301,5 +309,19 @@ $(document).ready(function () {
         location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
     });
 
+    $('.container').eq(1).on('click', '.send-reply', function (event) {
+        event.preventDefault();
+        var threadId =  $(this).closest('.li-expand-msg').attr('data-thread');
+        var replyText = $(this).prev().val();
+        var msgBody = $(this).parents('ul').eq(1);
+        $.post('lib/php/data/messages_process.php',
+            {action: 'reply', thread_id: threadId, reply_text: replyText},
+            function (data) {
+                var serverResponse = $.parseJSON(data);
+                $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                msgBody.find('.ul-reply').remove()
+                msgBody.hide();
+            });
+    });
 
 });
