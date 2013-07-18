@@ -3,6 +3,8 @@ include_once('lib/php/html/gen_select.php');
 include_once('lib/php/utilities/names.php');
 include_once('lib/php/utilities/states.php');
 ?>
+</head>
+<body class="isMobile">
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
@@ -151,3 +153,5 @@ include_once('lib/php/utilities/states.php');
         </div>
     </div>
 </div>
+</body>
+</html>

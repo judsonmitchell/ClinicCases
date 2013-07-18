@@ -23,6 +23,8 @@ if ($replies) { //render replies partial; called by ajax
     </ul>
 <?php } else { ?>
 <?php include( CC_PATH . '/html/templates/interior/idletimeout.php');  ?>
+</head>
+<body class="isMobile">
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
@@ -105,4 +107,6 @@ if ($replies) { //render replies partial; called by ajax
         </ul>
     </div>
 </div>
+</body>
+</html>
 <?php } ?>

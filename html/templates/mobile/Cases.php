@@ -2,6 +2,8 @@
 include 'html/templates/interior/idletimeout.php'; 
 include 'lib/php/data/cases_load.php';
 ?>
+</head>
+<body class="isMobile">
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
@@ -63,3 +65,5 @@ include 'lib/php/data/cases_load.php';
     ?>
     </div>
 </div>
+</body>
+</html>

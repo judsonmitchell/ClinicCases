@@ -6,6 +6,8 @@ include 'lib/php/data/cases_documents_load.php';
 include 'lib/php/data/cases_contacts_load.php';
 include 'lib/php/data/cases_events_load.php';
 ?>
+</head>
+<body class="isMobile">
 <div class="navbar navbar-fixed-top navbar-headnav">
     <div class="navbar-inner">
         <div class="container">
@@ -212,3 +214,5 @@ include 'lib/php/data/cases_events_load.php';
         </div>
     </div>
 </div>
+</body>
+</html>
