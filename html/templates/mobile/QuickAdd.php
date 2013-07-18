@@ -65,7 +65,7 @@ include_once('lib/php/utilities/states.php');
                 <input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
                 <input type="hidden" name="csenote_date">
                 <p id = "quick_add_cn">
-                    <button id="quick_add_cn_submit">Add</button>
+                    <button class="btn btn-success"  id="quick_add_cn_submit">Add</button>
                 </p>
             </form>
         </div>
@@ -96,7 +96,7 @@ include_once('lib/php/utilities/states.php');
                 <input type="hidden" name="start">
                 <input type="hidden" name="end">
                 <p id = "quick_add_ev">
-                    <button id="quick_add_ev_submit">Add</button>
+                    <button class="btn btn-success" id="quick_add_ev_submit">Add</button>
                 </p>
             </form>
 
@@ -147,7 +147,7 @@ include_once('lib/php/utilities/states.php');
                     <textarea name="notes"></textarea>
                 </p>
                 <input type="hidden" name="action" value="add">
-                <p><button>Add</button>
+                <p><button class="btn btn-success">Add</button>
                 </p>
             </form>
         </div>
