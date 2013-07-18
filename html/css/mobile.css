@@ -6,7 +6,7 @@
 }
 a{font-size:1.2em}
 #idletimeout{display:none}
-#notifications{position:fixed; top:20px;background-color:red;color:white;display:none}
+#notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
