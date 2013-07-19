@@ -369,7 +369,7 @@ $(document).ready(function () {
                 });
             }
         });
-        
+
         var settings = $.data($('form[name="send_message"]')[0], 'validator').settings;
         settings.ignore += ':not(.chzn-done)';
 
@@ -383,5 +383,16 @@ $(document).ready(function () {
 
     });
 
+    //Pagination for messages
+    $('.msg_display').on('click', '.add-more', function (event) {
+        event.preventDefault();
+        $(this).remove();
+        var msgUrl = $(this).attr('href');
+        $.get(msgUrl, function (data) {
+            var moreMsg = $(data).find('.msg_display > ul').html();
+            $('.msg_display > ul').append(moreMsg);
+        });
+        
+    });
 
 });

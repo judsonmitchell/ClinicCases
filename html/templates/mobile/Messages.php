@@ -100,6 +100,20 @@ if ($replies) { //render replies partial; called by ajax
                 </li>
                 <hr />
             <?php } ?>
+            <li>
+                <div class="navigation">
+                    <?php if (count($msgs) == 20){ 
+                    if (isset($_GET['start'])){
+                        $start = $_GET['start'] + 20;
+                    } else {
+                        $start = '20';
+                    }
+                    $query_string = '&type=' . $_GET['type'] . '&start=' .$start;
+                    ?>
+                    <a class="add-more" href="index.php?i=Messages.php<?php echo $query_string; ?>">More</a>
+                    <?php } ?>
+                </div>
+            </li>
         </ul>
     </div>
     <div class="msg-new">
