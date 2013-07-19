@@ -108,43 +108,98 @@ $(document).ready(function () {
         return !(value === '0' && $('select[name="csenote_hours"]').val() === '0');
     }, 'You must enter some time.');
 
+    $.validator.addMethod('nameReq', function (value) {
+        return !(value === '' && $('input[name="first_name"]').val() === '' && $('input[name="organization"]').val() === '');
+    }, 'Please provide the name of a person or organziation');
+
     $('form[name="quick_cn"]').validate({
         errorClass: 'text-error',
         errorElement: 'span',
         rules: {
             csenote_minutes: {timeReq: true}
+        },
+        submitHandler: function (form) {
+            var thisForm = $('form[name="quick_cn"]');
+            var dateVal = $('select[name="c_month"]').val() + '/' +
+            $('select[name="c_day"]').val() + '/' + $('select[name="c_year"]').val();
+            $('input[name="csenote_date"]').val(dateVal);
+            $.post('lib/php/data/cases_casenotes_process.php', thisForm.serialize(), function (data) {
+                var serverResponse = $.parseJSON(data);
+                if (serverResponse.error) {
+                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                } else {
+                    var successMsg = '<p class="text-success">' + serverResponse.message +
+                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                    thisForm[0].reset();
+                    var hideForm = $('form[name="quick_cn"]').detach();
+                    $('#qaCaseNote').append(successMsg);
+                    $('a.show-form').click(function (event) {
+                        event.preventDefault();
+                        $('#qaCaseNote').html('').append(hideForm);
+                    });
+                }
+            });
         }
-    });
-
-    $('form[name="quick_cn"]').submit(function (event) {
-        event.preventDefault();
-        var form = $(this);
-        var dateVal = $('select[name="c_month"]').val() + '/' + $('select[name="c_day"]').val() + '/' + $('select[name="c_year"]').val();
-        $('input[name="csenote_date"]').val(dateVal);
-
-        $.post('lib/php/data/cases_casenotes_process.php', form.serialize(), function (data) {
-            var serverResponse = $.parseJSON(data);
-            if (serverResponse.error === true) {
-                $('p.error').html(serverResponse.message);
-            } else {
-                var successMsg = '<p class="text-success">' + serverResponse.message +
-                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                form[0].reset();
-                var hideForm = $('form[name="quick_cn"]').detach();
-                $('#qaCaseNote').append(successMsg);
-                $('a.show-form').click(function (event) {
-                    event.preventDefault();
-                    $('#qaCaseNote').html('').append(hideForm);
-                });
-            }
-        });
-
     });
 
     //Case events
     $('form[name="quick_event"]').validate({
         errorClass: 'text-error',
-        errorElement: 'span'
+        errorElement: 'span',
+        submitHandler: function () {
+            var thisForm = $('form[name="quick_event"]');
+            var startVal = $('select[name="c_month"]').eq(0).val() + '/' + $('select[name="c_day"]').eq(0).val() +
+            '/' + $('select[name="c_year"]').eq(0).val() + ' ' +  $('select[name="c_hours"]').eq(0).val() +
+            ':' + $('select[name="c_minutes"]').eq(0).val() +
+            ' ' + $('select[name="c_ampm"]').eq(0).val();
+            $('input[name="start"]').val(startVal);
+
+            var endVal = $('select[name="c_month"]').eq(1).val() + '/' + $('select[name="c_day"]').eq(1).val() +
+            '/' + $('select[name="c_year"]').eq(1).val() + ' ' +  $('select[name="c_hours"]').eq(1).val() +
+            ':' + $('select[name="c_minutes"]').eq(1).val() +
+            ' ' + $('select[name="c_ampm"]').eq(1).val();
+            $('input[name="end"]').val(endVal);
+
+            //serialize form values
+            var evVals = thisForm.not('select[name="responsibles"]').serializeArray();
+            var resps = thisForm.find('select[name="responsibles"]').val();
+            var respsObj = $.extend({}, resps);
+            evVals.unshift(respsObj); //put this object at the beginning
+            var allDayVal = null;
+            if (thisForm.find('input[name = "all_day"]').is(':checked')) {
+                allDayVal = 'on';
+            } else {
+                allDayVal = 'off';
+            }
+
+            $.post('lib/php/data/cases_events_process.php', {
+                'task': thisForm.find('input[name = "task"]').val(),
+                'where': thisForm.find('input[name = "where"]').val(),
+                'start': thisForm.find('input[name = "start"]').val(),
+                'end': thisForm.find('input[name = "end"]').val(),
+                'all_day': allDayVal,
+                'notes': thisForm.find('textarea[name = "notes"]').val(),
+                'responsibles': resps,
+                'action': 'add',
+                'case_id': thisForm.find('select[name = "case_id"]').val()
+            }, function (data) {
+                var serverResponse = $.parseJSON(data);
+                if (serverResponse.error) {
+                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                } else {
+                    var successMsg = '<p class="text-success">' + serverResponse.message +
+                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
+                    thisForm[0].reset();
+                    $('#ev_users').trigger('liszt:updated');
+                    var hideForm = $('form[name="quick_event"]').detach();
+                    $('#qaEvent').append(successMsg);
+                    $('a.show-form').click(function (event) {
+                        event.preventDefault();
+                        $('#qaEvent').html('').append(hideForm);
+                    });
+                }
+            });
+        }
     });
 
     //Convenience method for advancing end date
@@ -153,101 +208,44 @@ $(document).ready(function () {
         $(this).closest('.date-picker').siblings('.date-picker').find('select[name=' + el + ']').val($(this).val());
     });
 
-    $('form[name="quick_event"]').submit(function (event) {
-        event.preventDefault();
-        var form = $(this);
-        var startVal = $('select[name="c_month"]').eq(0).val() + '/' + $('select[name="c_day"]').eq(0).val() +
-        '/' + $('select[name="c_year"]').eq(0).val() + ' ' +  $('select[name="c_hours"]').eq(0).val() +
-        ':' + $('select[name="c_minutes"]').eq(0).val() +
-        ' ' + $('select[name="c_ampm"]').eq(0).val();
-        $('input[name="start"]').val(startVal);
-
-        var endVal = $('select[name="c_month"]').eq(1).val() + '/' + $('select[name="c_day"]').eq(1).val() +
-        '/' + $('select[name="c_year"]').eq(1).val() + ' ' +  $('select[name="c_hours"]').eq(1).val() +
-        ':' + $('select[name="c_minutes"]').eq(1).val() +
-        ' ' + $('select[name="c_ampm"]').eq(1).val();
-        $('input[name="end"]').val(endVal);
-
-        //serialize form values
-        var evVals = form.not('select[name="responsibles"]').serializeArray();
-        var resps = form.find('select[name="responsibles"]').val();
-        var resps_obj = $.extend({}, resps);
-        evVals.unshift(resps_obj); //put this object at the beginning
-        var allDayVal = null;
-        if (form.find('input[name = "all_day"]').is(':checked')) {
-            allDayVal = 'on';
-        } else {
-            allDayVal = 'off';
-        }
-
-        $.post('lib/php/data/cases_events_process.php', {
-            'task': form.find('input[name = "task"]').val(),
-            'where': form.find('input[name = "where"]').val(),
-            'start': form.find('input[name = "start"]').val(),
-            'end': form.find('input[name = "end"]').val(),
-            'all_day': allDayVal,
-            'notes': form.find('textarea[name = "notes"]').val(),
-            'responsibles': resps,
-            'action': 'add',
-            'case_id': form.find('select[name = "case_id"]').val()
-        }, function (data) {
-            var serverResponse = $.parseJSON(data);
-            if (serverResponse.error === true) {
-                $('p.error').html(serverResponse.message);
-            } else {
-                var successMsg = '<p class="text-success">' + serverResponse.message +
-                '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                form[0].reset();
-                $('#ev_users').trigger('liszt:updated')
-                var hideForm = $('form[name="quick_event"]').detach();
-                $('#qaEvent').append(successMsg);
-                $('a.show-form').click(function (event) {
-                    event.preventDefault();
-                    $('#qaEvent').html('').append(hideForm);
-                });
-            }
-        });
-
-    });
-
     //Case contacts
     $('form[name="quick_contact"]').validate({
         errorClass: 'text-error',
-        errorElement: 'span'
-    });
-
-    $('form[name="quick_contact"]').submit(function (event) {
-        event.preventDefault();
-        var form = $(this);
-        var phoneData = {};
-        phoneData[$('#qaContact select[name="phone_type"]').val()] = $('#qaContact input[name="phone"]').val();
-        var phone = JSON.stringify(phoneData);
-        var emailData = {};
-        emailData[$('#qaContact select[name="email_type"]').val()] = $('#qaContact input[name="email"]').val();
-        var email = JSON.stringify(emailData);
-        $.post('lib/php/data/cases_contacts_process.php', {
-                'first_name': form.find('input[name = "first_name"]').val(),
-                'last_name': form.find('input[name = "last_name"]').val(),
-                'organization': form.find('input[name = "organization"]').val(),
-                'contact_type': form.find('select[name = "contact_type"]').val(),
-                'address': form.find('textarea[name = "address"]').val(),
-                'city': form.find('input[name = "city"]').val(),
-                'state': form.find('select[name = "state"]').val(),
-                'zip': form.find('input[name = "zip"]').val(),
-                'phone': phone,
-                'email': email,
-                'url': form.find('input[name = "url"]').val(),
-                'notes': form.find('textarea[name = "notes"]').val(),
-                'action': 'add',
-                'case_id': form.find('select[name = "case_id"]').val()
-            }, function (data) {
+        errorElement: 'span',
+        rules: {
+            last_name: {nameReq: true}
+        },
+        submitHandler: function () {
+            var thisForm = $('form[name="quick_contact"]');
+            var phoneData = {};
+            phoneData[$('#qaContact select[name="phone_type"]').val()] = $('#qaContact input[name="phone"]').val();
+            var phone = JSON.stringify(phoneData);
+            var emailData = {};
+            emailData[$('#qaContact select[name="email_type"]').val()] = $('#qaContact input[name="email"]').val();
+            var email = JSON.stringify(emailData);
+            $.post('lib/php/data/cases_contacts_process.php', {
+                    'first_name': thisForm.find('input[name = "first_name"]').val(),
+                    'last_name': thisForm.find('input[name = "last_name"]').val(),
+                    'organization': thisForm.find('input[name = "organization"]').val(),
+                    'contact_type': thisForm.find('select[name = "contact_type"]').val(),
+                    'address': thisForm.find('textarea[name = "address"]').val(),
+                    'city': thisForm.find('input[name = "city"]').val(),
+                    'state': thisForm.find('select[name = "state"]').val(),
+                    'zip': thisForm.find('input[name = "zip"]').val(),
+                    'phone': phone,
+                    'email': email,
+                    'url': thisForm.find('input[name = "url"]').val(),
+                    'notes': thisForm.find('textarea[name = "notes"]').val(),
+                    'action': 'add',
+                    'case_id': thisForm.find('select[name = "case_id"]').val()
+                }, function (data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error === true) {
-                        $('p.error').html(serverResponse.message);
+                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
                     } else {
                         var successMsg = '<p class="text-success">' + serverResponse.message +
                         '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                        form[0].reset();
+                        thisForm[0].reset();
                         var hideForm = $('form[name="quick_contact"]').detach();
                         $('#qaContact').append(successMsg);
                         $('a.show-form').click(function (event) {
@@ -256,6 +254,7 @@ $(document).ready(function () {
                         });
                     }
                 });
+        }
     });
 
     //Case sections
@@ -319,9 +318,70 @@ $(document).ready(function () {
             function (data) {
                 var serverResponse = $.parseJSON(data);
                 $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
-                msgBody.find('.ul-reply').remove()
+                msgBody.find('.ul-reply').remove();
                 msgBody.hide();
             });
     });
+
+    $('.btn-new-msg').click(function (event) {
+        event.preventDefault();
+        var hideMsg = $('.msg_display, .row:eq(2)').detach();
+        $('.msg-new').show();
+        $('#msg_tos, #msg_ccs, #msg_file').chosen({ width: '16em' });
+
+        $('form[name="send_message"]').validate({
+            errorClass: 'text-error',
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                if (element.is(':hidden')) {
+                    element.next().parent().append(error);
+                }
+                else {
+                    error.insertAfter(element);
+                }
+
+            },
+            onsubmit: function () { //special handling for chosen selects. see http://goo.gl/myKIz
+                var ChosenDropDowns = $('.chzn-done');
+                ChosenDropDowns.each(function () {
+                    var ID = $(this).attr('id');
+                    if (!$(this).valid()) {
+                        $('#' + ID + '_chzn a').addClass('input-validation-error');
+                    } else {
+                        $('#' + ID + '_chzn a').removeClass('input-validation-error');
+                    }
+                });
+            },
+            submitHandler: function () {
+                var thisForm = $('form[name="send_message"]');
+                $.post('lib/php/data/messages_process.php', thisForm.serialize(), function (data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error) {
+                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                    } else {
+                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        thisForm[0].reset();
+                        $('select').trigger('liszt:updated');
+                        $('.text-error').remove();
+                        $('.msg-new').hide();
+                        $('#msg-head').append(hideMsg);
+                    }
+                });
+            }
+        });
+        
+        var settings = $.data($('form[name="send_message"]')[0], 'validator').settings;
+        settings.ignore += ':not(.chzn-done)';
+
+        $('.msg-cancel').click(function (event) {
+            event.preventDefault();
+            $('.msg-new').hide();
+            $('#msg-head').append(hideMsg);
+            $('form[name="send_message"]')[0].reset();
+            $('select').trigger('liszt:updated');
+        });
+
+    });
+
 
 });

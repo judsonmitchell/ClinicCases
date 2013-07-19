@@ -49,20 +49,16 @@ if ($replies) { //render replies partial; called by ajax
         </div>
     </div>
 </div>
-    <!--
-    <pre>
-        <?php print_r($msgs); ?>
-    </pre>
-    -->
 <div class="container">
     <div class="row" id="notifications"></div>
-    <div class="row">
-        <a class="btn btn-success pull-right"><i class="icon-envelope icon-white"></i> New Message</a>
+    <div class="row" id="msg-head">
+        <h1 style="display:inline-block">Messages</h1>
+        <h1 class="pull-right">
+            <a class="btn btn-success pull-right btn-new-msg btn-push-down-a-little">
+            <i class="icon-envelope icon-white"></i> New Message</a>
+        </h1>
     </div>
-    <div class="row">
-        <h1>Messages</h1>
-    </div>
-    <div class="row">
+    <div class="row" style="margin-top:10px">
         <form class="form-inline">
         <div class="input-append">
             <input type="text" class="case-search search-query" placeholder="Search">
@@ -105,6 +101,54 @@ if ($replies) { //render replies partial; called by ajax
                 <hr />
             <?php } ?>
         </ul>
+    </div>
+    <div class="msg-new">
+        <form name = "send_message">
+            <div class="control-group">
+                <label class="control-label">To:</label>
+                <div class="controls">
+                    <select multiple name = "new_tos[]" id="msg_tos" data-placeholder = "Choose recipients" class="required">
+                        <?php echo all_active_users_and_groups($dbh,false,false); ?>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Cc:</label>
+                <div class="controls">
+                    <select multiple name = "new_ccs[]" id="msg_ccs" data-placeholder = "Choose recipients">
+                        <?php echo all_active_users_and_groups($dbh,false,false); ?>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Subject:</label>
+                <div class="controls">
+                    <input type="text" name="new_subject">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">File In:</label>
+                <div class="controls">
+                    <select name = "new_file_msg" id="msg_file" data-placeholder = "Choose case file">
+                        <option value = "">No file</option>
+                        <?php echo generate_active_cases_select($dbh,$username) ?>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Message:</label>
+                <div class="controls">
+                    <textarea name="new_msg_text" rows=8 class="required"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn msg-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-success">Send</button>
+                </div>
+            </div>
+			<input type="hidden" name="action" value="send">
+        </form>
     </div>
 </div>
 </body>

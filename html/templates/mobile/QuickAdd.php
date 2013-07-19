@@ -42,7 +42,6 @@ include_once('lib/php/utilities/states.php');
     <div class="tab-content">
         <div class="tab-pane" id="qaCaseNote">
             <form name="quick_cn">
-                <p class="error text-error"></p>
                 <input type="hidden" name="csenote_date" id="cn_date"></p>
                 <?php echo gen_mobile_datepicker(false); ?>
                 <p><label>Case</label>
@@ -71,7 +70,6 @@ include_once('lib/php/utilities/states.php');
         </div>
         <div class="tab-pane" id="qaEvent">
             <form name = "quick_event">
-                <p class="error"></p>
                 <p><label>What: </label><input type="text" name="task" class="required"></p>
                 <p><label>Where: </label><input type="text" name="where"></p>
                 <p><label>Start: </label> <?php echo gen_mobile_datepicker(true); ?> </p>
@@ -103,7 +101,6 @@ include_once('lib/php/utilities/states.php');
         </div>
         <div class="tab-pane" id="qaContact">
             <form name = "quick_contact">
-                <p class="error"></p>
                 <p><label>First Name</label><input type="text" name="first_name"></p>
                 <p><label>Last Name</label><input type="text" name="last_name"></p>
                 <p><label>Organization</label><input type="text" name="organization"></p>

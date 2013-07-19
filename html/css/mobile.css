@@ -13,6 +13,7 @@ hr{border-bottom:1px solid #ddd}
 .dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
 .btn-push-down{margin-top:25px !important}
+.btn-push-down-a-little{margin-top:4% !important}
 /* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
@@ -27,4 +28,5 @@ dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bo
 .ul-reply li{margin-top:10px;margin-bottom:10px;}
 .ul-reply li>img{float:left;  margin: 0 15px 0 0;}
 .reply-item{margin-bottom:5px}
+.msg-new{display:none}
 
