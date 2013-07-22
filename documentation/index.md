@@ -360,7 +360,7 @@ Preferences allows you to control aspects of ClinicCases which are personal to y
 
 ##Mobile
 
-ClinicCases Mobile is under active development as of this writing (Beta 5).  It will be an HTML5 based client which runs in the browser of your mobile device.  Follow ClinicCases on [Twitter](http://twitter.com/cliniccases) if you want the latest information.
+Users who log on to ClinicCases via a mobile browser will be automatically directed to the ClinicCases mobile site. The mobile app provides most of the functionality of the destop version in a small-screen friendly package.
 
 [Go to Top](#contents)
 <a id="install"></a>
