@@ -1,19 +1,17 @@
 <?php
-	//session_start();
-	//include '../../db.php';
-	include CC_PATH . '/lib/php/auth/log_write.php';
+include CC_PATH . '/lib/php/auth/log_write.php';
 
-	write_log($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
-	session_unset();
-	session_destroy();
+write_log($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
+session_unset();
+session_destroy();
 
-	if (isset($_GET['user'])) {
-		//if the logout has been initiated by the user
-        echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php\"";
-    } else {
-        //logout is the result of inactivity
-        echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php?force_close=1\"";
-    }
+if (isset($_GET['user'])) {
+    //if the logout has been initiated by the user
+    echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php\"";
+} else {
+    //logout is the result of inactivity
+    echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php?force_close=1\"";
+}
 
 ?>
 
