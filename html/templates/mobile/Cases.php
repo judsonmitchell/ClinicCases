@@ -22,7 +22,7 @@ include 'lib/php/data/cases_load.php';
                     <li class="active"><a href="index.php?i=Cases.php">Cases</a></li>
                     <li><a href="index.php?i=Messages.php">Messages</a>
                     <li><a href="index.php?i=QuickAdd.php">Quick Add</a>
-                    <li><a href="index.php?i=Logout.php">Logout</a>
+                    <li><a href="index.php?i=Logout.php&user=1">Logout</a>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
