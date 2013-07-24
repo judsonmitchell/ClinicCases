@@ -1,21 +1,20 @@
- //Scripts for utilities page
+//Scripts for utilities page
 
- function convertToHours(totalTime,unit)
- {
+function convertToHours(totalTime, unit) {
     //This is a javascript port of the php function
     //convert_to_hours in convert_times.php
     var hours = Math.floor(totalTime / 3600);
     var minutes = totalTime - (hours * 3600);
-    var minutes2 = minutes/ 60;
-    var minFormat = (Math.round(minutes2/unit) * unit) / 100;
+    var minutes2 = minutes / 60;
+    var minFormat = (Math.round(minutes2 / unit) * unit) / 100;
     var minFormatFixed = minFormat.toFixed(2);
-    var minVal = (minFormatFixed + "").split(".");
+    var minVal = (minFormatFixed + '').split('.');
     return hours + '.' + minVal[1];
- }
+}
 
 var oTable;
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     //set header widget
     $('#utilities_nav').addClass('ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr');
@@ -29,229 +28,186 @@ $(document).ready(function() {
     var reportChooser = {};
 
     //User clicks reports button
-    $('#reports_button').click(function() {
+    $('#reports_button').click(function () {
 
-        //Show the report chooser
-        //$('#report_chooser').appendTo('#utilities_panel').show();
-        if (reportChooser.length) {
-            $('#utilities_panel').html('').append(reportChooser);
-        }
+        $('#utilities_panel').load('index.php?i=Utilities.php #report_chooser', function () {
+            //Add chosen
+            $('select[name="type"]').chosen();
 
-        //Add chosen
-        $('select[name="type"]').chosen();
-
-        //Add datepickers
-        $('input[name="date_start_display"]').datepicker({
-            dateFormat : "DD, MM d, yy",
-            altField:$('input[name = "date_start"]'),
-            altFormat: "yy-mm-dd"
+            //Add datepickers
+            $('input[name="date_start_display"]').datepicker({
+                dateFormat : 'DD, MM d, yy',
+                altField: $('input[name = "date_start"]'),
+                altFormat: 'yy-mm-dd'
             });
 
-        $('input[name="date_start_display"]').datepicker('setDate', '-7');
+            $('input[name="date_start_display"]').datepicker('setDate', '-7');
 
-        $('input[name="date_end_display"]').datepicker({
-            dateFormat : "DD, MM d, yy",
-            altField:$('input[name = "date_end"]'),
-            altFormat: "yy-mm-dd"
+            $('input[name="date_end_display"]').datepicker({
+                dateFormat : 'DD, MM d, yy',
+                altField: $('input[name = "date_end"]'),
+                altFormat: 'yy-mm-dd'
             });
 
-        $('input[name="date_end_display"]').datepicker('setDate', new Date());
+            $('input[name="date_end_display"]').datepicker('setDate', new Date());
 
-        //Create a table
-        $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"><tfoot><tr></tr></tfoot></table>' );
+            //Create a table
+            $('#report_chooser').after('<table cellpadding="0" cellspacing="0" border="0" ' +
+            'class="display" id="table_reports"><tfoot><tr></tr></tfoot></table>');
 
-        //Dynamically create dataTable, load data
-        $('button.report_submit').live('click', function(event){
-            event.preventDefault();
+            //Dynamically create dataTable, load data
+            $('button.report_submit').live('click', function (event) {
+                event.preventDefault();
+                var tableHeight = $('#utilities_panel').height() - $('#report_chooser').height() - 150;
+                if ($('#table_reports tfoot th').length) {
+                    $('#table_reports').dataTable().fnDestroy();
+                    $('#table_reports tfoot tr').empty();
+                }
 
-            var tableHeight = $('#utilities_panel').height() - $('#report_chooser').height() - 150;
+                if ($('thead th').length) {
+                    $('thead th').remove();
+                }
 
-            if ($('#table_reports tfoot th').length)
-            {
-                $('#table_reports').dataTable().fnDestroy();
+                var q_type = $('select[name="type"]').val();
+                var start = $('input[name="date_start"]').val();
+                var end = $('input[name="date_end"]').val();
+                var detail = $('input[name="detail"]').val();
+                var query = [];
 
-                $('#table_reports tfoot tr').empty();
-            }
+                if (q_type.indexOf("_grp_") != -1) { //user groups
+                    query.push('grp',q_type);
+                } else if (q_type.indexOf("_spv_") != -1) { //supervisor groups
+                    query.push('supvsr_grp',q_type);
+                } else if(q_type.indexOf("_cse_") != -1) { //case
+                    query.push('case',q_type);
+                } else {
+                    query.push('user',q_type);//single user
+                }
 
-            if ($('thead th').length)
-            {
-                $('thead th').remove();
-            }
-
-            var q_type =$('select[name="type"]').val();
-
-            var start = $('input[name="date_start"]').val();
-
-            var end = $('input[name="date_end"]').val();
-
-            var detail = $('input[name="detail"]').val();
-
-            var query = [];
-
-            if (q_type.indexOf("_grp_") != -1) //user groups
-            {
-                query.push('grp',q_type);
-            }
-            else if (q_type.indexOf("_spv_") != -1) //supervisor groups
-            {
-                query.push('supvsr_grp',q_type);
-            }
-            else if(q_type.indexOf("_cse_") != -1) //case
-            {
-                query.push('case',q_type);
-            }
-            else
-            {
-                query.push('user',q_type);//single user
-            }
-
-            //Load data from server
-            $.ajax({
-                url:'lib/php/data/utilities_reports_load.php?type=' + query[0] +
-                            '&columns_only=true',
-                dataType: 'json',
-                type: 'get',
-                error: function() {
-                    return true;
-                },
-                success: function(data) {
-
-                    if( data )
-                    {
-                        //Add footer to html
-                        for (var i = 0; i < data.aoColumns.length; i++) {
-                            $('#table_reports tfoot tr').append('<th></th>');
-                        }
-
-                        oTable = $('#table_reports').dataTable({
-                            "sAjaxSource": 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
-                            '&val=' + query[1] + '&date_start=' + start + '&date_end=' + end,
-                            "aoColumns": data.aoColumns,
-                            "bAutoWidth":false,
-                            "bProcessing": true,
-                            "bDestroy": true,
-                            "bScrollInfinite": true,
-                            "sScrollY":tableHeight,
-                            "iDisplayLength": 150,
-                            "bSortCellsTop": true,
-                            "oLanguage": {
-                                "sEmptyTable": "No data found."
-                            },
-                            "oTableTools":
-                            {
-                                "sSwfPath": "lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
-                                "aButtons": [
-                                    {
-                                        "sExtends": "collection",
-                                        "sButtonText": "Print/Export",
-                                        "aButtons": [
-                                            {"sExtends": "copy",
-                                                "mColumns": "visible"
-                                            },
-
-                                            {"sExtends": "csv",
-                                                "mColumns": "visible"
-                                            },
-
-                                            {"sExtends": "xls",
-                                                "mColumns": "visible"
-                                            },
-
-                                            {"sExtends": "pdf",
-                                                "mColumns": "visible",
-                                                "sTitle": "Report",
-                                                "bFooter":"visible"
-
-                                            },
-
-                                            {"sExtends": "print",
-                                                "mColumns": "visible"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            "sDom": 'frTt',
-                            "fnInitComplete":function(){
-                                $('#table_reports').addClass('print_content');
-                                //$('tr.advanced, tr.advanced_2').addClass('print_content_no');
-                                $('#ToolTables_table_reports_5').live('click',function(){
-                                    //the dataTables default print dialog is not working, so
-                                    //add our own
-                                    var dialogWin = $('<div class="dialog-casenote-delete" title="Print">Please use your browser\'s print function to print this table. Press escape when finished.</div>').dialog({
-                                        autoOpen: false,
-                                        resizable: false,
-                                        modal: true,
-                                        buttons: {"OK":function()
-                                        {
-                                            $(this).dialog("destroy");
-                                        }
-                                        }
-                                    });
-
-                                    $(dialogWin).dialog('open');
-
-                                });
-                            },
-                            "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-
-                                    if (aaData.length > 0) //no need for footer if no data.
-                                    {
-                                        var totalTime = 0;
-
-                                        colIndex = oTable.fnGetColumnIndex('Seconds');
-
-                                        for ( var a=0 ; a<aaData.length ; a++ )
-                                        {
-                                            totalTime += parseFloat(aaData[a][colIndex]);
-
-                                        }
-
-                                        var nCells = nRow.getElementsByTagName('th');
-
-                                        //problem has to do with adding a hidden column
-
-                                        var previousCell = colIndex - 2;
-
-                                        nCells[previousCell].innerHTML = 'Total Hours';
-
-                                        var unit = $('#utilities_panel').attr('data-unit');
-
-                                        nCells[colIndex - 1].innerHTML = convertToHours(totalTime,unit);
-                                    }
-
+                //Load data from server
+                $.ajax({
+                    url: 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
+                                '&columns_only=true',
+                    dataType: 'json',
+                    type: 'get',
+                    error: function () {
+                        return true;
+                    },
+                    success: function (data) {
+                        if (data) {
+                            //Add footer to html
+                            for (var i = 0; i < data.aoColumns.length; i++) {
+                                $('#table_reports tfoot tr').append('<th></th>');
                             }
 
-                        });
-                    }}
+                            oTable = $('#table_reports').dataTable({
+                                'sAjaxSource': 'lib/php/data/utilities_reports_load.php?type=' + query[0] +
+                                '&val=' + query[1] + '&date_start=' + start + '&date_end=' + end,
+                                'aoColumns': data.aoColumns,
+                                'bAutoWidth': false,
+                                'bProcessing': true,
+                                'bDestroy': true,
+                                'bScrollInfinite': true,
+                                'sScrollY': tableHeight,
+                                'iDisplayLength': 150,
+                                'bSortCellsTop': true,
+                                'oLanguage': {
+                                    'sEmptyTable': 'No data found.'
+                                },
+                                'oTableTools':
+                                {
+                                    'sSwfPath': 'lib/DataTables-1.8.2/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf',
+                                    'aButtons': [
+                                        {
+                                            'sExtends': 'collection',
+                                            'sButtonText': 'Print/Export',
+                                            'aButtons': [
+                                                {'sExtends': 'copy',
+                                                    'mColumns': 'visible'
+                                                },
+
+                                                {'sExtends': 'csv',
+                                                    'mColumns': 'visible'
+                                                },
+
+                                                {'sExtends': 'xls',
+                                                    'mColumns': 'visible'
+                                                },
+
+                                                {'sExtends': 'pdf',
+                                                    'mColumns': 'visible',
+                                                    'sTitle': 'Report',
+                                                    'bFooter': 'visible'
+
+                                                },
+
+                                                {'sExtends': 'print',
+                                                    'mColumns': 'visible'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                'sDom': 'frTt',
+                                'fnInitComplete': function () {
+                                    $('#table_reports').addClass('print_content');
+                                    $('#ToolTables_table_reports_5').live('click', function () {
+                                        //the dataTables default print dialog is not working, so
+                                        //add our own
+                                        var dialogWin = $('<div class="dialog-casenote-delete" title="Print">' +
+                                        'Please use your browser\'s print function to print this table.' +
+                                        'Press escape when finished.</div>').dialog({
+                                            autoOpen: false,
+                                            resizable: false,
+                                            modal: true,
+                                            buttons: {'OK': function () {
+                                                $(this).dialog('destroy');
+                                            }
+                                            }
+                                        });
+
+                                        $(dialogWin).dialog('open');
+
+                                    });
+                                },
+                                'fnFooterCallback': function (nRow, aaData, iStart, iEnd, aiDisplay) {
+
+                                        if (aaData.length > 0) { //no need for footer if no data.
+                                            var totalTime = 0;
+                                            colIndex = oTable.fnGetColumnIndex('Seconds');
+
+                                            for (var a=0 ; a<aaData.length ; a++) {
+                                                totalTime += parseFloat(aaData[a][colIndex]);
+                                            }
+
+                                            var nCells = nRow.getElementsByTagName('th');
+
+                                            //problem has to do with adding a hidden column
+                                            var previousCell = colIndex - 2;
+                                            nCells[previousCell].innerHTML = 'Total Hours';
+                                            var unit = $('#utilities_panel').attr('data-unit');
+                                            nCells[colIndex - 1].innerHTML = convertToHours(totalTime,unit);
+                                        }
+
+                                    }
+                            });
+                        }}
                 });
 
+            });
+
         });
-
-        //Create toolbar
-        $('div.toolbar').html('toolbar here');
-
     });
 
     //User clicks configuration button
     $('#config_button').click(function() {
-        if (!reportChooser.length){
-            reportChooser = $('#report_chooser').detach();
-        }
         target.load('lib/php/data/utilities_configuration_load.php');
-
     });
 
     //User clicks non-case time button
-    $('#non_case_button').click(function() {
-        if (!reportChooser.length){
-            reportChooser = $('#report_chooser').detach();
-        }
-        $('#utilities_panel')
-        .load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',{case_id: 'NC',non_case: '1'}, function(data) {
-            //var cNotes = $(data).find('.case_detail_panel_casenotes').html();
-            //$('#utilities_panel').html('').append(data);
-        });
+    $('#non_case_button').click(function () {
+        $('#utilities_panel').load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',
+        {case_id: 'NC', non_case: '1'});
     });
 
     //Set default load
@@ -263,21 +219,17 @@ $(document).ready(function() {
 //
 
 //Toggle
-$('a.config_item_link').live('click', function(event) {
+$('a.config_item_link').live('click', function (event) {
     event.preventDefault();
 
     // Toggle open/closed state
-    if ($(this).hasClass('closed'))
-    {
+    if ($(this).hasClass('closed')) {
         $(this).removeClass('closed').addClass('opened');
-    }
-    else
-    {
+    } else {
         $(this).removeClass('opened').addClass('closed');
     }
 
     $('div.config_item > a').not($(this)).removeClass('opened').addClass('closed');
-
 
     // Show/hide the form
     $(this).next().toggle();
@@ -286,40 +238,30 @@ $('a.config_item_link').live('click', function(event) {
 });
 
 //Submit changes
-$('a.change_config').live('click', function(event) {
+$('a.change_config').live('click', function (event) {
 
     event.preventDefault();
-
     var formTarget = $(this).closest('form');
-
     var formParent = $(this).closest('div.config_item');
-
     var target = $(this).closest('div').attr('id');
 
     //If clicking delete button, remove the form element
-    if (!$(this).hasClass('add'))
-    {
+    if (!$(this).hasClass('add')) {
         $(this).parent().remove();
     }
 
     var formVals = formTarget.serializeArray();
+    formVals.push({'name': 'type', 'value': formTarget.attr('data-type')});
 
-    formVals.push({'name': 'type','value': formTarget.attr('data-type')});
-
-    $.post('lib/php/data/utilities_configuration_process.php', formVals, function(data) {
+    $.post('lib/php/data/utilities_configuration_process.php', formVals, function (data) {
         var serverResponse = $.parseJSON(data);
-        if (serverResponse.error === true)
-        {
+        if (serverResponse.error === true) {
             notify(serverResponse.message, true);
-        }
-        else
-        {
+        } else {
             notify(serverResponse.message);
-            formParent.load('lib/php/data/utilities_configuration_load.php #' + target, function() {
+            formParent.load('lib/php/data/utilities_configuration_load.php #' + target, function () {
                 $(this).find('form').show();
             });
         }
-
     });
 });
-
