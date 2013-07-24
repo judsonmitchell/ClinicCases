@@ -26,11 +26,16 @@ $(document).ready(function() {
     //Add navigation actions
     target = $('div#utilities_panel');
 
+    var reportChooser = {};
+
     //User clicks reports button
     $('#reports_button').click(function() {
 
         //Show the report chooser
-        $('#report_chooser').appendTo('#utilities_panel').show();
+        //$('#report_chooser').appendTo('#utilities_panel').show();
+        if (reportChooser.length) {
+            $('#utilities_panel').html('').append(reportChooser);
+        }
 
         //Add chosen
         $('select[name="type"]').chosen();
@@ -56,7 +61,7 @@ $(document).ready(function() {
         $('#report_chooser').after( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_reports"><tfoot><tr></tr></tfoot></table>' );
 
         //Dynamically create dataTable, load data
-        $('button.report_submit').click(function(event){
+        $('button.report_submit').live('click', function(event){
             event.preventDefault();
 
             var tableHeight = $('#utilities_panel').height() - $('#report_chooser').height() - 150;
@@ -124,6 +129,7 @@ $(document).ready(function() {
                             "aoColumns": data.aoColumns,
                             "bAutoWidth":false,
                             "bProcessing": true,
+                            "bDestroy": true,
                             "bScrollInfinite": true,
                             "sScrollY":tableHeight,
                             "iDisplayLength": 150,
@@ -224,12 +230,28 @@ $(document).ready(function() {
 
         //Create toolbar
         $('div.toolbar').html('toolbar here');
+
     });
 
     //User clicks configuration button
     $('#config_button').click(function() {
+        if (!reportChooser.length){
+            reportChooser = $('#report_chooser').detach();
+        }
         target.load('lib/php/data/utilities_configuration_load.php');
 
+    });
+
+    //User clicks non-case time button
+    $('#non_case_button').click(function() {
+        if (!reportChooser.length){
+            reportChooser = $('#report_chooser').detach();
+        }
+        $('#utilities_panel')
+        .load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',{case_id: 'NC',non_case: '1'}, function(data) {
+            //var cNotes = $(data).find('.case_detail_panel_casenotes').html();
+            //$('#utilities_panel').html('').append(data);
+        });
     });
 
     //Set default load

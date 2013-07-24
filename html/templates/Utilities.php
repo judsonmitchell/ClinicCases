@@ -64,50 +64,54 @@
 
 				<?php } ?>
 
+				<?php if ($_SESSION['permissions']['add_case_notes'] == '1'){?>
+
+				<input type="radio" id="non_case_button" name="radio" /><label for="non_case_button">Non-Case Time</label>
+
+				<?php } ?>
 			</span>
 
 		</div>
 
 		<div id = "utilities_panel" data-unit = "<?php echo CC_TIME_UNIT;?>">
 
-		</div>
+            <div id="report_chooser" class="ui-toolbar ui-widget-header ui-corner-tl ui-corner-all">
 
-		<div id="report_chooser" class="ui-toolbar ui-widget-header ui-corner-tl ui-corner-all">
+                        <p>
+                            <label>Report on:</label>
+                            <select name = "type" data-placeholder="Select users or cases to report on">
+                                <option value=""></option>
+                                <?php
+                                include 'db.php';
+                                include 'lib/php/html/gen_select.php';
+                                include 'lib/php/utilities/names.php';
+                                echo reports_users_and_groups($dbh,null);
+                                ?>
 
-			<p>
-				<label>Report on:</label>
-				<select name = "type" data-placeholder="Select users or cases to report on">
-					<option value=""></option>
-					<?php
-					include 'db.php';
-					include 'lib/php/html/gen_select.php';
-					include 'lib/php/utilities/names.php';
-					echo reports_users_and_groups($dbh,null);
-					?>
+                            </select>
+                        </p>
 
-				</select>
-			</p>
+                        <p>
+                            <label>Date Start</label>
+                            <input type="hidden" name="date_start">
+                            <input type="text" name="date_start_display" class="report_date">
+                        </p>
 
-			<p>
-				<label>Date Start</label>
-				<input type="hidden" name="date_start">
-				<input type="text" name="date_start_display" class="report_date">
-			</p>
+                        <p>
+                            <label>Date End </label>
+                            <input type="hidden" name="date_end">
+                            <input type="text" name="date_end_display" class="report_date">
 
-			<p>
-				<label>Date End </label>
-				<input type="hidden" name="date_end">
-				<input type="text" name="date_end_display" class="report_date">
+                        </p>
 
-			</p>
+                        <p><button class="report_submit">Go</button></p>
 
-			<p><button class="report_submit">Go</button></p>
+            </div>
 
 		</div>
 
 	</div>
 
+</body>
 
-
-
-
+</html>

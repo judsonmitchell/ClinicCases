@@ -537,7 +537,7 @@ ol.conflicts{padding-left:30px;}
 
 
 /*Styles for Time Reports */
-#report_chooser{display: none;margin-bottom: 30px;padding:5px;}
+#report_chooser{margin-bottom: 30px;padding:5px;}
 #report_chooser p {display: inline-block;}
 #utilities_panel ul.chzn-results{text-align: left;}
 #utilities_panel tbody{border-top: 1px solid black;border-bottom: 1px solid black;}
