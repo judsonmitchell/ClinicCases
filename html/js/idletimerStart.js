@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverResponseEquals: 'OK',
         onTimeout: function () {
             $(this).slideUp();
-            window.location = 'html/templates/Logout.php';
+            window.location = 'index.php?i=Logout.php';
         },
         onIdle: function () {
             $(this).slideDown(); // show the warning bar

@@ -7,35 +7,33 @@ session_destroy();
 ?>
 <html>
 	<head>
-		<link rel="stylesheet" href="../css/cm.css" type="text/css"  media="screen"/>
-
-
+		<link rel="stylesheet" href="<?php echo CC_BASE_URL; ?>html/css/cm.css" type="text/css"  media="screen"/>
 <?php
-	if (isset($_GET['user']))
-		//if the logout has been initiated by the user
-		{echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php\"";}
-
-			else
-
-			//logout is the result of inactivity
-			{echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php?force_close=1\"";}
+if (isset($_GET['user'])){
+    //if the logout has been initiated by the user
+    echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php\"";
+} else { 
+    //logout is the result of inactivity
+    echo "<meta http-equiv=\"refresh\" content=\"5;URL=" . CC_BASE_URL .  "index.php?force_close=1\"";
+}
 
 ?>
+</head>
 
+<body class="login">
 
-	</head>
+    <?php include CC_PATH . '/html/templates/interior/timer.php' ?>
+    <?php include CC_PATH . '/html/templates/interior/idletimeout.php' ?>
 
-	<body class="login">
+    <div id="content" class="content_login" style="height:560px">
 
-		<div id="content" class="content_login" style="height:560px">
+            <div class="wrapper">
 
-				<div class="wrapper">
+                <br /><br />
+                <h2>You have been logged out of ClinicCases</h2>
 
-					<br /><br />
-					<h2>You have been logged out of ClinicCases</h2>
-
-				</div>
-		</div>
+            </div>
+    </div>
 
 </body>
 
