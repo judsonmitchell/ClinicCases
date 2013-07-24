@@ -25,8 +25,6 @@ $(document).ready(function () {
     //Add navigation actions
     target = $('div#utilities_panel');
 
-    var reportChooser = {};
-
     //User clicks reports button
     $('#reports_button').click(function () {
 
@@ -186,7 +184,7 @@ $(document).ready(function () {
                                             var previousCell = colIndex - 2;
                                             nCells[previousCell].innerHTML = 'Total Hours';
                                             var unit = $('#utilities_panel').attr('data-unit');
-                                            nCells[colIndex - 1].innerHTML = convertToHours(totalTime,unit);
+                                            nCells[colIndex - 1].innerHTML = convertToHours(totalTime, unit);
                                         }
 
                                     }
@@ -200,14 +198,15 @@ $(document).ready(function () {
     });
 
     //User clicks configuration button
-    $('#config_button').click(function() {
+    $('#config_button').click(function () {
         target.load('lib/php/data/utilities_configuration_load.php');
     });
 
     //User clicks non-case time button
     $('#non_case_button').click(function () {
-        $('#utilities_panel').load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',
-        {case_id: 'NC', non_case: '1'});
+        //$('#utilities_panel').load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',
+        //{case_id: 'NC', non_case: '1'});
+        loadCaseNotes($('#utilities_panel'), 'NC');
     });
 
     //Set default load
