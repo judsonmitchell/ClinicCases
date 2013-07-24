@@ -1,12 +1,9 @@
 <?php
-	session_start();
-	include '../../db.php';
-	include '../../lib/php/auth/log_write.php';
-
-	write_log($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
-	session_unset();
-	session_destroy();
-
+include CC_PATH . '/db.php';
+include CC_PATH . '/lib/php/auth/log_write.php';
+write_log($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$_SESSION['cc_session_id'],'out');
+session_unset();
+session_destroy();
 ?>
 <html>
 	<head>
