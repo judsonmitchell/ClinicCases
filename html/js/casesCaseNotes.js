@@ -41,48 +41,6 @@ String.prototype.br2nl = function () {
     return this.replace(/\<br(\s*\/|)\>/g, nl);
 };
 
-function loadCaseNotes(panelTarget, id) {
-
-    $(panelTarget).find('.case_detail_panel')
-    .load('lib/php/data/cases_casenotes_load.php', {'case_id': id,'start': '0'}, function () {
-        //set css for casenotes
-        toolsHeight = $(panelTarget).find('.case_detail_nav li:first').outerHeight();
-        thisPanelHeight = $(panelTarget).find('.case_detail_nav').height();
-        caseNotesWindowHeight = thisPanelHeight - toolsHeight;
-        $('div.case_detail_panel_tools').css({'height': toolsHeight});
-        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
-
-        //add buttons; style only one button if user doesn't have permission to add casenotes
-
-        if (!$('.case_detail_panel_tools_right button.button1').length) {
-            $('.case_detail_panel_tools_right button.button3').button({icons: {primary: 'fff-icon-printer'}, text: true});
-        } else {
-            $('.case_detail_panel_tools_right button.button1').button({icons: {primary: 'fff-icon-add'}, text: true})
-            .next().button({icons: {primary: 'fff-icon-time'}, text: true})
-            .next().button({icons: {primary: 'fff-icon-printer'}, text: true});
-        }
-
-        //define div to be scrolled
-        var scrollTarget = $(panelTarget).find('.case_detail_panel_casenotes');
-
-        //embed the case number in the scrollTarget object
-        scrollTarget.data('CaseNumber', id);
-
-        //bind the scroll event for the window
-        $(scrollTarget).bind('scroll', function () {
-            addMoreNotes(scrollTarget);
-        });
-
-        //set heights
-        sizeCaseNotes($(panelTarget).find('.csenote'), $(panelTarget).find(' .case_detail_panel'));
-
-        //round corners
-        $('div.csenote').addClass('ui-corner-all');
-
-    });
-}
-
-
 //Load new case notes on scroll
 function addMoreNotes(scrollTarget) {
 
@@ -128,6 +86,48 @@ function addMoreNotes(scrollTarget) {
 
     }
 }
+
+function loadCaseNotes(panelTarget, id) {
+
+    $(panelTarget).find('.case_detail_panel')
+    .load('lib/php/data/cases_casenotes_load.php', {'case_id': id, 'start': '0'}, function () {
+        //set css for casenotes
+        var toolsHeight = $(panelTarget).find('.case_detail_nav li:first').outerHeight();
+        var thisPanelHeight = $(panelTarget).find('.case_detail_nav').height();
+        var caseNotesWindowHeight = thisPanelHeight - toolsHeight;
+        $('div.case_detail_panel_tools').css({'height': toolsHeight});
+        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
+
+        //add buttons; style only one button if user doesn't have permission to add casenotes
+
+        if (!$('.case_detail_panel_tools_right button.button1').length) {
+            $('.case_detail_panel_tools_right button.button3').button({icons: {primary: 'fff-icon-printer'}, text: true});
+        } else {
+            $('.case_detail_panel_tools_right button.button1').button({icons: {primary: 'fff-icon-add'}, text: true})
+            .next().button({icons: {primary: 'fff-icon-time'}, text: true})
+            .next().button({icons: {primary: 'fff-icon-printer'}, text: true});
+        }
+
+        //define div to be scrolled
+        var scrollTarget = $(panelTarget).find('.case_detail_panel_casenotes');
+
+        //embed the case number in the scrollTarget object
+        scrollTarget.data('CaseNumber', id);
+
+        //bind the scroll event for the window
+        $(scrollTarget).bind('scroll', function () {
+            addMoreNotes(scrollTarget);
+        });
+
+        //set heights
+        sizeCaseNotes($(panelTarget).find('.csenote'), $(panelTarget).find(' .case_detail_panel'));
+
+        //round corners
+        $('div.csenote').addClass('ui-corner-all');
+
+    });
+}
+
 
 //
 //Listeners
@@ -279,16 +279,9 @@ $('.case_detail_panel_tools_right button.button3').live('click', function () {
 //User cancels adding new case note
 $('button.csenote_action_cancel').live('click', function (event) {
     event.preventDefault();
-    //reset form
-    $(this).closest('.csenote_new').children('textarea').val('');
-    $(this).siblings('select').val('0');
-    $(this).siblings().datepicker('setDate', 'm/d/yy');
-    $(this).siblings().datepicker()[2].innerHTML = $(this).siblings('input.hasDatepicker').val();
-
-    //reset opacity of other case notes
-    $(this).closest('.case_detail_panel_casenotes').find('.csenote').css({'opacity': '1'});
-    //hide the widget
-    $(this).closest('.csenote_new').hide();
+    var panelTarget = $(this).closest('.ui-tabs-panel');
+    var id = $(this).closest('.case_detail_panel').data('CaseNumber');
+    loadCaseNotes(panelTarget,id);
 });
 
 //User click to add new case note
@@ -408,10 +401,10 @@ $('a.csenote_edit').live('click', function (event) {
     editNote.find('select[name="csenote_hours"]').val(hourVal);
     editNote.find('select[name="csenote_minutes"]').val(minuteVal);
     editNote.find('input[name="query_type"]').val('modify');
-    editNote.find('button.csenote_action_submit').html('Done')
-    .addClass('csenote_edit_submit').removeClass('csenote_action_submit');
-    editNote.find('input.csenote_date_value').val(dateVal)
-    .datepicker({dateFormat: 'm/d/yy', showOn: 'button', buttonText: dateVal, onSelect: function (dateText, inst) {
+    editNote.find('button.csenote_action_submit').html('Done').addClass('csenote_edit_submit').removeClass('csenote_action_submit');
+    editNote.find('input.csenote_date_value')
+    .val(dateVal)
+    .datepicker({dateFormat: 'm/d/yy', showOn: 'button', buttonText: dateVal, onSelect: function (dateText) {
             $(this).next().html(dateText);
         }});
 
@@ -464,7 +457,6 @@ $('a.csenote_edit').live('click', function (event) {
 
 //Listen for click
 $('.case_detail_nav #item1').live('click', function () {
-
     var panelTarget = $(this).closest('.ui-tabs-panel');
     var id = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     loadCaseNotes(panelTarget, id);
