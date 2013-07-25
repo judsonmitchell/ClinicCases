@@ -304,7 +304,7 @@ input.casenotes_search_clear{width:25px;height:25px;background-image:url('../ico
 
 div.csenote {position:relative;border:1px solid #AAA; text-align:left;width:98%;margin:auto;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;margin-bottom:15px;min-height:99px;}
 div.csenote p {margin:10px}
-div.csenote div.more{position:absolute;bottom:0;right:15px;}
+div.csenote div.more{position:absolute;bottom:0;right:15px;background-color:white;width:50px;text-align:center}
 div.more > a{font-size:.8em;color:#AAA;}
 
 div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AAA;padding:7px;}
@@ -542,6 +542,9 @@ ol.conflicts{padding-left:30px;}
 #utilities_panel ul.chzn-results{text-align: left;}
 #utilities_panel tbody{border-top: 1px solid black;border-bottom: 1px solid black;}
 table.display tfoot th{font-weight: bold !important;}
+
+/* Styles for non-case time */
+#noncase_panel{width:85%;max-width:1250px;height:90%;overflow-y:auto;margin:auto}
 
 /*Styles for journals */
 #journal_detail_window {width:97%;height:98%;background-color:white;position:absolute;top:1.5%;}

@@ -380,13 +380,15 @@ $('a.csenote_edit').live('click', function (event) {
 
     var txtVal = thisCseNote.find('p.csenote_instance').html().br2nl();
     var timeVal = $(this).closest('div').children('.csenote_time').html();
-    if (timeVal.indexOf('.') == '-1') {
-        var hourVal = '0';
-        var minuteVal = parseInt(timeVal);
+    var hourVal;
+    var minuteVal;
+    if (timeVal.indexOf('.') === -1) {
+        hourVal = '0';
+        minuteVal = parseInt(timeVal);
     } else {
         var timeParts = timeVal.split('.');
-        var hourVal = timeParts[0];
-        var minuteVal = parseInt(timeParts[1]);
+        hourVal = timeParts[0];
+        minuteVal = parseInt(timeParts[1]);
     }
 
     var dateVal = $(this).closest('div').children('.csenote_date').html();

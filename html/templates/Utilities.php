@@ -1,38 +1,24 @@
 
 <!-- Jquery Calls Specific to this page -->
 	<script  src="html/js/Utilities.js" type="text/javascript"></script>
-
 	<script  src="html/js/utilitiesNonCase.js" type="text/javascript"></script>
-
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
-
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
-
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
-
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColReorder/media/js/ColReorder.min.js"></script>
-
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/ColVis/media/js/ColVis.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/dataTablesFunctions.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/jquery.textarea-expander.js"></script>
+	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
 
 <!-- CSS specific to this page -->
 
-
       <link rel="stylesheet" href="lib/DataTables-1.8.2/media/css/data_table_jui.css" type="text/css">
-
       <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/TableTools/media/css/TableTools.css" type="text/css">
-
       <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColVis/media/css/ColVis.css" type="text/css">
-
       <link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
-
       <link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
-
       <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
-
 
    </head>
 

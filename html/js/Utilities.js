@@ -206,7 +206,8 @@ $(document).ready(function () {
     $('#non_case_button').click(function () {
         //$('#utilities_panel').load('lib/php/data/cases_casenotes_load.php .case_detail_panel_casenotes',
         //{case_id: 'NC', non_case: '1'});
-        loadCaseNotes($('#utilities_panel'), 'NC');
+        $('#utilities_panel').html('<div id="noncase_panel"></div>');
+        loadCaseNotes($('#noncase_panel'), 'NC');
     });
 
     //Set default load
