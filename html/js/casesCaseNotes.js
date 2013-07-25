@@ -161,31 +161,33 @@ $('input.casenotes_search').live('keyup', function () {
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var search = $(this).val();
     var caseId = resultTarget.data('CaseNumber');
-    resultTarget.unbind('scroll');
-    resultTarget.load('lib/php/data/cases_casenotes_load.php',
-    {'case_id': caseId, 'search': search, 'update': 'yes'}, function () {
+    if (search.length > 2) {
+        resultTarget.unbind('scroll');
+        resultTarget.load('lib/php/data/cases_casenotes_load.php',
+        {'case_id': caseId, 'search': search, 'update': 'yes'}, function () {
 
-        resultTarget.scrollTop(0);
-        if (search.length) {
-            resultTarget.highlight(search);
-        }
-
-        sizeCaseNotes($('.csenote'), resultTarget);
-        if (resultTarget.hasClass('csenote_shadow')) {
-            resultTarget.removeClass('csenote_shadow');
-        }
-
-        $('div.csenote').addClass('ui-corner-all');
-
-        resultTarget.bind('scroll.search', function () {
-            if ($(this).scrollTop() > 0) {
-                $(this).addClass('csenote_shadow');
-            } else {
-                $(this).removeClass('csenote_shadow');
+            resultTarget.scrollTop(0);
+            if (search.length) {
+                resultTarget.highlight(search);
             }
-        });
 
-    });
+            sizeCaseNotes($('.csenote'), resultTarget);
+            if (resultTarget.hasClass('csenote_shadow')) {
+                resultTarget.removeClass('csenote_shadow');
+            }
+
+            $('div.csenote').addClass('ui-corner-all');
+
+            resultTarget.bind('scroll.search', function () {
+                if ($(this).scrollTop() > 0) {
+                    $(this).addClass('csenote_shadow');
+                } else {
+                    $(this).removeClass('csenote_shadow');
+                }
+            });
+
+        });
+    }
 
 });
 
