@@ -85,7 +85,7 @@ The Home tab is designed to give you a quick look at what's going on.  It's brok
 
 	The Quick Add button is designed for you to quickly enter case notes and events without having to take the extra steps of navigating into a case.  Clicking on the button will bring up a dialog with a choice to add a case note or an event.
 
-	With a case note, you select the appropriate case from the list of case to which you are assigned, add a time value, and then add a note.  After you click "Add", the case note will be automatically filed in the case.  Note that the default choice in the case list is "Non-Case Time."  This is the only place in ClinicCases to record activity not associated with a case.  Activity filed here can include things such as class time, attending orientation, etc.  As of Beta 4.2, there is no way to delete or edit non-case time.
+	With a case note, you select the appropriate case from the list of case to which you are assigned, add a time value, and then add a note.  After you click "Add", the case note will be automatically filed in the case.  Note that the default choice in the case list is "Non-Case Time."  Activity filed here can include things such as class time, attending orientation, etc.  
 
 	With an event, you enter the title of the event, where it is taking place, and the start and end times.  You can then associate the event with a case by selecting from the drop-down list.  In the field labeled "Who?", you type in the names of everyone who is responsible for this event.  If you choose a group, everyone in that group will be responsible and will see the event in their calendar feeds. Please note that if you do not add yourself to the event or you are not in one of the assigned groups, you will not see the event in your calendar.
 
@@ -259,7 +259,7 @@ When you have finished entering the new user's data, click "Submit" and the new 
 
 ##Utilities Tab
 
-As of Beta 5, the Utilities tab contains two views: 1) Time Reports and 2) Configuration.
+The Utilities tab contains three views: 1) Time Reports, 2) Configuration, 3)Non-Case Time.
 <a id="time_reports"></a>
 
 * __[Time Reports](#time_reports)__
@@ -294,6 +294,10 @@ As of Beta 5, the Utilities tab contains two views: 1) Time Reports and 2) Confi
 	* Change Clinic Types - Most law school clinics are divided into sub-clinics, e.g. "Family Law", "Elder Law", "Criminal Defense", etc.  You define the sub-clinics for your clinic here. Note that, depending upon your [Configuration](#customization_case_numbers), the clinic type may be appended to the case number, e.g. 2012-00050-FAM.
 
 	* Change Referrals - Some clinics like to keep track of their referral sources (e.g., Legal Aid, LSC provider, Social Services).  This is where you add those sources.
+
+* __[Non-Case Time](#utilities_non_case)__
+
+    This is where users can record any activity not specifically tied to a case, such as class time, attending orientation, or doing reading assignements.  The interface works exactly the same as way as the case notes interface inside a case, allowing you to view, add, edit, or delete time notes.
 
 	[Go to Top](#contents)
 <a id="board_tab"></a>
