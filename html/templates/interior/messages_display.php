@@ -7,7 +7,7 @@
 
 			<select multiple name = "new_tos[]" data-placeholder = "Choose recipients">
 
-				<?php echo all_active_users_and_groups($dbh); ?>
+				<?php echo all_active_users_and_groups($dbh,false,false); ?>
 
 			</select>
 
@@ -17,7 +17,7 @@
 
 			<select multiple name = "new_ccs[]" data-placeholder = "Choose recipients">
 
-				<?php echo all_active_users_and_groups($dbh); ?>
+				<?php echo all_active_users_and_groups($dbh,false,false); ?>
 
 			</select>
 

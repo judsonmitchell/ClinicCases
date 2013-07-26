@@ -216,11 +216,12 @@ switch ($action) {
 				$preview = snippet(20,$new_msg_text);
 
 				foreach ($email_to as $r) {
-					$email = user_email($dbh,$r);
-					$subject = "ClinicCases: New Message:'" . $msg_subject . "'";
-					$body = username_to_fullname($dbh,$user) . " has sent you a message '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-					mail($email,$subject,$body,CC_EMAIL_HEADERS);
-					//TODO test on mail server
+                    if ($r != $user){ //no email notification to sender
+                        $email = user_email($dbh,$r);
+                        $subject = "ClinicCases: New Message:'" . $msg_subject . "'";
+                        $body = username_to_fullname($dbh,$user) . " has sent you a message '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+                    }
 				}
 		}
 
@@ -276,11 +277,12 @@ switch ($action) {
 				$preview = snippet(20,$reply_text);
 
 				foreach ($email_to as $r) {
-					$email = user_email($dbh,$r);
-					$subject = "ClinicCases: Reply to '" . $msg_subject . "'";
-					$body = username_to_fullname($dbh,$user) . " has replied to '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-					mail($email,$subject,$body,CC_EMAIL_HEADERS);
-					//TODO test on mail server
+                    if ($r != $user){
+                        $email = user_email($dbh,$r);
+                        $subject = "ClinicCases: Reply to '" . $msg_subject . "'";
+                        $body = username_to_fullname($dbh,$user) . " has replied to '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+                    }
 				}
 			}
 
@@ -343,11 +345,12 @@ switch ($action) {
 				$preview = snippet(20,$reply_text);
 
 				foreach ($forward_tos as $f) {
-					$email = user_email($dbh,$f);
-					$subject = "ClinicCases: New Message: '" . $msg_subject . "'";
-					$body = username_to_fullname($dbh,$user) . " forwarded '" . $msg_subject ."' to you:\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-					mail($email,$subject,$body,CC_EMAIL_HEADERS);
-					//TODO test on mail server
+                    if ($f != $user){
+                        $email = user_email($dbh,$f);
+                        $subject = "ClinicCases: New Message: '" . $msg_subject . "'";
+                        $body = username_to_fullname($dbh,$user) . " forwarded '" . $msg_subject ."' to you:\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					}
 				}
 			}
 
