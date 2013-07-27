@@ -1,6 +1,6 @@
 <?php
 @session_start();
-require(__DIR__ . '/../../../db.php');
+require_once dirname(__FILE__) . '/../../../db.php';
 require(CC_PATH . '/lib/php/auth/session_check.php');
 include(CC_PATH . '/lib/php/utilities/thumbnails.php');
 include(CC_PATH . '/lib/php/utilities/names.php');
@@ -43,14 +43,14 @@ $username = $_SESSION['login'];
 
 if (isset($search)) {
     if (isset($non_case)) {
-        $sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* 
+        $sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.*
         FROM cm_case_notes,cm_users WHERE  (cm_case_notes.case_id = :id and cm_case_notes.username = cm_users.username)
-        and cm_case_notes.username = '$username' and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%' 
+        and cm_case_notes.username = '$username' and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%'
         OR cm_case_notes.date LIKE '%$search%' OR cm_case_notes.description LIKE '%$search%') ORDER BY cm_case_notes.date DESC ";
     } else {
-        $sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.* 
+        $sql = "SELECT cm_users.username,cm_users.first_name,cm_users.last_name,cm_users.picture_url, cm_case_notes.*
         FROM cm_case_notes,cm_users WHERE  (cm_case_notes.case_id = :id and cm_case_notes.username = cm_users.username)
-        and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%' 
+        and (cm_users.last_name LIKE '%$search%'  OR cm_users.first_name LIKE '%$search%'
         OR cm_case_notes.date LIKE '%$search%' OR cm_case_notes.description LIKE '%$search%') ORDER BY cm_case_notes.date DESC ";
     }
 } else if (isset($non_case)){

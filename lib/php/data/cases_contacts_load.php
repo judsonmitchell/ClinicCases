@@ -1,6 +1,6 @@
 <?php
 @session_start();
-require(__DIR__ . '/../../../db.php');
+require_once dirname(__FILE__) . '/../../../db.php';
 require_once(CC_PATH . '/lib/php/auth/session_check.php');
 require_once(CC_PATH . '/lib/php/utilities/states.php');
 require_once(CC_PATH . '/lib/php/html/gen_select.php');

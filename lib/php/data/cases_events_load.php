@@ -1,6 +1,6 @@
 <?php
 @session_start();
-require(__DIR__ . '/../../../db.php');
+require_once dirname(__FILE__) . '/../../../db.php';
 require_once(CC_PATH . '/lib/php/auth/session_check.php');
 require_once(CC_PATH . '/lib/php/utilities/thumbnails.php');
 require_once(CC_PATH . '/lib/php/utilities/names.php');
@@ -21,7 +21,7 @@ if (isset($_REQUEST['q'])) {
     $q = null;
 }
 
-function get_responsibles($dbh,$event_id) 
+function get_responsibles($dbh,$event_id)
 { //get names of all users on event
 
 	$q = $dbh->prepare("SELECT * FROM cm_events_responsibles

@@ -2,7 +2,7 @@
 //Loads messages
 //[A brief explanation of how messages are set up:  If the id matches the thread_id, this is a parent message.  If it doesn't, then this is a reply to the parent message.  Whenever someone replies to a parent message, the parent message archive and read fields are cleared.  The parent message will then appear in the recipients inbox as a new message.  When recipient clicks on parent message header, all replies, including the one just sent, are loaded.  A reply should never have anything in its read or archive fields, unless there are some left over messages from cc6.  Apologies for this complexity.]
 @session_start();
-require_once(__DIR__ . '/../../../db.php');
+require_once dirname(__FILE__) . '/../../../db.php';
 require_once(CC_PATH . '/lib/php/auth/session_check.php');
 require_once(CC_PATH . '/lib/php/utilities/names.php');
 require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
@@ -76,7 +76,7 @@ if (isset($_REQUEST['id'])) {
 
 if (isset($_REQUEST['thread_id'])) {
     $thread_id = $_REQUEST['thread_id'];
-} 
+}
 
 if (isset($_REQUEST['new_message'])) {
     $new_message = true;

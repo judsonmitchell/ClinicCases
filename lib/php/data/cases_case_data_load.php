@@ -1,6 +1,6 @@
 <?php //scripts for case data tab in case detail
 @session_start();
-require_once(__DIR__ . '/../../../db.php');
+require_once dirname(__FILE__) . '/../../../db.php';
 require_once(CC_PATH . '/lib/php/auth/session_check.php');
 require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
 
