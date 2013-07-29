@@ -157,7 +157,11 @@
 
 			<?php } ?>
 
-			<p>
+			<p style="text-align:center">
+				<button class="case_cancel_submit <?php if ($type == 'new') {echo 'cancel_new_case';}?>">
+				Cancel
+				</button>
+
 				<button class="case_modify_submit <?php if ($type == 'new') {echo 'update_new_case';}?>">
 				Submit
 				</button>
