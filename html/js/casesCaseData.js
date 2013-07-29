@@ -2,16 +2,14 @@
 //Scripts for Case data
 //
 
-function formatCaseData(thisPanel, type)
-{
+function formatCaseData(thisPanel, type) {
 
     //Apply CSS
     var navItem = thisPanel.siblings('.case_detail_nav').find('#item2');
     var toolsHeight = navItem.outerHeight();
     var thisPanelHeight = navItem.closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
-    if (typeof caseNotesWindowHeight == 'undefined')
-    {
+    if (typeof caseNotesWindowHeight == 'undefined') {
         caseNotesWindowHeight = thisPanelHeight - toolsHeight;
     }
 
@@ -24,40 +22,33 @@ function formatCaseData(thisPanel, type)
     thisPanel.find('div.case_data_value').not('div.case_data_name + div.case_data_value').css({'margin-left': '21%'});
 
     //Apply shadow on scroll
-    $('.case_detail_panel_casenotes').bind('scroll', function() {
+    $('.case_detail_panel_casenotes').bind('scroll', function () {
         var scrollAmount = $(this).scrollTop();
-        if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
-        {
+        if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
             $(this).removeClass('csenote_shadow');
-        }
-        else
-        {
+        } else {
             $(this).addClass('csenote_shadow');
         }
     });
 
     //format the form
-    if (type === 'new' || type === 'edit')
-    {
+    if (type === 'new' || type === 'edit') {
         thisPanel.find('input[name="id"]').parent().hide();
         thisPanel.find('input[name="opened_by"]').parent().remove();
-        if (thisPanel.find('input[name="organization"]').val() == 'New Case')
-        {
+        if (thisPanel.find('input[name="organization"]').val() === 'New Case') {
             thisPanel.find('input[name="organization"]').val('');
         }
 
         //Enable dynamic replacement of clinic and case codes in case number
         var cN = thisPanel.find('input[name="clinic_id"]');
         var cnVal = cN.val();
-        if (cnVal.indexOf("ClinicType") != -1)
-        {
-            thisPanel.find('select[name="clinic_type"]').change(function() {
+        if (cnVal.indexOf("ClinicType") != -1) {
+            thisPanel.find('select[name="clinic_type"]').change(function () {
                 cN.val(cnVal.replace('ClinicType', $(this).find('option:selected').attr('data-code')));
             });
         }
 
-        if (cnVal.indexOf("CaseType") != -1)
-        {
+        if (cnVal.indexOf("CaseType") != -1) {
             thisPanel.find('select[name="case_type"]').change(function() {
                 cN.val(cnVal.replace('CaseType', $(this).find('option:selected').attr('data-code')));
             });
@@ -95,11 +86,10 @@ function formatCaseData(thisPanel, type)
         });
 
         //Add case re-opening feature
-        if (thisPanel.find('input[name="date_close"]').val() !== '')
-        {
+        if (thisPanel.find('input[name="date_close"]').val() !== '') {
             thisPanel.find('input[name="date_close"]').after('<a class="force_reopen small" href="#">Re-open this case</a>');
 
-            thisPanel.find('a.force_reopen').click(function(event) {
+            thisPanel.find('a.force_reopen').click(function (event) {
                 event.preventDefault();
                 var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>This will re-open the case. Are you sure?</p></div>').dialog({
                     autoOpen: false,
@@ -173,7 +163,7 @@ function formatCaseData(thisPanel, type)
         });
 
         //If there is no last name, put the organization name on the tab
-        $('input[name = "organization"]').keyup(function(event) {
+        $('input[name = "organization"]').keyup(function (event) {
 
             lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
 
@@ -208,12 +198,9 @@ $('.case_detail_nav #item2').live('click', function() {
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     var type;
 
-    if ($(this).hasClass('new_case'))
-    {
+    if ($(this).hasClass('new_case')) {
         type = 'new';
-    }
-    else
-    {
+    } else {
         type = 'display';
     }
 
@@ -225,7 +212,7 @@ $('.case_detail_nav #item2').live('click', function() {
 
 
 //Listen for edit
-$('button.case_data_edit').live('click', function() {
+$('button.case_data_edit').live('click', function () {
 
     var thisPanel = $(this).closest('.case_detail_panel');
     var thisCaseId = thisPanel.data('CaseNumber');
@@ -368,6 +355,50 @@ $('button.case_modify_submit').live('click', function(event) {
         });
 
     }
+});
+
+//Cancel New Case or Edit
+$('button.case_cancel_submit').live('click', function (event) {
+    event.preventDefault();
+    var thisPanel = $(this).closest('.case_detail_panel');
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var type;  
+
+    if ($(this).hasClass('cancel_new_case')) {
+        var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
+        'This will delete your new case. Are you sure?</p></div>').dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            buttons: {
+                "Yes": function() {
+                    $.post('lib/php/data/cases_case_data_process.php', {id: caseId, action: 'delete'}, function (data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (!serverResponse.error) {
+                            var el = $('li.new_case.ui-state-active');
+                            closeCaseTab(true,el);
+                        }
+                        notify(serverResponse.message);
+                    });
+                    $(this).dialog("destroy");
+                },
+                "No": function() {
+                    $(this).dialog("destroy");
+                }
+            }
+        });
+
+        $(dialogWin).dialog('open');
+    } else {
+        var thisPanel = $(this).closest('.case_detail_panel');
+        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+        type = 'display';
+        thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': caseId,'type': type}, function (data) {
+            formatCaseData(thisPanel, type);
+        });
+    }
+
+    $(window).unbind("beforeunload");
 });
 
 //Listen for print
