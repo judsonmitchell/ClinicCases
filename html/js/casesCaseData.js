@@ -56,7 +56,7 @@ function formatCaseData(thisPanel, type) {
 
         //Add onbeforeunload event to prevent empty cases
         $(window).bind('beforeunload', function () {
-            return 'You may have unsaved changes on a case.  Please' +
+            return 'You may have unsaved changes on a case.  Please ' +
             'either save any changes or close the case\'s tab before leaving this page';
         });
 
@@ -67,9 +67,9 @@ function formatCaseData(thisPanel, type) {
         thisPanel.find('a.force_edit').click(function (event) {
             event.preventDefault();
             var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
-            'ClinicCases automatically assigns the next available case number.  If your' +
+            'ClinicCases automatically assigns the next available case number.  If your ' +
             'case number contains "CaseType" or "ClinicType", these values will be ' +
-            'replaced when you change those fields below.</p><br /><p>Manually editing' +
+            'replaced when you change those fields below.</p><br /><p>Manually editing ' +
             'a case number may have undesirable results. Are you sure?</p></div>').dialog({
                 autoOpen: false,
                 resizable: false,
@@ -202,7 +202,7 @@ $('.case_detail_nav #item2').live('click', function () {
         type = 'display';
     }
 
-    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': caseId,'type': type}, function (data) {
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': caseId, 'type': type}, function () {
         formatCaseData(thisPanel, type);
     });
 });
@@ -214,7 +214,7 @@ $('button.case_data_edit').live('click', function () {
 
     var thisPanel = $(this).closest('.case_detail_panel');
     var thisCaseId = thisPanel.data('CaseNumber');
-    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId,'type': 'edit'}, function () {
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId, 'type': 'edit'}, function () {
         formatCaseData(thisPanel, 'edit');
     });
 });
