@@ -32,7 +32,7 @@ $(document).ready(function () {
 
     //Search Cases
     $('input.case-search').keyup(function () {
-        var searchVal = $(this).val().toLowerCase();;
+        var searchVal = $(this).val().toLowerCase();
         var caseStatus = $('select[name="case-status"]').val();
         var targetClass;
         if (caseStatus === 'open') {
@@ -393,6 +393,26 @@ $(document).ready(function () {
             $('.msg_display > ul').append(moreMsg);
         });
         
+    });
+
+    //Handle board downloads
+    $('.board-container a.attachment').click(function (event) {
+        event.preventDefault();
+        var itemId = $(this).attr('data-id');
+        $.download('lib/php/data/board_process.php', {'item_id': itemId, 'action': 'download'});
+    });
+
+    $('input.board-search').keyup(function () {
+        var searchVal = $(this).val().toLowerCase();
+        $('div.board-item').removeClass('search-result-hit search-result-miss');
+        $('div.board-item').each(function () {
+            if ($(this).find('.searchable').children().andSelf().text().toLowerCase().indexOf(searchVal) !== -1) {
+                $(this).addClass('search-result-hit');
+            } else {
+                $(this).addClass('search-result-miss');
+            }
+        });
+
     });
 
 });

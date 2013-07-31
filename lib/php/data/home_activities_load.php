@@ -619,13 +619,14 @@ if ($_SESSION['permissions']['view_board'] == '1')
 		$time_formatted = extract_date_time($post['time_added']);
 		$what = $post['title'];
 		$follow_url = 'index.php?i=Board.php';
+		$mobile_url = 'index.php?i=Board.php';
 		$casename = "(view here)";
 		$id = null;
 
 		$item = array('activity_type' => $activity_type, 'by' => $by, 'thumb' => $thumb,
 				'action_text' => $action_text,'casename' => $casename, 'id' => $id,
 				'what' => $what,'follow_url' => $follow_url, 'time_done' => $time_done,
-				'time_formatted' => $time_formatted);
+				'time_formatted' => $time_formatted,'mobile_url' => $mobile_url);
 
 		$activities[] = $item;
 	}

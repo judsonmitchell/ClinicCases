@@ -1,12 +1,12 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-require('../../../db.php');
-require('../utilities/thumbnails.php');
-require('../utilities/names.php');
-require('../utilities/convert_times.php');
-require('../html/gen_select.php');
-require('../users/user_data.php');
+@session_start();
+require_once dirname(__FILE__) . '/../../../db.php';
+require_once(CC_PATH . '/lib/php/auth/session_check.php');
+require_once(CC_PATH . '/lib/php/utilities/thumbnails.php');
+require_once(CC_PATH . '/lib/php/utilities/names.php');
+require_once(CC_PATH . '/lib/php/utilities/convert_times.php');
+require_once(CC_PATH . '/lib/php/html/gen_select.php');
+require_once(CC_PATH . '/lib/php/users/user_data.php');
 
 function check_attachments($dbh,$post_id)
 {
@@ -85,6 +85,8 @@ $error = $q->errorInfo();
 
 $posts = $q->fetchAll(PDO::FETCH_ASSOC);
 
-include '../../../html/templates/interior/board_display.php';
+if (!$_SESSION['mobile']){
+    include '../../../html/templates/interior/board_display.php';
+}
 
 
