@@ -44,6 +44,7 @@ include_once('lib/php/utilities/states.php');
     </ul>
     <div class="tab-content">
         <div class="tab-pane" id="qaCaseNote">
+            <?php if ($_SESSION['permissions']['add_case_notes'] === '1'){ ?>
             <form name="quick_cn">
                 <input type="hidden" name="csenote_date" id="cn_date"></p>
                 <?php echo gen_mobile_datepicker(false); ?>
@@ -70,8 +71,10 @@ include_once('lib/php/utilities/states.php');
                     <button class="btn btn-success"  id="quick_add_cn_submit">Add</button>
                 </p>
             </form>
+            <?php } else {echo "<p>You do not have permission to add case notes.</p>";} ?>
         </div>
         <div class="tab-pane" id="qaEvent">
+            <?php if ($_SESSION['permissions']['add_events'] === '1'){ ?>
             <form name = "quick_event">
                 <p><label>What: </label><input type="text" name="task" class="required"></p>
                 <p><label>Where: </label><input type="text" name="where"></p>
@@ -100,9 +103,10 @@ include_once('lib/php/utilities/states.php');
                     <button class="btn btn-success" id="quick_add_ev_submit">Add</button>
                 </p>
             </form>
-
+            <?php } else {echo "<p>You do not have permission to add events.</p>";} ?>
         </div>
         <div class="tab-pane" id="qaContact">
+            <?php if ($_SESSION['permissions']['add_contacts'] === '1'){ ?>
             <form name = "quick_contact">
                 <p><label>First Name</label><input type="text" name="first_name"></p>
                 <p><label>Last Name</label><input type="text" name="last_name"></p>
@@ -150,6 +154,7 @@ include_once('lib/php/utilities/states.php');
                 <p><button class="btn btn-success">Add</button>
                 </p>
             </form>
+            <?php } else {echo "<p>You do not have permission to add contacts.</p>";} ?>
         </div>
     </div>
 </div>

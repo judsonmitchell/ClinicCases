@@ -38,23 +38,25 @@
         </form>
     </div>
     <div class="row board-container">
-            <?php if (empty($posts)) {
+            <?php if ($_SESSION['permissions']['view_board'] === '1'){ 
+            if (empty($posts)) {
                 echo "<p class='end'>There have been no posts to your Board yet.</p>"; die;
-            }
+            } else {
+                    foreach ($posts as $p) {extract($p);
+                        echo "<div class='container board-item' style='background-color:rgb($color)'>" .
+                        "<h3><img class='img-rounded' src='" . return_thumbnail($dbh,$author) . 
+                        "'><span class='searchable'> $title</span></h3>" .
+                        "<div class='searchable'>$body</div>" . 
+                        "<br /><div class='muted searchable'>Posted By " . username_to_fullname($dbh,$author) . " on " .
+                        extract_date_time($time_added) . "</div>"; 
 
-            foreach ($posts as $p) {extract($p);
-                echo "<div class='container board-item' style='background-color:rgb($color)'>" .
-                "<h3><img class='img-rounded' src='" . return_thumbnail($dbh,$author) . 
-                "'><span class='searchable'> $title</span></h3>" .
-                "<div class='searchable'>$body</div>" . 
-                "<br /><div class='muted searchable'>Posted By " . username_to_fullname($dbh,$author) . " on " .
-                extract_date_time($time_added) . "</div>"; 
-
-                $attach = check_attachments($dbh,$post_id); if ($attach == true){ 
-                echo "<br /><div class='searchable'><label>Attachments:</label>$attach</div>"; 
+                        $attach = check_attachments($dbh,$post_id); if ($attach == true){ 
+                        echo "<br /><div class='searchable'><label>Attachments:</label>$attach</div>"; 
+                        }
+                        echo "</div>";
+                    }
                 }
-                echo "</div>";
-            }
+            } else { echo "<p>You do not have permission to view the board."; }
             ?>
     </div>
 </div>
