@@ -34,9 +34,7 @@ include 'lib/php/data/cases_load.php';
 
 
 <div class="container">
-    <div class="row">
-        <div id="notifications"></div>
-    </div>
+    <div class="row" id="notifications"></div>
     <div class="row">
         <h1>Cases</h1>
     </div>

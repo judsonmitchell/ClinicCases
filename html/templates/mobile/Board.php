@@ -27,9 +27,9 @@
         </div>
     </div>
 </div>
-<h1>Board</h1>
 <div class="container">
     <div class="row" id="notifications"></div>
+    <div class="row"><h1>Board</h1></div>
     <?php include 'html/templates/interior/idletimeout.php' ?>
     <?php include 'lib/php/data/board_load.php' ?>
     <div class="row">
