@@ -67,8 +67,6 @@
 
 				<input type="radio" id="upcoming_button" name="radio" /><label for="upcoming_button">Upcoming</label>
 
-				<input type="radio" id="trends_button" name="radio" /><label for="trends_button">Trends</label>
-
 			</span>
 
 			<button id="quick_add">Quick Add</button>

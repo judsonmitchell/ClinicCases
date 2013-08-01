@@ -1,2 +1,1 @@
-<img src="html/images/logo_small4.png">
- <a class="menu" href="#" id="report_problems" data-name = "<?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?>" data-email = "<?php echo $_SESSION['email'];?>">Report Problems</a> | <a class="menu" href="#" id="show_preferences">Preferences</a> | <a class="menu" target="_new" href="http://cliniccases.com/help">Help</a> | <a class="menu" href="index.php?i=Logout.php&user=1">Logout</a>
+<img src="html/images/logo_small4.png"> <a class="menu" href="#" id="show_preferences">Preferences</a> | <a class="menu" target="_new" href="http://cliniccases.com/help">Help</a> | <a class="menu" href="index.php?i=Logout.php&user=1">Logout</a>

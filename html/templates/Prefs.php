@@ -48,12 +48,6 @@
 
 </div>
 
-<div class = "pref pref_change_picture">
-
-	<p>This feature is not yet implemented.  Please <a href="mailto:<?php echo CC_ADMIN_EMAIL;?>" target="_new" title = "Email your administrator">ask your administrator</a> to change your picture.</p>
-
-</div>
-
 <div class = "pref pref_private_key">
 
 	<p class="pref_error" id = "private_key_error"></p>
@@ -64,9 +58,9 @@
 
 		<p>Your private key: <?php echo $private_key; ?></p>
 
-		<p>Your ICal feed of calendar events: <a href = "<?php echo CC_BASE_URL . 'feeds/ical.php?key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/ical.php?key=' . $private_key;?></a></p>
+		<p style="word-wrap:break-word">Your ICal feed of calendar events: <a href = "<?php echo CC_BASE_URL . 'feeds/ical.php?key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/ical.php?key=' . $private_key;?></a></p>
 
-		<p>Your RSS feed of ClinicCases Activity: <a href = "<?php echo CC_BASE_URL . 'feeds/rss.php?type=activities&key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/activity_feed.php?type=activities&key=' . $private_key;?></a></p>
+		<p style="word-wrap:break-word">Your RSS feed of ClinicCases Activity: <a href = "<?php echo CC_BASE_URL . 'feeds/rss.php?type=activities&key=' . $private_key;?>" target="_new"><?php echo CC_BASE_URL . 'feeds/activity_feed.php?type=activities&key=' . $private_key;?></a></p>
 
 		<p class="pref_submit"><button class = "change_private_key_form_submit" data-id="<?php echo $id; ?>">Reset Key</button></p>
 
