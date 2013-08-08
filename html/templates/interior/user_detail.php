@@ -98,6 +98,10 @@
 
 	<div class="user_detail_actions">
 
+		<?php if ($_SESSION['permissions']['activate_users']  == '1'){ ?>
+		<button class="reset_password">Reset Password</button>
+        <?php } ?>
+
 		<?php if ($_SESSION['permissions']['delete_users']  == '1'){ ?>
 
 		<button class = "user_delete">Delete</button>

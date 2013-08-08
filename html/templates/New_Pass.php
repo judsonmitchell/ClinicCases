@@ -30,7 +30,7 @@
 
 			<br />
 
-			<p>Thanks for upgrading to ClinicCases 7.  Before you proceed, you must update your password.</p>
+			<p>Before you proceed, you must update your password.</p>
 
 			<br  />
 

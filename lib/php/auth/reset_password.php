@@ -11,7 +11,7 @@ if (!$_SESSION['permissions']['activate_users'] == '1'){
 }
 
 $q = $dbh->prepare("SELECT * FROM cm_users WHERE id = ?");
-$id = trim($_GET['id']);
+$id = $_POST['id'];
 $q->bindParam(1,$id);
 $q->execute();
 $count = $q->rowCount();
@@ -70,7 +70,7 @@ if ($count < 1) {
         "You will then be prompted to change your password to something you can remember.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);
 
-		$resp = array('error' => false, 'message' => "The user's password has been reset to $gen_pass");
+		$resp = array('error' => false, 'message' => "The user's password has been reset to <b>$gen_pass</b>");
 
 		echo json_encode($resp);
 	}

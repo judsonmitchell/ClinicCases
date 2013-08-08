@@ -753,6 +753,40 @@ function userEdit(userId,newUser)
 //Listen for user data editing buttons
 //
 
+//Listen for the reset password button
+$('div.user_detail_actions button.reset_password').live('click',function(event) {
+    event.preventDefault();
+    var userId = $('.user_data_display_area').attr('data-id');
+    var dialogWin = $('<div title="Are you sure?"><p>This will reset the user\'s password.  ' +
+    'Are you sure you want to do that?</p></div>').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $.post('lib/php/auth/reset_password.php', {'id': userId}, function(data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (serverResponse.error === true)
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                    else
+                    {
+                        notify(serverResponse.message, true);
+                    }
+                });
+
+                $(this).dialog("destroy");
+            },
+            "No": function() {
+                $(this).dialog("destroy");
+            }
+        }
+    });
+
+    $(dialogWin).dialog('open');
+});
+
 //Listen for the edit button
 $('div.user_detail_actions button.user_edit').live('click',function() {
     var userId = $('.user_data_display_area').attr('data-id');
