@@ -24,6 +24,7 @@
 	<script type="text/javascript" src="lib/javascripts/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/additional-methods.js"></script>
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
+	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
 
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
