@@ -16,7 +16,12 @@ if (!isset($_SESSION['cc_session_id']) && isset($_GET['i'])) {
 </div>
 </body>
 </html>
-<?php die;} 
+<?php die;} elseif (!isset($_SESSION['cc_session_id'])){
+
+    $error = array('error' => true, 'message' => 'You do not have permission to do this.');
+    echo json_encode($error);
+    die;
+}
     
 		
 
