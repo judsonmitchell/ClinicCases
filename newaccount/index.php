@@ -103,7 +103,7 @@ include '../lib/php/html/gen_select.php';
 				} ?>
 
 				<p><input type="button" id="sbmt" name="sbmt" value="Submit"></p>
-
+                <input type="hidden" name="user_initiated" value="true">
 				</form>
 
 			</div>

@@ -150,7 +150,13 @@ function genKey()
     return $p;
 }
 
-$gen_pass = generatePassword();
+if (isset($_POST['user_initiated'])) {
+    $gen_pass = $_POST['password'];
+    $force_new_password = '0';
+} else {
+    $gen_pass = generatePassword();
+    $force_new_password = '1';
+}
 
 $private_key = genKey();
 
@@ -164,13 +170,13 @@ $first_name = ucwords(strtolower($_POST['first_name']));
 
 $last_name = ucwords(strtolower($_POST['last_name']));
 
-$q = $dbh->prepare("INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`, `home_phone`, `grp`, `username`, `password`, `timezone_offset`, `picture_url`,`status`, `new`, `date_created`, `private_key`) VALUES (NULL, :first_name, :last_name, :email, :mobile_phone, :home_phone, :grp, :username, :pass, :timezone, 'people/no_picture.png', 'inactive', 'yes', CURRENT_TIMESTAMP, :private_key);");
+$q = $dbh->prepare("INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`, `home_phone`, `grp`, `username`, `password`, `timezone_offset`, `picture_url`,`status`, `new`, `date_created`, `private_key`,`force_new_password`) VALUES (NULL, :first_name, :last_name, :email, :mobile_phone, :home_phone, :grp, :username, :pass, :timezone, 'people/no_picture.png', 'inactive', 'yes', CURRENT_TIMESTAMP, :private_key,:force_new_password);");
 
 $data = array('first_name' => $first_name, 'last_name' => $last_name,
 	'email' => $_POST['email'],'mobile_phone' => $_POST['mobile_phone'],
 	'home_phone' =>$_POST['home_phone'], 'grp' => $_POST['grp'],
 	'username' => $new_username, 'pass' => $pass,'timezone' => $_POST['timezone_offset'],
-	'private_key' => $private_key);
+	'private_key' => $private_key,'force_new_password' => $force_new_password); 
 
 $q->execute($data);
 
