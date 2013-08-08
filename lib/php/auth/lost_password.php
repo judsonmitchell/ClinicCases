@@ -4,22 +4,17 @@ require('../../../db.php');
 require('pbkdf2.php');
 
 $q = $dbh->prepare("SELECT * FROM cm_users WHERE email = ?");
-
 $email = trim($_POST['email']);
-
 $q->bindParam(1,$email);
-
 $q->execute();
 
 $count = $q->rowCount();
-
 $check = $q->fetch();
 
 if ($count < 1) {
 	$resp = array('error' => true,'message' => 'There are no users with that email address on this server.  Please try again');
 	echo json_encode($resp);
 } else if ($count > 1) {
-
 	$resp = array('error' => true,'message' => 'There are multiple accounts associated with that email address.
     Please ask your administrator to reset your password.');
 	echo json_encode($resp);
@@ -55,19 +50,10 @@ if ($count < 1) {
 	}
 
 	$gen_pass = generatePassword();
-
-	$salt = CC_SALT;
-
-	$hash = pbkdf2($gen_pass, $salt, 1000, 32);
-
-	$pass = base64_encode($hash);
-
-	$update = $dbh->prepare("UPDATE cm_users SET password = :pass, force_new_password = '0' WHERE email = :email");
-
+    $pass = md5($gen_pass);
+	$update = $dbh->prepare("UPDATE cm_users SET password = :pass, force_new_password = '1' WHERE email = :email");
 	$data = array('pass' => $pass,'email' => $email);
-
 	$update->execute($data);
-
 	$error = $update->errorInfo();
 
 	if ($error[1])
@@ -81,12 +67,12 @@ if ($count < 1) {
 
 		//Send email to user
 		$user = $check['username'];
-
 		$email = $check['email'];
-
 		$subject = "ClinicCases: Your Account Request";
-
-		$body = "This is in response to your forgot username/password request on ClinicCases.  Your username is $user.  Your temporary password is $gen_pass\n\nPlease log in to ClinicCases using these credentials.  Then please change your password to something you can remember by clicking on the Preferences link.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
+		$body = "This is in response to your forgot username/password request on ClinicCases.  " .
+        "Your username is $user.  Your temporary password is $gen_pass\n\n" .
+        "Please log in to ClinicCases using these credentials.  You will then be prompted to change your " .
+        "password to something you can remember.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);
 
 		$resp = array('error' => false, 'message' => "Your username and a new temporary password have been emailed to " . $email . ".  If it does not arrive in a few minutes, please check your spam folder.");
