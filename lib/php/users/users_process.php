@@ -44,15 +44,13 @@ switch ($action) {
 		foreach ($users as $user) {
 
 			$data = array('id' => $user);
-
 			$q->execute($data);
 
 			//Notify new user
 			$email = user_email_from_id($dbh,$user);
-
 			$subject = "ClinicCases: Your ClinicCases account is now activated.";
-
-			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$user)   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
+			$body = "You new ClinicCases account has been activated.  Your username is " . 
+            userid_to_username($dbh,$user)   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
 
 			mail($email,$subject,$body,CC_EMAIL_HEADERS);
 		}
@@ -68,7 +66,6 @@ switch ($action) {
 		foreach ($users as $user) {
 
 			$data = array('id' => $user);
-
 			$q->execute($data);
 		}
 
@@ -79,23 +76,16 @@ switch ($action) {
 	case 'delete':
 
 		$q = $dbh->prepare("DELETE FROM cm_users WHERE id = ?");
-
 		$q->bindParam(1, $users);
-
 		$q->execute();
-
 		$error = $q->errorInfo();
-
 		break;
 
 	case 'update':
 
 		$post = bindPostVals($_POST);
-
 		$q = $dbh->prepare("UPDATE cm_users SET " . $post['columns'] . " WHERE id = :id");
-
 		$q->execute($post['values']);
-
 		$error = $q->errorInfo();
 
 		//see if new was set to yes; if so send email.
@@ -103,18 +93,14 @@ switch ($action) {
 		{
 			//Notify new user
 			$email = $_POST['email'];
-
 			$subject = "ClinicCases: Your ClinicCases account is now activated.";
-
-			$body = "You new ClinicCases account has been activated.  Your username is " . userid_to_username($dbh,$_POST['id'])   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
-
+			$body = "You new ClinicCases account has been activated.  Your username is " .
+            userid_to_username($dbh,$_POST['id'])   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
 			mail($email,$subject,$body,CC_EMAIL_HEADERS);
 
 			//Set to not new
 			$q = $dbh->prepare("UPDATE cm_users SET new = '' WHERE id = ?");
-
 			$q->bindParam(1,$_POST['id']);
-
 			$q->execute();
 
 		}
@@ -124,22 +110,16 @@ switch ($action) {
 	case 'create':
 
 		$post = bindPostVals($_POST);
-
 		$q = $dbh->prepare("UPDATE cm_users SET " . $post['columns'] . " WHERE id = :id");
-
 		$q->execute($post['values']);
-
 		$error = $q->errorInfo();
 
 		if (!$error[1])
 		{
 			//Create username
 			$fname = trim(str_replace(' ', '', $_POST['first_name']));
-
 			$lname = trim(str_replace(' ', '', $_POST['last_name']));
-
 			$concat_name = substr($fname, 0,1) . $lname;
-
 			$proposed_username =  preg_replace("/[^a-zA-Z0-9]/", "", $concat_name);
 
 			function check_uniqueness($dbh,$proposed_username)
@@ -162,7 +142,6 @@ switch ($action) {
 				//we have already tried to make username unique by adding a number
 				{
 					$digit = substr($proposed_username, -1) + 1;
-
 					$proposed_username = substr($proposed_username, 0,-1) . $digit;
 				}
 				else
@@ -202,33 +181,23 @@ switch ($action) {
 			}
 
 			$gen_pass = generatePassword();
-
-			$salt = CC_SALT;
-
-			$hash = pbkdf2($gen_pass, $salt, 1000, 32);
-
-			$pass = base64_encode($hash);
+            $pass = md5($gen_pass);
 
 			//Update database with this info
-			$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass WHERE id = :id");
-
+			$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass,force_new_password ='1' WHERE id = :id");
 			$data = array('user' => $new_username,'pass' => $pass,'id' =>$_POST['id']);
-
 			$q->execute($data);
 
 			//Notify new user
 			$email = $_POST['email'];
-
 			$subject = "ClinicCases: Your new account has been created";
-
-			$body = "You new ClinicCases account has been created. Your username is $new_username.  Your temporary password is $gen_pass .  Please log on to ClinicCases at ". CC_BASE_URL ." . Please then change your password by clicking on Preferences.";
+			$body = "You new ClinicCases account has been created. Your username is $new_username. " .
+            "Your temporary password is $gen_pass .  Please log on to ClinicCases at ". CC_BASE_URL .
+            " . You will then be prompted to update your password.";
 
 			mail($email,$subject,$body,CC_EMAIL_HEADERS);
-			//TODO test on mail server
 
 		}
-
-
 }
 
 if($error[1])

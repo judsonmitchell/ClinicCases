@@ -15,14 +15,15 @@ $count = $q->rowCount();
 
 $check = $q->fetch();
 
-if ($count < 1)
-{
+if ($count < 1) {
 	$resp = array('error' => true,'message' => 'There are no users with that email address on this server.  Please try again');
-
 	echo json_encode($resp);
-}
-else
-{
+} else if ($count > 1) {
+
+	$resp = array('error' => true,'message' => 'There are multiple accounts associated with that email address.
+    Please ask your administrator to reset your password.');
+	echo json_encode($resp);
+} else {
 	//Create temp password
 	function generatePassword ($length = 8)
 	{
