@@ -2,8 +2,6 @@
 include 'db.php';
 include 'lib/php/mobile_detect.php';
 include 'lib/php/load.php';
-include 'html/templates/Header.php';
-include 'lib/php/html/tabs.php';
 include 'lib/php/data/cases_columns_array.php';
 
 //Check to see which template is needed
@@ -20,6 +18,8 @@ include 'lib/php/data/cases_columns_array.php';
 	if ($pg === false) {
         echo "Invalid File Request";
     } else {
+        include 'html/templates/Header.php';
+        include 'lib/php/html/tabs.php';
         include($pg);
     }
 
