@@ -19,7 +19,6 @@ $('.case_detail_nav #item4').live('click', function() {
 
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
-        $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
