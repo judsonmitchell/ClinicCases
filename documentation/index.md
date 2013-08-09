@@ -254,6 +254,8 @@ Clicking on "New User" will bring up a dialog which allows you to enter a new us
 
 When you have finished entering the new user's data, click "Submit" and the new user will receive an email at the address you specified advising him that his account is active and giving him his username and a temporary password.
 
+An administrator (someone who has the permission "activate_users" set to "1"), can reset a user's password. Click the "Reset Password" on the User view.  A new temporary password will be assigned to the user and he or she will be notified by email. The new temporary password will be briefly displayed to the administrator.  This can come in handy when, for example, the user has tried to reset their password by clicking "Forgot Username/Password" and did not receive the email with the new password.
+
 [Go to Top](#contents)
 <a id="utilities_tab"></a>
 
