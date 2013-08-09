@@ -3,7 +3,7 @@ require('../../../db.php');
 require('../auth/pbkdf2.php');
 require('../utilities/recaptchalib.php');
 
-if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%') //Recaptcha is enabled
+if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%' && RECAPTCHA_PUBLIC_KEY !== '(optional)' ) //Recaptcha is enabled
 {
 
 	$resp = recaptcha_check_answer (RECAPTCHA_PRIVATE_KEY,

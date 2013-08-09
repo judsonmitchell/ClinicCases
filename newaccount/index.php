@@ -83,7 +83,7 @@ include '../lib/php/html/gen_select.php';
 					</select>
 					</p>
 
-				<?php if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%') {//Recaptcha is enabled
+				<?php if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%' && RECAPTCHA_PUBLIC_KEY !== '(optional)' ) {//Recaptcha is enabled
 
 					echo "<p>Please enter the two words you see below:</p>";
 
