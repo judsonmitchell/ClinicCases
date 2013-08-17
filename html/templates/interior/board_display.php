@@ -77,7 +77,7 @@
 
 		</label>
 
-	<?php if ($author == $_SESSION['login']){ ?>
+	<?php if ($author == $_SESSION['login'] || $_SESSION['permissions']['can_configure'] == '1'){ ?>
 
 		<a href="#" class="small board_item_edit">Edit</a>
 
