@@ -137,7 +137,7 @@ $('.case_detail_nav #item5').live('click', function() {
     //Get heights
     var toolsHeight = $(this).outerHeight();
     var thisPanelHeight = $(this).closest('.case_detail_nav').height();
-    var documentsWindowHeight = thisPanelHeight - toolsHeight;
+    var caseNotesWindowHeight = thisPanelHeight - toolsHeight;
 
     thisPanel.load('lib/php/data/cases_messages_load.php', {'type': 'main','case_id': caseId,'start': '0'}, function() {
 
