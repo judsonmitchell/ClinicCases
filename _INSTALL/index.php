@@ -60,14 +60,14 @@
 			//add form to do config values
 			//run sql
 
-		if (strnatcmp(phpversion(),'5.1') >= 0)
+		if (strnatcmp(phpversion(),'5.2') >= 0)
 	    {
 	        echo "<p class='good'>Your php version is " . phpversion() . ". Good.</p>";
 	    }
 	    else
 	    {
 	        die("<p class='config_error'>Your php version is " . phpversion() . ".  
-            ClinicCases requires at least php 5.1.  Sorry, but you will have to 
+            ClinicCases requires at least php 5.2.  Sorry, but you will have to 
             upgrade php before proceeding with the install.</p>");
 	    }
 
