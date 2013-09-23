@@ -29,6 +29,7 @@ $(document).ready(function() {
                     "bScrollCollapse": true,
                     "bSortCellsTop": true,
                     "bStateSave":true,
+                    "iCookieDuration":60*60*24*365,
                     "sScrollY": adjustedHeight - 95,
                     "iDisplayLength": 50,
                     "aaSorting": [[4, "asc"]],
