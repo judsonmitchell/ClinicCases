@@ -35,7 +35,7 @@ $(document).ready(function() {
                     "aaSorting": [[4, "asc"]],
                     "aoColumns": aoColumns,
                     "sDom": 'R<"H"fTCi>rt',
-                    "oColVis": {"aiExclude": [0],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
+                    "oColVis": {"aiExclude": [0,6,7],"bRestore": true,"buttonText": "Columns","fnStateChange": function(iColumn, bVisible) {
                             $("div.dataTables_scrollHeadInner thead th.addSelects:empty").each(function() {
                                 this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));
                             });
