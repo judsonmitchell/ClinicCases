@@ -156,6 +156,27 @@ switch ($type) {
 
 		break;
 
+	case 'update_readers':
+
+		$q = $dbh->prepare("UPDATE cm_journals SET `reader` = :reader WHERE `id` = :id");
+
+		if (is_array($readers))
+		{
+			$reader = implode(',', $readers) . ",";
+		}
+		else
+		{
+			$reader = '';
+		}
+
+		$data = array('id' => $id[0],'reader' => $reader);
+
+		$q->execute($data);
+
+		$error = $q->errorInfo();
+
+		break;
+
 	case 'delete':
 
 		$q=$dbh->prepare("DELETE FROM cm_journals WHERE id = ?");

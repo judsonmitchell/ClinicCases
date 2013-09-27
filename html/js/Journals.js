@@ -288,15 +288,15 @@ function callJournal(id,edit,newJournal)
 
             //Add chosen to select
             $('select[name="reader_select[]"]').chosen().change(function(){
-                 if ($('input[name="remember_choice"]').is(':checked'))
-                {
+                if ($('input[name="remember_choice"]').is(':checked')) {
                     var choice = $('select[name="reader_select[]"]').val();
-
                      $.cookie('ClinicCases_journal', choice,{expires:365});
+                    }
 
-                     autoSave(lastText, arr);
-                }
-
+                    //Update readers on change
+                    var readers = $('select[name="reader_select[]"]').val();
+                    $.post('lib/php/data/journals_process.php',
+                    {'type': 'update_readers','id': journalId,'readers':readers});
             });
 
             //Set reader values if previously remembered

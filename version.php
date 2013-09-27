@@ -1,3 +1,3 @@
 <?php
 
-	$version = "RC 1.2";
+	$version = "RC 1.3";
