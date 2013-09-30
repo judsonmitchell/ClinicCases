@@ -249,13 +249,14 @@ $(document).ready(function() {
 
 			//define new messsage
 			var newMsg = $('div#msg_new');
-			newMsg.show();
+			newMsg.show().addClass('msg_opened');
 			newMsg.find('select[name = "new_tos[]"], select[name = "new_ccs[]"], select[name = "new_file_msg"]').chosen();
 
 			//Cancel
 			$('#msg_new_button_cancel').click(function(event){
 					event.preventDefault();
 					$('#new_msg_form')[0].reset();
+                    newMsg.removeClass('msg_opened');
 					msgLoad();
 					//turn auto refresh back on
 					msgRefresh = setInterval("msgLoad()", 90000);
