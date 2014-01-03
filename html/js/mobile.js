@@ -148,16 +148,16 @@ $(document).ready(function () {
         errorElement: 'span',
         submitHandler: function () {
             var thisForm = $('form[name="quick_event"]');
-            var startVal = $('select[name="c_month"]').eq(0).val() + '/' + $('select[name="c_day"]').eq(0).val() +
-            '/' + $('select[name="c_year"]').eq(0).val() + ' ' +  $('select[name="c_hours"]').eq(0).val() +
-            ':' + $('select[name="c_minutes"]').eq(0).val() +
-            ' ' + $('select[name="c_ampm"]').eq(0).val();
+            var startVal = thisForm.find('select[name="c_month"]').eq(0).val() + '/' + thisForm.find('select[name="c_day"]').eq(0).val() +
+            '/' + thisForm.find('select[name="c_year"]').eq(0).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(0).val() +
+            ':' + thisForm.find('select[name="c_minutes"]').eq(0).val() +
+            ' ' + thisForm.find('select[name="c_ampm"]').eq(0).val();
             $('input[name="start"]').val(startVal);
 
-            var endVal = $('select[name="c_month"]').eq(1).val() + '/' + $('select[name="c_day"]').eq(1).val() +
-            '/' + $('select[name="c_year"]').eq(1).val() + ' ' +  $('select[name="c_hours"]').eq(1).val() +
-            ':' + $('select[name="c_minutes"]').eq(1).val() +
-            ' ' + $('select[name="c_ampm"]').eq(1).val();
+            var endVal = thisForm.find('select[name="c_month"]').eq(1).val() + '/' + thisForm.find('select[name="c_day"]').eq(1).val() +
+            '/' + thisForm.find('select[name="c_year"]').eq(1).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(1).val() +
+            ':' + thisForm.find('select[name="c_minutes"]').eq(1).val() +
+            ' ' + thisForm.find('select[name="c_ampm"]').eq(1).val();
             $('input[name="end"]').val(endVal);
 
             //serialize form values
