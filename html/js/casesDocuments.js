@@ -44,7 +44,7 @@ function createDragDrop() {
         }}).draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
 }
 
-function createTextEditor(target, action, permission, title, content, id) {
+function createTextEditor(target, action, permission, title, content, id, owner, locked) {
     var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' + title + '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
 
     //Add title area and textarea
@@ -87,6 +87,17 @@ function createTextEditor(target, action, permission, title, content, id) {
         ccdStatusArea.html('<span class="readonly">Read Only</status>');
         target.find('.rte-toolbar a').not('.print').css({'opacity': '.3'});
         target.find('.rte-toolbar select').css({'opacity': '.3'});
+    }
+
+    if (owner === '1'){
+        var permSelect = '<select name="ccd_permission">';
+        if (locked === 'no'){
+            permSelect += '<option value="yes" selected=selected>Unlocked</option><option value="no">Locked</option>';
+        } else {
+            permSelect += '<option value="no" >Unlocked</option><option value="yes" selected=selected>Locked</option>';
+        }
+        permSelect += '</select>';
+        ccdStatusArea.html(permSelect);
     }
 
     //If this is a new document, create new ccd (ClinicCases Document) in db
@@ -240,7 +251,8 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
         {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
             var serverResponse = $.parseJSON(data);
             var target = $(el).closest('.case_detail_panel_casenotes');
-            createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title, serverResponse.ccd_content, serverResponse.ccd_id);
+            createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title,
+            serverResponse.ccd_content, serverResponse.ccd_id,serverResponse.ccd_owner,serverResponse.ccd_locked);
         });
     } else {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
@@ -702,6 +714,7 @@ $('a.doc_trail_item').live('click', function(event) {
     var container = $(this).html();
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
     //Set the current path so that other functions can access it
     $(this).closest('.case_detail_panel').data('CurrentPath', path);
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
@@ -725,5 +738,16 @@ $('a.doc_trail_item').live('click', function(event) {
         });
 
         createDragDrop();
+    });
+});
+
+//Owner can lock the document for editing by others
+$('select[name="ccd_permission"]').live('change', function () {
+    var lockStatus = $(this).val();
+    var ccdId = $(this).closest('.text_editor_bar').attr('data-id');
+    $.post('lib/php/data/cases_documents_process.php', {'action': 'change_ccd_permissions',
+    'ccd_id': ccdId, 'ccd_lock': lockStatus}, function (data){
+        var serverResponse = $.parseJSON(data);
+        notify(serverResponse.message);
     });
 });

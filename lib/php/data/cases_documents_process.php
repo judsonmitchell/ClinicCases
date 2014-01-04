@@ -197,6 +197,10 @@ if (isset($_POST['ccd_id'])) {
 	$ccd_id = $_POST['ccd_id'];
 }
 
+if (isset($_POST['ccd_lock'])) {
+	$ccd_lock = $_POST['ccd_lock'];
+}
+
 if (isset($_POST['target_path'])) {
 	$target_path = $_POST['target_path'];
 }
@@ -365,6 +369,22 @@ if ($action == 'update_ccd')
 
 }
 
+if ($action === 'change_ccd_permissions'){
+
+    $update_ccd_perm = $dbh->prepare("UPDATE cm_documents SET write_permission = :perm where id = :doc_id");
+    if ($ccd_lock === 'yes'){
+        $allowed_editors = serialize(array($username));
+    } else {
+        $allowed_editors = serialize(array('all'));
+    }
+
+	$data = array('doc_id' => $ccd_id, 'perm' => $allowed_editors);
+
+    $update_ccd_perm->execute($data);
+
+	$error = $update_ccd_perm->errorInfo();
+}
+
 if ($action == 'open')
 {
 	if ($doc_type === 'folder')
@@ -395,10 +415,18 @@ if ($action == 'open')
 				$ccd_title = $doc_properties['name'];
 				$ccd_content = $doc_properties['text'];
 				$allowed_editors = unserialize($doc_properties['write_permission']);
-				if (in_array($username, $allowed_editors))
-				{$ccd_permissions = 'yes';}
-				else
-					{$ccd_permissions = 'no';}
+				if (in_array('all', $allowed_editors)) {
+                    $ccd_permissions = 'yes';
+                    $ccd_locked = 'no';
+                } else {
+                    $ccd_permissions = 'no';
+                    $ccd_locked = 'yes';
+                }
+                if ($doc_properties['username'] === $username){
+                    $ccd_owner = '1'; 
+                } else {
+                    $ccd_owner = '0';
+                }
 				break;
 
 			default:
@@ -565,8 +593,6 @@ if ($action == 'copy')
 
 }
 
-
-
 //Handle mysql errors
 
 	if($error[1])
@@ -619,11 +645,23 @@ if ($action == 'copy')
 			echo json_encode($return);
 			break;
 
+			case "change_ccd_permissions":
+            if ($ccd_lock === 'yes'){
+                $p_msg = "Document Locked.  Only you can edit.";
+            } else {
+                $p_msg = "Document Unlocked.  Everyone on this case may edit.";
+            }
+			$return = array('message'=>$p_msg);
+			echo json_encode($return);
+			break;
+
 			case "open":
 			if (isset($target_url))
 				{$return = array('target_url'=>$target_url);}
 				else
-				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions);}
+				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,
+                'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions,
+                'ccd_owner' => $ccd_owner,'ccd_locked'=>$ccd_locked);}
 			echo json_encode($return);
 			break;
 
