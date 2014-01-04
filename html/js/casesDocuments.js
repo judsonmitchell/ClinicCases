@@ -45,7 +45,9 @@ function createDragDrop() {
 }
 
 function createTextEditor(target, action, permission, title, content, id, owner, locked) {
-    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' + title + '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' +
+    title +
+    '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
 
     //Add title area and textarea
     target.html(editor);
@@ -80,7 +82,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     }
 
     //If the user doesn't have permission to edit, make read only
-    if (permission === 'no') {
+    if (permission === 'no' && owner !== '1') {
         $(arr[0].iframe_doc).keydown(function(event) {
             return false;
         });
@@ -92,12 +94,12 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     if (owner === '1'){
         var permSelect = '<select name="ccd_permission">';
         if (locked === 'no'){
-            permSelect += '<option value="yes" selected=selected>Unlocked</option><option value="no">Locked</option>';
+            permSelect += '<option value="no" selected=selected>Unlocked</option><option value="yes">Locked</option>';
         } else {
             permSelect += '<option value="no" >Unlocked</option><option value="yes" selected=selected>Locked</option>';
         }
         permSelect += '</select>';
-        ccdStatusArea.html(permSelect);
+        ccdStatusArea.append(permSelect);
     }
 
     //If this is a new document, create new ccd (ClinicCases Document) in db
@@ -231,8 +233,7 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
                 }
             });
         });
-    }
-    else if ($(el).hasClass('url')) {
+    } else if ($(el).hasClass('url')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
             return;
         }
@@ -529,7 +530,7 @@ $('div.doc_item').live('click', function(event) {
 //User clicks new document button
 $('button.doc_new_doc').live('click', function() {
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-    createTextEditor(target, 'new', 'yes','New Document');
+    createTextEditor(target, 'new', 'yes','New Document',null,null,'1','yes');
 });
 
 

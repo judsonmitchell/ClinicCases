@@ -3,8 +3,8 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
-function update_paths($dbh,$path,$new_path,$case_id)
-{
+function update_paths($dbh,$path,$new_path,$case_id) {
+
 	//Change paths of documents which reside in the recently changed folder
 	$find_old_paths = $dbh->prepare('SELECT * FROM cm_documents WHERE folder = :old_path AND case_id = :case_id');
 
@@ -77,8 +77,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 	foreach ($container_fields as $container_field) {
 
 		//if the new path is not already in the container field as a result of previous queries
-		if (!stristr($container_field['containing_folder'],$new_path))
-		{
+		if (!stristr($container_field['containing_folder'],$new_path)) {
 			$descendants = str_replace($path, '', $container_field['containing_folder']);
 
 			$new_container_field = $new_path . $descendants;
@@ -91,8 +90,7 @@ function update_paths($dbh,$path,$new_path,$case_id)
 
 }
 
-function get_local_file_name($dbh,$id)
-{
+function get_local_file_name($dbh,$id) {
 	$local_query = $dbh->prepare("SELECT id, local_file_name,extension FROM cm_documents WHERE id = '$id'");
 
 	$local_query->execute();
@@ -114,7 +112,6 @@ function strstr_after($haystack, $needle, $case_insensitive = false) {
 
     if (is_int($pos)) {
         return substr($haystack, $pos + strlen($needle));
-
     }
 
     // Most likely false or null
@@ -122,20 +119,16 @@ function strstr_after($haystack, $needle, $case_insensitive = false) {
 }
 
 //Checks to see if the folder path is unique; if not, increments name
-function check_folder_unique($dbh,$container,$new_folder,$case_id)
-{
+function check_folder_unique($dbh,$container,$new_folder,$case_id) {
 	$q = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE '$container' and folder LIKE '$new_folder' AND case_id = '$case_id'  ORDER BY date_modified ASC");
 
 	$q->execute();
 
 	$r = $q->fetch(PDO::FETCH_ASSOC);
 
-	if ($q->rowCount() > 0)
-	{
+	if ($q->rowCount() > 0) {
 		return true;
-	}
-	else
-	{
+	} else {
 		return false;
 	}
 }
@@ -415,12 +408,14 @@ if ($action == 'open')
 				$ccd_title = $doc_properties['name'];
 				$ccd_content = $doc_properties['text'];
 				$allowed_editors = unserialize($doc_properties['write_permission']);
+                $ccd_locked = 'yes';
 				if (in_array('all', $allowed_editors)) {
                     $ccd_permissions = 'yes';
                     $ccd_locked = 'no';
+                } elseif ($username === $doc_properties['username']) {
+                    $ccd_permissions = 'yes';
                 } else {
                     $ccd_permissions = 'no';
-                    $ccd_locked = 'yes';
                 }
                 if ($doc_properties['username'] === $username){
                     $ccd_owner = '1'; 
@@ -647,9 +642,9 @@ if ($action == 'copy')
 
 			case "change_ccd_permissions":
             if ($ccd_lock === 'yes'){
-                $p_msg = "Document Locked.  Only you can edit.";
+                $p_msg = "Document Locked.<br />Only you can edit it.";
             } else {
-                $p_msg = "Document Unlocked.  Everyone on this case may edit.";
+                $p_msg = "Document Unlocked.<br />Everyone on this case may edit it.";
             }
 			$return = array('message'=>$p_msg);
 			echo json_encode($return);
