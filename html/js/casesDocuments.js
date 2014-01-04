@@ -2,43 +2,41 @@
 //Scripts for documents panel on cases tab
 //
 
-function createTrail(path)
-{
+function createTrail(path) {
 
     var pathArray = path.split('/');
     var pathString = '';
     var pathS = '';
     $.each(pathArray, function(i, v) {
         pathS += '/' + v;
-        pathSa = pathS.substr(1);
-        pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + unescape(v) + '</a>/';
+        var pathSa = pathS.substr(1);
+        var pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + unescape(v) + '</a>/';
         pathString += pathItem;
     });
 
     return pathString;
 }
 
-function createDragDrop()
-{
+function createDragDrop() {
+
     //Destroy any previously created draggables and droppables
-    $('div.item, div.folder').draggable("destroy");
-    $('div.folder').droppable("destroy");
+    $('div.item, div.folder').draggable('destroy');
+    $('div.folder').droppable('destroy');
 
     $('div.item').draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
-    $('div.folder').droppable({activeClass: "ui-state-highlight",drop: function(event, ui) {
+    $('div.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
             var docType = null;
-            if (ui.draggable.hasClass('folder'))
-            {
+            if (ui.draggable.hasClass('folder')) {
                 docType = 'folder';
-            }
-            else
-            {
+            } else {
                 docType = 'item';
             }
 
             var caseId = ui.draggable.closest('.case_detail_panel').data('CaseNumber');
 
-            $.post('lib/php/data/cases_documents_process.php', {'action': 'cut','item_id': ui.draggable.attr('data-id'),'target_path': $(event.target).attr('path'),'selection_path': ui.draggable.attr('path'),'doc_type': docType,'case_id': caseId}, function(data) {
+            $.post('lib/php/data/cases_documents_process.php',
+            {'action': 'cut','item_id': ui.draggable.attr('data-id'),
+            'target_path': $(event.target).attr('path'),'selection_path': ui.draggable.attr('path'),'doc_type': docType,'case_id': caseId}, function(data) {
                 var serverResponse = $.parseJSON(data);
                 notify(serverResponse.message);
                 ui.draggable.fadeOut();
@@ -46,8 +44,7 @@ function createDragDrop()
         }}).draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
 }
 
-function createTextEditor(target, action, permission, title, content, id)
-{
+function createTextEditor(target, action, permission, title, content, id) {
     var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' + title + '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
 
     //Add title area and textarea
@@ -63,8 +60,7 @@ function createTextEditor(target, action, permission, title, content, id)
     var tools = target.siblings('.case_detail_panel_tools');
 
     //Define current path. Db leaves folder field blank for documents in root directory, so send empty value
-    if (currentPath === 'Home')
-    {
+    if (currentPath === 'Home') {
         currentPath = '';
     }
 
@@ -77,16 +73,14 @@ function createTextEditor(target, action, permission, title, content, id)
     });
 
     //If this is not a new document, then set the editor content from the db
-    if (action === 'view')
-    {
+    if (action === 'view') {
         arr[0].set_content(content);
         ccdTitleArea.html(unescape(title));
         docIdArea.attr('data-id', id);
     }
 
     //If the user doesn't have permission to edit, make read only
-    if (permission === 'no')
-    {
+    if (permission === 'no') {
         $(arr[0].iframe_doc).keydown(function(event) {
             return false;
         });
@@ -96,33 +90,30 @@ function createTextEditor(target, action, permission, title, content, id)
     }
 
     //If this is a new document, create new ccd (ClinicCases Document) in db
-    if (action == 'new')
-    {
-        $.post('lib/php/data/cases_documents_process.php', {'action': 'new_ccd','ccd_name': escape(ccdTitle),'local_file_name': 'New Document.ccd','path': currentPath,'case_id': caseId}, function(data) {
+    if (action === 'new') {
+        $.post('lib/php/data/cases_documents_process.php',
+        {'action': 'new_ccd','ccd_name': escape(ccdTitle),'local_file_name': 'New Document.ccd',
+        'path': currentPath,'case_id': caseId}, function(data) {
             var serverResponse = $.parseJSON(data);
             docIdArea.attr('data-id', serverResponse.ccd_id);
             ccdTitleArea.html(unescape(serverResponse.ccd_title));
-
         });
     }
 
     //hide main buttons, initialize new one
     tools.find('button').hide();
     tools.find('.case_detail_panel_tools_right').append('<button class="closer">Close</button>');
-    tools.find('button.closer').button({icons: {primary: "fff-icon-cross"},text: true});
+    tools.find('button.closer').button({icons: {primary: 'fff-icon-cross'},text: true});
     tools.find('button.closer').click(function() {
 
-        if (currentPath === '')  //the document is not in a subfolder
-        {
+        if (currentPath === '') {  //the document is not in a subfolder
             target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
                 tools.find('button').show();
                 tools.find('button.closer').remove();
                 unescapeNames();
                 createDragDrop();
             });
-        }
-        else  //document is in a subfolder
-        {
+        } else {  //document is in a subfolder
             target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
                 tools.find('button').show();
                 tools.find('button.closer').remove();
@@ -134,8 +125,7 @@ function createTextEditor(target, action, permission, title, content, id)
 
     //If user has permission to edit, set the editing functions
 
-    if (permission === 'yes')
-    {
+    if (permission === 'yes') {
         //Change document title
         ccdTitleArea.mouseenter(function() {
             $(this).css({'color': 'red'});
@@ -146,21 +136,20 @@ function createTextEditor(target, action, permission, title, content, id)
             $(this).find('input').val(unescape(ccdTitle)).focus().select();
         })
         .bind('focusout keyup', function(e) {
-            if (e.type == 'focusout' || e.which == 13) {
+            if (e.type === 'focusout' || e.which === 13) {
                 ccdTitle = escape($(this).find('input').val());
 
-                if(ccdTitle === '' || ccdTitle == '\n')
-                {
+                if(ccdTitle === '' || ccdTitle === '\n') {
                     notify('Please give your document a title.',true);
                     $(this).find('input').addClass('ui-state-error').focus();
                     return false;
-                }
-                else
-                {
+                } else {
                     $(this).html(unescape(ccdTitle));
                     $(this).css({'color': 'black'});
                     var getText = arr[0].get_content();
-                    $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText}, function(data) {
+                    $.post('lib/php/data/cases_documents_process.php',
+                    {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText},
+                    function(data) {
                         var serverResponse = $.parseJSON(data);
                         notify(serverResponse.message);
                     });
@@ -174,21 +163,17 @@ function createTextEditor(target, action, permission, title, content, id)
 
         //auto-save
         var lastText = "";
-        function autoSave(lastText, arr)
-        {
+        function autoSave(lastText, arr) {
             var text = arr[0].get_content();
             var status = 'Saving...';
-            if (text != lastText)
-            {
+            if (text !== lastText) {
                 ccdStatusArea.find('span.status').html(status);
-                $.post('lib/php/data/cases_documents_process.php', {'action': 'update_ccd','ccd_name': ccdTitleArea.html(),'ccd_id': docIdArea.attr('data-id'),'ccd_text': text}, function(data) {
+                $.post('lib/php/data/cases_documents_process.php',
+                {'action': 'update_ccd','ccd_name': ccdTitleArea.html(),'ccd_id': docIdArea.attr('data-id'),'ccd_text': text}, function(data) {
                     var serverResponse = $.parseJSON(data);
-                    if (serverResponse.error)
-                    {
+                    if (serverResponse.error) {
                         ccdStatusArea.find('span.status').html(serverResponse.message);
-                    }
-                    else
-                    {
+                    } else {
                         ccdTitleArea.html(serverResponse.ccd_title);
                         ccdStatusArea.find('span.status').html(serverResponse.message);
                     }
@@ -205,16 +190,17 @@ function createTextEditor(target, action, permission, title, content, id)
     }
 }
 
-function openItem(el, itemId, docType, caseId, path, pathDisplay)
-{
+function openItem(el, itemId, docType, caseId, path, pathDisplay) {
 
-    if ($(el).hasClass('folder'))
-    {
+    if ($(el).hasClass('folder')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
-                  return;
-            }
+            return;
+        }
 
-        $(el).closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'container': path,'path': path,'update': 'y'}, function() {
+        $(el).closest('.case_detail_panel_casenotes')
+        .load('lib/php/data/cases_documents_load.php',
+        {'id': caseId,'container': path,'path': path,'update': 'y'},
+        function() {
             var pathString = createTrail(path);
             pathDisplay.html(pathString);
             pathDisplay.find("a[path='" + path + "']").addClass('active');
@@ -227,53 +213,46 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay)
             //Apply shadow on scroll
             $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
                 var scrollAmount = $(this).scrollTop();
-                if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
-                {
+                if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
                     $(this).removeClass('csenote_shadow');
-                }
-                else
-                {
+                } else {
                     $(this).addClass('csenote_shadow');
                 }
             });
         });
     }
-    else if ($(el).hasClass('url'))
-    {
+    else if ($(el).hasClass('url')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
-                  return;
-            }
+            return;
+        }
 
-        $.post('lib/php/data/cases_documents_process.php', {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
+        $.post('lib/php/data/cases_documents_process.php',
+        {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
             var serverResponse = $.parseJSON(data);
             window.open(serverResponse.target_url, '_blank');
         });
-    }
-    else if ($(el).hasClass('ccd'))
-    {
+    } else if ($(el).hasClass('ccd')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
-                  return;
-            }
+            return;
+        }
 
-        $.post('lib/php/data/cases_documents_process.php', {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
+        $.post('lib/php/data/cases_documents_process.php',
+        {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
             var serverResponse = $.parseJSON(data);
             var target = $(el).closest('.case_detail_panel_casenotes');
             createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title, serverResponse.ccd_content, serverResponse.ccd_id);
         });
-    }
-    else
-    {
+    } else {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
-                  return;
-            }
+            return;
+        }
 
         $.download('lib/php/data/cases_documents_process.php', {'item_id': itemId,'action': 'open','doc_type': docType});
     }
 
 }
 
-function unescapeNames()
-{
+function unescapeNames() {
     $('.doc_item p, .doc_properties h3').each(function() {
         var t = unescape($(this).html());
         $(this).html(t);
@@ -302,9 +281,10 @@ $('.case_detail_nav #item3').live('click', function() {
         $('div.case_detail_panel_tools_left').css({'width': '40%'});
         $('div.case_detail_panel_tools_right').css({'width': '60%'});
 
-
         //Set buttons
-        $('button.doc_new_doc').button({icons: {primary: "fff-icon-page-add"},text: true}).next().button({icons: {primary: "fff-icon-folder-add"},text: true}).next().button({icons: {primary: "fff-icon-page-white-get"},text: true});
+        $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true})
+        .next().button({icons: {primary: 'fff-icon-folder-add'},text: true})
+        .next().button({icons: {primary: 'fff-icon-page-white-get'},text: true});
 
         //Unescape folder names
         unescapeNames();
@@ -312,43 +292,34 @@ $('.case_detail_nav #item3').live('click', function() {
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
-            if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
-            {
+            if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
                 $(this).removeClass('csenote_shadow');
-            }
-            else
-            {
+            } else {
                 $(this).addClass('csenote_shadow');
             }
         });
 
         createDragDrop();
-
     });
 
     //Create context menu
-
-    $("div.doc_item").contextMenu({menu: 'docMenu'}, function(action, el, pos) {
-
+    $('div.doc_item').contextMenu({menu: 'docMenu'}, function(action, el, pos) {
         var itemId = $(el).attr('data-id');
         var docType = null;
         var caseId = $(el).closest('.case_detail_panel').data('CaseNumber');
         var docName = $(el).find('p').html();
         var pathDisplay = $(el).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+        var path;
 
-        if ($(el).hasClass('folder'))
-        {
+        if ($(el).hasClass('folder')) {
             docType = 'folder';
             path = $(el).attr('path');
-        }
-        else
-        {
+        } else {
             docType = 'document';
             path = '';
         }
 
-        switch (action)
-        {
+        switch (action) {
             case 'open':
                 openItem(el, itemId, docType, caseId, path, pathDisplay);
                 break;
@@ -362,13 +333,11 @@ $('.case_detail_nav #item3').live('click', function() {
 
                 //Create a new context menu which allows for copying and pasting into a div with no items;
                 $('div.case_detail_panel_casenotes').contextMenu({menu: 'docMenu_copy_paste'}, function(action, el, pos) {
-                    if (action === 'paste')
-                    {
+                    if (action === 'paste') {
                         var caseId = el.data('cutValue')[3];
                         var docType = el.data('cutValue')[1];
                         var targetPath = el.closest('.case_detail_panel').data('CurrentPath');
-                        if (targetPath === 'Home')
-                        {
+                        if (targetPath === 'Home') {
                             targetPath = '';
                         }
                         var itemId = el.data('cutValue')[0];
@@ -379,11 +348,14 @@ $('.case_detail_nav #item3').live('click', function() {
                             'target_path': targetPath,
                             'selection_path': selectionPath,
                             'doc_type': docType,
-                            'case_id': caseId},
+                            'case_id': caseId
+                        },
                         function(data) {
                             var serverResponse = $.parseJSON(data);
                             notify(serverResponse.message);
-                            el.closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
+                            el.closest('.case_detail_panel_casenotes')
+                            .load('lib/php/data/cases_documents_load.php',
+                            {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
                                 unescapeNames();
                                 el.destroyContextMenu();
                             });
@@ -395,12 +367,9 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'copy':
 
-                if (docType === 'folder')  //TODO add copying of folders
-                {
+                if (docType === 'folder') { //TODO add copying of folders
                     notify('Sorry, copying of folders is not yet supported.', true);
-                }
-                else
-                {
+                } else {
                     $(el).css({'border': '1px solid #AAA'});
                     //Stash the data about the copy file or folder
                     var copyData = new Array(itemId, docType, path, caseId);
@@ -408,16 +377,12 @@ $('.case_detail_nav #item3').live('click', function() {
 
                     //Create a new context menu which allows for pasting into a div with no items;
                     $('div.case_detail_panel_casenotes').contextMenu({menu: 'docMenu_copy_paste'}, function(action, el, pos) {
-                        if (action === 'paste')
-                        {
-                            //console.log(el.data());
-                            //console.log(el.closest('.case_detail_panel').data('CurrentPath'));
+                        if (action === 'paste') {
                             var caseId = el.data('copyValue')[3];
                             var docType = el.data('copyValue')[1];
                             var selectionPath = el.data('copyValue')[2];
                             var targetPath = el.closest('.case_detail_panel').data('CurrentPath');
-                            if (targetPath === 'Home')
-                            {
+                            if (targetPath === 'Home') {
                                 targetPath = '';
                             }
                             var itemId = el.data('copyValue')[0];
@@ -426,11 +391,14 @@ $('.case_detail_nav #item3').live('click', function() {
                                 'item_id': itemId,
                                 'target_path': targetPath,
                                 'doc_type': docType,
-                                'case_id': caseId},
+                                'case_id': caseId
+                            },
                             function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 notify(serverResponse.message);
-                                el.closest('.case_detail_panel_casenotes').load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
+                                el.closest('.case_detail_panel_casenotes')
+                                .load('lib/php/data/cases_documents_load.php',
+                                {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
                                     unescapeNames();
                                     el.destroyContextMenu();
                                 });
@@ -444,12 +412,9 @@ $('.case_detail_nav #item3').live('click', function() {
                 $(el).css({'border': '1px solid #AAA'});
                 var textVal = $(el).find('p').html();
                 $(el).find('p').hide();
-                if ($(el).find('textarea').length < 1)
-                {
+                if ($(el).find('textarea').length < 1) {
                     $(el).find('p').after('<br /><textarea>' + textVal + '</textarea>');
-                }
-                else
-                {
+                } else {
                     $(el).find('textarea').show().val(textVal);
                 }
                 $(el).find('textarea').addClass('user_input')
@@ -468,16 +433,16 @@ $('.case_detail_nav #item3').live('click', function() {
                     if (e.which == 13) {
                         e.preventDefault();
                         var newVal = escape($.trim($(el).find('textarea').val()));
-                        $.post('lib/php/data/cases_documents_process.php', ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}), function(data) {
+                        $.post('lib/php/data/cases_documents_process.php',
+                        ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}),
+                        function(data) {
                             var serverResponse = $.parseJSON(data);
-
                             $(el).find('textarea').hide();
                             $(el).find('p').html(unescape(newVal));
                             $(el).attr('path', serverResponse.newPath);
                             $(el).find('p').show();
                             notify(serverResponse.message);
                         });
-
                     }
                 });
                 break;
@@ -485,14 +450,10 @@ $('.case_detail_nav #item3').live('click', function() {
             case 'delete':
 
                 var warning = null;
-
-                if ($(el).hasClass('folder'))
-                {
-                    warning = "This folder and all of its contents will be permanently deleted from the server.  Are you sure?";
-                }
-                else
-                {
-                    warning = "This item will be permanently deleted from the server.  Are you sure?";
+                if ($(el).hasClass('folder')) {
+                    warning = 'This folder and all of its contents will be permanently deleted from the server.  Are you sure?';
+                } else {
+                    warning = 'This item will be permanently deleted from the server.  Are you sure?';
                 }
 
                 var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>').dialog({
@@ -500,23 +461,28 @@ $('.case_detail_nav #item3').live('click', function() {
                     resizable: false,
                     modal: true,
                     buttons: {
-                        "Yes": function() {
-                            $.post('lib/php/data/cases_documents_process.php', ({'action': 'delete','item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}), function(data) {
+                        'Yes': function() {
+                            $.post('lib/php/data/cases_documents_process.php',
+                            ({'action': 'delete','item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}), function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 notify(serverResponse.message);
                                 $(el).remove();
-                                dialogWin.dialog("destroy");
+                                dialogWin.dialog('destroy');
                             });
                         },
-                        "No": function() {
-                            $(this).dialog("destroy");
+                        'No': function() {
+                            $(this).dialog('destroy');
                         }
                     }
                 });
                 break;
 
             case 'properties':
-                $(el).css({'border': '1px solid #AAA'}).next('.doc_properties').addClass('ui-corner-all').css({'top': '20%','left': '30%'}).show().focus().focusout(function() {
+                $(el).css({'border': '1px solid #AAA'})
+                .next('.doc_properties')
+                .addClass('ui-corner-all')
+                .css({'top': '20%','left': '30%'})
+                .show().focus().focusout(function() {
                     $(this).hide();
                     $(el).css({'border': '0px'});
                 });
@@ -560,8 +526,7 @@ $('button.doc_new_folder').live('click', function() {
     var target = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
 
     //if this is an empty folder, remove the "No Documents Found" message
-    if ($('span.docs_empty'))
-    {
+    if ($('span.docs_empty')) {
         $('span.docs_empty').remove();
     }
 
@@ -572,52 +537,42 @@ $('button.doc_new_folder').live('click', function() {
         $(this).val('').focus().css({'background-color': 'white'});
     })
     .bind('blur keyup', function(e) {
-        if (e.type == 'blur' || e.which == 13) {
+        if (e.type === 'blur' || e.which === 13) {
             e.preventDefault();
             var container = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('a.active').attr('path');
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
             var newName = $('#new_folder_name').val();
 
-            if (newName.indexOf("/") != -1)
-            {
-                notify("Sorry, folder names cannot contain a foward slash.",true);
+            if (newName.indexOf('/') !== -1) {
+                notify('Sorry, folder names cannot contain a foward slash.',true);
                 return false;
             }
-            else if (newName ==  '\n') //user has only pressed return (inserting
+            else if (newName ===  '\n'){ //user has only pressed return (inserting
                 // a new line character, but no file name)
-            {
                 notify("Please provde a name for your folder.",true);
                 return false;
-            }
-            else
-            {
+            } else {
                 var newFolder = null;
 
-                if (container === ''  || typeof container == 'undefined')
-                {
+                if (container === ''  || typeof container === 'undefined') {
                     newFolder = escape($.trim(newName.replace(/[\n\r]$/,"")));
                     //replace method removes any new line characters that
                     //may have been added by the user pressing enter
+                } else {
+                    newFolder = container + '/' + escape($.trim(newName.replace(/[\n\r]$/,'')));
                 }
-                else
-                {
-                    newFolder = container + "/" + escape($.trim(newName.replace(/[\n\r]$/,"")));
-                }
-                $.post('lib/php/data/cases_documents_process.php', {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
+                $.post('lib/php/data/cases_documents_process.php',
+                {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
                     var serverResponse = $.parseJSON(data);
-                    if(serverResponse.error === true)
-                    {
+                    if(serverResponse.error === true) {
                         notify(serverResponse.message,true);
-                    }
-                    else
-                    {
+                    } else {
                         $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
                         $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
                         $('#new_folder_name').closest('p').html(newName);
                         createDragDrop();
                         notify(serverResponse.message);
                     }
-
                 });
 
             }
@@ -630,19 +585,16 @@ $('button.doc_new_folder').live('click', function() {
 $('button.doc_upload').live('click', function() {
 
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
-
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 
     //if this is an empty folder, remove the "No Documents Found" message
-    if ($('span.docs_empty'))
-    {
+    if ($('span.docs_empty')) {
         $('span.docs_empty').remove();
     }
 
     //Tells user which directory files will be uploaded to
     var activeDirectory = $(this).parent().siblings().find('a.active').text();
-    if (activeDirectory === '')
-    {
+    if (activeDirectory === '') {
         activeDirectory = 'Home';
     }
 
@@ -650,8 +602,7 @@ $('button.doc_upload').live('click', function() {
     var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
 
     //Db leaves folder field blank for documents in root directory, so send empty value
-    if (currentPath === 'Home')
-    {
+    if (currentPath === 'Home') {
         currentPath = '';
     }
 
@@ -659,14 +610,14 @@ $('button.doc_upload').live('click', function() {
         height: 500,
         width: 500,
         modal: true,
-        title: "Upload into " + activeDirectory + " folder:",
+        title: 'Upload into ' + activeDirectory + ' folder:',
         open: function() {
             $(this).find('div.upload_dialog_url').show();
             $(this).find('div.upload_dialog_file').show();
             $(this).find('div.upload_url_form').hide();
         },
         close: function() {
-            $(this).dialog("destroy");
+            $(this).dialog('destroy');
         }
     });
 
@@ -677,11 +628,9 @@ $('button.doc_upload').live('click', function() {
         action: 'lib/php/utilities/file_upload.php',
         params: {path: currentPath,case_id: caseId},
         onComplete: function() {
-
             thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
                 createDragDrop();
                 unescapeNames();
-
             });
         }
     });
@@ -702,25 +651,22 @@ $('button.doc_upload').live('click', function() {
     $('button.upload_url_submit').unbind('click').click(function() {
         var url = $(this).siblings('input.url_upload').val();
         var urlName = $(this).siblings('input.url_upload_name').val();
-        if (isUrl(url) === false)
-        {
+        if (isUrl(url) === false) {
             $(document).find('p.upload_url_form_error_url').html('Sorry, your URL is invalid.  It must begin with http://, https:// or ftp://');
             $(this).siblings('input.url_upload').focus(function(){
                 $(document).find('p.upload_url_form_error_url').html('');
             });
             return false;
-        }
-        else if (urlName === '')
-        {
+        } else if (urlName === '') {
             $(document).find('p.upload_url_form_error_name').html('Please give this URL a title.');
             $(this).siblings('input.url_upload_name').focus(function(){
                 $(document).find('p.upload_url_form_error_name').html('');
             });
             return false;
         }
-        else
-        {
-            $.post('lib/php/data/cases_documents_process.php', {'url_name': urlName,'url': url,'case_id': caseId,'path': currentPath,'action': 'add_url'}, function(data) {
+        else {
+            $.post('lib/php/data/cases_documents_process.php',
+            {'url_name': urlName,'url': url,'case_id': caseId,'path': currentPath,'action': 'add_url'}, function(data) {
                 var serverResponse = $.parseJSON(data);
                 $('.upload_dialog').find('p.upload_url_notify').show().html(serverResponse.message).fadeOut('slow', function() {
                     $(this).html('');
@@ -771,17 +717,13 @@ $('a.doc_trail_item').live('click', function(event) {
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
-            if (scrollAmount === 0 && $(this).hasClass('csenote_shadow'))
-            {
+            if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
                 $(this).removeClass('csenote_shadow');
-            }
-            else
-            {
+            } else {
                 $(this).addClass('csenote_shadow');
             }
         });
 
         createDragDrop();
-
     });
 });
