@@ -274,8 +274,7 @@ if ($action == 'rename')
 
 if ($action == 'delete')
 {
-	if ($doc_type === 'folder')
-	{
+	if ($doc_type === 'folder') {
 
 		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS? Not until the delete
 		//function is completely stable.
@@ -292,19 +291,15 @@ if ($action == 'delete')
 		//Temporary workaround to prevent deleting of all case documents
 		//if the path is empty; trying to find javascript error that
 		//causes this. TODO
-		if ($path !== '')
-		{
+		if ($path !== '') {
 
 			$delete_query->execute();
 
 			$error = $delete_query->errorInfo();
 
 		}
-	}
+	} else {
 
-	else
-
-	{
 		$file_name = get_local_file_name($dbh,$item_id);
 
 		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE id = :id");
