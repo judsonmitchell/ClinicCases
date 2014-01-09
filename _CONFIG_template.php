@@ -2,36 +2,36 @@
 // SETS SYSTEM-WIDE CONFIG PREFERNENCES
 
 //Information to access your database
-define("CC_DBHOST","localhost");
-define("CC_DBUSERNAME","root");
-define("CC_DBPASSWD", "likes69");
-define("CC_DATABASE_NAME","cc_test");
+define("CC_DBHOST","%db_host%");
+define("CC_DBUSERNAME","%db_user%");
+define("CC_DBPASSWD", "%db_pass%");
+define("CC_DATABASE_NAME","%db_name%");
 
 //Define a salt for passwords.
 //You can use php's uniqid function to generate this, e.g from the command line:
 //php -r 'echo uniqid();'
-define("CC_SALT","4ff6cd919b864");
+define("CC_SALT","%salt%");
 
 //Full path to ClinicCases on your server, e.g. "/var/www/clinicases"
-define("CC_PATH","/var/www/ClinicCases");
+define("CC_PATH","%cc_path%");
 
 //Path of directory which will store uploaded documents.  For security purposes,
 //this directory should be out of the webroot.  Ensure that the directory
 //is writable.  E.g "/var/cc_docs" or "/home/you/private/cc_docs"
-define("CC_DOC_PATH","/var/cc_docs");
+define("CC_DOC_PATH","%doc_path%");
 
 //Url where your ClinicCases installation will be run,
 //e.g. http://www.yourservername.com/yourdirectory/ .  Don't forget trailing slash!
-define("CC_BASE_URL","http://localhost/");
+define("CC_BASE_URL","%base_url%");
 
 //Your domain , e.g. http://www.yourserver.com
-define("CC_DOMAIN","http://localhost");
+define("CC_DOMAIN","%domain%");
 
 //Email address for the adminstrator who will deal with user questions
 define("CC_ADMIN_EMAIL","%admin_email%");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
-define("CC_PROGRAM_NAME","ChromeBook Testing Env");
+define("CC_PROGRAM_NAME","%program_name%");
 
 //Minimum timekeeping unit.  Default is 5 minutes.  Some prefer 6
 define("CC_TIME_UNIT","%t_unit%");
