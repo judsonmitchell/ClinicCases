@@ -13,12 +13,13 @@ $('.case_detail_nav #item4').live('click', function() {
     //Get heights
     var toolsHeight = $(this).outerHeight();
     var thisPanelHeight = $(this).closest('.case_detail_nav').height();
-    var documentsWindowHeight = thisPanelHeight - toolsHeight;
+    var eventsWindowHeight = thisPanelHeight - toolsHeight;
 
     thisPanel.load('lib/php/data/cases_events_load.php', {'case_id': caseId}, function() {
 
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
+        $('div.case_detail_panel_casenotes').css({'height': eventsWindowHeight});
         $('div.case_detail_panel_tools_left').css({'width': '30%'});
         $('div.case_detail_panel_tools_right').css({'width': '70%'});
 
