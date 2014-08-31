@@ -118,21 +118,53 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     tools.find('.case_detail_panel_tools_right').append('<button class="closer">Close</button>');
     tools.find('button.closer').button({icons: {primary: 'fff-icon-cross'},text: true});
     tools.find('button.closer').click(function() {
+        var returnToFiles = function () {
+            if (currentPath === '') {  //the document is not in a subfolder
+                target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+                    tools.find('button').show();
+                    tools.find('button.closer').remove();
+                    unescapeNames();
+                    createDragDrop();
+                });
+            } else {  //document is in a subfolder
+                target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
+                    tools.find('button').show();
+                    tools.find('button.loser').remove();
+                    unescapeNames();
+                    createDragDrop();
+                });
+            }
+        }
+        //If the author is closing and both the title and body are empty,
+        //probably clicked new documents by mistake.  Kill document.
+        //Alert ('this document is empty.  Delete it?')
+        if ($('.text_editor').html() === '' && $('.text_editor_title').text() === 'New Document'){
+            var warning = 'It appears this document is empty. Do you want to save it anyway?';
+            var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>').dialog({
+                autoOpen: true,
+                resizable: false,
+                modal: true,
+                buttons: {
+                    'Yes': function() {
+                        dialogWin.dialog('destroy');
+                        returnToFiles();
+                    },
+                    'No': function() {
+                        var itemId = $('.text_editor_bar').attr('data-id');
+                        $.post('lib/php/data/cases_documents_process.php',
+                        ({'action': 'delete','item_id': itemId,'doc_type': 'ccd'}), function(data) {
+                            var serverResponse = $.parseJSON(data);
+                            notify(serverResponse.message);
+                            dialogWin.dialog('destroy');
+                        });
+                        $(this).dialog('destroy');
+                        returnToFiles();
+                    }
+                }
+            });
 
-        if (currentPath === '') {  //the document is not in a subfolder
-            target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
-                tools.find('button').show();
-                tools.find('button.closer').remove();
-                unescapeNames();
-                createDragDrop();
-            });
-        } else {  //document is in a subfolder
-            target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
-                tools.find('button').show();
-                tools.find('button.closer').remove();
-                unescapeNames();
-                createDragDrop();
-            });
+        } else {
+            returnToFiles();
         }
     });
 
