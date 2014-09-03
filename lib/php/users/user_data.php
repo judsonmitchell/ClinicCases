@@ -69,6 +69,29 @@ function all_users_in_group($dbh,$group)
 
 }
 
+//Return all users in group regardless of current status;
+//Important for historical time reports
+function all_users_in_group_no_status($dbh,$group)
+{
+	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `grp` = ? ");
+
+	$q->bindParam(1, $group);
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	return $users_array;
+
+}
+
 //Return all users who share the same supervisor
 function all_users_by_supvsr($dbh,$supvsr)
 {

@@ -153,7 +153,7 @@ switch ($type) {
 			{
 				$group = substr($val, 5);
 
-				$members = all_users_in_group($dbh,$group);
+				$members = all_users_in_group_no_status($dbh,$group);
 
 				$m = implode("','",$members);
 
