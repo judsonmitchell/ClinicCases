@@ -478,6 +478,10 @@ $('.case_detail_nav #item3').live('click', function() {
                     if (e.which == 13) {
                         e.preventDefault();
                         var newVal = escape($.trim($(el).find('textarea').val()));
+                        //Don't save an empty value
+                        if (newVal === ''){
+                           return;
+                        }
                         $.post('lib/php/data/cases_documents_process.php',
                         ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}),
                         function(data) {
