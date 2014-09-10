@@ -454,7 +454,7 @@ $('.case_detail_nav #item3').live('click', function() {
                 break;
 
             case 'rename':
-                $(el).css({'border': '1px solid #AAA'});
+                //$(el).css({'border': '1px solid #AAA'});
                 var textVal = $(el).find('p').html();
                 $(el).find('p').hide();
                 if ($(el).find('textarea').length < 1) {
@@ -462,11 +462,12 @@ $('.case_detail_nav #item3').live('click', function() {
                 } else {
                     $(el).find('textarea').show().val(textVal);
                 }
-                $(el).find('textarea').addClass('user_input')
-                .mouseenter(function() {
-                    $(this).focus().removeClass('user_input');
-                    $(el).css({'border': '0px'});
-                })
+                //$(el).css({'border': '0px'});
+                $(el).find('textarea').addClass('user_input').focus().select()
+                //.mouseenter(function() {
+                //    $(this).focus().removeClass('user_input');
+                //    $(el).css({'border': '0px'});
+                //})
                 .mouseleave(function() {
                     $(el).find('textarea').hide();
                     $(el).find('p').show();

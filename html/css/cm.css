@@ -325,8 +325,8 @@ div.doc_item a {text-decoration:none;}
 div.doc_item img {border:0;}
 div.doc_item:hover {cursor: pointer;}
 div.doc_properties{position:absolute;z-index:99999;display:none;background-color:white;width:40%;height:50%;padding:5px;border:1px solid black;box-shadow:3px 3px 5px #AAA;-moz-box-shadow:3px 3px 5px #AAA;-webkit-box-shadow:3px 3px 5px #AAA;outline:0;text-align:left;}
-div.doc_item textarea{width:90px;height:50px;border:0;}
-div.doc_item textarea.user_input{background-color: #EDF09F;outline:yellow solid medium;
+div.doc_item textarea{width:90px;height:50px;border:0; resize:none}
+div.doc_item textarea.user_input{outline:yellow solid medium;
 }
 a.active  {text-decoration:none;}
 /* This allows for the context menu to be display on docs that are at the bottom of the window */
