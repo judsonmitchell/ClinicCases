@@ -176,8 +176,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
             $(this).css({'color': 'red'});
         })
         .click(function() {
-            $(this).css({'color': 'red'});
-            $(this).html('<input type="text" value="">');
+            $(this).html('<input type="text" value="" />');
             $(this).find('input').val(unescape(ccdTitle)).focus().select();
         })
         .bind('focusout keyup', function(e) {
