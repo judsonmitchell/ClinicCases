@@ -411,9 +411,8 @@ $('.case_detail_nav #item3').live('click', function() {
                 break;
 
             case 'copy':
-
                 if (docType === 'folder') { //TODO add copying of folders
-                    notify('Sorry, copying of folders is not yet supported.', true);
+                    notify('Sorry, copying of folders is not supported.', true);
                 } else {
                     $(el).css({'border': '1px solid #AAA'});
                     //Stash the data about the copy file or folder
@@ -455,7 +454,7 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'rename':
                 var textVal = $(el).find('p').html(),
-                submitChange = function () {
+                submitChange = function (cb) {
                     var newVal = escape($.trim($(el).find('textarea').val()));
                     //Don't save an empty value
                     if (newVal === ''){
@@ -475,6 +474,7 @@ $('.case_detail_nav #item3').live('click', function() {
                             $(el).find('p').show();
                         }
                         notify(serverResponse.message);
+                        cb();
                     });
                 };
                 $(el).find('p').hide();
@@ -484,24 +484,27 @@ $('.case_detail_nav #item3').live('click', function() {
                     $(el).find('textarea').show().val(textVal);
                 }
                 $(el).find('textarea').addClass('user_input').focus().select()
-                .blur(function() {
-                    submitChange();
-                    $(el).find('textarea').hide();
-                    $(el).find('p').show();
+                .blur(function(e) {
+                    submitChange(function (){
+                        $(el).find('textarea').hide();
+                        $(el).find('p').show();
+                        $(el).find('textarea').unbind('blur keypress');
+                    });
                 })
                 .click(function(event) {
                     event.stopPropagation();
                 })
                 .keypress(function (e) {
-                    if (e.which == 13) {
-                        e.preventDefault();
-                        submitChange();
+                    e.stopPropagation();
+                    if (e.which === 13) {
+                        submitChange(function () {
+                            $(el).find('textarea').unbind('keypress blur');
+                        });
                     }
-                })
+                });
                 break;
 
             case 'delete':
-
                 var warning = null;
                 if ($(el).hasClass('folder')) {
                     warning = 'This folder and all of its contents will be permanently deleted from the server.  Are you sure?';
@@ -585,6 +588,7 @@ $('button.doc_new_folder').live('click', function() {
 
     target.prepend("<div class='doc_item folder' path='' data-id=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
 
+    $('#new_folder_name').select();
     $('#new_folder_name').addClass('user_input')
     .mouseenter(function() {
         $(this).val('').focus().css({'background-color': 'white'});
