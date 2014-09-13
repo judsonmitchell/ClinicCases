@@ -119,7 +119,7 @@ function strstr_after($haystack, $needle, $case_insensitive = false) {
 }
 
 //Checks to see if the folder path is unique; if not, increments name
-function check_folder_unique($dbh,$container,$new_folder,$case_id) {
+function check_folder_unique($dbh,$container,$path,$case_id) {
 	$q = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE '$container' and folder LIKE '$new_folder' AND case_id = '$case_id'  ORDER BY date_modified ASC");
 
 	$q->execute();
@@ -229,6 +229,11 @@ if ($action == 'rename')
 {
 	if ($doc_type === 'folder')
 		{
+            //if (check_folder_unique($dbh,$container,$new_folder,$case_id) === true) {
+            //        $return = array('message'=>'Sorry, that folder name is already in use.  Please choose another name.','error'=>true);
+            //        echo json_encode($return);die;
+            //};
+
 			$sql = "UPDATE cm_documents SET folder = :new_path WHERE id = :item_id";
 
 			if (strripos($path,'/'))  //path includes subdirectories

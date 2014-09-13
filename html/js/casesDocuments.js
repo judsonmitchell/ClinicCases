@@ -454,47 +454,50 @@ $('.case_detail_nav #item3').live('click', function() {
                 break;
 
             case 'rename':
-                //$(el).css({'border': '1px solid #AAA'});
-                var textVal = $(el).find('p').html();
+                var textVal = $(el).find('p').html(),
+                submitChange = function () {
+                    var newVal = escape($.trim($(el).find('textarea').val()));
+                    //Don't save an empty value
+                    if (newVal === ''){
+                        return;
+                    }
+                    $.post('lib/php/data/cases_documents_process.php',
+                    ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}),
+                    function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        if (serverResponse.error){
+                            notify(serverResponse.message);
+                            return;
+                        } else {
+                            $(el).find('textarea').hide();
+                            $(el).find('p').html(unescape(newVal));
+                            $(el).attr('path', serverResponse.newPath);
+                            $(el).find('p').show();
+                        }
+                        notify(serverResponse.message);
+                    });
+                };
                 $(el).find('p').hide();
                 if ($(el).find('textarea').length < 1) {
                     $(el).find('p').after('<br /><textarea>' + textVal + '</textarea>');
                 } else {
                     $(el).find('textarea').show().val(textVal);
                 }
-                //$(el).css({'border': '0px'});
                 $(el).find('textarea').addClass('user_input').focus().select()
-                //.mouseenter(function() {
-                //    $(this).focus().removeClass('user_input');
-                //    $(el).css({'border': '0px'});
-                //})
-                .mouseleave(function() {
+                .blur(function() {
+                    submitChange();
                     $(el).find('textarea').hide();
                     $(el).find('p').show();
                 })
                 .click(function(event) {
                     event.stopPropagation();
                 })
-                .keypress(function(e) {
+                .keypress(function (e) {
                     if (e.which == 13) {
                         e.preventDefault();
-                        var newVal = escape($.trim($(el).find('textarea').val()));
-                        //Don't save an empty value
-                        if (newVal === ''){
-                           return;
-                        }
-                        $.post('lib/php/data/cases_documents_process.php',
-                        ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}),
-                        function(data) {
-                            var serverResponse = $.parseJSON(data);
-                            $(el).find('textarea').hide();
-                            $(el).find('p').html(unescape(newVal));
-                            $(el).attr('path', serverResponse.newPath);
-                            $(el).find('p').show();
-                            notify(serverResponse.message);
-                        });
+                        submitChange();
                     }
-                });
+                })
                 break;
 
             case 'delete':
