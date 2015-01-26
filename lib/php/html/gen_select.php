@@ -380,7 +380,7 @@ function reports_users_and_groups($dbh,$case_num)
 {
 	$options = null;
 
-	if ($_SESSION['permissions']['view_users'] == '1') //essentially an adminstrator
+	if ($_SESSION['permissions']['view_users'] == '1') //essentially an administrator
 	{
 		//First get all groups defined in cm_groups config
 		$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");
