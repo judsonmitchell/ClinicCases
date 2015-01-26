@@ -27,7 +27,7 @@ define("CC_BASE_URL","%base_url%");
 //Your domain , e.g. http://www.yourserver.com
 define("CC_DOMAIN","%domain%");
 
-//Email address for the adminstrator who will deal with user questions
+//Email address for the administrator who will deal with user questions
 define("CC_ADMIN_EMAIL","%admin_email%");
 
 //Your Program Name, e.g. "Loyola Law Clinic"
