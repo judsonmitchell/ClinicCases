@@ -65,7 +65,7 @@ if ($count < 1) {
 		$user = $check['username'];
 		$email = $check['email'];
 		$subject = "ClinicCases: Your Password Has Been Reset";
-		$body = "Your adminstrator has reset your ClinicCases password.  Your username is $user. " .
+		$body = "Your Administrator has reset your ClinicCases password.  Your username is $user. " .
         "Your temporary password is $gen_pass\n\nPlease log in to ClinicCases using these credentials. ".
         "You will then be prompted to change your password to something you can remember.\n\nIf you did not make this request, please notify your administrator.\n\n" . CC_EMAIL_FOOTER;
 		mail($email,$subject,$body,CC_EMAIL_HEADERS);

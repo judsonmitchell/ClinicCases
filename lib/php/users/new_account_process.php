@@ -193,7 +193,7 @@ else
 	//Send email to applicant
 	$subject = "ClinicCases " . CC_PROGRAM_NAME . ": Thanks for applying";
 
-	$message = "Your application for ClinicCases has been received.  It will be reviewed by your adminstrator.  When it is approved, your adminstrator will send you another email letting you know your account is active.\n\nIn the meantime, feel free to contact your adminstrator at " . CC_ADMIN_EMAIL . " with any questions.";
+	$message = "Your application for ClinicCases has been received.  It will be reviewed by your administrator.  When it is approved, your administrator will send you another email letting you know your account is active.\n\nIn the meantime, feel free to contact your administrator at " . CC_ADMIN_EMAIL . " with any questions.";
 
 	mail($_POST['email'],$subject,$message,CC_EMAIL_HEADERS);
 
@@ -229,7 +229,7 @@ else
 
 	//notify user
 	$response = array("error" => false, "message" => "Account application successful",
-		"html" => "<p>Thank you for submitting the application.  An email has been sent to <b>" . $_POST['email'] . "</b> to confirm your application.  If it doesn't arrive in a few minutes, please check your spam folder.  It's also a good idea to add <b>" . CC_EMAIL_FROM . "</b> to your email address book to ensure that you get ClinicCases emails in the future.</p><p> Your application will be reviewed by your adminstrator.  When it is approved, another email will be sent to let you know.  If you have any questions in the meantime, please contact your <a href='mailto:" . CC_ADMIN_EMAIL . "'>adminstrator</a>.</p>" );
+		"html" => "<p>Thank you for submitting the application.  An email has been sent to <b>" . $_POST['email'] . "</b> to confirm your application.  If it doesn't arrive in a few minutes, please check your spam folder.  It's also a good idea to add <b>" . CC_EMAIL_FROM . "</b> to your email address book to ensure that you get ClinicCases emails in the future.</p><p> Your application will be reviewed by your administrator.  When it is approved, another email will be sent to let you know.  If you have any questions in the meantime, please contact your <a href='mailto:" . CC_ADMIN_EMAIL . "'>administrator</a>.</p>" );
 
 	echo json_encode($response);
 }

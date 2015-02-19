@@ -46,7 +46,7 @@ else
 
 		$username = $data['username'];
 
-		//Check to see if this person is an adminstrator
+		//Check to see if this person is an Administrator
 		$q = $dbh->prepare("SELECT * FROM cm_groups WHERE group_name = ?");
 
 		$q->bindParam(1,$data['grp']);

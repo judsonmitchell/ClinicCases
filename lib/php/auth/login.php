@@ -73,7 +73,7 @@ else
 
 		if ($r->status == "inactive")
 			{
-				$msg = "Your account is currently inactive.  Please contact <a href='mailto:" . CC_ADMIN_EMAIL   . "'>your clinic's adminstrator</a> for more information.";
+				$msg = "Your account is currently inactive.  Please contact <a href='mailto:" . CC_ADMIN_EMAIL   . "'>your clinic's Administrator</a> for more information.";
 
 				$json = array('login'=>'false','message'=>''. $msg . '','url'=>'null');
 
