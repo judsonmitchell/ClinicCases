@@ -221,7 +221,7 @@ switch ($type) {
 		{
 			$supervisor = substr($val, 5);
 
-			$members = all_users_by_supvsr($dbh,$supervisor);
+			$members = all_users_by_supvsr_no_status($dbh,$supervisor);
 
 			$m = implode("','",$members);
 

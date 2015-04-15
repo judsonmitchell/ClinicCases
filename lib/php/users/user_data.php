@@ -114,6 +114,29 @@ function all_users_by_supvsr($dbh,$supvsr)
 	return $users_array;
 }
 
+//Return all users who share the same supervisor, regardless of whether active or not
+//This is important for historical reports.
+function all_users_by_supvsr_no_status($dbh,$supvsr)
+{
+	$q = $dbh->prepare("SELECT * FROM cm_users WHERE (`supervisors` LIKE '%,$supvsr,%' OR `supervisors` LIKE '$supvsr,%') ");
+
+	$q->execute();
+
+	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	$users_array = array();
+
+	foreach ($users as $user) {
+
+		$users_array[] = $user['username'];
+	}
+
+	//Add supervisor to the group
+	array_push($users_array,$supvsr);
+
+	return $users_array;
+}
+
 //Return all active users
 function all_active_users_a($dbh)
 {
