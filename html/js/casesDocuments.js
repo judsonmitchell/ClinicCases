@@ -290,7 +290,8 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
         $('#pdf-viewer').show();
         $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
         $('#pdf-viewer').click(function(){
-            $(this).hide(); 
+            $('#frme').attr('src','');
+            $(this).hide();
         });
         //$.post( 'lib/php/data/cases_documents_process.php', {
             //'action': 'open',
