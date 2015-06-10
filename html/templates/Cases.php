@@ -81,6 +81,9 @@
 </head>
 <body>
 
+    <div id="pdf-viewer">
+        <iframe src = ""  id="frme"></iframe>
+    </div>
 	<div id="notifications"></div>
 
 	<?php include 'html/templates/interior/timer.php' ?>
@@ -101,7 +104,6 @@
 
 	<div id="content">
 
-        <div id="pdf-viewer"></div>
 		<div id="processing">Loading....</div>
 
 			<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1"){echo "can_add";}?>">

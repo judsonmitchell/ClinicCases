@@ -430,7 +430,7 @@ if ($action == 'open')
 				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 				header('Content-Description: File Transfer');
                 header('Content-type: application/pdf');
-				header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
+				header('Content-disposition: inline; filename="'. $doc_properties['name'] .'"');
                 header('Content-Transfer-Encoding: binary');
 				header("Content-Length: ". filesize($file));
                 header('Accept-Ranges: bytes');

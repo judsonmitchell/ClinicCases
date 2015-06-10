@@ -607,3 +607,21 @@ div.board_upload{display: inline-block;}
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
+
+/* Styles for PDF viewer */
+
+#pdf-viewer {
+    position:absolute;
+    width: 100%;
+    height:100%;
+    background-color:yellow;
+    opacity:.3;
+    z-index:9999;
+    padding-top:30px;
+    display:none;
+}
+
+#pdf-viewer iframe {
+    width:90%;
+    height:90%;
+}

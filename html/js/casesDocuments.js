@@ -287,6 +287,8 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             serverResponse.ccd_content, serverResponse.ccd_id,serverResponse.ccd_owner,serverResponse.ccd_locked);
         });
     } else if ($(el).hasClass('pdf')){
+        $('#pdf-viewer').show();
+        $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
         //$.post( 'lib/php/data/cases_documents_process.php', {
             //'action': 'open',
             //'item_id': itemId,
@@ -297,40 +299,58 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
                     //alert(data.numPages);
                 //});
         //})
-        var xhr = new XMLHttpRequest();
-        var url = 'lib/php/data/cases_documents_process.php';
-        var params = 'action=open&item_id=' + itemId + '&doc_type=pdf';
-        xhr.responseType = 'arraybuffer';
-        xhr.open('POST', url, true);
+        //var xhr = new XMLHttpRequest();
+        //var url = 'lib/php/data/cases_documents_process.php';
+        //var params = 'action=open&item_id=' + itemId + '&doc_type=pdf';
+        //xhr.responseType = 'arraybuffer';
+        //xhr.open('POST', url, true);
 
-        //Send the proper header information along with the request
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        //xhr.setRequestHeader('Content-length', params.length);
-        //xhr.setRequestHeader('Connection', 'close');
+        ////Send the proper header information along with the request
+        //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        ////xhr.setRequestHeader('Content-length', params.length);
+        ////xhr.setRequestHeader('Connection', 'close');
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState === 4 && xhr.status === 200) {
-                var responseArray = new Uint8Array(xhr.response);
-                var SCALE = 1.0;
-                PDFJS.getDocument(responseArray).then(function (pdfDocument) {
-                    return pdfDocument.getPage(1).then(function (pdfPage) {
-                        var pdfPageView = new PDFJS.PDFPageView({
-                            container: document.getElementById('pdf-viewer'),
-                            id: 1,
-                            scale: SCALE,
-                            defaultViewport: pdfPage.getViewport(SCALE),
-                            // We can enable text/annotations layers, if needed
-                            textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
-                            annotationsLayerFactory: new PDFJS.DefaultAnnotationsLayerFactory()
-                        });
-                        // Associates the actual page with the view, and drawing it
-                        pdfPageView.setPdfPage(pdfPage);
-                        return pdfPageView.draw();
-                    });
-                });
-            }
-        };
-        xhr.send(params);
+        //xhr.onreadystatechange = function() {//Call a function when the state changes.
+            //if(xhr.readyState === 4 && xhr.status === 200) {
+                //var responseArray = new Uint8Array(xhr.response);
+                //PDFJS.getDocument(responseArray).then(function (pdfDocument) {
+                   //// return pdfDocument.getPage(1).then(function (pdfPage) {
+                   ////     var pdfPageView = new PDFJS.PDFPageView({
+                   ////         container: document.getElementById('pdf-viewer'),
+                   ////         id: 1,
+                   ////         scale: SCALE,
+                   ////         defaultViewport: pdfPage.getViewport(SCALE),
+                   ////         // We can enable text/annotations layers, if needed
+                   ////         textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
+                   ////         annotationsLayerFactory: new PDFJS.DefaultAnnotationsLayerFactory()
+                   ////     });
+                   ////     // Associates the actual page with the view, and drawing it
+                   ////     pdfPageView.setPdfPage(pdfPage);
+                   ////     return pdfPageView.draw();
+                   //// });
+                 ////
+                    //// Prepare canvas using PDF page dimensions
+                    ////
+                    //pdfDocument.getPage(1).then(function (page){
+                        //var scale = 1.0;
+                        //var viewport = page.getViewport(scale);
+                        //var canvas = document.getElementById('the-canvas');
+                        //var context = canvas.getContext('2d');
+                        //canvas.height = viewport.height;
+                        //canvas.width = viewport.width;
+                        ////
+                        //// Render PDF page into canvas context
+                        ////
+                        //var renderContext = {
+                            //canvasContext: context,
+                            //viewport: viewport
+                        //};
+                        //page.render(renderContext);
+                    //});
+                //});
+            //}
+        //};
+        //xhr.send(params);
     } else {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
             return;
