@@ -614,8 +614,7 @@ div.board_upload{display: inline-block;}
     position:absolute;
     width: 100%;
     height:100%;
-    background-color:yellow;
-    opacity:.3;
+    background-image:url('../images/pdf-bg.png');
     z-index:9999;
     padding-top:30px;
     display:none;

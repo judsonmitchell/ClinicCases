@@ -289,11 +289,14 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
     } else if ($(el).hasClass('pdf')){
         $('#pdf-viewer').show();
         $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
+        $('#pdf-viewer').click(function(){
+            $(this).hide(); 
+        });
         //$.post( 'lib/php/data/cases_documents_process.php', {
             //'action': 'open',
             //'item_id': itemId,
             //'doc_type': 'pdf'
-            //}, 
+            //},
             //function(data) {
                 //PDFJS.getDocument(data).then(function (data){
                     //alert(data.numPages);

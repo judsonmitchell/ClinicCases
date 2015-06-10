@@ -1046,6 +1046,11 @@ html[dir='rtl'] .toolbarButton.pageDown::before {
   content: url(images/toolbarButton-presentationMode.png);
 }
 
+.toolbarButton.closeWindow::before,
+.secondaryToolbarButton.closeWindow::before {
+  content: url(images/toolbarButton-presentationMode.png);
+}
+
 .toolbarButton.print::before,
 .secondaryToolbarButton.print::before {
   content: url(images/toolbarButton-print.png);
