@@ -289,6 +289,8 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
     } else if ($(el).hasClass('pdf')){
         $('#pdf-viewer').show();
         $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
+
+        //Add listener to close pdf viewer
         $('#pdf-viewer').click(function(){
             $('#frme').attr('src','');
             $(this).hide();
