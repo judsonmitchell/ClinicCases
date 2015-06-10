@@ -310,26 +310,24 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
 
         xhr.onreadystatechange = function() {//Call a function when the state changes.
             if(xhr.readyState === 4 && xhr.status === 200) {
-                       var newWindow = window.open("", "new window", "width=200, height=100");
-                       newWindow.document.write(xhr.response);
-                //var responseArray = new Uint8Array(xhr.response);
-                //var SCALE = 1.0;
-                //PDFJS.getDocument(responseArray).then(function (pdfDocument) {
-                    //return pdfDocument.getPage(1).then(function (pdfPage) {
-                        //var pdfPageView = new PDFJS.PDFPageView({
-                            //container: document.getElementById('pdf-viewer'),
-                            //id: 1,
-                            //scale: SCALE,
-                            //defaultViewport: pdfPage.getViewport(SCALE),
-                            //// We can enable text/annotations layers, if needed
-                            //textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
-                            //annotationsLayerFactory: new PDFJS.DefaultAnnotationsLayerFactory()
-                        //});
-                        //// Associates the actual page with the view, and drawing it
-                        //pdfPageView.setPdfPage(pdfPage);
-                        //return pdfPageView.draw();
-                    //});
-                //});
+                var responseArray = new Uint8Array(xhr.response);
+                var SCALE = 1.0;
+                PDFJS.getDocument(responseArray).then(function (pdfDocument) {
+                    return pdfDocument.getPage(1).then(function (pdfPage) {
+                        var pdfPageView = new PDFJS.PDFPageView({
+                            container: document.getElementById('pdf-viewer'),
+                            id: 1,
+                            scale: SCALE,
+                            defaultViewport: pdfPage.getViewport(SCALE),
+                            // We can enable text/annotations layers, if needed
+                            textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
+                            annotationsLayerFactory: new PDFJS.DefaultAnnotationsLayerFactory()
+                        });
+                        // Associates the actual page with the view, and drawing it
+                        pdfPageView.setPdfPage(pdfPage);
+                        return pdfPageView.draw();
+                    });
+                });
             }
         };
         xhr.send(params);
