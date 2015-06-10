@@ -286,6 +286,53 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title,
             serverResponse.ccd_content, serverResponse.ccd_id,serverResponse.ccd_owner,serverResponse.ccd_locked);
         });
+    } else if ($(el).hasClass('pdf')){
+        //$.post( 'lib/php/data/cases_documents_process.php', {
+            //'action': 'open',
+            //'item_id': itemId,
+            //'doc_type': 'pdf'
+            //}, 
+            //function(data) {
+                //PDFJS.getDocument(data).then(function (data){
+                    //alert(data.numPages);
+                //});
+        //})
+        var xhr = new XMLHttpRequest();
+        var url = 'lib/php/data/cases_documents_process.php';
+        var params = 'action=open&item_id=' + itemId + '&doc_type=pdf';
+        xhr.responseType = 'arraybuffer';
+        xhr.open('POST', url, true);
+
+        //Send the proper header information along with the request
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //xhr.setRequestHeader('Content-length', params.length);
+        //xhr.setRequestHeader('Connection', 'close');
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState === 4 && xhr.status === 200) {
+                       var newWindow = window.open("", "new window", "width=200, height=100");
+                       newWindow.document.write(xhr.response);
+                //var responseArray = new Uint8Array(xhr.response);
+                //var SCALE = 1.0;
+                //PDFJS.getDocument(responseArray).then(function (pdfDocument) {
+                    //return pdfDocument.getPage(1).then(function (pdfPage) {
+                        //var pdfPageView = new PDFJS.PDFPageView({
+                            //container: document.getElementById('pdf-viewer'),
+                            //id: 1,
+                            //scale: SCALE,
+                            //defaultViewport: pdfPage.getViewport(SCALE),
+                            //// We can enable text/annotations layers, if needed
+                            //textLayerFactory: new PDFJS.DefaultTextLayerFactory(),
+                            //annotationsLayerFactory: new PDFJS.DefaultAnnotationsLayerFactory()
+                        //});
+                        //// Associates the actual page with the view, and drawing it
+                        //pdfPageView.setPdfPage(pdfPage);
+                        //return pdfPageView.draw();
+                    //});
+                //});
+            }
+        };
+        xhr.send(params);
     } else {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
             return;
