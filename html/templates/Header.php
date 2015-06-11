@@ -46,9 +46,6 @@
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
 	<script src="lib/javascripts/print.js" type="text/javascript"></script>
-    <script src="lib/javascripts/pdfjs-dist/web/compatibility.js" type="text/javascript"></script>
-	<script src="lib/javascripts/pdfjs-dist/build/pdf.js" type="text/javascript"></script>
-    <script src="lib/javascripts/pdfjs-dist/web/pdf_viewer.js" type="text/javascript"></script>
 
     <?php } ?>
 
