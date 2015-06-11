@@ -94,7 +94,7 @@ div.new_account_right p{margin-bottom: 10px;}
 
 input{font-family:garamond, georgia, times, serif;font-size:14pt;color:black;border:1px solid #D8D1D1;}
 
-input.small{font-family:garamond, georgia, times, serif;font-size:10pt;color:black;}
+input.small{font-family:serif;font-size:10pt;color:black;}
 
 select.gray{font-family:garamond, georgia, times, serif;font-size:14pt;color:rgb(224, 224, 224);}
 
