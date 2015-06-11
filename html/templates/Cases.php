@@ -82,7 +82,7 @@
 <body>
 
     <div id="pdf-viewer">
-        <iframe src = ""  id="frme"></iframe>
+        <iframe src = ""  id="frme" allowfullscreen="true"></iframe>
     </div>
 	<div id="notifications"></div>
 
