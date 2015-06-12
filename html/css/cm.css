@@ -94,7 +94,7 @@ div.new_account_right p{margin-bottom: 10px;}
 
 input{font-family:garamond, georgia, times, serif;font-size:14pt;color:black;border:1px solid #D8D1D1;}
 
-input.small{font-family:garamond, georgia, times, serif;font-size:10pt;color:black;}
+input.small{font-family:serif;font-size:10pt;color:black;}
 
 select.gray{font-family:garamond, georgia, times, serif;font-size:14pt;color:rgb(224, 224, 224);}
 
@@ -606,4 +606,21 @@ div.board_upload{display: inline-block;}
 	background: rgb(150,168,182);
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+/* Styles for PDF viewer */
+
+#pdf-viewer {
+    position:absolute;
+    width: 100%;
+    height:100%;
+    background-image:url('../images/pdf-bg.png');
+    z-index:9999;
+    padding-top:30px;
+    display:none;
+}
+
+#pdf-viewer iframe {
+    width:90%;
+    height:90%;
 }

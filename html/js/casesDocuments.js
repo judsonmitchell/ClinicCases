@@ -286,12 +286,43 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title,
             serverResponse.ccd_content, serverResponse.ccd_id,serverResponse.ccd_owner,serverResponse.ccd_locked);
         });
+    } else if ($(el).hasClass('pdf')){
+        if (Object.create){ //informal browser check for ie8
+            //Show pdfjs viewer
+            $('#pdf-viewer').show();
+            $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
+
+            //Add listener to close pdf viewer
+            $('#pdf-viewer').click(function(){
+                $('#frme').attr('src','');
+                $(this).hide();
+            });
+
+            //Close pdfviewer on escape key press
+            $('body').bind('keyup.pdfViewer', function (e){
+                if (e.keyCode === 27){
+                    $('#frme').attr('src','');
+                    $('#pdf-viewer').hide();
+                }
+            });
+        } else {
+            //pdfjs is not supported; revert to download
+            $.download('lib/php/data/cases_documents_process.php', {
+                'item_id': itemId,
+                'action': 'open',
+                'doc_type': docType
+            });
+        }
     } else {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
             return;
         }
 
-        $.download('lib/php/data/cases_documents_process.php', {'item_id': itemId,'action': 'open','doc_type': docType});
+        $.download('lib/php/data/cases_documents_process.php', {
+            'item_id': itemId,
+            'action': 'open',
+            'doc_type': docType
+        });
     }
 
 }

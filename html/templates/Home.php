@@ -22,6 +22,10 @@
 </head>
 <body>
 
+    <div id="pdf-viewer">
+        <iframe src = ""  id="frme" allowfullscreen="true"></iframe>
+    </div>
+
 	<div id="notifications"></div>
 
 	<?php include 'html/templates/interior/timer.php' ?>
