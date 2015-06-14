@@ -1,6 +1,8 @@
- //
+//
 //Scripts for casenotes
 //
+
+/* global ccTimer, notify */
 
 //Set max height for case notes and add toggle
 function sizeCaseNotes(notes, panelTarget) {
@@ -43,10 +45,10 @@ String.prototype.br2nl = function () {
 
 //Load new case notes on scroll
 function addMoreNotes(scrollTarget) {
-
     var caseId = scrollTarget.data('CaseNumber');
     var scrollAmount = scrollTarget[0].scrollTop;
     var scrollHeight = scrollTarget[0].scrollHeight;
+    var startNum;
 
     if (scrollAmount === 0 && scrollTarget.hasClass('csenote_shadow')) {
         scrollTarget.removeClass('csenote_shadow');
@@ -54,7 +56,7 @@ function addMoreNotes(scrollTarget) {
         scrollTarget.addClass('csenote_shadow');
     }
 
-    scrollPercent = (scrollAmount / (scrollHeight - scrollTarget.height())) * 100;
+    var scrollPercent = (scrollAmount / (scrollHeight - scrollTarget.height())) * 100;
 
     if (scrollPercent > 70) {
         //the start for the query is added to the scrollTarget object
@@ -66,9 +68,11 @@ function addMoreNotes(scrollTarget) {
             scrollTarget.data('start', startNum);
         }
 
-        $.post('lib/php/data/cases_casenotes_load.php',
-        {'case_id': caseId, 'start': scrollTarget.data('start'), 'update': 'yes'}, function (data) {
-
+        $.post('lib/php/data/cases_casenotes_load.php', {
+            'case_id': caseId,
+            'start': scrollTarget.data('start'),
+            'update': 'yes'
+        }, function (data) {
             //var t represents number of case notes; if 0,return false;
             var t = $(data).find('p.csenote_instance').length;
             if (t === 0) {
@@ -78,19 +82,19 @@ function addMoreNotes(scrollTarget) {
                 sizeCaseNotes($('.csenote'), scrollTarget);
                 $('div.csenote').addClass('ui-corner-all');
                 //if user has the add case note widget open, make sure opacities are uniform
-                if (scrollTarget.find('div.csenote_new').css('display') == 'block') {
+                if (scrollTarget.find('div.csenote_new').css('display') === 'block') {
                     $('div.csenote').css({'opacity': '.5'});
                 }
             }
         });
-
     }
 }
 
 function loadCaseNotes(panelTarget, id) {
-
-    $(panelTarget).find('.case_detail_panel')
-    .load('lib/php/data/cases_casenotes_load.php', {'case_id': id, 'start': '0'}, function () {
+    $(panelTarget).find('.case_detail_panel') .load('lib/php/data/cases_casenotes_load.php', {
+        'case_id': id,
+        'start': '0'
+    }, function () {
         //set css for casenotes
         var toolsHeight = $(panelTarget).find('.case_detail_nav li:first').outerHeight();
         var thisPanelHeight = $(panelTarget).find('.case_detail_nav').height();
@@ -99,11 +103,16 @@ function loadCaseNotes(panelTarget, id) {
         $('div.case_detail_panel_casenotes').css({'height': caseNotesWindowHeight});
 
         //add buttons; style only one button if user doesn't have permission to add casenotes
-
         if (!$('.case_detail_panel_tools_right button.button1').length) {
-            $('.case_detail_panel_tools_right button.button3').button({icons: {primary: 'fff-icon-printer'}, text: true});
+            $('.case_detail_panel_tools_right button.button3').button({
+                icons: {primary: 'fff-icon-printer'},
+                text: true
+            });
         } else {
-            $('.case_detail_panel_tools_right button.button1').button({icons: {primary: 'fff-icon-add'}, text: true})
+            $('.case_detail_panel_tools_right button.button1').button({
+                icons: {primary: 'fff-icon-add'},
+                text: true
+            })
             .next().button({icons: {primary: 'fff-icon-time'}, text: true})
             .next().button({icons: {primary: 'fff-icon-printer'}, text: true});
         }
@@ -124,7 +133,6 @@ function loadCaseNotes(panelTarget, id) {
 
         //round corners
         $('div.csenote').addClass('ui-corner-all');
-
     });
 }
 
@@ -157,15 +165,16 @@ $('input.casenotes_search').live('focusin', function () {
 
 
 $('input.casenotes_search').live('keyup', function () {
-
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var search = $(this).val();
     var caseId = resultTarget.data('CaseNumber');
     if (search.length > 2) {
         resultTarget.unbind('scroll');
-        resultTarget.load('lib/php/data/cases_casenotes_load.php',
-        {'case_id': caseId, 'search': search, 'update': 'yes'}, function () {
-
+        resultTarget.load('lib/php/data/cases_casenotes_load.php', {
+            'case_id': caseId,
+            'search': search,
+            'update': 'yes'
+        }, function () {
             resultTarget.scrollTop(0);
             if (search.length) {
                 resultTarget.highlight(search);
@@ -177,7 +186,6 @@ $('input.casenotes_search').live('keyup', function () {
             }
 
             $('div.csenote').addClass('ui-corner-all');
-
             resultTarget.bind('scroll.search', function () {
                 if ($(this).scrollTop() > 0) {
                     $(this).addClass('csenote_shadow');
@@ -185,21 +193,20 @@ $('input.casenotes_search').live('keyup', function () {
                     $(this).removeClass('csenote_shadow');
                 }
             });
-
         });
     }
-
 });
 
 $('.casenotes_search_clear').live('click', function () {
-
     $(this).prev().val('Search Case Notes');
     $(this).prev().css({'color': '#AAA'});
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var thisCaseNumber = resultTarget.data('CaseNumber');
-    resultTarget.load('lib/php/data/cases_casenotes_load.php',
-    {'case_id': thisCaseNumber, 'start': '0', 'update': 'yes'}, function () {
-
+    resultTarget.load('lib/php/data/cases_casenotes_load.php', {
+        'case_id': thisCaseNumber,
+        'start': '0',
+        'update': 'yes'
+    }, function () {
         resultTarget.scrollTop(0);
         sizeCaseNotes($('.csenote'), resultTarget);
         $('div.csenote').addClass('ui-corner-all');
@@ -208,12 +215,10 @@ $('.casenotes_search_clear').live('click', function () {
             addMoreNotes(resultTarget);
         });
     });
-
     $(this).hide();
 });
 
 //Load new case note widget
-
 $('.case_detail_panel_tools_right button.button1').live('click', function () {
     //make sure case notes are scrolled to top
     $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes').scrollTop(0);
@@ -243,7 +248,6 @@ $('.case_detail_panel_tools_right button.button1').live('click', function () {
 
     newNote.find('.csenote_action_submit').button({icons: {primary: 'fff-icon-add'}}).next()
     .button({icons: {primary: 'fff-icon-cancel'}, text: true});
-
 });
 
 //Start timer
@@ -314,16 +318,13 @@ $('button.csenote_action_submit').live('click', function (event) {
                     sizeCaseNotes($('.csenote'), resultTarget);
                 });
             }
-
         });
     }
-
 });
 
 //User deletes a case note.  By rule, user can only delete casenote he created
 $('a.csenote_delete').live('click', function (event) {
     event.preventDefault();
-
     var thisCseNote = $(this).closest('.csenote');
     var thisCseNoteId = thisCseNote.attr('id').split('_');
     var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Case Note?">' +
@@ -352,9 +353,7 @@ $('a.csenote_delete').live('click', function (event) {
             }
         }
     });
-
     $(dialogWin).dialog('open');
-
 });
 
 //edit case note
@@ -390,7 +389,6 @@ $('a.csenote_edit').live('click', function (event) {
         hourVal = timeParts[0];
         minuteVal = parseInt(timeParts[1]);
     }
-
     var dateVal = $(this).closest('div').children('.csenote_date').html();
 
     //define the dummy version of the case note used for editing
@@ -403,12 +401,14 @@ $('a.csenote_edit').live('click', function (event) {
     editNote.find('select[name="csenote_hours"]').val(hourVal);
     editNote.find('select[name="csenote_minutes"]').val(minuteVal);
     editNote.find('input[name="query_type"]').val('modify');
-    editNote.find('button.csenote_action_submit').html('Done').addClass('csenote_edit_submit').removeClass('csenote_action_submit');
+    editNote.find('button.csenote_action_submit').html('Done')
+        .addClass('csenote_edit_submit')
+        .removeClass('csenote_action_submit');
     editNote.find('input.csenote_date_value')
-    .val(dateVal)
-    .datepicker({dateFormat: 'm/d/yy', showOn: 'button', buttonText: dateVal, onSelect: function (dateText) {
-            $(this).next().html(dateText);
-        }});
+        .val(dateVal)
+        .datepicker({dateFormat: 'm/d/yy', showOn: 'button', buttonText: dateVal, onSelect: function (dateText) {
+                $(this).next().html(dateText);
+            }});
 
     editNote.find('form').append('<input type="hidden" name="csenote_casenote_id" value="' + cseNoteId[1] + '">');
     editNote.find('button.csenote_action_cancel').unbind().bind('click', function () {
@@ -454,7 +454,6 @@ $('a.csenote_edit').live('click', function (event) {
             });
         }
     });
-
 });
 
 //Listen for click
@@ -463,4 +462,3 @@ $('.case_detail_nav #item1').live('click', function () {
     var id = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     loadCaseNotes(panelTarget, id);
 });
-
