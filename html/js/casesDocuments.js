@@ -62,9 +62,10 @@ function createDragDrop() {
 }
 
 function createTextEditor(target, action, permission, title, content, id, owner, locked) {
-    var editor = '<div class="text_editor_bar" data-id=""><div class="text_editor_title" tabindex="0">' +
-    title +
-    '</div><div class="text_editor_status"><span class= "status">Unchanged</span></div></div><textarea class="text_editor"></textarea>';
+    var editor = '<div class="text_editor_bar" data-id="">' +
+    '<div class="text_editor_title" tabindex="0">' + title +
+    '</div><div class="text_editor_status"><span class= "status">Unchanged</span>' +
+    '</div></div><textarea class="text_editor"></textarea>';
 
     //Add title area and textarea
     target.html(editor);
@@ -111,9 +112,11 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     if (owner === '1'){
         var permSelect = '<select name="ccd_permission">';
         if (locked === 'no'){
-            permSelect += '<option value="no" selected=selected>Unlocked</option><option value="yes">Locked</option>';
+            permSelect += '<option value="no" selected=selected>Unlocked</option>' +
+            '<option value="yes">Locked</option>';
         } else {
-            permSelect += '<option value="no" >Unlocked</option><option value="yes" selected=selected>Locked</option>';
+            permSelect += '<option value="no" >Unlocked</option><option value="yes"' +
+            'selected=selected>Locked</option>';
         }
         permSelect += '</select>';
         ccdStatusArea.append(permSelect);
@@ -221,9 +224,12 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                     $(this).html(unescape(ccdTitle));
                     $(this).css({'color': 'black'});
                     var getText = arr[0].get_content();
-                    $.post('lib/php/data/cases_documents_process.php',
-                    {'action': 'update_ccd','ccd_name': ccdTitle,'ccd_id': docIdArea.attr('data-id'),'ccd_text': getText},
-                    function(data) {
+                    $.post('lib/php/data/cases_documents_process.php', {
+                        'action': 'update_ccd',
+                        'ccd_name': ccdTitle,
+                        'ccd_id': docIdArea.attr('data-id'),
+                        'ccd_text': getText
+                    }, function(data) {
                         var serverResponse = $.parseJSON(data);
                         notify(serverResponse.message);
                     });
@@ -282,7 +288,7 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
         }, function() {
             var pathString = createTrail(path);
             pathDisplay.html(pathString);
-            pathDisplay.find("a[path='" + path + "']").addClass('active');
+            pathDisplay.find('a[path="' + path + '"]').addClass('active');
             createDragDrop();
             unescapeNames();
 
@@ -504,7 +510,8 @@ $('.case_detail_nav #item3').live('click', function() {
                             function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 notify(serverResponse.message);
-                                el.closest('.case_detail_panel_casenotes') .load('lib/php/data/cases_documents_load.php', {
+                                el.closest('.case_detail_panel_casenotes')
+                                .load('lib/php/data/cases_documents_load.php', {
                                     'id': caseId,
                                     'update': 'yes',
                                     'path': targetPath,
@@ -578,8 +585,8 @@ $('.case_detail_nav #item3').live('click', function() {
             case 'delete':
                 var warning = null;
                 if ($(el).hasClass('folder')) {
-                    warning = 'This folder and all of its contents will be permanently deleted from the server.' +
-                    'Are you sure?';
+                    warning = 'This folder and all of its contents will be permanently' +
+                    'deleted from the server.' + 'Are you sure?';
                 } else {
                     warning = 'This item will be permanently deleted from the server.  Are you sure?';
                 }
@@ -885,7 +892,7 @@ $('a.doc_trail_item').live('click', function(event) {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
         var pathString = createTrail(path);
         pathDisplay.html(pathString);
-        pathDisplay.find("a[path='" + path + "']").addClass('active');
+        pathDisplay.find('a[path="' + path + '"]').addClass('active');
         unescapeNames();
 
         //Apply shadow on scroll
