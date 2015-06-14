@@ -1,7 +1,7 @@
 <!-- Jquery Calls Specific to this page -->
 	<?php if ($_SESSION['permissions']['view_board'] == '1') { ?>
 
-	<script  src="html/js/Board.js" type="text/javascript"></script>
+	<script  src="html/js/board.min.js" type="text/javascript"></script>
 
 	<?php } ?>
 
