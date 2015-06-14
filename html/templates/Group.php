@@ -17,7 +17,7 @@
 <!-- Jquery Calls Specific to this page -->
 <?php if ($_SESSION['permissions']['supervises']  == '1'){ ?>
 
-	<script  src="html/js/Group.js" type="text/javascript"></script>
+	<script  src="html/js/group.min.js" type="text/javascript"></script>
 
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 

@@ -1,27 +1,16 @@
 <!-- Jquery Calls Specific to this page -->
-	<script src="html/js/Home.js" type="text/javascript"></script>
-
+	<script src="html/js/home.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/fullcalendar/fullcalendar.min.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
-
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 
-
-
 <!-- Css specific to this page -->
-
 	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
-
 	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
-
-
 
 </head>
 <body>
-
     <div id="pdf-viewer">
         <iframe src = ""  id="frme" allowfullscreen="true"></iframe>
     </div>
@@ -29,15 +18,11 @@
 	<div id="notifications"></div>
 
 	<?php include 'html/templates/interior/timer.php' ?>
-
 	<?php include 'html/templates/interior/idletimeout.php' ?>
 
 	<div id = "nav_container">
-
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
-
 		<div id="menus">
-
 			<?php include 'html/templates/Menus.php'; ?>
 
 		</div>
