@@ -411,7 +411,9 @@ $('div.user_widget button.user-action-button').live('click', function() {
                 $.ajax({url: 'lib/php/users/remove_user_from_case.php',data: ({remove_id: assignId}),success: function(data) {
                         $('div.user_widget').hide();
                         notify(data);
-                        $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': caseId[1]});
+                        $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {
+                            'id': caseId[1]
+                        });
                         oTable.fnReloadAjax();
                     }});
                 $(this).dialog('close');
