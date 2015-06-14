@@ -34,23 +34,7 @@
 
 	<script type="text/javascript" src="lib/javascripts/jquery.textarea-expander.js"></script>
 
-	<script  src="html/js/Cases.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesCaseDetail.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesCaseNotes.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesDocuments.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesContacts.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesEvents.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesMessages.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesCaseData.js" type="text/javascript"></script>
-
-	<script  src="html/js/casesConflicts.js" type="text/javascript"></script>
+	<script  src="html/js/cases.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript" src="lib/javascripts/jScrollPane/jquery.jscrollpane.min.js"></script>
 
