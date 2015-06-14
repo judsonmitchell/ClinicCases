@@ -36,7 +36,7 @@
 
 	<script type="text/javascript" src="lib/javascripts/print.js"></script>
 
-	<script  src="html/js/Journals.js" type="text/javascript"></script>
+	<script  src="html/js/journals.min.js" type="text/javascript"></script>
 </head>
 <body>
 
