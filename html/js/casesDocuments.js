@@ -5,7 +5,6 @@
 /* global escape, unescape, notify, rte_toolbar, qq , isUrl */
 
 function createTrail(path) {
-
     var pathArray = path.split('/');
     var pathString = '';
     var pathS = '';
