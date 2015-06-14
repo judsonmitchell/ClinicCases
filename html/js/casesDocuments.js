@@ -2,6 +2,8 @@
 //Scripts for documents panel on cases tab
 //
 
+/* global escape, unescape, notify, rte_toolbar, qq , isUrl */
+
 function createTrail(path) {
 
     var pathArray = path.split('/');
@@ -13,12 +15,24 @@ function createTrail(path) {
         var pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + unescape(v) + '</a>/';
         pathString += pathItem;
     });
-
     return pathString;
 }
 
-function createDragDrop() {
+function unescapeNames() {
+    $('.doc_item p, .doc_properties h3').each(function() {
+        var t = unescape($(this).html());
+        $(this).html(t);
+    });
+}
 
+function unescapeNames() {
+    $('.doc_item p, .doc_properties h3').each(function() {
+        var t = unescape($(this).html());
+        $(this).html(t);
+    });
+}
+
+function createDragDrop() {
     //Destroy any previously created draggables and droppables
     $('div.item, div.folder').draggable('destroy');
     $('div.folder').droppable('destroy');
@@ -33,10 +47,14 @@ function createDragDrop() {
             }
 
             var caseId = ui.draggable.closest('.case_detail_panel').data('CaseNumber');
-
-            $.post('lib/php/data/cases_documents_process.php',
-            {'action': 'cut','item_id': ui.draggable.attr('data-id'),
-            'target_path': $(event.target).attr('path'),'selection_path': ui.draggable.attr('path'),'doc_type': docType,'case_id': caseId}, function(data) {
+            $.post('lib/php/data/cases_documents_process.php', {
+                'action': 'cut',
+                'item_id': ui.draggable.attr('data-id'),
+                'target_path': $(event.target).attr('path'),
+                'selection_path': ui.draggable.attr('path'),
+                'doc_type': docType,
+                'case_id': caseId
+            }, function(data) {
                 var serverResponse = $.parseJSON(data);
                 notify(serverResponse.message);
                 ui.draggable.fadeOut();
@@ -104,9 +122,13 @@ function createTextEditor(target, action, permission, title, content, id, owner,
 
     //If this is a new document, create new ccd (ClinicCases Document) in db
     if (action === 'new') {
-        $.post('lib/php/data/cases_documents_process.php',
-        {'action': 'new_ccd','ccd_name': escape(ccdTitle),'local_file_name': 'New Document.ccd',
-        'path': currentPath,'case_id': caseId}, function(data) {
+        $.post('lib/php/data/cases_documents_process.php', {
+            'action': 'new_ccd',
+            'ccd_name': escape(ccdTitle),
+            'local_file_name': 'New Document.ccd',
+            'path': currentPath,
+            'case_id': caseId
+        }, function(data) {
             var serverResponse = $.parseJSON(data);
             docIdArea.attr('data-id', serverResponse.ccd_id);
             ccdTitleArea.html(unescape(serverResponse.ccd_title));
@@ -120,27 +142,37 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     tools.find('button.closer').click(function() {
         var returnToFiles = function () {
             if (currentPath === '') {  //the document is not in a subfolder
-                target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath}, function() {
+                target.load('lib/php/data/cases_documents_load.php', {
+                    'id': caseId,
+                    'update': 'yes',
+                    'path': currentPath
+                }, function() {
                     tools.find('button').show();
                     tools.find('button.closer').remove();
                     unescapeNames();
                     createDragDrop();
                 });
             } else {  //document is in a subfolder
-                target.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
+                target.load('lib/php/data/cases_documents_load.php', {
+                    'id': caseId,
+                    'update': 'yes',
+                    'path': currentPath,
+                    'container': currentPath
+                }, function() {
                     tools.find('button').show();
                     tools.find('button.loser').remove();
                     unescapeNames();
                     createDragDrop();
                 });
             }
-        }
+        };
         //If the author is closing and both the title and body are empty,
         //probably clicked new documents by mistake.  Kill document.
         //Alert ('this document is empty.  Delete it?')
         if ($('.text_editor').html() === '' && $('.text_editor_title').text() === 'New Document'){
             var warning = 'It appears this document is empty. Do you want to save it anyway?';
-            var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>').dialog({
+            var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>')
+            .dialog({
                 autoOpen: true,
                 resizable: false,
                 modal: true,
@@ -169,7 +201,6 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     });
 
     //If user has permission to edit, set the editing functions
-
     if (permission === 'yes') {
         //Change document title
         ccdTitleArea.mouseenter(function() {
@@ -206,14 +237,18 @@ function createTextEditor(target, action, permission, title, content, id, owner,
         });
 
         //auto-save
-        var lastText = "";
-        function autoSave(lastText, arr) {
+        var lastText = '';
+        var autoSave = function (lastText, arr) {
             var text = arr[0].get_content();
             var status = 'Saving...';
             if (text !== lastText) {
                 ccdStatusArea.find('span.status').html(status);
-                $.post('lib/php/data/cases_documents_process.php',
-                {'action': 'update_ccd','ccd_name': ccdTitleArea.html(),'ccd_id': docIdArea.attr('data-id'),'ccd_text': text}, function(data) {
+                $.post('lib/php/data/cases_documents_process.php', {
+                    'action': 'update_ccd',
+                    'ccd_name': ccdTitleArea.html(),
+                    'ccd_id': docIdArea.attr('data-id'),
+                    'ccd_text': text
+                }, function(data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error) {
                         ccdStatusArea.find('span.status').html(serverResponse.message);
@@ -228,23 +263,24 @@ function createTextEditor(target, action, permission, title, content, id, owner,
             var t = setTimeout(function() {
                 autoSave(lastText, arr);
             }, 3000);
-        }
+        };
 
         autoSave(lastText, arr);
     }
 }
 
 function openItem(el, itemId, docType, caseId, path, pathDisplay) {
-
     if ($(el).hasClass('folder')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
             return;
         }
 
-        $(el).closest('.case_detail_panel_casenotes')
-        .load('lib/php/data/cases_documents_load.php',
-        {'id': caseId,'container': path,'path': path,'update': 'y'},
-        function() {
+        $(el).closest('.case_detail_panel_casenotes') .load('lib/php/data/cases_documents_load.php', {
+            'id': caseId,
+            'container': path,
+            'path': path,
+            'update': 'y'
+        }, function() {
             var pathString = createTrail(path);
             pathDisplay.html(pathString);
             pathDisplay.find("a[path='" + path + "']").addClass('active');
@@ -269,8 +305,11 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             return;
         }
 
-        $.post('lib/php/data/cases_documents_process.php',
-        {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
+        $.post('lib/php/data/cases_documents_process.php', {
+            'action': 'open',
+            'item_id': itemId,
+            'doc_type': 'document'
+        }, function(data) {
             var serverResponse = $.parseJSON(data);
             window.open(serverResponse.target_url, '_blank');
         });
@@ -279,8 +318,11 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             return;
         }
 
-        $.post('lib/php/data/cases_documents_process.php',
-        {'action': 'open','item_id': itemId,'doc_type': 'document'}, function(data) {
+        $.post('lib/php/data/cases_documents_process.php', {
+            'action': 'open',
+            'item_id': itemId,
+            'doc_type': 'document'
+        }, function(data) {
             var serverResponse = $.parseJSON(data);
             var target = $(el).closest('.case_detail_panel_casenotes');
             createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title,
@@ -324,14 +366,6 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             'doc_type': docType
         });
     }
-
-}
-
-function unescapeNames() {
-    $('.doc_item p, .doc_properties h3').each(function() {
-        var t = unescape($(this).html());
-        $(this).html(t);
-    });
 }
 
 //User clicks to open document window
@@ -349,7 +383,6 @@ $('.case_detail_nav #item3').live('click', function() {
     thisPanel.data('CurrentPath', 'Home');
 
     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId}, function() {
-
         //Set css
         $('div.case_detail_panel_tools').css({'height': toolsHeight});
         $('div.case_detail_panel_casenotes').css({'height': documentsWindowHeight});
@@ -373,7 +406,6 @@ $('.case_detail_nav #item3').live('click', function() {
                 $(this).addClass('csenote_shadow');
             }
         });
-
         createDragDrop();
     });
 
@@ -383,7 +415,9 @@ $('.case_detail_nav #item3').live('click', function() {
         var docType = null;
         var caseId = $(el).closest('.case_detail_panel').data('CaseNumber');
         var docName = $(el).find('p').html();
-        var pathDisplay = $(el).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+        var pathDisplay = $(el).closest('.case_detail_panel_casenotes')
+            .siblings('.case_detail_panel_tools')
+            .find('.path_display');
         var path;
 
         if ($(el).hasClass('folder')) {
@@ -398,7 +432,6 @@ $('.case_detail_nav #item3').live('click', function() {
             case 'open':
                 openItem(el, itemId, docType, caseId, path, pathDisplay);
                 break;
-
             case 'cut':
                 $(el).css({'opacity': '.5'});
 
@@ -407,7 +440,9 @@ $('.case_detail_nav #item3').live('click', function() {
                 $(el).closest('.case_detail_panel_casenotes').data('cutValue', cutData);
 
                 //Create a new context menu which allows for copying and pasting into a div with no items;
-                $('div.case_detail_panel_casenotes').contextMenu({menu: 'docMenu_copy_paste'}, function(action, el, pos) {
+                $('div.case_detail_panel_casenotes').contextMenu({
+                    menu: 'docMenu_copy_paste'
+                }, function(action, el, pos) {
                     if (action === 'paste') {
                         var caseId = el.data('cutValue')[3];
                         var docType = el.data('cutValue')[1];
@@ -437,9 +472,7 @@ $('.case_detail_nav #item3').live('click', function() {
                         });
                     }
                 });
-
                 break;
-
             case 'copy':
                 if (docType === 'folder') { //TODO add copying of folders
                     notify('Sorry, copying of folders is not supported.', true);
@@ -450,7 +483,9 @@ $('.case_detail_nav #item3').live('click', function() {
                     $(el).closest('.case_detail_panel_casenotes').data('copyValue', copyData);
 
                     //Create a new context menu which allows for pasting into a div with no items;
-                    $('div.case_detail_panel_casenotes').contextMenu({menu: 'docMenu_copy_paste'}, function(action, el, pos) {
+                    $('div.case_detail_panel_casenotes').contextMenu({
+                        menu: 'docMenu_copy_paste'
+                    }, function(action, el, pos) {
                         if (action === 'paste') {
                             var caseId = el.data('copyValue')[3];
                             var docType = el.data('copyValue')[1];
@@ -470,9 +505,12 @@ $('.case_detail_nav #item3').live('click', function() {
                             function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 notify(serverResponse.message);
-                                el.closest('.case_detail_panel_casenotes')
-                                .load('lib/php/data/cases_documents_load.php',
-                                {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
+                                el.closest('.case_detail_panel_casenotes') .load('lib/php/data/cases_documents_load.php', {
+                                    'id': caseId,
+                                    'update': 'yes',
+                                    'path': targetPath,
+                                    'container': targetPath
+                                }, function() {
                                     unescapeNames();
                                     el.destroyContextMenu();
                                 });
@@ -490,9 +528,14 @@ $('.case_detail_nav #item3').live('click', function() {
                     if (newVal === ''){
                         return;
                     }
-                    $.post('lib/php/data/cases_documents_process.php',
-                    ({'action': 'rename','new_name': newVal,'item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}),
-                    function(data) {
+                    $.post('lib/php/data/cases_documents_process.php', ({
+                        'action': 'rename',
+                        'new_name': newVal,
+                        'item_id': itemId,
+                        'doc_type': docType,
+                        'path': path,
+                        'case_id': caseId
+                    }), function(data) {
                         var serverResponse = $.parseJSON(data);
                         if (serverResponse.error){
                             notify(serverResponse.message);
@@ -533,23 +576,28 @@ $('.case_detail_nav #item3').live('click', function() {
                     }
                 });
                 break;
-
             case 'delete':
                 var warning = null;
                 if ($(el).hasClass('folder')) {
-                    warning = 'This folder and all of its contents will be permanently deleted from the server.  Are you sure?';
+                    warning = 'This folder and all of its contents will be permanently deleted from the server.' +
+                    'Are you sure?';
                 } else {
                     warning = 'This item will be permanently deleted from the server.  Are you sure?';
                 }
 
-                var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>').dialog({
+                var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Item?">' + warning + '</div>')
+                .dialog({
                     autoOpen: true,
                     resizable: false,
                     modal: true,
                     buttons: {
                         'Yes': function() {
-                            $.post('lib/php/data/cases_documents_process.php',
-                            ({'action': 'delete','item_id': itemId,'doc_type': docType,'path': path,'case_id': caseId}), function(data) {
+                            $.post('lib/php/data/cases_documents_process.php', ({'action': 'delete',
+                            'item_id': itemId,
+                            'doc_type': docType,
+                            'path': path,
+                            'case_id': caseId
+                        }), function(data) {
                                 var serverResponse = $.parseJSON(data);
                                 notify(serverResponse.message);
                                 $(el).remove();
@@ -565,13 +613,13 @@ $('.case_detail_nav #item3').live('click', function() {
 
             case 'properties':
                 $(el).css({'border': '1px solid #AAA'})
-                .next('.doc_properties')
-                .addClass('ui-corner-all')
-                .css({'top': '20%','left': '30%'})
-                .show().focus().focusout(function() {
-                    $(this).hide();
-                    $(el).css({'border': '0px'});
-                });
+                    .next('.doc_properties')
+                    .addClass('ui-corner-all')
+                    .css({'top': '20%','left': '30%'})
+                    .show().focus().focusout(function() {
+                        $(this).hide();
+                        $(el).css({'border': '0px'});
+                    });
                 break;
         }
     });
@@ -593,7 +641,9 @@ $('div.doc_item').live('click', function(event) {
     event.preventDefault();
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-    var pathDisplay = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('.path_display');
+    var pathDisplay = $(this).closest('.case_detail_panel_casenotes')
+        .siblings('.case_detail_panel_tools')
+        .find('.path_display');
     var el = $(this);
     var itemId = el.attr('data-id');
     var docType = 'document';
@@ -616,7 +666,8 @@ $('button.doc_new_folder').live('click', function() {
         $('span.docs_empty').remove();
     }
 
-    target.prepend("<div class='doc_item folder' path='' data-id=''><img src='html/ico/folder.png'><p><textarea id='new_folder_name'>New Folder</textarea></p></div>");
+    target.prepend('<div class="doc_item folder" path="" data-id=""><img src="html/ico/folder.png">' +
+    '<p><textarea id="new_folder_name">New Folder</textarea></p></div>');
 
     $('#new_folder_name').select();
     $('#new_folder_name').addClass('user_input')
@@ -626,7 +677,10 @@ $('button.doc_new_folder').live('click', function() {
     .bind('blur keyup', function(e) {
         if (e.type === 'blur' || e.which === 13) {
             e.preventDefault();
-            var container = $(this).closest('.case_detail_panel_casenotes').siblings('.case_detail_panel_tools').find('a.active').attr('path');
+            var container = $(this).closest('.case_detail_panel_casenotes')
+                .siblings('.case_detail_panel_tools')
+                .find('a.active')
+                .attr('path');
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
             var newName = $('#new_folder_name').val();
 
@@ -636,32 +690,38 @@ $('button.doc_new_folder').live('click', function() {
             }
             else if (newName ===  '\n'){ //user has only pressed return (inserting
                 // a new line character, but no file name)
-                notify("Please provde a name for your folder.",true);
+                notify('Please provde a name for your folder.',true);
                 return false;
             } else {
                 var newFolder = null;
 
                 if (container === ''  || typeof container === 'undefined') {
-                    newFolder = escape($.trim(newName.replace(/[\n\r]$/,"")));
+                    newFolder = escape($.trim(newName.replace(/[\n\r]$/,'')));
                     //replace method removes any new line characters that
                     //may have been added by the user pressing enter
                 } else {
                     newFolder = container + '/' + escape($.trim(newName.replace(/[\n\r]$/,'')));
                 }
-                $.post('lib/php/data/cases_documents_process.php',
-                {'case_id': caseId,'container': container,'new_folder': newFolder,'action': 'newfolder'}, function(data) {
+                $.post('lib/php/data/cases_documents_process.php', {
+                    'case_id': caseId,
+                    'container': container,
+                    'new_folder': newFolder,
+                    'action': 'newfolder'
+                }, function(data) {
                     var serverResponse = $.parseJSON(data);
                     if(serverResponse.error === true) {
                         notify(serverResponse.message,true);
                     } else {
                         $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
-                        $('#new_folder_name').closest('.folder').attr({'path': newFolder,'data-id': serverResponse.id}).droppable();
+                        $('#new_folder_name')
+                            .closest('.folder')
+                            .attr({'path': newFolder,'data-id': serverResponse.id})
+                            .droppable();
                         $('#new_folder_name').closest('p').html(newName);
                         createDragDrop();
                         notify(serverResponse.message);
                     }
                 });
-
             }
         }
     });
@@ -670,7 +730,6 @@ $('button.doc_new_folder').live('click', function() {
 
 //User clicks on the upload button
 $('button.doc_upload').live('click', function() {
-
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 
@@ -715,7 +774,12 @@ $('button.doc_upload').live('click', function() {
         action: 'lib/php/utilities/file_upload.php',
         params: {path: currentPath,case_id: caseId},
         onComplete: function() {
-            thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
+            thisPanel.load('lib/php/data/cases_documents_load.php', {
+                'id': caseId,
+                'update': 'yes',
+                'path': currentPath,
+                'container': currentPath
+            }, function() {
                 createDragDrop();
                 unescapeNames();
             });
@@ -739,7 +803,9 @@ $('button.doc_upload').live('click', function() {
         var url = $(this).siblings('input.url_upload').val();
         var urlName = $(this).siblings('input.url_upload_name').val();
         if (isUrl(url) === false) {
-            $(document).find('p.upload_url_form_error_url').html('Sorry, your URL is invalid.  It must begin with http://, https:// or ftp://');
+            $(document)
+                .find('p.upload_url_form_error_url')
+                .html('Sorry, your URL is invalid.  It must begin with http://, https:// or ftp://');
             $(this).siblings('input.url_upload').focus(function(){
                 $(document).find('p.upload_url_form_error_url').html('');
             });
@@ -752,14 +818,27 @@ $('button.doc_upload').live('click', function() {
             return false;
         }
         else {
-            $.post('lib/php/data/cases_documents_process.php',
-            {'url_name': urlName,'url': url,'case_id': caseId,'path': currentPath,'action': 'add_url'}, function(data) {
+            $.post('lib/php/data/cases_documents_process.php', {
+                'url_name': urlName,
+                'url': url,
+                'case_id': caseId,
+                'path': currentPath,
+                'action': 'add_url'
+            }, function(data) {
                 var serverResponse = $.parseJSON(data);
-                $('.upload_dialog').find('p.upload_url_notify').show().html(serverResponse.message).fadeOut('slow', function() {
-                    $(this).html('');
-                });
+                $('.upload_dialog').find('p.upload_url_notify')
+                    .show()
+                    .html(serverResponse.message)
+                    .fadeOut('slow', function() {
+                        $(this).html('');
+                    });
                 $('.upload_dialog').find('input').val('');
-                thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': currentPath,'container': currentPath}, function() {
+                thisPanel.load('lib/php/data/cases_documents_load.php', {
+                    'id': caseId,
+                    'update': 'yes',
+                    'path': currentPath,
+                    'container': currentPath
+                }, function() {
                     unescapeNames();
                 });
             });
@@ -776,7 +855,10 @@ $('a.doc_trail_home').live('click', function(event) {
     //Set the current path so that other functions can access it
     $(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
-    thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes'}, function() {
+    thisPanel.load('lib/php/data/cases_documents_load.php', {
+        'id': caseId,
+        'update': 'yes'
+    }, function() {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
         unescapeNames();
         createDragDrop();
@@ -795,7 +877,12 @@ $('a.doc_trail_item').live('click', function(event) {
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
     var pathDisplay = $(this).parent();
 
-    thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId,'update': 'yes','path': path,'container': path}, function() {
+    thisPanel.load('lib/php/data/cases_documents_load.php', {
+        'id': caseId,
+        'update': 'yes',
+        'path': path,
+        'container': path
+    }, function() {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
         var pathString = createTrail(path);
         pathDisplay.html(pathString);
@@ -811,7 +898,6 @@ $('a.doc_trail_item').live('click', function(event) {
                 $(this).addClass('csenote_shadow');
             }
         });
-
         createDragDrop();
     });
 });
