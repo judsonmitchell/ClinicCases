@@ -2,15 +2,15 @@
 //Scripts for Case data
 //
 
-function formatCaseData(thisPanel, type) {
+/* global newCaseValidate, notify, oTable, elPrint, checkConflicts, closeCaseTab */
 
-    //Apply CSS
+function formatCaseData(thisPanel, type) { //Apply CSS
     var navItem = thisPanel.siblings('.case_detail_nav').find('#item2');
     var toolsHeight = navItem.outerHeight();
     var thisPanelHeight = navItem.closest('.case_detail_nav').height();
     var documentsWindowHeight = thisPanelHeight - toolsHeight;
     if (typeof caseNotesWindowHeight === 'undefined') {
-        caseNotesWindowHeight = thisPanelHeight - toolsHeight;
+        var caseNotesWindowHeight = thisPanelHeight - toolsHeight;
     }
 
     $('div.case_detail_panel_tools').css({'height': toolsHeight});
@@ -139,11 +139,16 @@ function formatCaseData(thisPanel, type) {
         thisPanel.find('input.date_field').each(function () {
             var b = $.datepicker.parseDate('yy-mm-dd', $(this).val());
             var buttonVal = $.datepicker.formatDate('mm/dd/yy', b);
-            $(this).datepicker({dateFormat: 'yy-mm-dd', showOn: 'button', buttonText: buttonVal, onSelect: function (dateText) {
+            $(this).datepicker({
+                dateFormat: 'yy-mm-dd',
+                showOn: 'button',
+                buttonText: buttonVal,
+                onSelect: function (dateText) {
                     var c = $.datepicker.parseDate('yy-mm-dd', dateText);
                     var displayDate = $.datepicker.formatDate('mm/dd/yy', c);
                     $(this).next().html(displayDate);
-                }});
+                }
+            });
         });
 
         //Add textarea expander
@@ -160,15 +165,14 @@ function formatCaseData(thisPanel, type) {
             $(this).closest('#case_detail_tab_row')
             .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
             //Put client name on case title
-            $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
-
+            $(this).closest('#case_detail_tab_row')
+                .find('div.case_title')
+                .html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
         });
 
         //If there is no last name, put the organization name on the tab
         $('input[name = "organization"]').keyup(function () {
-
             var lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
-
             if (lnameVal === '') {
                 $(this).closest('#case_detail_tab_row')
                 .find('li.ui-state-active').find('a').html($(this).val());
@@ -178,7 +182,6 @@ function formatCaseData(thisPanel, type) {
             }
         });
     } else {  //display case data
-    
         //format buttons
         thisPanel.find('button.case_data_edit').button({icons: {primary: 'fff-icon-page-edit'}, text: true});
         thisPanel.find('button.case_data_print').button({icons: {primary: 'fff-icon-printer'}, text: true});
@@ -188,10 +191,8 @@ function formatCaseData(thisPanel, type) {
     }
 }
 
-
 //User clicks on Case Data in left-side navigation
 $('.case_detail_nav #item2').live('click', function () {
-
     var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     var type;
@@ -202,26 +203,28 @@ $('.case_detail_nav #item2').live('click', function () {
         type = 'display';
     }
 
-    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': caseId, 'type': type}, function () {
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {
+        'id': caseId,
+        'type': type
+    }, function () {
         formatCaseData(thisPanel, type);
     });
 });
 
-
-
 //Listen for edit
 $('button.case_data_edit').live('click', function () {
-
     var thisPanel = $(this).closest('.case_detail_panel');
     var thisCaseId = thisPanel.data('CaseNumber');
-    thisPanel.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId, 'type': 'edit'}, function () {
+    thisPanel.load('lib/php/data/cases_case_data_load.php', {
+        'id': thisCaseId,
+        'type': 'edit'
+    }, function () {
         formatCaseData(thisPanel, 'edit');
     });
 });
 
 //Submit the form
 $('button.case_modify_submit').live('click', function (event) {
-
     event.preventDefault();
     var resultTarget = $(this).closest('.case_detail_panel');
     var thisCaseId = resultTarget.data('CaseNumber');
@@ -237,14 +240,12 @@ $('button.case_modify_submit').live('click', function (event) {
     }
 
     $(window).unbind('beforeunload');
-
     var formVals = $(this).closest('form');
 
     //enable clinic_id field or else serializeArray won't pick up value
     formVals.find('input[name="clinic_id"]').attr({'disabled': false});
     var errString = newCaseValidate(formVals);
     var formValsArray = formVals.serializeArray();
-
 
     //notify user or errors or submit form
     if (errString.length) {
@@ -267,12 +268,10 @@ $('button.case_modify_submit').live('click', function (event) {
         var formValsOk = $(this).closest('form')
         .find(':not(span.dual_input input, span.dual_input select, span.multi-text input)')
         .serializeArray();
-
         formValsOk.push({'name': 'action', 'value': actionType});
 
         //Extract values from all multi-text fields
         formVals.find('p').has('.multi-text').each(function () {
-
             var dataObj = {};
             var dataName = $(this).find('input').attr('name');
             $(this).find('span.multi-text').each(function () {
@@ -286,12 +285,10 @@ $('button.case_modify_submit').live('click', function (event) {
                 var dataJson = JSON.stringify(dataObj);
                 formValsOk.push({'name': dataName, 'value': dataJson});
             }
-
         });
 
         //Extract values from all dual inputs
         formVals.find('p').has('.dual_input').each(function () {
-
             var dataObj = {};
             var dataName = $(this).find('input:last').attr('name');
             $(this).find('span.dual_input').each(function () {
@@ -311,14 +308,17 @@ $('button.case_modify_submit').live('click', function (event) {
         //Submit to server
         $.post('lib/php/data/cases_case_data_process.php', formValsOk, function (data) {
             var serverResponse = $.parseJSON(data);
-
             if (serverResponse.error === true) {
                 notify(serverResponse.message, true);
             } else {
                 notify(serverResponse.message);
-                $('#case_detail_tab_row').find('li.ui-state-active').removeClass('ui-state-highlight ui-state-error new_case');
+                $('#case_detail_tab_row').find('li.ui-state-active')
+                    .removeClass('ui-state-highlight ui-state-error new_case');
 
-                resultTarget.load('lib/php/data/cases_case_data_load.php', {'id': thisCaseId, 'type': 'display'}, function () {
+                resultTarget.load('lib/php/data/cases_case_data_load.php', {
+                    'id': thisCaseId,
+                    'type': 'display'
+                }, function () {
                     formatCaseData(resultTarget, 'display');
                 });
 
@@ -328,7 +328,6 @@ $('button.case_modify_submit').live('click', function (event) {
                 checkConflicts(thisCaseId);
             }
         });
-
     }
 });
 
@@ -341,7 +340,8 @@ $('button.case_cancel_submit').live('click', function (event) {
 
     if ($(this).hasClass('cancel_new_case')) {
         var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
-        'This will delete your new case. Are you sure?</p></div>').dialog({
+        'This will delete your new case. Are you sure?</p></div>')
+        .dialog({
             autoOpen: false,
             resizable: false,
             modal: true,
@@ -362,7 +362,6 @@ $('button.case_cancel_submit').live('click', function (event) {
                 }
             }
         });
-
         $(dialogWin).dialog('open');
     } else {
         type = 'display';
@@ -370,7 +369,6 @@ $('button.case_cancel_submit').live('click', function (event) {
             formatCaseData(thisPanel, type);
         });
     }
-
     $(window).unbind('beforeunload');
 });
 
