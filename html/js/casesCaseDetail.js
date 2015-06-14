@@ -383,7 +383,9 @@ $('div.user_widget button.user-action-adduser-button').live('click', function() 
         url: 'lib/php/users/add_user_to_case.php',
         data: ({'users_add': usersArray,'case_id': usersCaseId}),
         success: function(data) {
-            $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {'id': usersCaseId});
+            $('.assigned_people ul').load('lib/php/users/cases_detail_assigned_people_refresh_load.php', {
+                'id': usersCaseId
+            });
             $('div.user_widget').hide();
             notify(data);
             oTable.fnReloadAjax();
