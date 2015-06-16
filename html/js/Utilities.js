@@ -1,5 +1,9 @@
 //Scripts for utilities page
 
+/* global loadCaseNotes, notify */
+
+var oTable;
+
 function convertToHours(totalTime, unit) {
     //This is a javascript port of the php function
     //convert_to_hours in convert_times.php
@@ -12,7 +16,6 @@ function convertToHours(totalTime, unit) {
     return hours + '.' + minVal[1];
 }
 
-var oTable;
 
 $(document).ready(function () {
 
@@ -23,7 +26,7 @@ $(document).ready(function () {
     $('.utilities_nav_choices').buttonset();
 
     //Add navigation actions
-    target = $('div#utilities_panel');
+    var target = $('div#utilities_panel');
 
     //User clicks reports button
     $('#reports_button').click(function () {
@@ -72,11 +75,11 @@ $(document).ready(function () {
                 var detail = $('input[name="detail"]').val();
                 var query = [];
 
-                if (q_type.indexOf("_grp_") != -1) { //user groups
+                if (q_type.indexOf('_grp_') !== -1) { //user groups
                     query.push('grp',q_type);
-                } else if (q_type.indexOf("_spv_") != -1) { //supervisor groups
+                } else if (q_type.indexOf('_spv_') !== -1) { //supervisor groups
                     query.push('supvsr_grp',q_type);
-                } else if(q_type.indexOf("_cse_") != -1) { //case
+                } else if(q_type.indexOf('_cse_') !== -1) { //case
                     query.push('case',q_type);
                 } else {
                     query.push('user',q_type);//single user
@@ -172,12 +175,10 @@ $(document).ready(function () {
 
                                         if (aaData.length > 0) { //no need for footer if no data.
                                             var totalTime = 0;
-                                            colIndex = oTable.fnGetColumnIndex('Seconds');
-
+                                            var colIndex = oTable.fnGetColumnIndex('Seconds');
                                             for (var a=0 ; a<aaData.length ; a++) {
                                                 totalTime += parseFloat(aaData[a][colIndex]);
                                             }
-
                                             var nCells = nRow.getElementsByTagName('th');
 
                                             //problem has to do with adding a hidden column
@@ -186,14 +187,11 @@ $(document).ready(function () {
                                             var unit = $('#utilities_panel').attr('data-unit');
                                             nCells[colIndex - 1].innerHTML = convertToHours(totalTime, unit);
                                         }
-
                                     }
                             });
                         }}
                 });
-
             });
-
         });
     });
 
@@ -239,7 +237,6 @@ $('a.config_item_link').live('click', function (event) {
 
 //Submit changes
 $('a.change_config').live('click', function (event) {
-
     event.preventDefault();
     var formTarget = $(this).closest('form');
     var formParent = $(this).closest('div.config_item');
