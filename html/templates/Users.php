@@ -17,7 +17,7 @@
 <!-- Jquery Calls Specific to this page -->
 <?php if ($_SESSION['permissions']['view_users']  == '1'){ ?>
 
-	<script  src="html/js/Users.js" type="text/javascript"></script>
+	<script  src="html/js/users.min.js" type="text/javascript"></script>
 
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 

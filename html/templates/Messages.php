@@ -1,5 +1,5 @@
 <!-- Jquery Calls Specific to this page -->
-	<script  src="html/js/Messages.js" type="text/javascript"></script>
+	<script  src="html/js/messages.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script>
 
