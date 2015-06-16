@@ -2,6 +2,8 @@
 //Scripts for casenotes
 //
 
+/* global ccTimer, elPrint, validCaseNote, notify */
+
 //Set max height for case notes and add toggle
 function sizeCaseNotes(notes, panelTarget) {
     var windowHeight = panelTarget.height();
@@ -23,8 +25,11 @@ function sizeCaseNotes(notes, panelTarget) {
 
 function loadCaseNotes(panelTarget, id) {
 
-    $(panelTarget).load('lib/php/data/cases_casenotes_load.php', {'case_id': id, 'non_case': '1', 'start': '0'},
-    function () {
+    $(panelTarget).load('lib/php/data/cases_casenotes_load.php', {
+        'case_id': id,
+        'non_case': '1',
+        'start': '0'
+    }, function () {
         //set css for casenotes
         $('div.case_detail_panel_tools').css({'height': '15%'});
         $('div.case_detail_panel_tools').css({'max-height': '60px'});
@@ -65,7 +70,6 @@ function loadCaseNotes(panelTarget, id) {
 
 //Load new case notes on scroll
 function addMoreNotes(scrollTarget) {
-
     var caseId = scrollTarget.data('CaseNumber');
     var scrollAmount = scrollTarget[0].scrollTop;
     var scrollHeight = scrollTarget[0].scrollHeight;
@@ -89,13 +93,15 @@ function addMoreNotes(scrollTarget) {
             scrollTarget.data('start', startNum);
         }
 
-        $.post('lib/php/data/cases_casenotes_load.php',
-        {'case_id': caseId, 'start': scrollTarget.data('start'), 'non_case': '1', 'update': 'yes'},
-        function (data) {
+        $.post('lib/php/data/cases_casenotes_load.php', {
+            'case_id': caseId,
+            'start': scrollTarget.data('start'),
+            'non_case': '1',
+            'update': 'yes'
+        }, function (data) {
 
             //var t represents number of case notes; if 0,return false;
             var t = $(data).find('p.csenote_instance').length;
-
             if (t === 0) {
                 return false;
             } else {
@@ -108,7 +114,6 @@ function addMoreNotes(scrollTarget) {
                 }
             }
         });
-
     }
 }
 
@@ -156,7 +161,6 @@ $('div.more').live('click', function (event) {
 });
 
 $('input.casenotes_search').live('focusin', function () {
-
     $(this).val('');
     $(this).css({'color': 'black'});
     $(this).next('.casenotes_search_clear').show();
@@ -164,15 +168,18 @@ $('input.casenotes_search').live('focusin', function () {
 
 
 $('input.casenotes_search').live('keyup', function () {
-
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var search = $(this).val();
     var caseId = 'NC';
 
     if (search.length > 2) {
         resultTarget.unbind('scroll');
-        resultTarget.load('lib/php/data/cases_casenotes_load.php',
-        {'case_id': caseId, 'search': search, 'update': 'yes', 'non_case': '1'}, function () {
+        resultTarget.load('lib/php/data/cases_casenotes_load.php', {
+            'case_id': caseId,
+            'search': search,
+            'update': 'yes',
+            'non_case': '1'
+        }, function () {
             resultTarget.scrollTop(0);
             if (search.length) {
                 resultTarget.highlight(search);
@@ -191,21 +198,22 @@ $('input.casenotes_search').live('keyup', function () {
                     $(this).removeClass('csenote_shadow');
                 }
             });
-
         });
     }
-
 });
 
 $('.casenotes_search_clear').live('click', function () {
-
     $(this).prev().val('Search Non-Case');
     $(this).prev().css({'color': '#AAA'});
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var thisCaseNumber = resultTarget.data('CaseNumber');
 
-    resultTarget.load('lib/php/data/cases_casenotes_load.php',
-    {'case_id': thisCaseNumber, 'start': '0', 'update': 'yes', 'non_case' : '1'}, function () {
+    resultTarget.load('lib/php/data/cases_casenotes_load.php', {
+        'case_id': thisCaseNumber,
+        'start': '0',
+        'update': 'yes',
+        'non_case' : '1'
+    }, function () {
         resultTarget.scrollTop(0);
         sizeCaseNotes($('.csenote'), resultTarget);
         $('div.csenote').addClass('ui-corner-all');
@@ -213,9 +221,7 @@ $('.casenotes_search_clear').live('click', function () {
         resultTarget.bind('scroll', function () {
             addMoreNotes(resultTarget);
         });
-
     });
-
     $(this).hide();
 });
 
@@ -237,17 +243,21 @@ $('.case_detail_panel_tools_right button.button1').live('click', function () {
     });
 
     //reduce opacity on the previously entered case notes
-    $(this).closest('.case_detail_panel_tools').siblings().find('div.csenote').not('div.csenote_new').css({'opacity': '.5'});
+    $(this).closest('.case_detail_panel_tools').siblings()
+    .find('div.csenote').not('div.csenote_new').css({'opacity': '.5'});
 
     //create datepicker buttons and style time buttons
     var thisDate = $('input.csenote_date_value').val();
 
     $('input.csenote_date_value')
-    .datepicker({dateFormat: 'm/d/yy', showOn: 'button', buttonText: thisDate, onSelect:
-    function (dateText) {
+    .datepicker({
+        dateFormat: 'm/d/yy',
+        showOn: 'button',
+        buttonText: thisDate,
+        onSelect: function (dateText) {
             $(this).next().html(dateText);
-        }});
-
+        }
+    });
     newNote.find('.csenote_action_submit')
     .button({icons: {primary: 'fff-icon-add'}})
     .next().button({icons: {primary: 'fff-icon-cancel'}, text: true});
@@ -307,20 +317,22 @@ $('button.csenote_action_submit').live('click', function (event) {
                 notify(serverResponse.message, true);
             } else {
                 notify(serverResponse.message);
-                resultTarget.load('lib/php/data/cases_casenotes_load.php', {'case_id': thisCaseNumber, 'start': '0', 'non_case' : '1',
-                'update': 'yes'}, function () {
+                resultTarget.load('lib/php/data/cases_casenotes_load.php', {
+                    'case_id': thisCaseNumber,
+                    'start': '0',
+                    'non_case' : '1',
+                    'update': 'yes'
+                }, function () {
                     sizeCaseNotes($('.csenote'), resultTarget);
                 });
             }
         });
     }
-
 });
 
 //User deletes a case note.  By rule, user can only delete casenote he created
 $('a.csenote_delete').live('click', function (event) {
     event.preventDefault();
-
     var thisCseNote = $(this).closest('.csenote');
     var thisCseNoteId = thisCseNote.attr('id').split('_');
     var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Case Note?">' +
@@ -349,9 +361,7 @@ $('a.csenote_delete').live('click', function (event) {
             }
         }
     });
-
     $(dialogWin).dialog('open');
-
 });
 
 //edit case note
@@ -437,7 +447,7 @@ $('a.csenote_edit').live('click', function (event) {
                     var txtFormat = cseVals[6]['value'].nl2br();
                     thisCseNote.find('p.csenote_instance').html(txtFormat);
 
-                    if (cseVals[1]['value'] == '0') {
+                    if (cseVals[1]['value'] === '0') {
                         thisCseNote.find('.csenote_time').html(cseVals[2]['value'] + ' minutes');
                     } else {
                         thisCseNote.find('.csenote_time').html(cseVals[1]['value'] + '.' + cseVals[2]['value'] + ' hours');
@@ -451,8 +461,5 @@ $('a.csenote_edit').live('click', function (event) {
 
             });
         }
-
     });
-
 });
-

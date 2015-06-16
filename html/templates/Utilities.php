@@ -1,7 +1,7 @@
 
 <!-- Jquery Calls Specific to this page -->
 	<script  src="html/js/utilities.min.js" type="text/javascript"></script>
-	<script  src="html/js/utilitiesNonCase.js" type="text/javascript"></script>
+	<script  src="html/js/utilitiesNonCase.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
 	<script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/DataTables-1.8.2/extras/TableTools/media/js/TableTools.min.js"></script>
