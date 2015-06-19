@@ -2,18 +2,18 @@ html, body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, iframe,fieldset, a { ma
 
 img {border:0;}
 
-body{background-color:rgb(195, 217, 255);text-align:center;font-family:garamond, georgia, times, serif;}
+body{background-color:rgb(195, 217, 255);text-align:center;font-family:'Crimson Text', garamond, georgia, times, serif;}
 
-h1{font-family:garamond, georgia, times, serif;font-size:30pt;text-align:left;color:blue;}
+h1{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:30pt;text-align:left;color:blue;}
 
-h3{font-family:garamond, georgia, times, serif;font-size:18pt;text-align:left;color:blue;font-weight:normal;font-style:normal;}
+h3{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:18pt;text-align:left;color:blue;font-weight:normal;font-style:normal;}
 
-h4{font-family:garamond, georgia, times, serif;font-size:15pt;color:navy;font-weight:normal;}
+h4{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:15pt;color:navy;font-weight:normal;}
 
-h5{font-family:garamond, georgia, times, serif;font-size:11pt;text-align:left;color:black;font-weight:normal;font-style:italic;}
+h5{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:11pt;text-align:left;color:black;font-weight:normal;font-style:italic;}
 
 
-#menus{position:absolute;right:0%;top:0%;background:rgb(195, 217, 255);text-align:right;font-size:11pt;color:black;font-family:garamond, times, serif;}
+#menus{position:absolute;right:0%;top:0%;background:rgb(195, 217, 255);text-align:right;font-size:11pt;color:black;font-family:'Crimson Text', garamond, times, serif;}
 
 #menus img{margin-top:10px;margin-right:10px;margin-bottom:-5px;}
 
@@ -92,23 +92,23 @@ div.new_account_right p{margin-bottom: 10px;}
 
 .error {background-color:#F7BCC6;color:black}
 
-input{font-family:garamond, georgia, times, serif;font-size:14pt;color:black;border:1px solid #D8D1D1;}
+input{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:14pt;color:black;border:1px solid #D8D1D1;}
 
 input.small{font-family:serif;font-size:10pt;color:black;}
 
-select.gray{font-family:garamond, georgia, times, serif;font-size:14pt;color:rgb(224, 224, 224);}
+select.gray{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:14pt;color:rgb(224, 224, 224);}
 
-select{font-family:garamond, georgia, times, serif;font-size:14pt;color:black;}
+select{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:14pt;color:black;}
 
-textarea{font-family:garamond, georgia, times, serif;font-size:14px;font-weight:normal;color:black;border:1px solid #D8D1D1;}
+textarea{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:14px;font-weight:normal;color:black;border:1px solid #D8D1D1;}
 
-label{font-family:garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);}
+label{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);}
 
-label.msg{font-family:garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);float:left;width:100px;}
+label.msg{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);float:left;width:100px;}
 
 .inactive{color:rgb(224, 224, 224); }
 
-button{font-size:14pt;font-family:garamond, georgia, times, serif}
+button{font-size:14pt;font-family:'Crimson Text', garamond, georgia, times, serif}
 
 .submit_image{margin-bottom:-7px;margin-right:20px;}
 
@@ -120,37 +120,37 @@ html>body .print_image{margin-bottom:-10px;margin-right:0;margin-left:10px;}
 
 /* Style for casenotes */.casenotedesc{height:40px;overflow:auto;}
 
-a.nav {font-size:30pt; color:black;font-family:garamond, times, serif;text-decoration:none;}
+a.nav {font-size:30pt; color:black;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
-a.nav:hover {font-size:30pt;color:green;font-family:garamond, times, serif;text-decoration:none;}
+a.nav:hover {font-size:30pt;color:green;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
-a.menu {font-size:10pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.menu {font-size:10pt; color:black;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
-a.menu:hover {font-size:10pt;color:red;font-family:garamond, times, serif;text-decoration:none;}
+a.menu:hover {font-size:10pt;color:red;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
 a.theader {font-weight:bold;color:rgb(228,228,228);text-decoration:underline;}
 
 a.theader:hover {font-weight:bold;color:red;text-decoration:underline;}
 
-a.singlenav{font-size:14pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.singlenav{font-size:14pt; color:black;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
-a.singlenav:hover{font-size:14pt; color:blue;font-family:garamond, times, serif;text-decoration:underline;}
+a.singlenav:hover{font-size:14pt; color:blue;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
 a.folder {text-decoration:none;}
 
 a.folder:hover {text-decoration:underline;}
 
-a.small {font-size:10pt; color:black;font-family:garamond, times, serif;text-decoration:underline;}
+a.small {font-size:10pt; color:black;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
-a.small:hover {font-size:10pt;color:red;font-family:garamond, times, serif;text-decoration:none;}
+a.small:hover {font-size:10pt;color:red;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
-a.title {font-size:14pt; color:blue;font-family:garamond, times, serif;text-decoration:none;}
+a.title {font-size:14pt; color:blue;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
-a.title:hover {font-size:14pt;color:blue;font-family:garamond, times, serif;text-decoration:underline;}
+a.title:hover {font-size:14pt;color:blue;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
-a.smallgray {font-size:10pt; color:gray;font-family:garamond, times, serif;text-decoration:underline;}
+a.smallgray {font-size:10pt; color:gray;font-family:'Crimson Text', garamond, times, serif;text-decoration:underline;}
 
-a.smallgray:hover {font-size:10pt;color:red;font-family:garamond, times, serif;text-decoration:none;}
+a.smallgray:hover {font-size:10pt;color:red;font-family:'Crimson Text', garamond, times, serif;text-decoration:none;}
 
 
 #footer {margin-top:5px;text-align:center}
@@ -472,7 +472,7 @@ div.new_case_data button.ui-datepicker-trigger {min-width:115px;min-height: 30px
 
 div.case_data{width:60%;margin:auto;}
 div.case_data_display{width:100%;min-height:30px;margin-bottom:20px;border-bottom:1px solid #AAA;}
-div.case_data_name {font-family:garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);display:inline-block;width:20%;vertical-align:top;text-align:right;}
+div.case_data_name {font-family:'Crimson Text', garamond, georgia, times, serif;font-size:10pt;color:rgb(128, 128, 128);display:inline-block;width:20%;vertical-align:top;text-align:right;}
 div.case_data_value {display:inline-block;vertical-align:top;padding-left:20px;width:75%;}
 
 div.case_data p {margin-bottom:15px;border-bottom:1px solid #AAA;}
