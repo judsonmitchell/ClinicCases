@@ -1,8 +1,16 @@
 //js functions to notify user.
 
-function notify(str, wait) {
-    $('#notifications').html(str).css({'opacity': '.8'});
+function notify(str, wait, state) {
+    $('#notifications').html(str);
+    //.css({'opacity': '.8'});
     $('#notifications').addClass('ui-corner-all').show();
+    if (state === 'error'){
+        $('#notifications').css({'color':'white', 'font-weight': 'bold',  'background-color':'red'});
+    } else if (state ==='success'){
+        $('#notifications').css({'color':'white', 'font-weight': 'bold', 'background-color':'green'});
+    } else {
+        $('#notifications').css({'color':'black', 'font-weight': 'normal', 'background-color':'white'});
+    }
 
     if (wait === true) {
         $('#notifications').append('<p><a href="">Dismiss</a></p>');

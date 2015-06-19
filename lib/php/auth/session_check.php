@@ -18,8 +18,9 @@ if (!isset($_SESSION['cc_session_id']) && isset($_GET['i'])) {
 </html>
 <?php die;} elseif (!isset($_SESSION['cc_session_id'])){
 
-    $error = array('error' => true, 'message' => 'You do not have permission to do this.');
-    echo json_encode($error);
+    //$error = array('error' => true, 'message' => 'You do not have permission to do this.');
+    //echo json_encode($error);
+    header("HTTP/1.0 401 Not Authorized");
     die;
 }
     
