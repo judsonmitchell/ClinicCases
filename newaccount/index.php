@@ -10,6 +10,7 @@ include '../lib/php/html/gen_select.php';
 	<link rel="stylesheet" href="../html/css/cm.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="../lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
 
 	<script src="../lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script>
 	<script src="../lib/jqueryui/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
