@@ -29,7 +29,7 @@ $(document).ready(function() {
     }
 
     //Round corner
-    $('div.wrapper').addClass('ui-corner-all');
+    //$('div.wrapper').addClass('ui-corner-all');
 
     //Lost password form
     $('a.lost_password').click(function(event) {

@@ -79,13 +79,19 @@ LI.fr {margin-left:15px;margin-bottom:20px;margin-top:20px;}
 /*Styles for login */
 .login{background-color:#FFF;}
 .content_login{border:0px !important;margin-top: 25px !important;min-height: 480px}
-div.wrapper{width:80%;height:100%;background-color:rgb(195, 217, 255); margin:auto;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;min-height: 480px}
-div.login_left{float:left;margin-left:8%;width:40%;height: 99%;text-align: left;padding-top:12%;background-color: transparent;}
-div.login_right{float:right;margin-right:8%;width:40%;height: 99%;text-align: left;padding-top:18%;}
+div.wrapper{width:80%;height:100%;background-color:rgb(195, 217, 255); margin:auto;min-height: 480px;padding-top:5%; 
+    border-radius: 2px;
+    box-shadow:  2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); 
+    /* Use PIE to add CSS3 effects to IE8 */
+    behavior: url('lib/PIE/PIE.htc');
+}
+div.login_left{float:left;margin-left:8%;width:40%;text-align: left;padding-top:4%;background-color: transparent;}
+div.login_right{float:right;margin-right:8%;width:40%;text-align: left;padding-top:2%;}
 div.login_right ul{list-style-type:circle;}
 div.login_left label{display:inline-block;margin:12px 0 0;width:85px;vertical-align:center;}
 div.prog_name{font-size: 3em;text-shadow: 0 2px 3px gray;}
 div.forgot_form a.forgot_close {position:absolute;right:5px;top:10px;outline: none}
+#login_button{width:160px;}
 
 /* Styles for new account */
 div.new_account_left{display:inline-block;vertical-align:top;margin-right:5%;width:40%;height: 99%;text-align: left;padding-top:2%;background-color: transparent;}
