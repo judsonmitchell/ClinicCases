@@ -23,3 +23,13 @@ div.event {border-bottom: 1px solid #AAA;padding-top: 10px;}
 .journal_detail_control{display: none;}
 .journal_header p {display: inline-block;}
 .journal_comments{display: none}
+.thumbnail-mask{
+
+    border:2px solid #FFFFDC;
+    -moz-box-shadow:3px 3px 5px gray ;
+    -webkit-box-shadow:3px 3px 5px gray;
+    box-shadow:3px 3px 5px gray;
+    border-radius: 50%;
+    /* Use PIE to add CSS3 effects to IE8 */
+    behavior: url('lib/PIE/PIE.htc');
+}
