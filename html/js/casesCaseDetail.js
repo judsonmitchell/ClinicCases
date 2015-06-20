@@ -1,7 +1,7 @@
  //
 //Creates the Case Detail window when user clicks on table row.
 //
-/* global notify, oTable */
+/* global notify, oTable, loadCaseNotes, adjustedHeight */
 
 var $tabs, panelTarget;
 
@@ -77,8 +77,6 @@ function addDetailTabs(id,newCase) {
                         $('div.assigned_people  button').button({icons: {primary: 'fff-icon-user-add'},text: true});
                     }
 
-                    scroller = $('.assigned_people').jScrollPane();
-
                     //define the id of the clicked tab
                     panelTarget = ui.panel;
 
@@ -94,6 +92,8 @@ function addDetailTabs(id,newCase) {
                         //Notify of conflicts
                         checkConflicts(id);
                     }
+                    
+                    $('.assigned_people').jScrollPane({autoReinitialise:true});
                 }
             });
 
@@ -291,7 +291,7 @@ $('ul.case_detail_nav_list > li').live('click', function() {
 //Open the user detail window when user image is clicked.
 $('div.assigned_people img:not(.user_add_button)').live('click', function() {
     $('div.assigned_people img').css({'border': '3px solid #FFFFCC'});
-    clickedImage = $(this);
+    var clickedImage = $(this);
     if ($(this).parents('li').hasClass('inactive')) {
         $(this).css({'border': '3px solid gray'});
     } else {
@@ -340,21 +340,21 @@ $('div.assigned_people li.slide').live('click', function() {
         inactiveUsers.find('img').css({'opacity': '.4'});
         $(this).children().text('Assigned (History):');
         $(this).removeClass('closed').addClass('open');
-        $('.assigned_people').jScrollPane();
+        //$('.assigned_people').jScrollPane();
     } else {
         inactiveUsers.css({'display': 'none'});
         $(this).children().text('Assigned:');
         $(this).removeClass('open').addClass('closed');
-        $('.assigned_people').jScrollPane();
+        //$('.assigned_people').jScrollPane();
     }
 });
 
 
 //Call Add User Widget
 $('div.assigned_people img.user_add_button').live('click', function() {
-    $('div.assigned_people img').css({'border': '3px solid #FFFFCC'});
+    $('div.assigned_people img').css({'border': '3px solid #FFFFCC','border-radius': '50%'});
     var userAddImage = $(this);
-    $(this).css({'border': '3px solid green'});
+    $(this).css({'border': '3px solid green','border-radius': '50%'});
 
     //Get case id from the add button clicked.
     var pos = $(this).attr('id').lastIndexOf('_');

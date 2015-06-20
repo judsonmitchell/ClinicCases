@@ -19,7 +19,7 @@
 
 		<ul>
 
-			<li class="slide closed"><a>Assigned:</a></li>
+			<li class="slide closed"><a title="Click here to see history (all users ever on this case)">Assigned:</a></li>
 
 
 		<?php if ($assigned_users_data){ foreach ($assigned_users_data as $user)

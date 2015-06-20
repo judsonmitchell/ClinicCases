@@ -48,7 +48,7 @@ function generate_thumbs($responsibles)
 	$thumb_row = null;
 	foreach ($responsibles as $resp) {;
 		$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
-        "'><img src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
+        "'><img class='thumbnail-mask' src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
 	}
 
 	return $thumb_row;

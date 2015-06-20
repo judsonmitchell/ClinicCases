@@ -23,5 +23,5 @@
 		}
 
 		if ($_SESSION['permissions']['assign_cases'] = "1")
-		{ echo "<li><span></span><img  class='thumbnail-mask' class='user_add_button' id='add_button_" . $case_id . "' src='people/tn_add_user.png'></span></li>";}
+		{ echo "<li><span></span><img  class='thumbnail-mask user_add_button' id='add_button_" . $case_id . "' src='people/tn_add_user.png'></span></li>";}
 		?>
