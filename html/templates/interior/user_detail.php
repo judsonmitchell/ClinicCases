@@ -4,7 +4,7 @@
 
 	<p class="top_row">
 
-		<img src="<?php echo return_thumbnail($dbh,$username) . '?' . rand(); ?>">
+		<img class="thumbnail-mask"  src="<?php echo return_thumbnail($dbh,$username) . '?' . rand(); ?>">
 
 		<span class="name_display"><?php echo $first_name . " " . $last_name; ?></span>
 
@@ -125,7 +125,7 @@
 
 	<p class="top_row">
 
-		<img src="<?php echo return_thumbnail($dbh,$username)  . '?' . rand(); ?>">
+		<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh,$username)  . '?' . rand(); ?>">
 
 		<span class="name_display"><?php echo $first_name . " " . $last_name; ?></span>
 

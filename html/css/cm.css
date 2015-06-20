@@ -66,6 +66,14 @@ UL.fr {list-style-top:circle;}
 
 LI.fr {margin-left:15px;margin-bottom:20px;margin-top:20px;}
 
+.thumbnail-mask{
+
+    border:2px solid #FFFFDC;
+    -moz-box-shadow:3px 3px 5px gray ;
+    -webkit-box-shadow:3px 3px 5px gray;
+    box-shadow:3px 3px 5px gray;
+    border-radius: 50%;
+}
 /*Styles for login */
 .login{background-color:#FFF;}
 .content_login{border:0px !important;margin-top: 25px !important;min-height: 480px}
@@ -183,7 +191,6 @@ div.activities_stream .card{
     min-height: 90px;
 }
 
-div.activities_stream img{border-radius: 5px;}
 div.activities_stream{position:relative;width:550px;height:100%;margin:auto}
 
 div.activities_stream p{text-align:left;}
@@ -289,7 +296,6 @@ div.assigned_people li.slide.open:before {content:"\00bb";color:gray;}
 div.assigned_people li.slide a {color:gray;font-size:10pt;text-decoration:none;}
 div.assigned_people li.slide a:hover {color:green;font-size:10pt;text-decoration:none;}
 
-div.assigned_people img {border:3px solid #FFFFDC;-moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 div.user_widget{display:none;}
 
 div.user_display{position: absolute; width: 280px; height: 300px;right: 17px; top: -3px; padding: 10px;background-color:#FFFFDC;z-index:100;outline:0;border:1px solid #AAA;border-top:0;}
@@ -320,7 +326,6 @@ div.csenote_bar{height:41px;background-color:#E2E4FF;border-bottom:1px solid #AA
 div.csenote_bar_left{display:inline-block;width:34%;color:navy}
 div.csenote_bar_right{display:inline-block;width:65%;text-align:right;}
 div.csenote_bar_right a {font-size:1em;color:navy}
-
 div.csenote_new{display:none}
 div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 

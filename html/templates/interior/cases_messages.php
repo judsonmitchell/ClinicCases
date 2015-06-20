@@ -96,7 +96,7 @@ if ($replies === false) //these are not replies to a message
 
 			<div class = "msg_bar_left cse_msg_bar_left">
 
-				<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
+				<img class="thumbnail-mask" src = "<?php echo return_thumbnail($dbh,$from); ?>">
 
 				<?php echo username_to_fullname($dbh,$from) . "     "; ?>
 
@@ -192,7 +192,7 @@ if ($replies === false) //these are not replies to a message
 
 			<div class = "msg_reply_left">
 
-				<img src = "<?php echo return_thumbnail($dbh,$from); ?>">
+				<img class="thumbnail-mask" src = "<?php echo return_thumbnail($dbh,$from); ?>">
 
 				<?php echo username_to_fullname($dbh,$from); ?>
 

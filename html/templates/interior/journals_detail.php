@@ -2,7 +2,7 @@
 
 	<div class="journal_header ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">
 
-		<img src="<?php echo return_thumbnail($dbh,$username); ?>" border="0">
+		<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh,$username); ?>" border="0">
 
 		<p>Journal Submitted by <?php echo username_to_fullname ($dbh,$username); ?> on <?php echo extract_date_time($date_added); ?>
 		</p>
@@ -70,7 +70,7 @@
 
 					<div class = "comment <?php if ($value['by'] == $_SESSION['login']){echo "can_delete";} ?>" data-id="<?php echo $key; ?>">
 
-						<img src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
+						<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
 
 						<p><?php echo strip_tags($value['text'],'<br>'); ?></p>
 
@@ -86,7 +86,7 @@
 			<?php if ($view !== 'edit'){ ?>
 
 			<div class = "comment">
-				<img src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
+				<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
 
 				<textarea class="expand">Your comment</textarea>
 

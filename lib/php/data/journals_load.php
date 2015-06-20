@@ -55,7 +55,7 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 		$rows= array();
 
 		//Add user picture
-		$pic = "<img src='" . return_thumbnail($dbh,$result['username']) . "' border='0'>";
+		$pic = "<img class='thumbnail-mask' src='" . return_thumbnail($dbh,$result['username']) . "' border='0'>";
 
 		$rows[] = $pic;
 

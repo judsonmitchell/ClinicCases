@@ -74,7 +74,7 @@ NEWNOTE;
 				$time = convert_case_time($case_notes['time']);
 				echo "<div class='csenote' id='csenote_" . $case_notes['id'] . "'>
 				<div class='csenote_bar'>
-				<div class = 'csenote_bar_left'><img src='" . thumbify($case_notes['picture_url']) . "'> " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'><span class='csenote_date'>" . extract_date($case_notes['date']) .  "</span> &#183; <span class='csenote_time'>" . $time[0] . $time[1] . "</span>";
+				<div class = 'csenote_bar_left'><img class='thumbnail-mask' src='" . thumbify($case_notes['picture_url']) . "'>&nbsp " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'><span class='csenote_date'>" . extract_date($case_notes['date']) .  "</span> &#183; <span class='csenote_time'>" . $time[0] . $time[1] . "</span>";
 
 				if ($case_notes['username'] == $_SESSION['login'])
 				{echo " &#183; <a href='#' class='csenote_edit'>Edit</a> <a href='#' class='csenote_delete'>Delete</a>";}

@@ -35,7 +35,7 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 			if ($col === 'picture_url') //generate thumbnail url and hmtl
 			{
 				$th = thumbify($result[$col]);
-				$rows[] = "<img src = '" . $th . "?" . rand() . "'></img>";
+				$rows[] = "<img class='thumbnail-mask' src = '" . $th . "?" . rand() . "'></img>";
 			}
 			elseif ($col === 'date_created') //convert dates
 			{
