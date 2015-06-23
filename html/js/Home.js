@@ -319,7 +319,8 @@ $(document).ready(function() {
                     return false;
                 } else {
                     notify(serverResponse.message);
-                    if ($('input#activity_button').next().hasClass('ui-state-active'))  {//We are looking at activities
+                    if ($('input#activity_button').next().hasClass('ui-state-active'))  {
+                        //We are looking at activities
                         activitiesLoad(target);
                     }
                     $('a.quick_add_close').trigger('click');
