@@ -181,7 +181,7 @@ $result = $uploader->handleUpload('../../../uploads/');
 
     $users_file_name = $result['file'] . "." . $result['ext'];
 
-    $data = array('name' => $users_file_name, 'extension' => $result["ext"], 'user' => $username, 'post_id' => $post_id);
+    $data = array('name' => $users_file_name, 'extension' => strtolower($result["ext"]), 'user' => $username, 'post_id' => $post_id);
 
     $upload_doc_query->execute($data);
 
