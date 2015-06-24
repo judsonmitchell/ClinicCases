@@ -144,21 +144,37 @@ switch ($action) {
 		$error = $open_query->errorInfo();
 
 		$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
-		header('Content-Description: File Transfer');
-		header("Content-type: application/force-download");
-		header("Pragma: "); 
-		header("Cache-Control: ");
-		//header("Content-type:" . finfo_file($finfo, $file));
-		//header('Content-Type: application/octet-stream');
-		header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
-		header('Content-Transfer-Encoding:  binary');
-		header("Content-Length: ". filesize($file));
-		header('Expires: 0');
-		header('Cache-Control: no-store, no-cache, must-revalidate');
-		header('Pragma: no-cache');
-		readfile(CC_DOC_PATH . "/" . $doc_properties['local_file_name']);
-		exit;
-		break;
+
+        if ($doc_properties['extension'] == 'pdf'){
+            header('Content-Description: File Transfer');
+            header('Content-type: application/pdf');
+            header('Content-disposition: inline; filename="'. $doc_properties['name'] .'"');
+            header('Content-Transfer-Encoding: binary');
+            header("Content-Length: ". filesize($file));
+            header('Accept-Ranges: bytes');
+            header('Expires: 0');
+            header('Cache-Control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            readfile(CC_DOC_PATH . "/" . $doc_properties['local_file_name']);
+            exit;
+            break;
+        } else {
+            $mime = finfo_open(FILEINFO_MIME_TYPE);
+            $file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
+            header('Content-Description: File Transfer');
+            header("Content-type: $mime");
+            header("Pragma: "); 
+            header("Cache-Control: ");
+            header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
+            header('Content-Transfer-Encoding:  binary');
+            header("Content-Length: ". filesize($file));
+            header('Expires: 0');
+            header('Cache-Control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            readfile(CC_DOC_PATH . "/" . $doc_properties['local_file_name']);
+            exit;
+            break;
+        }
 }
 
 if ($error[1])

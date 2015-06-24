@@ -142,7 +142,38 @@ $(document).ready(function() {
         event.preventDefault();
         event.stopPropagation();
         var itemId = $(this).attr('data-id');
-        $.download('lib/php/data/board_process.php', {'item_id': itemId,'action': 'download'});
+        if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
+            if (Object.create){ //informal browser check for ie8
+                //Show pdfjs viewer
+                $('#pdf-viewer').show();
+                $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?target=board&item_id=' + itemId);
+
+                //Add listener to close pdf viewer
+                $('#pdf-viewer').click(function(){
+                    $('#frme').attr('src','');
+                    $(this).hide();
+                });
+
+                //Close pdfviewer on escape key press
+                $('body').bind('keyup.pdfViewer', function (e){
+                    if (e.keyCode === 27){
+                        $('#frme').attr('src','');
+                        $('#pdf-viewer').hide();
+                    }
+                });
+            } else {
+                //pdfjs is not supported; revert to download
+                $.download('lib/php/data/board_process.php', {
+                    'item_id': itemId,
+                    'action': 'download',
+                });
+            }
+        } else {
+            $.download('lib/php/data/board_process.php', {
+                'item_id': itemId,
+                'action': 'download',
+            });
+        }
     });
 
     //Delete post

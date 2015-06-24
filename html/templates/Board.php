@@ -28,6 +28,9 @@
 	<link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
 </head>
 <body>
+    <div id="pdf-viewer">
+        <iframe src = ""  id="frme" allowfullscreen="true"></iframe>
+    </div>
 
 	<div id="notifications"></div>
 

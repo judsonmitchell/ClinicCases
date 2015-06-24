@@ -24,7 +24,7 @@ function check_attachments($dbh,$post_id)
 
 		foreach ($attachments as $v) {
 
-			$a .= '<p><a href="#" class="attachment" data-id="' . $v['id'] . '">' . $v['name'] . '</a></p>';
+			$a .= '<p><a href="#" class="attachment ' . $v['extension'] .'" data-id="' . $v['id'] . '">' . $v['name'] . '</a></p>';
 		}
 
 		return $a;
