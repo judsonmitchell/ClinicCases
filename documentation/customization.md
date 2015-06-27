@@ -36,9 +36,10 @@ Each field for the Cases table must be defined in both the cm table AND the cm_c
 * **db_name** the name of the field as it appears in the cm table ("my_field")
 * **display_name** - the name of the field as it will appear to users ("My Field")
 * **include_in_case_table** - tell ClinicCases if the field is supposed to be included in the case table shown to users.  This will almost always be set to "true"
-* **input_tye** - what sort of input will be used to display this data.  The choices are:
+* **input_type** - what sort of input will be used to display this data.  The choices are:
 	* text - a standard html text input
 	* textarea - a standard html textarea
+	* date - will provide a datepicker
 	* select - a standard html select
 	* multi-text - a ClinicCases widget which presents an input to the user along with a link to "Add Another".  If clicked, another input will be created.  This is used by default for adverse parties.
 	![View of multi-text](img/multi-text.png)
