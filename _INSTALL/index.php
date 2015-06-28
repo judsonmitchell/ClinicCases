@@ -9,7 +9,7 @@
 	<link type="text/css" href="../html/css/fff.icon.core.css" rel="stylesheet"/>
 	<link type="text/css" href="../html/css/fff.icon.icons.css" rel="stylesheet"/>
 	<link rel="shortcut icon" type="image/x-icon" href="../html/images/favicon.ico" />
-
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
 	<script src="../lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script>
 	<script src="../lib/jqueryui/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
 	<script src="install.js" type="text/javascript"></script>

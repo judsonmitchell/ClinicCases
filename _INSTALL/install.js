@@ -1,4 +1,5 @@
 //Scripts for install page
+/* global notify */
 
 $(document).ready(function() {
 
@@ -6,17 +7,14 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		//Validate
-
-		function validate(fields)
-		{
+		function validate(fields) {
 			var errorString = '';
 			$.each(fields,function(){
-				if ($(this).val() === '')
-					{
-						$(this).addClass('ui-state-error');
-						errorString += 'error';
-					}
-				});
+				if ($(this).val() === '') {
+                    $(this).addClass('ui-state-error');
+                    errorString += 'error';
+                }
+            });
 			return errorString;
 		}
 
@@ -27,39 +25,48 @@ $(document).ready(function() {
 		//Check that base_url has trailing slash
 		var baseUrl = $('input[name="base_url"]').val();
 
-		if(baseUrl.charAt( baseUrl.length-1 ) !== "/")
-		{
-			baseUrlFixed = baseUrl + '/';
-
+		if(baseUrl.charAt( baseUrl.length-1 ) !== '/') {
+			var baseUrlFixed = baseUrl + '/';
 			$('input[name="base_url"]').val(baseUrlFixed);
 		}
 
-		if (error.length)
-		{
+		if (error.length) {
 			notify('There are empty fields');
 			$('div#upshot').html('<p class="config_error">All fields are required. Please fix this.</p>');
 			$('input.ui-state-error').focus(function(){$(this).removeClass('ui-state-error');});
-		}
-		else
-		{
-
+		} else {
 			var formVals = $(this).closest('form').serializeArray();
 			$.post('install_process.php',formVals,function(data){
 				var serverResponse = $.parseJSON(data);
-				if (serverResponse.error === true)
-					{
-						$(window).scrollTop(0);
-						notify(serverResponse.message,true);
-						$('div#upshot').html(serverResponse.message);
-					}
-					else
-					{
-						notify(serverResponse.message);
-						$('form').remove();
-						$('p#instruction').remove();
-						$('div#upshot').html(serverResponse.html);
-					}
+				if (serverResponse.error === true) {
+                    $(window).scrollTop(0);
+                    notify(serverResponse.message,true);
+                    $('div#upshot').html(serverResponse.message);
+                } else {
+                    notify(serverResponse.message);
+                    $('form').remove();
+                    $('p#instruction').remove();
+                    $('div#upshot').html(serverResponse.html);
+                }
 			});
 		}
 	});
+})
+.ajaxError(function (event, request, settings) {
+
+    if (request.status === 401){
+        notify('Server responded with 401 Not Authorized');
+        $('div#upshot').html('Server responded with 401 Not Authorized');
+    } else if (request.status === 500){
+        notify('Server responded with 500 Internal Server Error');
+        $('div#upshot').html('Server responded with 500 Internal Server Error');
+    } else if (request.status === 404){
+        notify('Server responded with 404 Not Found');
+        $('div#upshot').html('Server responded with 404 Not Found');
+    } else {
+        notify('Unspecified Error.');
+        $('div#upshot').html('Unspecified Error');
+    }
 });
+
+
