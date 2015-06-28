@@ -417,7 +417,7 @@ $('a.contact_edit').live('click', function(event) {
             var phoneOptions = doEditSelect(key, 'phone');
             phoneForm += '<p class="contact_phone_group"><label>Phone</label><select name="phone_type"' +
                 'class="contact_phone_type">"' + phoneOptions + '"</select><input type="text" name="phone"' +
-                'class="contact_phone_value" value="" + value + "">';
+                'class="contact_phone_value" value="' + value + '">';
         });
     }
     editContact.find('span.contact_phone_widget').html(phoneForm);
@@ -448,7 +448,7 @@ $('a.contact_edit').live('click', function(event) {
             var emailOptions = doEditSelect(key, 'email');
             emailForm += '<p class="contact_email_group"><label>Email</label><select name="email_type" ' +
             'class="contact_email_type">' + emailOptions + '</select><input type="text" name="email" ' +
-            'class="contact_email_value" value="" + value + "">';
+            'class="contact_email_value" value="' + value + '">';
         });
     }
 

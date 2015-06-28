@@ -125,8 +125,8 @@
 
                         foreach ($phones as $key => $value) {
                             if(!empty($value)){
-                                echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>
-                                $key</span>)</label><span  class='contact_phone_value'> $value </span></p>";
+                                echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>$key</span>)</label>
+                                <span  class='contact_phone_value'>$value </span></p>";
                             }
                         }
                     }
@@ -136,8 +136,7 @@
 
                         foreach ($emails as $key => $value) {
                             if(!empty($value)){
-                                echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>
-                                $key</span>)</label><a href='mailto:$value' target='_blank'>
+                                echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>$key</span>)</label><a href='mailto:$value' target='_blank'>
                                 <span class='contact_email_value'>$value</span></a></p>";
                             }
                         }
