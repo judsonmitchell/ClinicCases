@@ -55,16 +55,16 @@ $(document).ready(function() {
 .ajaxError(function (event, request, settings) {
 
     if (request.status === 401){
-        notify('Server responded with 401 Not Authorized');
+        notify('Server responded with 401 Not Authorized',true,'error');
         $('div#upshot').html('Server responded with 401 Not Authorized');
     } else if (request.status === 500){
         notify('Server responded with 500 Internal Server Error');
-        $('div#upshot').html('Server responded with 500 Internal Server Error');
+        $('div#upshot').html('Server responded with 500 Internal Server Error',true,'error');
     } else if (request.status === 404){
         notify('Server responded with 404 Not Found');
-        $('div#upshot').html('Server responded with 404 Not Found');
+        $('div#upshot').html('Server responded with 404 Not Found',true,'error');
     } else {
-        notify('Unspecified Error.');
+        notify('Unspecified Error.',true,'error');
         $('div#upshot').html('Unspecified Error');
     }
 });
