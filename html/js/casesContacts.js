@@ -416,7 +416,7 @@ $('a.contact_edit').live('click', function(event) {
         $.each(phoneData, function(key, value) {
             var phoneOptions = doEditSelect(key, 'phone');
             phoneForm += '<p class="contact_phone_group"><label>Phone</label><select name="phone_type"' +
-                'class="contact_phone_type">" + phoneOptions + "</select><input type="text" name="phone"' +
+                'class="contact_phone_type">"' + phoneOptions + '"</select><input type="text" name="phone"' +
                 'class="contact_phone_value" value="" + value + "">';
         });
     }
@@ -490,7 +490,7 @@ $('a.contact_edit').live('click', function(event) {
         var contactVals = contactForm.serializeArray();
 
         //get errors, if any
-        var errString = validContact(contactVals);
+        var errString = validContact(contactForm);
 
         //notify user or errors or submit form
         if (errString.length) {
