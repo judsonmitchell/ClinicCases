@@ -58,11 +58,11 @@ $(document).ready(function() {
         notify('Server responded with 401 Not Authorized',true,'error');
         $('div#upshot').html('Server responded with 401 Not Authorized');
     } else if (request.status === 500){
-        notify('Server responded with 500 Internal Server Error');
-        $('div#upshot').html('Server responded with 500 Internal Server Error',true,'error');
+        notify('Server responded with 500 Internal Server Error',true,'error');
+        $('div#upshot').html('Server responded with 500 Internal Server Error');
     } else if (request.status === 404){
-        notify('Server responded with 404 Not Found');
-        $('div#upshot').html('Server responded with 404 Not Found',true,'error');
+        notify('Server responded with 404 Not Found',true,'error');
+        $('div#upshot').html('Server responded with 404 Not Found');
     } else {
         notify('Unspecified Error.',true,'error');
         $('div#upshot').html('Unspecified Error');
