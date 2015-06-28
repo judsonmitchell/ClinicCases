@@ -124,8 +124,6 @@ else
 
 	rename('../_CONFIG_template.php', '../_CONFIG.php');
 
-	deleteDir($_POST['cc_path']. '/_UPGRADE');
-
 	deleteDir($_POST['cc_path']. '/_INSTALL');
 
 	$html = "<p class='good'>Installation successful.</p><p>Now you can log on to ClinicCases by going to <a href='" . $_POST['base_url']. "' target='_new'>" . $_POST['base_url'] . "</a> and logging in with the username 'admin' and the password 'admin'.  You will then be prompted to change this password.</p><p>After that, please go to the Users tab and create at least one new user who is in the Administrator group.  Then delete the Temp Admin account.  Further configuration instructions are available at the <a href='https://cliniccases.com/help'>ClinicCases site</a></p>";
