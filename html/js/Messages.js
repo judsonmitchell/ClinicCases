@@ -124,7 +124,7 @@ $(document).ready(function() {
     msgLoad();
 
     //Reload inbox every ninety seconds to check for new messages
-    var msgRefresh = setInterval(msgLoad(), 90000);
+    var msgRefresh = setInterval(msgLoad, 90000);
 
     //Toggle message message open/closed state, retrieve replies
     $('div.msg_bar').live('click', function() {
@@ -167,7 +167,7 @@ $(document).ready(function() {
             msgParent.animate({'height': '90'});
 
             //turn auto refresh back on
-            msgRefresh = setInterval(msgLoad(), 90000);
+            msgRefresh = setInterval(msgLoad, 90000);
         }
     });
 
@@ -228,7 +228,7 @@ $(document).ready(function() {
                     newMsg.removeClass('msg_opened');
 					msgLoad();
 					//turn auto refresh back on
-					msgRefresh = setInterval(msgLoad(), 90000);
+					msgRefresh = setInterval(msgLoad, 90000);
 					notify('New message cancelled');
 				});
 
@@ -248,7 +248,7 @@ $(document).ready(function() {
                             $('#new_msg_form')[0].reset();
                             msgLoad();
                             //turn auto refresh back on
-                            msgRefresh = setInterval(msgLoad(), 90000);
+                            msgRefresh = setInterval(msgLoad, 90000);
                             notify('Message sent');
                         }
                     });
@@ -265,7 +265,7 @@ $(document).ready(function() {
         if (view !== 'inbox') {
             clearTimeout(msgRefresh);
         } else {
-            msgRefresh = setInterval(msgLoad(), 90000);
+            msgRefresh = setInterval(msgLoad, 90000);
         }
 
         target.html('<p>Loading...</p>');
@@ -504,7 +504,7 @@ $(document).ready(function() {
         msgLoad();
 
         //Restart auto-refresh
-        msgRefresh = setInterval(msgLoad(), 90000);
+        msgRefresh = setInterval(msgLoad, 90000);
         $('div#msg_panel')[0].scrollTop = 0;
         $(this).hide();
     });
