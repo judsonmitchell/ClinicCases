@@ -29,9 +29,9 @@ h5{font-family:'Crimson Text', garamond, georgia, times, serif;font-size:11pt;te
 
 #idletimeout span { font-weight:bold }
 
-#timer {position:relative;top:0;left:0;height:42px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
+#timer {position:relative;top:0;left:0;height:50px;background-color:white;text-align:left;padding-bottom:5px;display:none;}
 
-#timer img {width:40px;height:40px;border:0;vertical-align:text-bottom;padding-right:10px;}
+#timer img {width:45px;height:40px;border:0;vertical-align:text-bottom;padding-right:10px;}
 
 #timer > #timer_inner{float:left;height:40px;font-size:14px;width:45%;overflow:hidden;}
 
