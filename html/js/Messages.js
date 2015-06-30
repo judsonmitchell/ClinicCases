@@ -99,6 +99,20 @@ function layoutMessages() {
     $('div.msg_read').css({'opacity': '.5'});
 }
 
+function msgLoad () {
+    $.post('lib/php/data/messages_load.php', {
+        'type': 'inbox',
+        'start': '0'
+    }, function(data) {
+        $('div#msg_panel').html(data);
+        //Round Corners
+        $('div.msg').addClass('ui-corner-all');
+        //Set the start value for scroll
+        $('div#msg_panel').data('startVal', 0);
+        layoutMessages();
+    });
+}
+
 $(document).ready(function() {
     var target = $('div#msg_panel');
     var start = target.data('startVal');
@@ -107,19 +121,6 @@ $(document).ready(function() {
     $('#msg_nav').addClass('ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr');
 
     //Load messages and refresh
-    var msgLoad = function() {
-        $.post('lib/php/data/messages_load.php', {
-            'type': 'inbox',
-            'start': '0'
-        }, function(data) {
-            target.html(data);
-            //Round Corners
-            $('div.msg').addClass('ui-corner-all');
-            //Set the start value for scroll
-            target.data('startVal', 0);
-            layoutMessages();
-        });
-    };
     msgLoad();
 
     //Reload inbox every ninety seconds to check for new messages
