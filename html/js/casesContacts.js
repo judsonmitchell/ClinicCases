@@ -175,7 +175,7 @@ $('.case_detail_panel_tools_right button.new_contact').live('click', function() 
         var contactVals = contactForm.serializeArray();
 
         //get errors, if any
-        var errString = validContact(contactVals);
+        var errString = validContact(contactForm);
 
         //notify user or errors or submit form
         if (errString.length) {
