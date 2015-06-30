@@ -1,6 +1,6 @@
  //Scripts for Home page
 
-/* global notify, validQuickCaseNote, activitiesLoad, validEvent */
+/* global notify, validQuickCaseNote, validEvent */
 
 $(document).ready(function() {
 
@@ -20,6 +20,67 @@ $(document).ready(function() {
 
     //Add navigation actions
     var target = $('div#home_panel');
+    var activitiesLoad = function(target) {
+        target.load('lib/php/data/home_activities_load.php', function() {
+
+            //enable download when user clicks a document link
+            $('a.doc_view').live('click', function(event) {
+                event.preventDefault();
+                var itemId = $(this).attr('data-id');
+                if ($(this).hasClass('url')) { //Link is a url
+                    $.post('lib/php/data/cases_documents_process.php', {
+                        'action': 'open',
+                        'item_id': itemId,
+                        'doc_type': 'document'
+                    }, function(data) {
+                        var serverResponse = $.parseJSON(data);
+                        window.open(serverResponse.target_url, '_blank');
+                    });
+                }
+                else if ($(this).hasClass('ccd')) {
+                //Link is a ClinicCases document.  Just direct user to case documents for now TODO
+                    var url = $(this).closest('p').prev('p').find('a').attr('href');
+                    window.location.href = url;
+                } else if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
+                    if (Object.create){ //informal browser check for ie8
+                        //Show pdfjs viewer
+                        $('#pdf-viewer').show();
+                        $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
+
+                        //Add listener to close pdf viewer
+                        $('#pdf-viewer').click(function(){
+                            $('#frme').attr('src','');
+                            $(this).hide();
+                        });
+
+                        //Close pdfviewer on escape key press
+                        $('body').bind('keyup.pdfViewer', function (e){
+                            if (e.keyCode === 27){
+                                $('#frme').attr('src','');
+                                $('#pdf-viewer').hide();
+                            }
+                        });
+                    } else {
+                        //pdfjs is not supported; revert to download
+                        $.download('lib/php/data/cases_documents_process.php', {
+                            'item_id': itemId,
+                            'action': 'open',
+                        });
+                    }
+                }
+                else {
+                    $.download('lib/php/data/cases_documents_process.php', {
+                        'item_id': itemId,
+                        'action': 'open',
+                        'doc_type': 'document'
+                    }); //any other document, download it.
+                }
+            });
+
+            //Remove last hr for styling purposes
+            target.find('hr').last().remove();
+        });
+    };
 
     $('#activity_button').click(function() {
 
@@ -36,67 +97,6 @@ $(document).ready(function() {
             });
         }, 90000);
 
-        var activitiesLoad = function(target) {
-            target.load('lib/php/data/home_activities_load.php', function() {
-
-                //enable download when user clicks a document link
-                $('a.doc_view').live('click', function(event) {
-                    event.preventDefault();
-                    var itemId = $(this).attr('data-id');
-                    if ($(this).hasClass('url')) { //Link is a url
-                        $.post('lib/php/data/cases_documents_process.php', {
-                            'action': 'open',
-                            'item_id': itemId,
-                            'doc_type': 'document'
-                        }, function(data) {
-                            var serverResponse = $.parseJSON(data);
-                            window.open(serverResponse.target_url, '_blank');
-                        });
-                    }
-                    else if ($(this).hasClass('ccd')) {
-                    //Link is a ClinicCases document.  Just direct user to case documents for now TODO
-                        var url = $(this).closest('p').prev('p').find('a').attr('href');
-                        window.location.href = url;
-                    } else if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
-                        if (Object.create){ //informal browser check for ie8
-                            //Show pdfjs viewer
-                            $('#pdf-viewer').show();
-                            $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?item_id=' + itemId);
-
-                            //Add listener to close pdf viewer
-                            $('#pdf-viewer').click(function(){
-                                $('#frme').attr('src','');
-                                $(this).hide();
-                            });
-
-                            //Close pdfviewer on escape key press
-                            $('body').bind('keyup.pdfViewer', function (e){
-                                if (e.keyCode === 27){
-                                    $('#frme').attr('src','');
-                                    $('#pdf-viewer').hide();
-                                }
-                            });
-                        } else {
-                            //pdfjs is not supported; revert to download
-                            $.download('lib/php/data/cases_documents_process.php', {
-                                'item_id': itemId,
-                                'action': 'open',
-                            });
-                        }
-                    }
-                    else {
-                        $.download('lib/php/data/cases_documents_process.php', {
-                            'item_id': itemId,
-                            'action': 'open',
-                            'doc_type': 'document'
-                        }); //any other document, download it.
-                    }
-                });
-
-                //Remove last hr for styling purposes
-                target.find('hr').last().remove();
-            });
-        };
         activitiesLoad(target);
     });
 
