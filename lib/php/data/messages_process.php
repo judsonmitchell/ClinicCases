@@ -220,7 +220,7 @@ switch ($action) {
                         $email = user_email($dbh,$r);
                         $subject = "ClinicCases: New Message:'" . $msg_subject . "'";
                         $body = username_to_fullname($dbh,$user) . " has sent you a message '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
                     }
 				}
 		}
@@ -281,7 +281,7 @@ switch ($action) {
                         $email = user_email($dbh,$r);
                         $subject = "ClinicCases: Reply to '" . $msg_subject . "'";
                         $body = username_to_fullname($dbh,$user) . " has replied to '" . $msg_subject ."':\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
                     }
 				}
 			}
@@ -349,7 +349,7 @@ switch ($action) {
                         $email = user_email($dbh,$f);
                         $subject = "ClinicCases: New Message: '" . $msg_subject . "'";
                         $body = username_to_fullname($dbh,$user) . " forwarded '" . $msg_subject ."' to you:\n\n'$preview'\n\n" . CC_EMAIL_FOOTER;
-                        mail($email,$subject,$body,CC_EMAIL_HEADERS);
+                        mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 					}
 				}
 			}

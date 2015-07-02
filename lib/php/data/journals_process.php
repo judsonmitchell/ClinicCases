@@ -263,7 +263,7 @@ switch ($type) {
 
 			$body = "$commenter has commented on a journal.n\n" . CC_EMAIL_FOOTER;
 
-			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 		}
 
 		//TODO test on mail server

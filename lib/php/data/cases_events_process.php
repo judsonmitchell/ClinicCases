@@ -132,7 +132,7 @@ switch ($action) {
 				$email = user_email($dbh,$resps_flat[$i]);
 				$subject = "ClinicCases: You have been assigned to an event";
 				$body = "You have been assigned to an event (" . $_POST['task']  . ") in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
-				mail($email,$subject,$body,CC_EMAIL_HEADERS);
+				mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 					//TODO test on mail server
 
 			}
@@ -221,7 +221,7 @@ switch ($action) {
 					$email = user_email($dbh,$resps_flat[$i]);
 					$subject = "ClinicCases: You have been assigned to an event";
 					$body = "You have been assigned to an event (" . $_POST['task']  . ")in the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
-					mail($email,$subject,$body,CC_EMAIL_HEADERS);
+					mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 					//TODO test on mail server
 				}
 			}

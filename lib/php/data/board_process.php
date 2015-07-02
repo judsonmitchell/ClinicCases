@@ -87,7 +87,7 @@ switch ($action) {
 			$email = user_email($dbh,$v);
 			$subject = "ClinicCases: $author posted on your Board";
 			$body = "$author posted on your Board in ClinicCases: $title.\n\n" . CC_EMAIL_FOOTER;
-			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 		}
 
 		break;
