@@ -738,8 +738,8 @@ $('div.user_detail_actions button.user_delete').live('click',function() {
     var userId = $('.user_data_display_area').attr('data-id');
 
     var dialogWin = $('<div title="Are you sure?"><p>It is usually best to deactivate, ' +
-    'rather than delete, a user account.</p><br /><p>To deactivate, click the edit button below' +
-    'and then change the user status.</p><br /> <p>You should only delete if this user' +
+    'rather than delete, a user account.</p><br /><p>To deactivate, click the edit button below ' +
+    'and then change the user status.</p><br /> <p>You should only delete if this user ' +
     'account was created by error or as a result of spam. Are you sure you want to delete?</p></div>')
     .dialog({
         autoOpen: false,
