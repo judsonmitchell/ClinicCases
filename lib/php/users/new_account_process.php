@@ -213,7 +213,7 @@ else
 
 	$message = "Your application for ClinicCases has been received.  It will be reviewed by your administrator.  When it is approved, your administrator will send you another email letting you know your account is active.\n\nIn the meantime, feel free to contact your administrator at " . CC_ADMIN_EMAIL . " with any questions.";
 
-	mail($_POST['email'],$subject,$message,CC_EMAIL_HEADERS);
+	mail($_POST['email'],$subject,$message,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 
   //Send email to admins
   $q = $dbh->prepare("SELECT * FROM cm_groups WHERE `activate_users` = '1'");
@@ -242,7 +242,7 @@ else
 
   foreach ($emails as $e) {
 
-      mail($e['email'],$subject,$message,CC_EMAIL_HEADERS);
+      mail($e['email'],$subject,$message,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
   }
 
 	//notify user

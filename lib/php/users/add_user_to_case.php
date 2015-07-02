@@ -79,8 +79,7 @@ foreach ($user_array as $user)
 		$email = user_email($dbh,$user);
 		$subject = "ClinicCases: You have been assigned to a case";
 		$body = "You have been assigned to the " . case_id_to_casename($dbh,$case_id) . " case.\n\n" . CC_EMAIL_FOOTER;
-		mail($email,$subject,$body,CC_EMAIL_HEADERS);
-			//TODO test on mail server
+		mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 
 		//Send CC message to user
 		$q = $dbh->prepare("INSERT INTO `cm_messages` (`id`, `thread_id`, `to`, `from`, `ccs`, `subject`, `body`, `assoc_case`, `time_sent`, `read`, `archive`, `starred`) VALUES (NULL, '', :tos, :sender, '', :subject, :body, :assoc_case, CURRENT_TIMESTAMP, :sender_has_read, '', '');");

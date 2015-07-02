@@ -52,7 +52,7 @@ switch ($action) {
 			$body = "You new ClinicCases account has been activated.  Your username is " . 
             userid_to_username($dbh,$user)   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
 
-			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 		}
 
 		$error = $q->errorInfo();
@@ -96,7 +96,7 @@ switch ($action) {
 			$subject = "ClinicCases: Your ClinicCases account is now activated.";
 			$body = "You new ClinicCases account has been activated.  Your username is " .
             userid_to_username($dbh,$_POST['id'])   . ".\n\nPlease log on to ClinicCases at ". CC_BASE_URL;
-			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 
 			//Set to not new
 			$q = $dbh->prepare("UPDATE cm_users SET new = '' WHERE id = ?");
@@ -195,7 +195,7 @@ switch ($action) {
             "Your temporary password is $gen_pass .  Please log on to ClinicCases at ". CC_BASE_URL .
             " . You will then be prompted to update your password.";
 
-			mail($email,$subject,$body,CC_EMAIL_HEADERS);
+			mail($email,$subject,$body,CC_EMAIL_HEADERS,"-f ". CC_EMAIL_FROM);
 
 		}
 }
