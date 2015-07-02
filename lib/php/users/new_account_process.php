@@ -1,22 +1,40 @@
 <?php
 require('../../../db.php');
 require('../auth/pbkdf2.php');
-require('../utilities/recaptchalib.php');
+function isValid() 
+{
+    try {
+
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array('secret'   => RECAPTCHA_PRIVATE_KEY,
+                 'response' => $_POST['g-recaptcha-response'],
+                 'remoteip' => $_SERVER['REMOTE_ADDR']);
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data) 
+            )
+        );
+
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        return json_decode($result)->success;
+    }
+    catch (Exception $e) {
+        return null;
+    }
+}
 
 if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%' && RECAPTCHA_PUBLIC_KEY !== '(optional)' ) //Recaptcha is enabled
 {
 
-	$resp = recaptcha_check_answer (RECAPTCHA_PRIVATE_KEY,
-                                $_SERVER["REMOTE_ADDR"],
-                                $_POST["recaptcha_challenge_field"],
-                                $_POST["recaptcha_response_field"]);
 
-	if (!$resp->is_valid) {
-    // What happens when the CAPTCHA was entered incorrectly
-		$response = array("error" => true, "message" => "The reCAPTCHA wasn't entered correctly. Please try again.");
-
+	if (!isValid()) {
+        // What happens when the CAPTCHA was entered incorrectly
+		$response = array("error" => true, "message" => "ReCAPTCHA thinks you're a robot. Please check the box."); 
 		echo json_encode($response);
-
 		die;
   	}
  }

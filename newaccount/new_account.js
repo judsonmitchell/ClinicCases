@@ -1,4 +1,4 @@
-/* global notify, validNewAccount, Recaptcha */
+/* global notify, validNewAccount */
 $(document).ready(function(){
 
 		//Submit the form
@@ -18,7 +18,6 @@ $(document).ready(function(){
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error === true) {
                         notify(serverResponse.message,true);
-                        Recaptcha.reload();
                     } else {
                         notify(serverResponse.message,false);
                         formVals.remove();

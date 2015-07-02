@@ -17,12 +17,8 @@ include '../lib/php/html/gen_select.php';
 	<script src="../lib/javascripts/validations.js" type="text/javascript"></script>
 	<script src="../html/js/notifyUser.js" type="text/javascript"></script>
 	<script type="text/javascript" src="new_account.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-	<script type="text/javascript">
- 		var RecaptchaOptions = {
-    	theme : 'clean'
- 		};
- 	</script>
 
 </head>
 
@@ -86,25 +82,13 @@ include '../lib/php/html/gen_select.php';
 
 				<?php if (RECAPTCHA_PUBLIC_KEY !== '%recaptcha_public%' && RECAPTCHA_PUBLIC_KEY !== '(optional)' ) {//Recaptcha is enabled
 
-					echo "<p>Please enter the two words you see below:</p>";
-
-					require_once('../lib/php/utilities/recaptchalib.php');
-
-					if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443)
-						{
-							$ssl = true;
-						}
-						else
-						{
-							$ssl = false;
-						}
-
-          			echo recaptcha_get_html(RECAPTCHA_PUBLIC_KEY,null,$ssl);
-
-				} ?>
+                    echo ' 
+                    <div class="g-recaptcha" data-sitekey="' . RECAPTCHA_PUBLIC_KEY . '"></div>
+                    ';
+                }
+				?>
 
 				<p><input type="button" id="sbmt" name="sbmt" value="Submit"></p>
-                <input type="hidden" name="user_initiated" value="true">
 				</form>
 
 			</div>
