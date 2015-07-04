@@ -176,8 +176,9 @@ $(document).ready(function () {
                                         if (aaData.length > 0) { //no need for footer if no data.
                                             var totalTime = 0;
                                             var colIndex = oTable.fnGetColumnIndex('Seconds');
-                                            for (var a=0 ; a<aaData.length ; a++) {
-                                                totalTime += parseFloat(aaData[a][colIndex]);
+                                            var filteredData = oTable.fnGetFilteredData();
+                                            for (var a=0 ; a<filteredData.length ; a++) {
+                                                totalTime += parseFloat(filteredData[a][colIndex]);
                                             }
                                             var nCells = nRow.getElementsByTagName('th');
 
