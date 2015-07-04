@@ -518,7 +518,7 @@ function reports_users_and_groups($dbh,$case_num)
 
 	else
 	{
-		$options .= "<option selected=selected value='" . $_SESSION['login'] . "'>You</option>";
+		$options .= "<option selected=selected value='" . $_SESSION['login'] . "'>&nbsp;&nbsp&nbsp;You&nbsp;&nbsp;&nbsp;</option>";
 	}
 
 	return $options;
