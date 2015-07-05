@@ -158,7 +158,7 @@ $(document).ready(function() {
                     $('tr.advanced, tr.advanced_2').css({'display': 'none'});
 
                     //Reset scroll height
-                    var defaultHeight = Math.round(0.85 * $('#content').height());
+                    var defaultHeight = Math.round(0.80 * $('#content').height());
                     $('.dataTables_scrollBody').height(defaultHeight);
 
                     //return to default active users filter
@@ -170,12 +170,6 @@ $(document).ready(function() {
                     $('.complex').children().css({'display': 'inline','margin-bottom': '0px'});
                     $('#date_created_range').css({'margin-top': '18px'});
                     $('thead tr.advanced').toggle('fast');
-                    //$('#second_open_cell, #second_close_cell').css({'visibility': 'hidden'});
-
-                    //Change height so that footer can be seen
-                    var cHeight = $('.dataTables_scrollBody').height();
-                    var rHeight = $('tr.advanced').height();
-                    $('.dataTables_scrollBody').height(cHeight - rHeight);
 
                     //Set the big filter to all users
                     oTable.fnFilter('', oTable.fnGetColumnIndex('Status'), true, false);
@@ -421,6 +415,8 @@ $(document).ready(function() {
 
             //this ensures that the range select doesn't go out of line
             $('.complex').css({'min-width': '160px'});
+            var defaultHeight = Math.round(0.82 * $('#content').height());
+            $('.dataTables_scrollBody').height(defaultHeight - $('.dataTables_scrollHead').height());
         }
     });
 });
