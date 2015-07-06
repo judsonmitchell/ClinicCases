@@ -1085,7 +1085,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Crimson Text', garamond, georgia, times, serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
@@ -1187,7 +1187,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Crimson Text', garamond, georgia, times, serif;
   font-weight: 500;
   line-height: 1.1;
   color: #317eac;
@@ -4324,7 +4324,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 1px 15px;
   font-size: 18px;
   line-height: 20px;
   height: 50px;

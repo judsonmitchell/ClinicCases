@@ -15,7 +15,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img class="img-responsive" src="html/images/logo_sm.png"></a>
+      <a class="navbar-brand" href="#"><img class="img-responsive" src="html/images/logo_sm45.png"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,38 +30,39 @@
                 You have been logged off due to 60 minutes inactivity. Please log in again.
 </div>
 
-<div id="notifications"></div>
+<div id="notifications" ></div>
 
 <div class="container">
 
         <div class="row">
-            <H3 style = "color:<?php echo CC_SCHOOL_COLOR; ?>"><?php echo CC_PROGRAM_NAME; ?></H3>
-        </div>
-        <div class="row" id="status"></div>
-
-        <form class="form-horizontal" name = "getin" id="getin">
-        <div class="control-group">
-            <label class="control-label" for="username">Username</label>
-            <div class="controls">
-                <input type="text" id = "username" name="username" value = "<?php if (isset($_COOKIE['cc_user'])){$cookie_value = $_COOKIE['cc_user'];echo $cookie_value;} ?>">
+            <div class="col-xs-12">
+            <H2 style = "color:<?php echo CC_SCHOOL_COLOR; ?>"><?php echo CC_PROGRAM_NAME; ?></H2>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="password">Password</label>
-            <div class="controls">
-            <input type="password" id = "password" name="password"></p>
+        <div class="row">
+            <div class="col-xs-12"   id="status" style="color:red">
+
             </div>
         </div>
-        <div class="control-group">
-            <div class="controls">
-                <label class="checkbox">
-                    <input type="checkbox" name="remember"  id="remember" value="remember"> Remember me
-                </label>
-                <button id="login_button">Go</button>
+        <div class="row">
+            <div class="col-xs-12">
+                <form  name = "getin" id="getin">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value = "<?php if (isset($_COOKIE['cc_user'])){$cookie_value = $_COOKIE['cc_user'];echo $cookie_value;} ?>">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password"></p>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember"  id="remember" value="remember"> Remember me
+                    </label>
+                </div>
+                <a href="#" class="btn btn-primary"  id="login_button">Go</a>
+                </form>
             </div>
         </div>
-
-    </form>
-
 </div>
 
