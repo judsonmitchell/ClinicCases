@@ -13,6 +13,7 @@
 
 	<link rel="stylesheet" href="html/css/bootstrap.css" type="text/css"  media="screen"/>
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <!--
 	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
     -->
