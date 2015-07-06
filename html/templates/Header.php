@@ -9,15 +9,22 @@
 	<meta name="robots" content="noindex">
 
     <?php if ($_SESSION['mobile']){ ?>
-    <meta name="viewport" content="width=device-width,initial-scale=.8, maximum-scale=1,target-densitydpi=device-dpi">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" href="html/css/bootstrap.css" type="text/css"  media="screen"/>
+    <!--
 	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
+    -->
+
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
+    <!--
 	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
+    -->
+
 	<script src="html/js/mobile.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
@@ -25,7 +32,7 @@
 	<script type="text/javascript" src="lib/javascripts/additional-methods.js"></script>
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>

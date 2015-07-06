@@ -5,23 +5,27 @@
 </head>
 
 <body  class="login">
-<div class="navbar navbar-fixed-top navbar-headnav">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar btn-push-down" data-toggle="collapse" data-target=".nav-collapse">
-                Menu
-                <i class="icon-chevron-down icon-white"></i>
-            </a>
-            <a class="brand" href="#"><img src="html/images/logo_sm.png"></a>
-            <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li><a href="https://cliniccases.com/help">Help</a>
-                    <li class="active"><a href="index.php?i=Login.php">Login</a>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-menu" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img class="img-responsive" src="html/images/logo_sm.png"></a>
     </div>
-</div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="collapse-menu">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://cliniccases.com/help">Help</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 <div id="idletimeout">
                 You have been logged off due to 60 minutes inactivity. Please log in again.
 </div>
