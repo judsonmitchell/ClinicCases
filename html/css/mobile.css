@@ -1,10 +1,4 @@
-@media (min-width: 1200px) { 
-            body {
-                padding-top: 120px;
-                padding-bottom: 40px;
-            }
-}
-a{font-size:1.2em}
+body { padding-top: 70px; }
 #idletimeout{display:none}
 #notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
 hr{border-bottom:1px solid #ddd}
@@ -12,8 +6,10 @@ hr{border-bottom:1px solid #ddd}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
 .dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
+/* 
 .btn-push-down{margin-top:25px !important}
 .btn-push-down-a-little{margin-top:4% !important}
+*/
 /* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
