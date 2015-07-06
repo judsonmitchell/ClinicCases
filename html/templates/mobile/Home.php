@@ -47,7 +47,7 @@
 
             foreach ($activities as $activity) {
                 echo "<div class='media'><div class='media-left media-top'><img class='img-circle media-object' src='" . $activity['thumb'] . "'></div><div class='media-body'> <h4 class='media-heading'>" . 
-                $activity['by'] . $activity['action_text'] . "<a style='font-size:1em' href='" .  $activity['mobile_url'] .
+                $activity['by'] . $activity['action_text'] . "<a class='home-header' href='" .  $activity['mobile_url'] .
                 "'>" . $activity['casename'] . "</a></h4><p>" . $activity['what'] .
                 "</p><p class='text-muted'>" . $activity['time_formatted'] . "</p></div></div>";
             }

@@ -1,6 +1,8 @@
 body { padding-top: 70px; }
-#idletimeout{display:none}
+#idletimeout{position:relative;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
 #notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
+a.home-header {color:inherit; text-decoration:underline}
+a.home-header:visited {color:inherit; text-decoration:underline}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
