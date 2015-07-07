@@ -34,10 +34,11 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12" id="notifications"></div> 
+        <h1>Home</h1>
     </div>
     <div class="row">
-        <div class="col-xs-12"> 
-        <h1>Home</h1>
+        <div class="col-sm-6"> 
+        <h3>Activities</h3>
         <?php include 'html/templates/interior/idletimeout.php' ?>
         <?php include 'lib/php/data/home_activities_load.php' ?>
             <?php if (empty($activities)) {
@@ -54,6 +55,9 @@
             ?>
 
             <p class="end">End of activities from the last sixty days</p>
+        </div>
+        <div class="col-sm-6"> 
+            <h3>Events</h3>
         </div>
     </div>
 </div>
