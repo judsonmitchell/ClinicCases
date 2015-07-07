@@ -146,10 +146,10 @@ $(document).ready(function() {
                     //generate the event detail window
                     $('div#event_detail_window')
                     .html('<a class="event_detail_close" href="#"><img src="html/ico/cross.png" border=0 title="Close">' +
-                    '</a><h3>" + event.shortTitle + "</h3><div id = "event_users_display"></div><hr /><p><label>Start:' +
-                    '</label> " + event.start + "</p><p><label>End: </label> " + event.end + "</p><p><label>All Day:</label>' +
+                    '</a><h3>' + event.shortTitle + '</h3><div id = "event_users_display"></div><hr /><p><label>Start:' +
+                    '</label> ' + event.start + '</p><p><label>End: </label> ' + event.end + '</p><p><label>All Day:</label>' +
                      event.allDay + '</p><p><label>Where: </label>' + event.where + '</p>' + route + '<p id =' +
-                     '"event_detail_desc"><label>Description: </label>" + event.description + "</p>"')
+                     '"event_detail_desc"><label>Description: </label>' + event.description + '</p>')
                     .dialog('open');
 
                     if (event.canDelete === true) {
@@ -172,13 +172,13 @@ $(document).ready(function() {
                             type: 'HEAD',
                             error: function() {
                                 thumbImg = 'people/tn_no_picture.png';
-                                var userThumb = '<img src="' + thumbImg + '" title="' + userData.full_name +
+                                var userThumb = '<img class="thumbnail-mask" src="' + thumbImg + '" title="' + userData.full_name +
                                 '" alt="' + userData.full_name + '">';
                                 $('div#event_users_display').append(userThumb);
                             },
                             success: function() {
                                 thumbImg = 'people/tn_' + userData.user_id + '.jpg';
-                                var userThumb = '<img src="' + thumbImg + '" title="' + userData.full_name + '" alt="' +
+                                var userThumb = '<img class="thumbnail-mask" src="' + thumbImg + '" title="' + userData.full_name + '" alt="' +
                                 userData.full_name + '">';
                                 $('div#event_users_display').append(userThumb);
                             }
