@@ -1,7 +1,6 @@
  //Scripts for Home page
 
 /* global notify, validQuickCaseNote, validEvent */
-
 $(document).ready(function() {
 
     //set header widget
@@ -20,6 +19,8 @@ $(document).ready(function() {
 
     //Add navigation actions
     var target = $('div#home_panel');
+
+
     var activitiesLoad = function(target) {
         target.load('lib/php/data/home_activities_load.php', function() {
 
@@ -83,9 +84,9 @@ $(document).ready(function() {
     };
 
     $('#activity_button').click(function() {
-
+        activitiesLoad(target);
         //Update activities stream periodically while it is being viewed
-        var activitiesRefresh = setInterval(function() {
+        window.activitiesRefresh = setInterval(function() {
             $.ajax({
                 url: 'lib/php/data/home_activities_load.php',
                 success: function(data) {
@@ -95,9 +96,8 @@ $(document).ready(function() {
                 },
                 dataType: 'html'
             });
-        }, 90000);
+        },90000);
 
-        activitiesLoad(target);
     });
 
     $('#upcoming_button').click(function() {
@@ -224,12 +224,6 @@ $(document).ready(function() {
             });
         });
 
-    });
-
-    $('#trends_button').click(function() {
-        clearInterval(window.activitiesRefresh);
-        target.html('<p>Trends is a new feature which shows you real-time stats about' +
-        'the work you and your group are doing.  Coming soon!</p>');
     });
 
     //Set default view - activities
