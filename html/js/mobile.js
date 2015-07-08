@@ -427,10 +427,14 @@ $(document).ready(function () {
         });
 
     //Initialize calendar
+    //NOTES TO JADY: you may have to do some hacking on this zabuto script rather than using the cdn
+    //the thing to get the <h3> to scroll into view is hacky, using non-unique IDs
+    //Also, may have to use something other than the native JS scrollIntoView for the scroll, possible
+    //jquery plugin
     $('#calendar').zabuto_calendar({
         ajax: {
             url: 'lib/php/data/home_events_load.php?summary=1',
-            modal: true
+            modal: false
         },
         action: function() {
             var target = this.id.substr(this.id.lastIndexOf('_') +1);
