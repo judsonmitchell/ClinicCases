@@ -415,4 +415,17 @@ $(document).ready(function () {
 
     });
 
+    //Home Nav
+    $('#home-nav-toggle input').change(function() {
+            if ($(this).attr('id') === 'option1'){
+                $('#upcoming').removeClass('visible-xs-block').addClass('hidden-xs');
+                $('#activities').removeClass('hidden-xs').addClass('visible-xs-block');
+            } else {
+                $('#activities').removeClass('visible-xs-block').addClass('hidden-xs');
+                $('#upcoming').removeClass('hidden-xs').addClass('visible-xs-block');
+            }
+        });
+        
+    //Initialize calendar
+    $('#calendar').zabuto_calendar();
 });

@@ -413,4 +413,5 @@ $(document).ready(function() {
         event.preventDefault();
         $('#event_detail_window').dialog('close');
     });
+
 });

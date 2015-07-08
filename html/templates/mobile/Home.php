@@ -36,8 +36,20 @@
         <div class="col-xs-12" id="notifications"></div> 
         <h1>Home</h1>
     </div>
+    <div class="visible-xs-block row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <div id="home-nav-toggle" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Activities
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Upcoming
+                </label>
+            </div>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-sm-6"> 
+        <div id="activities" class="col-sm-6"> 
         <h3>Activities</h3>
         <?php include 'html/templates/interior/idletimeout.php' ?>
         <?php include 'lib/php/data/home_activities_load.php' ?>
@@ -56,8 +68,9 @@
 
             <p class="end">End of activities from the last sixty days</p>
         </div>
-        <div class="col-sm-6"> 
+        <div id="upcoming" class="col-sm-6 hidden-xs"> 
             <h3>Events</h3>
+            <div id="calendar"></div>
         </div>
     </div>
 </div>
