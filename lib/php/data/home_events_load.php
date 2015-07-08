@@ -34,6 +34,10 @@ function get_responsibles($dbh,$event_id) //get names of all users on event
 
 $user = $_SESSION['login'];
 
+if (isset($_GET['summary'])){
+    $summary = true;
+}
+
 $get_events = $dbh->prepare("SELECT * from cm_events, cm_events_responsibles
 	WHERE cm_events_responsibles.username = :user
 	AND cm_events_responsibles.event_id = cm_events.id");
@@ -93,13 +97,20 @@ foreach ($events as $event)
 		{$delete = false;}
 
 	//generate the array
-	$events_data[] = array('id' => $event['event_id'],'title' => $title,
-	'shortTitle' => $event['task'],'start' => $event['start'],
-	'end' => $event['end'], 'allDay' => $all_day,
-	'description' => $event['notes'],'where' => $event['location'],
-	'backgroundColor' => $bg_color,'caseId' => $event['case_id'],
-	'caseName' => $case_name,'users' => $resps,'canDelete' => $delete,
-	'largeGroup' => $large_group);
+    if ($summary){
+        $summary_date = explode(' ', $event['start']);
+        $desc = $title . $event['notes'];
+        $events_data[] = array('date' => $summary_date[0], 'badge' => true, 'title' => $event['task'],'body' => $desc,'footer' =>'' ,'classname' =>'' ,'id' => $event['event_id']);
+
+    } else {
+        $events_data[] = array('id' => $event['event_id'],'title' => $title,
+        'shortTitle' => $event['task'],'start' => $event['start'],
+        'end' => $event['end'], 'allDay' => $all_day,
+        'description' => $event['notes'],'where' => $event['location'],
+        'backgroundColor' => $bg_color,'caseId' => $event['case_id'],
+        'caseName' => $case_name,'users' => $resps,'canDelete' => $delete,
+        'largeGroup' => $large_group);
+    }
 
 }
 

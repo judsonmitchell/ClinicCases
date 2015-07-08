@@ -392,7 +392,7 @@ $(document).ready(function () {
             var moreMsg = $(data).find('.msg_display > ul').html();
             $('.msg_display > ul').append(moreMsg);
         });
-        
+
     });
 
     //Handle board downloads
@@ -425,7 +425,40 @@ $(document).ready(function () {
                 $('#upcoming').removeClass('hidden-xs').addClass('visible-xs-block');
             }
         });
-        
+
     //Initialize calendar
-    $('#calendar').zabuto_calendar();
+    $('#calendar').zabuto_calendar({
+        ajax: {
+            url: 'lib/php/data/home_events_load.php?summary=1',
+            modal: true
+        },
+        action: function() {
+            var target = this.id.substr(this.id.lastIndexOf('_') +1);
+            $('#' + target)[0].scrollIntoView();
+        },
+        action_nav: function() {
+            console.log(this.id);
+        }
+    });
+
+    if ($('#upcoming_events_list').length > 0){
+        $.ajax({
+            url: 'lib/php/data/home_events_load.php',
+            dataType: 'json',
+            success: function (data) {
+                var display = '';
+                data.forEach(function(data){
+                    var d = data.start;
+                    var zabId = d.split(' ');
+                    display += '<h3 id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
+                    '<p>' + data.title + '</p>' +
+                    '<p>' + data.start + '</p>' +
+                    '<p>' + data.end + '</p>' +
+                    '<p>' + data.description +  '</p>';
+
+                });
+                $('#upcoming_events_list').html(display);
+            }
+        });
+    }
 });

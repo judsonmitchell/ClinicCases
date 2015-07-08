@@ -50,7 +50,7 @@
     </div>
     <div class="row">
         <div id="activities" class="col-sm-6"> 
-        <h3>Activities</h3>
+        <h3 class="hidden-xs">Activities</h3>
         <?php include 'html/templates/interior/idletimeout.php' ?>
         <?php include 'lib/php/data/home_activities_load.php' ?>
             <?php if (empty($activities)) {
@@ -69,8 +69,9 @@
             <p class="end">End of activities from the last sixty days</p>
         </div>
         <div id="upcoming" class="col-sm-6 hidden-xs"> 
-            <h3>Events</h3>
+            <h3 class="hidden-xs">Upcoming</h3>
             <div id="calendar"></div>
+            <div id="upcoming_events_list"></div>
         </div>
     </div>
 </div>

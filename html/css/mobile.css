@@ -3,6 +3,10 @@ body { padding-top: 70px; }
 #notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
 a.home-header {color:inherit; text-decoration:underline}
 a.home-header:visited {color:inherit; text-decoration:underline}
+#upcoming_events_list{
+    overflow:auto;
+    height:150px;
+}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
