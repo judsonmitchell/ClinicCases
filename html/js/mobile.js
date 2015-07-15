@@ -418,6 +418,7 @@ $(document).ready(function () {
     });
 
     //Home Nav
+    var calendarViewed = false;
     $('#home-nav-toggle input').change(function() {
             if ($(this).attr('id') === 'option1'){
                 $('#upcoming').removeClass('visible-xs-block').addClass('hidden-xs');
@@ -425,7 +426,10 @@ $(document).ready(function () {
             } else {
                 $('#activities').removeClass('visible-xs-block').addClass('hidden-xs');
                 $('#upcoming').removeClass('hidden-xs').addClass('visible-xs-block');
-                showEvent();
+                if (!calendarViewed){
+                    showEvent();
+                    calendarViewed = true;
+                }
             }
         });
 
