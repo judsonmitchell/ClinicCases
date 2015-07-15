@@ -23,6 +23,8 @@
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.scrollto/2.1.0/jquery.scrollTo.min.js"></script>
+
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
     <!--
 	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
