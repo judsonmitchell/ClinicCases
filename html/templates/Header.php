@@ -19,8 +19,7 @@
     -->
 
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
-    <link href="https://cdn.rawgit.com/zabuto/calendar/master/zabuto_calendar.min.css
-" rel="stylesheet">
+    <link href="lib/javascripts/zabuto-calendar/zabuto_calendar.css"  rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -37,7 +36,7 @@
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdn.rawgit.com/zabuto/calendar/master/zabuto_calendar.min.js"></script>
+    <script src="lib/javascripts/zabuto-calendar/zabuto_calendar.js"></script>
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>
