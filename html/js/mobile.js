@@ -1,3 +1,5 @@
+/* global unescape */
+
 //Get url parameters
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -423,17 +425,28 @@ $(document).ready(function () {
             } else {
                 $('#activities').removeClass('visible-xs-block').addClass('hidden-xs');
                 $('#upcoming').removeClass('hidden-xs').addClass('visible-xs-block');
+                showEvent();
             }
         });
 
     //Initialize calendar
-    //NOTES TO JADY: you may have to do some hacking on this zabuto script rather than using the cdn
-    //the thing to get the <h3> to scroll into view is hacky, using non-unique IDs
-    //Also, may have to use something other than the native JS scrollIntoView for the scroll, possible
-    //jquery plugin
 
     //function to pad month values with leading zero
     function pad(n){return n<10 ? '0'+n : n;}
+
+    function showEvent (monthSearch){
+        if (monthSearch === 'undefined'){
+            var curDate  = new Date();
+            monthSearch = curDate.getFullYear() + '-' + pad(curDate.getMonth() + 1);
+        }
+
+        if ($('[id^=' + monthSearch + ']').length > 0){ //if there are any events this month
+            $('#upcoming_events_list').stop(true).scrollTo('#' + $('[id^=' + monthSearch + ']')[0].id, {duration:0, interrupt:true});
+        } else {
+            $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
+        }
+    }
+
     $('#calendar').zabuto_calendar({
         ajax: {
             url: 'lib/php/data/home_events_load.php?summary=1',
@@ -444,17 +457,8 @@ $(document).ready(function () {
             $('#upcoming_events_list').stop(true).scrollTo('#' + target, {duration:1000, interrupt:true});
         },
         action_nav: function() {
-            //month/year search string
-            var monthSearch = $('#' + this.id).data('to').year + '-' +  pad($('#' + this.id).data('to').month);
-            console.log($('[id^=' + monthSearch + ']'));
-            if ($('[id^=' + monthSearch + ']').length > 0){ //if there are any events this month
-                $('#upcoming_events_list').stop(true).scrollTo('#' + $('[id^=' + monthSearch + ']')[0].id, {duration:1000, interrupt:true});
-                console.log('yes');
-                console.log($('[id^=' + monthSearch + ']')[0]);
-            } else {
-                $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
-                console.log('no');
-            }
+            //find events for current month in the events list
+            showEvent($('#' + this.id).data('to').year + '-' +  pad($('#' + this.id).data('to').month));
         }
     });
 
@@ -477,13 +481,7 @@ $(document).ready(function () {
                 $('#upcoming_events_list').html(display)
                 .append('<h3 id="fail">No events this month</h3><div style="height:400px"></div>');
                 //Look for any events in current month
-                var curDate  = new Date();
-                var monthSearch = curDate.getFullYear() + '-' + pad(curDate.getMonth() + 1);
-                if ($('[id^=' + monthSearch + ']').length > 0){ //if there are any events this month
-                    $('#upcoming_events_list').stop(true).scrollTo('#' + $('[id^=' + monthSearch + ']')[0].id, {duration:0, interrupt:true});
-                } else {
-                    $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
-                }
+                showEvent();
             }
         });
     }
