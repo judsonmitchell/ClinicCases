@@ -39,6 +39,7 @@
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="lib/javascripts/zabuto-calendar/zabuto_calendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>

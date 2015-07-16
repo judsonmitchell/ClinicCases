@@ -1,4 +1,4 @@
-/* global unescape */
+/* global unescape, moment */
 
 //Get url parameters
 function getParameterByName(name) {
@@ -446,12 +446,21 @@ $(document).ready(function () {
 
         if ($('[id^=' + monthSearch + ']').length > 0){ //if there are any events this month
             $('#upcoming_events_list').stop(true).scrollTo('#' + $('[id^=' + monthSearch + ']')[0].id, {duration:0, interrupt:true});
+            if($('[id^=' + monthSearch + ']').closest('a').hasClass('noncase-event')){
+                $('[id^=' + monthSearch + ']').closest('a').addClass('cal-noncase-event');
+            } else {
+                $('[id^=' + monthSearch + ']').closest('a').addClass('cal-case-event');
+            }
         } else {
             $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
         }
     }
 
     $('#calendar').zabuto_calendar({
+        legend: [
+            {type: 'block', label: 'Case Event', classname: 'cal-case-event'},
+            {type: 'block', label: 'Non-case Event', classname: 'cal-noncase-event'}
+        ],
         ajax: {
             url: 'lib/php/data/home_events_load.php?summary=1',
             modal: false
@@ -459,6 +468,13 @@ $(document).ready(function () {
         action: function() {
             var target = this.id.substr(this.id.lastIndexOf('_') +1);
             $('#upcoming_events_list').stop(true).scrollTo('#' + target, {duration:1000, interrupt:true});
+            $('.list-group-item').removeClass('cal-noncase-event cal-case-event');
+            //$('#' + target).closest('a').addClass('active');
+            if ($('#' + target).closest('a').hasClass('noncase-event')){
+                $('#' + target).closest('a').addClass('cal-noncase-event');
+            } else {
+                $('#' + target).closest('a').addClass('cal-case-event');
+            }
         },
         action_nav: function() {
             //find events for current month in the events list
@@ -471,17 +487,36 @@ $(document).ready(function () {
             url: 'lib/php/data/home_events_load.php',
             dataType: 'json',
             success: function (data) {
-                var display = '';
+                var display = '<div class="list-group">';
+                var startTime, endTime, bgType;
                 data.forEach(function(data){
+                    //Create (non-unique, I'm afraid) id for date
                     var d = data.start;
                     var zabId = d.split(' ');
-                    display += '<h3 id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
-                    '<p>' + data.title + '</p>' +
-                    '<p>' + data.start + '</p>' +
-                    '<p>' + data.end + '</p>' +
-                    '<p>' + data.description +  '</p>';
+                    //Format times
+                    if (data.allDay){
+                        startTime = moment(data.start).format('MMMM Do YYYY');
+                        endTime = moment(data.end).format('MMMM Do YYYY');
+                    } else {
+                        startTime = moment(data.start).format('MMMM Do YYYY, h:mm a');
+                        endTime = moment(data.end).format('MMMM Do YYYY, h:mm a');
+                    }
+                    //Bgcolor based on case/non-case
+                    if (data.caseId === 'NC'){
+                        bgType = 'noncase-event';
+                    } else {
+                        bgType = 'case-event';
+                    }
+                    display += '  <a href="#" class="list-group-item ' + bgType + '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
+                    '<dl class="dl-horizontal">' +
+                    '<dt class="list-group-item-text">Start:</dt><dd> ' + startTime + '</dd>' +
+                    '<dt class="list-group-item-text">End:</dt><dd> ' + endTime + '</dd>' +
+                    '<dt class="list-group-item-text">Where:</dt><dd> ' + data.where +  '</dd>' +
+                    '<dt class="list-group-item-text">Case: </dt><dd> ' + data.caseName +  '</dd></dl>' +
+                    '<p class="list-group-item-text text-center">' + data.description +  '</p></a>';
 
                 });
+                display += '</div>';
                 $('#upcoming_events_list').html(display)
                 .append('<h3 id="fail">No events this month</h3><div style="height:400px"></div>');
                 //Look for any events in current month

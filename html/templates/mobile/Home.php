@@ -34,7 +34,6 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12" id="notifications"></div> 
-        <h1>Home</h1>
     </div>
     <div class="visible-xs-block row">
         <div class="col-xs-8 col-xs-offset-2">

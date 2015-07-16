@@ -100,7 +100,12 @@ foreach ($events as $event)
     if ($summary){
         $summary_date = explode(' ', $event['start']);
         $desc = $title . $event['notes'];
-        $events_data[] = array('date' => $summary_date[0], 'badge' => true, 'title' => $event['task'],'body' => $desc,'footer' =>'' ,'classname' =>'' ,'id' => $event['event_id']);
+        if ($event['case_id'] == 'NC') {
+            $classname = 'cal-noncase-event';
+        } else {
+            $classname = 'cal-case-event';
+        }
+        $events_data[] = array('date' => $summary_date[0], 'badge' => false, 'title' => $event['task'],'body' => $desc,'footer' =>'' ,'classname' => $classname,'id' => $event['event_id']);
 
     } else {
         $events_data[] = array('id' => $event['event_id'],'title' => $title,
