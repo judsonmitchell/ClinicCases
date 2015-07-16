@@ -14,22 +14,14 @@
 	<link rel="stylesheet" href="html/css/bootstrap.css" type="text/css"  media="screen"/>
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <!--
-	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
-    -->
-
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
     <link href="lib/javascripts/zabuto-calendar/zabuto_calendar.css"  rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.scrollto/2.1.0/jquery.scrollTo.min.js"></script>
-
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
-    <!--
-	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
-    -->
-
 	<script src="html/js/mobile.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>

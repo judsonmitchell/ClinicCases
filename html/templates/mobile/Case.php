@@ -49,9 +49,9 @@ include 'lib/php/data/cases_events_load.php';
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <ul class="nav nav-tabs" role="tablist"j id="myTab">
-                <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="case notes" href="#caseNotes">Case Notes</a></li>
-                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="case data"href="#caseData">Case Data</a></li>
+            <ul class="nav nav-tabs nav-tabs-responsive" role="tablist" id="myTab">
+                <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="case notes" href="#caseNotes"><span class="text">Case Notes</span></a></li>
+                <li role="presentation" class="next"><a role="tab" data-toggle="tab" aria-controls="case data"href="#caseData"><span class="text">Case Data</a></li>
                 <!--
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
@@ -62,9 +62,9 @@ include 'lib/php/data/cases_events_load.php';
                     </ul>
                 </li>
                 -->
-                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="documents" href="#caseDocs">Documents</a></li>
-                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="contacts" href="#caseContacts">Contacts</a></li>
-                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="events" href="#caseEvents">Events</a></li>
+                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="documents" href="#caseDocs"><span class="text">Documents</span></a></li>
+                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="contacts" href="#caseContacts"><span class="text">Contacts</span></a></li>
+                <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="events" href="#caseEvents"><span class="text">Events</span></a></li>
             </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="caseNotes">

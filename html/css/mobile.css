@@ -17,10 +17,6 @@ hr{border-bottom:1px solid #ddd}
 .dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
 .dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
-/* 
-.btn-push-down{margin-top:25px !important}
-.btn-push-down-a-little{margin-top:4% !important}
-*/
 /* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
@@ -41,3 +37,93 @@ dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bo
 .board-item{min-height:180px;padding:0px 5px 5px 5px;margin-bottom:20px;border:1px solid #ddd; -moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
 .board-item h3>img {vertical-align:text-top;margin-right:5px}
 .board-item a {word-wrap:break-word}
+
+/* Case */
+
+/**
+ * Responsive Bootstrap Tabs by @hayatbiralem
+ * 15 May 2015
+ */
+@media screen and (max-width: 479px) {
+  .nav-tabs-responsive > li {
+    display: none;
+    width: 23%;
+  }
+  .nav-tabs-responsive > li > a {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: top;
+  }
+  .nav-tabs-responsive > li.active {
+    width: 54%;
+  }
+  .nav-tabs-responsive > li.active:first-child {
+    margin-left: 23%;
+  }
+  .nav-tabs-responsive > li.active, .nav-tabs-responsive > li.prev, .nav-tabs-responsive > li.next {
+    display: block;
+  }
+  .nav-tabs-responsive > li.prev, .nav-tabs-responsive > li.next {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  .nav-tabs-responsive > li.next > a, .nav-tabs-responsive > li.prev > a {
+    -webkit-transition: none;
+    transition: none;
+  }
+  .nav-tabs-responsive > li.next > a .text, .nav-tabs-responsive > li.prev > a .text {
+    display: none;
+  }
+  .nav-tabs-responsive > li.next > a:after, .nav-tabs-responsive > li.next > a:after, .nav-tabs-responsive > li.prev > a:after, .nav-tabs-responsive > li.prev > a:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .nav-tabs-responsive > li.prev > a:after {
+    content: "\f053";
+  }
+  .nav-tabs-responsive > li.next > a:after {
+    content: "\f054";
+  }
+  .nav-tabs-responsive > li.dropdown > a > .caret {
+    display: none;
+  }
+  .nav-tabs-responsive > li.dropdown > a:after {
+    content: "\e114";
+  }
+  .nav-tabs-responsive > li.dropdown.active > a:after {
+    display: none;
+  }
+  .nav-tabs-responsive > li.dropdown.active > a > .caret {
+    display: inline-block;
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-left {
+    left: 0;
+    right: auto;
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-center {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-right {
+    left: auto;
+    right: 0;
+  }
+}
