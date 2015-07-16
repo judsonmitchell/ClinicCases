@@ -439,6 +439,7 @@ $(document).ready(function () {
     function pad(n){return n<10 ? '0'+n : n;}
 
     function showEvent (monthSearch){
+        $('#fail').hide();
         if (monthSearch === 'undefined'){
             var curDate  = new Date();
             monthSearch = curDate.getFullYear() + '-' + pad(curDate.getMonth() + 1);
@@ -452,6 +453,7 @@ $(document).ready(function () {
                 $('[id^=' + monthSearch + ']').closest('a').addClass('cal-case-event');
             }
         } else {
+            $('#fail').show();
             $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
         }
     }
@@ -469,7 +471,6 @@ $(document).ready(function () {
             var target = this.id.substr(this.id.lastIndexOf('_') +1);
             $('#upcoming_events_list').stop(true).scrollTo('#' + target, {duration:1000, interrupt:true});
             $('.list-group-item').removeClass('cal-noncase-event cal-case-event');
-            //$('#' + target).closest('a').addClass('active');
             if ($('#' + target).closest('a').hasClass('noncase-event')){
                 $('#' + target).closest('a').addClass('cal-noncase-event');
             } else {
@@ -507,7 +508,8 @@ $(document).ready(function () {
                     } else {
                         bgType = 'case-event';
                     }
-                    display += '  <a href="#" class="list-group-item ' + bgType + '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
+                    display += '  <a href="#" class="list-group-item list-group-item-cal ' + bgType +
+                    '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
                     '<dl class="dl-horizontal">' +
                     '<dt class="list-group-item-text">Start:</dt><dd> ' + startTime + '</dd>' +
                     '<dt class="list-group-item-text">End:</dt><dd> ' + endTime + '</dd>' +
