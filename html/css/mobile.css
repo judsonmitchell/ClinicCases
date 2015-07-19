@@ -14,9 +14,14 @@ a.home-header:visited {color:inherit; text-decoration:underline}
 .list-group-item-cal{min-height:170px;}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
-.dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
-.dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
+.list-group-item-less-border {
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #dddddd;
+    border-left: 0px;
+    margin-bottom:0px;
+}
 /* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
@@ -40,6 +45,9 @@ dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bo
 
 /* Case */
 
+.tab-pane{padding-top: 20px}
+dt.no-bold {font-weight:normal}
+dd.bold {font-weight:bold}
 /**
  * Responsive Bootstrap Tabs by @hayatbiralem
  * 15 May 2015

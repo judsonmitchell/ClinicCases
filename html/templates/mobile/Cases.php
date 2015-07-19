@@ -67,9 +67,9 @@ include 'lib/php/data/cases_load.php';
             echo "<ul class=\"list-group\">";
                 foreach ($raw_results as $r) {extract($r);
                     if ($date_close !== ''){
-                        echo "<li class='list-group-item table-case-item table-case-closed'>";
+                        echo "<li class='list-group-item list-group-item-less-border table-case-item table-case-closed'>";
                     } else {
-                        echo "<li class='list-group-item table-case-item table-case-open'>";
+                        echo "<li class='list-group-item list-group-item-less-border table-case-item table-case-open'>";
                     }
                     echo "<a href='index.php?i=Case.php&id=$id'>" .  case_id_to_casename($dbh,$id) . 
                     "<i class=\"pull-right fa fa-chevron-right\"></i></a></li>";

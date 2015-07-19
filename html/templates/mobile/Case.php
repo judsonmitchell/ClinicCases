@@ -52,23 +52,12 @@ include 'lib/php/data/cases_events_load.php';
             <ul class="nav nav-tabs nav-tabs-responsive" role="tablist" id="myTab">
                 <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="case notes" href="#caseNotes"><span class="text">Case Notes</span></a></li>
                 <li role="presentation" class="next"><a role="tab" data-toggle="tab" aria-controls="case data"href="#caseData"><span class="text">Case Data</a></li>
-                <!--
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="multi-level" href="#caseDocs" data-toggle="tab">Documents</a></li>
-                        <li><a href="#caseContacts" data-toggle="tab">Contacts</a></li>
-                        <li><a href="#caseEvents" data-toggle="tab">Events</a></li>
-                    </ul>
-                </li>
-                -->
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="documents" href="#caseDocs"><span class="text">Documents</span></a></li>
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="contacts" href="#caseContacts"><span class="text">Contacts</span></a></li>
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="events" href="#caseEvents"><span class="text">Events</span></a></li>
             </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="caseNotes">
-                <dl class="dl-sectioned">
                 <?php 
                     if (empty($case_notes_data)){
                         echo "No case notes found";
@@ -77,20 +66,19 @@ include 'lib/php/data/cases_events_load.php';
                         $thumb = thumbify($picture_url);
                         $date_human = extract_date($date);
                         $tc = convert_case_time($time);
-                        echo "<dd><img class='img-rounded' src='$thumb' />$first_name $last_name <span class='pull-right'> $date_human </span></dd>
-                        <dt>" . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></dt> ";
+                        echo "<div class='media'><div class='media-left media-top'><img class='media-object img-circle' src='$thumb' /></div><div class='media-body'><h4 class='media-heading'>$first_name $last_name <span class='pull-right'> $date_human </span></h4>
+                        " . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></div></div> ";
                     }
                 }
                 ?>
-                </dl>
             </div>
             <div role="tabpanel" class="tab-pane" id="caseData">
-                <dl class="mobile-list">
+                <dl>
                 <?php foreach ($dta as $d) {extract($d);
 
                     if ($input_type == 'dual') //special handling for dual inputs
                         { ?>
-                            <dt class="muted"><?php echo $display_name; ?></dt>
+                            <dt><?php echo $display_name; ?></dt>
                                 <dd>
                                 <?php if (!empty($value)){$duals = unserialize($value);
 
@@ -106,12 +94,12 @@ include 'lib/php/data/cases_events_load.php';
 
                                     }?>
 
-                                <?php } else { echo "<br />";} ?>
+                                <?php } else { echo "-";} ?>
                                 </dd>
 
                     <?php } else { ?>
 
-                        <dt class="muted"><?php echo $display_name; ?></dt>
+                        <dt><?php echo $display_name; ?></dt>
                         <dd>
                             <?php
                             //first check if this is a serialized value
@@ -132,7 +120,7 @@ include 'lib/php/data/cases_events_load.php';
                                     echo $value;
                                 }
                             } else {
-                                echo "<br />";
+                                echo "-";
                             }
                                 ?>
                         </dd>
@@ -210,20 +198,20 @@ include 'lib/php/data/cases_events_load.php';
             </div>
             <div role="tabpanel" class="tab-pane" id="caseDocs">
                 <div class="doc-list">
-                    <ul class="unstyled">
+                    <ul class="list-unstyled">
                     <?php if (empty($folders) && empty($documents)){
                         echo "No documents found"; 
                     } else {
                         foreach ($folders as $f){
-                            $ref = "index.php?i=Case.php&tabsection=caseDocs&id=" . $case_id . 
+                            $ref = "index.php?i=Case.php&id=" . $case_id . 
                             "&path=" . $f['folder'] . "&container=" . $f['folder'];
-                            echo "<li class='mobile-doc-list'><a href='$ref'><img src='html/ico/folder.png'>"
+                            echo "<li class='mobile-doc-list'><a href='$ref#caseDocs'><img src='html/ico/folder.png'>"
                             . urldecode($f['folder']) . "</a></li>";
                         }
                     } 
                     ?>
                     </ul>
-                    <ul class="unstyled">
+                    <ul class="list-unstyled">
                     <?php foreach ($documents as $d){
                         echo "<li class='mobile-doc-list'><a class='doc-item'  data-id='" . $d['id'] . "' data-ext='" . $d['extension'] ."'  href='#'><img src='" . get_icon($d['type']). "'>" . urldecode($d['name']) . "</a></li>";
                     } ?>

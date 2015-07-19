@@ -39,21 +39,26 @@ function getParameterByName(name) {
 })(jQuery);
 
 $(document).ready(function () {
-    //Select correct subtab based on url
-    var tab = getParameterByName('tabsection');
-
-    if (tab.length) {
-        $('#myTab a[href="#' + tab + '"]').tab('show');
-    } else {
-        $('#myTab a.default-tab').tab('show');
+    // show active tab on reload
+    if (location.hash !== '') {
+        $('a[href="' + location.hash + '"]').tab('show');
     }
 
-    //Adds tabsection to url for tab-panes which will have
-    //multiple levels; preserves navigation by back button
-    $('#myTab a.multi-level').click(function () {
-        var current = document.location.search;
-        var addTab = $(this).attr('href').substring(1);
-        document.location.search = current + '&tabsection=' + addTab;
+    // remember the hash in the URL without jumping
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        if(history.pushState) {
+            history.pushState(null, null, '#'+$(e.target).attr('href').substr(1));
+        } else {
+            location.hash = '#'+$(e.target).attr('href').substr(1);
+        }
+    });
+
+    //Documents have multiple levels, so user will expect to go to root when clicking
+    //documents tab if they have nagivated down folders
+    $('a[href="#caseDocs"]').click(function (e){
+        if (location.search.indexOf('path') !== -1){
+            location.search = '?i=Case.php&id=' + getParameterByName('id');
+        }
     });
 
     //Display cases based on open/closed status
@@ -105,7 +110,7 @@ $(document).ready(function () {
             function (data) {
                 var serverResponse = $.parseJSON(data);
                 var hideList;
-                var ccdItem = '<a class="ccd-clear btn" href="#"><i class="icon-chevron-left"></i> Back</a><h2>' +
+                var ccdItem = '<a class="btn btn-primary btn-sm ccd-clear btn" href="#"><span class="fa fa-chevron-left"></span> Back</a><h2>' +
                 unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
                 if ($('.doc-list').length) {
                     hideList = $('.doc-list').detach();
