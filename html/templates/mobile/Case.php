@@ -44,6 +44,11 @@ include 'lib/php/data/cases_events_load.php';
     <div class="row" id="notifications"></div>
     <div class="row">
         <div class="col-xs-12">
+            <a href="index.php?i=Cases.php" class="btn btn-primary btn-sm"><span class="fa fa-chevron-left"></span> Cases</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
             <h3><?php echo case_id_to_casename($dbh,$id); ?></h3>
         </div>
     </div>
@@ -73,7 +78,7 @@ include 'lib/php/data/cases_events_load.php';
                 ?>
             </div>
             <div role="tabpanel" class="tab-pane" id="caseData">
-                <dl>
+                <dl class="dl-horizontal">
                 <?php foreach ($dta as $d) {extract($d);
 
                     if ($input_type == 'dual') //special handling for dual inputs
@@ -131,13 +136,17 @@ include 'lib/php/data/cases_events_load.php';
             </div>
 
             <div role="tabpanel" class="tab-pane" id="caseContacts">
-                <ul class="unstyled">
+                <ul class="list-group">
                 <?php 
                 if (empty($contacts)){
-                    echo "No contacts found.";
+                    echo "<li style='list-style:none'>No contacts found.</li>";
                 } else {
                     foreach ($contacts as $c) {extract($c); ?>
-                        <li class="li-expand"><a href="#">
+                        <li style="list-style:none"> 
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="panel-info">
+                                    <h4>
                         <?php 
                             if ($first_name === '' && $last_name === ''){
                                     echo $organization;
@@ -145,8 +154,8 @@ include 'lib/php/data/cases_events_load.php';
                                     echo $first_name . " " . $last_name;
                                 }
                             ?>
-                            </a>
-                            <ul class="unstyled">
+                            </h4>
+                            <ul>
                                 <?php foreach (array_filter($c) as $key => $value) {
                                     if (in_array($key,array('id','assoc_case','first_name','last_name'))) { //srip unnecessary elements
                                         continue;
@@ -156,41 +165,52 @@ include 'lib/php/data/cases_events_load.php';
                                         foreach ($v as $k => $vl) {
                                             if (!empty($vl)){
                                                     if ($key === 'phone'){
-                                                            echo "Phone: <a href='tel:$vl'>$vl</a> ($k)<br /> "; 
+                                                            echo "<li><span class='text-muted'>Phone:</span> <a href='tel:$vl'>$vl</a> ($k)</li> "; 
                                                     } else if ($key === 'email'){
-                                                            echo "Email <a href='mailto:$vl'>$vl</a> ($k)<br /> "; 
+                                                            echo "<li><span class='text-muted'>Phone:</span> Email <a href='mailto:$vl'>$vl</a> ($k)</li> "; 
                                                     } else {
-                                                            echo "$v ($k) ";
+                                                            echo "<li><li><span class='text-muted'>Phone:</span> $v</span> ($k)</li> ";
                                                     }
                                             }
                                         }
                                         } else {
-                                            echo "<li>" . ucwords(str_replace('_', ' ',$key)) . ": $value </li>";
+                                            echo "<li><span class='text-muted'>" . ucwords(str_replace('_', ' ',$key)) . ":</span> $value </li>";
                                         }
                                     }
                                 }
                                 ?>
                             </ul>
+                                </div>
+                            </div>
+                        </div>
                     <?php }
                 }
                 ?>
+                    </li>
                 </ul>
             </div>
             <div role="tabpanel" class="tab-pane" id="caseEvents">
-                <ul class="unstyled">
+                <ul class="list-group">
                 <?php 
                 if (empty($events)){
-                    echo "No events found";
+                    echo '<li style="list-style:none">No events found</li>';
                 } else {
                 foreach ($events as $e) {extract($e); ?>
-                    <li class="li-expand"><a href="#"><?php echo extract_date($start) . "</a> " .  $task; ?>
-                        <ul>
-                            <li>Start: <?php echo $e['start_text']; ?>  </li>
-                            <li>End: <?php echo $e['end_text']; ?>  </li>
-                            <li>All Day: <?php if($e['all_day'] === '1'){echo "Yes";}else{echo "No";} ?>  </li>
-                            <li>Where: <?php echo $e['location']; ?>  </li>
-                            <li>Notes: <?php echo nl2br($e['notes']); ?>  </li>
-                        </ul>
+                    <li style="list-style:none">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="panel-info">
+                                    <h4><?php echo $task . ' - '; echo extract_date($start); ?></h4>
+                                    <ul class="unstyled">
+                                        <li><span class="text-muted">Start:</span> <?php echo $e['start_text']; ?>  </li>
+                                        <li><span class="text-muted">End: </span><?php echo $e['end_text']; ?>  </li>
+                                        <li><span class="text-muted">All Day: </span><?php if($e['all_day'] === '1'){echo "Yes";}else{echo "No";} ?>  </li>
+                                        <li><span class="text-muted">Where: </span><?php echo $e['location']; ?>  </li>
+                                        <li><span class="text-muted">Notes: </span><?php echo nl2br($e['notes']); ?>  </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 <?php }
                 } ?>
