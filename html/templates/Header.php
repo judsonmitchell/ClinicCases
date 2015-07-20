@@ -16,6 +16,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
     <link href="lib/javascripts/zabuto-calendar/zabuto_calendar.css"  rel="stylesheet">
+    <link href="lib/javascripts/bootstrap-datepicker/bootstrap-datepicker3.min.css"  rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
 
@@ -32,6 +33,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="lib/javascripts/zabuto-calendar/zabuto_calendar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>

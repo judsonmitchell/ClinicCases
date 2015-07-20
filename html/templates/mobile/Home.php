@@ -10,10 +10,10 @@
             <i class="fa fa-chevron-down"></i>
             <span class="sr-only">Toggle navigation</span>
         </button>
-        <button class="btn btn-info navbar-btn btn-sm navbar-toggle collapsed" href="index.php?i=QuickAdd.php">
+        <a class="btn btn-info navbar-btn btn-sm navbar-toggle collapsed" href="index.php?i=QuickAdd.php">
             Quick Add
             <i class="fa fa-plus"></i>
-        </button>
+        </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

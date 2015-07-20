@@ -18,10 +18,10 @@ include 'lib/php/data/cases_events_load.php';
             <i class="fa fa-chevron-down"></i>
             <span class="sr-only">Toggle navigation</span>
         </button>
-        <button class="btn btn-info navbar-btn btn-sm navbar-toggle collapsed" href="index.php?i=QuickAdd.php">
+        <a class="btn btn-info navbar-btn btn-sm navbar-toggle collapsed" href="index.php?i=QuickAdd.php">
             Quick Add
             <i class="fa fa-plus"></i>
-        </button>
+        </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,7 +56,7 @@ include 'lib/php/data/cases_events_load.php';
         <div class="col-xs-12">
             <ul class="nav nav-tabs nav-tabs-responsive" role="tablist" id="myTab">
                 <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="case notes" href="#caseNotes"><span class="text">Case Notes</span></a></li>
-                <li role="presentation" class="next"><a role="tab" data-toggle="tab" aria-controls="case data"href="#caseData"><span class="text">Case Data</a></li>
+                <li role="presentation" class="next"><a role="tab" data-toggle="tab" aria-controls="case data" href="#caseData"><span class="text">Case Data</span></a></li>
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="documents" href="#caseDocs"><span class="text">Documents</span></a></li>
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="contacts" href="#caseContacts"><span class="text">Contacts</span></a></li>
                 <li role="presentation"><a role="tab" data-toggle="tab" aria-controls="events" href="#caseEvents"><span class="text">Events</span></a></li>

@@ -135,3 +135,15 @@ dd.bold {font-weight:bold}
     right: 0;
   }
 }
+
+/* This is to stop mobile Safari from zooming on input.
+See: http://stackoverflow.com/a/16255670/49359
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
+    background: #eee;
+  }
+}
