@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
     <link href="lib/javascripts/zabuto-calendar/zabuto_calendar.css"  rel="stylesheet">
     <link href="lib/javascripts/bootstrap-datepicker/bootstrap-datepicker3.min.css"  rel="stylesheet">
+    <link href="lib/javascripts/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css"  rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
 

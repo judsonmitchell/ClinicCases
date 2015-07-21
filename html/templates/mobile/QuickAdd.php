@@ -71,7 +71,7 @@ include_once('lib/php/utilities/states.php');
                             <label class="control-label" for "cn_date">Date:</label>
                             <div class="input-group">
                                 <input type="text" class="date-picker form-control" data-date-format="mm/dd/yy"
-                            data-date="<?php echo date('m/d/y'); ?>" value="<?php echo date('m/d/y'); ?>" name="cn_date" placeholder="MM/DD/YY" />
+                            data-date="<?php echo date('m/d/y'); ?>" value="<?php echo date('m/d/y'); ?>" name="cn_date" id="cn_date" placeholder="MM/DD/YY" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -99,26 +99,96 @@ include_once('lib/php/utilities/states.php');
                 <div role="tabpanel" class="tab-pane" id="qaEvent">
                     <?php if ($_SESSION['permissions']['add_events'] === '1'){ ?>
                     <form name = "quick_event">
-                        <p><label>What: </label><input type="text" name="task" class="required"></p>
-                        <p><label>Where: </label><input type="text" name="where"></p>
-                        <p><label>Start: </label> <?php echo gen_mobile_datepicker(true); ?> </p>
-                        <p><label>End: </label><?php echo gen_mobile_datepicker(true); ?></p>
-                        <p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
-                        <p><label>Case: </label>
-                            <select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
+                        <div class="form-group">
+                            <label class="control-label" for "task">What: </label>
+                            <input type="text" name="task" id="task" class="form-control required">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for "where">Where: </label>
+                            <input type="text" name="where" id="where" class="form-control required">
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label class="control-label" for "c_start">Start Date:</label>
+                            <div class="input-group">
+                                <input type="text" class="date-picker form-control" data-date-format="mm/dd/yy"
+                            data-date="<?php echo date('m/d/y'); ?>" value="<?php echo date('m/d/y'); ?>" name="c_start" id="c_start" placeholder="MM/DD/YY" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Start Time:</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control hour-chooser" name="ce_hours" value="9">
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
+                                </div>
+                                <div class="col-xs-4">
+                                    <select class="form-control ampm-chooser" name="c_ampm">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label class="control-label" for "c_end">End Date:</label>
+                            <div class="input-group">
+                                <input type="text" class="date-picker form-control" data-date-format="mm/dd/yy"
+                            data-date="<?php echo date('m/d/y'); ?>" value="<?php echo date('m/d/y'); ?>" name="c_end" id="c_end" placeholder="MM/DD/YY" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <label>End Time:</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control hour-chooser" name="c_hours" value="10">
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
+                                </div>
+                                <div class="col-xs-4">
+                                    <select class="form-control ampm-chooser" name="c_ampm">
+                                        <option value="AM">AM</option>
+                                        <option vPlue="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="all_day" value="off"> All Day?
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Case: </label>
+                            <select id="ev_case" class="form-control" data-placeholder="Select a Case" name="case_id">
                                 <option selected=selected value="NC">Non-Case</option>
                                 <?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
                                 echo $options;?>
                             </select>
-                        </p>
-                        <p><label>Who Sees This?</label>
-                            <select multiple id="ev_users" style="width:33px;" data-placeholder="Select Users" name="responsibles" class="required">
-                                <?php echo all_active_users_and_groups($dbh,false,$_SESSION['login']); ?>
-                            </select>
-                        </p>
-                        <p><label>Notes</label>
-                            <textarea name="notes"></textarea>
-                        </p>
+                        </div>
+                        <div class="form-group">
+                            <label>Who Sees This?</label>
+                                <select multiple id="ev_users" class="form-control"  data-placeholder="Select Users" name="responsibles" class="required">
+                                    <?php echo all_active_users_and_groups($dbh,false,$_SESSION['login']); ?>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea class="form-control" name="notes" rows="4"></textarea>
+                        </div>
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="start">
                         <input type="hidden" name="end">
@@ -202,6 +272,23 @@ include_once('lib/php/utilities/states.php');
             decimals: 0 ,
             boostat: 5,
             maxboostedstep: 10
+        });
+        $('input.hour-chooser').TouchSpin({
+            min: 0,
+            max: 12,
+            step: 1,
+            verticalbuttons: true,
+            verticalupclass: 'glyphicon glyphicon-plus',
+            verticaldownclass: 'glyphicon glyphicon-minus'
+        });
+        $("input.minute-chooser").TouchSpin({
+            min: 00,
+            max: 60,
+            step: 5,
+            verticalbuttons: true,
+            verticalbuttons: true,
+            verticalupclass: 'glyphicon glyphicon-plus',
+            verticaldownclass: 'glyphicon glyphicon-minus'
         });
     </script>
 </body>

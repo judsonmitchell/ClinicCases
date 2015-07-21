@@ -137,7 +137,9 @@ $(document).ready(function () {
 
     //Add chosen to selects
     //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
-    $('#ev_users').chosen({ width: '16em' });
+    $('#ev_users').chosen({ width: '22em'});
+    //Make chzn a little more bootstrappy
+    $('.chzn-choices').css({'padding' : '5px'}).addClass('form-control');
 
     //Submit Quick Adds
     //Case notes
@@ -243,6 +245,11 @@ $(document).ready(function () {
     $('form[name="quick_event"] div.date-picker:eq(0) select').change(function () {
         var el = $(this).attr('name');
         $(this).closest('.date-picker').siblings('.date-picker').find('select[name=' + el + ']').val($(this).val());
+    });
+    
+    //Disable times if all day event
+    $('input[name="all_day"]').change(function (){
+        $('.hour-chooser, .minute-chooser, .ampm-chooser').prop('disabled', function(i, v) { return !v; });
     });
 
     //Case contacts
