@@ -201,51 +201,87 @@ include_once('lib/php/utilities/states.php');
                 <div role="tabpanel" class="tab-pane" id="qaContact">
                     <?php if ($_SESSION['permissions']['add_contacts'] === '1'){ ?>
                     <form name = "quick_contact">
-                        <p><label>First Name</label><input type="text" name="first_name"></p>
-                        <p><label>Last Name</label><input type="text" name="last_name"></p>
-                        <p><label>Organization</label><input type="text" name="organization"></p>
-                        <p><label>Contact Type</label><select name="contact_type">
-                        <option></option>
-                        <?php echo gen_default_contact_types($dbh); ?></select></p>
-                        <p><label>File In:</label><select name="case_id">
-                        <option></option>
-                        <?php echo generate_active_cases_select($dbh,$_SESSION['login']); ?></select></p>
-                        <div class="control-group">
-                            <label class="control-label">Email</label>
-                            <div class="controls"> 
-                            <select name="email_type" class="inline small-select">
-                                <option value="home">Home</option>
-                                <option value="work">Work</option>
-                                <option value="other">Other</option>
+                        <div class="form-group">
+                            <label>First Name</label><input class="form-control" type="text" name="first_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label><input class="form-control" type="text" name="last_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Organization</label><input class="form-control" type="text" name="organization">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Type</label>
+                            <select  class="form-control" name="contact_tydiv">
+                                <option></option>
+                                <?php echo gen_default_contact_types($dbh); ?>
                             </select>
-                            <input type="text" name="email" class="email">
+                        </div>
+                        <div class="form-group">
+                            <label>File In:</label>
+                            <select  class="form-control" name="case_id">
+                                <option></option>
+                                <?php echo generate_active_cases_select($dbh,$_SESSION['login']); ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for "emailr">Email</label>
+                            <div class="input-group" id="emailr"> 
+                                <input type="text" name="email" class="form-control">
+                                <div class="input-group-btn"> 
+                                    <button type="button" class="btn btn-default dropdown-toggle" 
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Type <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Work</a></li>
+                                    <li><a href="#">Other</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <p><label>Website</label><input type="text" name="url" class="url"></p>
-                        <div class="control-group">
-                            <label class="control-label">Phone</label>
-                            <div class="controls"> 
-                            <select name="phone_type" class="inline small-select">
-                                <option value="mobile">Mobile</option>
-                                <option value="home">Home</option>
-                                <option value="work">Work</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <input type="text" name="phone" class="phoneUS">
+                        <div class="form-group">
+                            <label>Website</label>
+                            <input type="text" class="form-control" name="url" class="url">
+                        </div>
+                        <div class="form-group">
+                            <label for "phonr">Phone</label>
+                            <div class="input-group"> 
+                                <input type="text" name="phone" id="phonr" class="form-control phoneUS" placeholder="Phone">
+                                <div class="input-group-btn"> 
+                                    <button type="button" class="btn btn-default dropdown-toggle" 
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Type <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                    <li><a href="#">Mobile</a></li>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Work</a></li>
+                                    <li><a href="#">Other</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <p><label>Address</label><textarea name="address"></textarea></p>
-                        <p><label>City</label><input type="text" name="city"></p>
-                        <p><label>State</label>
-                        <?php echo state_selector('state','state'); ?> 
-                        </p>
-                        <p><label>Zip</label><input type="text" name="zip"></p>
-                        <p><label>Notes</label>
-                            <textarea name="notes"></textarea>
-                        </p>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea name="address" class="form-control"> </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label><input type="text" class="form-control" name="city">
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <?php echo state_selector('state','state'); ?> 
+                        </div>
+                        <div class="form-group">
+                            <label>Zip</label>
+                            <input type="text" class="form-control" name="zip">
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea name="notes" class="form-control" ></textarea>
+                        </div>
                         <input type="hidden" name="action" value="add">
-                        <p><button class="btn btn-success">Add</button>
-                        </p>
+                        <div class="form-group">
+                            <button class="btn btn-success">Add</button>
+                        </div>
                     </form>
                     <?php } else {echo "<p>You do not have permission to add contacts.</p>";} ?>
                 </div>

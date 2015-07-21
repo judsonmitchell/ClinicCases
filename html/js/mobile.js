@@ -137,9 +137,10 @@ $(document).ready(function () {
 
     //Add chosen to selects
     //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
-    $('#ev_users').chosen({ width: '22em'});
+    $('#ev_users').chosen({ width: '100%'});
     //Make chzn a little more bootstrappy
     $('.chzn-choices').css({'padding' : '5px'}).addClass('form-control');
+    $('#state').addClass('form-control');
 
     //Submit Quick Adds
     //Case notes
