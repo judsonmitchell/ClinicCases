@@ -147,3 +147,14 @@ See: http://stackoverflow.com/a/16255670/49359
     background: #eee;
   }
 }
+/* and this:http://stackoverflow.com/a/26069511/49359 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .form-control {
+      font-size: 16px;
+    }
+}
+@media (min-width: 768px) {
+  .form-control {
+      font-size: 14px;
+    }
+}

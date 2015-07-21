@@ -226,17 +226,15 @@ include_once('lib/php/utilities/states.php');
                         </div>
                         <div class="form-group">
                             <label for "emailr">Email</label>
-                            <div class="input-group" id="emailr"> 
-                                <input type="text" name="email" class="form-control">
-                                <div class="input-group-btn"> 
-                                    <button type="button" class="btn btn-default dropdown-toggle" 
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Type <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Work</a></li>
-                                    <li><a href="#">Other</a></li>
-                                    </ul>
-                                </div>
+                            <div class="input-group">
+                                <input type="text" name="email" id="emailr" class="form-control">
+                                <span class="input-group-btn">
+                                    <select class="btn btn-default">
+                                        <option selected=selected>Home</option>
+                                        <option>Work</option>
+                                        <option>Other</option>
+                                    </select>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -246,17 +244,15 @@ include_once('lib/php/utilities/states.php');
                         <div class="form-group">
                             <label for "phonr">Phone</label>
                             <div class="input-group"> 
-                                <input type="text" name="phone" id="phonr" class="form-control phoneUS" placeholder="Phone">
-                                <div class="input-group-btn"> 
-                                    <button type="button" class="btn btn-default dropdown-toggle" 
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Type <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                    <li><a href="#">Mobile</a></li>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Work</a></li>
-                                    <li><a href="#">Other</a></li>
-                                    </ul>
-                                </div>
+                                <input type="text" name="phone" id="phonr" class="form-control phoneUS">
+                                <span class="input-group-btn"> 
+                                    <select class="btn btn-default">
+                                        <option selected=selected>Mobile</option>
+                                        <option>Home</option>
+                                        <option>Work</option>
+                                        <option>Other</option>
+                                    </select>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
