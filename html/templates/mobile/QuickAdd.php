@@ -123,13 +123,13 @@ include_once('lib/php/utilities/states.php');
                             </div>
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control hour-chooser" name="ce_hours" value="9">
+                                    <input type="text" class="form-control hour-chooser" id="ce_hour_start" name="ce_hours" value="9">
                                 </div>
                                 <div class="col-xs-4">
                                     <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
                                 </div>
                                 <div class="col-xs-4">
-                                    <select class="form-control ampm-chooser" name="c_ampm">
+                                    <select class="form-control ampm-chooser" id="ce_ampm_start" name="c_ampm">
                                         <option value="AM">AM</option>
                                         <option value="PM">PM</option>
                                     </select>
@@ -152,13 +152,13 @@ include_once('lib/php/utilities/states.php');
                             </div>
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control hour-chooser" name="c_hours" value="10">
+                                    <input type="text" class="form-control hour-chooser" id="ce_hour_end" name="c_hours" value="10">
                                 </div>
                                 <div class="col-xs-4">
                                     <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
                                 </div>
                                 <div class="col-xs-4">
-                                    <select class="form-control ampm-chooser" name="c_ampm">
+                                    <select class="form-control ampm-chooser" id="ce_ampm_end" name="c_ampm">
                                         <option value="AM">AM</option>
                                         <option vPlue="PM">PM</option>
                                     </select>

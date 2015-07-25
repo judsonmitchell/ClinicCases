@@ -242,10 +242,25 @@ $(document).ready(function () {
         }
     });
 
-    //Convenience method for advancing end date
-    $('form[name="quick_event"] div.date-picker:eq(0) select').change(function () {
-        var el = $(this).attr('name');
-        $(this).closest('.date-picker').siblings('.date-picker').find('select[name=' + el + ']').val($(this).val());
+    //Convenience methods for advancing end date and time
+    $('#c_start').change(function(e) {
+        $('#c_end').val($(this).val());
+    });
+
+    $('#ce_hour_start').change(function(e) {
+        if ($(this).val() === '12'){
+            $('#ce_hour_end').val('1');
+        } else {
+            $('#ce_hour_end').val(parseInt($(this).val()) + 1);
+        }
+
+        if ($(this).val() === '11'){
+            $('#ce_ampm_start').val() === 'AM' ? $('#ce_ampm_end').val('PM') : $('#ce_ampm_end').val('AM');
+        }
+    });
+
+    $('#ce_ampm_start').change(function(e) {
+        $('#ce_ampm_end').val($(this).val());
     });
     
     //Disable times if all day event
