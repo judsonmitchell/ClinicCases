@@ -211,7 +211,7 @@ include_once('lib/php/utilities/states.php');
                         </div>
                         <div class="form-group">
                             <label>Contact Type</label>
-                            <select  class="form-control" name="contact_tydiv">
+                            <select  class="form-control" name="contact_type">
                                 <option></option>
                                 <?php echo gen_default_contact_types($dbh); ?>
                             </select>
@@ -226,12 +226,12 @@ include_once('lib/php/utilities/states.php');
                         <div class="form-group">
                             <label for "emailr">Email</label>
                             <div class="input-group">
-                                <input type="text" name="email" id="emailr" class="form-control">
+                                <input type="text" name="email" id="emailr" class="form-control email">
                                 <span class="input-group-btn">
-                                    <select class="btn btn-default">
-                                        <option selected=selected>Home</option>
-                                        <option>Work</option>
-                                        <option>Other</option>
+                                    <select name="email_type" class="btn btn-default">
+                                        <option value="home" selected=selected>Home</option>
+                                        <option value="work">Work</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </span>
                             </div>
@@ -245,11 +245,11 @@ include_once('lib/php/utilities/states.php');
                             <div class="input-group"> 
                                 <input type="text" name="phone" id="phonr" class="form-control phoneUS">
                                 <span class="input-group-btn"> 
-                                    <select class="btn btn-default">
-                                        <option selected=selected>Mobile</option>
-                                        <option>Home</option>
-                                        <option>Work</option>
-                                        <option>Other</option>
+                                    <select name="phone_type" class="btn btn-default">
+                                        <option value="mobile" selected=selected>Mobile</option>
+                                        <option value="home">Home</option>
+                                        <option value="work">Work</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </span>
                             </div>

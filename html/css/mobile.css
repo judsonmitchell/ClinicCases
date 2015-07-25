@@ -1,6 +1,17 @@
 body { padding-top: 70px; }
 #idletimeout{position:relative;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
-#notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
+#notifications{
+    position:fixed; 
+    top:55px;
+    padding:10px;
+    font-weight:bold;
+    background-color:red;
+    color:white;
+    display:none;
+    left:0;
+    right:0;
+    z-index:3000;
+}
 a.home-header {color:inherit; text-decoration:underline}
 a.home-header:visited {color:inherit; text-decoration:underline}
 #upcoming_events_list{

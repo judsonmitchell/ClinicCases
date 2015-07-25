@@ -229,7 +229,7 @@ $(document).ready(function () {
                 } else {
                     var successMsg = '<p class="text-success">' + serverResponse.message +
                     '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
-                    $('#qaEvent').append(successMsg);
+                    $('#qaEvent').html(successMsg);
                     $('a.show-form').click(function (event) {
                         event.preventDefault();
                         location.reload();
@@ -267,7 +267,7 @@ $(document).ready(function () {
 
     //Case contacts
     $('form[name="quick_contact"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         rules: {
             last_name: {nameReq: true}
@@ -301,13 +301,11 @@ $(document).ready(function () {
                         $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
                     } else {
                         var successMsg = '<p class="text-success">' + serverResponse.message +
-                        '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                        thisForm[0].reset();
-                        var hideForm = $('form[name="quick_contact"]').detach();
-                        $('#qaContact').append(successMsg);
+                        '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
+                        $('#qaContact').html(successMsg);
                         $('a.show-form').click(function (event) {
                             event.preventDefault();
-                            $('#qaContact').html('').append(hideForm);
+                            location.reload();
                         });
                     }
                 });
