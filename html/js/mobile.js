@@ -38,6 +38,7 @@ function getParameterByName(name) {
 
 })(jQuery);
 
+
 $(document).ready(function () {
     // show active tab on reload
     if (location.hash !== '') {
@@ -145,7 +146,7 @@ $(document).ready(function () {
     //Submit Quick Adds
     //Case notes
     $.validator.addMethod('timeReq', function (value) {
-        return !(value === '0' && $('select[name="csenote_hours"]').val() === '0');
+        return !(value === '0' && $('input[name="csenote_hours"]').val() === '0');
     }, 'You must enter some time.');
 
     $.validator.addMethod('nameReq', function (value) {
@@ -153,15 +154,15 @@ $(document).ready(function () {
     }, 'Please provide the name of a person or organziation');
 
     $('form[name="quick_cn"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         rules: {
             csenote_minutes: {timeReq: true}
         },
         submitHandler: function (form) {
             var thisForm = $('form[name="quick_cn"]');
-            var dateVal = $('select[name="c_month"]').val() + '/' +
-            $('select[name="c_day"]').val() + '/' + $('select[name="c_year"]').val();
+            var dateVals = $('#cn_date').val().split('-');
+            var dateVal = dateVals[1] + '/' + dateVals[2] + '/' +  dateVals[0];
             $('input[name="csenote_date"]').val(dateVal);
             $.post('lib/php/data/cases_casenotes_process.php', thisForm.serialize(), function (data) {
                 var serverResponse = $.parseJSON(data);
@@ -169,8 +170,9 @@ $(document).ready(function () {
                     $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
                 } else {
                     var successMsg = '<p class="text-success">' + serverResponse.message +
-                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                    thisForm[0].reset();
+                    '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
+                    $('#cn_hours, #cn_minutes').val('0');
+                    $('#csenote_description').val('');
                     var hideForm = $('form[name="quick_cn"]').detach();
                     $('#qaCaseNote').append(successMsg);
                     $('a.show-form').click(function (event) {
@@ -584,4 +586,5 @@ $(document).ready(function () {
             }
         });
     }
+
 });

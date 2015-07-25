@@ -76,7 +76,7 @@ include_once('lib/php/utilities/states.php');
                         </div>
                         <div class="form-group">
                             <label class="control-label" for "cn_hours">Hours:</label>
-                            <input type="text" class="form-control" name="csenote_hours" value="0">
+                            <input type="text" class="form-control" id="cn_hours" name="csenote_hours" value="0">
                         </div>
                         <div class="form-group">
                             <label class="control-label" for "cn_minutes">Minutes:</label>
@@ -88,8 +88,7 @@ include_once('lib/php/utilities/states.php');
                         </div>
                         <input type="hidden" name="query_type" value="add">
                         <input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
-                        <input type="hidden" name="csenote_date">
-                        <input type="hidden" name="csenote_date" id="cn_date"></p>
+                        <input type="hidden" name="csenote_date" id="cn_date">
                         <p id = "quick_add_cn">
                             <button class="btn btn-success"  id="quick_add_cn_submit">Add</button>
                         </p>
@@ -322,6 +321,10 @@ include_once('lib/php/utilities/states.php');
             verticalupclass: 'glyphicon glyphicon-plus',
             verticaldownclass: 'glyphicon glyphicon-minus'
         });
+    </script>
+    <script>
+    //Activate auto-close for datapicker
+    $.fn.datepicker.defaults.autoclose = true;
     </script>
 </body>
 </html>
