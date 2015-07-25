@@ -9,7 +9,11 @@ function notify(str, wait, state) {
     } else if (state ==='success'){
         $('#notifications').css({'color':'white', 'font-weight': 'bold', 'background-color':'green'});
     } else {
-        $('#notifications').css({'color':'black', 'font-weight': 'normal', 'background-color':'white'});
+        if ($('body').hasClass('isMobile')){
+            $('#notifications').css({'color':'#3a87ad', 'font-weight': 'normal', 'background-color':'#d9edf7'});
+        } else {
+            $('#notifications').css({'color':'black', 'font-weight': 'normal', 'background-color':'white'});
+        }
     }
 
     if (wait === true) {
