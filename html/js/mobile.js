@@ -186,20 +186,18 @@ $(document).ready(function () {
 
     //Case events
     $('form[name="quick_event"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         submitHandler: function () {
             var thisForm = $('form[name="quick_event"]');
-            var startVal = thisForm.find('select[name="c_month"]').eq(0).val() + '/' + thisForm.find('select[name="c_day"]').eq(0).val() +
-            '/' + thisForm.find('select[name="c_year"]').eq(0).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(0).val() +
-            ':' + thisForm.find('select[name="c_minutes"]').eq(0).val() +
-            ' ' + thisForm.find('select[name="c_ampm"]').eq(0).val();
+            var dateValStart = $('#c_start').val().split('-');
+            var startVal = dateValStart[1] + '/' + dateValStart[2] + '/' + dateValStart[0] + ' ' +
+            $('#ce_hour_start').val() + ':' +  $('#ce_minute_start').val() + ' ' + $('#ce_ampm_start').val();
             $('input[name="start"]').val(startVal);
 
-            var endVal = thisForm.find('select[name="c_month"]').eq(1).val() + '/' + thisForm.find('select[name="c_day"]').eq(1).val() +
-            '/' + thisForm.find('select[name="c_year"]').eq(1).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(1).val() +
-            ':' + thisForm.find('select[name="c_minutes"]').eq(1).val() +
-            ' ' + thisForm.find('select[name="c_ampm"]').eq(1).val();
+            var dateValEnd = $('#c_end').val().split('-');
+            var endVal = dateValEnd[1] + '/' + dateValEnd[2] + '/' + dateValEnd[0] + ' ' +
+            $('#ce_hour_end').val() + ':' +  $('#ce_minute_end').val() + ' ' + $('#ce_ampm_end').val();
             $('input[name="end"]').val(endVal);
 
             //serialize form values
@@ -230,14 +228,11 @@ $(document).ready(function () {
                     $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
                 } else {
                     var successMsg = '<p class="text-success">' + serverResponse.message +
-                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                    thisForm[0].reset();
-                    $('#ev_users').trigger('liszt:updated');
-                    var hideForm = $('form[name="quick_event"]').detach();
+                    '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
                     $('#qaEvent').append(successMsg);
                     $('a.show-form').click(function (event) {
                         event.preventDefault();
-                        $('#qaEvent').html('').append(hideForm);
+                        location.reload();
                     });
                 }
             });
@@ -264,7 +259,7 @@ $(document).ready(function () {
     $('#ce_ampm_start').change(function(e) {
         $('#ce_ampm_end').val($(this).val());
     });
-    
+
     //Disable times if all day event
     $('input[name="all_day"]').change(function (){
         $('.hour-chooser, .minute-chooser, .ampm-chooser').prop('disabled', function(i, v) { return !v; });

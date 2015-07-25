@@ -104,7 +104,7 @@ include_once('lib/php/utilities/states.php');
                         </div>
                         <div class="form-group">
                             <label class="control-label" for "where">Where: </label>
-                            <input type="text" name="where" id="where" class="form-control required">
+                            <input type="text" name="where" id="where" class="form-control">
                         </div>
                         <hr />
                         <div class="form-group">
@@ -125,7 +125,7 @@ include_once('lib/php/utilities/states.php');
                                     <input type="text" class="form-control hour-chooser" id="ce_hour_start" name="ce_hours" value="9">
                                 </div>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
+                                    <input type="text" class="form-control minute-chooser" id="ce_minute_start"  name="c_minutes" value="00">
                                 </div>
                                 <div class="col-xs-4">
                                     <select class="form-control ampm-chooser" id="ce_ampm_start" name="c_ampm">
@@ -154,7 +154,7 @@ include_once('lib/php/utilities/states.php');
                                     <input type="text" class="form-control hour-chooser" id="ce_hour_end" name="c_hours" value="10">
                                 </div>
                                 <div class="col-xs-4">
-                                    <input type="text" class="form-control minute-chooser" name="c_minutes" value="00">
+                                    <input type="text" class="form-control minute-chooser" id="ce_minute_end" name="c_minutes" value="00">
                                 </div>
                                 <div class="col-xs-4">
                                     <select class="form-control ampm-chooser" id="ce_ampm_end" name="c_ampm">
