@@ -177,9 +177,9 @@ if (empty($msgs) AND $replies === false AND $new_message === false) {
 	//i.e, there are no messages to display, we are not loading replies, and
 	//this is not a request for the new message html
 		if (isset($s)) {
-            echo "<p>No messages found matching <i>$s</i></p>";
+            echo "<div class='alert alert-danger' role='alert'>No messages found matching <i>$s</i></div>";
         } else {
-            echo "<p>There are no messages in your $type folder</p>";die;
+            echo "<div class='alert alert-danger' role='alert'>There are no messages in your $type folder</div>";die;
         }
 	}
 
