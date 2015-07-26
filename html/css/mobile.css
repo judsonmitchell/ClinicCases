@@ -7,6 +7,7 @@ body { padding-top: 70px; }
     font-weight:bold;
     background-color:red;
     color:white;
+    text-align:center;
     display:none;
     left:0;
     right:0;
@@ -39,15 +40,20 @@ hr{border-bottom:1px solid #ddd}
 /* Mobile description lists */
 dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #aaa}
 /* Hide nested lists*/
-.li-expand ul {display:none; margin-left:10px}
-.li-expand-msg ul {display:none; margin-left:10px}
+.li-expand ul {display:none;}
+.li-expand-msg ul {display:none;}
+.msg-hide {display:none;}
+.msg-body-text{list-style:none;margin-left:-40px;}
 .mobile-doc-list{margin-bottom:20px}
 .truncate{height:1.2em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ul-reply{list-style:none;border-top:1px solid #ddd;margin-top:10px; display:block !important;}
+.ul-reply{list-style:none;border-top:1px solid #ddd;margin-top:10px; padding-top:10px;display:block !important;}
 .ul-reply li{margin-top:10px;margin-bottom:10px;}
 .ul-reply li>img{float:left;  margin: 0 15px 0 0;}
+.reply-text-box{font-size:16px; width:100%}
 .reply-item{margin-bottom:5px}
 .msg-new{display:none}
+.msg_read{opacity:0.7}
+.search-field input {height:30px !important}
 /* Board */
 .board-container{margin-top:10px}
 .board-item{min-height:180px;padding:0px 5px 5px 5px;margin-bottom:20px;border:1px solid #ddd; -moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}

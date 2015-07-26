@@ -1,4 +1,4 @@
-/* global unescape, moment */
+/* global unescape, moment, notify */
 
 //Get url parameters
 function getParameterByName(name) {
@@ -167,7 +167,7 @@ $(document).ready(function () {
             $.post('lib/php/data/cases_casenotes_process.php', thisForm.serialize(), function (data) {
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error) {
-                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                    notify(serverResponse.message, true,'error');
                 } else {
                     var successMsg = '<p class="text-success">' + serverResponse.message +
                     '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
@@ -225,8 +225,9 @@ $(document).ready(function () {
             }, function (data) {
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error) {
-                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                    notify(serverResponse.message, true,'error');
                 } else {
+                    notify(serverResponse.message, false,'success');
                     var successMsg = '<p class="text-success">' + serverResponse.message +
                     '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
                     $('#qaEvent').html(successMsg);
@@ -298,8 +299,9 @@ $(document).ready(function () {
                 }, function (data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error === true) {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, true,'error');
                     } else {
+                        notify(serverResponse.message, false,'success');
                         var successMsg = '<p class="text-success">' + serverResponse.message +
                         '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
                         $('#qaContact').html(successMsg);
@@ -319,19 +321,35 @@ $(document).ready(function () {
     });
 
     //Messages
-    $('.container').on('click', 'div.msg-header', function (event) {
+    $('.msg_display li.media').each(function (){
+        if ($(this).hasClass('msg_unread')){
+            $(this).find('.media-heading').append('<span class="fa fa-envelope-o"></span>');
+        }
+
+    });
+
+    $('.container').on('click', 'span.msg-header', function (event) {
         event.stopPropagation();
         var target = $(this).closest('li');
         $(this).next('ul').toggle();
+        $(this).find('span.fa').remove();
+        //mark as read
+        $.post('lib/php/data/messages_process.php', {action: 'mark_read', id: target.attr('data-thread')}, function (){
+            target.removeClass('msg_unread');
+        });
         if (!target.find('.ul-reply').length) { //if we haven't already loaded replies
             $.get('html/templates/mobile/Messages.php', {type: 'replies', thread_id: target.attr('data-thread')}, function (data) {
                 target.find('li').last().append(data);
-                //mark as read
-                $.post('lib/php/data/messages_process.php', {action: 'mark_read', id: target.attr('data-thread')});
 
             });
         }
+        //Set opacity for readability
+        // If the msg body is not visible
+        if (!$(this).closest('li.media').hasClass('msg_unread')){
+            $(this).closest('li.media').toggleClass('msg_read');
+        }
     });
+
 
     $('.truncate').click(function (event) {
         event.preventDefault();
@@ -363,7 +381,13 @@ $(document).ready(function () {
         location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
     });
 
-    $('.container').eq(1).on('click', '.send-reply', function (event) {
+    $('input.search-query').keydown(function (e) {
+        if (e.keyCode === 13){
+            location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
+        }
+    });
+
+    $('.container').on('click', '.send-reply', function (event) {
         event.preventDefault();
         var threadId =  $(this).closest('.li-expand-msg').attr('data-thread');
         var replyText = $(this).prev().val();
@@ -372,18 +396,33 @@ $(document).ready(function () {
             {action: 'reply', thread_id: threadId, reply_text: replyText},
             function (data) {
                 var serverResponse = $.parseJSON(data);
-                $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                notify(serverResponse.message, false,'success');
                 msgBody.find('.ul-reply').remove();
                 msgBody.hide();
             });
     });
-
+    //archive
+    $('.container').on('click', '.archive-msg', function (event) {
+        event.preventDefault();
+        var threadId =  $(this).closest('.li-expand-msg').attr('data-thread');
+        var msgBody = $(this).closest('.li-expand-msg');
+        $.post('lib/php/data/messages_process.php', {
+            action: 'archive',
+            id: threadId,
+        }, function (data) {
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message, false,'success');
+                msgBody.remove();
+            });
+    });
     $('.btn-new-msg').click(function (event) {
         event.preventDefault();
-        var hideMsg = $('.msg_display, .row:eq(2)').detach();
+        var hideMsg = $('.msg_display, .row:eq(1),.row:eq(2)').detach();
         $('.msg-new').show();
-        $('#msg_tos, #msg_ccs, #msg_file').chosen({ width: '16em' });
-
+        $('#msg_tos, #msg_ccs, #msg_file').chosen({ width: '100%' });
+        $('.chzn-choices').css({'padding' : '5px'}).addClass('form-control');
+        $('.chzn-container-single').css({'padding': '5px', 'font-size':'16px'}).addClass('form-control');
+        $('.alert').remove();
         $('form[name="send_message"]').validate({
             errorClass: 'text-error',
             errorElement: 'span',
@@ -394,7 +433,6 @@ $(document).ready(function () {
                 else {
                     error.insertAfter(element);
                 }
-
             },
             onsubmit: function () { //special handling for chosen selects. see http://goo.gl/myKIz
                 var ChosenDropDowns = $('.chzn-done');
@@ -412,14 +450,14 @@ $(document).ready(function () {
                 $.post('lib/php/data/messages_process.php', thisForm.serialize(), function (data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error) {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, true,'error');
                     } else {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, false,'success');
                         thisForm[0].reset();
                         $('select').trigger('liszt:updated');
                         $('.text-error').remove();
                         $('.msg-new').hide();
-                        $('#msg-head').append(hideMsg);
+                        $('.container > .row').after(hideMsg);
                     }
                 });
             }
@@ -430,22 +468,22 @@ $(document).ready(function () {
 
         $('.msg-cancel').click(function (event) {
             event.preventDefault();
-            $('.msg-new').hide();
-            $('#msg-head').append(hideMsg);
             $('form[name="send_message"]')[0].reset();
             $('select').trigger('liszt:updated');
+            $('.msg-new').hide();
+            $('.container > .row').after(hideMsg);
         });
 
     });
 
     //Pagination for messages
-    $('.msg_display').on('click', '.add-more', function (event) {
+    $('.container').on('click', '.add-more', function (event) {
         event.preventDefault();
         $(this).remove();
         var msgUrl = $(this).attr('href');
         $.get(msgUrl, function (data) {
-            var moreMsg = $(data).find('.msg_display > ul').html();
-            $('.msg_display > ul').append(moreMsg);
+            var moreMsg = $(data).find('.media-list').html();
+            $('.media-list').append(moreMsg);
         });
 
     });

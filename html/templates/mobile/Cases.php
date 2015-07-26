@@ -50,7 +50,7 @@ include 'lib/php/data/cases_load.php';
                     <input type="text" id="search" class="form-control case-search search-query" placeholder="Search">
                 </div>
                 <div class="form-group">
-                <label class="sr-only" for="filter">Password</label>
+                <label class="sr-only" for="filter">Open or Closed</label>
                 <select name="case-status" id="filter" class="form-control search-query">
                         <option value="open">Open Cases</option>
                         <option value="closed">Closed Cases</option>
