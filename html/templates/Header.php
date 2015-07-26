@@ -24,7 +24,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.scrollto/2.1.0/jquery.scrollTo.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
-	<script src="html/js/mobile.js" type="text/javascript"></script>
+	<script src="html/js/mobile.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="lib/javascripts/jquery.validate.min.js"></script>
