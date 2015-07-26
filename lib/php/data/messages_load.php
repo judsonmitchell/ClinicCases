@@ -179,7 +179,7 @@ if (empty($msgs) AND $replies === false AND $new_message === false) {
 		if (isset($s)) {
             echo "<div class='alert alert-danger' role='alert'>No messages found matching <i>$s</i></div>";
         } else {
-            echo "<div class='alert alert-danger' role='alert'>There are no messages in your $type folder</div>";die;
+            echo "<div class='alert alert-danger' role='alert'>There are no messages in your $type folder</div>";
         }
 	}
 
