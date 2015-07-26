@@ -1,3 +1,5 @@
+/* global unescape, moment, notify */
+
 //Get url parameters
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -5,23 +7,59 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+//Responsive tabs feature
+(function($) {
+
+    'use strict';
+
+    $(document).on('show.bs.tab', '.nav-tabs-responsive [data-toggle="tab"]', function(e) {
+        var $target = $(e.target);
+        var $tabs = $target.closest('.nav-tabs-responsive');
+        var $current = $target.closest('li');
+        var $parent = $current.closest('li.dropdown');
+        $current = $parent.length > 0 ? $parent : $current;
+        var $next = $current.next();
+        var $prev = $current.prev();
+        var updateDropdownMenu = function($el, position) {
+            $el
+            .find('.dropdown-menu')
+            .removeClass('pull-xs-left pull-xs-center pull-xs-right')
+            .addClass('pull-xs-' + position);
+        };
+
+        $tabs.find('>li').removeClass('next prev');
+        $prev.addClass('prev');
+        $next.addClass('next');
+
+        updateDropdownMenu($prev, 'left');
+        updateDropdownMenu($current, 'center');
+        updateDropdownMenu($next, 'right');
+    });
+
+})(jQuery);
+
 
 $(document).ready(function () {
-    //Select correct subtab based on url
-    var tab = getParameterByName('tabsection');
-
-    if (tab.length) {
-        $('#myTab a[href="#' + tab + '"]').tab('show');
-    } else {
-        $('#myTab a.default-tab').tab('show');
+    // show active tab on reload
+    if (location.hash !== '') {
+        $('a[href="' + location.hash + '"]').tab('show');
     }
 
-    //Adds tabsection to url for tab-panes which will have
-    //multiple levels; preserves navigation by back button
-    $('#myTab a.multi-level').click(function () {
-        var current = document.location.search;
-        var addTab = $(this).attr('href').substring(1);
-        document.location.search = current + '&tabsection=' + addTab;
+    // remember the hash in the URL without jumping
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        if(history.pushState) {
+            history.pushState(null, null, '#'+$(e.target).attr('href').substr(1));
+        } else {
+            location.hash = '#'+$(e.target).attr('href').substr(1);
+        }
+    });
+
+    //Documents have multiple levels, so user will expect to go to root when clicking
+    //documents tab if they have nagivated down folders
+    $('a[href="#caseDocs"]').click(function (e){
+        if (location.search.indexOf('path') !== -1){
+            location.search = '?i=Case.php&id=' + getParameterByName('id');
+        }
     });
 
     //Display cases based on open/closed status
@@ -73,7 +111,7 @@ $(document).ready(function () {
             function (data) {
                 var serverResponse = $.parseJSON(data);
                 var hideList;
-                var ccdItem = '<a class="ccd-clear btn" href="#"><i class="icon-chevron-left"></i> Back</a><h2>' +
+                var ccdItem = '<a class="btn btn-primary btn-sm ccd-clear btn" href="#"><span class="fa fa-chevron-left"></span> Back</a><h2>' +
                 unescape(serverResponse.ccd_title) + '</h2>' + serverResponse.ccd_content;
                 if ($('.doc-list').length) {
                     hideList = $('.doc-list').detach();
@@ -100,12 +138,15 @@ $(document).ready(function () {
 
     //Add chosen to selects
     //Must initialize with size on hidden div: see https://github.com/harvesthq/chosen/issues/1297
-    $('#ev_users').chosen({ width: '16em' });
+    $('#ev_users').chosen({ width: '100%'});
+    //Make chzn a little more bootstrappy
+    $('.chzn-choices').css({'padding' : '5px'}).addClass('form-control');
+    $('#state').addClass('form-control');
 
     //Submit Quick Adds
     //Case notes
     $.validator.addMethod('timeReq', function (value) {
-        return !(value === '0' && $('select[name="csenote_hours"]').val() === '0');
+        return !(value === '0' && $('input[name="csenote_hours"]').val() === '0');
     }, 'You must enter some time.');
 
     $.validator.addMethod('nameReq', function (value) {
@@ -113,24 +154,25 @@ $(document).ready(function () {
     }, 'Please provide the name of a person or organziation');
 
     $('form[name="quick_cn"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         rules: {
             csenote_minutes: {timeReq: true}
         },
         submitHandler: function (form) {
             var thisForm = $('form[name="quick_cn"]');
-            var dateVal = $('select[name="c_month"]').val() + '/' +
-            $('select[name="c_day"]').val() + '/' + $('select[name="c_year"]').val();
+            var dateVals = $('#cn_date').val().split('-');
+            var dateVal = dateVals[1] + '/' + dateVals[2] + '/' +  dateVals[0];
             $('input[name="csenote_date"]').val(dateVal);
             $.post('lib/php/data/cases_casenotes_process.php', thisForm.serialize(), function (data) {
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error) {
-                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                    notify(serverResponse.message, true,'error');
                 } else {
                     var successMsg = '<p class="text-success">' + serverResponse.message +
-                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                    thisForm[0].reset();
+                    '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
+                    $('#cn_hours, #cn_minutes').val('0');
+                    $('#csenote_description').val('');
                     var hideForm = $('form[name="quick_cn"]').detach();
                     $('#qaCaseNote').append(successMsg);
                     $('a.show-form').click(function (event) {
@@ -144,20 +186,18 @@ $(document).ready(function () {
 
     //Case events
     $('form[name="quick_event"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         submitHandler: function () {
             var thisForm = $('form[name="quick_event"]');
-            var startVal = thisForm.find('select[name="c_month"]').eq(0).val() + '/' + thisForm.find('select[name="c_day"]').eq(0).val() +
-            '/' + thisForm.find('select[name="c_year"]').eq(0).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(0).val() +
-            ':' + thisForm.find('select[name="c_minutes"]').eq(0).val() +
-            ' ' + thisForm.find('select[name="c_ampm"]').eq(0).val();
+            var dateValStart = $('#c_start').val().split('-');
+            var startVal = dateValStart[1] + '/' + dateValStart[2] + '/' + dateValStart[0] + ' ' +
+            $('#ce_hour_start').val() + ':' +  $('#ce_minute_start').val() + ' ' + $('#ce_ampm_start').val();
             $('input[name="start"]').val(startVal);
 
-            var endVal = thisForm.find('select[name="c_month"]').eq(1).val() + '/' + thisForm.find('select[name="c_day"]').eq(1).val() +
-            '/' + thisForm.find('select[name="c_year"]').eq(1).val() + ' ' +  thisForm.find('select[name="c_hours"]').eq(1).val() +
-            ':' + thisForm.find('select[name="c_minutes"]').eq(1).val() +
-            ' ' + thisForm.find('select[name="c_ampm"]').eq(1).val();
+            var dateValEnd = $('#c_end').val().split('-');
+            var endVal = dateValEnd[1] + '/' + dateValEnd[2] + '/' + dateValEnd[0] + ' ' +
+            $('#ce_hour_end').val() + ':' +  $('#ce_minute_end').val() + ' ' + $('#ce_ampm_end').val();
             $('input[name="end"]').val(endVal);
 
             //serialize form values
@@ -185,32 +225,50 @@ $(document).ready(function () {
             }, function (data) {
                 var serverResponse = $.parseJSON(data);
                 if (serverResponse.error) {
-                    $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                    notify(serverResponse.message, true,'error');
                 } else {
+                    notify(serverResponse.message, false,'success');
                     var successMsg = '<p class="text-success">' + serverResponse.message +
-                    '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                    thisForm[0].reset();
-                    $('#ev_users').trigger('liszt:updated');
-                    var hideForm = $('form[name="quick_event"]').detach();
-                    $('#qaEvent').append(successMsg);
+                    '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
+                    $('#qaEvent').html(successMsg);
                     $('a.show-form').click(function (event) {
                         event.preventDefault();
-                        $('#qaEvent').html('').append(hideForm);
+                        location.reload();
                     });
                 }
             });
         }
     });
 
-    //Convenience method for advancing end date
-    $('form[name="quick_event"] div.date-picker:eq(0) select').change(function () {
-        var el = $(this).attr('name');
-        $(this).closest('.date-picker').siblings('.date-picker').find('select[name=' + el + ']').val($(this).val());
+    //Convenience methods for advancing end date and time
+    $('#c_start').change(function(e) {
+        $('#c_end').val($(this).val());
+    });
+
+    $('#ce_hour_start').change(function(e) {
+        if ($(this).val() === '12'){
+            $('#ce_hour_end').val('1');
+        } else {
+            $('#ce_hour_end').val(parseInt($(this).val()) + 1);
+        }
+
+        if ($(this).val() === '11'){
+            $('#ce_ampm_start').val() === 'AM' ? $('#ce_ampm_end').val('PM') : $('#ce_ampm_end').val('AM');
+        }
+    });
+
+    $('#ce_ampm_start').change(function(e) {
+        $('#ce_ampm_end').val($(this).val());
+    });
+
+    //Disable times if all day event
+    $('input[name="all_day"]').change(function (){
+        $('.hour-chooser, .minute-chooser, .ampm-chooser').prop('disabled', function(i, v) { return !v; });
     });
 
     //Case contacts
     $('form[name="quick_contact"]').validate({
-        errorClass: 'text-error',
+        errorClass: 'text-danger',
         errorElement: 'span',
         rules: {
             last_name: {nameReq: true}
@@ -241,16 +299,15 @@ $(document).ready(function () {
                 }, function (data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error === true) {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, true,'error');
                     } else {
+                        notify(serverResponse.message, false,'success');
                         var successMsg = '<p class="text-success">' + serverResponse.message +
-                        '</p><p><a class="btn show-form" href="#">Add Another?</a></p>';
-                        thisForm[0].reset();
-                        var hideForm = $('form[name="quick_contact"]').detach();
-                        $('#qaContact').append(successMsg);
+                        '</p><p><a class="btn btn-primary show-form" href="#">Add Another?</a></p>';
+                        $('#qaContact').html(successMsg);
                         $('a.show-form').click(function (event) {
                             event.preventDefault();
-                            $('#qaContact').html('').append(hideForm);
+                            location.reload();
                         });
                     }
                 });
@@ -264,19 +321,35 @@ $(document).ready(function () {
     });
 
     //Messages
-    $('.container').on('click', 'div.msg-header', function (event) {
+    $('.msg_display li.media').each(function (){
+        if ($(this).hasClass('msg_unread')){
+            $(this).find('.media-heading').append('<span class="fa fa-envelope-o"></span>');
+        }
+
+    });
+
+    $('.container').on('click', 'span.msg-header', function (event) {
         event.stopPropagation();
         var target = $(this).closest('li');
         $(this).next('ul').toggle();
+        $(this).find('span.fa').remove();
+        //mark as read
+        $.post('lib/php/data/messages_process.php', {action: 'mark_read', id: target.attr('data-thread')}, function (){
+            target.removeClass('msg_unread');
+        });
         if (!target.find('.ul-reply').length) { //if we haven't already loaded replies
             $.get('html/templates/mobile/Messages.php', {type: 'replies', thread_id: target.attr('data-thread')}, function (data) {
                 target.find('li').last().append(data);
-                //mark as read
-                $.post('lib/php/data/messages_process.php', {action: 'mark_read', id: target.attr('data-thread')});
 
             });
         }
+        //Set opacity for readability
+        // If the msg body is not visible
+        if (!$(this).closest('li.media').hasClass('msg_unread')){
+            $(this).closest('li.media').toggleClass('msg_read');
+        }
     });
+
 
     $('.truncate').click(function (event) {
         event.preventDefault();
@@ -308,7 +381,13 @@ $(document).ready(function () {
         location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
     });
 
-    $('.container').eq(1).on('click', '.send-reply', function (event) {
+    $('input.search-query').keydown(function (e) {
+        if (e.keyCode === 13){
+            location.href = 'index.php?i=Messages.php&type=search&s=' + $('.search-query').val();
+        }
+    });
+
+    $('.container').on('click', '.send-reply', function (event) {
         event.preventDefault();
         var threadId =  $(this).closest('.li-expand-msg').attr('data-thread');
         var replyText = $(this).prev().val();
@@ -317,18 +396,33 @@ $(document).ready(function () {
             {action: 'reply', thread_id: threadId, reply_text: replyText},
             function (data) {
                 var serverResponse = $.parseJSON(data);
-                $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                notify(serverResponse.message, false,'success');
                 msgBody.find('.ul-reply').remove();
                 msgBody.hide();
             });
     });
-
+    //archive
+    $('.container').on('click', '.archive-msg', function (event) {
+        event.preventDefault();
+        var threadId =  $(this).closest('.li-expand-msg').attr('data-thread');
+        var msgBody = $(this).closest('.li-expand-msg');
+        $.post('lib/php/data/messages_process.php', {
+            action: 'archive',
+            id: threadId,
+        }, function (data) {
+                var serverResponse = $.parseJSON(data);
+                notify(serverResponse.message, false,'success');
+                msgBody.remove();
+            });
+    });
     $('.btn-new-msg').click(function (event) {
         event.preventDefault();
-        var hideMsg = $('.msg_display, .row:eq(2)').detach();
+        var hideMsg = $('.msg_display, .row:eq(1),.row:eq(2)').detach();
         $('.msg-new').show();
-        $('#msg_tos, #msg_ccs, #msg_file').chosen({ width: '16em' });
-
+        $('#msg_tos, #msg_ccs, #msg_file').chosen({ width: '100%' });
+        $('.chzn-choices').css({'padding' : '5px'}).addClass('form-control');
+        $('.chzn-container-single').css({'padding': '5px', 'font-size':'16px'}).addClass('form-control');
+        $('.alert').remove();
         $('form[name="send_message"]').validate({
             errorClass: 'text-error',
             errorElement: 'span',
@@ -339,7 +433,6 @@ $(document).ready(function () {
                 else {
                     error.insertAfter(element);
                 }
-
             },
             onsubmit: function () { //special handling for chosen selects. see http://goo.gl/myKIz
                 var ChosenDropDowns = $('.chzn-done');
@@ -357,14 +450,14 @@ $(document).ready(function () {
                 $.post('lib/php/data/messages_process.php', thisForm.serialize(), function (data) {
                     var serverResponse = $.parseJSON(data);
                     if (serverResponse.error) {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, true,'error');
                     } else {
-                        $('#notifications').show().html(serverResponse.message).delay(2000).fadeOut();
+                        notify(serverResponse.message, false,'success');
                         thisForm[0].reset();
                         $('select').trigger('liszt:updated');
                         $('.text-error').remove();
                         $('.msg-new').hide();
-                        $('#msg-head').append(hideMsg);
+                        $('.container > .row').after(hideMsg);
                     }
                 });
             }
@@ -375,24 +468,24 @@ $(document).ready(function () {
 
         $('.msg-cancel').click(function (event) {
             event.preventDefault();
-            $('.msg-new').hide();
-            $('#msg-head').append(hideMsg);
             $('form[name="send_message"]')[0].reset();
             $('select').trigger('liszt:updated');
+            $('.msg-new').hide();
+            $('.container > .row').after(hideMsg);
         });
 
     });
 
     //Pagination for messages
-    $('.msg_display').on('click', '.add-more', function (event) {
+    $('.container').on('click', '.add-more', function (event) {
         event.preventDefault();
         $(this).remove();
         var msgUrl = $(this).attr('href');
         $.get(msgUrl, function (data) {
-            var moreMsg = $(data).find('.msg_display > ul').html();
-            $('.msg_display > ul').append(moreMsg);
+            var moreMsg = $(data).find('.media-list').html();
+            $('.media-list').append(moreMsg);
         });
-        
+
     });
 
     //Handle board downloads
@@ -414,5 +507,115 @@ $(document).ready(function () {
         });
 
     });
+
+    //Home Nav
+    var calendarViewed = false;
+    $('#home-nav-toggle input').change(function() {
+            if ($(this).attr('id') === 'option1'){
+                $('#upcoming').removeClass('visible-xs-block').addClass('hidden-xs');
+                $('#activities').removeClass('hidden-xs').addClass('visible-xs-block');
+            } else {
+                $('#activities').removeClass('visible-xs-block').addClass('hidden-xs');
+                $('#upcoming').removeClass('hidden-xs').addClass('visible-xs-block');
+                if (!calendarViewed){
+                    showEvent();
+                    calendarViewed = true;
+                }
+            }
+        });
+
+    //Initialize calendar
+
+    //function to pad month values with leading zero
+    function pad(n){return n<10 ? '0'+n : n;}
+
+    function showEvent (monthSearch){
+        $('#fail').hide();
+        if (monthSearch === 'undefined'){
+            var curDate  = new Date();
+            monthSearch = curDate.getFullYear() + '-' + pad(curDate.getMonth() + 1);
+        }
+
+        if ($('[id^=' + monthSearch + ']').length > 0){ //if there are any events this month
+            $('#upcoming_events_list').stop(true).scrollTo('#' + $('[id^=' + monthSearch + ']')[0].id, {duration:0, interrupt:true});
+            if($('[id^=' + monthSearch + ']').closest('a').hasClass('noncase-event')){
+                $('[id^=' + monthSearch + ']').closest('a').addClass('cal-noncase-event');
+            } else {
+                $('[id^=' + monthSearch + ']').closest('a').addClass('cal-case-event');
+            }
+        } else {
+            $('#fail').show();
+            $('#upcoming_events_list').stop(true).scrollTo('#fail', {duration:0, interrupt:true});
+        }
+    }
+
+    $('#calendar').zabuto_calendar({
+        legend: [
+            {type: 'block', label: 'Case Event', classname: 'cal-case-event'},
+            {type: 'block', label: 'Non-case Event', classname: 'cal-noncase-event'}
+        ],
+        ajax: {
+            url: 'lib/php/data/home_events_load.php?summary=1',
+            modal: false
+        },
+        action: function() {
+            var target = this.id.substr(this.id.lastIndexOf('_') +1);
+            $('#upcoming_events_list').stop(true).scrollTo('#' + target, {duration:1000, interrupt:true});
+            $('.list-group-item').removeClass('cal-noncase-event cal-case-event');
+            if ($('#' + target).closest('a').hasClass('noncase-event')){
+                $('#' + target).closest('a').addClass('cal-noncase-event');
+            } else {
+                $('#' + target).closest('a').addClass('cal-case-event');
+            }
+        },
+        action_nav: function() {
+            //find events for current month in the events list
+            showEvent($('#' + this.id).data('to').year + '-' +  pad($('#' + this.id).data('to').month));
+        }
+    });
+
+    if ($('#upcoming_events_list').length > 0){
+        $.ajax({
+            url: 'lib/php/data/home_events_load.php',
+            dataType: 'json',
+            success: function (data) {
+                var display = '<div class="list-group">';
+                var startTime, endTime, bgType;
+                data.forEach(function(data){
+                    //Create (non-unique, I'm afraid) id for date
+                    var d = data.start;
+                    var zabId = d.split(' ');
+                    //Format times
+                    if (data.allDay){
+                        startTime = moment(data.start).format('MMMM Do YYYY');
+                        endTime = moment(data.end).format('MMMM Do YYYY');
+                    } else {
+                        startTime = moment(data.start).format('MMMM Do YYYY, h:mm a');
+                        endTime = moment(data.end).format('MMMM Do YYYY, h:mm a');
+                    }
+                    //Bgcolor based on case/non-case
+                    if (data.caseId === 'NC'){
+                        bgType = 'noncase-event';
+                    } else {
+                        bgType = 'case-event';
+                    }
+                    display += '  <a href="#" class="list-group-item list-group-item-cal ' + bgType +
+                    '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
+                    '<dl class="dl-horizontal">' +
+                    '<dt class="list-group-item-text">Start:</dt><dd> ' + startTime + '</dd>' +
+                    '<dt class="list-group-item-text">End:</dt><dd> ' + endTime + '</dd>' +
+                    '<dt class="list-group-item-text">Where:</dt><dd> ' + data.where +  '</dd>' +
+                    '<dt class="list-group-item-text">Case: </dt><dd> ' + data.caseName +  '</dd></dl>' +
+                    '<p class="list-group-item-text text-center">' + data.description +  '</p></a>';
+
+                });
+                display += '</div>';
+                $('#upcoming_events_list').html(display)
+                .append('<h3 id="fail">No events this month</h3><div style="height:400px"></div>');
+                //Look for any events in current month
+                showEvent();
+            }
+        });
+    }
 
 });

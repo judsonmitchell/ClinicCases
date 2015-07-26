@@ -9,15 +9,21 @@
 	<meta name="robots" content="noindex">
 
     <?php if ($_SESSION['mobile']){ ?>
-    <meta name="viewport" content="width=device-width,initial-scale=.8, maximum-scale=1,target-densitydpi=device-dpi">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" href="html/css/bootstrap.css" type="text/css"  media="screen"/>
-	<link rel="stylesheet" href="html/css/bootstrap-responsive.min.css" type="text/css"  media="screen"/>
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="html/css/mobile.css" type="text/css"  media="screen"/>
+    <link href="lib/javascripts/zabuto-calendar/zabuto_calendar.css"  rel="stylesheet">
+    <link href="lib/javascripts/bootstrap-datepicker/bootstrap-datepicker3.min.css"  rel="stylesheet">
+    <link href="lib/javascripts/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css"  rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link type="text/css" href="lib/javascripts/chosen-v11/chosen.min.css" rel="stylesheet"/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.scrollto/2.1.0/jquery.scrollTo.min.js"></script>
 	<script src="lib/javascripts/globalFunctions.js" type="text/javascript"></script>
-	<script src="html/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="html/js/mobile.js" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
 	<script type="text/javascript" src="lib/javascripts/chosen-v11/chosen.jquery.min.js"></script>
@@ -25,7 +31,10 @@
 	<script type="text/javascript" src="lib/javascripts/additional-methods.js"></script>
 	<script src="html/js/notifyUser.js" type="text/javascript"></script>
 	<script src="lib/javascripts/validations.js" type="text/javascript"></script>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="lib/javascripts/zabuto-calendar/zabuto_calendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <?php } else if (!strstr(@$_GET['i'], 'Logout.php')) { ?>
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css"  media="screen"/>
 	<link rel="stylesheet" href="html/css/cm_tabs.css" type="text/css"  media="screen"/>

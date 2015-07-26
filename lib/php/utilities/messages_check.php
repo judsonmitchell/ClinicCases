@@ -48,7 +48,7 @@ if ($check_val === '0000-00-00 00:00:00') {
 }
 
 if ($check_val) {
-	$q = $dbh->prepare("SELECT COUNT(id) from cm_messages WHERE `time_sent` > :last_msg_check AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first OR `to`LIKE :user OR `ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first or `ccs` LIKE :user)");
+	$q = $dbh->prepare("SELECT COUNT(id) from cm_messages WHERE `time_sent` > :last_msg_check AND (`to` LIKE :user_last OR `to` LIKE :user_middle OR `to` LIKE :user_first OR `to`LIKE :user OR `ccs` LIKE :user_last OR `ccs` LIKE :user_middle OR `ccs` LIKE :user_first or `ccs` LIKE :user) AND `from` != :user");
 
 	$data = array('user' => $username,'user_last' => $user_last,'user_middle' => $user_middle,'user_first' => $user_first,'last_msg_check' => $check_val);
 

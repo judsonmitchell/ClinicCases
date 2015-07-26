@@ -1,36 +1,187 @@
-@media (min-width: 1200px) { 
-            body {
-                padding-top: 120px;
-                padding-bottom: 40px;
-            }
+body { padding-top: 70px; }
+#idletimeout{position:relative;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
+#notifications{
+    position:fixed; 
+    top:55px;
+    padding:10px;
+    font-weight:bold;
+    background-color:red;
+    color:white;
+    text-align:center;
+    display:none;
+    left:0;
+    right:0;
+    z-index:3000;
 }
-a{font-size:1.2em}
-#idletimeout{display:none}
-#notifications{position:fixed; top:20px;padding:10px;font-weight:bold;background-color:red;color:white;display:none}
+a.home-header {color:inherit; text-decoration:underline}
+a.home-header:visited {color:inherit; text-decoration:underline}
+#upcoming_events_list{
+    overflow:auto;
+    height:150px;
+}
+#calendar {margin-top:10px}
+#fail{display:none}
+.cal-case-event{background-color:#f2dede}
+.cal-noncase-event{background-color:#d9edf7}
+.list-group-item-cal{min-height:170px;}
 hr{border-bottom:1px solid #ddd}
 .table-case-closed{display:none}
-.dl-sectioned dt{border-bottom:1px solid #ddd;margin-bottom:5%;padding-top:5%;padding-bottom:5% }
-.dl-sectioned img {margin-right:5px}
 .small-select{width:auto}
-.btn-push-down{margin-top:25px !important}
-.btn-push-down-a-little{margin-top:4% !important}
+.list-group-item-less-border {
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #dddddd;
+    border-left: 0px;
+    margin-bottom:0px;
+}
 /* Show and hide search results */
 .search-result-hit{display:block !important}
 .search-result-miss{display:none !important}
 /* Mobile description lists */
 dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #aaa}
 /* Hide nested lists*/
-.li-expand ul {display:none; margin-left:10px}
-.li-expand-msg ul {display:none; margin-left:10px}
+.li-expand ul {display:none;}
+.li-expand-msg ul {display:none;}
+.msg-hide {display:none;}
+.msg-body-text{list-style:none;margin-left:-40px;}
 .mobile-doc-list{margin-bottom:20px}
 .truncate{height:1.2em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ul-reply{list-style:none;border-top:1px solid #ddd;margin-top:10px; display:block !important;}
+.ul-reply{list-style:none;border-top:1px solid #ddd;margin-top:10px; padding-top:10px;display:block !important;}
 .ul-reply li{margin-top:10px;margin-bottom:10px;}
 .ul-reply li>img{float:left;  margin: 0 15px 0 0;}
+.reply-text-box{font-size:16px; width:100%}
 .reply-item{margin-bottom:5px}
 .msg-new{display:none}
+.msg_read{opacity:0.7}
+.search-field input {height:30px !important}
 /* Board */
 .board-container{margin-top:10px}
-.board-item{min-height:180px;padding:0px 5px 5px 5px;margin-bottom:20px;border:1px solid #ddd; -moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
+.board-item{
+    min-height:275px;
+    max-height:275px;
+    overflow-y:auto;
+    padding:10px;
+    margin-bottom:20px;
+    border:1px solid #ddd;
+    -moz-box-shadow:3px 3px 5px gray ;
+    -webkit-box-shadow:3px 3px 5px gray;
+    box-shadow:3px 3px 5px gray;
+}
 .board-item h3>img {vertical-align:text-top;margin-right:5px}
 .board-item a {word-wrap:break-word}
+
+/* Case */
+
+.tab-pane{padding-top: 20px}
+dt.no-bold {font-weight:normal}
+dd.bold {font-weight:bold}
+/**
+ * Responsive Bootstrap Tabs by @hayatbiralem
+ * 15 May 2015
+ */
+@media screen and (max-width: 479px) {
+  .nav-tabs-responsive > li {
+    display: none;
+    width: 23%;
+  }
+  .nav-tabs-responsive > li > a {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: top;
+  }
+  .nav-tabs-responsive > li.active {
+    width: 54%;
+  }
+  .nav-tabs-responsive > li.active:first-child {
+    margin-left: 23%;
+  }
+  .nav-tabs-responsive > li.active, .nav-tabs-responsive > li.prev, .nav-tabs-responsive > li.next {
+    display: block;
+  }
+  .nav-tabs-responsive > li.prev, .nav-tabs-responsive > li.next {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  .nav-tabs-responsive > li.next > a, .nav-tabs-responsive > li.prev > a {
+    -webkit-transition: none;
+    transition: none;
+  }
+  .nav-tabs-responsive > li.next > a .text, .nav-tabs-responsive > li.prev > a .text {
+    display: none;
+  }
+  .nav-tabs-responsive > li.next > a:after, .nav-tabs-responsive > li.next > a:after, .nav-tabs-responsive > li.prev > a:after, .nav-tabs-responsive > li.prev > a:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .nav-tabs-responsive > li.prev > a:after {
+    content: "\f053";
+  }
+  .nav-tabs-responsive > li.next > a:after {
+    content: "\f054";
+  }
+  .nav-tabs-responsive > li.dropdown > a > .caret {
+    display: none;
+  }
+  .nav-tabs-responsive > li.dropdown > a:after {
+    content: "\e114";
+  }
+  .nav-tabs-responsive > li.dropdown.active > a:after {
+    display: none;
+  }
+  .nav-tabs-responsive > li.dropdown.active > a > .caret {
+    display: inline-block;
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-left {
+    left: 0;
+    right: auto;
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-center {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  .nav-tabs-responsive > li.dropdown .dropdown-menu.pull-xs-right {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* This is to stop mobile Safari from zooming on input.
+See: http://stackoverflow.com/a/16255670/49359
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
+    background: #eee;
+  }
+}
+/* and this:http://stackoverflow.com/a/26069511/49359 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .form-control {
+      font-size: 16px;
+    }
+}
+@media (min-width: 768px) {
+  .form-control {
+      font-size: 14px;
+    }
+}
