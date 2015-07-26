@@ -59,7 +59,7 @@ dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bo
 .board-item{
     min-height:275px;
     max-height:275px;
-    overflow-y:auto;
+    overflow:auto;
     padding:10px;
     margin-bottom:20px;
     border:1px solid #ddd;
