@@ -35,8 +35,8 @@
     <div class="row">
         <div class="col-xs-12" id="notifications"></div> 
     </div>
-    <div class="visible-xs-block row">
-        <div class="col-xs-8 col-xs-offset-2">
+    <div class="visible-xs-block row text-center">
+        <div class="col-xs-12 center-block">
             <div id="home-nav-toggle" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-primary active">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> Activities
