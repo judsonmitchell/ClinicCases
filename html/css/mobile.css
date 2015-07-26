@@ -56,7 +56,17 @@ dl.mobile-list dd{font-weight:bold;margin-left:0px;margin-bottom:10px;padding-bo
 .search-field input {height:30px !important}
 /* Board */
 .board-container{margin-top:10px}
-.board-item{min-height:180px;padding:0px 5px 5px 5px;margin-bottom:20px;border:1px solid #ddd; -moz-box-shadow:3px 3px 5px gray ;-webkit-box-shadow:3px 3px 5px gray;box-shadow:3px 3px 5px gray;}
+.board-item{
+    min-height:275px;
+    max-height:275px;
+    overflow-y:auto;
+    padding:10px;
+    margin-bottom:20px;
+    border:1px solid #ddd;
+    -moz-box-shadow:3px 3px 5px gray ;
+    -webkit-box-shadow:3px 3px 5px gray;
+    box-shadow:3px 3px 5px gray;
+}
 .board-item h3>img {vertical-align:text-top;margin-right:5px}
 .board-item a {word-wrap:break-word}
 

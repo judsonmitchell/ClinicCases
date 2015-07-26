@@ -107,7 +107,8 @@ if ($replies) { //render replies partial; called by ajax
         <div class="col-xs-12">
             <ul class="media-list">
                 <?php foreach ($msgs as $m) {extract($m);?>
-                    <li class="media li-expand-msg <?php if (in_string($_SESSION['login'],$read)){echo "msg_read";}else{echo "msg_unread";} ?>" data-thread="<?php echo $thread_id; ?>">
+                    <li class="media li-expand-msg <?php if (in_string($_SESSION['login'],$read)){echo "msg_read";}else{echo "msg_unread";} ?>" 
+                    data-thread="<?php echo $thread_id; ?>">
                         <div class="media-left">
                             <img class="media-object img-circle" src="<?php echo return_thumbnail($dbh,$from);?>">
                         </div>
