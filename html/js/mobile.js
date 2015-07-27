@@ -340,7 +340,10 @@ $(document).ready(function () {
         if (!target.find('.ul-reply').length) { //if we haven't already loaded replies
             $.get('html/templates/mobile/Messages.php', {type: 'replies', thread_id: target.attr('data-thread')}, function (data) {
                 target.find('li').last().append(data);
-
+                //Don't show archive button in archive, duh.
+                if (getParameterByName('type') === 'archive'){
+                    target.find('span.archive-msg').remove();
+                }
             });
         }
         //Set opacity for readability
