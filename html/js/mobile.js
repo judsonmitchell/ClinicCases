@@ -534,7 +534,7 @@ $(document).ready(function () {
 
     function showEvent (monthSearch){
         $('#fail').hide();
-        if (monthSearch === 'undefined'){
+        if (monthSearch === undefined){
             var curDate  = new Date();
             monthSearch = curDate.getFullYear() + '-' + pad(curDate.getMonth() + 1);
         }
