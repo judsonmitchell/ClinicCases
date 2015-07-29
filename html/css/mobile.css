@@ -25,6 +25,7 @@ a.home-header:visited {color:inherit; text-decoration:underline}
 .cal-noncase-event{background-color:#d9edf7}
 .list-group-item-cal{min-height:170px;}
 hr{border-bottom:1px solid #ddd}
+.case-list{list-style:none}
 .table-case-closed{display:none}
 .small-select{width:auto}
 .list-group-item-less-border {

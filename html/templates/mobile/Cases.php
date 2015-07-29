@@ -64,7 +64,7 @@ include 'lib/php/data/cases_load.php';
     <?php if (empty($raw_results)) {
         echo "<p class='end'>No cases found</p>";
         } else {
-            echo "<ul class=\"list-group\">";
+            echo "<ul class=\"list-group case-list\">";
                 foreach ($raw_results as $r) {extract($r);
                     if ($date_close !== ''){
                         echo "<li class='list-group-item list-group-item-less-border table-case-item table-case-closed'>";
