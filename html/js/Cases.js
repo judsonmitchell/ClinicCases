@@ -84,6 +84,20 @@ $(document).ready(function() {
                         },
                         'sAjaxSource': 'lib/php/data/cases_load.php',
                         'bDeferRender': true,
+                        "aoColumnDefs": [ //see https://datatables.net/forums/discussion/10189/datatables-does-not-display-character#
+                            {
+                                "fnRender": function ( o ) {
+                                return String(o.aData[o.iDataColumn])
+                                    .replace(/&/g, '&amp;')
+                                    .replace(/"/g, '&quot;')
+                                    .replace(/'/g, '&#39;')
+                                    .replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;');
+                        
+                                },
+                                "aTargets": [ 0,1,2,3,4,5 ]
+                            }
+                        ],
                         'fnInitComplete': function() {
                         //When page loads, default filter is applied: open cases
                         // (i.e., all cases where the date close field is empty.
