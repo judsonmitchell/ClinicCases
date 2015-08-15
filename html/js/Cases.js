@@ -95,7 +95,8 @@ $(document).ready(function() {
                                     .replace(/>/g, '&gt;');
                         
                                 },
-                                "aTargets": [ 0,1,2,3,4,5 ]
+                                //"aTargets": [ 0,1,2,3,4,5 ]
+                                "aTargets": ['_all']
                             }
                         ],
                         'fnInitComplete': function() {
