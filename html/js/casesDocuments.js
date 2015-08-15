@@ -24,13 +24,6 @@ function unescapeNames() {
     });
 }
 
-function unescapeNames() {
-    $('.doc_item p, .doc_properties h3').each(function() {
-        var t = unescape($(this).html());
-        $(this).html(t);
-    });
-}
-
 function createDragDrop() {
     //Destroy any previously created draggables and droppables
     $('div.item, div.folder').draggable('destroy');
