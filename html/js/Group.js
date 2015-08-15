@@ -37,6 +37,20 @@ $(document).ready(function() {
             {'sType': 'date'}
         ],
         'sDom': '<\"H\"lfTrCi>t',
+        "aoColumnDefs": [ //escape html
+            {
+                "fnRender": function ( o ) {
+                return String(o.aData[o.iDataColumn])
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        
+                },
+                "aTargets": [2,3,5,6,7,8,9,10,11,12]
+            }
+        ],
         'oColVis': {'aiExclude': [0],'bRestore': true,'buttonText': 'Columns','fnStateChange': function(iColumn, bVisible) {
                 $('div.dataTables_scrollHeadInner thead th.addSelects:empty').each(function() {
                     this.innerHTML = fnCreateSelect(oTable.fnGetColumnData(iColumn, true, false, true));

@@ -37,6 +37,20 @@ $(document).ready(function() {
             {'sType': 'date'}
         ],
         'sDom': '<\'H\'lfTrCi>t<\'F\'<\'user_action\'>>',
+        "aoColumnDefs": [ //escape html
+            {
+                "fnRender": function ( o ) {
+                return String(o.aData[o.iDataColumn])
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        
+                },
+                "aTargets": [2,3,4,5,6,7,8,9,10,11,12,13]
+            }
+        ],
         'oColVis': {
             'aiExclude': [0],
             'bRestore': true,
