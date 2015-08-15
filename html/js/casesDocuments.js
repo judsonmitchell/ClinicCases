@@ -3,6 +3,17 @@
 //
 
 /* global escape, unescape, notify, rte_toolbar, qq , isUrl */
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 
 function createTrail(path) {
     var pathArray = path.split('/');
@@ -11,17 +22,10 @@ function createTrail(path) {
     $.each(pathArray, function(i, v) {
         pathS += '/' + v;
         var pathSa = pathS.substr(1);
-        var pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + unescape(v) + '</a>/';
+        var pathItem = '<a class="doc_trail_item" href="#" path="' + pathSa + '">' + escapeHtml(unescape(v)) + '</a>/';
         pathString += pathItem;
     });
     return pathString;
-}
-
-function unescapeNames() {
-    $('.doc_item p, .doc_properties h3').each(function() {
-        var t = unescape($(this).html());
-        $(this).html(t);
-    });
 }
 
 function createDragDrop() {
@@ -88,7 +92,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     //If this is not a new document, then set the editor content from the db
     if (action === 'view') {
         arr[0].set_content(content);
-        ccdTitleArea.html(unescape(title));
+        ccdTitleArea.html(escapeHtml(unescape(title)));
         docIdArea.attr('data-id', id);
     }
 
@@ -126,7 +130,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
         }, function(data) {
             var serverResponse = $.parseJSON(data);
             docIdArea.attr('data-id', serverResponse.ccd_id);
-            ccdTitleArea.html(unescape(serverResponse.ccd_title));
+            ccdTitleArea.html(escapeHtml(unescape(serverResponse.ccd_title)));
         });
     }
 
@@ -144,7 +148,6 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                 }, function() {
                     tools.find('button').show();
                     tools.find('button.closer').remove();
-                    unescapeNames();
                     createDragDrop();
                 });
             } else {  //document is in a subfolder
@@ -156,7 +159,6 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                 }, function() {
                     tools.find('button').show();
                     tools.find('button.loser').remove();
-                    unescapeNames();
                     createDragDrop();
                 });
             }
@@ -203,7 +205,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
         })
         .click(function() {
             $(this).html('<input type="text" value="" />');
-            $(this).find('input').val(unescape(ccdTitle)).focus().select();
+            $(this).find('input').val(escapeHtml(unescape(ccdTitle))).focus().select();
         })
         .bind('focusout keyup', function(e) {
             if (e.type === 'focusout' || e.which === 13) {
@@ -214,7 +216,7 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                     $(this).find('input').addClass('ui-state-error').focus();
                     return false;
                 } else {
-                    $(this).html(unescape(ccdTitle));
+                    $(this).html(escapeHtml(unescape(ccdTitle)));
                     $(this).css({'color': 'black'});
                     var getText = arr[0].get_content();
                     $.post('lib/php/data/cases_documents_process.php', {
@@ -283,7 +285,6 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
             pathDisplay.html(pathString);
             pathDisplay.find('a[path="' + path + '"]').addClass('active');
             createDragDrop();
-            unescapeNames();
 
             //Set the current path so that other functions can access it
             $(this).closest('.case_detail_panel').data('CurrentPath', path);
@@ -392,9 +393,6 @@ $('.case_detail_nav #item3').live('click', function() {
         .next().button({icons: {primary: 'fff-icon-folder-add'},text: true})
         .next().button({icons: {primary: 'fff-icon-page-white-get'},text: true});
 
-        //Unescape folder names
-        unescapeNames();
-
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
@@ -464,7 +462,6 @@ $('.case_detail_nav #item3').live('click', function() {
                             el.closest('.case_detail_panel_casenotes')
                             .load('lib/php/data/cases_documents_load.php',
                             {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
-                                unescapeNames();
                                 el.destroyContextMenu();
                             });
                         });
@@ -510,7 +507,6 @@ $('.case_detail_nav #item3').live('click', function() {
                                     'path': targetPath,
                                     'container': targetPath
                                 }, function() {
-                                    unescapeNames();
                                     el.destroyContextMenu();
                                 });
                             });
@@ -541,7 +537,7 @@ $('.case_detail_nav #item3').live('click', function() {
                             return;
                         } else {
                             $(el).find('textarea').hide();
-                            $(el).find('p').html(unescape(newVal));
+                            $(el).find('p').html(escapeHtml(unescape(newVal)));
                             $(el).attr('path', serverResponse.newPath);
                             $(el).find('p').show();
                         }
@@ -578,8 +574,8 @@ $('.case_detail_nav #item3').live('click', function() {
             case 'delete':
                 var warning = null;
                 if ($(el).hasClass('folder')) {
-                    warning = 'This folder and all of its contents will be permanently' +
-                    'deleted from the server.' + 'Are you sure?';
+                    warning = 'This folder and all of its contents will be permanently ' +
+                    'deleted from the server.' + ' Are you sure?';
                 } else {
                     warning = 'This item will be permanently deleted from the server.  Are you sure?';
                 }
@@ -716,7 +712,7 @@ $('button.doc_new_folder').live('click', function() {
                             .closest('.folder')
                             .attr({'path': newFolder,'data-id': serverResponse.id})
                             .droppable();
-                        $('#new_folder_name').closest('p').html(newName);
+                        $('#new_folder_name').closest('p').html(escapeHtml(newName));
                         createDragDrop();
                         notify(serverResponse.message);
                     }
@@ -755,7 +751,7 @@ $('button.doc_upload').live('click', function() {
         height: 500,
         width: 500,
         modal: true,
-        title: 'Upload into ' + activeDirectory + ' folder:',
+        title: 'Upload into ' + escapeHtml(activeDirectory) + ' folder:',
         open: function() {
             $(this).find('div.upload_dialog_url').show();
             $(this).find('div.upload_dialog_file').show();
@@ -780,7 +776,6 @@ $('button.doc_upload').live('click', function() {
                 'container': currentPath
             }, function() {
                 createDragDrop();
-                unescapeNames();
             });
         }
     });
@@ -838,7 +833,7 @@ $('button.doc_upload').live('click', function() {
                     'path': currentPath,
                     'container': currentPath
                 }, function() {
-                    unescapeNames();
+                    //unescapeNames();
                 });
             });
         }
@@ -859,7 +854,6 @@ $('a.doc_trail_home').live('click', function(event) {
         'update': 'yes'
     }, function() {
         $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
-        unescapeNames();
         createDragDrop();
     });
 });
@@ -886,7 +880,6 @@ $('a.doc_trail_item').live('click', function(event) {
         var pathString = createTrail(path);
         pathDisplay.html(pathString);
         pathDisplay.find('a[path="' + path + '"]').addClass('active');
-        unescapeNames();
 
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
