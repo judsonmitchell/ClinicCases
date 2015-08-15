@@ -221,7 +221,7 @@ $('a.event_delete').live('click', function(event) {
     var thisEvent = $(this).closest('.event');
     var thisEventId = thisEvent.attr('data-id');
     var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Event?">This event' +
-    'will be permanently deleted.  Are you sure?</div>')
+    ' will be permanently deleted.  Are you sure?</div>')
     .dialog({
         autoOpen: false,
         resizable: false,

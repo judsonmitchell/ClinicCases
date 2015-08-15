@@ -102,7 +102,7 @@ if ($replies === false) //these are not replies to a message
 
 				<span class = "cse_msg_subject">
 
-					<?php echo $subject; ?>
+					<?php echo htmlspecialchars($subject,ENT_QUOTES,'UTF-8'); ?>
 
 				</span>
 
@@ -135,7 +135,7 @@ if ($replies === false) //these are not replies to a message
 
 			<?php if ($ccs){echo "<p class='ccs'>Cc: " . format_name_list($dbh,$ccs) . "</p>";} ?>
 
-			<p class = "subj">Subject: <?php echo htmlentities($subject); ?></p>
+			<p class = "subj">Subject: <?php echo htmlspecialchars($subject,ENT_QUOTES,'UTF-8'); ?></p>
 
 			<p class = "assoc_case">Filed in: <?php if (!$assoc_case){echo "(Not Filed)";}else{echo case_id_to_casename($dbh,$assoc_case);} ?></p>
 
