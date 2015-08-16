@@ -60,11 +60,11 @@
 
 	<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
 
-	<h3><?php echo $title; ?></h3>
+	<h3><?php echo htmlspecialchars($title,ENT_QUOTES,'UTF-8'); ?></h3>
 
 	<div class="body_text">
 
-		<?php echo $body; ?>
+		<?php echo htmlspecialchars($body,ENT_QUOTES,'UTF-8'); ?>
 
 	</div>
 
