@@ -61,7 +61,7 @@ foreach ($adverse as $ad) {
 
 	if ($per >= 80)
 	{
-		$conflicts[] = array('percentage' => $per,'text' => "A party named <strong> " . $ad['name'] . " </strong> was adverse in the <a href='index.php?i=Cases.php#cases/" . $ad['case_id'] . "' target='_new'>" .
+		$conflicts[] = array('percentage' => $per,'text' => "A party named <strong> " . htmlspecialchars($ad['name'], ENT_QUOTES,'UTF-8') . " </strong> was adverse in the <a href='index.php?i=Cases.php#cases/" . $ad['case_id'] . "' target='_new'>" .
 		case_id_to_casename ($dbh,$ad['case_id']) . "</a> case.  ("  .  round($per,2) . " % match)");
 	}
 
@@ -106,9 +106,9 @@ if ($q->rowCount() > 0)
 			if ($per >= 80)
 			{
 				$conflicts[] = array('percentage' => $per,'text' =>
-				"We represented a party named <strong>" . $ap['name'] . " </strong> in the <a href='index.php?i=Cases.php#cases/"
+				"We represented a party named <strong>" . htmlspecialchars($ap['name'], ENT_QUOTES,'UTF-8') . " </strong> in the <a href='index.php?i=Cases.php#cases/"
 				. $ac['case_id'] . "' target='_new'>" .
-				case_id_to_casename ($dbh,$ac['case_id']) . "</a> case. " . $ap['name'] . " is adverse in this case. ("  .
+				case_id_to_casename ($dbh,$ac['case_id']) . "</a> case. " . htmlspecialchars($ap['name'], ENT_QUOTES,'UTF-8') . " is adverse in this case. ("  .
 				round($per,2) . " % match)");
 			}
 
@@ -167,9 +167,9 @@ if ($contact_number > 0)
 			if ($per >= 80)
 			{
 				$conflicts[] = array('percentage' => $per,'text' =>
-				"We represented a party named <strong>$contact_name</strong> in the <a href='index.php?i=Cases.php#cases/"
+				"We represented a party named <strong>" . htmlspecialchars($contact_name ,ENT_QUOTES,'UTF-8'). "</strong> in the <a href='index.php?i=Cases.php#cases/"
 				. $ac['case_id'] . "' target='_new'>" .
-				case_id_to_casename ($dbh,$ac['case_id']) . "</a> case. $contact_name is a
+				case_id_to_casename ($dbh,$ac['case_id']) . "</a> case." .  htmlspecialchars($contact_name ,ENT_QUOTES,'UTF-8'). " is a
 				$contact_type in this case. ("  . round($per,2) . " % match)");
 			}
 
@@ -204,9 +204,9 @@ if ($contact_number >0)
 
 		if ($per >= 80)
 		{
-			$conflicts[] = array('percentage' => $per,'text' => "A party named <strong> " . $ad['name'] . " </strong> was adverse in the <a href='index.php?i=Cases.php#cases/" . $ad['case_id'] . "' target='_new'>" .
-			case_id_to_casename ($dbh,$ad['case_id']) . "</a> case. $contact_name is a
-			$contact_type in this case. ("  .  round($per,2) . " % match)");
+			$conflicts[] = array('percentage' => $per,'text' => "A party named <strong> " . htmlspecialchars($ad['name'], ENT_QUOTES,'UTF-8') . " </strong> was adverse in the <a href='index.php?i=Cases.php#cases/" . $ad['case_id'] . "' target='_new'>" .
+			case_id_to_casename ($dbh,$ad['case_id']) . "</a> case. " .  htmlspecialchars($contact_name ,ENT_QUOTES,'UTF-8'). " is a " . 
+			htmlspecialchars($contact_type ,ENT_QUOTES,'UTF-8') . " in this case. ("  .  round($per,2) . " % match)");
 		}
 
 	}
