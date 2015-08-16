@@ -56,7 +56,7 @@
 
 		<div class="journal_text">
 
-		<?php if ($view == 'edit'){echo "<textarea class='journal_edit'>$text</textarea>";}else{echo $text;} ?>
+		<?php if ($view == 'edit'){echo "<textarea class='journal_edit'>" . htmlspecialchars($text ,ENT_QUOTES,'UTF-8'). "</textarea>";}else{echo $text;} ?>
 
 		</div>
 
@@ -72,7 +72,7 @@
 
 						<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
 
-						<p><?php echo strip_tags($value['text'],'<br>'); ?></p>
+						<p><?php echo htmlspecialchars(strip_tags($value['text'],'<br>'), ENT_QUOTES, 'UTF-8'); ?></p>
 
 						<a href="#" class="comment_delete">Delete</a>
 
@@ -99,8 +99,5 @@
 		</div>
 
 	</div>
-
-
-
 
 </div>

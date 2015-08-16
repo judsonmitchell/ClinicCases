@@ -10,7 +10,9 @@
 	{echo "<p class='end'>There has been no activity in the last sixty days.  If you have just installed ClinicCases 7, it may take a while for this to start filling up.</p>"; die;}
 
 		foreach ($activities as $activity) {
-		echo "<div class='card'><p><img class='thumbnail-mask' src='" . $activity['thumb'] . "'>&nbsp" . $activity['by'] . $activity['action_text'] . "<a href='" .  $activity['follow_url']."'>" . $activity['casename'] . "</a> on " . $activity['time_formatted'] . "</p><br /><p class = 'grey'>" . $activity['what'] ."</p></div>";
+		echo "<div class='card'><p><img class='thumbnail-mask' src='" . $activity['thumb'] . "'>&nbsp" . 
+        htmlspecialchars($activity['by'], ENT_QUOTES,'UTF-8') . htmlspecialchars($activity['action_text'], ENT_QUOTES,'UTF-8') .
+        "<a href='" .  $activity['follow_url']."'>" . htmlspecialchars($activity['casename'], ENT_QUOTES,'UTF-8') . "</a> on " . $activity['time_formatted'] . "</p><br /><p class = 'grey'>" . htmlspecialchars($activity['what'], ENT_QUOTES,'UTF-8') ."</p></div>";
 	}
 	?>
 

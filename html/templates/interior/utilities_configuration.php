@@ -19,12 +19,12 @@
 
 				<p>
 					<label>Case Type Code</label>
-					<input name="case_code[]" class="cl_code" type="text" value="<?php echo $case_type_code; ?>" maxlength="4">
+					<input name="case_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($case_type_code,ENT_QUOTES,'UTF-8'); ?>" maxlength="4">
 
 					<label>Case Type</label>
-					<input name="case[]" type="text" value="<?php echo $type;?>" data-id="<?php echo $id; ?>">
+					<input name="case[]" type="text" value="<?php echo htmlspecialchars($type,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
 
-					<a href="#" class="change_config" title="Delete <?php echo $type;?>"><img src="html/ico/cancel.png"></a>
+					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($type,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
 				<?php } ?>
@@ -48,9 +48,9 @@
 				<?php foreach($courts as $c){extract($c)?>
 
 				<p>
-					<input name="court[]" type="text" value="<?php echo $court;?>" data-id="<?php echo $id; ?>">
+					<input name="court[]" type="text" value="<?php echo htmlspecialchars($court,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
 
-					<a href="#" class="change_config" title="Delete <?php echo $court;?>"><img src="html/ico/cancel.png"></a>
+					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($court,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
 				<?php } ?>
@@ -74,8 +74,8 @@
 				<?php foreach($dispos as $d){extract($d)?>
 
 				<p>
-					<input name="dispo[]" type="text" value="<?php echo $dispo;?>" data-id="<?php echo $id; ?>" title="Delete <?php echo $dispo;?>">
-					<a href="#" class="change_config" title="Delete <?php echo $dispo;?>"><img src="html/ico/cancel.png"></a>
+					<input name="dispo[]" type="text" value="<?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>" title="Delete <?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>">
+					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
 				<?php } ?>
@@ -106,11 +106,11 @@
 
 				<p>
 					<label>Clinic Code</label>
-					<input name="clinic_code[]" class="cl_code" type="text" value="<?php echo $clinic_code; ?>" maxlength="4">
+					<input name="clinic_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($clinic_code,ENT_QUOTES,'UTF-8'); ?>" maxlength="4">
 
 					<label>Clinic Name</label>
-					<input name="clinic_name[]" type="text" value="<?php echo $clinic_name;?>" data-id="<?php echo $id; ?>">
-					<a href="#" class="change_config" title="Delete <?php echo $clinic_name;?>"><img src="html/ico/cancel.png"></a>
+					<input name="clinic_name[]" type="text" value="<?php echo htmlspecialchars($clinic_name,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
+					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($clinic_name,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
 				<?php } ?>
@@ -134,8 +134,8 @@
 				<?php foreach($referral as $f){extract($f)?>
 
 				<p>
-					<input name="referral[]" type="text" value="<?php echo $referral;?>" data-id="<?php echo $id; ?>">
-					<a href="#" class="change_config" title="Delete <?php echo $referral;?>"><img src="html/ico/cancel.png"></a>
+					<input name="referral[]" type="text" value="<?php echo htmlspecialchars($referral,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
+					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($referral,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
 				</p>
 
 				<?php } ?>

@@ -21,6 +21,20 @@ $(document).ready(function() {
             { 'sTitle' : 'Commented','bVisible' : false},
             { 'sTitle' : 'Comments','bSearchable' : false,'bVisible' : false}
         ],
+        "aoColumnDefs": [ //escape html
+            {
+                "fnRender": function ( o ) {
+                return String(o.aData[o.iDataColumn])
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        
+                },
+                "aTargets": [2,3,4,5,6,7,8,9]
+            }
+        ],
         'oColVis': {'aiExclude': [0,1],'bRestore': true,'buttonText': 'Columns'},
         'oTableTools': {
             'aButtons': [{

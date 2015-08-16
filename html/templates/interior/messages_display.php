@@ -79,7 +79,7 @@ if (!$replies) //these are not replies to a message
 
 				<span class = "msg_subject">
 
-					<?php echo $subject; ?>
+					<?php echo htmlspecialchars($subject,ENT_QUOTES,'UTF-8'); ?>
 
 				</span>
 
