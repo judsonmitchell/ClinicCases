@@ -194,7 +194,7 @@ else
 			else
 				{$text = 'closed';}
 
-			$return = array("message" => "$case_name is now $text.","error" => false);
+			$return = array("message" => htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . " is now $text.","error" => false);
 			echo json_encode($return);
 
 		break;
@@ -215,7 +215,7 @@ else
 					else
 				{$text = 'closed';}
 
-			$return = array("message" => "$case_name case $text.","error" => false);
+			$return = array("message" => htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . " case $text.","error" => false);
 			echo json_encode($return);
 
 		break;

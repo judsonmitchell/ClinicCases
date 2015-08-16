@@ -377,7 +377,7 @@ $('a.csenote_edit').live('click', function (event) {
         thisCseNote.find('span.highlight').contents().unwrap();
     }
 
-    var txtVal = thisCseNote.find('p.csenote_instance').html().br2nl();
+    var txtVal = escapeHtml(thisCseNote.find('p.csenote_instance').html().br2nl());
     var timeVal = $(this).closest('div').children('.csenote_time').html();
     var hourVal;
     var minuteVal;

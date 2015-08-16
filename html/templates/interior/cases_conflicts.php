@@ -39,7 +39,7 @@
 	<ol class="conflicts">
 
 	<?php if ($count > 0){foreach ($conflicts as $conflict){
-			echo "<li>" . $conflict['text'] . "</li>";
+			echo "<li>" . htmlspecialchars($conflict['text'], ENT_QUOTES,'UTF-8') . "</li>";
 		}
 	}?>
 

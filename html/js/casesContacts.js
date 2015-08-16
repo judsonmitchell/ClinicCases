@@ -252,15 +252,15 @@ $('.case_detail_panel_tools_right button.contact_print').live('click', function(
 
 //Updates the displayed contact name when user creates a new contact
 $('#contact_first_name').live('keyup', function() {
-    $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
+    $(this).closest('.new_contact').find('span.first_name_live').html(escapeHtml($(this).val()));
 });
 
 $('#contact_last_name').live('keyup', function() {
-    $(this).closest('.new_contact').find('span.last_name_live').html($(this).val());
+    $(this).closest('.new_contact').find('span.last_name_live').html(escapeHtml($(this).val()));
 });
 
 $('#contact_type').live('change', function() {
-    $(this).closest('.new_contact').find('span.contact_type_live').html($(this).val());
+    $(this).closest('.new_contact').find('span.contact_type_live').html(escapeHtml($(this).val()));
 });
 
 //Sets default text on contact title
@@ -273,7 +273,7 @@ $('#contact_organization').live('focus', function() {
     //If no name is entered, use organization name for contact title
     if ($('#contact_first_name').val() === '' && $('#contact_last_name').val() === '') {
         $(this).keyup(function() {
-            $(this).closest('.new_contact').find('span.first_name_live').html($(this).val());
+            $(this).closest('.new_contact').find('span.first_name_live').html(escapeHtml($(this).val()));
         });
 
         $(this).focusout().die('keyup');
@@ -565,7 +565,7 @@ $('a.contact_delete').live('click', function(event) {
     var thisContact = $(this).closest('.contact');
     var thisContactId = thisContact.attr('data-id');
     var dialogWin = $('<div class=".dialog-casenote-delete" title="Delete this Contact?">This contact' +
-    'will be permanently deleted.  Are you sure?</div>')
+    ' will be permanently deleted.  Are you sure?</div>')
     .dialog({
         autoOpen: false,
         resizable: false,

@@ -163,11 +163,11 @@ function formatCaseData(thisPanel, type) { //Apply CSS
         $('input[name = "last_name"]').keyup(function () {
             var fname = thisPanel.find('input[name="first_name"]').val();
             $(this).closest('#case_detail_tab_row')
-            .find('li.ui-state-active').find('a').html($(this).val() + ', ' + fname);
+            .find('li.ui-state-active').find('a').html(escapeHtml($(this).val()) + ', ' + escapeHtml(fname));
             //Put client name on case title
             $(this).closest('#case_detail_tab_row')
                 .find('div.case_title')
-                .html('<h2>' + fname + ' ' + $(this).val() + '</h2>');
+                .html('<h2>' + escapeHtml(fname) + ' ' + escapeHtml($(this).val()) + '</h2>');
         });
 
         //If there is no last name, put the organization name on the tab
@@ -175,10 +175,10 @@ function formatCaseData(thisPanel, type) { //Apply CSS
             var lnameVal = $(this).closest('form').find('input[name="last_name"]').val();
             if (lnameVal === '') {
                 $(this).closest('#case_detail_tab_row')
-                .find('li.ui-state-active').find('a').html($(this).val());
+                .find('li.ui-state-active').find('a').html(escapeHtml($(this).val()));
 
                 //Put organization name on case title
-                $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + $(this).val() + '</h2>');
+                $(this).closest('#case_detail_tab_row').find('div.case_title').html('<h2>' + escapeHtml($(this).val()) + '</h2>');
             }
         });
     } else {  //display case data
@@ -254,7 +254,7 @@ $('button.case_modify_submit').live('click', function (event) {
         //Reapply onbeforeunload event to prevent empty cases
         $(window).bind('beforeunload', function () {
             return 'You may have unsaved changes on a case.  Please either save' +
-            'any changes or close the case\'s tab before leaving this page';
+            ' any changes or close the case\'s tab before leaving this page';
         });
 
         $('input.ui-state-error').focus(function () {

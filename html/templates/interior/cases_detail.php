@@ -6,9 +6,9 @@
 		<?php
 
 		if ($case_data->organization)
-			{echo $case_data->organization;}
+			{echo htmlspecialchars($case_data->organization, ENT_QUOTES, 'UTF-8');}
 		else
-			{echo $case_data->first_name . " " . $case_data->last_name;}
+			{echo htmlspecialchars($case_data->first_name, ENT_QUOTES, 'UTF-8'). " " . htmlspecialchars($case_data->last_name, ENT_QUOTES, 'UTF-8');}
 
 		?>
 		</h2>

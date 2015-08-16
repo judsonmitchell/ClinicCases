@@ -13,7 +13,7 @@ function username_to_lastname ($dbh,$name)
 
 		$r = $query->fetch();
 
-		return $r['last_name'];
+		return htmlspecialchars($r['last_name'], ENT_QUOTES,'UTF-8');
 
 
 	}
@@ -31,7 +31,7 @@ function username_to_firstname ($dbh,$name)
 
 		$r = $query->fetch();
 
-		return $r['first_name'];
+		return htmlspecialchars($r['first_name'], ENT_QUOTES,'UTF-8');
 
 
 	}
@@ -49,7 +49,7 @@ function username_to_fullname ($dbh,$name)
 
 		$r = $query->fetch();
 
-		return $r['first_name'] . " " . $r['last_name'];
+		return htmlspecialchars($r['first_name'], ENT_QUOTES,'UTF-8') . " " . htmlspecialchars($r['last_name'], ENT_QUOTES,'UTF-8');
 
 
 	}
@@ -72,11 +72,11 @@ function case_id_to_casename ($dbh,$id)
 
 			if (!$r['first_name'] and !$r['last_name'])
 
-				{return $r['organization'];}
+				{return htmlspecialchars($r['organization'], ENT_QUOTES,'UTF-8');}
 
 			else
 
-				{return $r['first_name'] . ' ' . $r['last_name'];}
+				{return htmlspecialchars($r['first_name'], ENT_QUOTES,'UTF-8') . ' ' . htmlspecialchars($r['last_name'], ENT_QUOTES,'UTF-8');}
 		}
 	}
 
@@ -99,7 +99,7 @@ function userid_to_username ($dbh,$id)
 
 	$user = $q->fetch(PDO::FETCH_ASSOC);
 
-	return $user['username'];
+	return htmlspecialchars($user['username'], ENT_QUOTES,'UTF-8');
 }
 
 //Used in Users page.  Creates array of group names and titles.  Saves having to do

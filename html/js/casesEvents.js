@@ -161,7 +161,7 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
 
 //Updates the displayed event name when user creates a new event
 $('input[name="task"]').live('keyup', function() {
-    $(this).closest('.new_event').find('span.event_name_live').html($(this).val());
+    $(this).closest('.new_event').find('span.event_name_live').html(escapeHtml($(this).val()));
 });
 
 //handle search

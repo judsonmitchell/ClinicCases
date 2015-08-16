@@ -93,13 +93,13 @@
                     <div class = 'csenote_bar_left'>";
 
                     if (empty($contact['first_name']) and empty($contact['last_name'])) {
-                        echo "<h4>" . $contact['organization'] . "</h4>";
+                        echo "<h4>" . htmlspecialchars($contact['organization'], ENT_QUOTES,'UTF-8') . "</h4>";
                     } else {
-                        echo "<h4><span class='cnt_first_name'>". $contact['first_name'] .
-                        "</span> <span class='cnt_last_name'>" . $contact['last_name'] . "</span></h4>";
+                        echo "<h4><span class='cnt_first_name'>". htmlspecialchars($contact['first_name'], ENT_QUOTES,'UTF-8') .
+                        "</span> <span class='cnt_last_name'>" . htmlspecialchars($contact['last_name'], ENT_QUOTES,'UTF-8') . "</span></h4>";
                     }
 
-                    echo "<h5><span class='cnt_type'>" . $contact['type']  . "</span></h5></div>
+                    echo "<h5><span class='cnt_type'>" . htmlspecialchars($contact['type'], ENT_QUOTES,'UTF-8')  . "</span></h5></div>
                     <div class = 'csenote_bar_right'>";
 
                     if ($_SESSION['permissions']['edit_contacts'] == '1') {
@@ -117,7 +117,8 @@
                 <div class='contact_left'>";
 
                     if ($contact['organization']) {
-                        echo "<p><label>Organization: </label><span class='cnt_organization'>$contact[organization]</span></p>";
+                        echo "<p><label>Organization: </label><span class='cnt_organization'>" . 
+                        htmlspecialchars($contact['organization'], ENT_QUOTES,'UTF-8') . "</span></p>";
                     }
 
                     if ($contact['phone']) {
@@ -126,7 +127,7 @@
                         foreach ($phones as $key => $value) {
                             if(!empty($value)){
                                 echo "<p class='contact_phone_group'><label>Phone (<span class='contact_phone_type'>$key</span>)</label>
-                                <span  class='contact_phone_value'>$value </span></p>";
+                                <span  class='contact_phone_value'>" . htmlspecialchars($value ,ENT_QUOTES,'UTF-8')." </span></p>";
                             }
                         }
                     }
@@ -136,8 +137,9 @@
 
                         foreach ($emails as $key => $value) {
                             if(!empty($value)){
-                                echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>$key</span>)</label><a href='mailto:$value' target='_blank'>
-                                <span class='contact_email_value'>$value</span></a></p>";
+                                echo "<p class='contact_email_group'><label>Email (<span class='contact_email_type'>$key</span>)</label>" .
+                                "<a href='mailto:" . htmlspecialchars($value ,ENT_QUOTES,'UTF-8'). "' target='_blank'>
+                                <span class='contact_email_value'>" . htmlspecialchars($value ,ENT_QUOTES,'UTF-8'). "</span></a></p>";
                             }
                         }
                     }
@@ -151,16 +153,17 @@
                 <div class='contact_right'>";
 
                 if ($contact['address']) {
-                    echo "<p><label>Address:</label><span class='cnt_address'>$contact[address]</span><br />
-                    <span class='cnt_city'>$contact[city]</span> <span class='cnt_state'>$contact[state]
-                    </span> <span class='cnt_zip'>$contact[zip]</span></p>";
+                    echo "<p><label>Address:</label><span class='cnt_address'>" . htmlspecialchars($contact['address'], ENT_QUOTES,'UTF-8') . "</span><br />
+                    <span class='cnt_city'>" . htmlspecialchars($contact['city'], ENT_QUOTES, 'UTF-8')  . "</span> <span class='cnt_state'>" .
+                    htmlspecialchars($contact['state'], ENT_QUOTES,'UTF-8') . "</span> <span class='cnt_zip'>" .
+                    htmlspecialchars($contact['zip'], ENT_QUOTES, 'UTF-8')  . "</span></p>";
                 }
                 if ($contact['url']) {
-                    echo "<p><label>Website:</label><a href='" . $contact['url'] . 
-                    "' target='_blank'><span class='cnt_url'>" . $contact['url'] . "</span></a>";
+                    echo "<p><label>Website:</label><a href='" . htmlspecialchars($contact['url'], ENT_QUOTES,'UTF-8') . 
+                    "' target='_blank'><span class='cnt_url'>" . htmlspecialchars($contact['url'], ENT_QUOTES,'UTF-8') . "</span></a>";
                 }
                 if ($contact['notes']) {
-                    echo "<p><label>Notes:</label><span class='cnt_notes'>" . nl2br($contact['notes']) . "</span></p>";
+                    echo "<p><label>Notes:</label><span class='cnt_notes'>" . nl2br(htmlspecialchars($contact['notes'], ENT_QUOTES,'UTF-8')) . "</span></p>";
                 }
 
                 echo "</div>

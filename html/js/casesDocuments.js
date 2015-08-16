@@ -3,17 +3,6 @@
 //
 
 /* global escape, unescape, notify, rte_toolbar, qq , isUrl */
-function escapeHtml(text) {
-  var map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-
-  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
 
 function createTrail(path) {
     var pathArray = path.split('/');

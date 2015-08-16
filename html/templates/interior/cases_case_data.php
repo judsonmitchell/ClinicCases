@@ -39,11 +39,11 @@
 			<?php foreach ($dta as $d) {extract($d); ?>
 
 			<p>
-				<label><?php echo $display_name; ?></label>
+				<label><?php echo htmlspecialchars($display_name,ENT_QUOTES,'UTF-8'); ?></label>
 
 				<?php if ($input_type === 'text'){ ?>
 
-					<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $value; ?>">
+					<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo htmlspecialchars($value,ENT_QUOTES,'UTF-8'); ?>">
 
 				<?php } elseif ($input_type === 'date'){ ?>
 
@@ -56,7 +56,7 @@
 
 						<span class = "<?php echo $db_name . "_multi-text multi-text"; ?>">
 
-						<input class="multi-text" name = "<?php echo $db_name; ?>" value="<?php echo $key; ?>">
+						<input class="multi-text" name = "<?php echo $db_name; ?>" value="<?php echo htmlspecialchars($key,ENT_QUOTES,'UTF-8'); ?>">
 
 						</span>
 
@@ -81,10 +81,10 @@
 								foreach ($options as $o_key => $o){
 									if ($o_key  == $val){?>
 
-									<option selected=selected value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+									<option selected=selected value = "<?php echo $o_key; ?>"><?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
 									<?php } else{ ?>
 
-									<option value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+									<option value = "<?php echo $o_key; ?>"><?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
 
 									<?php } ?>
 
@@ -92,7 +92,7 @@
 
 							</select>
 
-							<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo $key; ?>">
+							<input type="text" name = "<?php echo $db_name; ?>" value = "<?php echo htmlspecialchars($key,ENT_QUOTES,'UTF-8'); ?>">
 
 						</span>
 
@@ -105,7 +105,7 @@
 									<?php $options = unserialize($select_options);
 									foreach ($options as $o_key => $o){ ?>
 
-									<option value = "<?php echo $o_key; ?>"><?php echo $o; ?></option>
+									<option value = "<?php echo $o_key; ?>"><?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
 
 									<?php } ?>
 
@@ -129,9 +129,9 @@
 							foreach ($s as $key => $val) {
 
 							if ($val == $value)
-								{echo "<option value = '$val' data-code='$key' selected=selected>$val</option>";}
+								{echo "<option value = '$val' data-code='$key' selected=selected>" . htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
 							else
-								{echo "<option value = '$val' data-code='$key'>$val</option>";}
+								{echo "<option value = '$val' data-code='$key'>" . htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
 
 						} ?>
 
@@ -149,7 +149,7 @@
 
 				<?php } elseif ($input_type === 'textarea'){ ?>
 
-					<textarea name = "<?php echo $db_name; ?>"><?php echo $value; ?></textarea>
+					<textarea name = "<?php echo $db_name; ?>"><?php echo htmlspecialchars($value,ENT_QUOTES,'UTF-8'); ?></textarea>
 
 				<?php } ?>
 
@@ -182,7 +182,7 @@
 
 					<div class = "<?php echo $db_name; ?>_display case_data_display">
 
-						<div class="case_data_name"><?php echo $display_name; ?></div>
+						<div class="case_data_name"><?php echo htmlspecialchars($display_name,ENT_QUOTES,'UTF-8'); ?></div>
 
 						<?php if (!empty($value)){$duals = unserialize($value);
 
@@ -199,7 +199,7 @@
 			<?php } else { ?>
 
 		<div class = "<?php echo $db_name;?>_display case_data_display">
-				<div class = "case_data_name"><?php echo $display_name; ?></div>
+				<div class = "case_data_name"><?php echo htmlspecialchars($display_name,ENT_QUOTES,'UTF-8'); ?></div>
 
 				<div class="case_data_value">
 					<?php
@@ -212,7 +212,7 @@
 							$val .= $key . ", ";
 						}
 
-						echo substr($val, 0,-2);
+						echo htmlspecialchars(substr($val, 0,-2), ENT_QUOTES, 'UTF-8');
 					}
 					elseif ($input_type === 'date')
 					//then check if it's a date
@@ -221,7 +221,7 @@
 					}
 					else
 					{
-						echo $value;
+						echo htmlspecialchars($value,ENT_QUOTES,'UTF-8');
 					}?>
 				</div>
 
