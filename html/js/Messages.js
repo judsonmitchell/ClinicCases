@@ -412,7 +412,7 @@ $(document).ready(function() {
 
     //Handle print
     $('a.print').live('click',function(){
-        elPrint($(this).closest('.msg'),'Message');        //TODO enable print
+        elPrint($(this).closest('.msg'),'Message');
     });
 
     //Expand 'to' field when it overflows

@@ -2,7 +2,7 @@
 //Scripts for messages panel on cases tab
 //
 
-/* global notify */
+/* global notify, elPrint */
 
 //Load new messages on scroll
 function addMoreMessages(scrollTarget, view, caseId) {
@@ -310,8 +310,7 @@ $('div.msg_actions a').live('click', function(event) {
 
 //Handle print
 $('a.print').live('click', function() {
-    alert('Working on it');
-//TODO enable print
+    elPrint($(this).closest('.msg'), 'Messsage');
 });
 
 //Expand 'to' field when it overflows
