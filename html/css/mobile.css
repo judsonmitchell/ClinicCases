@@ -15,6 +15,7 @@ body { padding-top: 70px; }
 }
 a.home-header {color:inherit; text-decoration:underline}
 a.home-header:visited {color:inherit; text-decoration:underline}
+.pad-home-ccd{margin:10px 5px}
 #upcoming_events_list{
     overflow:auto;
     height:150px;

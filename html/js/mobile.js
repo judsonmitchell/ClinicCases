@@ -7,6 +7,16 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+function escapeHtml(text) {
+  return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/'/g, '&quot;')
+      .replace(/'/g, '&#039;');
+}
+
 //Responsive tabs feature
 (function($) {
 
@@ -122,12 +132,11 @@ $(document).ready(function () {
                         $('#caseDocs').html('').append(hideList);
                     });
                 } else {
-                    hideList = $('#activities_feed').detach();
-                    $('.home-container').append(ccdItem);
-                    $('.home-container').on('click', 'a.ccd-clear', function (event) {
+                    hideList = $('#activities').detach();
+                    $('.container .row').eq(2).append(ccdItem).addClass('pad-home-ccd');
+                    $('.container').on('click', 'a.ccd-clear', function (event) {
                         event.preventDefault();
-                        $('#caseDocs').html('').append(hideList);
-                        $('.home-container').html('').append(hideList);
+                        $('.container .row').eq(2).html('').removeClass('pad-home-ccd').append(hideList);
                     });
                 }
             });
@@ -603,13 +612,13 @@ $(document).ready(function () {
                         bgType = 'case-event';
                     }
                     display += '  <a href="#" class="list-group-item list-group-item-cal ' + bgType +
-                    '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + data.shortTitle + '</h3>' +
+                    '"> <h3 class="list-group-item-heading text-center" id="' + zabId[0] + '">' + escapeHtml(data.shortTitle) + '</h3>' +
                     '<dl class="dl-horizontal">' +
                     '<dt class="list-group-item-text">Start:</dt><dd> ' + startTime + '</dd>' +
                     '<dt class="list-group-item-text">End:</dt><dd> ' + endTime + '</dd>' +
-                    '<dt class="list-group-item-text">Where:</dt><dd> ' + data.where +  '</dd>' +
-                    '<dt class="list-group-item-text">Case: </dt><dd> ' + data.caseName +  '</dd></dl>' +
-                    '<p class="list-group-item-text text-center">' + data.description +  '</p></a>';
+                    '<dt class="list-group-item-text">Where:</dt><dd> ' + escapeHtml(data.where) +  '</dd>' +
+                    '<dt class="list-group-item-text">Case: </dt><dd> ' + escapeHtml(data.caseName) +  '</dd></dl>' +
+                    '<p class="list-group-item-text text-center">' + escapeHtml(data.description) +  '</p></a>';
 
                 });
                 display += '</div>';
