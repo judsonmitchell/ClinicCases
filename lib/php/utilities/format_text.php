@@ -21,7 +21,7 @@ function snippet($number_of_words,$txt)
 
 		}
 
-return $snippet_string;
+return htmlspecialchars($snippet_string,ENT_QUOTES,'UTF-8');
 
 }
 

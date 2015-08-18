@@ -15,7 +15,7 @@ if ($replies) { //render replies partial; called by ajax
                     <?php echo username_to_fullname($dbh,$from); ?> -
                     <?php echo extract_date_time($time_sent); ?>
                 </h5>
-                <?php echo stripslashes($body); ?>
+                <?php echo htmlspecialchars($body,ENT_QUOTES,'UTF-8'); ?>
             </div>
         </li>
     <?php } ?>
@@ -126,7 +126,7 @@ if ($replies) { //render replies partial; called by ajax
                                 <li>Filed In: <?php echo case_id_to_casename($dbh,$assoc_case); ?></li>
                                 <?php } ?>
                                 <br />
-                                <li><?php echo stripslashes($body); ?> </li>
+                                <li><?php echo htmlspecialchars($body,ENT_QUOTES,'UTF-8'); ?> </li>
                             </ul>
                         </div>
                         <hr />

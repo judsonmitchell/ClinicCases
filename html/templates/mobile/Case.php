@@ -71,7 +71,8 @@ include 'lib/php/data/cases_events_load.php';
                         $thumb = thumbify($picture_url);
                         $date_human = extract_date($date);
                         $tc = convert_case_time($time);
-                        echo "<div class='media'><div class='media-left media-top'><img class='media-object img-circle' src='$thumb' /></div><div class='media-body'><h4 class='media-heading'>$first_name $last_name <span class='pull-right'> $date_human </span></h4>
+                        echo "<div class='media'><div class='media-left media-top'><img class='media-object img-circle' src='$thumb' />
+                        </div><div class='media-body'><h4 class='media-heading'>" . htmlspecialchars($first_name ,ENT_QUOTES,'UTF-8') . " " . htmlspecialchars($last_name ,ENT_QUOTES,'UTF-8') . "<span class='pull-right'> $date_human </span></h4>
                         " . nl2br(htmlentities($description)) . "  <span class='muted'>($tc[0] $tc[1])</span></div></div> ";
                     }
                 }
@@ -83,18 +84,18 @@ include 'lib/php/data/cases_events_load.php';
 
                     if ($input_type == 'dual') //special handling for dual inputs
                         { ?>
-                            <dt><?php echo $display_name; ?></dt>
+                            <dt><?php echo htmlspecialchars($display_name,ENT_QUOTES,'UTF-8'); ?></dt>
                                 <dd>
                                 <?php if (!empty($value)){$duals = unserialize($value);
 
                                     foreach ($duals as $v => $type) {
                                     
                                     if ($display_name === "Phone"){
-                                        echo "<a href='tel:$v'>$v</a> (" . $type . ")<br />"; 
+                                        echo "<a href='tel:$v'>" . htmlspecialchars($v ,ENT_QUOTES,'UTF-8'). "</a> (" . $type . ")<br />"; 
                                     } else if ($display_name === "Email"){
-                                        echo "<a href='mailto:$v'>$v</a>" . " (" . $type . ")<br />"; 
+                                        echo "<a href='mailto:$v'>" . htmlspecialchars($v ,ENT_QUOTES,'UTF-8')."</a>" . " (" . $type . ")<br />"; 
                                     } else {
-                                        echo $v . " (" . $type . ")"; 
+                                        echo htmlspecialchars($v ,ENT_QUOTES,'UTF-8'). " (" . $type . ")"; 
                                     }
 
                                     }?>
@@ -104,7 +105,7 @@ include 'lib/php/data/cases_events_load.php';
 
                     <?php } else { ?>
 
-                        <dt><?php echo $display_name; ?></dt>
+                        <dt><?php echo htmlspecialchars($display_name,ENT_QUOTES,'UTF-8'); ?></dt>
                         <dd>
                             <?php
                             //first check if this is a serialized value
@@ -116,13 +117,13 @@ include 'lib/php/data/cases_events_load.php';
                                         $val .= $key . ", ";
                                     }
 
-                                    echo substr($val, 0,-2);
+                                    echo substr(htmlspecialchars($val,ENT_QUOTES,'UTF-8'), 0,-2);
                                 }
                                 elseif ($input_type === 'date') {
                                 //then check if it's a date
-                                    echo sql_date_to_us_date($value);
+                                    echo sql_date_to_us_date(htmlspecialchars($value,ENT_QUOTES,'UTF-8'));
                                 } else {
-                                    echo $value;
+                                    echo htmlspecialchars($value,ENT_QUOTES,'UTF-8');
                                 }
                             } else {
                                 echo "-";
@@ -149,9 +150,9 @@ include 'lib/php/data/cases_events_load.php';
                                     <h4>
                         <?php 
                             if ($first_name === '' && $last_name === ''){
-                                    echo $organization;
+                                    echo htmlspecialchars($organization,ENT_QUOTES,'UTF-8');
                                 } else {
-                                    echo $first_name . " " . $last_name;
+                                    echo htmlspecialchars($first_name ,ENT_QUOTES,'UTF-8'). " " . htmlspecialchars($last_name,ENT_QUOTES,'UTF-8');
                                 }
                             ?>
                             </h4>
@@ -165,16 +166,25 @@ include 'lib/php/data/cases_events_load.php';
                                         foreach ($v as $k => $vl) {
                                             if (!empty($vl)){
                                                     if ($key === 'phone'){
-                                                            echo "<li><span class='text-muted'>Phone:</span> <a href='tel:$vl'>$vl</a> ($k)</li> "; 
+                                                            echo "<li><span class='text-muted'>Phone:</span>" .
+                                                            "<a href='tel:'" . htmlspecialchars($vl ,ENT_QUOTES,'UTF-8') . 
+                                                            "'>" . htmlspecialchars($vl ,ENT_QUOTES,'UTF-8'). "</a> ($k)</li> "; 
                                                     } else if ($key === 'email'){
-                                                            echo "<li><span class='text-muted'>Phone:</span> Email <a href='mailto:$vl'>$vl</a> ($k)</li> "; 
+                                                            echo "<li><span class='text-muted'>Phone:</span> Email <a href='mailto:" . 
+                                                            htmlspecialchars($vl,ENT_QUOTES,'UTF-8') . "'>" . 
+                                                            htmlspecialchars($vl,ENT_QUOTES,'UTF-8') . "</a> (" . 
+                                                            htmlspecialchars($k ,ENT_QUOTES,'UTF-8'). ")</li> "; 
                                                     } else {
-                                                            echo "<li><li><span class='text-muted'>Phone:</span> $v</span> ($k)</li> ";
+                                                            echo "<li><li><span class='text-muted'>Phone:</span>" .  
+                                                            htmlspecialchars($v,ENT_QUOTES,'UTF-8') . "</span> (" . 
+                                                            htmlspecialchars($k ,ENT_QUOTES,'UTF-8'). ")</li> ";
                                                     }
                                             }
                                         }
                                         } else {
-                                            echo "<li><span class='text-muted'>" . ucwords(str_replace('_', ' ',$key)) . ":</span> $value </li>";
+                                            echo "<li><span class='text-muted'>" . 
+                                            ucwords(str_replace('_', ' ',htmlspecialchars($key,ENT_QUOTES,'UTF-8'))) . ":</span>" .  
+                                            htmlspecialchars($value ,ENT_QUOTES,'UTF-8') . "</li>";
                                         }
                                     }
                                 }
@@ -200,13 +210,13 @@ include 'lib/php/data/cases_events_load.php';
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="panel-info">
-                                    <h4><?php echo $task . ' - '; echo extract_date($start); ?></h4>
+                                    <h4><?php echo htmlspecialchars($task ,ENT_QUOTES,'UTF-8'). ' - '; echo extract_date($start); ?></h4>
                                     <ul class="unstyled">
-                                        <li><span class="text-muted">Start:</span> <?php echo $e['start_text']; ?>  </li>
-                                        <li><span class="text-muted">End: </span><?php echo $e['end_text']; ?>  </li>
+                                        <li><span class="text-muted">Start:</span> <?php echo htmlspecialchars($e['start_text'], ENT_QUOTES,'UTF-8'); ?>  </li>
+                                        <li><span class="text-muted">End: </span><?php echo htmlspecialchars($e['end_text'], ENT_QUOTES,'UTF-8'); ?>  </li>
                                         <li><span class="text-muted">All Day: </span><?php if($e['all_day'] === '1'){echo "Yes";}else{echo "No";} ?>  </li>
-                                        <li><span class="text-muted">Where: </span><?php echo $e['location']; ?>  </li>
-                                        <li><span class="text-muted">Notes: </span><?php echo nl2br($e['notes']); ?>  </li>
+                                        <li><span class="text-muted">Where: </span><?php echo htmlspecialchars($e['location'], ENT_QUOTES,'UTF-8'); ?>  </li>
+                                        <li><span class="text-muted">Notes: </span><?php echo nl2br(htmlspecialchars($e['notes'], ENT_QUOTES,'UTF-8')); ?>  </li>
                                     </ul>
                                 </div>
                             </div>

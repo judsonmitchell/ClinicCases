@@ -59,8 +59,9 @@
 
             foreach ($activities as $activity) {
                 echo "<div class='media'><div class='media-left media-top'><img class='img-circle media-object' src='" . $activity['thumb'] . "'></div><div class='media-body'> <h4 class='media-heading'>" . 
-                $activity['by'] . $activity['action_text'] . "<a class='home-header' href='" .  $activity['mobile_url'] .
-                "'>" . $activity['casename'] . "</a></h4><p>" . $activity['what'] .
+                htmlspecialchars($activity['by'], ENT_QUOTES,'UTF-8') . htmlspecialchars($activity['action_text'], ENT_QUOTES,'UTF-8') .
+                "<a class='home-header' href='" .  $activity['mobile_url'] .
+                "'>" . htmlspecialchars($activity['casename'], ENT_QUOTES,'UTF-8') . "</a></h4><p>" . $activity['what'] .
                 "</p><p class='text-muted'>" . $activity['time_formatted'] . "</p></div></div>";
             }
             ?>

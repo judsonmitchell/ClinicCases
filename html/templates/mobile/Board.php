@@ -61,8 +61,8 @@
                         echo "<div class='col-xs-12 col-sm-3'><div class='media board-item' style='background-color:rgb($color)'>" .
                         "<div class='media-left'><img class='media-object img-circle' src='" . return_thumbnail($dbh,$author) . 
                         "'></div><div class='media-body'><h3 class='media-heading'>" .
-                        "<span class='searchable'> $title</span></h3>" .
-                        "<div class='searchable'>$body</div>" . 
+                        "<span class='searchable'> htmlspecialchars($title,ENT_QUOTES,'UTF-8')</span></h3>" .
+                        "<div class='searchable'>htmlspecialchars($body,ENT_QUOTES,'UTF-8')</div>" . 
                         "<br /><div class='text-muted searchable'>Posted By " . username_to_fullname($dbh,$author) . " on " .
                         extract_date_time($time_added) . "</div>"; 
 
