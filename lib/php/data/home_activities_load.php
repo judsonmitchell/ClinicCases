@@ -617,7 +617,7 @@ if ($_SESSION['permissions']['view_board'] == '1')
 		$action_text = " posted on your Board ";
 		$time_done = $post['time_added'];
 		$time_formatted = extract_date_time($post['time_added']);
-		$what = $post['title'];
+		$what = htmlspecialchars($post['title'], ENT_QUOTES,'UTF-8');
 		$follow_url = 'index.php?i=Board.php';
 		$mobile_url = 'index.php?i=Board.php';
 		$casename = "(view here)";
