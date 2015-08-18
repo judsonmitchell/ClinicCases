@@ -52,7 +52,7 @@ $(document).ready(function() {
                 }
                 else if ($(this).hasClass('ccd')) {
                 //Link is a ClinicCases document.  Just direct user to case documents for now TODO
-                    var url = $(this).closest('p').prev('p').find('a').attr('href');
+                    var url = $(this).closest('p').siblings('p').find('a').attr('href');
                     window.location.href = url;
                 } else if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
                     if (Object.create){ //informal browser check for ie8
