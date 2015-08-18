@@ -157,13 +157,71 @@ switch ($action) {
 
 	case 'delete':
 
-		$q = $dbh->prepare("DELETE FROM cm WHERE id = ?");
-
-		$q->bindParam(1, $id);
-
-		$q->execute();
+        //1. Look to see if there is higher id than this one
+        $check = $dbh->prepare("SELECT id from cm where id = ?");
+        $test_val = $id + 1;
+		$check->bindParam(1, $test_val);
+        $check->execute();
+        //2. If so, update this case to display "Deleted"
+        if ($check->fetchColumn() > 0 ){
+            //Clear out all required fields; we don't know what the custom fields are or how
+            //how many non-required default fields have been removed, so this is the best we can do.
+            $q = $dbh->prepare("UPDATE `cm` SET `first_name` = '<Deleted>', `middle_name` = '', 
+            `last_name` = '<Deleted>', `organization` = '<Deleted>', `date_close` = CURDATE(), 
+            `case_type` = '', `phone` = '', `email` = '', `adverse_parties` = '', `closed_by` = ?  WHERE `cm`.`id` = ?;");
+            $q->bindParam(1, $_SESSION['login']);
+            $q->bindParam(2, $id);
+            $q->execute();
+        } else {
+        //3. If not, delete this case
+            $q = $dbh->prepare("DELETE FROM cm WHERE id = ?");
+            $q->bindParam(1, $id);
+            $q->execute();
+        }
 
 		$error = $q->errorInfo();
+        //4. Assuming successful deletion from cm, next delete all assoc_case data 
+        if ($error[1]){
+            $return = array('message' => 'Sorry, there was an error deleting the case. Please try again.','error' => true);
+            echo json_encode($return);
+            die();
+        } else {
+            $del_assoc_data = $dbh->prepare('DELETE FROM cm_adverse_parties WHERE case_id = ?; 
+            DELETE FROM `cm_case_assignees` where case_id = ?;
+            DELETE FROM `cm_case_notes` where case_id = ?;
+            DELETE FROM `cm_contacts` where assoc_case = ?;
+            DELETE FROM `cm_documents` where case_id = ?;
+            DELETE FROM `cm_events` where case_id = ?;
+            DELETE FROM `cm_messages` where assoc_case = ?;
+            ');
+
+            $del_assoc_data->bindParam(1, $id);
+            $del_assoc_data->execute();
+            $error = $del_assoc_data->errorInfo();
+            if ($error[1]){
+                $return = array('message' => 'Sorry, there was an error deleting associated case data. Some data may remain.','error' => true);
+                echo json_encode($return);
+                die();
+            } else {
+                //events will have to be handled separately            
+                $q = $dbh->prepare('SELECT * FROM cm_events where case_id = ?');
+                $q->bindParam(1, $id);
+                $q->execute();
+                $count = $q->rowCount();
+                if ($count > 0){
+                    $resp = $q->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($resp as $r){
+                        $sql = "DELETE FROM cm_events_responsibles where  event_id =" .   $r['id'];
+                        $q = $dbh->prepare($sql);
+                        $q->execute();
+                    }
+
+                    $q = $dbh->prepare("DELETE FROM cm_events where case_id = ?");
+                    $q->bindParam(1,$id);
+                    $q->execute();
+                } 
+            }
+        }
 
 	break;
 
