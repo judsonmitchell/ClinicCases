@@ -149,7 +149,7 @@ $(document).ready(function() {
                     var route = null;
 
                     if (event.caseId !== 'NC') { //only show case link if this is a case-related event
-                        route = '<p><label>Case:</label> <a href="index.php?i=Cases.php#cases/"' +
+                        route = '<p><label>Case:</label> <a href="index.php?i=Cases.php#cases/' +
                         event.caseId + '">' + event.caseName + '</a></p>';
                     } else {
                         route = '';
