@@ -158,22 +158,46 @@ switch ($action) {
 	case 'delete':
 
         //1. Look to see if there is higher id than this one
-        $check = $dbh->prepare("SELECT id from cm where id = ?");
-        $test_val = $id + 1;
-		$check->bindParam(1, $test_val);
+        $check = $dbh->prepare("SELECT id from cm where id > ?");
+		$check->bindParam(1, $id);
         $check->execute();
+        $check_arr = $check->fetchAll(PDO::FETCH_ASSOC);
         //2. If so, update this case to display "Deleted"
-        if ($check->fetchColumn() > 0 ){
-            //Clear out all required fields; we don't know what the custom fields are or how
-            //how many non-required default fields have been removed, so this is the best we can do.
+        //This allows admin to keep their case numbers sequential.
+        if (!empty($check_arr)){
+            //We will keep certain fields for record purposes; find what
+            //fields we have other than those and clear them out. Then update
+            //remaining fields with the values we want.
+            $q = $dbh->prepare('SELECT `COLUMN_NAME` 
+            FROM `INFORMATION_SCHEMA`.`COLUMNS` 
+            WHERE `TABLE_SCHEMA`="'. CC_DATABASE_NAME . '" 
+                AND `TABLE_NAME`="cm";');
+            $q->execute();
+            $cols = $q->fetchAll();
+            $col_array = array();
+            $req_cols = array('id','clinic_id','first_name','middle_name','last_name','organization','date_open','date_close','opened_by','time_opened','time_closed');
+            foreach ($cols as $c) {
+               $col_array[] = $c['COLUMN_NAME'];  
+            }
+            //Here are the columns that must be emptied out
+            $to_be_cleared = array_diff($col_array,$req_cols);
+            $cleared_sql = "UPDATE cm set ";
+            foreach($to_be_cleared as $t){
+                $cleared_sql .= $t . "='',";
+            }
+            $cleared_sql_trim = rtrim($cleared_sql, ',');
+            $cleared_sql_trim .= " where id = $id";
+            echo $cleared_sql_trim;
+            $q = $dbh->prepare($cleared_sql_trim);
+            $q->execute();
             $q = $dbh->prepare("UPDATE `cm` SET `first_name` = '<Deleted>', `middle_name` = '', 
             `last_name` = '<Deleted>', `organization` = '<Deleted>', `date_close` = CURDATE(), 
-            `case_type` = '', `phone` = '', `email` = '', `adverse_parties` = '', `closed_by` = ?  WHERE `cm`.`id` = ?;");
+            `closed_by` = ?  WHERE `id` = ?;");
             $q->bindParam(1, $_SESSION['login']);
             $q->bindParam(2, $id);
             $q->execute();
         } else {
-        //3. If not, delete this case
+        //3. If not, we can just delete this case
             $q = $dbh->prepare("DELETE FROM cm WHERE id = ?");
             $q->bindParam(1, $id);
             $q->execute();
@@ -186,34 +210,31 @@ switch ($action) {
             echo json_encode($return);
             die();
         } else {
-            $del_assoc_data = $dbh->prepare('DELETE FROM cm_adverse_parties WHERE case_id = ?; 
-            DELETE FROM `cm_case_assignees` where case_id = ?;
-            DELETE FROM `cm_case_notes` where case_id = ?;
-            DELETE FROM `cm_contacts` where assoc_case = ?;
-            DELETE FROM `cm_documents` where case_id = ?;
-            DELETE FROM `cm_events` where case_id = ?;
-            DELETE FROM `cm_messages` where assoc_case = ?;
+            $del_assoc_data = $dbh->prepare('DELETE FROM cm_adverse_parties WHERE case_id = :id; 
+            DELETE FROM `cm_case_assignees` where case_id = :id;
+            DELETE FROM `cm_case_notes` where case_id = :id;
+            DELETE FROM `cm_contacts` where assoc_case = :id;
+            DELETE FROM `cm_documents` where case_id = :id;
+            DELETE FROM `cm_messages` where assoc_case = :id;
             ');
 
-            $del_assoc_data->bindParam(1, $id);
-            $del_assoc_data->execute();
+            $data = array('id' => $id);
+            $del_assoc_data->execute($data);
             $error = $del_assoc_data->errorInfo();
             if ($error[1]){
                 $return = array('message' => 'Sorry, there was an error deleting associated case data. Some data may remain.','error' => true);
                 echo json_encode($return);
-                die();
             } else {
-                //events will have to be handled separately            
+                //events are handled separately            
                 $q = $dbh->prepare('SELECT * FROM cm_events where case_id = ?');
                 $q->bindParam(1, $id);
                 $q->execute();
-                $count = $q->rowCount();
-                if ($count > 0){
-                    $resp = $q->fetchAll(PDO::FETCH_ASSOC);
+                $resp = $q->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($resp)){
                     foreach($resp as $r){
-                        $sql = "DELETE FROM cm_events_responsibles where  event_id =" .   $r['id'];
-                        $q = $dbh->prepare($sql);
-                        $q->execute();
+                        $q = $dbh->prepare("DELETE FROM cm_events_responsibles where  event_id = :eid");
+                        $data = array('eid' => $r['id']);
+                        $q->execute($data);
                     }
 
                     $q = $dbh->prepare("DELETE FROM cm_events where case_id = ?");
