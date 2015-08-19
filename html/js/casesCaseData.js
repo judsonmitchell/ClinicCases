@@ -228,7 +228,6 @@ $('button.case_data_edit').live('click', function () {
 $('button.case_data_delete').live('click', function () {
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var tgt = $(this).closest('.ui-tabs-panel').attr('id');
-    console.log(caseId);
     var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
     'This will completely delete this case and all its associated data. <br /><b>This cannot be undone</b>.</p>' +
     '<p>Are you sure?</p></div>')
