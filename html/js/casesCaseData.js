@@ -184,6 +184,7 @@ function formatCaseData(thisPanel, type) { //Apply CSS
     } else {  //display case data
         //format buttons
         thisPanel.find('button.case_data_edit').button({icons: {primary: 'fff-icon-page-edit'}, text: true});
+        thisPanel.find('button.case_data_delete').button({icons: {primary: 'fff-icon-bin-closed'}, text: true});
         thisPanel.find('button.case_data_print').button({icons: {primary: 'fff-icon-printer'}, text: true});
 
         //remove the id
@@ -221,6 +222,39 @@ $('button.case_data_edit').live('click', function () {
     }, function () {
         formatCaseData(thisPanel, 'edit');
     });
+});
+
+//Listen for delete
+$('button.case_data_delete').live('click', function () {
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var tgt = $(this).closest('.ui-tabs-panel').attr('id');
+    console.log(caseId);
+    var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
+    'This will completely delete this case and all its associated data. <br /><b>This cannot be undone</b>.</p>' +
+    '<p>Are you sure?</p></div>')
+    .dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            'Yes': function () {
+                $.post('lib/php/data/cases_case_data_process.php', {id: caseId, action: 'delete'}, function (data) {
+                    var serverResponse = $.parseJSON(data);
+                    if (!serverResponse.error) {
+                        var el = $('a[href="#' + tgt + '"]').closest('li');
+                        closeCaseTab(true,el);
+                        oTable.fnReloadAjax();
+                    }
+                    notify(serverResponse.message);
+                });
+                $(this).dialog('destroy');
+            },
+            'No': function () {
+                $(this).dialog('destroy');
+            }
+        }
+    });
+    $(dialogWin).dialog('open');
 });
 
 //Submit the form

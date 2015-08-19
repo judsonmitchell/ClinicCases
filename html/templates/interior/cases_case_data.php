@@ -18,7 +18,9 @@
 		<?php if ($type !== 'new' AND $type !== 'edit'){?>
 
 			<button class="case_data_edit">Edit</button>
-
+            <?php if ($_SESSION['permissions']['delete_cases'] === '1'){ ?>
+                <button class="case_data_delete">Delete</button>
+            <?php } ?>
 			<button class="case_data_print">Print</button>
 
 		<?php } ?>
