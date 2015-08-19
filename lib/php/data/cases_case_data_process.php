@@ -187,7 +187,6 @@ switch ($action) {
             }
             $cleared_sql_trim = rtrim($cleared_sql, ',');
             $cleared_sql_trim .= " where id = $id";
-            echo $cleared_sql_trim;
             $q = $dbh->prepare($cleared_sql_trim);
             $q->execute();
             $q = $dbh->prepare("UPDATE `cm` SET `first_name` = '<Deleted>', `middle_name` = '', 
