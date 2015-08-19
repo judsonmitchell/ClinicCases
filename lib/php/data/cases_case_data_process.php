@@ -191,7 +191,7 @@ switch ($action) {
             $q->execute();
             $q = $dbh->prepare("UPDATE `cm` SET `first_name` = 'DELETED', `middle_name` = '', 
             `last_name` = 'DELETED', `organization` = 'DELETED', `date_close` = CURDATE(), 
-            `closed_by` = ?  WHERE `id` = ?;");
+            `closed_by` = ?, time_closed = NOW()  WHERE `id` = ?;");
             $q->bindParam(1, $_SESSION['login']);
             $q->bindParam(2, $id);
             $q->execute();
