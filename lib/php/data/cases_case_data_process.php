@@ -189,8 +189,8 @@ switch ($action) {
             $cleared_sql_trim .= " where id = $id";
             $q = $dbh->prepare($cleared_sql_trim);
             $q->execute();
-            $q = $dbh->prepare("UPDATE `cm` SET `first_name` = '<Deleted>', `middle_name` = '', 
-            `last_name` = '<Deleted>', `organization` = '<Deleted>', `date_close` = CURDATE(), 
+            $q = $dbh->prepare("UPDATE `cm` SET `first_name` = 'DELETED', `middle_name` = '', 
+            `last_name` = 'DELETED', `organization` = 'DELETED', `date_close` = CURDATE(), 
             `closed_by` = ?  WHERE `id` = ?;");
             $q->bindParam(1, $_SESSION['login']);
             $q->bindParam(2, $id);
