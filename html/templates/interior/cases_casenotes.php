@@ -28,7 +28,7 @@ TOOLS;
 
 echo <<<TOOLS
 
-				<button class = "button3">Print</button>
+				<button class = "button3">Print All</button>
 
 			</div>
 
@@ -76,8 +76,10 @@ NEWNOTE;
 				<div class='csenote_bar'>
 				<div class = 'csenote_bar_left'><img class='thumbnail-mask' src='" . thumbify($case_notes['picture_url']) . "'>&nbsp " . username_to_fullname($dbh,$case_notes['username']). "</div><div class = 'csenote_bar_right'><span class='csenote_date'>" . extract_date($case_notes['date']) .  "</span> &#183; <span class='csenote_time'>" . $time[0] . $time[1] . "</span>";
 
-				if ($case_notes['username'] == $_SESSION['login'])
-				{echo " &#183; <a href='#' class='csenote_edit'>Edit</a> <a href='#' class='csenote_delete'>Delete</a>";}
+				if ($case_notes['username'] == $_SESSION['login']) {
+                    echo "&nbsp;&nbsp;&nbsp; <a href='#' class='csenote_edit'>Edit</a>&nbsp;&nbsp;<a href='#' class='csenote_delete'>Delete</a>";
+                }
+                echo "&nbsp;&nbsp;<a href='#' class='csenote_print'>Print</a>";
 				echo "</div></div><p class='csenote_instance'>"    . nl2br(htmlentities($case_notes['description'])) . "</p></div>";
 
 			}

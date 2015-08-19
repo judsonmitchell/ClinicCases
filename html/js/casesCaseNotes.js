@@ -2,7 +2,7 @@
 //Scripts for casenotes
 //
 
-/* global ccTimer, notify */
+/* global ccTimer, notify, elPrint, escapeHtml */
 
 //Set max height for case notes and add toggle
 function sizeCaseNotes(notes, panelTarget) {
@@ -454,6 +454,12 @@ $('a.csenote_edit').live('click', function (event) {
             });
         }
     });
+});
+
+//Print a single case note
+$('a.csenote_print').live('click', function (e) {
+    e.preventDefault();
+    elPrint($(this).closest('div.csenote'),$(this).closest('.ui-tabs-panel').find('.case_title').text() + ' case');
 });
 
 //Listen for click
