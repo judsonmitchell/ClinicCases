@@ -72,7 +72,7 @@
 
 						<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
 
-						<p><?php echo htmlspecialchars(strip_tags($value['text'],'<br>'), ENT_QUOTES, 'UTF-8'); ?></p>
+						<p><?php echo  strip_tags($value['text'], '<br><br />'); ?></p>
 
 						<a href="#" class="comment_delete">Delete</a>
 
