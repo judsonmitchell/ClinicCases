@@ -28,13 +28,13 @@
 
 			if ($user['user_case_status'] == "active")
 			{
-			echo "<li class = 'active'><span><img class='thumbnail-mask' tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail' title='" . $user['first_name'] . " " . $user['last_name'] . "'></span></li>";
+			echo "<li class = 'active'><span><img class='thumbnail-mask' tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail' title='" . htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($user['last_name'], ENT_QUOTES,'UTF-8') . "'></span></li>";
 			}
 
 			else
 
 			{
-			echo "<li class = 'inactive'><span><img  class='thumbnail-mask' tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail' title='" . $user['first_name'] . " " . $user['last_name'] . "'></span></li>";
+			echo "<li class = 'inactive'><span><img  class='thumbnail-mask' tabindex='1' id='imgid_" . $user['case_id'] . "_" . $user['username']  . "' src='$thumbnail' title='" . htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($user['last_name'], ENT_QUOTES,'UTF-8')  . "'></span></li>";
 			}
 
 
