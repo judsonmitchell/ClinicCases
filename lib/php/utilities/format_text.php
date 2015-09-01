@@ -2,7 +2,7 @@
 //Functions that deal with formatting text
 
 //Return a snippet
-function snippet($number_of_words,$txt)
+function snippet($number_of_words,$txt, $noescape = NULL)
 {
 	$parts = explode(' ',$txt);
 
@@ -21,8 +21,11 @@ function snippet($number_of_words,$txt)
 
 		}
 
-return htmlspecialchars($snippet_string,ENT_QUOTES,'UTF-8');
-
+    if ($noescape){
+        return $snippet_string;
+    } else {
+        return htmlspecialchars($snippet_string,ENT_QUOTES,'UTF-8');
+    }
 }
 
 //Function to deal with legacy text from cc6 where addslashes used to escape text, etc

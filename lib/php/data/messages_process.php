@@ -213,7 +213,7 @@ switch ($action) {
 				}
 
 				$msg_subject = $new_subject;
-				$preview = snippet(20,$new_msg_text);
+				$preview = snippet(20,$new_msg_text, true);
 
 				foreach ($email_to as $r) {
                     if ($r != $user){ //no email notification to sender
@@ -274,7 +274,7 @@ switch ($action) {
 				}
 
 				$msg_subject = get_subject($dbh,$thread_id);
-				$preview = snippet(20,$reply_text);
+				$preview = snippet(20,$reply_text, true);
 
 				foreach ($email_to as $r) {
                     if ($r != $user){
@@ -342,7 +342,7 @@ switch ($action) {
 			if (!$error[1])
 			{
 				$msg_subject = get_subject($dbh,$thread_id);
-				$preview = snippet(20,$reply_text);
+				$preview = snippet(20,$reply_text, true);
 
 				foreach ($forward_tos as $f) {
                     if ($f != $user){
