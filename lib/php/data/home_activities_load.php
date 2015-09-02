@@ -569,7 +569,7 @@ if ($_SESSION['permissions']['reads_journals'] == '1' ||
 			$action_text = " submitted a journal ";
 			$time_done = $j['date_added'];
 			$time_formatted = extract_date_time($j['date_added']);
-			$what = snippet(35,strip_tags($j['text']));
+			$what = snippet(35,strip_tags($j['text']),true);
 			$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
             $mobile_url = '#'; //not supported
 			$casename = "(view here)";
