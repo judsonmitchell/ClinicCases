@@ -34,7 +34,7 @@
 
 	<p><label>Username</label><?php echo $username; ?></p>
 
-	<p><label>Supervisors</label><?php if ($supervisors){$sups = explode(',', $supervisors); $sup_names = array();foreach($sups as $sup){$sup_names[] = array_search($sup, $supervisor_name_data);} echo rtrim(implode(', ', htmlspecialchars($sup_names,ENT_QUOTES,'UTF-8')),', ');} ?></p>
+	<p><label>Supervisors</label><?php if ($supervisors){$sups = explode(',', $supervisors); $sup_names = array();foreach($sups as $sup){$sup_names[] = array_search($sup, $supervisor_name_data);} echo rtrim(implode(', ', $sup_names),', ');} ?></p>
 
 	<p><label>Status</label><?php echo htmlspecialchars($status,ENT_QUOTES,'UTF-8'); ?></p>
 
