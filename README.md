@@ -1,4 +1,6 @@
 #ClinicCases
+
+[![Join the chat at https://gitter.im/judsonmitchell/ClinicCases](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/judsonmitchell/ClinicCases?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ClinicCases is an open source case management system designed
 specifically for law school clinics.  It uses PHP and MySQL.
 
