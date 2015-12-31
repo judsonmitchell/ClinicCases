@@ -83,10 +83,12 @@
 								foreach ($options as $o_key => $o){
 									if ($o_key  == $val){?>
 
-									<option selected=selected value = "<?php echo $o_key; ?>"><?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
+									<option selected=selected value = "<?php echo htmlspecialchars($o_key, ENT_QUOTES,'UTF-8'); ?>">
+                                    <?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
 									<?php } else{ ?>
 
-									<option value = "<?php echo $o_key; ?>"><?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
+									<option value = "<?php echo htmlspecialchars($o_key, ENT_QUOTES, 'UTF-8'); ?>">
+                                    <?php echo htmlspecialchars($o,ENT_QUOTES,'UTF-8'); ?></option>
 
 									<?php } ?>
 
@@ -131,9 +133,11 @@
 							foreach ($s as $key => $val) {
 
 							if ($val == $value)
-								{echo "<option value = '$val' data-code='$key' selected=selected>" . htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
+								{echo "<option value = '" . htmlspecialchars($val,ENT_QUOTES,'UTF-8')  . "' data-code='$key' selected=selected>" .
+                                htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
 							else
-								{echo "<option value = '$val' data-code='$key'>" . htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
+								{echo "<option value = '" . htmlspecialchars($val,ENT_QUOTES,'UTF-8')  . "' data-code='$key'>" . 
+                                htmlspecialchars($val ,ENT_QUOTES,'UTF-8'). "</option>";}
 
 						} ?>
 
