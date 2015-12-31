@@ -3,6 +3,10 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 
+function trim_value(&$value) { 
+    $value = trim($value); 
+}
+
 $type = $_POST['type'];
 
 $result_errors = array();
@@ -20,6 +24,8 @@ switch ($type) {
 			array_unshift($_POST['court'], '');
 			unset($_POST['court'][0]);
 		}
+
+        array_walk($_POST['court'],'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_courts`");
@@ -64,6 +70,8 @@ switch ($type) {
 			array_unshift($_POST['dispo'], '');
 			unset($_POST['dispo'][0]);
 		}
+
+        array_walk($_POST['dispo'],'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_dispos`");
@@ -116,8 +124,8 @@ switch ($type) {
 		if ($error[1]){$result_errors[] = $error[1];}
 
 		//update db
+        array_walk($_POST['case'],'trim_value');
 		$cases = array_combine($_POST['case_code'], $_POST['case']);
-
 		foreach ($cases as $key => $value) {
 			$update = $dbh->prepare('INSERT INTO cm_case_types (`id`,`type`,`case_type_code`) VALUES (NULL,?,?)');
 
@@ -149,6 +157,8 @@ switch ($type) {
 			unset($_POST['clinic_code'][0]);
 			unset($_POST['clinic_name'][0]);
 		}
+        array_walk($_POST['clinic_name'],'trim_value');
+
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_clinic_type`");
 
@@ -194,6 +204,7 @@ switch ($type) {
 			array_unshift($_POST['referral'], '');
 			unset($_POST['referral'][0]);
 		}
+        array_walk($_POST['referral'],'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_referral`");
