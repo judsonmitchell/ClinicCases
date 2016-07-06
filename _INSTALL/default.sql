@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS `cm` (
   `referral` varchar(100) NOT NULL DEFAULT '',
   `assigned_users` text,
   `opened_by` varchar(50) NOT NULL DEFAULT '',
-  `time_opened` datetime NOT NULL,
+  `time_opened` datetime DEFAULT NULL,
   `closed_by` varchar(50) NOT NULL DEFAULT '',
-  `time_closed` datetime NOT NULL,
+  `time_closed` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `professor` (`professor`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -351,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `cm_events` (
   `set_by` varchar(100) NOT NULL DEFAULT '',
   `task` varchar(225) NOT NULL DEFAULT '',
   `date_set` date NOT NULL DEFAULT '0000-00-00',
-  `start` datetime NOT NULL,
+  `start` datetime DEFAULT NULL,
   `start_text` varchar(200) NOT NULL DEFAULT '',
   `end_text` varchar(200) NOT NULL DEFAULT '',
   `end` datetime DEFAULT NULL,
@@ -361,7 +361,7 @@ CREATE TABLE IF NOT EXISTS `cm_events` (
   `location` text,
   `prof` varchar(200) NOT NULL DEFAULT '',
   `archived` varchar(10) NOT NULL DEFAULT 'n',
-  `time_added` datetime NOT NULL,
+  `time_added` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -375,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `cm_events_responsibles` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `event_id` varchar(100) NOT NULL DEFAULT '',
   `username` varchar(100) NOT NULL DEFAULT '',
-  `time_added` datetime NOT NULL,
+  `time_added` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Linked to cm_events; who is responsible for each event' AUTO_INCREMENT=1 ;
 
@@ -467,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `cm_logs` (
   `ip` varchar(20) NOT NULL DEFAULT '',
   `session_id` varchar(200) NOT NULL DEFAULT '',
   `type` varchar(200) NOT NULL DEFAULT '',
-  `last_msg_check` datetime NOT NULL,
+  `last_msg_check` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -568,8 +568,8 @@ CREATE TABLE IF NOT EXISTS `cm_board` (
   `body` text,
   `color` varchar(50) NOT NULL DEFAULT '',
   `author` varchar(250) NOT NULL DEFAULT '',
-  `time_added` datetime NOT NULL,
-  `time_edited` datetime NOT NULL,
+  `time_added` datetime DEFAULT NULL,
+  `time_edited` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -584,7 +584,7 @@ CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
   `extension` varchar(10) NOT NULL DEFAULT '',
   `username` varchar(200) NOT NULL DEFAULT '',
   `post_id` int(11) NOT NULL,
-  `time_added` datetime NOT NULL,
+  `time_added` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
