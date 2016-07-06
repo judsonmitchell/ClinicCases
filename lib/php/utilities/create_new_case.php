@@ -116,4 +116,9 @@ if (!$error[1])
 	$response = array('error' => false,'newId' => $new_id);
 
 	echo json_encode($response);
+} else {
+        $response = array('error' => true,'message' => 'There was a database error. Here\'s what it says: "' . $error[2] . '"');
+        echo json_encode($response);
 }
+
+

@@ -22,15 +22,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `cm` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `clinic_id` varchar(255) NOT NULL,
+  `clinic_id` varchar(255) NOT NULL DEFAULT '',
   `first_name` varchar(100) NOT NULL DEFAULT '',
   `middle_name` varchar(100) NOT NULL DEFAULT '',
   `last_name` varchar(100) NOT NULL DEFAULT '',
-  `organization` varchar(250) NOT NULL,
+  `organization` varchar(250) NOT NULL DEFAULT '',
   `date_open` varchar(100) NOT NULL DEFAULT '',
   `date_close` varchar(100) NOT NULL DEFAULT '',
   `case_type` varchar(100) NOT NULL DEFAULT '',
-  `clinic_type` varchar(200) NOT NULL,
+  `clinic_type` varchar(200) NOT NULL DEFAULT '',
   `professor` varchar(100) NOT NULL DEFAULT '',
   `address1` varchar(200) NOT NULL DEFAULT '',
   `address2` varchar(200) NOT NULL DEFAULT '',
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `cm` (
   `gender` varchar(10) NOT NULL DEFAULT '',
   `race` varchar(10) NOT NULL DEFAULT '',
   `income` int(50) DEFAULT NULL,
-  `per` varchar(15) NOT NULL,
+  `per` varchar(15) NOT NULL DEFAULT '',
   `judge` varchar(200) NOT NULL DEFAULT '',
   `pl_or_def` varchar(100) NOT NULL DEFAULT '',
   `court` varchar(200) NOT NULL DEFAULT '',
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `cm` (
   `close_notes` text NOT NULL,
   `referral` varchar(100) NOT NULL DEFAULT '',
   `assigned_users` text NOT NULL,
-  `opened_by` varchar(50) NOT NULL,
+  `opened_by` varchar(50) NOT NULL DEFAULT '',
   `time_opened` datetime NOT NULL,
-  `closed_by` varchar(50) NOT NULL,
+  `closed_by` varchar(50) NOT NULL DEFAULT '',
   `time_closed` datetime NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `professor` (`professor`)
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `cm_case_notes` (
 CREATE TABLE IF NOT EXISTS `cm_case_types` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `type` varchar(200) NOT NULL DEFAULT '',
-  `case_type_code` varchar(200) NOT NULL,
+  `case_type_code` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
@@ -150,7 +150,7 @@ INSERT INTO `cm_case_types` (`id`, `type`, `case_type_code`) VALUES
 CREATE TABLE IF NOT EXISTS `cm_clinic_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clinic_name` text NOT NULL,
-  `clinic_code` varchar(3) NOT NULL,
+  `clinic_code` varchar(3) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
@@ -173,13 +173,13 @@ INSERT INTO `cm_clinic_type` (`id`, `clinic_name`, `clinic_code`) VALUES
 CREATE TABLE IF NOT EXISTS `cm_columns` (
   `id` int(7) NOT NULL AUTO_INCREMENT,
   `db_name` varchar(50) NOT NULL,
-  `display_name` varchar(50) NOT NULL,
-  `include_in_case_table` varchar(10) NOT NULL COMMENT 'Should this column be included into the data sent to the main case table?',
-  `input_type` varchar(10) NOT NULL,
+  `display_name` varchar(50) NOT NULL DEFAULT '',
+  `include_in_case_table` varchar(10) NOT NULL  DEFAULT '' COMMENT 'Should this column be included into the data sent to the main case table?',
+  `input_type` varchar(10) NOT NULL DEFAULT '',
   `select_options` text NOT NULL,
-  `display_by_default` varchar(10) NOT NULL COMMENT 'Should this column be displayed to the case table user by default?',
+  `display_by_default` varchar(10) NOT NULL DEFAULT '' COMMENT 'Should this column be displayed to the case table user by default?',
   `required` int(11) NOT NULL DEFAULT '0' COMMENT 'ClinicCases cannot function without this field',
-  `display_order` float NOT NULL,
+  `display_order` float NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Defines the columns to be used in ClinicCases cases table' AUTO_INCREMENT=45 ;
@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `cm_contacts` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL DEFAULT '',
   `last_name` varchar(100) NOT NULL DEFAULT '',
-  `organization` varchar(200) NOT NULL,
+  `organization` varchar(200) NOT NULL DEFAULT '',
   `type` varchar(50) NOT NULL DEFAULT '',
   `address` text NOT NULL,
   `city` varchar(100) NOT NULL DEFAULT '',
@@ -328,11 +328,11 @@ CREATE TABLE IF NOT EXISTS `cm_documents` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL DEFAULT '',
   `local_file_name` varchar(200) NOT NULL DEFAULT '',
-  `extension` varchar(10) NOT NULL,
+  `extension` varchar(10) NOT NULL DEFAULT '',
   `folder` varchar(100) NOT NULL DEFAULT '',
-  `containing_folder` varchar(100) NOT NULL,
+  `containing_folder` varchar(100) NOT NULL DEFAULT '',
   `text` text NOT NULL,
-  `write_permission` varchar(500) NOT NULL,
+  `write_permission` varchar(500) NOT NULL DEFAULT '',
   `username` varchar(100) NOT NULL DEFAULT '',
   `case_id` varchar(100) NOT NULL DEFAULT '',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -352,10 +352,10 @@ CREATE TABLE IF NOT EXISTS `cm_events` (
   `task` varchar(225) NOT NULL DEFAULT '',
   `date_set` date NOT NULL DEFAULT '0000-00-00',
   `start` datetime NOT NULL,
-  `start_text` varchar(200) NOT NULL,
-  `end_text` varchar(200) NOT NULL,
+  `start_text` varchar(200) NOT NULL DEFAULT '',
+  `end_text` varchar(200) NOT NULL DEFAULT '',
   `end` datetime DEFAULT NULL,
-  `all_day` tinyint(1) NOT NULL,
+  `all_day` tinyint(1) NOT NULL DEFAULT 0,
   `status` varchar(100) NOT NULL DEFAULT '',
   `notes` text NOT NULL,
   `location` text NOT NULL,
@@ -387,10 +387,10 @@ CREATE TABLE IF NOT EXISTS `cm_events_responsibles` (
 
 CREATE TABLE IF NOT EXISTS `cm_groups` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(50) NOT NULL,
-  `group_title` varchar(100) NOT NULL,
+  `group_name` varchar(50) NOT NULL DEFAULT '',
+  `group_title` varchar(100) NOT NULL DEFAULT '',
   `group_description` text NOT NULL,
-  `allowed_tabs` varchar(500) NOT NULL COMMENT 'An object which controls which tabs the user is allowed to see.',
+  `allowed_tabs` varchar(500) NOT NULL  DEFAULT '' COMMENT 'An object which controls which tabs the user is allowed to see.',
   `add_cases` int(2) NOT NULL,
   `delete_cases` int(2) NOT NULL,
   `edit_cases` int(2) NOT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `cm_journals` (
   `reader` text NOT NULL,
   `text` text NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `archived` text NOT NULL,
+  `archived` text NOT NULL ,
   `read` text NOT NULL,
   `commented` varchar(10) NOT NULL DEFAULT '',
   `comments` text NOT NULL,
@@ -480,9 +480,9 @@ CREATE TABLE IF NOT EXISTS `cm_logs` (
 CREATE TABLE IF NOT EXISTS `cm_messages` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `thread_id` varchar(100) NOT NULL DEFAULT '',
-  `to` text NOT NULL,
+  `to` text NOT NULL ,
   `from` varchar(100) NOT NULL DEFAULT '',
-  `ccs` text,
+  `ccs` text NOT NULL,
   `subject` varchar(100) NOT NULL DEFAULT '',
   `body` text NOT NULL,
   `assoc_case` varchar(100) NOT NULL DEFAULT '',
@@ -493,7 +493,7 @@ CREATE TABLE IF NOT EXISTS `cm_messages` (
   `to_text` text NOT NULL,
   `cc_text` text NOT NULL,
   `assoc_case_text` text NOT NULL,
-  `time_sent_text` text NOT NULL,
+  `time_sent_text` text NOT NULL, 
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -564,10 +564,10 @@ INSERT INTO `cm_users` (`id`, `first_name`, `last_name`, `email`, `mobile_phone`
 
 CREATE TABLE IF NOT EXISTS `cm_board` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(500) NOT NULL,
+  `title` varchar(500) NOT NULL DEFAULT '',
   `body` text NOT NULL,
-  `color` varchar(50) NOT NULL,
-  `author` varchar(250) NOT NULL,
+  `color` varchar(50) NOT NULL DEFAULT '',
+  `author` varchar(250) NOT NULL DEFAULT '',
   `time_added` datetime NOT NULL,
   `time_edited` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -579,10 +579,10 @@ CREATE TABLE IF NOT EXISTS `cm_board` (
 
 CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(500) NOT NULL,
-  `local_file_name` varchar(200) NOT NULL,
-  `extension` varchar(10) NOT NULL,
-  `username` varchar(200) NOT NULL,
+  `name` varchar(500) NOT NULL DEFAULT '',
+  `local_file_name` varchar(200) NOT NULL DEFAULT '',
+  `extension` varchar(10) NOT NULL DEFAULT '',
+  `username` varchar(200) NOT NULL DEFAULT '',
   `post_id` int(11) NOT NULL,
   `time_added` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -591,7 +591,7 @@ CREATE TABLE IF NOT EXISTS `cm_board_attachments` (
 CREATE TABLE `cm_board_viewers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
-  `viewer` varchar(100) NOT NULL,
+  `viewer` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
