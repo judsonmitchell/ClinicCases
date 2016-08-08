@@ -65,7 +65,7 @@ foreach ($user_array as $user)
 
 		{
 		//add user to case
-		$user_add_query = $dbh->prepare("INSERT INTO  cm_case_assignees (`id` ,`username` ,`case_id` ,`status` ,`date_assigned` ,`date_removed`)VALUES (NULL ,  :user,  :case_id,  'active', CURRENT_TIMESTAMP ,  '0000-00-00 00:00:00');");
+		$user_add_query = $dbh->prepare("INSERT INTO  cm_case_assignees (`id` ,`username` ,`case_id` ,`status` ,`date_assigned` ,`date_removed`)VALUES (NULL ,  :user,  :case_id,  'active', CURRENT_TIMESTAMP ,  NULL);");
 
 		$user_add_query->bindParam(':user',$user);
 

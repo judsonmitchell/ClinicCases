@@ -350,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `cm_events` (
   `case_id` varchar(100) NOT NULL DEFAULT '',
   `set_by` varchar(100) NOT NULL DEFAULT '',
   `task` varchar(225) NOT NULL DEFAULT '',
-  `date_set` date NOT NULL DEFAULT '0000-00-00',
+  `date_set` date DEFAULT NULL,
   `start` datetime DEFAULT NULL,
   `start_text` varchar(200) NOT NULL DEFAULT '',
   `end_text` varchar(200) NOT NULL DEFAULT '',
