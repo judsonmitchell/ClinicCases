@@ -527,6 +527,7 @@ function reports_users_and_groups($dbh,$case_num)
 
 function get_journal_readers($dbh,$current_readers)
 {
+
 	$q = $dbh->prepare("SELECT group_name FROM cm_groups WHERE reads_journals = '1'");
 
 	$q->execute();
@@ -535,14 +536,13 @@ function get_journal_readers($dbh,$current_readers)
 
 	$count = count($groups);
 
-	if ($count = 1)
+	if ($count == 1)
 	{
-		$r = "'". $groups[0]['group_name'] . "'";
+		$r =  $groups[0]['group_name'];
 	}
 	elseif ($count > 1)
 	{
 		$reader_groups = array();
-
 		foreach ($groups as $g) {
 			$reader_groups[] = $g['group_name'];
 		}
@@ -552,12 +552,11 @@ function get_journal_readers($dbh,$current_readers)
 	else
 		{die("<option value=''>No users assigned to read journals</option>");}
 
-	$users = $dbh->prepare("SELECT * FROM cm_users WHERE `grp` IN ($r) AND `status` = 'active'ORDER BY `last_name` ASC");
+	$users = $dbh->prepare("SELECT * FROM cm_users WHERE `grp` IN ('" . $r . "') AND `status` = 'active'ORDER BY `last_name` ASC");
 
 	$users->execute();
 
 	$readers = $users->fetchAll(PDO::FETCH_ASSOC);
-
 	$options = null;
 
 	$current_readers_array = explode(',', $current_readers);
