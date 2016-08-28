@@ -2,7 +2,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-
+include('../../../debug.php');
 function update_paths($dbh,$path,$new_path,$case_id) {
 
 	//Change paths of documents which reside in the recently changed folder
@@ -465,6 +465,12 @@ if ($action == 'cut')
 {
 	if ($doc_type == 'folder') {
 
+        if ($selection_path == ''){
+            $return = array('message'=>'There was an error moving your folder. Please reload the page and try again','wait'=>true,'error'=>true);
+            echo json_encode($return);
+            die;
+
+        }
 		//change the path of the selected folder
 
 		if (stristr($selection_path, '/'))
@@ -495,8 +501,9 @@ if ($action == 'cut')
 
 		$update_paths = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE :old_path AND case_id = :case_id");
 
-			$old_path = $selection_path . "%";
-
+            $old_path = $selection_path . "%";
+            // Bug Code:
+			//$old_path = '' . "%";
 			$data = array('old_path' => $old_path,'case_id' => $case_id);
 
 			$update_paths->execute($data);

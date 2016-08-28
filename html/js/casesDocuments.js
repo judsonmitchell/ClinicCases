@@ -41,8 +41,12 @@ function createDragDrop() {
                 'case_id': caseId
             }, function(data) {
                 var serverResponse = $.parseJSON(data);
-                notify(serverResponse.message);
-                ui.draggable.fadeOut();
+                if (serverResponse.wait){
+                    notify(serverResponse.message,true,'error');
+                } else {
+                    notify(serverResponse.message);
+                    ui.draggable.fadeOut();
+                }
             });
         }}).draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
 }
@@ -447,7 +451,11 @@ $('.case_detail_nav #item3').live('click', function() {
                         },
                         function(data) {
                             var serverResponse = $.parseJSON(data);
-                            notify(serverResponse.message);
+                            if (serverResponse.error){
+                                notify(serverResponse.message,true,'error');
+                            } else {
+                                notify(serverResponse.message);
+                            }
                             el.closest('.case_detail_panel_casenotes')
                             .load('lib/php/data/cases_documents_load.php',
                             {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
