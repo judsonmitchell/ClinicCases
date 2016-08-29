@@ -2,7 +2,6 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-include('../../../debug.php');
 function update_paths($dbh,$path,$new_path,$case_id) {
 
 	//Change paths of documents which reside in the recently changed folder
