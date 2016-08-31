@@ -457,9 +457,14 @@ $('.case_detail_nav #item3').live('click', function() {
                                 notify(serverResponse.message);
                             }
                             el.closest('.case_detail_panel_casenotes')
-                            .load('lib/php/data/cases_documents_load.php',
-                            {'id': caseId,'update': 'yes','path': targetPath,'container': targetPath}, function() {
+                            .load('lib/php/data/cases_documents_load.php', {
+                                'id': caseId,
+                                'update': 'yes',
+                                'path': targetPath,
+                                'container': targetPath
+                            }, function() {
                                 el.destroyContextMenu();
+                                createDragDrop();
                             });
                         });
                     }
