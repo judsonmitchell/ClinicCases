@@ -382,9 +382,9 @@ $('.case_detail_nav #item3').live('click', function() {
         $('div.case_detail_panel_tools_right').css({'width': '60%'});
 
         //Set buttons
-        $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true})
-        .next().button({icons: {primary: 'fff-icon-folder-add'},text: true})
-        .next().button({icons: {primary: 'fff-icon-page-white-get'},text: true});
+        $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true});
+        $('button.doc_new_folder').button({icons: {primary: 'fff-icon-folder-add'},text: true});
+        $('button.doc_upload').button({icons: {primary: 'fff-icon-page-white-get'},text: true});
 
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {

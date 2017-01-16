@@ -232,6 +232,7 @@
 	        <a href="#open">Open</a>
 	    </li>
 
+        <?php if ($_SESSION['permissions']['documents_modify'] === '1'){ ?>
 	    <li class="cut separator disabled">
 	        <a href="#cut">Cut</a>
 	    </li>
@@ -252,6 +253,8 @@
 	        <a href="#delete">Delete</a>
 	    </li>
 
+        <?php } ?>
+	    <li class="properties separator">
 	    <li class="properties separator disabled">
 	        <a href="#properties">Properties</a>
 	    </li>
