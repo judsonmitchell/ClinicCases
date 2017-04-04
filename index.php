@@ -1,7 +1,7 @@
 <?php
 include 'db.php';
-$path =  substr(CC_BASE_URL, strlen(CC_DOMAIN));
-session_set_cookie_params(0, $path);
+$d_path =  substr(CC_BASE_URL, strlen(CC_DOMAIN));
+session_set_cookie_params(0, $d_path);
 session_start();
 include 'lib/php/mobile_detect.php';
 include 'lib/php/load.php';
