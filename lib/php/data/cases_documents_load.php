@@ -26,8 +26,13 @@ if (isset($_REQUEST['path'])) {
     }
 }
 
-if (isset($_REQUEST['update']))
-{$update = $_REQUEST['update'];}
+if (isset($_REQUEST['update'])) {
+    $update = $_REQUEST['update'];
+}
+
+if (isset($_REQUEST['search'])) {
+    $search = $_REQUEST['search'];
+}
 
 //append the file type to each document array element.  Used to determine icon
 function append_file_type(&$value,$key)
@@ -120,13 +125,25 @@ $documents_query = $dbh->prepare($sql);
 
 $documents_query->bindParam(':id',$case_id);
 
-if (isset($path))
-{$documents_query->bindParam(':path',$path);}
+if (isset($path)) {
+    $documents_query->bindParam(':path',$path);
+}
 
 $documents_query->execute();
 
 $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
+//Search
+
+if (isset($search)){
+    $sql = "SELECT * FROM cm_documents where name like :search and case_id = :case_id";
+    $documents_query = $dbh->prepare($sql);
+    $search_wildcard = "%" . $search . "%";
+    $data = array('search' => $search_wildcard, 'case_id' => $case_id);
+    $documents_query->execute($data);
+    print_r($dbh->errorInfo());
+    $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
+}
 array_walk($documents, 'append_file_type');
 
 if (!$_SESSION['mobile']){

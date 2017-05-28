@@ -9,6 +9,9 @@
 	<div class="case_detail_panel_tools_left"><img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/<span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span></div>
 
 	<div class="case_detail_panel_tools_right">
+		<input type="text" class="documents_search" value="Search Titles">
+
+		<input type="button" class="documents_search_clear">
 TOOLS;
 
 		if ($_SESSION['permissions']['documents_modify'] == '1')

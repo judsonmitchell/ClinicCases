@@ -906,3 +906,46 @@ $('select[name="ccd_permission"]').live('change', function () {
         notify(serverResponse.message);
     });
 });
+
+
+//handle search
+$('input.documents_search').live('focusin', function() {
+    $(this).val('');
+    $(this).css({'color': 'black'});
+    $(this).next('.documents_search_clear').show();
+});
+
+$('input.documents_search').live('keyup', function() {
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+    var search = $(this).val();
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    resultTarget.load('lib/php/data/cases_documents_load.php div.case_detail_panel_casenotes', {
+        'id': caseId,
+        'search': search
+    }, function() {
+        resultTarget.scrollTop(0);
+        if (search.length) {
+            resultTarget.highlight(search);
+        }
+    });
+});
+
+$('.contacts_search_clear').live('click', function() {
+    $(this).prev().val('Search Contacts');
+    $(this).prev().css({'color': '#AAA'});
+    var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+
+    resultTarget.load('lib/php/data/cases_contacts_load.php div.case_detail_panel_casenotes', {
+        'case_id': caseId
+    }, function() {
+        resultTarget.scrollTop(0);
+        $('div.csenote').addClass('ui-corner-all');
+        resultTarget.unbind('scroll.search');
+        resultTarget.bind('scroll', function() {
+            //addMoreNotes(resultTarget);
+        });
+    });
+    $(this).hide();
+});
+
