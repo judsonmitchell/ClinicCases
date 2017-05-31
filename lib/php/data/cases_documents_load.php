@@ -31,7 +31,8 @@ if (isset($_REQUEST['update'])) {
 }
 
 if (isset($_REQUEST['search'])) {
-    $search = $_REQUEST['search'];
+    $search =  $_REQUEST['search'];
+    $search_wildcard = "%" . $search . "%";
 }
 
 //append the file type to each document array element.  Used to determine icon
@@ -92,6 +93,10 @@ if (isset($container)) //Indicates this is a sub-folder
 {
 	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND local_file_name = '' AND case_id = :id";
 }
+else if (isset($search))
+{
+	$sql = "SELECT * FROM cm_documents WHERE folder LIKE :search  AND local_file_name='' AND case_id = :id";
+}
 else //Is in the root directory.  Empty local_file_name indicates that this is a folder, not a document
 {
 	$sql = "SELECT * FROM cm_documents WHERE folder != '' AND local_file_name='' AND containing_folder = '' AND case_id = :id";
@@ -106,18 +111,27 @@ if (isset($container))
 	$folder_query->bindParam(':container',$container);
 }
 
+if (isset($search))
+{
+	$folder_query->bindParam(':search',$search_wildcard);
+}
+
 $folder_query->execute();
 
 $folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
-
 //get all documents not inside a folder
 
 if (isset($path))
 {
 	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path";
 }
+else if (isset($search))
+{
+    $sql = "SELECT * FROM cm_documents where name like :search and case_id = :id";
+}
 else
 {
+
 	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and folder = ''";
 }
 
@@ -129,23 +143,18 @@ if (isset($path)) {
     $documents_query->bindParam(':path',$path);
 }
 
+if (isset($search)) {
+    $documents_query->bindParam(':search',$search_wildcard);
+}
+
 $documents_query->execute();
 
 $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
-//Search
-
-if (isset($search)){
-    $sql = "SELECT * FROM cm_documents where name like :search and case_id = :case_id";
-    $documents_query = $dbh->prepare($sql);
-    $search_wildcard = "%" . $search . "%";
-    $data = array('search' => $search_wildcard, 'case_id' => $case_id);
-    $documents_query->execute($data);
-    print_r($dbh->errorInfo());
-    $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
-}
 array_walk($documents, 'append_file_type');
 
-if (!$_SESSION['mobile']){
+if (isset($search)){
+    include('../../../html/templates/interior/cases_documents_list.php');
+} else if ( !$_SESSION['mobile']){
     include('../../../html/templates/interior/cases_documents.php');
 }

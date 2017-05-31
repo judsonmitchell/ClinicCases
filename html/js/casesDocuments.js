@@ -919,7 +919,7 @@ $('input.documents_search').live('keyup', function() {
     var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
     var search = $(this).val();
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-    resultTarget.load('lib/php/data/cases_documents_load.php div.case_detail_panel_casenotes', {
+    resultTarget.load('lib/php/data/cases_documents_load.php', {
         'id': caseId,
         'search': search
     }, function() {
