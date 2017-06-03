@@ -344,6 +344,7 @@ div.csenote_new textarea{width:98%;margin:8px;border:1px solid #AAA}
 div.csenote_shadow{-moz-box-shadow:0 5px 5px #AAA inset;-webkit-box-shadow:0 5px 5px #AAA inset;box-shadow:0 5px 5px #AAA inset;}
 div.dialog-casenote-delete{text-align:left;}
 
+div.case_documents_submenu{width:99%; text-align:left;}
 div.doc_item{display:inline-block;margin:10px;vertical-align:top;text-align:center;height:120px;overflow:hidden;}
 div.doc_item p {width:100px;word-wrap:break-word;}
 div.doc_item a {text-decoration:none;}

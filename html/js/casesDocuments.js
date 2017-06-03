@@ -129,6 +129,9 @@ function createTextEditor(target, action, permission, title, content, id, owner,
 
     //hide main buttons, initialize new one
     tools.find('button').hide();
+    tools.find('input').hide();
+    tools.siblings('.case_documents_submenu').hide();
+    //Need to hide the search and the path now!!!! TODO
     tools.find('.case_detail_panel_tools_right').append('<button class="closer">Close</button>');
     tools.find('button.closer').button({icons: {primary: 'fff-icon-cross'},text: true});
     tools.find('button.closer').click(function() {
@@ -140,7 +143,10 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                     'path': currentPath
                 }, function() {
                     tools.find('button').show();
+                    tools.find('input').show();
+                    tools.find('.documents_search_clear').hide();
                     tools.find('button.closer').remove();
+                    tools.siblings('.case_documents_submenu').show();
                     createDragDrop();
                 });
             } else {  //document is in a subfolder
@@ -151,7 +157,10 @@ function createTextEditor(target, action, permission, title, content, id, owner,
                     'container': currentPath
                 }, function() {
                     tools.find('button').show();
-                    tools.find('button.loser').remove();
+                    tools.find('input').show();
+                    tools.find('.documents_search_clear').hide();
+                    tools.find('button.closer').remove();
+                    tools.siblings('.case_documents_submenu').show();
                     createDragDrop();
                 });
             }
@@ -380,6 +389,7 @@ $('.case_detail_nav #item3').live('click', function() {
         $('div.case_detail_panel_casenotes').css({'height': documentsWindowHeight});
         $('div.case_detail_panel_tools_left').css({'width': '20%'});
         $('div.case_detail_panel_tools_right').css({'width': '80%'});
+        $('div.case_detail_panel_tools').css({'border-bottom': '1px solid #AAA','margin-bottom':'10px'});
 
         //Set buttons
         $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true});
@@ -639,7 +649,7 @@ $('.doc_item').live('click', function(event) {
     var path = $(this).attr('path');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var pathDisplay = $(this).closest('.case_detail_panel_casenotes')
-        .siblings('.case_detail_panel_tools')
+        .siblings('.case_documents_submenu')
         .find('.path_display');
     var el = $(this);
     var itemId = el.attr('data-id');
@@ -675,7 +685,7 @@ $('button.doc_new_folder').live('click', function() {
         if (e.type === 'blur' || e.which === 13) {
             e.preventDefault();
             var container = $(this).closest('.case_detail_panel_casenotes')
-                .siblings('.case_detail_panel_tools')
+                .siblings('.case_documents_submenu')
                 .find('a.active')
                 .attr('path');
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
@@ -847,7 +857,7 @@ $('button.doc_upload').live('click', function() {
 $('a.doc_trail_home').live('click', function(event) {
     event.preventDefault();
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-    var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var thisPanel = $(this).closest('.case_documents_submenu').siblings('.case_detail_panel_casenotes');
     //Set the current path so that other functions can access it
     $(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
@@ -855,7 +865,7 @@ $('a.doc_trail_home').live('click', function(event) {
         'id': caseId,
         'update': 'yes'
     }, function() {
-        $(this).siblings('.case_detail_panel_tools').find('.path_display').html('');
+        $(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
         //Reset search if search results are active
         $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
@@ -872,7 +882,7 @@ $('a.doc_trail_item').live('click', function(event) {
 
     //Set the current path so that other functions can access it
     $(this).closest('.case_detail_panel').data('CurrentPath', path);
-    var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var thisPanel = $(this).closest('.case_documents_submenu').siblings('.case_detail_panel_casenotes');
     var pathDisplay = $(this).parent();
 
     thisPanel.load('lib/php/data/cases_documents_load.php', {
@@ -920,7 +930,7 @@ $('input.documents_search').live('focusin', function() {
 
 $('input.documents_search').live('keyup', function() {
     if ($(this).val() !== ''){
-        var resultTarget = $(this).closest('div.case_detail_panel_tools').next();
+        var resultTarget = $(this).closest('div.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
         var search = $(this).val();
         var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
         resultTarget.load('lib/php/data/cases_documents_load.php', {
