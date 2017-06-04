@@ -35,6 +35,10 @@ if (isset($_REQUEST['search'])) {
     $search_wildcard = "%" . $search . "%";
 }
 
+if (isset($_REQUEST['list_view'])) {
+    $list_view = "yes";
+}
+
 //append the file type to each document array element.  Used to determine icon
 function append_file_type(&$value,$key)
 {
@@ -153,7 +157,7 @@ $documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
 array_walk($documents, 'append_file_type');
 
-if (isset($search)){
+if (isset($search) || isset($list_view)){
     include('../../../html/templates/interior/cases_documents_list.php');
 } else if ( !$_SESSION['mobile']){
     include('../../../html/templates/interior/cases_documents.php');

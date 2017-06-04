@@ -395,7 +395,10 @@ $('.case_detail_nav #item3').live('click', function() {
         $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true});
         $('button.doc_new_folder').button({icons: {primary: 'fff-icon-folder-add'},text: true});
         $('button.doc_upload').button({icons: {primary: 'fff-icon-page-white-get'},text: true});
-
+        $('.documents_view_chooser' ).buttonset();
+        $('.radio_toggle_grid').button({icons:{primary:'fff-icon-application-view-icons'},text:true});
+        $('.radio_toggle_list').button({icons:{primary:'fff-icon-application-view-list'},text:true}).next().addClass('buttonset-inactive');
+        
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
@@ -406,6 +409,7 @@ $('.case_detail_nav #item3').live('click', function() {
             }
         });
         createDragDrop();
+
     });
 
     //Create context menu
@@ -951,5 +955,50 @@ $('.documents_search_clear').live('click', function() {
     $(this).prev().css({'color': '#AAA'});
     $('.doc_trail_home').trigger('click');
     $(this).hide();
+});
+
+//User changes view for documents
+$('.radio_toggle_grid').live('click', function(){
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var clickedButton = $(this);
+    //Set the current path so that other functions can access it
+    //$(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
+
+    thisPanel.load('lib/php/data/cases_documents_load.php', {
+        'id': caseId,
+        'update': 'yes'
+    }, function() {
+        //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
+        createDragDrop();
+        ////Reset search if search results are active
+        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+        //$('.documents_search_clear').hide();
+        clickedButton.next().toggleClass('buttonset-inactive');
+        clickedButton.siblings('input').next().toggleClass('buttonset-inactive');
+        $.cookie('cc_doc_view','grid');
+    });
+});
+
+$('.radio_toggle_list').live('click', function(){
+    var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+    var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var clickedButton = $(this);
+    //Set the current path so that other functions can access it
+    //$(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
+
+    thisPanel.load('lib/php/data/cases_documents_load.php', {
+        'id': caseId,
+        'list_view': 'yes'
+    }, function() {
+        //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
+        createDragDrop();
+        ////Reset search if search results are active
+        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+        //$('.documents_search_clear').hide();
+        clickedButton.next().toggleClass('buttonset-inactive');
+        clickedButton.prev().toggleClass('buttonset-inactive');
+        $.cookie('cc_doc_view','list');
+    });
 });
 

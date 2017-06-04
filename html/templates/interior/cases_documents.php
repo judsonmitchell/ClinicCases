@@ -6,7 +6,12 @@
 
 <div class="case_detail_panel_tools">
 
-	<div class="case_detail_panel_tools_left"></div>
+	<div class="case_detail_panel_tools_left">
+        <div class="documents_view_chooser">
+            <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" checked="checked"><label for="radio_grid">Grid</label>
+            <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"><label for="radio_list">List</label>
+        </div>
+    </div>
 
 	<div class="case_detail_panel_tools_right">
 		<input type="text" class="documents_search" value="Search Titles">

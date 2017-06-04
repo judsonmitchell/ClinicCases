@@ -371,6 +371,8 @@ input.documents_search_clear{width:25px;height:18px;background-image:url('../ico
    background-color: #FFFFFF;
 }
 
+.buttonset-inactive{ background: #dadada url('../../lib/jqueryui/css/custom-theme/images/ui-bg_glass_75_dadada_1x400.png') 50% 50% repeat-x; !important}
+
 div.upload_dialog{display: none;}
 div.upload_dialog p{margin-bottom:10px;}
 div.upload_dialog * {outline:0;}
