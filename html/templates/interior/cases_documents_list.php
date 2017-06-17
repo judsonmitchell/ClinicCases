@@ -4,10 +4,8 @@ if (isset($search)){
     echo "Search Results for $search";
 }
 
-
+if (!isset($update)){
 ?>
-
-<?php if (!isset($update)){echo <<<TOOLS
 
 <div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
@@ -26,7 +24,7 @@ if (isset($search)){
 		<input type="text" class="documents_search" value="Search Titles">
 
 		<input type="button" class="documents_search_clear">
-TOOLS;
+<?php 
 		if ($_SESSION['permissions']['documents_modify'] == '1')
 		{
 			echo "<button class='doc_new_doc'>New Document</button>";
@@ -38,20 +36,16 @@ TOOLS;
 		{
 			echo "<button class='doc_upload'>Upload</button>";
 		}
-
-echo <<<TOOLS
+?>
 	</div>
 
 </div>
-
 <div class="case_documents_submenu">
     <img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/
     <span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
 </div>
 <div class = "case_detail_panel_casenotes">
-
-
-TOOLS;
+<?php
 }
 ?>
 
@@ -77,7 +71,7 @@ TOOLS;
         <tr class="doc_item folder" path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>">
         <td width="10%"><img src="html/ico/folder.png"></td>
         <td><?php echo htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES,'UTF-8') ?> </td>
-        <td><?php echo $folder['folder']; ?></td>
+        <td><?php echo htmlspecialchars(rawurldecode($folder['containing_folder']), ENT_QUOTES,'UTF-8'); ?></td>
         <td><?php echo $date; ?></td>
         <td><?php echo $user; ?></td></tr>
 
@@ -90,8 +84,8 @@ TOOLS;
 ?>
         <tr id="doc_<?php echo $document['id']; ?>" class="doc_item item <?php echo $document['type']; ?>" data-id="<?php echo $document['id']; ?>">
         <td><img src="<?php echo $icon; ?>"></td>
-        <td><?php echo htmlspecialchars(rawurldecode($document[name]), ENT_QUOTES,'UTF-8') ?> </td>
-        <td><?php echo $document['folder']; ?></td>
+        <td><?php echo htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES,'UTF-8'); ?> </td>
+        <td><?php echo htmlspecialchars(rawurldecode($document['folder']), ENT_QUOTES,'UTF-8'); ?></td>
         <td><?php echo $date; ?></td>
         <td><?php echo $user; ?></td></tr>
 
