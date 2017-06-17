@@ -35,9 +35,10 @@ if (isset($_REQUEST['search'])) {
     $search_wildcard = "%" . $search . "%";
 }
 
-if (isset($_REQUEST['list_view'])) {
+if (isset($_REQUEST['list_view']) || $_COOKIE['cc_doc_view'] == 'list') {
     $list_view = "yes";
 }
+
 
 //append the file type to each document array element.  Used to determine icon
 function append_file_type(&$value,$key)

@@ -8,8 +8,15 @@
 
 	<div class="case_detail_panel_tools_left">
         <div class="documents_view_chooser">
-            <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" checked="checked"><label for="radio_grid">Grid</label>
-            <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"><label for="radio_list">List</label>
+TOOLS;
+            if ($_COOKIE['cc_doc_view'] == 'grid'){ ?>
+                <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" checked="checked"><label for="radio_grid">Grid</label>
+                <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"><label for="radio_list">List</label>
+            <?php } else { ?>
+                <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" ><label for="radio_grid">Grid</label>
+                <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"checked="checked"><label for="radio_list">List</label>
+            <?php } 
+        echo <<<TOOLS
         </div>
     </div>
 

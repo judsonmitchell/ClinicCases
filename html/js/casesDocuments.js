@@ -398,7 +398,16 @@ $('.case_detail_nav #item3').live('click', function() {
         $('.documents_view_chooser' ).buttonset();
         $('.radio_toggle_grid').button({icons:{primary:'fff-icon-application-view-icons'},text:true});
         $('.radio_toggle_list').button({icons:{primary:'fff-icon-application-view-list'},text:true}).next().addClass('buttonset-inactive');
-        
+
+        //Check to see if list or grid view is set
+        if (!$.cookie('cc_doc_view') || $.cookie('cc_doc_view') === 'grid'){
+            $('.radio_toggle_grid').next().removeClass('buttonset-inactive');
+            $('.radio_toggle_list').next().addClass('buttonset-inactive');
+        } else {
+            $('.radio_toggle_list').next().removeClass('buttonset-inactive');
+            $('.radio_toggle_grid').next().addClass('buttonset-inactive');
+        } 
+
         //Apply shadow on scroll
         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
             var scrollAmount = $(this).scrollTop();
@@ -961,13 +970,23 @@ $('.documents_search_clear').live('click', function() {
 $('.radio_toggle_grid').live('click', function(){
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
+    var sendPath ;
+    if (currentPath === 'Home'){
+        sendPath = '';
+    } else {
+        sendPath = currentPath;
+    }
     var clickedButton = $(this);
     //Set the current path so that other functions can access it
     //$(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
+    $.cookie('cc_doc_view','grid');
     thisPanel.load('lib/php/data/cases_documents_load.php', {
         'id': caseId,
-        'update': 'yes'
+        'update': 'yes',
+        'path': sendPath,
+        'container': sendPath
     }, function() {
         //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
@@ -976,20 +995,30 @@ $('.radio_toggle_grid').live('click', function(){
         //$('.documents_search_clear').hide();
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.siblings('input').next().toggleClass('buttonset-inactive');
-        $.cookie('cc_doc_view','grid');
     });
 });
 
 $('.radio_toggle_list').live('click', function(){
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var thisPanel = $(this).closest('.case_detail_panel_tools').siblings('.case_detail_panel_casenotes');
+    var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
+    var sendPath ;
+    if (currentPath === 'Home'){
+        sendPath = '';
+    } else {
+        sendPath = currentPath;
+    }
     var clickedButton = $(this);
     //Set the current path so that other functions can access it
     //$(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
+    $.cookie('cc_doc_view','list');
     thisPanel.load('lib/php/data/cases_documents_load.php', {
         'id': caseId,
-        'list_view': 'yes'
+        'list_view': 'yes',
+        'update': 'yes',
+        'path': sendPath,
+        'container': sendPath
     }, function() {
         //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
@@ -998,7 +1027,6 @@ $('.radio_toggle_list').live('click', function(){
         //$('.documents_search_clear').hide();
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.prev().toggleClass('buttonset-inactive');
-        $.cookie('cc_doc_view','list');
     });
 });
 
