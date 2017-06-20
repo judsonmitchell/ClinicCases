@@ -51,7 +51,8 @@ if (!isset($update)){
 
 <table id="doc_list">
     <thead>
-    <tr><td></td><td>Name</td><td>Folder</td><td>Date</td><td>By</td></tr>
+    <tr><td></td><td>Name</td>
+    <?php if (isset($search)){ ?> <td>Folder</td><?php } ?><td>Date</td><td>By</td></tr>
     </thead>
     <tbody>
 <?php
@@ -71,7 +72,9 @@ if (!isset($update)){
         <tr class="doc_item folder" path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>">
         <td width="10%"><img src="html/ico/folder.png"></td>
         <td><?php echo htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES,'UTF-8') ?> </td>
+        <?php if (isset($search)){ ?>
         <td><?php echo htmlspecialchars(rawurldecode($folder['containing_folder']), ENT_QUOTES,'UTF-8'); ?></td>
+        <?php } ?>
         <td><?php echo $date; ?></td>
         <td><?php echo $user; ?></td></tr>
 
@@ -85,7 +88,9 @@ if (!isset($update)){
         <tr id="doc_<?php echo $document['id']; ?>" class="doc_item item <?php echo $document['type']; ?>" data-id="<?php echo $document['id']; ?>">
         <td><img src="<?php echo $icon; ?>"></td>
         <td><?php echo htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES,'UTF-8'); ?> </td>
+        <?php if (isset($search)){ ?>
         <td><?php echo htmlspecialchars(rawurldecode($document['folder']), ENT_QUOTES,'UTF-8'); ?></td>
+        <?php } ?>
         <td><?php echo $date; ?></td>
         <td><?php echo $user; ?></td></tr>
 
