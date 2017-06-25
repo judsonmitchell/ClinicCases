@@ -1,4 +1,10 @@
-<?php if (!isset($update)){echo <<<TOOLS
+<?php 
+
+if (!isset($update)){
+    $radio_name = rand();
+    $grid_id = rand();
+    $list_id = rand();
+?>
 
 <div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
@@ -8,15 +14,15 @@
 
 	<div class="case_detail_panel_tools_left">
         <div class="documents_view_chooser">
-TOOLS;
+
+            <?php 
             if ($_COOKIE['cc_doc_view'] == 'grid'){ ?>
-                <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" checked="checked"><label for="radio_grid">Grid</label>
-                <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"><label for="radio_list">List</label>
+            <input type="radio" id="radio_grid<?php echo $grid_id; ?>" class="radio_toggle_grid" name="radio<?php echo $radio_name; ?>" checked="checked"><label for="radio_grid<?php echo $grid_id; ?>">Grid</label>
+            <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>"><label for="radio_list<?php echo $list_id; ?>">List</label>
             <?php } else { ?>
-                <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" ><label for="radio_grid">Grid</label>
-                <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"checked="checked"><label for="radio_list">List</label>
-            <?php } 
-        echo <<<TOOLS
+            <input type="radio" id="radio_grid<?php echo $grid_id; ?>" class="radio_toggle_grid" name="radio<?php echo $radio_name; ?>" "><label for="radio_grid<?php echo $grid_id; ?>">Grid</label>
+            <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>" checked="checked><label for="radio_list<?php echo $list_id; ?>">List</label>
+            <?php } ?> 
         </div>
     </div>
 
@@ -24,20 +30,18 @@ TOOLS;
 		<input type="text" class="documents_search" value="Search Titles">
 
 		<input type="button" class="documents_search_clear">
-TOOLS;
-		if ($_SESSION['permissions']['documents_modify'] == '1')
-		{
-			echo "<button class='doc_new_doc'>New Document</button>";
 
+        <?php 
+		if ($_SESSION['permissions']['documents_modify'] == '1') {
+			echo "<button class='doc_new_doc'>New Document</button>";
 			echo "<button class='doc_new_folder'>New Folder</button>";
 		}
 
-		if ($_SESSION['permissions']['documents_upload'])
-		{
+		if ($_SESSION['permissions']['documents_upload']) {
 			echo "<button class='doc_upload'>Upload</button>";
 		}
+        ?>
 
-echo <<<TOOLS
 	</div>
 
 </div>
@@ -49,7 +53,7 @@ echo <<<TOOLS
 <div class = "case_detail_panel_casenotes">
 
 
-TOOLS;
+<?php
 }
 ?>
 

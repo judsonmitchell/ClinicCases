@@ -5,6 +5,9 @@ if (isset($search)){
 }
 
 if (!isset($update)){
+    $radio_name = rand();
+    $grid_id = rand();
+    $list_id = rand();
 ?>
 
 <div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
@@ -15,8 +18,8 @@ if (!isset($update)){
 
 	<div class="case_detail_panel_tools_left">
         <div class="documents_view_chooser">
-            <input type="radio" id="radio_grid" class="radio_toggle_grid" name="radio" checked="checked"><label for="radio_grid">Grid</label>
-            <input type="radio" id="radio_list" class="radio_toggle_list" name="radio"><label for="radio_list">List</label>
+            <input type="radio" id="radio_grid<?php echo $grid_id; ?>" class="radio_toggle_grid" name="radio<?php echo $radio_name; ?>" checked="checked"><label for="radio_grid<?php echo $grid_id; ?>">Grid</label>
+            <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>"><label for="radio_list<?php echo $list_id; ?>">List</label>
         </div>
     </div>
 

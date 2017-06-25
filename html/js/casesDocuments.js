@@ -2,7 +2,7 @@
 //Scripts for documents panel on cases tab
 //
 
-/* global escape, unescape, notify, rte_toolbar, qq , isUrl */
+/* global escape, escapeHtml, unescape, notify, rte_toolbar, qq , isUrl */
 
 function createTrail(path) {
     var pathArray = path.split('/');
@@ -19,11 +19,15 @@ function createTrail(path) {
 
 function createDragDrop() {
     //Destroy any previously created draggables and droppables
-    $('div.item, div.folder').draggable('destroy');
-    $('div.folder').droppable('destroy');
+    $('.item, .folder').draggable('destroy');
+    $('.folder').droppable('destroy');
 
-    $('div.item').draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
-    $('div.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
+    $('.item').draggable({
+        revert: 'invalid',
+        containment: 'div.case_detail_panel_casenotes',
+        zIndex: 200
+    });
+    $('.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
             var docType = null;
             if (ui.draggable.hasClass('folder')) {
                 docType = 'folder';
@@ -392,20 +396,20 @@ $('.case_detail_nav #item3').live('click', function() {
         $('div.case_detail_panel_tools').css({'border-bottom': '1px solid #AAA','margin-bottom':'10px'});
 
         //Set buttons
-        $('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true});
-        $('button.doc_new_folder').button({icons: {primary: 'fff-icon-folder-add'},text: true});
-        $('button.doc_upload').button({icons: {primary: 'fff-icon-page-white-get'},text: true});
-        $('.documents_view_chooser' ).buttonset();
-        $('.radio_toggle_grid').button({icons:{primary:'fff-icon-application-view-icons'},text:true});
-        $('.radio_toggle_list').button({icons:{primary:'fff-icon-application-view-list'},text:true}).next().addClass('buttonset-inactive');
+        $(this).find('button.doc_new_doc').button({icons: {primary: 'fff-icon-page-add'},text: true});
+        $(this).find('button.doc_new_folder').button({icons: {primary: 'fff-icon-folder-add'},text: true});
+        $(this).find('button.doc_upload').button({icons: {primary: 'fff-icon-page-white-get'},text: true});
+        $(this).find('.documents_view_chooser' ).buttonset();
+        $(this).find('.radio_toggle_grid').button({icons:{primary:'fff-icon-application-view-icons'},text:true});
+        $(this).find('.radio_toggle_list').button({icons:{primary:'fff-icon-application-view-list'},text:true}).next().addClass('buttonset-inactive');
 
         //Check to see if list or grid view is set
         if (!$.cookie('cc_doc_view') || $.cookie('cc_doc_view') === 'grid'){
-            $('.radio_toggle_grid').next().removeClass('buttonset-inactive');
-            $('.radio_toggle_list').next().addClass('buttonset-inactive');
+            $(this).find('.radio_toggle_grid').next().removeClass('buttonset-inactive');
+            $(this).find('.radio_toggle_list').next().addClass('buttonset-inactive');
         } else {
-            $('.radio_toggle_list').next().removeClass('buttonset-inactive');
-            $('.radio_toggle_grid').next().addClass('buttonset-inactive');
+            $(this).find('.radio_toggle_list').next().removeClass('buttonset-inactive');
+            $(this).find('.radio_toggle_grid').next().addClass('buttonset-inactive');
         } 
 
         //Apply shadow on scroll
@@ -422,7 +426,7 @@ $('.case_detail_nav #item3').live('click', function() {
     });
 
     //Create context menu
-    $('div.doc_item').contextMenu({menu: 'docMenu'}, function(action, el, pos) {
+    $('.doc_item').contextMenu({menu: 'docMenu'}, function(action, el, pos) {
         var itemId = $(el).attr('data-id');
         var docType = null;
         var caseId = $(el).closest('.case_detail_panel').data('CaseNumber');
