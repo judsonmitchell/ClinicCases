@@ -690,62 +690,75 @@ $('button.doc_new_folder').live('click', function() {
         $('span.docs_empty').remove();
     }
 
+if($.cookie('cc_doc_view') === 'list'){
+    target.find('tbody').prepend('<tr class="doc_item folder" path="" data-id="">' + 
+    '<td width="10%"><img src="html/ico/folder.png"></td>' +
+    '<td><p><textarea rows="1" id="new_folder_name">New Folder</textarea></p></td><td></td><td></td></tr>');
+} else {
     target.prepend('<div class="doc_item folder" path="" data-id=""><img src="html/ico/folder.png">' +
     '<p><textarea id="new_folder_name">New Folder</textarea></p></div>');
+}
 
-    $('#new_folder_name').select();
-    $('#new_folder_name').addClass('user_input')
-    .mouseenter(function() {
-        $(this).val('').focus().css({'background-color': 'white'});
-    })
-    .bind('blur keyup', function(e) {
-        if (e.type === 'blur' || e.which === 13) {
-            e.preventDefault();
-            var container = $(this).closest('.case_detail_panel_casenotes')
-                .siblings('.case_documents_submenu')
-                .find('a.active')
-                .attr('path');
-            var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-            var newName = $('#new_folder_name').val();
+$('#new_folder_name').select();
+$('#new_folder_name').addClass('user_input')
+.mouseenter(function() {
+    $(this).val('').focus().css({'background-color': 'white'});
+})
+.bind('blur keyup', function(e) {
+    if (e.type === 'blur' || e.which === 13) {
+        e.preventDefault();
+        var container = $(this).closest('.case_detail_panel_casenotes')
+            .siblings('.case_documents_submenu')
+            .find('a.active')
+            .attr('path');
+        var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
+        var newName = $('#new_folder_name').val();
 
-            if (newName.indexOf('/') !== -1) {
-                notify('Sorry, folder names cannot contain a foward slash.',true);
-                return false;
-            }
-            else if (newName ===  '\n'){ //user has only pressed return (inserting
-                // a new line character, but no file name)
-                notify('Please provde a name for your folder.',true);
-                return false;
+        if (newName.indexOf('/') !== -1) {
+            notify('Sorry, folder names cannot contain a foward slash.',true);
+            return false;
+        }
+        else if (newName ===  '\n'){ //user has only pressed return (inserting
+            // a new line character, but no file name)
+            notify('Please provde a name for your folder.',true);
+            return false;
+        } else {
+            var newFolder = null;
+
+            if (container === ''  || typeof container === 'undefined') {
+                newFolder = escape($.trim(newName.replace(/[\n\r]$/,'')));
+                //replace method removes any new line characters that
+                //may have been added by the user pressing enter
             } else {
-                var newFolder = null;
-
-                if (container === ''  || typeof container === 'undefined') {
-                    newFolder = escape($.trim(newName.replace(/[\n\r]$/,'')));
-                    //replace method removes any new line characters that
-                    //may have been added by the user pressing enter
+                newFolder = container + '/' + escape($.trim(newName.replace(/[\n\r]$/,'')));
+            }
+            $.post('lib/php/data/cases_documents_process.php', {
+                'case_id': caseId,
+                'container': container,
+                'new_folder': newFolder,
+                'action': 'newfolder'
+            }, function(data) {
+                var serverResponse = $.parseJSON(data);
+                if(serverResponse.error === true) {
+                    notify(serverResponse.message,true);
                 } else {
-                    newFolder = container + '/' + escape($.trim(newName.replace(/[\n\r]$/,'')));
-                }
-                $.post('lib/php/data/cases_documents_process.php', {
-                    'case_id': caseId,
-                    'container': container,
-                    'new_folder': newFolder,
-                    'action': 'newfolder'
-                }, function(data) {
-                    var serverResponse = $.parseJSON(data);
-                    if(serverResponse.error === true) {
-                        notify(serverResponse.message,true);
+                    if($.cookie('cc_doc_view') === 'list'){
+                        $('#new_folder_name').closest('tr').find('img').wrap('<a href="#" />');
+                        $('#new_folder_name').closest('tr')
+                            .attr({'path': newFolder,'data-id': serverResponse.id})
+                            .droppable();
                     } else {
                         $('#new_folder_name').parent().siblings('img').wrap('<a href="#" />');
                         $('#new_folder_name')
                             .closest('.folder')
                             .attr({'path': newFolder,'data-id': serverResponse.id})
                             .droppable();
-                        $('#new_folder_name').closest('p').html(escapeHtml(newName));
-                        createDragDrop();
-                        notify(serverResponse.message);
                     }
-                });
+                    $('#new_folder_name').closest('p').html(escapeHtml(newName));
+                    createDragDrop();
+                    notify(serverResponse.message);
+                }
+            });
             }
         }
     });
@@ -962,6 +975,8 @@ $('input.documents_search').live('keyup', function() {
                 $('thead').removeHighlight();
             }
         });
+    } else {
+        $('.documents_search_clear').trigger('click');
     }
 });
 

@@ -50,6 +50,9 @@ if (!isset($update)){
 <div class = "case_detail_panel_casenotes">
 <?php
 }
+if (empty($folders) AND empty($documents)) {
+    echo "<br /><span class='docs_empty'>No documents found.</a>"; die;
+}
 ?>
 
 <table id="doc_list">
