@@ -983,18 +983,10 @@ $('input.documents_search').live('keyup', function() {
 $('.documents_search_clear').live('click', function() {
     $(this).prev().val('Search Titles');
     $(this).prev().css({'color': '#AAA'});
+    $(this).prev().blur();
     $('.doc_trail_home').trigger('click');
     $(this).hide();
     $(this).closest('.case_detail_panel_tools').siblings('.case_documents_submenu').show();
-    //var returnTarget = $(this).closest('.case_detail_panel');
-    //var returnPath = $(this).closest('.case_detail_panel').data('CurrentPath');
-    //var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-    //returnTarget.load('lib/php/data/cases_documents_load.php', {
-        //'id': caseId,
-        //'path': returnPath,
-        //'container': returnPath
-    //});
-
 });
 
 //User changes view for documents
