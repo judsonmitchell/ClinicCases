@@ -23,9 +23,7 @@ function createDragDrop() {
     $('.folder').droppable('destroy');
 
     $('.item').draggable({
-        revert: 'invalid',
-        containment: 'div.case_detail_panel_casenotes',
-        zIndex: 200
+        revert: 'invalid'
     });
     $('.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
             var docType = null;
@@ -294,6 +292,14 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
 
             //Set the current path so that other functions can access it
             $(this).closest('.case_detail_panel').data('CurrentPath', path);
+
+            //If the trail has been previously hidden because we were showing 
+            //search results, show it again
+            $(this).siblings('.case_documents_submenu').show();
+
+            //Clear search results, if any
+            $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+            $('.documents_search_clear').hide();
 
             //Apply shadow on scroll
             $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -1013,9 +1019,10 @@ $('.radio_toggle_grid').live('click', function(){
     }, function() {
         //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
-        ////Reset search if search results are active
-        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        //$('.documents_search_clear').hide();
+        //Reset search if search results are active
+        $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+        $('.documents_search_clear').hide();
+        //Set correct shading of buttons
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.siblings('input').next().toggleClass('buttonset-inactive');
     });
@@ -1032,8 +1039,6 @@ $('.radio_toggle_list').live('click', function(){
         sendPath = currentPath;
     }
     var clickedButton = $(this);
-    //Set the current path so that other functions can access it
-    //$(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
     $.cookie('cc_doc_view','list');
     thisPanel.load('lib/php/data/cases_documents_load.php', {
@@ -1043,11 +1048,11 @@ $('.radio_toggle_list').live('click', function(){
         'path': sendPath,
         'container': sendPath
     }, function() {
-        //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
         ////Reset search if search results are active
-        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        //$('.documents_search_clear').hide();
+        $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+        $('.documents_search_clear').hide();
+        //Set correct shading of buttons
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.prev().toggleClass('buttonset-inactive');
     });
