@@ -21,7 +21,7 @@ if (!isset($update)){
             <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>"><label for="radio_list<?php echo $list_id; ?>">List</label>
             <?php } else { ?>
             <input type="radio" id="radio_grid<?php echo $grid_id; ?>" class="radio_toggle_grid" name="radio<?php echo $radio_name; ?>" "><label for="radio_grid<?php echo $grid_id; ?>">Grid</label>
-            <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>" checked="checked><label for="radio_list<?php echo $list_id; ?>">List</label>
+            <input type="radio" id="radio_list<?php echo $list_id; ?>" class="radio_toggle_list" name="radio<?php echo $radio_name; ?>" checked="checked"><label for="radio_list<?php echo $list_id; ?>">List</label>
             <?php } ?> 
         </div>
     </div>
