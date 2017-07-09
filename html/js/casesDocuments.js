@@ -23,7 +23,8 @@ function createDragDrop() {
     $('.folder').droppable('destroy');
 
     $('.item').draggable({
-        revert: 'invalid'
+        revert: 'invalid',
+        helper: 'clone'
     });
     $('.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
             var docType = null;
@@ -907,9 +908,6 @@ $('a.doc_trail_home').live('click', function(event) {
     }, function() {
         $(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
-        //Reset search if search results are active
-        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        //$('.documents_search_clear').hide();
         clearSearchBox($(this));
     });
 });
