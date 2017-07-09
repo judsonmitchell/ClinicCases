@@ -273,6 +273,16 @@ function createTextEditor(target, action, permission, title, content, id, owner,
     }
 }
 
+function clearSearchBox(el){
+    //Clear search results, if any
+    el.closest('.case_detail_panel').find('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+    el.closest('.case_detail_panel').find('.documents_search_clear').hide();
+
+    //If the trail has been previously hidden because we were showing 
+    //search results, show it again
+    el.closest('.case_detail_panel').find('.case_documents_submenu').show();
+}
+
 function openItem(el, itemId, docType, caseId, path, pathDisplay) {
     if ($(el).hasClass('folder')) {
         if ( $(el).hasClass('.ui-draggable-dragging') ) {
@@ -292,14 +302,8 @@ function openItem(el, itemId, docType, caseId, path, pathDisplay) {
 
             //Set the current path so that other functions can access it
             $(this).closest('.case_detail_panel').data('CurrentPath', path);
-
-            //If the trail has been previously hidden because we were showing 
-            //search results, show it again
-            $(this).siblings('.case_documents_submenu').show();
-
-            //Clear search results, if any
-            $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-            $('.documents_search_clear').hide();
+            
+            clearSearchBox($(this));
 
             //Apply shadow on scroll
             $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
@@ -904,8 +908,9 @@ $('a.doc_trail_home').live('click', function(event) {
         $(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
         //Reset search if search results are active
-        $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        $('.documents_search_clear').hide();
+        //$('input.documents_search').val('Search Titles').css({'color': '#AAA'});
+        //$('.documents_search_clear').hide();
+        clearSearchBox($(this));
     });
 });
 
@@ -990,7 +995,7 @@ $('.documents_search_clear').live('click', function() {
     $(this).prev().val('Search Titles');
     $(this).prev().css({'color': '#AAA'});
     $(this).prev().blur();
-    $('.doc_trail_home').trigger('click');
+    $(this).closest('.case_detail_panel').find('.doc_trail_home').trigger('click');
     $(this).hide();
     $(this).closest('.case_detail_panel_tools').siblings('.case_documents_submenu').show();
 });
@@ -1017,11 +1022,9 @@ $('.radio_toggle_grid').live('click', function(){
         'path': sendPath,
         'container': sendPath
     }, function() {
-        //$(this).siblings('.case_documents_submenu').find('.path_display').html('');
         createDragDrop();
-        //Reset search if search results are active
-        $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        $('.documents_search_clear').hide();
+        clearSearchBox($(this));
+
         //Set correct shading of buttons
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.siblings('input').next().toggleClass('buttonset-inactive');
@@ -1049,9 +1052,8 @@ $('.radio_toggle_list').live('click', function(){
         'container': sendPath
     }, function() {
         createDragDrop();
-        ////Reset search if search results are active
-        $('input.documents_search').val('Search Titles').css({'color': '#AAA'});
-        $('.documents_search_clear').hide();
+        clearSearchBox($(this));
+
         //Set correct shading of buttons
         clickedButton.next().toggleClass('buttonset-inactive');
         clickedButton.prev().toggleClass('buttonset-inactive');
