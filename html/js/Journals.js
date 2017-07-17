@@ -4,7 +4,7 @@
 var oTable;
 
 $(document).ready(function() {
-	var tableHeight = $('#content').height() - 100;
+	var tableHeight = $('#content').height() - 120;
 	var chooserVal = 'unread';
 	oTable = $('#table_journals').dataTable({
 		'sAjaxSource': 'lib/php/data/journals_load.php',
