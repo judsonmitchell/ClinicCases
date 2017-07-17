@@ -133,12 +133,16 @@ $('.case_detail_panel_tools_right button.new_event').live('click', function() {
             //submit the form
             var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
             var target = $(this).closest('.case_detail_panel_casenotes');
+            var allDay = false;
+            if (eventForm.find('input[name = "all_day"]').is(':checked')){
+                allDay = true;
+            }
             $.post('lib/php/data/cases_events_process.php', {
                 'task': eventForm.find('input[name = "task"]').val(),
                 'where': eventForm.find('input[name = "where"]').val(),
                 'start': eventForm.find('input[name = "start"]').val(),
                 'end': eventForm.find('input[name = "end"]').val(),
-                'all_day': eventForm.find('input[name = "all_day"]').val(),
+                'all_day': allDay,
                 'notes': eventForm.find('textarea[name = "notes"]').val(),
                 'responsibles': resps,
                 'action': 'add',

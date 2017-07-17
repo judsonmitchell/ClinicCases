@@ -56,7 +56,7 @@ if (isset($_POST['case_id']))
 
 if (isset($_POST['all_day']))
 	{
-		if ($_POST['all_day'] == 'on')
+        if ($_POST['all_day'] == 'true')
 			{
 				$all_day = '1';
 			}
