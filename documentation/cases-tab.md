@@ -60,7 +60,7 @@ As of version 7.2.1, cases can be deleted. Users who have the "delete_cases" per
 ### Documents
 ClinicCases has a fully-featured file manager.
 
-![View of Documents](img/documents.png)
+![View of Documents](img/documents-7.3.0.png)
 
 * **New Document** - Clicking this will open ClinicCases' rich-text editor and create a new ClinicCases document.  This is an alternative to creating a document on your desktop computer and is useful and time-saving for creating casual documents, such as digests of legal research, to-do lists, notes on interviews, etc.
 
@@ -70,6 +70,9 @@ ClinicCases has a fully-featured file manager.
 	'ogv','flv','bmp','jpg','jpeg','gif','png','svg','tif','tiff','zip','tar','gz','bz',and 'pdf'.
 
 * **Renaming, Deleting, and Moving Files and Folders** - Right-clicking on a file or folder will bring up a dialog which allows you to cut/copy/rename/or delete that item.  You can also move items by dragging them to the desired folder.  You can see meta-information about a file (who uploaded it, time of upload, etc) by selecting "Properties" from the right-click menu.
+
+* **Searching and Changing Views** - As of version 7.3.0, you can search through the titles of uploaded documents in order to quickly find what you are 
+looking for. The grid/list view buttons allow you to change how the files are displayed for easier scanning.
 
 ### Events
 
