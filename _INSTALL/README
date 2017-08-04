@@ -1,7 +1,7 @@
 INSTALL
 
 Below are instructions on how to install ClinicCases 7.
-If you need help, please visit http://www.cliniccases.com/help.
+If you need help, please visit https://www.cliniccases.com/help.
 
 When you have successfully completed your ClinicCases install, please
 register your installation at https://cliniccases.com/registration/
@@ -10,8 +10,8 @@ receive early access to new features, improvements, and bug fixes.
 
 REQUIREMENTS:
 1. Server running Linux and Apache
-2. Mysql
-3. PHP version 5.1 or higher,compiled with GD libraries
+2. MYSQL
+3. PHP version 5.3.6 or higher,compiled with GD libraries
 4. Mail server (e.g, exim4, sendmail.  Most servers will already
 have this installed.).  Used for sending notifications to users.
 6. Is it recommended that you run ClinicCases on a secure server (SSL, TSL).

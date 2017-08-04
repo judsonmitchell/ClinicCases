@@ -2,7 +2,7 @@
 require_once('_CONFIG.php');
 
 try {
-		$dbh = new PDO("mysql:host=" . CC_DBHOST . ";dbname=" . CC_DATABASE_NAME , CC_DBUSERNAME, CC_DBPASSWD);
+		$dbh = new PDO("mysql:host=" . CC_DBHOST . ";dbname=" . CC_DATABASE_NAME . ";charset=utf8mb4" , CC_DBUSERNAME, CC_DBPASSWD);
     }
 catch(PDOException $e)
     {
