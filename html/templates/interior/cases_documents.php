@@ -92,8 +92,8 @@ if (!isset($update)){
 			$user = username_to_fullname($dbh,$document['username']);
 			$date = extract_date_time($document['date_modified']);
 
-			echo "<div id='doc_$document[id]' class='doc_item item $document[type]' data-id='$document[id]'><img src='$icon'><p>" . htmlspecialchars(rawurldecode($document[name]), ENT_QUOTES,'UTF-8') . "</p></div>";
-			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>" . htmlspecialchars(rawurldecode($document[name]), ENT_QUOTES,'UTF-8') . "</h3>
+			echo "<div id='doc_$document[id]' class='doc_item item $document[type]' data-id='$document[id]'><img src='$icon'><p>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES,'UTF-8') . "</p></div>";
+			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES,'UTF-8') . "</h3>
 			<hr />
 			<p><label>Type</label>     $document[type]</p>
 			<p><label>Uploaded:</label>     $date</p>
