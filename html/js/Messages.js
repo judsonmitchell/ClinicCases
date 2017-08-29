@@ -333,6 +333,10 @@ $(document).ready(function() {
         event.preventDefault();
         var clickType = $(this).attr('class');
         var h;
+
+        //If the user has previously entered reply/forward, then changed mind
+        $(this).parent().siblings('div.msg_reply_text').show().find('textarea').removeClass();
+
         //add choice of recipients if forward is selected
         if (clickType === 'forward') {
             h = $(this).closest('div.msg').height() + 300;
@@ -347,6 +351,9 @@ $(document).ready(function() {
             //make room for textarea
             h = $(this).closest('div.msg').height() + 250;
             $(this).closest('div.msg').height(h);
+
+            //in case user had previously selected forward, then just decided to reply
+            $(this).parent().siblings('div.msg_forward').hide();
             //add textarea
             $(this).parent().siblings('div.msg_reply_text').show().find('textarea').addClass(clickType);
         }
