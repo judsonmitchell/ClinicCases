@@ -45,7 +45,7 @@
 
 	</ol>
 
-	<p><small><?php if ($count > 0){echo "Please review these cases to determine if actual conflicts exist.  ";} ?>Read the <a href="http://cliniccases.com/conflicts_disclaimer" target="_new">disclaimer</a> about conflicts checking with ClinicCases.</small></p>
+	<p><small><?php if ($count > 0){echo "Please review these cases to determine if actual conflicts exist.  ";} ?>Read the <a href="http://cliniccases.com/conflicts_disclaimer.php" target="_new">disclaimer</a> about conflicts checking with ClinicCases.</small></p>
 
 </div>
 
