@@ -1,10 +1,9 @@
-#ClinicCases
+# ClinicCases
 
-[![Join the chat at https://gitter.im/judsonmitchell/ClinicCases](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/judsonmitchell/ClinicCases?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ClinicCases is an open source case management system designed
 specifically for law school clinics.  It uses PHP and MySQL.
 
-##Features
+## Features
 
 ClinicCases is designed to be easy to use with a minimal learing curve for new users.
 Documentation is available at the [ClinicCases site](http://cliniccases.com).
@@ -17,7 +16,7 @@ and confidentiality
 * Time keeping and user management
 * and much more!
 
-##Server Requirements
+## Server Requirements
 
 * Server running Linux and Apache
 * MySQL
@@ -25,7 +24,7 @@ and confidentiality
 * Mail server (e.g, exim4, sendmail.  Most servers will already
 have this installed.).  Used for sending notifications to users.
 
-##Install
+## Install
 Either download the zip file from github or run the following command
 in your terminal
 
@@ -33,11 +32,11 @@ in your terminal
 
 Please see detailed install instructions in the _INSTALL directory
 
-##More Information
+## More Information
 
 Learn more, ask questions, or see a demo at <http://cliniccases.com>.
 
-##License (MIT)
+## License (MIT)
 
 Copyright (c) 2013 Judson Mitchell, Three Pipe Problem, LLC
 
