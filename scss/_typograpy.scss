@@ -1,0 +1,21 @@
+p, li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $black;
+}
+
+a {
+    text-decoration: none;
+    font-family: inherit;
+    color: inherit;
+    &:visited{
+        color: inherit;
+    }
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: lemonde-journal, serif;
+    color: black;
+
+}

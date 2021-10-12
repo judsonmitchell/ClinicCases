@@ -1,0 +1,22 @@
+$black: #272727;
+$dark-blue: #2b50aa;
+$light-blue: #c3dbea;
+$border-gray: #ddd;
+$border-grey: $border-gray;
+
+
+// breakpoints
+$mobile: 576;
+@mixin flex_center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flex_vert_center() {
+    display: flex;
+    align-items: center;
+}
+
+@mixin light_border() {
+    border: 1px solid $border-gray;
+}

@@ -20,13 +20,12 @@
 	<?php include 'html/templates/interior/timer.php' ?>
 	<?php include 'html/templates/interior/idletimeout.php' ?>
 
-	<div id = "nav_container">
+	<div class="header">
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
-		<div id="menus">
+		<!-- <div id="menus">
 			<?php include 'html/templates/Menus.php'; ?>
 
-		</div>
-
+		</div> -->
 	</div>
 
 	<div id="content">

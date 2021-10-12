@@ -1,0 +1,122 @@
+.header > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0rem 4rem;
+  border-bottom: 2px solid black;
+  height: 80px;
+  @media screen and (max-width: 567px) {
+    padding: 0rem 1rem;
+    flex-direction: column;
+  }
+
+  ul {
+    @include flex_vert_center();
+    max-height: 150vh;
+    transition: all 0.3s ease-in-out;
+
+    @media screen and (max-width: 567px) {
+      @include light_border();
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 10;
+      background-color: white;
+      margin: 0rem -1rem;
+      padding-bottom: 1rem;
+    }
+
+    li {
+      margin: 0;
+      padding: 0;
+      @media screen and (max-width: 567px) {
+        @include flex_vert_center();
+        visibility: visible;
+        transition: visibility 0.1s ease-out;
+        transition-delay: 0.3s;
+      }
+      a {
+        @include flex_center();
+        margin: 0;
+        padding: 0rem 1.5rem;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        @media screen and (max-width: 567px) {
+          padding: 1.5rem;
+          font-size: 1.5rem;
+          justify-content: flex-start;
+        }
+        &::before {
+          content: '';
+          display: block;
+          height: 2px;
+          width: 0px;
+          background-color: $dark-blue;
+          transform: translateX(50%);
+          transition: all 0.3s ease-in-out;
+          position: absolute;
+          bottom: 0;
+        }
+        &:hover {
+          background-color: $light-blue;
+
+          &::before {
+            width: 100%;
+            transform: translateX(0);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 567px) {
+      &.collapsed {
+        max-height: 0;
+        padding: 0;
+        transition-delay: 0.3s;
+
+        li {
+          visibility: hidden;
+          transition: visibility 0.1s ease-out;
+          transition-delay: 0s;
+        }
+      }
+    }
+  }
+}
+
+.header__toggle {
+  display: none;
+
+  img {
+    height: 50px;
+  }
+  @media screen and (max-width: 567px) {
+    display: block;
+  }
+}
+
+.header__group {
+  @include flex_center();
+
+  @media screen and (max-width: 567px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.header__logo {
+  @include flex_center();
+
+  @media screen and (max-width: 567px) {
+    font-size: 2rem;
+    justify-content: flex-start;
+    padding: 1.5rem 0;
+  }
+}
+.header__prof-pic > a {
+  @include flex_center();
+  img {
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid $border-gray;
+    background-color: white;
+    margin-right: 0.5rem;
+  }
+}

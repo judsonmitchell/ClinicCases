@@ -632,9 +632,9 @@ div.board_new_item_menu_bottom * {vertical-align: top}
 div.board_new_item_menu_bottom_inner{display:inline-block;position:absolute;width:40%;right:5px;text-align: right}
 div.board_upload{display: inline-block;}
 
-::-webkit-scrollbar
+/* ::-webkit-scrollbar
     width: 12px;
-}
+} */
 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);

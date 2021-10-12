@@ -41,7 +41,7 @@
 	<div id = "nav_container">
 
 		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
-
+		
 		<div id="menus">
 
 			<?php include 'html/templates/Menus.php'; ?>
