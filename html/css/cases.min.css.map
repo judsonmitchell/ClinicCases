@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,AAAA,mBAAmB,EAAE,mBAAmB,CAAC;EACrC,OAAO,EAAE,IAAI;CAChB",
+    "sources": [
+        "../../scss/cases.scss"
+    ],
+    "names": [],
+    "file": "cases.min.css"
+}

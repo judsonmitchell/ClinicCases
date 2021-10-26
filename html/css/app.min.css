@@ -1,8 +1,14 @@
 p, li {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: #272727;
+}
+
+@media screen and (max-width: 1200px) {
+  p, li {
+    font-size: 1.2rem;
+  }
 }
 
 a {
@@ -32,13 +38,14 @@ h1, h2, h3, h4, h5, h6 {
   height: 80px;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header > div {
     padding: 0rem 1rem;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    height: 100%;
   }
 }
 
@@ -54,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header > div ul {
     border: 1px solid #ddd;
     -webkit-box-orient: vertical;
@@ -77,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header > div ul li {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -111,7 +118,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header > div ul li a {
     padding: 1.5rem;
     font-size: 1.5rem;
@@ -135,17 +142,18 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
 }
 
-.header > div ul li a:hover {
-  background-color: #c3dbea;
+@media screen and (min-width: 992px) {
+  .header > div ul li a:hover {
+    background-color: #c3dbea;
+  }
+  .header > div ul li a:hover::before {
+    width: 100%;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
 }
 
-.header > div ul li a:hover::before {
-  width: 100%;
-  -webkit-transform: translateX(0);
-          transform: translateX(0);
-}
-
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header > div ul.collapsed {
     max-height: 0;
     padding: 0;
@@ -169,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 50px;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header__toggle {
     display: block;
   }
@@ -187,7 +195,7 @@ h1, h2, h3, h4, h5, h6 {
           align-items: center;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header__group {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -211,7 +219,7 @@ h1, h2, h3, h4, h5, h6 {
           align-items: center;
 }
 
-@media screen and (max-width: 567px) {
+@media screen and (max-width: 992px) {
   .header__logo {
     font-size: 2rem;
     -webkit-box-pack: start;
@@ -239,6 +247,10 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #ddd;
   background-color: white;
   margin-right: 0.5rem;
+}
+
+html {
+  font-size: 10px;
 }
 
 body {

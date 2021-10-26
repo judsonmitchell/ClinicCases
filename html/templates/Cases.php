@@ -1,24 +1,6 @@
 <!-- CSS specific to this page -->
-<!-- <link rel="stylesheet" href="lib/DataTables-1.8.2/media/css/data_table_jui.css" type="text/css">
-
-<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/TableTools/media/css/TableTools.css" type="text/css">
-
-<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColVis/media/css/ColVis.css" type="text/css">
-
-<link rel="stylesheet" href="lib/DataTables-1.8.2/extras/ColReorder/media/css/ColReorder.css" type="text/css">
-
-<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
-
-<link type="text/css" href="lib/javascripts/jScrollPane/jquery.jscrollpane.css" rel="stylesheet"/>
-
-<link type="text/css" href="lib/javascripts/lwrte/jquery.rte.css" rel="stylesheet"/>
-
-<link type="text/css" href="lib/javascripts/contextMenu/jquery.contextMenu.css" rel="stylesheet"/>
-
-<link type="text/css" href="lib/javascripts/valums-file-uploader/client/fileuploader.css" rel="stylesheet"/>
-
-<link rel="stylesheet" type="text/css" href="lib/javascripts/timepicker/jquery-ui-timepicker-addon.css" /> -->
 <link rel="stylesheet" type="text/css" href="lib/datatables.min.css" />
+<link rel="stylesheet" type="text/css" href="html/css/cases.min.css" />
 
 
 
@@ -97,7 +79,7 @@
 					<option value="all">All Cases</option>
 
 				</select>
-				<input id="cases_search" placeholder="Search"/>
+				<input id="cases_search" placeholder="Search" />
 			</div>
 		</div>
 		<!-- <div id="processing">Loading....</div> -->

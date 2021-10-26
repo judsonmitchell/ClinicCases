@@ -4,9 +4,10 @@
   padding: 0rem 4rem;
   border-bottom: 2px solid black;
   height: 80px;
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: $med) {
     padding: 0rem 1rem;
     flex-direction: column;
+    height: 100%;
   }
 
   ul {
@@ -14,7 +15,7 @@
     max-height: 150vh;
     transition: all 0.3s ease-in-out;
 
-    @media screen and (max-width: 567px) {
+    @media screen and (max-width: $med) {
       @include light_border();
       flex-direction: column;
       align-items: flex-start;
@@ -28,7 +29,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      @media screen and (max-width: 567px) {
+      @media screen and (max-width: $med) {
         @include flex_vert_center();
         visibility: visible;
         transition: visibility 0.1s ease-out;
@@ -41,7 +42,7 @@
         transition: background-color 0.3s ease-in-out;
         position: relative;
         height: 100%;
-        @media screen and (max-width: 567px) {
+        @media screen and (max-width: $med) {
           padding: 1.5rem;
           font-size: 1.5rem;
           justify-content: flex-start;
@@ -57,18 +58,21 @@
           position: absolute;
           bottom: 0;
         }
-        &:hover {
-          background-color: $light-blue;
-
-          &::before {
-            width: 100%;
-            transform: translateX(0);
+        @media screen and (min-width: $med) {
+          &:hover {
+            background-color: $light-blue;
+  
+            &::before {
+              width: 100%;
+              transform: translateX(0);
+            }
           }
         }
+
       }
     }
 
-    @media screen and (max-width: 567px) {
+    @media screen and (max-width: $med) {
       &.collapsed {
         max-height: 0;
         padding: 0;
@@ -90,7 +94,7 @@
   img {
     height: 50px;
   }
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: $med) {
     display: block;
   }
 }
@@ -98,7 +102,7 @@
 .header__group {
   @include flex_center();
 
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: $med) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -106,7 +110,7 @@
 .header__logo {
   @include flex_center();
 
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: $med) {
     font-size: 2rem;
     justify-content: flex-start;
     padding: 1.5rem 0;

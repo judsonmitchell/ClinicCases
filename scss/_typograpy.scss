@@ -1,8 +1,13 @@
 p, li {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: $black;
+
+    @media screen and (max-width: $lg) {
+        font-size: 1.2rem;
+    }
+
 }
 
 a {
