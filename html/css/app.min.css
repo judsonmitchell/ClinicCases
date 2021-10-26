@@ -74,6 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 .header > div ul li {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 @media screen and (max-width: 567px) {
@@ -107,6 +108,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   position: relative;
+  height: 100%;
 }
 
 @media screen and (max-width: 567px) {

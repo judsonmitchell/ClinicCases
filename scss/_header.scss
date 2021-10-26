@@ -27,6 +27,7 @@
     li {
       margin: 0;
       padding: 0;
+      height: 100%;
       @media screen and (max-width: 567px) {
         @include flex_vert_center();
         visibility: visible;
@@ -39,6 +40,7 @@
         padding: 0rem 1.5rem;
         transition: all 0.3s ease-in-out;
         position: relative;
+        height: 100%;
         @media screen and (max-width: 567px) {
           padding: 1.5rem;
           font-size: 1.5rem;

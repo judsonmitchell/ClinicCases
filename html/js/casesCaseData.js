@@ -193,7 +193,7 @@ function formatCaseData(thisPanel, type) { //Apply CSS
 }
 
 //User clicks on Case Data in left-side navigation
-$('.case_detail_nav #item2').live('click', function () {
+$('.case_detail_nav #item2').on('click', function () {
     var thisPanel = $(this).closest('.case_detail_nav').siblings('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_nav').siblings('.case_detail_panel').data('CaseNumber');
     var type;
@@ -213,7 +213,7 @@ $('.case_detail_nav #item2').live('click', function () {
 });
 
 //Listen for edit
-$('button.case_data_edit').live('click', function () {
+$('button.case_data_edit').on('click', function () {
     var thisPanel = $(this).closest('.case_detail_panel');
     var thisCaseId = thisPanel.data('CaseNumber');
     thisPanel.load('lib/php/data/cases_case_data_load.php', {
@@ -225,7 +225,7 @@ $('button.case_data_edit').live('click', function () {
 });
 
 //Listen for delete
-$('button.case_data_delete').live('click', function () {
+$('button.case_data_delete').on('click', function () {
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
     var tgt = $(this).closest('.ui-tabs-panel').attr('id');
     var dialogWin = $('<div class="dialog-casenote-delete" title="Are you sure?"><p>' +
@@ -257,7 +257,7 @@ $('button.case_data_delete').live('click', function () {
 });
 
 //Submit the form
-$('button.case_modify_submit').live('click', function (event) {
+$('button.case_modify_submit').on('click', function (event) {
     event.preventDefault();
     var resultTarget = $(this).closest('.case_detail_panel');
     var thisCaseId = resultTarget.data('CaseNumber');
@@ -365,7 +365,7 @@ $('button.case_modify_submit').live('click', function (event) {
 });
 
 //Cancel New Case or Edit
-$('button.case_cancel_submit').live('click', function (event) {
+$('button.case_cancel_submit').on('click', function (event) {
     event.preventDefault();
     var thisPanel = $(this).closest('.case_detail_panel');
     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
@@ -406,14 +406,14 @@ $('button.case_cancel_submit').live('click', function (event) {
 });
 
 //Listen for print
-$('button.case_data_print').live('click', function () {
+$('button.case_data_print').on('click', function () {
     elPrint($(this).closest('div.case_detail_panel_tools')
     .siblings('div.case_detail_panel_casenotes'), 'Case Data: ' +
     $(this).closest('.case_detail_panel').siblings('.case_detail_bar').find('.case_title').text());
 });
 
 //Add another multi-text or dual
-$('a.add_another').live('click', function (event) {
+$('a.add_another').on('click', function (event) {
     event.preventDefault();
     var newField = $(this).prev('span').clone();
     newField.find('input').val('');
