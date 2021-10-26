@@ -105,8 +105,8 @@ h1, h2, h3, h4, h5, h6 {
           align-items: center;
   margin: 0;
   padding: 0rem 1.5rem;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   position: relative;
   height: 100%;
 }

@@ -89,7 +89,17 @@
 
 	<div id="content">
 
+		<div class="container">
+			<div class="row">
+				<select id="cases_select">
+					<option value="open">Open Cases Only</option>
+					<option value="closed">Closed Cases Only</option>
+					<option value="all">All Cases</option>
 
+				</select>
+				<input id="cases_search" placeholder="Search"/>
+			</div>
+		</div>
 		<!-- <div id="processing">Loading....</div> -->
 
 		<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {

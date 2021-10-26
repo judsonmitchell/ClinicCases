@@ -34,36 +34,65 @@ $(document).ready(function () {
         });
         return array;
       });
-      console.log(asObjects);
-      $('#table_cases').DataTable({
+      const table = $('#table_cases').DataTable({
         data: asArray,
+        responsive: true,
         columns: [
-          { visible: false }, // ID
-          { visible: false }, // CASE NUMBER
-          null, // FIRSTNAME
-          { visible: false }, // MIDDLE NAME
-          null, // LAST NAME
-          null, // ORGANIZATION
-          null, // DATE OPEN
-          null, // DATE CLOSE
-          null, // CASE TYPE
-          null, // ADVERSE PARTY
-          { visible: false }, // CLINIC TYPE
-          null, // PHONE
-          { visible: false }, // EMAIL
-          { visible: false }, // SSN
-          { visible: false }, // DOB
-          { visible: false }, // AGE
-          { visible: false }, // GENDER
-          { visible: false }, // RACE
-          { visible: false }, // COURT
-          null, // DISPOSITION
-          { visible: false }, // REFERRED BY
-          null, // OPENED BY
+          { visible: false }, // 0: ID
+          { visible: false }, // 1: CASE NUMBER
+          null, // 2: FIRSTNAME
+          { visible: false }, // 3: MIDDLE NAME
+          null, // 4: LAST NAME
+          null, // 5: ORGANIZATION
+          null, // 6: DATE OPEN
+          null, // 7: DATE CLOSE
+          null, // 8: CASE TYPE
+          null, // 9: ADVERSE PARTY
+          { visible: false }, // 10: CLINIC TYPE
+          null, // 11: PHONE
+          { visible: false }, // 12: EMAIL
+          { visible: false }, // 13: SSN
+          { visible: false }, // 14: DOB
+          { visible: false }, // 15: AGE
+          { visible: false }, // 16: GENDER
+          { visible: false }, // 17: RACE
+          { visible: false }, // 18: COURT
+          null, // 19: DISPOSITION
+          { visible: false }, // 20: REFERRED BY
+          null, // 21: OPENED BY
         ],
       });
+      filter();
+
+      function filter(e = null) {
+        value = e?.target.value || 'open';
+
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+          const close_data = data[7];
+          return value === 'open' && !close_data
+            ? true
+            : value === 'closed' && close_data
+            ? true
+            : value === 'all'
+            ? true
+            : false;
+        });
+        table.draw();
+      }
+
+      function search(e) {
+        const keyword = e.target.value;
+        table.search(keyword);
+        table.draw();
+      }
+
+      const cases_search = document.querySelector('#cases_search');
+      const cases_select = document.querySelector('#cases_select');
+      cases_search.addEventListener('keyup', search);
+      cases_select.addEventListener('change', filter);
     },
   });
+
   //Get the column definitions to use in oTable
   // $.ajax({
   //     url: 'lib/php/data/cases_columns_load.php',
