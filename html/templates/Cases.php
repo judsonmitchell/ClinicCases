@@ -71,17 +71,23 @@
 
 	<div id="content">
 
-		<div class="container">
-			<div class="row">
+		<div class="display-grid-2-1">
+			<div class="search_container">
 				<select id="cases_select">
 					<option value="open">Open Cases Only</option>
 					<option value="closed">Closed Cases Only</option>
 					<option value="all">All Cases</option>
 
 				</select>
-				<input id="cases_search" placeholder="Search" />
+				<div class="input_search">
+					<input type="search" id="cases_search" placeholder="Search" />
+					<img src="./icons/search.png" />
+				</div>
 			</div>
+			<button class="primary-button" type="button">+ Add Case</button>
 		</div>
+
+
 		<!-- <div id="processing">Loading....</div> -->
 
 		<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {

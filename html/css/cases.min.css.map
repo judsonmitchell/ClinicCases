@@ -1,8 +1,10 @@
 {
     "version": 3,
-    "mappings": "AACA,AAAA,mBAAmB,EAAE,mBAAmB,CAAC;EACrC,OAAO,EAAE,IAAI;CAChB",
+    "mappings": "ACEA,AAAA,KAAK,AAAA,UAAU,AAAA,OAAO,CAAC,KAAK,CAAC,EAAE,AAAA,IAAI;AACnC,KAAK,AAAA,UAAU,AAAA,QAAQ,CAAC,KAAK,CAAC,EAAE,AAAA,IAAI,CAAC;EACnC,gBAAgB,ECCE,wBAAwB;CDA3C;;AAED,AAAA,mBAAmB,EAAE,mBAAmB,CAAC;EACrC,OAAO,EAAE,IAAI;CAChB;;AAED,AAAA,KAAK,AAAA,UAAU,CAAC,KAAK,CAAC,EAAE,EAAE,KAAK,AAAA,UAAU,CAAC,KAAK,CAAC,EAAE,CAAA;EAC9C,aAAa,EAAE,kBAAkB;CACpC;;AAED,AAAA,EAAE,EAAE,EAAE,CAAC;EACH,MAAM,EAAE,GAAG,CAAC,KAAK,CCbP,OAAO;CDcpB",
     "sources": [
-        "../../scss/cases.scss"
+        "../../scss/cases.scss",
+        "../../scss/_tables.scss",
+        "../../scss/_variables.scss"
     ],
     "names": [],
     "file": "cases.min.css"

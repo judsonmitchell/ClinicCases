@@ -1,4 +1,5 @@
-p, li {
+p,
+li {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.6rem;
   font-weight: 600;
@@ -6,7 +7,8 @@ p, li {
 }
 
 @media screen and (max-width: 1200px) {
-  p, li {
+  p,
+  li {
     font-size: 1.2rem;
   }
 }
@@ -21,9 +23,54 @@ a:visited {
   color: inherit;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: lemonde-journal, serif;
   color: black;
+}
+
+table {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #272727;
+}
+
+@media screen and (max-width: 1200px) {
+  table {
+    font-size: 1.2rem;
+  }
+}
+
+th {
+  color: #2b50aa;
+  font-size: 1.2rem;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #272727;
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+}
+
+@media screen and (max-width: 1200px) {
+  button {
+    font-size: 1.2rem;
+  }
 }
 
 .header > div {
@@ -63,7 +110,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media screen and (max-width: 992px) {
   .header > div ul {
-    border: 1px solid #ddd;
+    border: 1px solid #E7E6EB;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -244,9 +291,103 @@ h1, h2, h3, h4, h5, h6 {
 .header__prof-pic > a img {
   width: 50px;
   border-radius: 50%;
-  border: 1px solid #ddd;
+  border: 1px solid #E7E6EB;
   background-color: white;
   margin-right: 0.5rem;
+}
+
+input,
+select,
+textarea {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #272727;
+  border: 1px solid #E7E6EB;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1200px) {
+  input,
+  select,
+  textarea {
+    font-size: 1.2rem;
+  }
+}
+
+input ::-webkit-input-placeholder,
+select ::-webkit-input-placeholder,
+textarea ::-webkit-input-placeholder {
+  color: #E7E6EB;
+}
+
+input :-ms-input-placeholder,
+select :-ms-input-placeholder,
+textarea :-ms-input-placeholder {
+  color: #E7E6EB;
+}
+
+input ::-ms-input-placeholder,
+select ::-ms-input-placeholder,
+textarea ::-ms-input-placeholder {
+  color: #E7E6EB;
+}
+
+input ::placeholder,
+select ::placeholder,
+textarea ::placeholder {
+  color: #E7E6EB;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border: 1px solid black;
+  outline: none;
+}
+
+.search_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.search_container .input_search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.search_container .input_search img {
+  position: absolute;
+  right: 0;
+  height: 2rem;
+  width: 2rem;
+  padding: 0.5rem;
+}
+
+.search_container select {
+  border-radius: 5px 0px 0px 5px;
+}
+
+.search_container input[type='search'] {
+  border-radius: 0px 5px 5px 0px;
+  height: 100%;
+  width: 100%;
+  border-left-color: transparent;
+}
+
+.search_container input[type='search']:focus {
+  border-left-color: inherit;
 }
 
 html {
@@ -255,5 +396,15 @@ html {
 
 body {
   background-color: white;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display-grid-2-1 {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2fr 1fr;
+      grid-template-columns: 2fr 1fr;
+  grid-gap: 1rem;
 }
 /*# sourceMappingURL=app.min.css.map */

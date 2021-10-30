@@ -1,26 +1,31 @@
-p, li {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: $black;
-
-    @media screen and (max-width: $lg) {
-        font-size: 1.2rem;
-    }
-
+p,
+li {
+  @include body-font();
 }
 
 a {
-    text-decoration: none;
-    font-family: inherit;
+  text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+  &:visited {
     color: inherit;
-    &:visited{
-        color: inherit;
-    }
+  }
 }
 
-h1,h2,h3,h4,h5,h6 {
-    font-family: lemonde-journal, serif;
-    color: black;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: lemonde-journal, serif;
+  color: black;
+}
 
+table {
+  @include body-font();
+}
+th {
+    color: $dark-blue;
+    font-size: 1.2rem;
 }

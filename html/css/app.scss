@@ -1,10 +1,21 @@
 @import '../../scss/variables';
+@import '../../scss/mixins';
 @import '../../scss/typograpy';
+@import '../../scss/utilities';
 @import '../../scss/header';
+@import '../../scss/form';
 
 html {
   font-size: 10px;
 }
 body {
   background-color: white;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display-grid-2-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 1rem;
 }

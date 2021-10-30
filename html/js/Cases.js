@@ -17,9 +17,6 @@ function escapeHtml(text) {
 }
 
 $(document).ready(function () {
-  //set the intial value for the caseStatus span on load
-  var chooserVal = 'open';
-
   $.ajax({
     url: 'lib/php/data/cases_load.php',
     error: function () {
@@ -62,9 +59,11 @@ $(document).ready(function () {
           null, // 21: OPENED BY
         ],
       });
+      
       filter();
 
       function filter(e = null) {
+        // defaults to open cases
         value = e?.target.value || 'open';
 
         $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
