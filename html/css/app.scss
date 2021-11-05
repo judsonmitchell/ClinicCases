@@ -19,3 +19,8 @@ body {
   grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
 }
+
+.center-vertically{
+  display: flex;
+  align-items: center;
+}

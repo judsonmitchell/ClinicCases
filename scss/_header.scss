@@ -11,12 +11,12 @@
   }
 
   ul {
-    @include flex_vert_center();
+    @include flex-vert-center();
     max-height: 150vh;
     transition: all 0.3s ease-in-out;
 
     @media screen and (max-width: $med) {
-      @include light_border();
+      @include light-border();
       flex-direction: column;
       align-items: flex-start;
       z-index: 10;
@@ -36,7 +36,7 @@
         transition-delay: 0.3s;
       }
       a {
-        @include flex_center();
+        @include flex-center();
         margin: 0;
         padding: 0rem 1.5rem;
         transition: background-color 0.3s ease-in-out;
@@ -100,7 +100,7 @@
 }
 
 .header__group {
-  @include flex_center();
+  @include flex-center();
 
   @media screen and (max-width: $med) {
     flex-direction: row;
@@ -108,7 +108,7 @@
   }
 }
 .header__logo {
-  @include flex_center();
+  @include flex-center();
 
   @media screen and (max-width: $med) {
     font-size: 2rem;
@@ -117,7 +117,7 @@
   }
 }
 .header__prof-pic > a {
-  @include flex_center();
+  @include flex-center();
   img {
     width: 50px;
     border-radius: 50%;

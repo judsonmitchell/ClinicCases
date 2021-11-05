@@ -1,14 +1,14 @@
-@mixin flex_center() {
+@mixin flex-center() {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-@mixin flex_vert_center() {
+@mixin flex-vert-center() {
   display: flex;
   align-items: center;
 }
 
-@mixin light_border() {
+@mixin light-border() {
   border: 1px solid $border-gray;
 }
 

@@ -11,7 +11,6 @@ function escapeHtml(text) {
     "'": '&#039;',
   };
 
-
   return text.replace(/[&<>"']/g, function (m) {
     return map[m];
   });
@@ -28,9 +27,8 @@ $(document).ready(function () {
       const tabletBreakPoint = 768;
       const medBreakPoint = 992;
       const lgBreakPoint = 1024;
-      const xlBreakPoint = 1440; 
+      const xlBreakPoint = 1440;
 
-      
       const jsonData = JSON.parse(data);
       const asObjects = jsonData.aaData;
       const asArray = asObjects.map((value) => {
@@ -43,31 +41,88 @@ $(document).ready(function () {
         data: asArray,
         responsive: true,
         autoWidth: false,
-        columns: [
-          { visible: false }, // 0: ID
-          { visible: false }, // 1: CASE NUMBER
-          { searchable: true }, // 2: FIRSTNAME
-          { visible: false }, // 3: MIDDLE NAME
-          null, // 4: LAST NAME
-          null, // 5: ORGANIZATION
-          null, // 6: DATE OPEN
-          null, // 7: DATE CLOSE
-          null, // 8: CASE TYPE
-          null, // 9: ADVERSE PARTY
-          { visible: false }, // 10: CLINIC TYPE
-          null, // 11: PHONE
-          { visible: false }, // 12: EMAIL
-          { visible: false }, // 13: SSN
-          { visible: false }, // 14: DOB
-          { visible: false }, // 15: AGE
-          { visible: false }, // 16: GENDER
-          { visible: false }, // 17: RACE
-          { visible: false }, // 18: COURT
-          null, // 19: DISPOSITION
-          { visible: false }, // 20: REFERRED BY
-          null, // 21: OPENED BY
+        searchPanes: {
+          initCollapsed: true,
+          cascadePanes: false,
+          controls: true,
+          orderable: false,
+          clear: false,
+          collapse: false,
+          dtOps: {
+            info: true,
+          },
+        },
+        columnDefs: [
+          {
+            searchPanes: {
+              options: [
+                {
+                  label: 'Under 20',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] < 20;
+                  },
+                },
+                {
+                  label: '20 to 30',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] <= 30 && rowData[4] >= 20;
+                  },
+                },
+                {
+                  label: '30 to 40',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] <= 40 && rowData[4] >= 30;
+                  },
+                },
+                {
+                  label: '40 to 50',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] <= 50 && rowData[4] >= 40;
+                  },
+                },
+                {
+                  label: '50 to 60',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] <= 60 && rowData[4] >= 50;
+                  },
+                },
+                {
+                  label: 'Over 60',
+                  value: function (rowData, rowIdx) {
+                    return rowData[4] > 60;
+                  },
+                },
+              ],
+            },
+            targets: [4],
+          },
+        ],
+        columnDefs: [
+          {
+            visible: false,
+            searchPanes: { show: false },
+            targets: [0, 1, 3, 10, 12, 13, 14, 15, 16, 17, 18, 20],
+          },
+          {
+            visible: true,
+            searchPanes: { show: true },
+            targets: [2, 4,  6, 7, 8, 9, 11, 19, 21],
+          },
+          {
+            visible: window.innerWidth > xlBreakPoint,
+            searchPanes: { show: window.innerWidth > xlBreakPoint },
+            targets: [5]
+          },
+          {
+            visible: window.innerwidth > lgBreakPoint,
+            searchPanes: {show: window.innerWidth > lgBreakPoint},
+            targets: [19]
+          }
+
         ],
       });
+      table.searchPanes.container().prependTo(table.table().container());
+      table.searchPanes.resizePanes();
 
       filter();
       setColumnVisibilty();
@@ -95,22 +150,22 @@ $(document).ready(function () {
         table.draw();
       }
 
-       function setColumnVisibilty() {
-         console.log('set column visibility');
+      function setColumnVisibilty() {
+        console.dir(table);
         var w = window.innerWidth;
-        console.log(w);
-        console.log(lgBreakPoint);
-        table.column(5).visible( w > xlBreakPoint);
-        table.column(19).visible(w > lgBreakPoint);
+        const organizationColumn = table.column(5);
+        const dispositionColumn = table.column(19);
+        // Only shows Organization column on XL screens
+        organizationColumn.visible(w > xlBreakPoint);
+        // Only show Disposition column on LG screens
+        dispositionColumn.visible(w > lgBreakPoint);
       }
-      
-    
 
       const cases_search = document.querySelector('#cases_search');
       const cases_select = document.querySelector('#cases_select');
       cases_search.addEventListener('keyup', search);
       cases_select.addEventListener('change', filter);
-      window.addEventListener('resize', setColumnVisibilty)
+      window.addEventListener('resize', setColumnVisibilty);
     },
   });
 

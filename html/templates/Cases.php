@@ -84,8 +84,12 @@
 						<input type="search" id="cases_search" placeholder="Search" />
 						<img src="./icons/search.png" />
 					</div>
+
 				</div>
 				<button class="primary-button" type="button">+ Add Case</button>
+				<div class="advanced_search">
+					<p>Advanced Search <img src="html/images/chevron_up.svg" /></p>
+				</div>
 			</div>
 
 
