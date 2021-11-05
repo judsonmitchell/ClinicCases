@@ -1,6 +1,6 @@
-/* global adjustedHeight, alert, notify, fnCreateSelect, callCaseWindow, router */
-//init
-var oTable, aoColumns;
+// /* global adjustedHeight, alert, notify, fnCreateSelect, callCaseWindow, router */
+// //init
+// var oTable, aoColumns;
 
 function escapeHtml(text) {
   var map = {
@@ -10,6 +10,7 @@ function escapeHtml(text) {
     '"': '&quot;',
     "'": '&#039;',
   };
+
 
   return text.replace(/[&<>"']/g, function (m) {
     return map[m];
@@ -23,6 +24,13 @@ $(document).ready(function () {
       console.log('error');
     },
     success: function (data) {
+      const mobileBreakPoint = 567;
+      const tabletBreakPoint = 768;
+      const medBreakPoint = 992;
+      const lgBreakPoint = 1024;
+      const xlBreakPoint = 1440; 
+
+      
       const jsonData = JSON.parse(data);
       const asObjects = jsonData.aaData;
       const asArray = asObjects.map((value) => {
@@ -34,10 +42,11 @@ $(document).ready(function () {
       const table = $('#table_cases').DataTable({
         data: asArray,
         responsive: true,
+        autoWidth: false,
         columns: [
           { visible: false }, // 0: ID
           { visible: false }, // 1: CASE NUMBER
-          null, // 2: FIRSTNAME
+          { searchable: true }, // 2: FIRSTNAME
           { visible: false }, // 3: MIDDLE NAME
           null, // 4: LAST NAME
           null, // 5: ORGANIZATION
@@ -59,8 +68,9 @@ $(document).ready(function () {
           null, // 21: OPENED BY
         ],
       });
-      
+
       filter();
+      setColumnVisibilty();
 
       function filter(e = null) {
         // defaults to open cases
@@ -85,10 +95,22 @@ $(document).ready(function () {
         table.draw();
       }
 
+       function setColumnVisibilty() {
+         console.log('set column visibility');
+        var w = window.innerWidth;
+        console.log(w);
+        console.log(lgBreakPoint);
+        table.column(5).visible( w > xlBreakPoint);
+        table.column(19).visible(w > lgBreakPoint);
+      }
+      
+    
+
       const cases_search = document.querySelector('#cases_search');
       const cases_select = document.querySelector('#cases_select');
       cases_search.addEventListener('keyup', search);
       cases_select.addEventListener('change', filter);
+      window.addEventListener('resize', setColumnVisibilty)
     },
   });
 

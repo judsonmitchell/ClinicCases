@@ -1,18 +1,34 @@
-@import '../scss/variables';
 
 table.dataTable.stripe tbody tr.odd,
 table.dataTable.display tbody tr.odd {
   background-color: $trans-border-gray;
 }
 
+#table_cases{
+    margin-top: 2rem;
+}
 #table_cases_filter, #table_cases_length {
     display: none;
 }
 
-table.dataTable thead th, table.dataTable thead td{
-    border-bottom: 0.3rem solid black;
+table.dataTable tbody th, table.dataTable tbody td, table.dataTable thead th {
+    border: 1px solid $border-gray;
+    padding: 1.5rem;
 }
 
-td, th {
-    border: 1px solid $border-gray;
+
+table.dataTable thead th, table.dataTable thead td{
+    border-bottom: 0.3rem solid $border-grey;
+}
+
+
+.dataTables_info, .dataTables_paginate {
+    @include body-font();
+    font-size: 1.2rem;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+    background-color: $dark-blue;
+    border: none;
+    box-shadow: none;
 }

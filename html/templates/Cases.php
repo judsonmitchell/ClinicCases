@@ -69,51 +69,54 @@
 	<?php include 'html/templates/interior/idletimeout.php' ?>
 
 
-	<div id="content">
+	<div id="grid">
+		<div id="sidebar"></div>
+		<div id="content">
+			<div class=" display-grid-2-1">
+				<div class="search_container">
+					<select id="cases_select">
+						<option value="open">Open Cases Only</option>
+						<option value="closed">Closed Cases Only</option>
+						<option value="all">All Cases</option>
 
-		<div class="display-grid-2-1">
-			<div class="search_container">
-				<select id="cases_select">
-					<option value="open">Open Cases Only</option>
-					<option value="closed">Closed Cases Only</option>
-					<option value="all">All Cases</option>
-
-				</select>
-				<div class="input_search">
-					<input type="search" id="cases_search" placeholder="Search" />
-					<img src="./icons/search.png" />
+					</select>
+					<div class="input_search">
+						<input type="search" id="cases_search" placeholder="Search" />
+						<img src="./icons/search.png" />
+					</div>
 				</div>
+				<button class="primary-button" type="button">+ Add Case</button>
 			</div>
-			<button class="primary-button" type="button">+ Add Case</button>
+
+
+			<!-- <div id="processing">Loading....</div> -->
+
+			<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
+														echo "can_add";
+													} ?>">
+
+				<thead>
+
+					<tr>
+						<?php $CC_columns = columns_array($dbh);
+						foreach ($CC_columns as $key => $col) {
+							if ($col['include_in_case_table'] == "true") {
+								echo "<th>" . $col['display_name'] . "</th>";
+							}
+						}
+						?>
+					</tr>
+
+
+				</thead>
+
+				<tbody>
+
+				</tbody>
+
+			</table>
 		</div>
 
-
-		<!-- <div id="processing">Loading....</div> -->
-
-		<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
-													echo "can_add";
-												} ?>">
-
-			<thead>
-
-				<tr>
-					<?php $CC_columns = columns_array($dbh);
-					foreach ($CC_columns as $key => $col) {
-						if ($col['include_in_case_table'] == "true") {
-							echo "<th>" . $col['display_name'] . "</th>";
-						}
-					}
-					?>
-				</tr>
-
-
-			</thead>
-
-			<tbody>
-
-			</tbody>
-
-		</table>
 
 	</div>
 

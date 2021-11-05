@@ -1,0 +1,45 @@
+#grid {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  /* max-width: 1290px;
+    margin: 3rem auto; */
+  /* position: relative;
+  width: 94%;
+  background-color: white;
+
+  border: 1px dotted rgb(192, 192, 192);
+  z-index: 1;
+  padding: 1.5%;
+  overflow-y: hidden;
+ */
+
+  @media screen and (max-width: $xl) {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  @media screen and (max-width: $lg) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+#content {
+  grid-area: content;
+  margin: 3rem 6rem;
+  width: calc(100% - 12rem);
+  @media screen and (max-width: $lg) {
+    margin: 3rem 2rem;
+    width: calc(100% - 4rem);
+  }
+}
+#sidebar {
+  @include box-shadow();
+  grid-area: sidebar;
+  width: 25%;
+  height: 100%;
+  background: $trans-border-gray;
+  @media screen and (max-width: $lg) {
+    box-shadow: none;
+    width: 100%;
+  }
+}

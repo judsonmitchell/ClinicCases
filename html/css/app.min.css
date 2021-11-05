@@ -1,12 +1,12 @@
 p,
 li {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #272727;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   p,
   li {
     font-size: 1.2rem;
@@ -35,12 +35,12 @@ h6 {
 
 table {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #272727;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   table {
     font-size: 1.2rem;
   }
@@ -53,8 +53,8 @@ th {
 
 button {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #272727;
   -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
           box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
@@ -67,7 +67,7 @@ button {
   padding: 1rem;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   button {
     font-size: 1.2rem;
   }
@@ -110,7 +110,7 @@ button {
 
 @media screen and (max-width: 992px) {
   .header > div ul {
-    border: 1px solid #E7E6EB;
+    border: 1px solid #a09cb0;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -291,7 +291,7 @@ button {
 .header__prof-pic > a img {
   width: 50px;
   border-radius: 50%;
-  border: 1px solid #E7E6EB;
+  border: 1px solid #a09cb0;
   background-color: white;
   margin-right: 0.5rem;
 }
@@ -300,16 +300,16 @@ input,
 select,
 textarea {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #272727;
-  border: 1px solid #E7E6EB;
+  border: 1px solid #a09cb0;
   padding: 0.5rem;
   border-radius: 5px;
   font-weight: 400;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   input,
   select,
   textarea {
@@ -320,25 +320,25 @@ textarea {
 input ::-webkit-input-placeholder,
 select ::-webkit-input-placeholder,
 textarea ::-webkit-input-placeholder {
-  color: #E7E6EB;
+  color: #a09cb0;
 }
 
 input :-ms-input-placeholder,
 select :-ms-input-placeholder,
 textarea :-ms-input-placeholder {
-  color: #E7E6EB;
+  color: #a09cb0;
 }
 
 input ::-ms-input-placeholder,
 select ::-ms-input-placeholder,
 textarea ::-ms-input-placeholder {
-  color: #E7E6EB;
+  color: #a09cb0;
 }
 
 input ::placeholder,
 select ::placeholder,
 textarea ::placeholder {
-  color: #E7E6EB;
+  color: #a09cb0;
 }
 
 input:focus,

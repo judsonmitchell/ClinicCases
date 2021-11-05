@@ -17,8 +17,8 @@
 }
 @mixin body-font() {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: $black;
   @media screen and (max-width: $lg) {
     font-size: 1.2rem;
