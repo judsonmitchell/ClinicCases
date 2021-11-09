@@ -1,11 +1,9 @@
-button{
-    @include body-font();
-    @include box-shadow();
-    border: none;
-    border-radius: 5px;
-    color: white;
-    background-color: $dark-blue;
-    outline: none;
-    width: 100%;
-    padding: 1rem;
+button {
+ @include primary-button()
+
+
+}
+
+.button--secondary {
+    @include secondary-button();
 }

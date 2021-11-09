@@ -88,7 +88,7 @@
 				</div>
 				<button class="primary-button" type="button">+ Add Case</button>
 				<div class="advanced_search">
-					<p>Advanced Search <img src="html/images/chevron_up.svg" /></p>
+					<p>Advanced Search </p>
 				</div>
 			</div>
 

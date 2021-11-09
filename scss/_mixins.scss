@@ -32,3 +32,51 @@
     1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042),
     2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
 }
+
+@mixin primary-button() {
+  @include body-font();
+  @include box-shadow();
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: $dark-blue;
+  border: 2px solid $dark-blue;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  &:hover{
+    border-radius: 5px;
+  }
+}
+
+@mixin secondary-button {
+  @include primary-button();
+  background-color: $light-blue;
+  color: $dark-blue;
+}
+
+@mixin disabled-button(){
+  @include primary-button();
+  background-color: white;
+  border: 1px solid $border-gray;
+  color: $border-gray;
+}
+
+@mixin input(){
+  @include body-font();
+  @include light-border();
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+  ::placeholder {
+    color: $border-gray;
+  }
+
+  &:focus {
+    @include box-shadow();
+    @include dark-border();
+
+    outline: none;
+  }
+}

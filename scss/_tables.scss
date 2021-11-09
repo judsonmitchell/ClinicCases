@@ -24,7 +24,8 @@ table.dataTable thead td {
 }
 
 .dataTables_info,
-.dataTables_paginate {
+.dataTables_paginate,
+.dtsp-title {
   @include body-font();
   font-size: 1.2rem;
 }
@@ -43,5 +44,72 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
     &:hover {
       cursor: pointer;
     }
+    &::after {
+      content: '';
+      background-image: url('../images/chevron_up.svg');
+      height: 20px;
+      width: 20px;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    &.advanged_search--open {
+      &::after {
+        background-image: url('../images/chevron_down.svg');
+      }
+    }
   }
 }
+
+div.dtsp-panesContainer button.dtsp-showAll,
+div.dtsp-panesContainer button.dtsp-collapseAll {
+  @include secondary-button();
+}
+div.dtsp-panesContainer button.dtsp-disabledButton,
+div.dtsp-panesContainer button.dtsp-clearAll {
+  @include disabled-button();
+}
+
+.dtsp-titleRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  > .dtsp-title {
+    text-align: left;
+  }
+}
+
+div.dtsp-topRow.dtsp-bordered {
+  @include input();
+}
+div.dtsp-panesContainer
+  div.dtsp-searchPanes
+  div.dtsp-searchPane
+  div.dtsp-topRow
+  div.dtsp-searchCont
+  input.dtsp-search {
+  @include body-font();
+  border: none;
+  box-shadow: none;
+}
+
+div.dtsp-panesContainer
+  div.dtsp-searchPanes
+  div.dtsp-searchPane
+  button.dtsp-paneButton {
+  @include disabled-button();
+  box-shadow: none;
+  opacity: 1;
+  width: auto;
+  padding: 1.5rem;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover {
+  @include input();
+  background-color: inherit;
+  opacity: 1;
+  color: black;
+  //   border: inherit;
+  //   border-radius:5px;
+  //   cursor: pointer !important;
+}
+

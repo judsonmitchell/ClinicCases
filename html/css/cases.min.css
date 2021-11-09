@@ -96,7 +96,8 @@ table.dataTable thead td {
 }
 
 .dataTables_info,
-.dataTables_paginate {
+.dataTables_paginate,
+.dtsp-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
@@ -106,7 +107,8 @@ table.dataTable thead td {
 
 @media screen and (max-width: 1024px) {
   .dataTables_info,
-  .dataTables_paginate {
+  .dataTables_paginate,
+  .dtsp-title {
     font-size: 1.2rem;
   }
 }
@@ -131,5 +133,251 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
 
 .advanced_search p:hover {
   cursor: pointer;
+}
+
+.advanced_search p::after {
+  content: '';
+  background-image: url("../images/chevron_up.svg");
+  height: 20px;
+  width: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.advanced_search p.advanged_search--open::after {
+  background-image: url("../images/chevron_down.svg");
+}
+
+div.dtsp-panesContainer button.dtsp-showAll,
+div.dtsp-panesContainer button.dtsp-collapseAll {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  background-color: #c3dbea;
+  color: #2b50aa;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-panesContainer button.dtsp-showAll,
+  div.dtsp-panesContainer button.dtsp-collapseAll {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-panesContainer button.dtsp-showAll:hover,
+div.dtsp-panesContainer button.dtsp-collapseAll:hover {
+  border-radius: 5px;
+}
+
+div.dtsp-panesContainer button.dtsp-disabledButton,
+div.dtsp-panesContainer button.dtsp-clearAll {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #a09cb0;
+  color: #a09cb0;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-panesContainer button.dtsp-disabledButton,
+  div.dtsp-panesContainer button.dtsp-clearAll {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-panesContainer button.dtsp-disabledButton:hover,
+div.dtsp-panesContainer button.dtsp-clearAll:hover {
+  border-radius: 5px;
+}
+
+.dtsp-titleRow {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.dtsp-titleRow > .dtsp-title {
+  text-align: left;
+}
+
+div.dtsp-topRow.dtsp-bordered {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  border: 1px solid #a09cb0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-topRow.dtsp-bordered {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-topRow.dtsp-bordered ::-webkit-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered :-ms-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered ::-ms-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered ::placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered:focus {
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border: 1px solid black;
+  outline: none;
+}
+
+div.dtsp-panesContainer
+div.dtsp-searchPanes
+div.dtsp-searchPane
+div.dtsp-topRow
+div.dtsp-searchCont
+input.dtsp-search {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-panesContainer
+div.dtsp-searchPanes
+div.dtsp-searchPane
+div.dtsp-topRow
+div.dtsp-searchCont
+input.dtsp-search {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-panesContainer
+div.dtsp-searchPanes
+div.dtsp-searchPane
+button.dtsp-paneButton {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #a09cb0;
+  color: #a09cb0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  opacity: 1;
+  width: auto;
+  padding: 1.5rem;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-panesContainer
+div.dtsp-searchPanes
+div.dtsp-searchPane
+button.dtsp-paneButton {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-panesContainer
+div.dtsp-searchPanes
+div.dtsp-searchPane
+button.dtsp-paneButton:hover {
+  border-radius: 5px;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  border: 1px solid #a09cb0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+  background-color: inherit;
+  opacity: 1;
+  color: black;
+}
+
+@media screen and (max-width: 1024px) {
+  div.dtsp-topRow.dtsp-bordered:hover {
+    font-size: 1.2rem;
+  }
+}
+
+div.dtsp-topRow.dtsp-bordered:hover ::-webkit-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover :-ms-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover ::-ms-input-placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover ::placeholder {
+  color: #a09cb0;
+}
+
+div.dtsp-topRow.dtsp-bordered:hover:focus {
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border: 1px solid black;
+  outline: none;
 }
 /*# sourceMappingURL=cases.min.css.map */

@@ -42,61 +42,18 @@ $(document).ready(function () {
         responsive: true,
         autoWidth: false,
         searchPanes: {
-          initCollapsed: true,
           cascadePanes: false,
           controls: true,
-          orderable: false,
-          clear: false,
-          collapse: false,
+          orderable: true,
+          initCollapsed: true,
+          clear: true,
+          className: 'cases__search-pane',
+          collapse: true,
           dtOps: {
             info: true,
           },
         },
-        columnDefs: [
-          {
-            searchPanes: {
-              options: [
-                {
-                  label: 'Under 20',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] < 20;
-                  },
-                },
-                {
-                  label: '20 to 30',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] <= 30 && rowData[4] >= 20;
-                  },
-                },
-                {
-                  label: '30 to 40',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] <= 40 && rowData[4] >= 30;
-                  },
-                },
-                {
-                  label: '40 to 50',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] <= 50 && rowData[4] >= 40;
-                  },
-                },
-                {
-                  label: '50 to 60',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] <= 60 && rowData[4] >= 50;
-                  },
-                },
-                {
-                  label: 'Over 60',
-                  value: function (rowData, rowIdx) {
-                    return rowData[4] > 60;
-                  },
-                },
-              ],
-            },
-            targets: [4],
-          },
-        ],
+
         columnDefs: [
           {
             visible: false,
@@ -105,24 +62,28 @@ $(document).ready(function () {
           },
           {
             visible: true,
-            searchPanes: { show: true },
-            targets: [2, 4,  6, 7, 8, 9, 11, 19, 21],
+            searchPanes: { show: true, initCollapsed: true },
+            targets: [2, 4, 6, 7, 8, 9, 11, 19, 21],
           },
           {
             visible: window.innerWidth > xlBreakPoint,
-            searchPanes: { show: window.innerWidth > xlBreakPoint },
-            targets: [5]
+            searchPanes: {
+              show: window.innerWidth > xlBreakPoint,
+              initCollapsed: true,
+            },
+            targets: [5],
           },
           {
             visible: window.innerwidth > lgBreakPoint,
-            searchPanes: {show: window.innerWidth > lgBreakPoint},
-            targets: [19]
-          }
-
+            searchPanes: {
+              show: window.innerWidth > lgBreakPoint,
+              initCollapsed: true,
+            },
+            targets: [19],
+          },
         ],
       });
-      table.searchPanes.container().prependTo(table.table().container());
-      table.searchPanes.resizePanes();
+      initializeSearchPanes();
 
       filter();
       setColumnVisibilty();
@@ -151,7 +112,6 @@ $(document).ready(function () {
       }
 
       function setColumnVisibilty() {
-        console.dir(table);
         var w = window.innerWidth;
         const organizationColumn = table.column(5);
         const dispositionColumn = table.column(19);
@@ -160,12 +120,25 @@ $(document).ready(function () {
         // Only show Disposition column on LG screens
         dispositionColumn.visible(w > lgBreakPoint);
       }
+      function toggleCasesAdvancedSearch() {
+        this.classList.toggle('advanced_search--open');
+
+        table.searchPanes.container()[0].hidden =
+          !table.searchPanes.container()[0].hidden;
+      }
+      function initializeSearchPanes() {
+        table.searchPanes.container().prependTo(table.table().container());
+        table.searchPanes.resizePanes();
+        table.searchPanes.container()[0].hidden = true;
+      }
 
       const cases_search = document.querySelector('#cases_search');
       const cases_select = document.querySelector('#cases_select');
+      const advanced_search = document.querySelector('.advanced_search p');
       cases_search.addEventListener('keyup', search);
       cases_select.addEventListener('change', filter);
       window.addEventListener('resize', setColumnVisibilty);
+      advanced_search.addEventListener('click', toggleCasesAdvancedSearch);
     },
   });
 

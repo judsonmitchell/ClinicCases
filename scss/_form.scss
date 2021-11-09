@@ -1,21 +1,7 @@
 input,
 select,
 textarea {
-  @include body-font();
-  @include light-border();
-  padding: 0.5rem;
-  border-radius: 5px;
-  font-weight: 400;
-  ::placeholder {
-    color: $border-gray;
-  }
-
-  &:focus {
-    @include box-shadow();
-    @include dark-border();
-
-    outline: none;
-  }
+  @include input();
 }
 
 .search_container {
