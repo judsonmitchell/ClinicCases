@@ -133,10 +133,11 @@ div.dtsp-topRow.dtsp-bordered:hover {
 
   .select__button {
     @include disabled-button();
+    margin: 0 0.5rem;
+    width: calc(200px - 1rem);
     &:hover{
       cursor: pointer;
     }
-    width: inherit;
     &::after {
     }
   }
@@ -180,5 +181,34 @@ div.dtsp-topRow.dtsp-bordered:hover {
         margin: 1rem auto;
       }
     }
+  }
+}
+
+
+.advanced-search__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column: 1 / 3;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+
+  .advanced-search__element{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+  }
+  .advanced-search__select{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    align-items: center;
+    label {
+      text-align: left;
+    }
+    select {
+      margin: 0 0.5rem;
+    }
+  }
+  .advanced-search__input{
+    margin: 0.5rem 1rem;
   }
 }

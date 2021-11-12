@@ -103,9 +103,9 @@
 								$index = 0;
 								foreach ($CC_columns as $key => $col) {
 									if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "true") {
-										echo "<label for'" . $index . "'><input checked type='checkbox'/>"  . $col['display_name'] . "</label>";
+										echo "<label for'" . $index . "'><input checked data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox' name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
 									} else if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "false") {
-										echo "<label for'" . $index . "'><input type='checkbox'/>"  . $col['display_name'] . "</label>";
+										echo "<label for'" . $index . "'><input data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox'  name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
 									}
 									$index++;
 								}
@@ -124,7 +124,8 @@
 					<button>Print/Export</button>
 					<button class="cases__reset" type='button'>Reset</button>
 				</div>
-
+				<div class="advanced-search__fields">
+				</div>
 			</div>
 
 			<!-- <div id="processing">Loading....</div> -->

@@ -47,6 +47,10 @@
   padding: 1rem;
   &:hover{
     border-radius: 5px;
+    cursor: pointer;
+  }
+  &:focus{
+    box-shadow: none;
   }
 }
 
@@ -61,6 +65,9 @@
   background-color: white;
   border: 1px solid $border-gray;
   color: $border-gray;
+  &:hover{
+    cursor: not-allowed;
+  }
 }
 
 @mixin input(){

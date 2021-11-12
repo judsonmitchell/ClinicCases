@@ -64,18 +64,18 @@ $(document).ready(function () {
             data: asArray,
             responsive: true,
             autoWidth: false,
-            searchPanes: {
-              cascadePanes: false,
-              controls: true,
-              orderable: true,
-              initCollapsed: true,
-              clear: true,
-              className: 'cases__search-pane',
-              collapse: true,
-              dtOps: {
-                info: true,
-              },
-            },
+            // searchPanes: {
+            //   cascadePanes: false,
+            //   controls: true,
+            //   orderable: true,
+            //   initCollapsed: true,
+            //   clear: true,
+            //   className: 'cases__search-pane',
+            //   collapse: true,
+            //   dtOps: {
+            //     info: true,
+            //   },
+            // },
 
             columnDefs: [
               {
@@ -107,7 +107,7 @@ $(document).ready(function () {
             ],
           });
 
-          initializeSearchPanes();
+          // initializeSearchPanes();
 
           filter();
           setColumnVisibilty();
@@ -150,9 +150,6 @@ $(document).ready(function () {
           }
           function toggleCasesAdvancedSearch() {
             this.classList.toggle('advanced_search--open');
-
-            table.searchPanes.container()[0].hidden =
-              !table.searchPanes.container()[0].hidden;
           }
           function initializeSearchPanes() {
             table.searchPanes.container().prependTo(table.table().container());
@@ -171,10 +168,21 @@ $(document).ready(function () {
               }
             }
             table.draw();
-
+            setAdvancedSearchFields();
             const id = e.target.dataset.select;
             const options = document.querySelector(id);
             options.classList.toggle('closed');
+          }
+
+          function resetColumnSelectInputs() {
+            const select__list = document.querySelector('.select__list');
+            const select__inputs = select__list.querySelectorAll('input');
+            visibleColumns.forEach((column) => {
+              select__inputs[column].checked = true;
+            });
+            hiddenColumns.forEach((column) => {
+              select__inputs[column].checked = false;
+            });
           }
 
           function resetTable() {
@@ -190,9 +198,58 @@ $(document).ready(function () {
             cases_search.value = '';
             search({ target: cases_search });
             table.searchPanes.clearSelections();
+            resetColumnSelectInputs();
             table.draw();
           }
 
+          function setAdvancedSearchFields() {
+            const container = document.querySelector(
+              '.advanced-search__fields'
+            );
+            container.innerHTML = null;
+            const columns = document.querySelectorAll('.select__list input');
+            columns.forEach((column) => {
+              if (column.checked) {
+                let wrapper = document.createElement('div');
+                wrapper.classList.add('advanced-search__element');
+
+                let input = document.createElement('input');
+                let label = document.createElement('label');
+                label.htmlFor = column.dataset.id;
+                label.innerText = column.name;
+                input.id = column.dataset.id;
+                input.type = column.dataset.type;
+                input.classList.add('advanced-search__input');
+
+                if (input.type === 'date') {
+                  let div = document.createElement('div');
+                  div.classList.add('advanced-search__select')
+                  let select = document.createElement('select');
+                  let greaterThan = document.createElement('option');
+                  greaterThan.innerText = '>';
+                  greaterThan.value = '>';
+                  let lessThan = document.createElement('option');
+                  lessThan.innerText = '<';
+                  lessThan.value = '<';
+                  let equalTo = document.createElement('option');
+                  equalTo.innerText = '=';
+                  equalTo.value = '=';
+                  select.appendChild(greaterThan);
+                  select.appendChild(lessThan);
+                  select.appendChild(equalTo);
+                  div.appendChild(label);
+                  div.appendChild(select);
+                  div.appendChild(input);
+                  container.append(div);
+                } else {
+                  wrapper.appendChild(label);
+                  wrapper.appendChild(input);
+                  container.append(wrapper);
+                }
+              }
+            });
+          }
+          setAdvancedSearchFields();
           const cases_search = document.querySelector('#cases_search');
           const cases_select = document.querySelector('#cases_select');
           const cases_column_select = document.querySelector(

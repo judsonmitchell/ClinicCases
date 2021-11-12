@@ -77,6 +77,12 @@ button {
 
 button:hover {
   border-radius: 5px;
+  cursor: pointer;
+}
+
+button:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .button--secondary {
@@ -107,6 +113,12 @@ button:hover {
 
 .button--secondary:hover {
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.button--secondary:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .header > div {
