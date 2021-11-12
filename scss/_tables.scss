@@ -108,8 +108,77 @@ div.dtsp-topRow.dtsp-bordered:hover {
   background-color: inherit;
   opacity: 1;
   color: black;
-  //   border: inherit;
-  //   border-radius:5px;
-  //   cursor: pointer !important;
 }
 
+.table__utils {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin: 1rem auto;
+}
+.table__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  button {
+    width: calc(100% - 1rem);
+    margin-left: 1rem;
+  }
+}
+
+.select {
+  position: relative;
+  width: 200px;
+
+  .select__button {
+    @include disabled-button();
+    &:hover{
+      cursor: pointer;
+    }
+    width: inherit;
+    &::after {
+    }
+  }
+  .select__options {
+    @include light-border();
+    position: absolute;
+    background-color: white;
+    height: 400px;
+    z-index: 2;
+    margin-left: 1rem;
+    width: 100%;
+    visibility: visible;
+
+    .select__list {
+      align-items: flex-start;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      height: calc(100% - 80px);
+      padding-bottom: 80px;
+    }
+    &.closed {
+      border: none;
+      max-height: 0;
+      visibility: hidden;
+    }
+    input {
+      margin: 1rem 1rem;
+    }
+    .select__footer {
+      border-top: 1px solid $border-gray;
+      background-color: white;
+      position: absolute;
+      bottom: 0;
+      left:0;
+      right: 0;
+
+      button {
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+      }
+    }
+  }
+}

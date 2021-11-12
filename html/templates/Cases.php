@@ -9,6 +9,7 @@
 <script type="text/javascript" src="lib/datatables.min.js"></script>
 <script src="html/js/cases.js" type="text/javascript"></script>
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
+<script type="text/javascript" src="html/js/Tables.js "></script>
 
 <!-- <script src="lib/DataTables-1.8.2/media/js/jquery.dataTables.js" type="text/javascript"></script>
 
@@ -87,17 +88,50 @@
 
 				</div>
 				<button class="primary-button" type="button">+ Add Case</button>
+
+			</div>
+			<div class="table__utils">
 				<div class="advanced_search">
 					<p>Advanced Search </p>
 				</div>
-			</div>
+				<div class="table__buttons">
+					<div class="select">
+						<button type="button" data-select="#columnsSelect" class="select__button">Columns</button>
+						<div id="columnsSelect" class="select__options closed">
+							<div class="select__list">
+								<?php $CC_columns = columns_array($dbh);
+								$index = 0;
+								foreach ($CC_columns as $key => $col) {
+									if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "true") {
+										echo "<label for'" . $index . "'><input checked type='checkbox'/>"  . $col['display_name'] . "</label>";
+									} else if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "false") {
+										echo "<label for'" . $index . "'><input type='checkbox'/>"  . $col['display_name'] . "</label>";
+									}
+									$index++;
+								}
+								?>
+								<?php ?>
+							</div>
+							<div class="select__footer">
+								<button data-select="#columnsSelect" id="columnsSelectButton" class="mt-2 mb-1">Apply Changes </button>
+							</div>
 
+						</div>
+
+					</div>
+
+
+					<button>Print/Export</button>
+					<button>Reset</button>
+				</div>
+
+			</div>
 
 			<!-- <div id="processing">Loading....</div> -->
 
 			<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
-														echo "can_add";
-													} ?>">
+																								echo "can_add";
+																							} ?>">
 
 				<thead>
 

@@ -1,5 +1,5 @@
 p,
-li {
+li, label {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
@@ -8,7 +8,7 @@ li {
 
 @media screen and (max-width: 1024px) {
   p,
-  li {
+  li, label {
     font-size: 1.2rem;
   }
 }

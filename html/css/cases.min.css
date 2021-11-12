@@ -380,4 +380,126 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
   border: 1px solid black;
   outline: none;
 }
+
+.table__utils {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1rem auto;
+}
+
+.table__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.table__buttons button {
+  width: calc(100% - 1rem);
+  margin-left: 1rem;
+}
+
+.select {
+  position: relative;
+  width: 200px;
+}
+
+.select .select__button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #a09cb0;
+  color: #a09cb0;
+  width: inherit;
+}
+
+@media screen and (max-width: 1024px) {
+  .select .select__button {
+    font-size: 1.2rem;
+  }
+}
+
+.select .select__button:hover {
+  border-radius: 5px;
+}
+
+.select .select__button:hover {
+  cursor: pointer;
+}
+
+.select .select__options {
+  border: 1px solid #a09cb0;
+  position: absolute;
+  background-color: white;
+  height: 400px;
+  z-index: 2;
+  margin-left: 1rem;
+  width: 100%;
+  visibility: visible;
+}
+
+.select .select__options .select__list {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow-y: scroll;
+  height: calc(100% - 80px);
+  padding-bottom: 80px;
+}
+
+.select .select__options.closed {
+  border: none;
+  max-height: 0;
+  visibility: hidden;
+}
+
+.select .select__options input {
+  margin: 1rem 1rem;
+}
+
+.select .select__options .select__footer {
+  border-top: 1px solid #a09cb0;
+  background-color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.select .select__options .select__footer button {
+  width: calc(100% - 2rem);
+  margin: 1rem auto;
+}
 /*# sourceMappingURL=cases.min.css.map */
