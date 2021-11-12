@@ -122,7 +122,7 @@
 
 
 					<button>Print/Export</button>
-					<button>Reset</button>
+					<button class="cases__reset" type='button'>Reset</button>
 				</div>
 
 			</div>
