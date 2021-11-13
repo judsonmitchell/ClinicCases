@@ -115,12 +115,27 @@ div.dtsp-topRow.dtsp-bordered:hover {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   margin: 1rem auto;
+  @media screen and (max-width: $tablet) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    label {
+      text-align: left;
+    }
+  }
 }
 .table__buttons {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-
+  @media screen and (max-width: $tablet) {
+    flex-direction: column;
+    align-items: stretch;
+    button {
+      margin: 0.5rem 0;
+    }
+  }
   button {
     width: calc(100% - 1rem);
     margin-left: 1rem;
@@ -131,11 +146,17 @@ div.dtsp-topRow.dtsp-bordered:hover {
   position: relative;
   width: 200px;
 
+  @media screen and (max-width: $tablet) {
+    width: 100%;
+  }
   .select__button {
     @include disabled-button();
     margin: 0 0.5rem;
     width: calc(200px - 1rem);
-    &:hover{
+    @media screen and (max-width: $tablet) {
+      width: 100%;
+    }
+    &:hover {
       cursor: pointer;
     }
     &::after {
@@ -173,7 +194,7 @@ div.dtsp-topRow.dtsp-bordered:hover {
       background-color: white;
       position: absolute;
       bottom: 0;
-      left:0;
+      left: 0;
       right: 0;
 
       button {
@@ -184,7 +205,6 @@ div.dtsp-topRow.dtsp-bordered:hover {
   }
 }
 
-
 .advanced-search__fields {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -192,12 +212,16 @@ div.dtsp-topRow.dtsp-bordered:hover {
   margin: 1rem 0;
   flex-wrap: wrap;
 
-  .advanced-search__element{
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+
+  .advanced-search__element {
     display: grid;
     grid-template-columns: 1fr 3fr;
     align-items: center;
   }
-  .advanced-search__select{
+  .advanced-search__select {
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
     align-items: center;
@@ -208,7 +232,7 @@ div.dtsp-topRow.dtsp-bordered:hover {
       margin: 0 0.5rem;
     }
   }
-  .advanced-search__input{
+  .advanced-search__input {
     margin: 0.5rem 1rem;
   }
 }

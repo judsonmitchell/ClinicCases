@@ -427,6 +427,24 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
   margin: 1rem auto;
 }
 
+@media screen and (max-width: 768px) {
+  .table__utils {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+  }
+  .table__utils label {
+    text-align: left;
+  }
+}
+
 .table__buttons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -440,6 +458,21 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
           justify-content: flex-end;
 }
 
+@media screen and (max-width: 768px) {
+  .table__buttons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+  }
+  .table__buttons button {
+    margin: 0.5rem 0;
+  }
+}
+
 .table__buttons button {
   width: calc(100% - 1rem);
   margin-left: 1rem;
@@ -448,6 +481,12 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 .select {
   position: relative;
   width: 200px;
+}
+
+@media screen and (max-width: 768px) {
+  .select {
+    width: 100%;
+  }
 }
 
 .select .select__button {
@@ -491,6 +530,12 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 
 .select .select__button:hover {
   cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+  .select .select__button {
+    width: 100%;
+  }
 }
 
 .select .select__button:hover {
@@ -560,6 +605,13 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
   margin: 1rem 0;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px) {
+  .advanced-search__fields {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
 }
 
 .advanced-search__fields .advanced-search__element {

@@ -1,21 +1,20 @@
-function escapeHtml(text) {
-  var map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
+// function escapeHtml(text) {
+//   var map = {
+//     '&': '&amp;',
+//     '<': '&lt;',
+//     '>': '&gt;',
+//     '"': '&quot;',
+//     "'": '&#039;',
+//   };
 
-  return text.replace(/[&<>"']/g, function (m) {
-    return map[m];
-  });
-}
+//   return text.replace(/[&<>"']/g, function (m) {
+//     return map[m];
+//   });
+// }
 
 $(document).ready(function () {
   let visibleColumns;
   let hiddenColumns;
-  let columnsNames;
   $.ajax({
     url: 'lib/php/data/cases_columns_load.php',
     dataType: 'json',
@@ -24,7 +23,6 @@ $(document).ready(function () {
       return true;
     },
     success: function (data) {
-      console.log(data);
       visibleColumns = data.aoColumns
         .map((column, index) => {
           if (column.bVisible === true) {
@@ -64,19 +62,6 @@ $(document).ready(function () {
             data: asArray,
             responsive: true,
             autoWidth: false,
-            // searchPanes: {
-            //   cascadePanes: false,
-            //   controls: true,
-            //   orderable: true,
-            //   initCollapsed: true,
-            //   clear: true,
-            //   className: 'cases__search-pane',
-            //   collapse: true,
-            //   dtOps: {
-            //     info: true,
-            //   },
-            // },
-
             columnDefs: [
               {
                 visible: false,
@@ -107,8 +92,6 @@ $(document).ready(function () {
             ],
           });
 
-          // initializeSearchPanes();
-
           filter();
           setColumnVisibilty();
 
@@ -121,6 +104,7 @@ $(document).ready(function () {
               data,
               dataIndex
             ) {
+              
               const close_data = data[7];
               return value === 'open' && !close_data
                 ? true
@@ -130,13 +114,48 @@ $(document).ready(function () {
                 ? true
                 : false;
             });
-            table.draw();
           }
 
           function search(e) {
             const keyword = e.target.value;
             table.search(keyword);
             table.draw();
+          }
+
+          function searchColumn(e, columnNumber) {
+            table.column(columnNumber).search(e.target.value);
+            table.draw();
+          }
+
+          function filterDateColumn(inputValue, columnNumber, selectValue) {
+            $.fn.dataTable.ext.search.push(function (
+              settings,
+              data,
+              dataIndex
+            ) {
+              const date = new Date(data[columnNumber]).getTime();
+              const value = new Date(inputValue).getTime();
+        
+              let isReturned;
+              if (!inputValue || !selectValue) {
+                isReturned = true;
+              } else {
+                isReturned =
+                  selectValue === '='
+                    ? date === value
+                    : selectValue === '>'
+                    ? date >= value
+                    : selectValue === '<'
+                    ? date < value
+                    : true;
+              }
+
+
+              return isReturned;
+              
+            });
+
+
           }
 
           function setColumnVisibilty() {
@@ -150,11 +169,6 @@ $(document).ready(function () {
           }
           function toggleCasesAdvancedSearch() {
             this.classList.toggle('advanced_search--open');
-          }
-          function initializeSearchPanes() {
-            table.searchPanes.container().prependTo(table.table().container());
-            table.searchPanes.resizePanes();
-            table.searchPanes.container()[0].hidden = true;
           }
 
           function applyColumnChanges(e) {
@@ -223,7 +237,7 @@ $(document).ready(function () {
 
                 if (input.type === 'date') {
                   let div = document.createElement('div');
-                  div.classList.add('advanced-search__select')
+                  div.classList.add('advanced-search__select');
                   let select = document.createElement('select');
                   let greaterThan = document.createElement('option');
                   greaterThan.innerText = '>';
@@ -241,21 +255,42 @@ $(document).ready(function () {
                   div.appendChild(select);
                   div.appendChild(input);
                   container.append(div);
+                  input.addEventListener('change', (e) => {
+                    filterDateColumn(e.target.value, column.id, select.value);
+                    table.draw();
+                  });
+                  select.addEventListener('change', (e) => {
+                    filterDateColumn(input.value, column.id, e.target.value);
+                    table.draw();
+
+                  });
                 } else {
                   wrapper.appendChild(label);
                   wrapper.appendChild(input);
                   container.append(wrapper);
+                  input.addEventListener('keyup', (e) =>
+                    searchColumn(e, column.id)
+                  );
+                  input.addEventListener('keydown', (e) =>
+                    searchColumn(e, column.id)
+                  );
                 }
               }
             });
           }
           setAdvancedSearchFields();
+          /////////////////////////////
+          //        ELEMENTS         //
+          /////////////////////////////
           const cases_search = document.querySelector('#cases_search');
           const cases_select = document.querySelector('#cases_select');
           const cases_column_select = document.querySelector(
             '#columnsSelectButton'
           );
           const cases_reset = document.querySelector('.cases__reset');
+          /////////////////////////////
+          //      EVENT LISTENERS   //
+          ////////////////////////////
           const advanced_search = document.querySelector('.advanced_search p');
           cases_search.addEventListener('keyup', search);
           cases_select.addEventListener('change', filter);

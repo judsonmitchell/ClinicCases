@@ -71,89 +71,107 @@
 
 
 	<div id="grid">
-		<div id="sidebar"></div>
-		<div id="content">
-			<div class=" display-grid-2-1">
-				<div class="search_container">
-					<select id="cases_select">
-						<option value="open">Open Cases Only</option>
-						<option value="closed">Closed Cases Only</option>
-						<option value="all">All Cases</option>
-
-					</select>
-					<div class="input_search">
-						<input type="search" id="cases_search" placeholder="Search" />
-						<img src="./icons/search.png" />
-					</div>
-
+		<div id="sidebar">
+			<div id="nav-tab" role="tablist" class="nav-tabs nav">
+				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#searchCases" role='tab'>
+					<h3>Search Cases</h3>
 				</div>
-				<button class="primary-button" type="button">+ Add Case</button>
+				<div class="nav-link" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
+					<h3>Open Cases</h3>
+				</div>
 
 			</div>
-			<div class="table__utils">
-				<div class="advanced_search">
-					<p>Advanced Search </p>
+		</div>
+
+		<div id="content">
+			<div role='tabpane' class="tab-pane fade" id="openCases">
+				<h1>Open Cases</h1>
+			</div>
+			<div role="tabpane" class="tab-pane fade show active" id="searchCases">
+				<div class=" display-grid-2-1">
+					<div class="search_container">
+						<select id="cases_select">
+							<option value="open">Open Cases Only</option>
+							<option value="closed">Closed Cases Only</option>
+							<option value="all">All Cases</option>
+
+						</select>
+						<div class="input_search">
+							<input type="search" id="cases_search" placeholder="Search" />
+							<img src="./icons/search.png" />
+						</div>
+
+					</div>
+					<button class="primary-button" type="button">+ Add Case</button>
+
 				</div>
-				<div class="table__buttons">
-					<div class="select">
-						<button type="button" data-select="#columnsSelect" class="select__button">Columns</button>
-						<div id="columnsSelect" class="select__options closed">
-							<div class="select__list">
-								<?php $CC_columns = columns_array($dbh);
-								$index = 0;
-								foreach ($CC_columns as $key => $col) {
-									if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "true") {
-										echo "<label for'" . $index . "'><input checked data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox' name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
-									} else if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "false") {
-										echo "<label for'" . $index . "'><input data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox'  name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
+				<div class="table__utils">
+					<div class="advanced_search">
+						<p>Advanced Search </p>
+					</div>
+					<div class="table__buttons">
+						<div class="select">
+							<button type="button" data-select="#columnsSelect" class="select__button">Columns</button>
+							<div id="columnsSelect" class="select__options closed">
+								<div class="select__list">
+									<?php $CC_columns = columns_array($dbh);
+									$index = 0;
+									foreach ($CC_columns as $key => $col) {
+										if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "true") {
+											echo "<label for'" . $index . "'><input id=" . $index . "  checked data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox' name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
+										} else if ($col['include_in_case_table'] == "true" && $col['display_by_default'] == "false") {
+											echo "<label for'" . $index . "'><input id=" . $index . " data-type='" . $col['input_type'] . "'  data-id='" . $col['db_name'] . "' type='checkbox'  name='" . $col['display_name'] . "'/>"  . $col['display_name'] . "</label>";
+										}
+										$index++;
 									}
-									$index++;
-								}
-								?>
-								<?php ?>
-							</div>
-							<div class="select__footer">
-								<button data-select="#columnsSelect" id="columnsSelectButton" class="mt-2 mb-1">Apply Changes </button>
+									?>
+									<?php ?>
+								</div>
+								<div class="select__footer">
+									<button data-select="#columnsSelect" id="columnsSelectButton" class="mt-2 mb-1">Apply Changes </button>
+								</div>
+
 							</div>
 
 						</div>
 
+
+						<button>Print/Export</button>
+						<button class="cases__reset" type='button'>Reset</button>
 					</div>
+					<div class="advanced-search__fields">
+					</div>
+				</div>
+
+				<!-- <div id="processing">Loading....</div> -->
+
+				<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
+																									echo "can_add";
+																								} ?>">
+
+					<thead>
+
+						<tr>
+							<?php $CC_columns = columns_array($dbh);
+							foreach ($CC_columns as $key => $col) {
+								if ($col['include_in_case_table'] == "true") {
+									echo "<th>" . $col['display_name'] . "</th>";
+								}
+							}
+							?>
+						</tr>
 
 
-					<button>Print/Export</button>
-					<button class="cases__reset" type='button'>Reset</button>
-				</div>
-				<div class="advanced-search__fields">
-				</div>
+					</thead>
+
+					<tbody>
+
+					</tbody>
+
+				</table>
 			</div>
 
-			<!-- <div id="processing">Loading....</div> -->
 
-			<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
-																								echo "can_add";
-																							} ?>">
-
-				<thead>
-
-					<tr>
-						<?php $CC_columns = columns_array($dbh);
-						foreach ($CC_columns as $key => $col) {
-							if ($col['include_in_case_table'] == "true") {
-								echo "<th>" . $col['display_name'] . "</th>";
-							}
-						}
-						?>
-					</tr>
-
-
-				</thead>
-
-				<tbody>
-
-				</tbody>
-
-			</table>
 		</div>
 
 

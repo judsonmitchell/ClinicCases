@@ -6,6 +6,7 @@ textarea {
 
 .search_container {
   display: flex;
+
   .input_search {
     display: flex;
     align-items: center;
@@ -21,14 +22,26 @@ textarea {
   }
   select {
     border-radius: 5px 0px 0px 5px;
+    @media screen and (max-width: $mobile) {
+      border-radius: 5px;
+    }
   }
   input[type='search'] {
     border-radius: 0px 5px 5px 0px;
     height: 100%;
     width: 100%;
     border-left-color: transparent;
+    @media screen and (max-width: $mobile) {
+      border-left-color: inherit;
+      margin: 0.5rem 0;
+      border-radius: 5px;
+    }
     &:focus {
       border-left-color: inherit;
     }
+  }
+
+  @media screen and (max-width: $mobile) {
+    flex-direction: column;
   }
 }

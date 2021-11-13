@@ -18,6 +18,11 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
+
+  @media screen and (max-width: $mobile) {
+      display: flex;
+      flex-direction: column;
+  }
 }
 
 .center-vertically{
