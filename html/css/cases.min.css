@@ -7,17 +7,6 @@
       -ms-flex-direction: row;
           flex-direction: row;
   height: 100vh;
-  /* max-width: 1290px;
-    margin: 3rem auto; */
-  /* position: relative;
-  width: 94%;
-  background-color: white;
-
-  border: 1px dotted rgb(192, 192, 192);
-  z-index: 1;
-  padding: 1.5%;
-  overflow-y: hidden;
- */
 }
 
 @media screen and (max-width: 1440px) {

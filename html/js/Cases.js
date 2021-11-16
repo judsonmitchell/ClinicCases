@@ -1,21 +1,10 @@
-// function escapeHtml(text) {
-//   var map = {
-//     '&': '&amp;',
-//     '<': '&lt;',
-//     '>': '&gt;',
-//     '"': '&quot;',
-//     "'": '&#039;',
-//   };
+document.addEventListener('DOMContentLoaded', initCasesTable);
 
-//   return text.replace(/[&<>"']/g, function (m) {
-//     return map[m];
-//   });
-// }
-
-$(document).ready(function () {
+function initCasesTable() {
   let visibleColumns;
   let hiddenColumns;
   $.ajax({
+    // Load column data from DB
     url: 'lib/php/data/cases_columns_load.php',
     dataType: 'json',
     error: function () {
@@ -37,18 +26,14 @@ $(document).ready(function () {
           }
         })
         .filter((val) => val != undefined);
+
+        // Load Cases Data
       $.ajax({
         url: 'lib/php/data/cases_load.php',
         error: function () {
           console.log('error');
         },
         success: function (data) {
-          const mobileBreakPoint = 567;
-          const tabletBreakPoint = 768;
-          const medBreakPoint = 992;
-          const lgBreakPoint = 1024;
-          const xlBreakPoint = 1440;
-
           const jsonData = JSON.parse(data);
           const asObjects = jsonData.aaData;
           const asArray = asObjects.map((value) => {
@@ -58,53 +43,27 @@ $(document).ready(function () {
             return array;
           });
           columnNames = Object.keys(asObjects[0]);
+          // TODO can I do this with vanilla js?
           const table = $('#table_cases').DataTable({
             data: asArray,
             responsive: true,
             autoWidth: false,
-            columnDefs: [
-              {
-                visible: false,
-                searchPanes: { show: false },
-                targets: hiddenColumns,
-              },
-              {
-                visible: true,
-                searchPanes: { show: true, initCollapsed: true },
-                targets: visibleColumns,
-              },
-              {
-                visible: window.innerWidth > xlBreakPoint,
-                searchPanes: {
-                  show: window.innerWidth > xlBreakPoint,
-                  initCollapsed: true,
-                },
-                targets: [5],
-              },
-              {
-                visible: window.innerwidth > lgBreakPoint,
-                searchPanes: {
-                  show: window.innerWidth > lgBreakPoint,
-                  initCollapsed: true,
-                },
-                targets: [19],
-              },
-            ],
           });
 
+          // Set initial state
           filter();
           setColumnVisibilty();
+          setAdvancedSearchFields();
 
           function filter(e = null) {
-            // defaults to open cases
+            // Defaults to open cases
             value = e?.target.value || 'open';
-
+            // TODO can i do this with plain js?
             $.fn.dataTable.ext.search.push(function (
               settings,
               data,
               dataIndex
             ) {
-              
               const close_data = data[7];
               return value === 'open' && !close_data
                 ? true
@@ -135,7 +94,7 @@ $(document).ready(function () {
             ) {
               const date = new Date(data[columnNumber]).getTime();
               const value = new Date(inputValue).getTime();
-        
+
               let isReturned;
               if (!inputValue || !selectValue) {
                 isReturned = true;
@@ -150,23 +109,10 @@ $(document).ready(function () {
                     : true;
               }
 
-
               return isReturned;
-              
             });
-
-
           }
-
-          function setColumnVisibilty() {
-            var w = window.innerWidth;
-            const organizationColumn = table.column(5);
-            const dispositionColumn = table.column(19);
-            // Only shows Organization column on XL screens
-            organizationColumn.visible(w > xlBreakPoint);
-            // Only show Disposition column on LG screens
-            dispositionColumn.visible(w > lgBreakPoint);
-          }
+          // TODO add chevron down
           function toggleCasesAdvancedSearch() {
             this.classList.toggle('advanced_search--open');
           }
@@ -200,6 +146,7 @@ $(document).ready(function () {
           }
 
           function resetTable() {
+            // Default sort by Case ID
             table.order([0, 'asc']);
 
             visibleColumns.forEach((column) => {
@@ -216,6 +163,9 @@ $(document).ready(function () {
             table.draw();
           }
 
+          // The options for Advanced Search are added dynamically based on 
+          // which columns are visible ("checked" on the column dropdown)
+          // TODO add triangle style to select box
           function setAdvancedSearchFields() {
             const container = document.querySelector(
               '.advanced-search__fields'
@@ -226,7 +176,6 @@ $(document).ready(function () {
               if (column.checked) {
                 let wrapper = document.createElement('div');
                 wrapper.classList.add('advanced-search__element');
-
                 let input = document.createElement('input');
                 let label = document.createElement('label');
                 label.htmlFor = column.dataset.id;
@@ -235,6 +184,8 @@ $(document).ready(function () {
                 input.type = column.dataset.type;
                 input.classList.add('advanced-search__input');
 
+                // For Date Fields, we need a select option box for 
+                // inequalities
                 if (input.type === 'date') {
                   let div = document.createElement('div');
                   div.classList.add('advanced-search__select');
@@ -262,9 +213,10 @@ $(document).ready(function () {
                   select.addEventListener('change', (e) => {
                     filterDateColumn(input.value, column.id, e.target.value);
                     table.draw();
-
                   });
                 } else {
+                  // For regular text fields, we just need the inpu
+                  // and label
                   wrapper.appendChild(label);
                   wrapper.appendChild(input);
                   container.append(wrapper);
@@ -278,28 +230,23 @@ $(document).ready(function () {
               }
             });
           }
-          setAdvancedSearchFields();
-          /////////////////////////////
-          //        ELEMENTS         //
-          /////////////////////////////
+
+          
           const cases_search = document.querySelector('#cases_search');
           const cases_select = document.querySelector('#cases_select');
           const cases_column_select = document.querySelector(
             '#columnsSelectButton'
           );
           const cases_reset = document.querySelector('.cases__reset');
-          /////////////////////////////
-          //      EVENT LISTENERS   //
-          ////////////////////////////
           const advanced_search = document.querySelector('.advanced_search p');
+          
           cases_search.addEventListener('keyup', search);
           cases_select.addEventListener('change', filter);
           cases_column_select.addEventListener('click', applyColumnChanges);
           cases_reset.addEventListener('click', resetTable);
-          window.addEventListener('resize', setColumnVisibilty);
           advanced_search.addEventListener('click', toggleCasesAdvancedSearch);
         },
       });
     },
   });
-});
+}
