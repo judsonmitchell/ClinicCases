@@ -27,11 +27,11 @@ function initCasesTable() {
         })
         .filter((val) => val != undefined);
 
-        // Load Cases Data
+      // Load Cases Data
       $.ajax({
         url: 'lib/php/data/cases_load.php',
         error: function () {
-          console.log('error');
+          alert('error');
         },
         success: function (data) {
           const jsonData = JSON.parse(data);
@@ -48,11 +48,14 @@ function initCasesTable() {
             data: asArray,
             responsive: true,
             autoWidth: false,
+            columnDefs: [
+              { targets: visibleColumns, visible: true },
+              { targets: hiddenColumns, visible: false },
+            ],
           });
 
           // Set initial state
           filter();
-          setColumnVisibilty();
           setAdvancedSearchFields();
 
           function filter(e = null) {
@@ -163,7 +166,7 @@ function initCasesTable() {
             table.draw();
           }
 
-          // The options for Advanced Search are added dynamically based on 
+          // The options for Advanced Search are added dynamically based on
           // which columns are visible ("checked" on the column dropdown)
           // TODO add triangle style to select box
           function setAdvancedSearchFields() {
@@ -184,7 +187,7 @@ function initCasesTable() {
                 input.type = column.dataset.type;
                 input.classList.add('advanced-search__input');
 
-                // For Date Fields, we need a select option box for 
+                // For Date Fields, we need a select option box for
                 // inequalities
                 if (input.type === 'date') {
                   let div = document.createElement('div');
@@ -231,7 +234,6 @@ function initCasesTable() {
             });
           }
 
-          
           const cases_search = document.querySelector('#cases_search');
           const cases_select = document.querySelector('#cases_select');
           const cases_column_select = document.querySelector(
@@ -239,7 +241,7 @@ function initCasesTable() {
           );
           const cases_reset = document.querySelector('.cases__reset');
           const advanced_search = document.querySelector('.advanced_search p');
-          
+
           cases_search.addEventListener('keyup', search);
           cases_select.addEventListener('change', filter);
           cases_column_select.addEventListener('click', applyColumnChanges);

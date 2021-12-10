@@ -24,6 +24,10 @@
     font-size: 1.2rem;
   }
 }
+@mixin title-font() {
+  font-family: lemonde-journal, sans-serif;
+  color: $black;
+}
 
 @mixin box-shadow() {
   box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02),
@@ -85,5 +89,14 @@
     @include dark-border();
 
     outline: none;
+  }
+}
+
+@mixin link-with-no-underline() {
+  text-decoration: none;
+  color: inherit;
+  &:hover{
+    text-decoration: none;
+    color: inherit;
   }
 }

@@ -67,6 +67,7 @@ button {
   outline: none;
   width: 100%;
   padding: 1rem;
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -154,6 +155,7 @@ button:focus {
   max-height: 150vh;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 992px) {
@@ -211,6 +213,12 @@ button:focus {
   transition: background-color 0.3s ease-in-out;
   position: relative;
   height: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+.header > div ul li a:hover {
+  text-decoration: none;
 }
 
 @media screen and (max-width: 992px) {
@@ -312,6 +320,7 @@ button:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 992px) {
@@ -322,6 +331,19 @@ button:focus {
             justify-content: flex-start;
     padding: 1.5rem 0;
   }
+}
+
+.header__logo a {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  text-decoration: none;
+  color: inherit;
+  color: black;
+}
+
+.header__logo a:hover {
+  text-decoration: none;
+  color: inherit;
 }
 
 .header__prof-pic > a {

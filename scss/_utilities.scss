@@ -1,7 +1,6 @@
 button {
- @include primary-button()
-
-
+ @include primary-button();
+ border-radius: 5px;
 }
 
 .button--secondary {
