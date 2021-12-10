@@ -89,16 +89,19 @@ function initCasesTable() {
             table.draw();
           }
 
-          function filterDateColumn(inputValue, columnNumber, selectValue) {
+          function filterDateColumn(id, columnNumber, selectValue) {
             $.fn.dataTable.ext.search.push(function (
               settings,
               data,
               dataIndex
             ) {
+              const input = document.getElementById(id);
+              const inputValue = input.value;
               const date = new Date(data[columnNumber]).getTime();
               const value = new Date(inputValue).getTime();
-
+              
               let isReturned;
+
               if (!inputValue || !selectValue) {
                 isReturned = true;
               } else {
@@ -211,11 +214,11 @@ function initCasesTable() {
                   div.appendChild(input);
                   container.append(div);
                   input.addEventListener('change', (e) => {
-                    filterDateColumn(e.target.value, column.id, select.value);
+                    filterDateColumn(column.dataset.id, column.id, select.value);
                     table.draw();
                   });
                   select.addEventListener('change', (e) => {
-                    filterDateColumn(input.value, column.id, e.target.value);
+                    filterDateColumn(column.dataset.id, column.id, e.target.value);
                     table.draw();
                   });
                 } else {
