@@ -521,4 +521,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
 }
+
+#content {
+  font-size: 1.4rem;
+}
 /*# sourceMappingURL=app.min.css.map */

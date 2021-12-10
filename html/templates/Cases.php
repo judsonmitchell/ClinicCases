@@ -49,15 +49,15 @@
 						</div>
 
 					</div>
-					<button class="primary-button" type="button">+ Add Case</button>
 
+					<button data-bs-toggle="modal" data-bs-target="#newCaseModal" class="primary-button" type="button">+ Add Case</button>
 				</div>
 				<div class="table__utils">
 					<div class="advanced_search">
 						<p>Advanced Search </p>
 					</div>
 					<div class="table__buttons">
-						
+
 						<div class="select">
 							<button type="button" data-select="#columnsSelect" class="select__button">Columns</button>
 							<div id="columnsSelect" class="select__options closed">
@@ -116,3 +116,4 @@
 
 		</div>
 	</div>
+	<?php include('html/templates/interior/new_case_modal.php') ?>
