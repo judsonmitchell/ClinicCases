@@ -60,6 +60,14 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
   }
 }
 
+.advanced-search__fields {
+  max-height: 0;
+  overflow: hidden;
+  &.advanced-search__fields--open{
+    max-height: 1000px;
+  }
+}
+
 div.dtsp-panesContainer button.dtsp-showAll,
 div.dtsp-panesContainer button.dtsp-collapseAll {
   @include secondary-button();

@@ -137,6 +137,15 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
   background-image: url("../images/chevron_down.svg");
 }
 
+.advanced-search__fields {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.advanced-search__fields.advanced-search__fields--open {
+  max-height: 1000px;
+}
+
 div.dtsp-panesContainer button.dtsp-showAll,
 div.dtsp-panesContainer button.dtsp-collapseAll {
   font-family: 'Montserrat', sans-serif;

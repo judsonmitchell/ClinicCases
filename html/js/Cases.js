@@ -118,6 +118,7 @@ function initCasesTable() {
           // TODO add chevron down
           function toggleCasesAdvancedSearch() {
             this.classList.toggle('advanced_search--open');
+            document.querySelector('.advanced-search__fields').classList.toggle('advanced-search__fields--open');
           }
 
           function applyColumnChanges(e) {
@@ -218,7 +219,7 @@ function initCasesTable() {
                     table.draw();
                   });
                 } else {
-                  // For regular text fields, we just need the inpu
+                  // For regular text fields, we just need the input
                   // and label
                   wrapper.appendChild(label);
                   wrapper.appendChild(input);
