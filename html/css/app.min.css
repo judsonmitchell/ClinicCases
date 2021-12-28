@@ -134,6 +134,12 @@ button:focus {
   height: 80px;
 }
 
+@media screen and (max-width: 1024px) {
+  .header > div {
+    border-bottom: none;
+  }
+}
+
 @media screen and (max-width: 992px) {
   .header > div {
     padding: 0rem 1rem;
@@ -153,9 +159,8 @@ button:focus {
       -ms-flex-align: center;
           align-items: center;
   max-height: 150vh;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
   margin-bottom: 0;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 992px) {
@@ -260,13 +265,11 @@ button:focus {
   .header > div ul.collapsed {
     max-height: 0;
     padding: 0;
-    -webkit-transition-delay: 0.3s;
-            transition-delay: 0.3s;
+    -webkit-transition-delay: 0s;
+            transition-delay: 0s;
   }
   .header > div ul.collapsed li {
     visibility: hidden;
-    -webkit-transition: visibility 0.1s ease-out;
-    transition: visibility 0.1s ease-out;
     -webkit-transition-delay: 0s;
             transition-delay: 0s;
   }

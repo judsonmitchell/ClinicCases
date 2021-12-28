@@ -15,7 +15,6 @@
 	<div class="header">
 		<?php $t = tabs($dbh, $_GET['i']);
 		echo $t; ?>
-		<!-- <?php include 'html/templates/Menus.php'; ?> -->
 	</div>
 
 	<div id="notifications"></div>
@@ -24,10 +23,10 @@
 		<div id="sidebar">
 			<div id="nav-tab" role="tablist" class="nav-tabs nav">
 				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#searchCases" role='tab'>
-					<h3>Search Cases</h3>
+					<h2>Search Cases</h2>
 				</div>
 				<div class="nav-link" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
-					<h3>Open Cases</h3>
+					<h2>Open Cases</h2>
 				</div>
 			</div>
 		</div>

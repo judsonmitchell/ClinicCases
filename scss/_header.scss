@@ -4,6 +4,9 @@
   padding: 0rem 4rem;
   border-bottom: 2px solid black;
   height: 80px;
+  @media screen and (max-width: $lg) {
+    border-bottom: none;
+  }
   @media screen and (max-width: $med) {
     padding: 0rem 1rem;
     flex-direction: column;
@@ -13,8 +16,8 @@
   ul {
     @include flex-vert-center();
     max-height: 150vh;
-    transition: all 0.3s ease-in-out;
     margin-bottom: 0;
+    overflow: hidden;
 
     @media screen and (max-width: $med) {
       @include light-border();
@@ -81,11 +84,10 @@
       &.collapsed {
         max-height: 0;
         padding: 0;
-        transition-delay: 0.3s;
+        transition-delay: 0s;
 
         li {
           visibility: hidden;
-          transition: visibility 0.1s ease-out;
           transition-delay: 0s;
         }
       }
