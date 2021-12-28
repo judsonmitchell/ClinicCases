@@ -8,6 +8,7 @@
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
 
+
 </head>
 
 <body>
@@ -111,6 +112,9 @@
 			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade" id="openCases">
 				<h1>Open Cases</h1>
+					<div class="open-cases-container">
+
+					</div>
 			</div>
 
 		</div>

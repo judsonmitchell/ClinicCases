@@ -5,6 +5,12 @@ table.dataTable.display tbody tr.odd {
 
 #table_cases {
   margin-top: 2rem;
+
+  tr {
+    &:hover{
+      cursor: pointer;
+    }
+  }
 }
 #table_cases_filter,
 #table_cases_length {

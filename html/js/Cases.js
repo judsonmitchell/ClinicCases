@@ -43,7 +43,6 @@ function initCasesTable() {
             return array;
           });
           columnNames = Object.keys(asObjects[0]);
-          // TODO can I do this with vanilla js?
           const table = $('#table_cases').DataTable({
             data: asArray,
             responsive: true,
@@ -99,7 +98,7 @@ function initCasesTable() {
               const inputValue = input.value;
               const date = new Date(data[columnNumber]).getTime();
               const value = new Date(inputValue).getTime();
-              
+
               let isReturned;
 
               if (!inputValue || !selectValue) {
@@ -121,7 +120,9 @@ function initCasesTable() {
           // TODO add chevron down
           function toggleCasesAdvancedSearch() {
             this.classList.toggle('advanced_search--open');
-            document.querySelector('.advanced-search__fields').classList.toggle('advanced-search__fields--open');
+            document
+              .querySelector('.advanced-search__fields')
+              .classList.toggle('advanced-search__fields--open');
           }
 
           function applyColumnChanges(e) {
@@ -214,11 +215,19 @@ function initCasesTable() {
                   div.appendChild(input);
                   container.append(div);
                   input.addEventListener('change', (e) => {
-                    filterDateColumn(column.dataset.id, column.id, select.value);
+                    filterDateColumn(
+                      column.dataset.id,
+                      column.id,
+                      select.value
+                    );
                     table.draw();
                   });
                   select.addEventListener('change', (e) => {
-                    filterDateColumn(column.dataset.id, column.id, e.target.value);
+                    filterDateColumn(
+                      column.dataset.id,
+                      column.id,
+                      e.target.value
+                    );
                     table.draw();
                   });
                 } else {
@@ -251,6 +260,25 @@ function initCasesTable() {
           cases_column_select.addEventListener('click', applyColumnChanges);
           cases_reset.addEventListener('click', resetTable);
           advanced_search.addEventListener('click', toggleCasesAdvancedSearch);
+
+          const open_case_ids = [];
+          const open_cases_container = document.querySelector(
+            '.open-cases-container'
+          );
+          const open_cases_tab_button = document.querySelector(
+            "[data-bs-target='#openCases']"
+          );
+          $('#table_cases tbody').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            if (!open_case_ids.includes(data[0])) {
+              open_case_ids.push(data[0]);
+
+              const p = document.createElement('p');
+              p.innerText = data[0];
+              open_cases_container.appendChild(p);
+            }
+            open_cases_tab_button.click();
+          });
         },
       });
     },

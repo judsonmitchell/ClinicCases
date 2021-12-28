@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', assignSelectButtons);
 
+
 function assignSelectButtons() {
   const select_buttons = document.querySelectorAll('.select__button');
   select_buttons.forEach((button) => {
-    console.log('event added');
     button.addEventListener('click', toggleSelectOptions);
   });
 }
@@ -14,3 +14,4 @@ function toggleSelectOptions(e) {
   options.classList.toggle('closed');
   
 }
+
