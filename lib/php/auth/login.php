@@ -84,15 +84,15 @@ else
 
 //Determine the user's group and put the relevant permissions in an array
 
-	// $group_query = $dbh->prepare("SELECT * FROM cm_groups WHERE group_name = ? LIMIT 1");
+	$group_query = $dbh->prepare("SELECT * FROM cm_groups WHERE group_name = ? LIMIT 1");
 
-	// $group_query->bindParam(1, $r->grp);
+	$group_query->bindParam(1, $r->grp);
 
-	// $group_query->execute();
+	$group_query->execute();
 
-	// $group_query->setFetchMode(PDO::FETCH_ASSOC);
+	$group_query->setFetchMode(PDO::FETCH_ASSOC);
 
-	// $permissions = $group_query->fetch();
+	$permissions = $group_query->fetch();
 
 //Create Session Variables
 	$_SESSION['permissions'] = $permissions;
@@ -120,7 +120,7 @@ else
 //Create a unique session id and then write to the log
 	$sess_id = md5(time());
 	$_SESSION['cc_session_id'] = $sess_id;
-	// write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
+	write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
 
 	if ($update_password === 'yes')
 		{
