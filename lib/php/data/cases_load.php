@@ -43,8 +43,11 @@ if ($_SESSION['permissions']['view_all_cases'] == "0") {
 }
 
 $case_query = $dbh->prepare($sql);
-$case_query->bindParam(':username', $user);
-$case_query->execute();
+if ($_SESSION['permissions']['view_all_cases'] == "0") {
+    $case_query->bindParam(':username', $user);
+}
+$response = $case_query->execute();
+
 
 // if ($_SESSION['mobile']){ //mobile does not need json, so return a php array
 //     $raw_results = $case_query->fetchAll();//used for mobile
@@ -56,15 +59,13 @@ foreach ($col_result as $value) {
         $cols[] = $value[1];
     }
 }
-
 while ($result = $case_query->fetch(PDO::FETCH_ASSOC)) {
 
-    
+
     $rows = array();
-    foreach($result as $key => $value){
+    foreach ($result as $key => $value) {
         $data = unserialize($value);
-        if ($data != false)
-        {
+        if ($data != false) {
             $make_string = null;
 
             foreach ($data as $key => $value) {
@@ -72,7 +73,6 @@ while ($result = $case_query->fetch(PDO::FETCH_ASSOC)) {
             }
 
             $rows[$key] = rtrim($make_string, ' ,');
-
         } else {
             $rows[$key] = $value;
         }
@@ -106,10 +106,10 @@ while ($result = $case_query->fetch(PDO::FETCH_ASSOC)) {
 
 
     //     $rows[] = $result[$col];
-        
+
     // }
 
-  
+
     //Return aaData object to DataTables
     $output['aaData'][] = $rows;
 }
