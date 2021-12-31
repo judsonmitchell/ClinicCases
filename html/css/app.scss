@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 @import '../../scss/variables';
 @import '../../scss/mixins';
 @import '../../scss/typograpy';
@@ -38,4 +39,46 @@ body {
 
 #content{
   font-size: 1.4rem;
+=======
+@import '../../scss/variables';
+@import '../../scss/mixins';
+@import '../../scss/typograpy';
+@import '../../scss/utilities';
+@import '../../scss/header';
+@import '../../scss/form';
+
+html {
+  font-size: 10px;
+}
+body {
+  background-color: white;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display-grid-2-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 1rem;
+
+  @media screen and (max-width: $mobile) {
+      display: flex;
+      flex-direction: column;
+  }
+}
+
+.two-columns{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.center-vertically{
+  display: flex;
+  align-items: center;
+}
+
+#content{
+  font-size: 1.4rem;
+>>>>>>> Stashed changes
 }

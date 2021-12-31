@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // Data Tables Overrides
 @import './variables';
 @import './mixins';
@@ -12,3 +13,19 @@
 
   }
 }
+=======
+// Data Tables Overrides
+@import './variables';
+@import './mixins';
+@import './layouts/content-with-sidebar';
+@import './layouts/modal';
+@import './tables';
+
+
+#content {
+  .tab-pane{
+    position: absolute;
+
+  }
+}
+>>>>>>> Stashed changes
