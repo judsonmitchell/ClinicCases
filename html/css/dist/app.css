@@ -116,6 +116,11 @@ button:focus {
   border-bottom: 2px solid black;
   height: 80px;
 }
+@media screen and (max-width: 1024px) {
+  .header > div {
+    border-bottom: none;
+  }
+}
 @media screen and (max-width: 992px) {
   .header > div {
     padding: 0rem 1rem;
@@ -127,8 +132,8 @@ button:focus {
   display: flex;
   align-items: center;
   max-height: 150vh;
-  transition: all 0.3s ease-in-out;
   margin-bottom: 0;
+  overflow: hidden;
 }
 @media screen and (max-width: 992px) {
   .header > div ul {
@@ -201,11 +206,10 @@ button:focus {
   .header > div ul.collapsed {
     max-height: 0;
     padding: 0;
-    transition-delay: 0.3s;
+    transition-delay: 0s;
   }
   .header > div ul.collapsed li {
     visibility: hidden;
-    transition: visibility 0.1s ease-out;
     transition-delay: 0s;
   }
 }
@@ -350,6 +354,26 @@ textarea:focus {
   }
 }
 
+.form__control {
+  display: flex;
+  flex-direction: column;
+}
+.form__control label {
+  transform: translateY(3rem);
+  padding: 0.5rem 1rem;
+  transition: transform 0.1s ease-out;
+  text-align: left;
+}
+.form__control label.float {
+  transform: translateY(0);
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+.form__control input {
+  width: 100%;
+  color: black;
+}
+
 html {
   font-size: 10px;
 }
@@ -370,6 +394,12 @@ body {
     display: flex;
     flex-direction: column;
   }
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
 }
 
 .center-vertically {

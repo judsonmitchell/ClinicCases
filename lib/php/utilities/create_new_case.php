@@ -113,7 +113,7 @@ if (!$error[1])
 {
 	$new_id = $dbh->lastInsertId();
 
-	$response = array('error' => false,'newId' => $new_id);
+	$response = array('error' => false, 'newId' => $new_id);
 
 	echo json_encode($response);
 }

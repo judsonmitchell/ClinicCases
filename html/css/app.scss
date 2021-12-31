@@ -25,6 +25,12 @@ body {
   }
 }
 
+.two-columns{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
 .center-vertically{
   display: flex;
   align-items: center;

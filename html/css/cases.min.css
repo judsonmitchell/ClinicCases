@@ -155,6 +155,22 @@
   }
 }
 
+.modal-content {
+  padding: 4rem;
+}
+
+.modal-header {
+  border: none;
+}
+
+.modal-title {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  font-size: 2.4rem;
+  font-style: unset;
+  font-weight: 800;
+}
+
 table.dataTable.stripe tbody tr.odd,
 table.dataTable.display tbody tr.odd {
   background-color: rgba(160, 156, 176, 0.3);

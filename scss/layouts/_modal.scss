@@ -1,0 +1,14 @@
+.modal-content {
+  padding: 4rem;
+}
+
+.modal-header{
+  border: none;
+}
+
+.modal-title{
+  @include title-font();
+  font-size: 2.4rem;
+  font-style: unset;
+  font-weight: 800;
+}

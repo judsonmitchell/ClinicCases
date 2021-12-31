@@ -45,3 +45,25 @@ textarea {
     flex-direction: column;
   }
 }
+
+
+.form__control{
+  display: flex;
+  flex-direction: column;;
+  label{
+    transform: translateY(3rem);
+    padding: 0.5rem 1rem;
+    transition: transform 0.1s ease-out;
+    text-align: left;
+
+    &.float{
+      transform: translateY(0);
+      font-size: 1.2rem;
+      padding: 1rem 0;
+    }
+  }
+  input {
+    width: 100%;
+    color: black;
+  }
+}

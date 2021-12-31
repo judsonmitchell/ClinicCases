@@ -112,6 +112,13 @@
   }
 }
 
+.modal-title {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  font-size: 2rem;
+  font-style: unset;
+}
+
 table.dataTable.stripe tbody tr.odd,
 table.dataTable.display tbody tr.odd {
   background-color: rgba(160, 156, 176, 0.3);
@@ -119,6 +126,9 @@ table.dataTable.display tbody tr.odd {
 
 #table_cases {
   margin-top: 2rem;
+}
+#table_cases tr:hover {
+  cursor: pointer;
 }
 
 #table_cases_filter,
