@@ -8,7 +8,7 @@
 -- PHP Version: 5.3.6-13ubuntu3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+05:30";
 
 --
 -- Database: `default`
@@ -39,11 +39,10 @@ CREATE TABLE IF NOT EXISTS `cm` (
   `pin` varchar(10) NOT NULL DEFAULT '',
   `phone` text NOT NULL,
   `email` text NOT NULL,
-  `ssn` varchar(15) NOT NULL DEFAULT '',
+  `aadhar` varchar(15) NOT NULL DEFAULT '',
   `dob` varchar(15) NOT NULL DEFAULT '',
   `age` varchar(10) NOT NULL DEFAULT '',
   `gender` varchar(10) NOT NULL DEFAULT '',
-  `race` varchar(10) NOT NULL DEFAULT '',
   `income` int(50) DEFAULT NULL,
   `per` varchar(15) NOT NULL,
   `judge` varchar(200) NOT NULL DEFAULT '',
@@ -136,10 +135,12 @@ CREATE TABLE IF NOT EXISTS `cm_case_types` (
 --
 
 INSERT INTO `cm_case_types` (`id`, `type`, `case_type_code`) VALUES
-(1, 'Criminal', 'CRM'),
-(2, 'Adoption', 'ADO'),
-(3, 'SSI', 'SSI'),
-(4, 'Divorce', 'DIV');
+(1, 'Goods and Services Tax', 'GST'),
+(2, 'Income Tax', 'IT'),
+(3, 'Value Added Tax', 'VAT'),
+(4, 'Old GST', 'GSTO');
+(5, 'Others', 'ORS');
+
 
 -- --------------------------------------------------------
 
@@ -212,7 +213,6 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (21, 'dob', 'DOB', 'true', 'text', '', 'false', 0, 21),
 (22, 'age', 'Age', 'true', 'text', '', 'false', 0, 22),
 (23, 'gender', 'Gender', 'true', 'select', 'a:2:{s:1:"M";s:4:"Male";s:1:"F";s:6:"Female";}', 'false', 0, 23),
-(24, 'race', 'Race', 'true', 'select', 'a:5:{s:2:"AA";s:16:"African-American";s:1:"W";s:5:"White";s:1:"H";s:8:"Hispanic";s:1:"A";s:5:"Asian";s:1:"O";s:5:"Other";}', 'false', 0, 24),
 (25, 'income', 'Income', 'false', 'text', '', 'false', 0, 25),
 (26, 'per', 'Per', 'false', 'select', 'a:4:{s:3:"day";s:3:"Day";s:4:"week";s:4:"Week";s:5:"month";s:5:"Month";s:4:"year";s:4:"Year";}', 'false', 0, 26),
 (27, 'judge', 'Judge', 'false', 'text', '', 'false', 0, 27),
@@ -222,9 +222,9 @@ INSERT INTO `cm_columns` (`id`, `db_name`, `display_name`, `include_in_case_tabl
 (31, 'ct_case_no', 'Court Case Number', 'false', 'text', '', 'false', 0, 31),
 (32, 'case_name', 'Case Name', 'false', 'text', '', 'false', 0, 32),
 (33, 'notes', 'Notes', 'false', 'textarea', '', 'false', 0, 33),
-(36, 'dispo', 'Disposition', 'true', 'select', 'a:5:{i:0;s:11:"Advice Only";i:1;s:16:"Judgment Granted";i:2;s:6:"Guilty";i:3;s:10:"Not Guilty";i:4;s:15:"Client Withdrew";}', 'true', 0, 42),
+(36, 'dispo', 'Disposition', 'true', 'select', 'a:5:{i:0;s:11:"Advice Only";i:1;s:16:"Judgment Granted";i:2;s:6:"Set Aside";i:3;s:10:"Client Withdrew";}', 'true', 0, 42),
 (38, 'close_notes', 'Closing Notes', 'false', 'textarea', '', 'false', 0, 44),
-(39, 'referral', 'Referred By', 'true', 'select', 'a:3:{i:1;s:15:"Colleagues";i:2;s:3:"LSC";i:3;s:16:"Legal Aid Bureau";}', 'false', 0, 39),
+(39, 'referral', 'Referred By', 'true', 'select', 'a:3:{i:1;s:15:"Colleagues";i:2;s:3:"Clients";i:3;s:16:"Department";}', 'false', 0, 39),
 (40, 'opened_by', 'Opened By', 'true', 'text', '', 'true', 1, 40);
 
 -- --------------------------------------------------------
@@ -315,9 +315,8 @@ CREATE TABLE IF NOT EXISTS `cm_dispos` (
 INSERT INTO `cm_dispos` (`id`, `dispo`) VALUES
 (1, 'Advice Only'),
 (2, 'Judgment Granted'),
-(3, 'Guilty'),
-(4, 'Not Guilty'),
-(5, 'Client Withdrew');
+(3, 'Client Withdrew'),
+(4, 'Set Aside');
 
 -- --------------------------------------------------------
 
@@ -433,8 +432,8 @@ CREATE TABLE IF NOT EXISTS `cm_groups` (
 INSERT INTO `cm_groups` (`id`, `group_name`, `group_title`, `group_description`, `allowed_tabs`, `add_cases`, `delete_cases`, `edit_cases`, `close_cases`, `view_all_cases`, `assign_cases`, `view_users`, `add_users`, `delete_users`, `edit_users`, `activate_users`, `add_case_notes`, `edit_case_notes`, `delete_case_notes`, `documents_upload`, `documents_modify`, `add_events`, `edit_events`, `delete_events`, `add_contacts`, `edit_contacts`, `delete_contacts`, `post_in_board`, `view_board`, `edit_posts`, `reads_journals`, `writes_journals`, `change_permissions`, `can_configure`, `supervises`, `is_supervised`) VALUES
 (1, 'super', 'Super User', 'The super user can access all ClinicCases functions and add, edit, and delete all data.  Most importantly, only the super user can change permissions for all users.\r\nSuper User access should be restricted to a limited number of users.', 'a:8:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Group";i:3;s:5:"Users";i:4;s:8:"Journals";i:5;s:5:"Board";i:6;s:9:"Utilities";i:7;s:8:"Messages";}', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0),
 (2, 'admin', 'Administrator', 'The administrator can access all ClinicCases functions and view,edit, and delete all data.  By default, the administrator is the only user who can add new files or authorize new users.\r\n\r\nThe administrator cannot change group permissions.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Users";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0),
-(3, 'student', 'Student', 'Students can only access the cases to which they have been assigned by a professor.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Journals";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1),
-(4, 'prof', 'Professor', 'Professors supervise students.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 'a:7:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Group";i:3;s:8:"Journals";i:4;s:5:"Board";i:5;s:9:"Utilities";i:6;s:8:"Messages";}', 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0);
+(3, 'Staff', 'Staff', 'Staff members can only access the cases to which they have been assigned by a professor.', 'a:6:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:8:"Journals";i:3;s:5:"Board";i:4;s:9:"Utilities";i:5;s:8:"Messages";}', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1),
+(4, 'prof', 'Professor', 'Professors supervise Staff members.  By default, they can assign students to cases and view, edit, and delete all data in cases to which they are assigned.', 'a:7:{i:0;s:4:"Home";i:1;s:5:"Cases";i:2;s:5:"Group";i:3;s:8:"Journals";i:4;s:5:"Board";i:5;s:9:"Utilities";i:6;s:8:"Messages";}', 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -515,9 +514,8 @@ CREATE TABLE IF NOT EXISTS `cm_referral` (
 --
 
 INSERT INTO `cm_referral` (`id`, `referral`) VALUES
-(1, 'Social Services'),
-(2, 'LSC'),
-(3, 'Legal Aid Bureau');
+(1, 'Department'),
+(2, 'Clients');
 
 -- --------------------------------------------------------
 
