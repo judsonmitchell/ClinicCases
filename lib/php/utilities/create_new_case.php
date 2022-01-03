@@ -76,7 +76,6 @@ function create_new_case_number($dbh)
 		}
 
 		$result = str_replace('Number', $number, $result);
-
 		if (stristr($result, 'Infinite'))
 			{
 				$result =	str_replace('Infinite', '', $result);
@@ -105,7 +104,9 @@ $q->bindParam(1,$new_case_number);
 
 $q->bindParam(2,$user);
 
+
 $q->execute();
+
 
 $error = $q->errorInfo();
 
