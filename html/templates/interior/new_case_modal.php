@@ -1,3 +1,4 @@
+
 <!-- Modal -->
 <div class="modal fade" id="newCaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newCaseLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -23,18 +24,23 @@
           <input id="organization" data-label="#organizationLabel" name="organization" type="text" />
         </div>
         <div class="form__control">
-          <label class="float" id="dateOpenLabel" for="dateOpen">Date Open</label>
+          <label class="float--lock" id="dateOpenLabel" for="dateOpen">Date Open</label>
           <input id="dateOpen" data-label="#dateOpenLabel" name="dateOpen" type="date" />
         </div>
         <!-- Divide here -->
         <div class="two-columns">
-          <div class="form__control">
-            <label class="float" id="caseTypeLabel" for="caseType">Case Type</label>
-            <select id="caseType"></select>
+          <div class="form__control form__control--select">
+            <label class="float--lock" id="caseTypeLabel" for="caseType">Case Type</label>
+            <select id="caseType">
+              <option value="" disabled selected>Select one...</option>
+
+            </select>
           </div>
-          <div class="form__control">
-            <label class="float" id="clinicTypeLabel" for="clinicType">Clinic Type</label>
-            <select id="clinicType"></select>
+          <div class="form__control form__control--select">
+            <label class="float--lock" id="clinicTypeLabel" for="clinicType">Clinic Type</label>
+            <select id="clinicType">
+              <option value="" disabled selected>Select one...</option>
+            </select>
           </div>
         </div>
         <div class="form__control">
@@ -50,10 +56,10 @@
             <label id="cityLabel" for="city">City</label>
             <input id="city" data-label="#cityLabel" name="city" type="text" />
           </div>
-          <div class="form__control">
-            <label class="float" id="stateLabel" for="state"></label>
+          <div class="form__control form__control--select">
+            <label class="float--lock" id="stateLabel" for="state">State</label>
             <select id="state">
-              <option value="" data-code="" disabled selected>State</option>
+              <option value="" data-code="" disabled selected>Select one...</option>
               <option value="Alabama" data-code="AL">Alabama</option>
               <option value="Alaska" data-code="AK">Alaska</option>
               <option value="Arizona" data-code="AZ">Arizona</option>
@@ -112,11 +118,13 @@
           <label id="zipcodeLabel" for="zipcode">Zipcode</label>
           <input id="zipcode" data-label="#zipcodeLabel" name="zipcode" type="text" />
         </div>
+        <!-- Divide here -->
+
         <div class="form__array">
           <fieldset id="phoneNumbers">
             <legend>Phone</legend>
             <div class="array__grid">
-              <div class="form__control">
+              <div class="form__control form__control--select">
                 <select name="phoneType-1" id="phoneType-1">
                   <option value="home">Home</option>
                   <option value="work">Work</option>
@@ -129,7 +137,7 @@
                 <input id="phone-1" data-label="#phoneLabel-1" name="phone-1" type="text" />
               </div>
               <button data-add="2" data-target="#phoneNumbers" class="button__icon">
-                <img src="./icons/add-item.svg" alt="Plus sign button to add another phone number">
+                <img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
               </button>
             </div>
           </fieldset>
@@ -139,7 +147,7 @@
           <fieldset id="emails">
             <legend>Email</legend>
             <div class="array__grid">
-              <div class="form__control">
+              <div class="form__control form__control--select">
                 <select name="emailType-1" id="emailType-1">
                   <option value="home">Home</option>
                   <option value="work">Work</option>
@@ -150,33 +158,36 @@
                 <input id="email-1" data-label="#emailLabel-1" name="email-1" type="text" />
               </div>
               <button data-add="2" data-target="#emails" class="button__icon">
-                <img src="./icons/add-item.svg" alt="Plus sign button to add another email">
+                <img src="html/ico/add-item.svg" alt="Plus sign button to add another email">
               </button>
             </div>
           </fieldset>
 
         </div>
+        <!-- Divide here -->
+
         <div class="form__control">
           <label id="ssnLabel" for="ssn">SSN</label>
           <input id="ssn" data-label="#ssnLabel" name="ssn" type="text" />
         </div>
         <div class="form__control">
-          <label class="float" id="birthdayLabel" for="birthday">Birthday</label>
+          <label class="float--lock" id="birthdayLabel" for="birthday">Birthday</label>
           <input id="birthday" data-label="#birthdayLabel" name="birthday" type="date" />
         </div>
         <div class="form__control">
-          <label id="ageLabel" for="age">SSN</label>
+          <label id="ageLabel" for="age">Age</label>
           <input id="age" data-label="#ageLabel" name="age" type="text" />
         </div>
-        <div class="form__control">
-          <label class="float" id="genderLabel" for="gender">Gender</label>
+        <div class="form__control form__control--select">
+          <label class="float--lock" id="genderLabel" for="gender">Gender</label>
           <select id="gender">
+            <option value="" disabled selected>Select one...</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
         </div>
-        <div class="form__control">
-          <label class="float" id="raceLabel" for="race">Race</label>
+        <div class="form__control form__control--select">
+          <label class="float--lock" id="raceLabel" for="race">Race</label>
           <select id="race">
             <option value="african-american">African American</option>
             <option value="white">White</option>
@@ -190,9 +201,10 @@
             <label id="incomeLabel" for="income">Income</label>
             <input id="income" data-label="#incomeLabel" name="age" type="text" />
           </div>
-          <div class="form__control">
-            <label class="float" id="incomePerLabel" for="incomePer"></label>
+          <div class="form__control form__control--select">
+            <label class="float--lock" id="incomePerLabel" for="incomePer">Per</label>
             <select name="incomePer" id="incomePer">
+              <option value="" disabled selected>Select one...</option>
               <option value="day">Day</option>
               <option value="week">Week</option>
               <option value="month">Month</option>
@@ -200,22 +212,26 @@
             </select>
           </div>
         </div>
+        <!-- Divide here -->
+
         <div class="two-columns">
           <div class="form__control">
             <label id="judgeLabel" for="judge">Judge</label>
             <input id="judge" data-label="#judgeLabel" name="age" type="text" />
           </div>
-          <div class="form__control">
-            <label class="float" id="plOrDefLabel" for="plOrDef"></label>
+          <div class="form__control form__control--select">
+            <label class="float--lock" id="plOrDefLabel" for="plOrDef">Plaintiff/Defendent</label>
             <select name="plOrDef" id="plOrDef">
+              <option value="" disabled selected>Select one...</option>
+
               <option value="plaintiff">Plaintiff</option>
               <option value="defendent">Defendent</option>
               <option value="other">Other</option>
             </select>
           </div>
         </div>
-        <div class="form__control">
-          <label class="float" id="courtLabel" for="court">Court</label>
+        <div class="form__control form__control--select">
+          <label class="float--lock" id="courtLabel" for="court">Court</label>
           <select id="court">
           </select>
         </div>
@@ -235,28 +251,35 @@
                 <input id="adverseParty-1" data-label="#adverseParty-1" name="adverseParty-1" type="text" />
               </div>
               <button data-add="2" data-target="#adverseParties" class="button__icon">
-                <img src="./icons/add-item.svg" alt="Plus sign button to add another adverse party">
+                <img src="html/ico/add-item.svg" alt="Plus sign button to add another adverse party">
               </button>
             </div>
           </fieldset>
 
         </div>
+        <!-- Divide here -->
         <div class="form__control">
           <label id="notesLabel" for="notes">Notes</label>
           <textarea id="notes" data-label="#notesLabel" name="notes" type="text"></textarea>
         </div>
-        <div class="form__control">
-          <label class="float" id="referralLabel" for="referral">Referral</label>
+        <!-- Divide here -->
+
+        <div class="form__control form__control--select">
+          <label class="float--lock" id="referralLabel" for="referral">Referral</label>
           <select id="referral"></select>
         </div>
         <div class="form__control">
-          <label class="float" id="dateCloseLabel" for="dateClose">Date Close</label>
+          <label class="float--lock" id="dateCloseLabel" for="dateClose">Date Close</label>
           <input id="dateClose" data-label="#dateCloseLabel" name="dateClose" type="date" />
         </div>
-        <div class="form__control">
-          <label class="float" id="dispositionLabel" for="disposition">Disposition</label>
-          <select id="disposition"></select>
+        <div class="form__control form__control--select">
+          <label class="float--lock" id="dispositionLabel" for="disposition">Disposition</label>
+          <select id="disposition">
+            <option value="" selected disabled>Select one...</option>
+          </select>
         </div>
+        <!-- Divide here -->
+
         <div class="form__control">
           <label id="closingNotesLabel" for="closingNotes">Closing Notes</label>
           <textarea id="closingNotes" data-label="#closingNotesLabel" name="closingNotes" type="text"></textarea>
@@ -421,7 +444,7 @@
     const arrayGrid = document.createElement('div');
     arrayGrid.classList.add('array__grid');
     arrayGrid.innerHTML = ` 
-              <div class="form__control">
+              <div class="form__control form__control--select">
                 <select name="phoneType-${i}" id="phoneType-${i}">
                   <option value="home">Home</option>
                   <option value="work">Work</option>
@@ -450,7 +473,7 @@
     const arrayGrid = document.createElement('div');
     arrayGrid.classList.add('array__grid');
     arrayGrid.innerHTML = ` 
-              <div class="form__control">
+              <div class="form__control form__control--select">
                 <select name="emailType-${i}" id="emailType-${i}">
                   <option value="home">Home</option>
                   <option value="work">Work</option>

@@ -65,7 +65,8 @@ textarea {
         text-align: left;
         min-height: 3.8rem;
 
-        &.float {
+        &.float,
+        &.float--lock {
             transform: translateY(0);
             font-size: 1.2rem;
             padding: 1rem 0;
@@ -75,6 +76,30 @@ textarea {
     input {
         width: 100%;
         color: black;
+    }
+
+    &.form__control--select {
+        position: relative;
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            background-image: url('../../html/ico/triangle-down.svg');
+            height: 20px;
+            width: 19px;
+            display: block;
+            background-size: cover;
+            bottom: 5px;
+            right: 7px;
+            z-index: 10;
+        }
     }
 }
 
@@ -94,9 +119,11 @@ textarea {
         grid-gap: 1rem;
         margin: 0.5rem 0;
 
-        &.array__grid--two{
-          grid-template-columns: 1fr auto;
+        &.array__grid--two {
+            grid-template-columns: 1fr auto;
         }
     }
+
+
 
 }

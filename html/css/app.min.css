@@ -400,7 +400,7 @@ textarea:focus {
   text-align: left;
   min-height: 3.8rem;
 }
-.form__control label.float {
+.form__control label.float, .form__control label.float--lock {
   transform: translateY(0);
   font-size: 1.2rem;
   padding: 1rem 0;
@@ -408,6 +408,26 @@ textarea:focus {
 .form__control input {
   width: 100%;
   color: black;
+}
+.form__control.form__control--select {
+  position: relative;
+}
+.form__control.form__control--select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.form__control.form__control--select::after {
+  content: "";
+  position: absolute;
+  background-image: url("../../html/ico/triangle-down.svg");
+  height: 20px;
+  width: 19px;
+  display: block;
+  background-size: cover;
+  bottom: 5px;
+  right: 7px;
+  z-index: 10;
 }
 
 .form__array {
