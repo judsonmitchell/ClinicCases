@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', initCasesTable);
+document.addEventListener('DOMContentLoaded', initOpenCaseFunctions);
+const open_case_ids = [];
+let open_cases_container;
+let open_cases_tab_button;
+
+function initOpenCaseFunctions(){
+    open_cases_container = document.querySelector('.open-cases-container');
+    open_cases_tab_button = document.querySelector("[data-bs-target='#openCases']");
+}
 
 function initCasesTable() {
     let visibleColumns;
@@ -261,26 +270,25 @@ function initCasesTable() {
                     cases_reset.addEventListener('click', resetTable);
                     advanced_search.addEventListener('click', toggleCasesAdvancedSearch);
 
-                    const open_case_ids = [];
-                    const open_cases_container = document.querySelector(
-                        '.open-cases-container'
-                    );
-                    const open_cases_tab_button = document.querySelector(
-                        "[data-bs-target='#openCases']"
-                    );
+ 
                     $('#table_cases tbody').on('click', 'tr', function() {
                         var data = table.row(this).data();
-                        if (!open_case_ids.includes(data[0])) {
-                            open_case_ids.push(data[0]);
-
-                            const p = document.createElement('p');
-                            p.innerText = data[0];
-                            open_cases_container.appendChild(p);
-                        }
-                        open_cases_tab_button.click();
+                        openCase(data[0]);
                     });
                 },
             });
         },
     });
+}
+
+function openCase(id){
+    console.log(open_cases_container);
+    if (!open_case_ids.includes(id)) {
+        open_case_ids.push(id);
+
+        const p = document.createElement('p');
+        p.innerText = id;
+        open_cases_container.appendChild(p);
+    }
+    open_cases_tab_button.click();
 }
