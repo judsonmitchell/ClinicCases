@@ -1,14 +1,13 @@
 <!-- CSS specific to this page -->
-<link rel="stylesheet" type="text/css" href="lib/datatables.min.css" />
 <link rel="stylesheet" type="text/css" href="html/css/cases.min.css" />
+<link href="lib/Grid/mermaid.min.css" rel="stylestheet" />
 
 <!-- Js Calls Specific to this page -->
-<script type="text/javascript" src="lib/datatables.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="lib/Grid/gridjs.umd.js" type="text/javascript"></script>
 <script src="html/js/cases.js" type="text/javascript"></script>
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
-
-
 </head>
 
 <body>
@@ -45,7 +44,7 @@
 						</select>
 						<div class="input_search">
 							<input type="search" id="cases_search" placeholder="Search" />
-							<img src="./icons/search.png" />
+							<img src="html/ico/search.png" />
 						</div>
 
 					</div>
@@ -92,22 +91,7 @@
 				<!--CASES TABLE -->
 				<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
 																									echo "can_add";
-																								} ?>">
-
-					<thead>
-						<tr>
-							<?php $CC_columns = columns_array($dbh);
-							foreach ($CC_columns as $key => $col) {
-								if ($col['include_in_case_table'] == "true") {
-									echo "<th>" . $col['display_name'] . "</th>";
-								}
-							}
-							?>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+																								} ?>"></table>
 			</div>
 			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade" id="openCases">

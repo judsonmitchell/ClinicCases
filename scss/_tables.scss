@@ -1,252 +1,269 @@
-table.dataTable.stripe tbody tr.odd,
-table.dataTable.display tbody tr.odd {
-  background-color: $trans-border-gray;
-}
-
 #table_cases {
-  margin-top: 2rem;
+    width: 100%;
+    margin-top: 2rem;
 
-  tr {
-    &:hover{
-      cursor: pointer;
+    tr {
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:nth-child(even) {
+            background-color: $trans-border-gray;
+
+        }
     }
-  }
 }
+
 #table_cases_filter,
 #table_cases_length {
-  display: none;
+    display: none;
 }
 
-table.dataTable tbody th,
-table.dataTable tbody td,
-table.dataTable thead th {
-  border: 1px solid $border-gray;
-  padding: 1.5rem;
+table.gridjs-table tbody th,
+table.gridjs-table tbody td,
+table.gridjs-table thead th {
+    border: 1px solid $border-gray;
+    padding: 1.5rem;
 }
 
-table.dataTable thead th,
-table.dataTable thead td {
-  border-bottom: 0.3rem solid $border-grey;
+table.gridjs-table thead th,
+table.gridjs-table thead td {
+    border-bottom: 0.3rem solid $border-grey;
 }
 
 .dataTables_info,
 .dataTables_paginate,
 .dtsp-title {
-  @include body-font();
-  font-size: 1.2rem;
+    @include body-font();
+    font-size: 1.2rem;
 }
 
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
-  background-color: $dark-blue;
-  border: none;
-  box-shadow: none;
+table.gridjs-table.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+table.gridjs-table.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+    background-color: $dark-blue;
+    border: none;
+    box-shadow: none;
 }
 
 .advanced_search {
-  p {
-    @include flex-vert-center();
-    width: 200px;
-    &:hover {
-      cursor: pointer;
+    p {
+        @include flex-vert-center();
+        width: 200px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &::after {
+            content: '';
+            background-image: url('../images/chevron_up.svg');
+            height: 20px;
+            width: 20px;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        &.advanged_search--open {
+            &::after {
+                background-image: url('../images/chevron_down.svg');
+            }
+        }
     }
-    &::after {
-      content: '';
-      background-image: url('../images/chevron_up.svg');
-      height: 20px;
-      width: 20px;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-    &.advanged_search--open {
-      &::after {
-        background-image: url('../images/chevron_down.svg');
-      }
-    }
-  }
 }
 
 .advanced-search__fields {
-  max-height: 0;
-  overflow: hidden;
-  &.advanced-search__fields--open{
-    max-height: 1000px;
-  }
+    max-height: 0;
+    overflow: hidden;
+
+    &.advanced-search__fields--open {
+        max-height: 1000px;
+    }
 }
 
 div.dtsp-panesContainer button.dtsp-showAll,
 div.dtsp-panesContainer button.dtsp-collapseAll {
-  @include secondary-button();
+    @include secondary-button();
 }
+
 div.dtsp-panesContainer button.dtsp-disabledButton,
 div.dtsp-panesContainer button.dtsp-clearAll {
-  @include disabled-button();
+    @include disabled-button();
 }
 
 .dtsp-titleRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 1rem;
-  > .dtsp-title {
-    text-align: left;
-  }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+
+    >.dtsp-title {
+        text-align: left;
+    }
 }
 
 div.dtsp-topRow.dtsp-bordered {
-  @include input();
-}
-div.dtsp-panesContainer
-  div.dtsp-searchPanes
-  div.dtsp-searchPane
-  div.dtsp-topRow
-  div.dtsp-searchCont
-  input.dtsp-search {
-  @include body-font();
-  border: none;
-  box-shadow: none;
+    @include input();
 }
 
-div.dtsp-panesContainer
-  div.dtsp-searchPanes
-  div.dtsp-searchPane
-  button.dtsp-paneButton {
-  @include disabled-button();
-  box-shadow: none;
-  opacity: 1;
-  width: auto;
-  padding: 1.5rem;
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dtsp-topRow div.dtsp-searchCont input.dtsp-search {
+    @include body-font();
+    border: none;
+    box-shadow: none;
+}
+
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
+    @include disabled-button();
+    box-shadow: none;
+    opacity: 1;
+    width: auto;
+    padding: 1.5rem;
 }
 
 div.dtsp-topRow.dtsp-bordered:hover {
-  @include input();
-  background-color: inherit;
-  opacity: 1;
-  color: black;
+    @include input();
+    background-color: inherit;
+    opacity: 1;
+    color: black;
 }
 
 .table__utils {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  margin: 1rem auto;
-  @media screen and (max-width: $tablet) {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin: 1rem auto;
 
-    label {
-      text-align: left;
+    @media screen and (max-width: $tablet) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        label {
+            text-align: left;
+        }
     }
-  }
 }
+
 .table__buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  @media screen and (max-width: $tablet) {
-    flex-direction: column;
-    align-items: stretch;
-    button {
-      margin: 0.5rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    @media screen and (max-width: $tablet) {
+        flex-direction: column;
+        align-items: stretch;
+
+        button {
+            margin: 0.5rem 0;
+        }
     }
-  }
-  button {
-    width: calc(100% - 1rem);
-    margin-left: 1rem;
-  }
+
+    button {
+        width: calc(100% - 1rem);
+        margin-left: 1rem;
+    }
 }
 
 .select {
-  position: relative;
-  width: 200px;
+    position: relative;
+    width: 200px;
 
-  @media screen and (max-width: $tablet) {
-    width: 100%;
-  }
-  .select__button {
-    @include disabled-button();
-    margin: 0 0.5rem;
-    width: calc(200px - 1rem);
     @media screen and (max-width: $tablet) {
-      width: 100%;
+        width: 100%;
     }
-    &:hover {
-      cursor: pointer;
-    }
-    &::after {
-    }
-  }
-  .select__options {
-    @include light-border();
-    position: absolute;
-    background-color: white;
-    height: 400px;
-    z-index: 2;
-    margin-left: 1rem;
-    width: 100%;
-    visibility: visible;
 
-    .select__list {
-      align-items: flex-start;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      overflow-y: scroll;
-      height: calc(100% - 80px);
-      padding-bottom: 80px;
-    }
-    &.closed {
-      border: none;
-      max-height: 0;
-      visibility: hidden;
-    }
-    input {
-      margin: 1rem 1rem;
-    }
-    .select__footer {
-      border-top: 1px solid $border-gray;
-      background-color: white;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+    .select__button {
+        @include disabled-button();
+        margin: 0 0.5rem;
+        width: calc(200px - 1rem);
 
-      button {
-        width: calc(100% - 2rem);
-        margin: 1rem auto;
-      }
+        @media screen and (max-width: $tablet) {
+            width: 100%;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &::after {}
     }
-  }
+
+    .select__options {
+        @include light-border();
+        position: absolute;
+        background-color: white;
+        height: 400px;
+        z-index: 2;
+        margin-left: 1rem;
+        width: 100%;
+        visibility: visible;
+
+        .select__list {
+            align-items: flex-start;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+            height: calc(100% - 80px);
+            padding-bottom: 80px;
+        }
+
+        &.closed {
+            border: none;
+            max-height: 0;
+            visibility: hidden;
+        }
+
+        input {
+            margin: 1rem 1rem;
+        }
+
+        .select__footer {
+            border-top: 1px solid $border-gray;
+            background-color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            button {
+                width: calc(100% - 2rem);
+                margin: 1rem auto;
+            }
+        }
+    }
 }
 
 .advanced-search__fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-column: 1 / 3;
-  margin: 1rem 0;
-  flex-wrap: wrap;
-
-  @media screen and (max-width: $tablet) {
-    grid-template-columns: 1fr;
-  }
-
-  .advanced-search__element {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    align-items: center;
-  }
-  .advanced-search__select {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    align-items: center;
-    label {
-      text-align: left;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column: 1 / 3;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: $tablet) {
+        grid-template-columns: 1fr;
     }
-    select {
-      margin: 0 0.5rem;
+
+    .advanced-search__element {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        align-items: center;
     }
-  }
-  .advanced-search__input {
-    margin: 0.5rem 1rem;
-  }
+
+    .advanced-search__select {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2fr;
+        align-items: center;
+
+        label {
+            text-align: left;
+        }
+
+        select {
+            margin: 0 0.5rem;
+        }
+    }
+
+    .advanced-search__input {
+        margin: 0.5rem 1rem;
+    }
 }

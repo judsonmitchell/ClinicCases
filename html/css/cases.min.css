@@ -1,30 +1,19 @@
 #grid {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
   height: 100vh;
 }
 
 @media screen and (max-width: 1440px) {
   #grid {
-    -ms-grid-columns: 1fr 3fr;
-        grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 3fr;
   }
 }
 
 @media screen and (max-width: 1024px) {
   #grid {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
 }
 
@@ -51,8 +40,7 @@
 
 @media screen and (max-width: 1024px) {
   #sidebar {
-    -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
     width: 100%;
     background-color: white;
     height: auto;
@@ -60,10 +48,7 @@
 }
 
 #sidebar .nav-tabs {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   position: relative;
   top: 8rem;
   right: -103px;
@@ -79,10 +64,7 @@
 
 @media screen and (max-width: 1024px) {
   #sidebar .nav-tabs {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    flex-direction: row;
     position: unset;
     width: 100%;
     border-top: none;
@@ -115,8 +97,7 @@
 }
 
 #sidebar .nav-tabs .nav-link.active {
-  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-          box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   border-radius: 4px;
 }
 
@@ -127,8 +108,7 @@
 
 @media screen and (max-width: 1024px) {
   #sidebar .nav-tabs .nav-link.active {
-    -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
     border-radius: 0px;
     background-color: rgba(195, 219, 234, 0.3);
     border-bottom: 4px solid #2b50aa;
@@ -137,22 +117,18 @@
 
 @media screen and (max-width: 1024px) {
   #sidebar .nav-tabs .nav-link {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 50%;
-            flex: 0 0 50%;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    flex: 0 0 50%;
+    justify-content: center;
+    align-items: center;
     border-radius: 0px;
     margin: 0;
     padding: 2rem;
   }
+}
+
+.tab-pane {
+  width: calc(100% - 514px);
 }
 
 .modal-content {
@@ -171,12 +147,8 @@
   font-weight: 800;
 }
 
-table.dataTable.stripe tbody tr.odd,
-table.dataTable.display tbody tr.odd {
-  background-color: rgba(160, 156, 176, 0.3);
-}
-
 #table_cases {
+  width: 100%;
   margin-top: 2rem;
 }
 
@@ -184,20 +156,24 @@ table.dataTable.display tbody tr.odd {
   cursor: pointer;
 }
 
+#table_cases tr:nth-child(even) {
+  background-color: rgba(160, 156, 176, 0.3);
+}
+
 #table_cases_filter,
 #table_cases_length {
   display: none;
 }
 
-table.dataTable tbody th,
-table.dataTable tbody td,
-table.dataTable thead th {
+table.gridjs-table tbody th,
+table.gridjs-table tbody td,
+table.gridjs-table thead th {
   border: 1px solid #a09cb0;
   padding: 1.5rem;
 }
 
-table.dataTable thead th,
-table.dataTable thead td {
+table.gridjs-table thead th,
+table.gridjs-table thead td {
   border-bottom: 0.3rem solid #a09cb0;
 }
 
@@ -219,21 +195,16 @@ table.dataTable thead td {
   }
 }
 
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
+table.gridjs-table.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
+table.gridjs-table.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
   background-color: #2b50aa;
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .advanced_search p {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   width: 200px;
 }
 
@@ -269,8 +240,7 @@ div.dtsp-panesContainer button.dtsp-collapseAll {
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -299,8 +269,7 @@ div.dtsp-panesContainer button.dtsp-collapseAll:hover {
 
 div.dtsp-panesContainer button.dtsp-showAll:focus,
 div.dtsp-panesContainer button.dtsp-collapseAll:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 div.dtsp-panesContainer button.dtsp-disabledButton,
@@ -309,8 +278,7 @@ div.dtsp-panesContainer button.dtsp-clearAll {
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -340,8 +308,7 @@ div.dtsp-panesContainer button.dtsp-clearAll:hover {
 
 div.dtsp-panesContainer button.dtsp-disabledButton:focus,
 div.dtsp-panesContainer button.dtsp-clearAll:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 div.dtsp-panesContainer button.dtsp-disabledButton:hover,
@@ -350,10 +317,8 @@ div.dtsp-panesContainer button.dtsp-clearAll:hover {
 }
 
 .dtsp-titleRow {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 1rem;
 }
 
@@ -378,65 +343,37 @@ div.dtsp-topRow.dtsp-bordered {
   }
 }
 
-div.dtsp-topRow.dtsp-bordered ::-webkit-input-placeholder {
-  color: #a09cb0;
-}
-
-div.dtsp-topRow.dtsp-bordered :-ms-input-placeholder {
-  color: #a09cb0;
-}
-
-div.dtsp-topRow.dtsp-bordered ::-ms-input-placeholder {
-  color: #a09cb0;
-}
-
 div.dtsp-topRow.dtsp-bordered ::placeholder {
   color: #a09cb0;
 }
 
 div.dtsp-topRow.dtsp-bordered:focus {
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   border: 1px solid black;
   outline: none;
 }
 
-div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-div.dtsp-topRow
-div.dtsp-searchCont
-input.dtsp-search {
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dtsp-topRow div.dtsp-searchCont input.dtsp-search {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 @media screen and (max-width: 1024px) {
-  div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-div.dtsp-topRow
-div.dtsp-searchCont
-input.dtsp-search {
+  div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dtsp-topRow div.dtsp-searchCont input.dtsp-search {
     font-size: 1.2rem;
   }
 }
 
-div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-button.dtsp-paneButton {
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -449,42 +386,28 @@ button.dtsp-paneButton {
   background-color: white;
   border: 1px solid #a09cb0;
   color: #a09cb0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   opacity: 1;
   width: auto;
   padding: 1.5rem;
 }
 
 @media screen and (max-width: 1024px) {
-  div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-button.dtsp-paneButton {
+  div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
     font-size: 1.2rem;
   }
 }
 
-div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-button.dtsp-paneButton:hover {
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton:hover {
   border-radius: 5px;
   cursor: pointer;
 }
 
-div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-button.dtsp-paneButton:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton:focus {
+  box-shadow: none;
 }
 
-div.dtsp-panesContainer
-div.dtsp-searchPanes
-div.dtsp-searchPane
-button.dtsp-paneButton:hover {
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton:hover {
   cursor: not-allowed;
 }
 
@@ -508,52 +431,28 @@ div.dtsp-topRow.dtsp-bordered:hover {
   }
 }
 
-div.dtsp-topRow.dtsp-bordered:hover ::-webkit-input-placeholder {
-  color: #a09cb0;
-}
-
-div.dtsp-topRow.dtsp-bordered:hover :-ms-input-placeholder {
-  color: #a09cb0;
-}
-
-div.dtsp-topRow.dtsp-bordered:hover ::-ms-input-placeholder {
-  color: #a09cb0;
-}
-
 div.dtsp-topRow.dtsp-bordered:hover ::placeholder {
   color: #a09cb0;
 }
 
 div.dtsp-topRow.dtsp-bordered:hover:focus {
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   border: 1px solid black;
   outline: none;
 }
 
 .table__utils {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
   margin: 1rem auto;
 }
 
 @media screen and (max-width: 768px) {
   .table__utils {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-            align-items: stretch;
+    flex-direction: column;
+    align-items: stretch;
   }
   .table__utils label {
     text-align: left;
@@ -561,27 +460,15 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 }
 
 .table__buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 @media screen and (max-width: 768px) {
   .table__buttons {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-            align-items: stretch;
+    flex-direction: column;
+    align-items: stretch;
   }
   .table__buttons button {
     margin: 0.5rem 0;
@@ -609,8 +496,7 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  -webkit-box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
-          box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -639,8 +525,7 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 }
 
 .select .select__button:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .select .select__button:hover {
@@ -669,17 +554,10 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 }
 
 .select .select__options .select__list {
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  align-items: flex-start;
   text-align: left;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   overflow-y: scroll;
   height: calc(100% - 80px);
   padding-bottom: 80px;
@@ -710,43 +588,29 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
 }
 
 .advanced-search__fields {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-column: 1 / 3;
   margin: 1rem 0;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 @media screen and (max-width: 768px) {
   .advanced-search__fields {
-    -ms-grid-columns: 1fr;
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
 .advanced-search__fields .advanced-search__element {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 3fr;
-      grid-template-columns: 1fr 3fr;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
 }
 
 .advanced-search__fields .advanced-search__select {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 2fr;
-      grid-template-columns: 1fr 1fr 2fr;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  grid-template-columns: 1fr 1fr 2fr;
+  align-items: center;
 }
 
 .advanced-search__fields .advanced-search__select label {
