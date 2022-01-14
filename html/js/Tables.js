@@ -24,6 +24,7 @@ class Table {
   container;
   page = 1;
   pagination;
+  controls;
 
   constructor({ columns, data, containerId, limit }) {
     this.columns = columns;
@@ -32,6 +33,8 @@ class Table {
     if (limit) {
       this.limit = limit;
     }
+    this._createControlsContainer();
+    this._createColumnControls();
     this._createTable();
     this._createHeader();
     this._createBody();
@@ -63,7 +66,7 @@ class Table {
     this._updatePagination();
   }
   _renderPrevPage() {
-    this.page--;    
+    this.page--;
     this.body.innerHTML = null;
     this._renderPage();
     this._updatePagination();
@@ -71,11 +74,9 @@ class Table {
 
   _getPageData(data, limit, page) {
     const start = (page - 1) * limit;
-    console.log({start});
-    console.log({limit});
 
     const pageData = data.slice(start, start + limit);
-    console.log({pageData});
+    console.log({ pageData });
     return pageData;
   }
 
@@ -141,8 +142,57 @@ class Table {
     console.log({
       totalItems,
       totalPages,
+    });
+  }
 
-    })
+  _createControlsContainer() {
+    this.controls = document.createElement("div");
+    this.controls.classList.add("table__controls");
+    this.container.appendChild(this.controls);
+  }
+  _createColumnControls() {
+    const columns = document.createElement("div");
+    columns.className = "controls__columns";
+    const label = document.createElement("p");
+    label.innerText = "Columns";
+    label.classList.add("controls__label");
 
+    columns.appendChild(label);
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("controls__dropdown");
+    wrapper.classList.add("hidden");
+    columns.appendChild(wrapper);
+    label.addEventListener("click", () => {
+      wrapper.classList.toggle("hidden");
+    });
+    this.columns.forEach((column, index) => {
+      const select = document.createElement("div");
+      select.classList.add("dropdown__option");
+      const label = document.createElement("label");
+      label.innerHTML = `<input name='dropdown-option' ${
+        column.hidden ? "" : "checked"
+      } type='checkbox' value='${index}' /> ${column.name}`;
+      select.appendChild(label);
+      wrapper.appendChild(select);
+    });
+    const bottomBar = document.createElement("div");
+    bottomBar.classList.add("dropdown__bottom-bar");
+    const button = document.createElement("button");
+    button.innerText = "Apply Changes";
+    button.addEventListener("click", () => {
+      console.log("click")
+      const checkboxes = document.querySelectorAll('[name="dropdown-option"]');
+      checkboxes.forEach((box) => {
+        console.log(box.value);
+        const columns = document.querySelectorAll(`[data-col="${box.value}"]`);
+        columns.forEach((column) => {
+          column.style.display = box.checked ? "" : "none";
+        });
+        wrapper.classList.add('hidden');
+      });
+    });
+    bottomBar.appendChild(button);
+    wrapper.appendChild(bottomBar);
+    this.controls.append(columns);
   }
 }

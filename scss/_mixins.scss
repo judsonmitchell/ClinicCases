@@ -28,7 +28,8 @@
   font-family: lemonde-journal, sans-serif;
   color: $black;
 }
-
+@mixin box-shadow--light(){
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;}
 @mixin box-shadow() {
   box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02),
     0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028),

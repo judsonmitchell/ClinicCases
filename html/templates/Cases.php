@@ -57,11 +57,10 @@
 					</div>
 					<div class="table__buttons">
 
-						<div class="select">
+						<!-- <div class="select">
 							<button type="button" data-select="#columnsSelect" class="select__button">Columns</button>
 							<div id="columnsSelect" class="select__options closed">
 								<div class="select__list">
-									<!--pull column names and initial visibility from from DB -->
 									<?php $CC_columns = columns_array($dbh);
 									$index = 0;
 									foreach ($CC_columns as $key => $col) {
@@ -79,7 +78,7 @@
 									<button data-select="#columnsSelect" id="columnsSelectButton" class="mt-2 mb-1">Apply Changes </button>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<button>Print/Export</button>
 						<button class="cases__reset" type='button'>Reset</button>
 					</div>

@@ -1,285 +1,366 @@
 #table_cases {
+  width: 100%;
+  margin-top: 2rem;
+  table {
     width: 100%;
-    margin-top: 2rem;
-
-
-    table {
-        width: 100%;
+  }
+  thead{
+      border-bottom: 3px solid $border-gray;
+      tr {
+        color: $dark-blue;
+        font-weight: 600;
+      }
+  }
+  tr {
+    &:hover {
+      cursor: pointer;
     }
-    tr {
-        &:hover {
-            cursor: pointer;
-        }
-
-        &:nth-child(even) {
-            background-color: $trans-border-gray;
-
-        }
+    &:nth-child(even) {
+      background-color: $trans-border-gray;
     }
+  }
+  td{
+    border: 2px solid $trans-border-gray;
+    padding: 1rem;
+  }
 }
 
-#table_cases_filter,
-#table_cases_length {
-    display: none;
-}
+.controls__columns{
+  position: relative;
+  width: 200px;
 
-table.gridjs-table tbody th,
-table.gridjs-table tbody td,
-table.gridjs-table thead th {
+  .controls__label{
+    @include box-shadow--light();
+    padding: 1rem;
     border: 1px solid $border-gray;
-    padding: 1.5rem;
-}
-
-table.gridjs-table thead th,
-table.gridjs-table thead td {
-    border-bottom: 0.3rem solid $border-grey;
-}
-
-.dataTables_info,
-.dataTables_paginate,
-.dtsp-title {
-    @include body-font();
-    font-size: 1.2rem;
-}
-
-table.gridjs-table.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
-table.gridjs-table.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
-    background-color: $dark-blue;
-    border: none;
-    box-shadow: none;
-}
-
-.advanced_search {
-    p {
-        @include flex-vert-center();
-        width: 200px;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        &::after {
-            content: '';
-            background-image: url('../images/chevron_up.svg');
-            height: 20px;
-            width: 20px;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        &.advanged_search--open {
-            &::after {
-                background-image: url('../images/chevron_down.svg');
-            }
-        }
+    border-radius: 4px;
+    &:hover{
+      cursor: pointer;
     }
-}
-
-.advanced-search__fields {
-    max-height: 0;
-    overflow: hidden;
-
-    &.advanced-search__fields--open {
-        max-height: 1000px;
+    &::after{
+      content: '';
+      display: block;
+      background-image: url('../ico/triangle-down.svg');
+      height: 20px;
+      width: 20px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+      right: 14px;
+      top: 11px;
     }
-}
+  }
+  .controls__dropdown{
+    position: absolute;
+    background-color: white;
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    width: 100%;
 
-div.dtsp-panesContainer button.dtsp-showAll,
-div.dtsp-panesContainer button.dtsp-collapseAll {
-    @include secondary-button();
-}
 
-div.dtsp-panesContainer button.dtsp-disabledButton,
-div.dtsp-panesContainer button.dtsp-clearAll {
-    @include disabled-button();
-}
+   &.hidden{
+     display: none;
+   }
 
-.dtsp-titleRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 1rem;
-
-    >.dtsp-title {
-        text-align: left;
+    .dropdown__option{
+      text-align: left;
+      padding: 0.5rem;
+ 
     }
-}
-
-div.dtsp-topRow.dtsp-bordered {
-    @include input();
-}
-
-div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dtsp-topRow div.dtsp-searchCont input.dtsp-search {
-    @include body-font();
-    border: none;
-    box-shadow: none;
-}
-
-div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
-    @include disabled-button();
-    box-shadow: none;
-    opacity: 1;
-    width: auto;
-    padding: 1.5rem;
-}
-
-div.dtsp-topRow.dtsp-bordered:hover {
-    @include input();
-    background-color: inherit;
-    opacity: 1;
-    color: black;
-}
-
-.table__utils {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    margin: 1rem auto;
-
-    @media screen and (max-width: $tablet) {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-
-        label {
-            text-align: left;
-        }
-    }
-}
-
-.table__buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-
-    @media screen and (max-width: $tablet) {
-        flex-direction: column;
-        align-items: stretch;
-
-        button {
-            margin: 0.5rem 0;
-        }
+    .dropdown__bottom-bar{
+      position: sticky;
+      bottom: 0;
+      background-color: white;
+      border-top: 1px solid black;
+      padding: 1rem;
+      button{
+        @include primary-button();
+      }
     }
 
-    button {
-        width: calc(100% - 1rem);
-        margin-left: 1rem;
-    }
+  }
 }
 
-.select {
-    position: relative;
-    width: 200px;
+// #table_cases {
+//     width: 100%;
+//     margin-top: 2rem;
 
-    @media screen and (max-width: $tablet) {
-        width: 100%;
-    }
+//     table {
+//         width: 100%;
+//     }
+//     tr {
+//         &:hover {
+//             cursor: pointer;
+//         }
 
-    .select__button {
-        @include disabled-button();
-        margin: 0 0.5rem;
-        width: calc(200px - 1rem);
+//         &:nth-child(even) {
+//             background-color: $trans-border-gray;
 
-        @media screen and (max-width: $tablet) {
-            width: 100%;
-        }
+//         }
+//     }
+// }
 
-        &:hover {
-            cursor: pointer;
-        }
+// #table_cases_filter,
+// #table_cases_length {
+//     display: none;
+// }
 
-        &::after {}
-    }
+// table.gridjs-table tbody th,
+// table.gridjs-table tbody td,
+// table.gridjs-table thead th {
+//     border: 1px solid $border-gray;
+//     padding: 1.5rem;
+// }
 
-    .select__options {
-        @include light-border();
-        position: absolute;
-        background-color: white;
-        height: 400px;
-        z-index: 2;
-        margin-left: 1rem;
-        width: 100%;
-        visibility: visible;
+// table.gridjs-table thead th,
+// table.gridjs-table thead td {
+//     border-bottom: 0.3rem solid $border-grey;
+// }
 
-        .select__list {
-            align-items: flex-start;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            overflow-y: scroll;
-            height: calc(100% - 80px);
-            padding-bottom: 80px;
-        }
+// .dataTables_info,
+// .dataTables_paginate,
+// .dtsp-title {
+//     @include body-font();
+//     font-size: 1.2rem;
+// }
 
-        &.closed {
-            border: none;
-            max-height: 0;
-            visibility: hidden;
-        }
+// table.gridjs-table.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+// table.gridjs-table.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+//     background-color: $dark-blue;
+//     border: none;
+//     box-shadow: none;
+// }
 
-        input {
-            margin: 1rem 1rem;
-        }
+// .advanced_search {
+//     p {
+//         @include flex-vert-center();
+//         width: 200px;
 
-        .select__footer {
-            border-top: 1px solid $border-gray;
-            background-color: white;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+//         &:hover {
+//             cursor: pointer;
+//         }
 
-            button {
-                width: calc(100% - 2rem);
-                margin: 1rem auto;
-            }
-        }
-    }
-}
+//         &::after {
+//             content: '';
+//             background-image: url('../images/chevron_up.svg');
+//             height: 20px;
+//             width: 20px;
+//             background-size: cover;
+//             background-repeat: no-repeat;
+//         }
 
-.advanced-search__fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column: 1 / 3;
-    margin: 1rem 0;
-    flex-wrap: wrap;
+//         &.advanged_search--open {
+//             &::after {
+//                 background-image: url('../images/chevron_down.svg');
+//             }
+//         }
+//     }
+// }
 
-    @media screen and (max-width: $tablet) {
-        grid-template-columns: 1fr;
-    }
+// .advanced-search__fields {
+//     max-height: 0;
+//     overflow: hidden;
 
-    .advanced-search__element {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        align-items: center;
-    }
+//     &.advanced-search__fields--open {
+//         max-height: 1000px;
+//     }
+// }
 
-    .advanced-search__select {
-        display: grid;
-        grid-template-columns: 1fr 1fr 2fr;
-        align-items: center;
+// div.dtsp-panesContainer button.dtsp-showAll,
+// div.dtsp-panesContainer button.dtsp-collapseAll {
+//     @include secondary-button();
+// }
 
-        label {
-            text-align: left;
-        }
+// div.dtsp-panesContainer button.dtsp-disabledButton,
+// div.dtsp-panesContainer button.dtsp-clearAll {
+//     @include disabled-button();
+// }
 
-        select {
-            margin: 0 0.5rem;
-        }
-    }
+// .dtsp-titleRow {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr 1fr 1fr;
+//     grid-gap: 1rem;
 
-    .advanced-search__input {
-        margin: 0.5rem 1rem;
-    }
-}
+//     >.dtsp-title {
+//         text-align: left;
+//     }
+// }
 
+// div.dtsp-topRow.dtsp-bordered {
+//     @include input();
+// }
 
+// div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dtsp-topRow div.dtsp-searchCont input.dtsp-search {
+//     @include body-font();
+//     border: none;
+//     box-shadow: none;
+// }
 
-.table__pagination{
-    display: flex;
-    justify-content: space-between;
-}
-.pagination__navigation{
-    display: flex;
-    align-items: stretch;
-    
-}
+// div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane button.dtsp-paneButton {
+//     @include disabled-button();
+//     box-shadow: none;
+//     opacity: 1;
+//     width: auto;
+//     padding: 1.5rem;
+// }
+
+// div.dtsp-topRow.dtsp-bordered:hover {
+//     @include input();
+//     background-color: inherit;
+//     opacity: 1;
+//     color: black;
+// }
+
+// .table__utils {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     align-items: center;
+//     margin: 1rem auto;
+
+//     @media screen and (max-width: $tablet) {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: stretch;
+
+//         label {
+//             text-align: left;
+//         }
+//     }
+// }
+
+// .table__buttons {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: flex-end;
+
+//     @media screen and (max-width: $tablet) {
+//         flex-direction: column;
+//         align-items: stretch;
+
+//         button {
+//             margin: 0.5rem 0;
+//         }
+//     }
+
+//     button {
+//         width: calc(100% - 1rem);
+//         margin-left: 1rem;
+//     }
+// }
+
+// .select {
+//     position: relative;
+//     width: 200px;
+
+//     @media screen and (max-width: $tablet) {
+//         width: 100%;
+//     }
+
+//     .select__button {
+//         @include disabled-button();
+//         margin: 0 0.5rem;
+//         width: calc(200px - 1rem);
+
+//         @media screen and (max-width: $tablet) {
+//             width: 100%;
+//         }
+
+//         &:hover {
+//             cursor: pointer;
+//         }
+
+//         &::after {}
+//     }
+
+//     .select__options {
+//         @include light-border();
+//         position: absolute;
+//         background-color: white;
+//         height: 400px;
+//         z-index: 2;
+//         margin-left: 1rem;
+//         width: 100%;
+//         visibility: visible;
+
+//         .select__list {
+//             align-items: flex-start;
+//             text-align: left;
+//             display: flex;
+//             flex-direction: column;
+//             overflow-y: scroll;
+//             height: calc(100% - 80px);
+//             padding-bottom: 80px;
+//         }
+
+//         &.closed {
+//             border: none;
+//             max-height: 0;
+//             visibility: hidden;
+//         }
+
+//         input {
+//             margin: 1rem 1rem;
+//         }
+
+//         .select__footer {
+//             border-top: 1px solid $border-gray;
+//             background-color: white;
+//             position: absolute;
+//             bottom: 0;
+//             left: 0;
+//             right: 0;
+
+//             button {
+//                 width: calc(100% - 2rem);
+//                 margin: 1rem auto;
+//             }
+//         }
+//     }
+// }
+
+// .advanced-search__fields {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr 1fr 1fr;
+//     grid-column: 1 / 3;
+//     margin: 1rem 0;
+//     flex-wrap: wrap;
+
+//     @media screen and (max-width: $tablet) {
+//         grid-template-columns: 1fr;
+//     }
+
+//     .advanced-search__element {
+//         display: grid;
+//         grid-template-columns: 1fr 3fr;
+//         align-items: center;
+//     }
+
+//     .advanced-search__select {
+//         display: grid;
+//         grid-template-columns: 1fr 1fr 2fr;
+//         align-items: center;
+
+//         label {
+//             text-align: left;
+//         }
+
+//         select {
+//             margin: 0 0.5rem;
+//         }
+//     }
+
+//     .advanced-search__input {
+//         margin: 0.5rem 1rem;
+//     }
+// }
+
+// .table__pagination{
+//     display: flex;
+//     justify-content: space-between;
+// }
+// .pagination__navigation{
+//     display: flex;
+//     align-items: stretch;
+
+// }
