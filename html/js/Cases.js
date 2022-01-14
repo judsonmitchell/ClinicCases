@@ -18,6 +18,7 @@ function initOpenCaseFunctions() {
 
 async function initCasesTable() {
   try {
+
     // Fetch the inital state column visibility information
     const columnResponse = await axios.get(
       `lib/php/data/cases_columns_load.php`
@@ -31,44 +32,11 @@ async function initCasesTable() {
     const openCaseData = caseData.filter((item) => !item.date_closed);
     const closedCaseData = caseData.filter((item) => item.date_closed);
 
-    openCaseData.forEach((item) => {
-      const colArray = [];
-      for (let key of Object.keys(item)) {
-        colArray.push(item[key]);
-      }
-      openCasesDataArray.push(colArray);
-    });
-    closedCaseData.forEach((item) => {
-        const colArray = [];
-        for (let key of Object.keys(item)) {
-          colArray.push(item[key]);
-        }
-        closedCasesDataArray.push(colArray);
-      });
-
-    // init Table with open Cases
-    table = new gridjs.Grid({
-      columns: columnResponseData.aoColumns,
-      data: openCasesColumnDataArray,
-      search: {
-        enabled: true,
-      },
-      sort: {
-        enabled: true,
-      },
-      pagination: {
-        enabled: true,
-        limit: 10,
-        summary: true,
-      },
-      autoWidth: {
-        enabled: true,
-      },
-    }).render(document.getElementById("table_cases"));
     
+    let table = new Table({columns: columnResponseData.aoColumns, data: openCaseData, containerId: '#table_cases' })
 
   } catch (error) {
-    alert(error);
+    console.log(error);
   } 
 
 }

@@ -1,14 +1,13 @@
 p,
 li, label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
 }
-
 @media screen and (max-width: 1024px) {
   p,
-  li, label {
+li, label {
     font-size: 1.2rem;
   }
 }
@@ -18,7 +17,6 @@ a {
   font-family: inherit;
   color: inherit;
 }
-
 a:visited {
   color: inherit;
 }
@@ -34,12 +32,11 @@ h6 {
 }
 
 table {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
 }
-
 @media screen and (max-width: 1024px) {
   table {
     font-size: 1.2rem;
@@ -57,7 +54,7 @@ button {
 }
 
 .button--primary {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -73,24 +70,21 @@ button {
   padding: 1rem;
   border-radius: 5px;
 }
-
 @media screen and (max-width: 1024px) {
   .button--primary {
     font-size: 1.2rem;
   }
 }
-
 .button--primary:hover {
   border-radius: 5px;
   cursor: pointer;
 }
-
 .button--primary:focus {
   box-shadow: none;
 }
 
 .button--secondary {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -104,7 +98,7 @@ button {
   outline: none;
   width: 100%;
   padding: 1rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -121,33 +115,27 @@ button {
   background-color: #c3dbea;
   color: #2b50aa;
 }
-
 @media screen and (max-width: 1024px) {
   .button--secondary {
     font-size: 1.2rem;
   }
 }
-
 .button--secondary:hover {
   border-radius: 5px;
   cursor: pointer;
 }
-
 .button--secondary:focus {
   box-shadow: none;
 }
-
 @media screen and (max-width: 1024px) {
   .button--secondary {
     font-size: 1.2rem;
   }
 }
-
 .button--secondary:hover {
   border-radius: 5px;
   cursor: pointer;
 }
-
 .button--secondary:focus {
   box-shadow: none;
 }
@@ -163,13 +151,11 @@ button {
   border-bottom: 2px solid black;
   height: 80px;
 }
-
 @media screen and (max-width: 1024px) {
   .header > div {
     border-bottom: none;
   }
 }
-
 @media screen and (max-width: 992px) {
   .header > div {
     padding: 0rem 1rem;
@@ -177,7 +163,6 @@ button {
     height: 100%;
   }
 }
-
 .header > div ul {
   display: flex;
   align-items: center;
@@ -185,7 +170,6 @@ button {
   margin-bottom: 0;
   overflow: hidden;
 }
-
 @media screen and (max-width: 992px) {
   .header > div ul {
     border: 1px solid #a09cb0;
@@ -197,13 +181,11 @@ button {
     padding-bottom: 1rem;
   }
 }
-
 .header > div ul li {
   margin: 0;
   padding: 0;
   height: 100%;
 }
-
 @media screen and (max-width: 992px) {
   .header > div ul li {
     display: flex;
@@ -213,7 +195,6 @@ button {
     transition-delay: 0.3s;
   }
 }
-
 .header > div ul li a {
   display: flex;
   justify-content: center;
@@ -226,11 +207,9 @@ button {
   text-decoration: none;
   color: black;
 }
-
 .header > div ul li a:hover {
   text-decoration: none;
 }
-
 @media screen and (max-width: 992px) {
   .header > div ul li a {
     padding: 1.5rem;
@@ -238,9 +217,8 @@ button {
     justify-content: flex-start;
   }
 }
-
 .header > div ul li a::before {
-  content: '';
+  content: "";
   display: block;
   height: 2px;
   width: 0px;
@@ -250,7 +228,6 @@ button {
   position: absolute;
   bottom: 0;
 }
-
 @media screen and (min-width: 992px) {
   .header > div ul li a:hover {
     background-color: #c3dbea;
@@ -260,7 +237,6 @@ button {
     transform: translateX(0);
   }
 }
-
 @media screen and (max-width: 992px) {
   .header > div ul.collapsed {
     max-height: 0;
@@ -276,11 +252,9 @@ button {
 .header__toggle {
   display: none;
 }
-
 .header__toggle img {
   height: 50px;
 }
-
 @media screen and (max-width: 992px) {
   .header__toggle {
     display: block;
@@ -292,7 +266,6 @@ button {
   justify-content: center;
   align-items: center;
 }
-
 @media screen and (max-width: 992px) {
   .header__group {
     flex-direction: row;
@@ -306,7 +279,6 @@ button {
   align-items: center;
   font-weight: 700;
 }
-
 @media screen and (max-width: 992px) {
   .header__logo {
     font-size: 2rem;
@@ -314,7 +286,6 @@ button {
     padding: 1.5rem 0;
   }
 }
-
 .header__logo a {
   font-family: lemonde-journal, sans-serif;
   color: #272727;
@@ -322,7 +293,6 @@ button {
   color: inherit;
   color: black;
 }
-
 .header__logo a:hover {
   text-decoration: none;
   color: inherit;
@@ -333,7 +303,6 @@ button {
   justify-content: center;
   align-items: center;
 }
-
 .header__prof-pic > a img {
   width: 50px;
   border-radius: 50%;
@@ -345,7 +314,7 @@ button {
 input,
 select,
 textarea {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -354,21 +323,18 @@ textarea {
   border-radius: 5px;
   font-weight: 400;
 }
-
 @media screen and (max-width: 1024px) {
   input,
-  select,
-  textarea {
+select,
+textarea {
     font-size: 1.2rem;
   }
 }
-
 input ::placeholder,
 select ::placeholder,
 textarea ::placeholder {
   color: #a09cb0;
 }
-
 input:focus,
 select:focus,
 textarea:focus {
@@ -380,14 +346,12 @@ textarea:focus {
 .search_container {
   display: flex;
 }
-
 .search_container .input_search {
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
 }
-
 .search_container .input_search img {
   position: absolute;
   right: 0;
@@ -395,36 +359,30 @@ textarea:focus {
   width: 2rem;
   padding: 0.5rem;
 }
-
 .search_container select {
   border-radius: 5px 0px 0px 5px;
 }
-
 @media screen and (max-width: 576px) {
   .search_container select {
     border-radius: 5px;
   }
 }
-
-.search_container input[type='search'] {
+.search_container input[type=search] {
   border-radius: 0px 5px 5px 0px;
   height: 100%;
   width: 100%;
   border-left-color: transparent;
 }
-
 @media screen and (max-width: 576px) {
-  .search_container input[type='search'] {
+  .search_container input[type=search] {
     border-left-color: inherit;
     margin: 0.5rem 0;
     border-radius: 5px;
   }
 }
-
-.search_container input[type='search']:focus {
+.search_container input[type=search]:focus {
   border-left-color: inherit;
 }
-
 @media screen and (max-width: 576px) {
   .search_container {
     flex-direction: column;
@@ -435,7 +393,6 @@ textarea:focus {
   display: flex;
   flex-direction: column;
 }
-
 .form__control label {
   transform: translateY(4rem);
   padding: 0.5rem 1rem;
@@ -443,28 +400,25 @@ textarea:focus {
   text-align: left;
   min-height: 3.8rem;
 }
-
 .form__control label.float, .form__control label.float--lock {
   transform: translateY(0);
   font-size: 1.2rem;
   padding: 1rem 0;
 }
-
 .form__control input {
   width: 100%;
   color: black;
 }
-
 .form__control.form__control--select {
   position: relative;
 }
-
 .form__control.form__control--select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
 }
-
 .form__control.form__control--select::after {
-  content: '';
+  content: "";
   position: absolute;
   background-image: url("../../html/ico/triangle-down.svg");
   height: 20px;
@@ -480,20 +434,17 @@ textarea:focus {
   display: flex;
   flex-direction: column;
 }
-
 .form__array legend {
   text-align: left;
   font-size: 1.2rem;
   padding: 1rem 0;
 }
-
 .form__array .array__grid {
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-gap: 1rem;
   margin: 0.5rem 0;
 }
-
 .form__array .array__grid.array__grid--two {
   grid-template-columns: 1fr auto;
 }
@@ -513,7 +464,6 @@ body {
   grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
 }
-
 @media screen and (max-width: 576px) {
   .display-grid-2-1 {
     display: flex;
@@ -534,5 +484,4 @@ body {
 
 #content {
   font-size: 1.4rem;
-}
-/*# sourceMappingURL=app.min.css.map */
+}/*# sourceMappingURL=app.min.css.map */

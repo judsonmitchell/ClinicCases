@@ -21,8 +21,6 @@ require('../../../db.php');
 
 					$obj['hidden'] = !$vis;
 					$obj['name'] = $col[2];
-					$obj['sort']['enabled'] = true;
-					$obj['resizeable']=true;
 
 				$output['aoColumns'][] = $obj;
 				

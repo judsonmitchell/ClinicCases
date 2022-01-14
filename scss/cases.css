@@ -314,6 +314,12 @@ div.dtsp-topRow.dtsp-bordered {
     font-size: 1.2rem;
   }
 }
+div.dtsp-topRow.dtsp-bordered ::-moz-placeholder {
+  color: #a09cb0;
+}
+div.dtsp-topRow.dtsp-bordered :-ms-input-placeholder {
+  color: #a09cb0;
+}
 div.dtsp-topRow.dtsp-bordered ::placeholder {
   color: #a09cb0;
 }
@@ -393,6 +399,12 @@ div.dtsp-topRow.dtsp-bordered:hover {
   div.dtsp-topRow.dtsp-bordered:hover {
     font-size: 1.2rem;
   }
+}
+div.dtsp-topRow.dtsp-bordered:hover ::-moz-placeholder {
+  color: #a09cb0;
+}
+div.dtsp-topRow.dtsp-bordered:hover :-ms-input-placeholder {
+  color: #a09cb0;
 }
 div.dtsp-topRow.dtsp-bordered:hover ::placeholder {
   color: #a09cb0;
@@ -569,11 +581,7 @@ div.dtsp-topRow.dtsp-bordered:hover:focus {
   justify-content: space-between;
 }
 
-.pagination__navigation {
-  display: flex;
-  align-items: stretch;
-}
-
 #content .tab-pane {
   position: absolute;
-}/*# sourceMappingURL=cases.min.css.map */
+}
+/*# sourceMappingURL=cases.css.map */

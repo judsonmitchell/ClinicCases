@@ -89,9 +89,9 @@
 					</div>
 				</div>
 				<!--CASES TABLE -->
-				<table id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
+				<div id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
 																									echo "can_add";
-																								} ?>"></table>
+																								} ?>"></div>
 			</div>
 			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade" id="openCases">

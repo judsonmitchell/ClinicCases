@@ -2,6 +2,10 @@
     width: 100%;
     margin-top: 2rem;
 
+
+    table {
+        width: 100%;
+    }
     tr {
         &:hover {
             cursor: pointer;
@@ -266,4 +270,16 @@ div.dtsp-topRow.dtsp-bordered:hover {
     .advanced-search__input {
         margin: 0.5rem 1rem;
     }
+}
+
+
+
+.table__pagination{
+    display: flex;
+    justify-content: space-between;
+}
+.pagination__navigation{
+    display: flex;
+    align-items: stretch;
+    
 }
