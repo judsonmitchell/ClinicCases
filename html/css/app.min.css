@@ -1,6 +1,14 @@
+.neutral-button {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 1rem;
+  border: 1px solid #a09cb0;
+  border-radius: 4px;
+  min-width: 200px;
+}
+
 p,
-li, label {
-  font-family: 'Montserrat', sans-serif;
+li, label, button {
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -8,7 +16,7 @@ li, label {
 
 @media screen and (max-width: 1024px) {
   p,
-  li, label {
+  li, label, button {
     font-size: 1.2rem;
   }
 }
@@ -34,7 +42,7 @@ h6 {
 }
 
 table {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -57,11 +65,11 @@ button {
 }
 
 .button--primary {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -69,7 +77,7 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  width: 100%;
+  min-width: 200px;
   padding: 1rem;
   border-radius: 5px;
 }
@@ -90,11 +98,11 @@ button {
 }
 
 .button--secondary {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -102,13 +110,13 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  width: 100%;
+  min-width: 200px;
   padding: 1rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -116,7 +124,7 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  width: 100%;
+  min-width: 200px;
   padding: 1rem;
   background-color: #c3dbea;
   color: #2b50aa;
@@ -345,7 +353,7 @@ button {
 input,
 select,
 textarea {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;

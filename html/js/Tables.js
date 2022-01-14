@@ -14,6 +14,8 @@
 
 // }
 
+
+
 class Table {
   columns;
   data;
@@ -35,12 +37,14 @@ class Table {
     }
     this._createControlsContainer();
     this._createColumnControls();
+    this._createPrint();
     this._createTable();
     this._createHeader();
     this._createBody();
     this._attachContainer();
     this._renderPage(this.page);
     this._createPagination(this.page, this.limit, this.data);
+
   }
 
   _createTable() {
@@ -74,9 +78,7 @@ class Table {
 
   _getPageData(data, limit, page) {
     const start = (page - 1) * limit;
-
     const pageData = data.slice(start, start + limit);
-    console.log({ pageData });
     return pageData;
   }
 
@@ -180,19 +182,60 @@ class Table {
     const button = document.createElement("button");
     button.innerText = "Apply Changes";
     button.addEventListener("click", () => {
-      console.log("click")
       const checkboxes = document.querySelectorAll('[name="dropdown-option"]');
       checkboxes.forEach((box) => {
-        console.log(box.value);
         const columns = document.querySelectorAll(`[data-col="${box.value}"]`);
         columns.forEach((column) => {
           column.style.display = box.checked ? "" : "none";
         });
+        this.columns[box.value].hidden = !box.checked;
         wrapper.classList.add('hidden');
       });
     });
     bottomBar.appendChild(button);
     wrapper.appendChild(bottomBar);
     this.controls.append(columns);
+  }
+
+  _createPrint(){
+    const button = document.createElement('button');
+    button.innerText = 'Print';
+    button.classList.add('neutral-button');
+    this.controls.appendChild(button);
+    button.addEventListener('click', ()=> {
+      this._printTable();
+    })
+  }
+
+  _printTable(){
+    // TODO add options for exporting
+    // Ask judson
+    const wrapper = document.createElement('div');
+    wrapper.setAttribute('id', 'table_cases');
+    const table = document.createElement('table');
+    wrapper.appendChild(table);
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    this.columns.forEach((col, index) => {
+      var cell = row.insertCell(index);
+      cell.innerHTML = col.name;
+      cell.setAttribute("data-col", index);
+      if (col.hidden) cell.style.display = "none";
+    });
+    const body = document.createElement("tbody");
+    table.appendChild(body);
+    this.data.forEach((data) => {
+      var row = body.insertRow(-1);
+      const values = Object.values(data);
+      values.forEach((val, valIndex) => {
+        var cell = row.insertCell(valIndex);
+        cell.innerHTML = val;
+        cell.setAttribute("data-col", valIndex);
+        if (this.columns[valIndex].hidden) cell.style.display = "none";
+      });
+    });
+  
+    var worker = html2pdf().from(wrapper).save('Cases');
+
   }
 }

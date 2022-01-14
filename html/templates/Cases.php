@@ -3,8 +3,8 @@
 <link href="lib/Grid/mermaid.min.css" rel="stylestheet" />
 
 <!-- Js Calls Specific to this page -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="lib/Grid/gridjs.umd.js" type="text/javascript"></script>
+<script src="lib/axios/axios.bundle.min.js"></script>
+<script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
 <script src="html/js/cases.js" type="text/javascript"></script>
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>

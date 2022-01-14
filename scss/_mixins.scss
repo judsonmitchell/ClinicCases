@@ -16,7 +16,7 @@
   border: 1px solid black;
 }
 @mixin body-font() {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: $black;
@@ -28,8 +28,9 @@
   font-family: lemonde-journal, sans-serif;
   color: $black;
 }
-@mixin box-shadow--light(){
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;}
+@mixin box-shadow--light() {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
 @mixin box-shadow() {
   box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02),
     0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028),
@@ -40,7 +41,7 @@
 
 @mixin primary-button() {
   @include body-font();
-  @include box-shadow();
+  @include box-shadow--light();
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -48,13 +49,13 @@
   background-color: $dark-blue;
   border: 2px solid $dark-blue;
   outline: none;
-  width: 100%;
+  min-width: 200px;
   padding: 1rem;
-  &:hover{
+  &:hover {
     border-radius: 5px;
     cursor: pointer;
   }
-  &:focus{
+  &:focus {
     box-shadow: none;
   }
 }
@@ -65,17 +66,29 @@
   color: $dark-blue;
 }
 
-@mixin disabled-button(){
+@mixin neutral-button {
+  @include box-shadow--light();
+  padding: 1rem;
+  border: 1px solid $border-gray;
+  border-radius: 4px;
+  min-width: 200px;
+}
+
+.neutral-button{
+  @include neutral-button();
+}
+
+@mixin disabled-button() {
   @include primary-button();
   background-color: white;
   border: 1px solid $border-gray;
   color: $border-gray;
-  &:hover{
+  &:hover {
     cursor: not-allowed;
   }
 }
 
-@mixin input(){
+@mixin input() {
   @include body-font();
   @include light-border();
   padding: 0.5rem;
@@ -96,7 +109,7 @@
 @mixin link-with-no-underline() {
   text-decoration: none;
   color: inherit;
-  &:hover{
+  &:hover {
     text-decoration: none;
     color: inherit;
   }

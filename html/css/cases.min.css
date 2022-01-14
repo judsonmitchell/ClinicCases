@@ -1,3 +1,11 @@
+.neutral-button {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 1rem;
+  border: 1px solid #a09cb0;
+  border-radius: 4px;
+  min-width: 200px;
+}
+
 #grid {
   display: flex;
   flex-direction: row;
@@ -77,7 +85,7 @@
 }
 
 #sidebar .nav-tabs .nav-link h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
@@ -178,6 +186,15 @@
   padding: 1rem;
 }
 
+.table__controls {
+  display: flex;
+  align-items: baseline;
+}
+
+.table__controls > .neutral-button {
+  margin: 0 1rem;
+}
+
 .controls__columns {
   position: relative;
   width: 200px;
@@ -188,6 +205,7 @@
   padding: 1rem;
   border: 1px solid #a09cb0;
   border-radius: 4px;
+  min-width: 200px;
 }
 
 .controls__columns .controls__label:hover {
@@ -195,7 +213,7 @@
 }
 
 .controls__columns .controls__label::after {
-  content: '';
+  content: "";
   display: block;
   background-image: url("../ico/triangle-down.svg");
   height: 20px;
@@ -234,11 +252,11 @@
 }
 
 .controls__columns .controls__dropdown .dropdown__bottom-bar button {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -246,7 +264,7 @@
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  width: 100%;
+  min-width: 200px;
   padding: 1rem;
 }
 
@@ -263,6 +281,16 @@
 
 .controls__columns .controls__dropdown .dropdown__bottom-bar button:focus {
   box-shadow: none;
+}
+
+.table__pagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table__pagination .pagination__navigation {
+  display: flex;
+  align-items: stretch;
 }
 
 #content .tab-pane {

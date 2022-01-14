@@ -4,12 +4,12 @@
   table {
     width: 100%;
   }
-  thead{
-      border-bottom: 3px solid $border-gray;
-      tr {
-        color: $dark-blue;
-        font-weight: 600;
-      }
+  thead {
+    border-bottom: 3px solid $border-gray;
+    tr {
+      color: $dark-blue;
+      font-weight: 600;
+    }
   }
   tr {
     &:hover {
@@ -19,28 +19,32 @@
       background-color: $trans-border-gray;
     }
   }
-  td{
+  td {
     border: 2px solid $trans-border-gray;
     padding: 1rem;
   }
 }
-
-.controls__columns{
+.table__controls {
+  display: flex;
+  align-items: baseline;
+  > .neutral-button {
+    margin: 0 1rem;
+  }
+}
+.controls__columns {
   position: relative;
   width: 200px;
 
-  .controls__label{
-    @include box-shadow--light();
-    padding: 1rem;
-    border: 1px solid $border-gray;
-    border-radius: 4px;
-    &:hover{
+  .controls__label {
+    @include neutral-button();
+
+    &:hover {
       cursor: pointer;
     }
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       display: block;
-      background-image: url('../ico/triangle-down.svg');
+      background-image: url("../ico/triangle-down.svg");
       height: 20px;
       width: 20px;
       background-size: contain;
@@ -50,7 +54,7 @@
       top: 11px;
     }
   }
-  .controls__dropdown{
+  .controls__dropdown {
     position: absolute;
     background-color: white;
     height: 400px;
@@ -58,27 +62,34 @@
     border: 1px solid black;
     width: 100%;
 
+    &.hidden {
+      display: none;
+    }
 
-   &.hidden{
-     display: none;
-   }
-
-    .dropdown__option{
+    .dropdown__option {
       text-align: left;
       padding: 0.5rem;
- 
     }
-    .dropdown__bottom-bar{
+    .dropdown__bottom-bar {
       position: sticky;
       bottom: 0;
       background-color: white;
       border-top: 1px solid black;
       padding: 1rem;
-      button{
+      button {
         @include primary-button();
       }
     }
+  }
+}
 
+.table__pagination {
+  display: flex;
+  justify-content: space-between;
+
+  .pagination__navigation {
+    display: flex;
+    align-items: stretch;
   }
 }
 
@@ -353,14 +364,4 @@
 //     .advanced-search__input {
 //         margin: 0.5rem 1rem;
 //     }
-// }
-
-// .table__pagination{
-//     display: flex;
-//     justify-content: space-between;
-// }
-// .pagination__navigation{
-//     display: flex;
-//     align-items: stretch;
-
 // }
