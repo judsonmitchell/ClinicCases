@@ -3,7 +3,10 @@
   padding: 1rem;
   border: 1px solid #a09cb0;
   border-radius: 4px;
-  min-width: 200px;
+}
+
+.neutral-button:focus {
+  box-shadow: none;
 }
 
 p,
@@ -77,7 +80,6 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  min-width: 200px;
   padding: 1rem;
   border-radius: 5px;
 }
@@ -110,7 +112,6 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  min-width: 200px;
   padding: 1rem;
   font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
@@ -124,7 +125,6 @@ button {
   background-color: #2b50aa;
   border: 2px solid #2b50aa;
   outline: none;
-  min-width: 200px;
   padding: 1rem;
   background-color: #c3dbea;
   color: #2b50aa;

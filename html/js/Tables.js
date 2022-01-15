@@ -36,7 +36,9 @@ class Table {
       this.limit = limit;
     }
     this._createControlsContainer();
+    this._createAdvancedSearchToggle();
     this._createColumnControls();
+    this._createAdvancedSearchContainer();
     this._createPrint();
     this._createTable();
     this._createHeader();
@@ -190,7 +192,9 @@ class Table {
         });
         this.columns[box.value].hidden = !box.checked;
         wrapper.classList.add('hidden');
+
       });
+      this._createAdvancedSearchContainer();
     });
     bottomBar.appendChild(button);
     wrapper.appendChild(bottomBar);
@@ -238,4 +242,36 @@ class Table {
     var worker = html2pdf().from(wrapper).save('Cases');
 
   }
+
+  _createAdvancedSearchToggle(){
+    const wrapper = document.createElement('div')
+    wrapper.classList.add("controls__advanced-search");
+    const p = document.createElement('p')
+    p.innerText = 'Advanced Search';
+    wrapper.appendChild(p);
+    p.addEventListener('click', ()=> {
+      wrapper.classList.toggle('open');
+      this.advancedSearchFields.classList.toggle("hidden");
+    })
+    this.controls.appendChild(wrapper);
+  }
+
+  _createAdvancedSearchContainer(){
+    this.advancedSearchFields= document.createElement('div');
+    this.advancedSearchFields.classList.add('advanced-search__container', 'hidden');
+    
+    this.columns.forEach((col,index)=> {
+      const input = document.createElement('input');
+      input.type = col.type;
+      input.placeholder = col.name;
+      input.setAttribute('data-col', index);
+      input.style.display = col.hidden ? 'none' : '';
+      this.advancedSearchFields.appendChild(input);
+    });
+
+    this.container.appendChild(this.advancedSearchFields);
+  }
+
+  
+
 }

@@ -21,6 +21,8 @@ require('../../../db.php');
 
 					$obj['hidden'] = !$vis;
 					$obj['name'] = $col[2];
+					$obj['type'] = $col[4];
+
 
 				$output['aoColumns'][] = $obj;
 				

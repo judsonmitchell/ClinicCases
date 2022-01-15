@@ -3,6 +3,8 @@
   margin-top: 2rem;
   table {
     width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
   }
   thead {
     border-bottom: 3px solid $border-gray;
@@ -29,6 +31,30 @@
   align-items: baseline;
   > .neutral-button {
     margin: 0 1rem;
+    flex-basis: 200px;
+  }
+}
+
+.controls__advanced-search {
+  padding-right: 3rem;
+  margin-right: 2rem;
+  position: relative;
+  cursor: pointer;
+  &::after {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    background-image: url("../ico/chevron-down.svg");
+    background-position: center;
+    right: 0px;
+    top: 0;
+    background-size: contain;
+  }
+  &.open {
+    &::after {
+      background-image: url("../ico/chevron-up.svg");
+    }
   }
 }
 .controls__columns {
@@ -42,16 +68,7 @@
       cursor: pointer;
     }
     &::after {
-      content: "";
-      display: block;
-      background-image: url("../ico/triangle-down.svg");
-      height: 20px;
-      width: 20px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      position: absolute;
-      right: 14px;
-      top: 11px;
+      @include triangle();
     }
   }
   .controls__dropdown {
@@ -61,10 +78,6 @@
     overflow-y: scroll;
     border: 1px solid black;
     width: 100%;
-
-    &.hidden {
-      display: none;
-    }
 
     .dropdown__option {
       text-align: left;
@@ -83,6 +96,22 @@
   }
 }
 
+.advanced-search__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  margin: 0 -0.25rem;
+  input {
+    margin: 1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .table__pagination {
   display: flex;
   justify-content: space-between;
@@ -93,6 +122,9 @@
   }
 }
 
+.hidden {
+  display: none;
+}
 // #table_cases {
 //     width: 100%;
 //     margin-top: 2rem;
