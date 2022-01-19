@@ -35,7 +35,32 @@ async function initCasesTable() {
     const closedCaseData = caseData.filter((item) => item.date_closed);
 
     
-    let table = new Table({columns: columnResponseData.aoColumns, data: openCaseData, containerId: '#table_cases' })
+    let table = new Table({columns: columnResponseData.aoColumns, data: openCaseData, containerId: '#table_cases', facets: [
+      {
+        label: 'Open Cases', 
+        value: 'open',
+        field: 'date_closed',
+        filter: (item) => {
+          return item.date_closed == null;
+        }
+      },
+      {
+        label: 'Closed Cases',
+        value: 'closed',
+        field: 'date_closed',
+        filter: (item) => {
+          return item.date_closed != null;
+        }
+      },
+      {
+        label: 'All Cases',
+        value: 'all',
+        field: 'date_closed',
+        filter: () => {
+          return true;
+        }
+      }
+    ] })
 
   } catch (error) {
     console.log(error);
@@ -44,7 +69,7 @@ async function initCasesTable() {
 }
 
 filter();
-setAdvancedSearchFields();
+// setAdvancedSearchFields();
 
 function filter(e = null) {}
 
