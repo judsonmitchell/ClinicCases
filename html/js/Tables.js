@@ -15,6 +15,7 @@ class Table {
 
   constructor({ columns, data, containerId, limit, facets, facetField }) {
     this.columns = columns;
+    console.log(this.columns);
     this.data = data;
     this.container = document.querySelector(containerId);
     if (limit) {
@@ -78,8 +79,38 @@ class Table {
       var cell = row.insertCell(index);
       cell.innerHTML = col.name;
       cell.setAttribute('data-col', index);
+      cell.setAttribute('data-fieldName', col.fieldName);
       if (col.hidden) cell.style.display = 'none';
+      cell.addEventListener('click', (event) => this._sortByColumn(event));
     });
+  }
+
+  _sortByColumn(event){
+    // TODO better solution for date data
+    // Add iconograpy
+    const column = event.target;
+    const fieldName = column.dataset.fieldname;
+  
+    if(!column.classList.length || column.classList.contains('desc')) {
+      column.classList.add('asc');
+      this.filteredData = this.filteredData.sort((a,b)=> {
+        return a[fieldName] > b[fieldName] ? 1 : - 1;
+      })
+    } else {
+      column.classList.add('desc');
+      this.filteredData = this.filteredData.sort((a,b)=> {
+        console.log(b[fieldName] - a[fieldName])
+
+        return a[fieldName] > b[fieldName] ? -1 : 1;
+
+
+      })
+    };
+    console.log(this.filteredData)
+    this.page == 1;
+    this.body.innerHTML = null;
+    this._renderPage();
+    this._updatePagination();
   }
   _insertData(data) {
     data.forEach((data, index) => {
@@ -290,6 +321,7 @@ class Table {
   }
 
   _filter(keywords, func) {
+    console.log('filter')
     // TODO find how to match the first or MORE
     const keywordArray = keywords.trim().split(' ');
     this.body.innerHTML = null;

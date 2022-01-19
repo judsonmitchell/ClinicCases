@@ -30,19 +30,17 @@ async function initCasesTable() {
     // Fetch all case data
     const caseDataResponse = await axios.get(`lib/php/data/cases_load.php`);
     caseData = caseDataResponse.data.aaData;
-    // Default is open cases only
-    const openCaseData = caseData.filter((item) => !item.date_closed);
-    const closedCaseData = caseData.filter((item) => item.date_closed);
 
     
-    let table = new Table({columns: columnResponseData.aoColumns, data: openCaseData, containerId: '#table_cases', facets: [
+    let table = new Table({columns: columnResponseData.aoColumns, data: caseData, containerId: '#table_cases', facets: [
       {
         label: 'Open Cases', 
         value: 'open',
         field: 'date_closed',
         filter: (item) => {
           return item.date_closed == null;
-        }
+        },
+        default: true
       },
       {
         label: 'Closed Cases',
