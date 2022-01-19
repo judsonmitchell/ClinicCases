@@ -1,5 +1,7 @@
-document.addEventListener("DOMContentLoaded", initCasesTable);
-document.addEventListener("DOMContentLoaded", initOpenCaseFunctions);
+document.addEventListener("DOMContentLoaded", ()=> {
+  initCasesTable();
+  initOpenCaseFunctions();
+} );
 
 let caseData;
 let openCasesDataArray;

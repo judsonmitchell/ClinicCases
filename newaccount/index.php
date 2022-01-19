@@ -11,9 +11,8 @@ include '../lib/php/html/gen_select.php';
 	<link rel="stylesheet" href="../lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
-
-	<script src="../lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script>
-	<script src="../lib/jqueryui/js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
+		
+	<script src="../lib/axios/axios.bundle.min.js"></script>
 	<script src="../lib/javascripts/validations.js" type="text/javascript"></script>
 	<script src="../html/js/notifyUser.js" type="text/javascript"></script>
 	<script type="text/javascript" src="new_account.js"></script>

@@ -1,31 +1,50 @@
 /* global notify, validNewAccount */
-$(document).ready(function(){
 
-		//Submit the form
-		$('#sbmt').click(function(event){
-			event.preventDefault();
-			var formVals = $(this).closest('form');
-            var errString = validNewAccount(formVals);
-            if (errString.length) {
-                notify(errString,true);
-                formVals.find('.ui-state-error').click(function() {
-                    $(this).removeClass('ui-state-error');
-                });
-                return false;
-            } else {
-				var formValsArray = formVals.serializeArray();
-                $.post('../lib/php/users/new_account_process.php', formValsArray, function(data) {
-                    var serverResponse = $.parseJSON(data);
-                    if (serverResponse.error === true) {
-                        notify(serverResponse.message,true);
-                    } else {
-                        notify(serverResponse.message,false);
-                        formVals.remove();
-                        $('div.new_account_right').html(serverResponse.html);
-                        $('div.new_account_left p').remove();
+document.addEventListener('DOMContentLoaded', () => {
+  const submitButton = document.querySelector('#sbmt');
+  const formVals = submitButton.closest('form');
 
-                    }
-                });
-			}
-		});
-	});
+  submitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    var errString = validNewAccount(formVals);
+    if (errString.length) {
+      notify(errString, true);
+      const error = formVals.querySelector('.ui-state-error');
+      error.addEventListener('click', () => {
+        error.classList.remove('ui-state-error');
+      });
+      return false;
+    } else {
+      var formValsArray = new FormData(formVals);
+      submitForm(formValsArray);
+    }
+  });
+
+  async function submitForm(formValsArray) {
+    console.log({ formValsArray });
+    try {
+      // Fetch the inital state column visibility information
+      const registerResponse = await axios.post(
+        `../lib/php/users/new_account_process.php`,
+        formValsArray,
+        {
+          headers: {
+            'Content-type': 'application/json',
+          },
+        }
+      );
+      const data = registerResponse.data;
+      notify(data, false);
+      formVals.remove();
+      const newAccountRight = document.querySelector('div.new_account_right');
+      const newAccountLeft = document
+        .querySelector('div.new_account_left p')
+        .remove();
+      newAccountRight.innerHTML = data;
+    } catch (error) {
+      notify(error.message, true);
+    }
+  }
+  
+});
+
