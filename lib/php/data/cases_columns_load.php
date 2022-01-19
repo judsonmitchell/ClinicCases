@@ -12,14 +12,20 @@ require('../../../db.php');
 		//check to see if this column is supposed to be included in the case table
 			if ($col[3] == "true")
 			{
-			//set the default visibility
+				//set the default visibility
 				//Cast value into boolean
 				if ($col[6] == "true")
 					{$vis = true;}
 					else
 					{$vis = false;}
 
-				$output['aoColumns'][]['bVisible'] = $vis;
+					$obj['hidden'] = !$vis;
+					$obj['name'] = $col[2];
+					$obj['type'] = $col[4];
+
+
+				$output['aoColumns'][] = $obj;
+				
 			}
 		}
 

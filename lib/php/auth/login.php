@@ -88,6 +88,7 @@ else
 
 	$group_query->bindParam(1, $r->grp);
 
+
 	$group_query->execute();
 
 	$group_query->setFetchMode(PDO::FETCH_ASSOC);
@@ -120,7 +121,7 @@ else
 //Create a unique session id and then write to the log
 	$sess_id = md5(time());
 	$_SESSION['cc_session_id'] = $sess_id;
-	write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
+	// write_log ($dbh,$_SESSION['login'],$_SERVER['REMOTE_ADDR'],$sess_id,'in');
 
 	if ($update_password === 'yes')
 		{

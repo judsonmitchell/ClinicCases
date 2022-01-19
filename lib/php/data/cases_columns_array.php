@@ -1,6 +1,7 @@
 <?php
 
 //Function to query the db and return the correct columns for the cases table html.
+// require('../../../db.php');
 
 function columns_array($dbh)
 	
@@ -14,3 +15,6 @@ function columns_array($dbh)
 		
 	}	
 
+// echo json_encode(columns_array($dbh));
+
+// ?>
