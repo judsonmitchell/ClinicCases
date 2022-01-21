@@ -25,6 +25,7 @@ class Table {
     this.facets = facets;
     this.filteredData = [...data];
     this.sortedData = [...data];
+    this._initDataToDefaultFacet();
     this._createControlsContainer();
     this._createFacetsAndSearch();
     this._createAdvancedSearchToggle();
@@ -38,6 +39,16 @@ class Table {
     this._attachContainer();
     this._renderPage(this.page);
     this._createPagination(this.page, this.limit, this.filteredData);
+  }
+
+  _initDataToDefaultFacet(){
+    const defaultFacet = this.facets.find(facet => facet.default);
+    const func = defaultFacet.filter;
+    console.log(func)
+    this.filteredData = this.sortedData.filter((item) => {
+      return this._shouldShow(item, func, []);
+    });
+    console.log(this.filteredData);
   }
 
   _createTable() {
@@ -292,10 +303,11 @@ class Table {
       head.classList.remove('desc');
     });
     search.value = '';
+    const facet = document.querySelector('[name="facets"]');
+    facet.value = this.facets.find(facet => facet.default).value;
     this.page = 1;
-    this.filteredData = this.data;
-    this.sortedData = this.data;
-    console.log(this.data);
+    this.filteredData = [...this.data];
+    this.sortedData = [...this.data];
     this.body.innerHTML = null;
     this._renderPage();
     this._updatePagination();

@@ -36,24 +36,24 @@ async function initCasesTable() {
       {
         label: 'Open Cases', 
         value: 'open',
-        field: 'date_closed',
+        field: 'date_close',
         filter: (item) => {
-          return item.date_closed == null;
+          return !item.date_close;
         },
         default: true
       },
       {
         label: 'Closed Cases',
         value: 'closed',
-        field: 'date_closed',
+        field: 'date_close',
         filter: (item) => {
-          return item.date_closed != null;
+          return item.date_close;
         }
       },
       {
         label: 'All Cases',
         value: 'all',
-        field: 'date_closed',
+        field: 'date_close',
         filter: () => {
           return true;
         }
