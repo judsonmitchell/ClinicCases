@@ -306,8 +306,11 @@ class Table {
     search.value = '';
     const facet = document.querySelector('[name="facets"]');
     facet.value = this.facets.find((facet) => facet.default).value;
-    const inputs = [...document.querySelectorAll('.advanced-search__container input'), document.querySelectorAll('.advanced-search__container select')];
-    inputs.forEach(input => input.value = '');
+    const inputs = [
+      ...document.querySelectorAll('.advanced-search__container input'),
+      document.querySelectorAll('.advanced-search__container select'),
+    ];
+    inputs.forEach((input) => (input.value = ''));
     this.page = 1;
     this.filteredData = [...this.data];
     this.sortedData = [...this.data];
@@ -372,11 +375,11 @@ class Table {
 
         this.advancedSearchFields.appendChild(wrapper);
 
-        dateSelect.addEventListener('change', (event) => {
-          this._filterByDate.call(this, event);
+        dateSelect.addEventListener('change', () => {
+          this._filterAdvanced.call(TouchList);
         });
-        input.addEventListener('change', (event) => {
-          this._filterByDate.call(this, event);
+        input.addEventListener('change', () => {
+          this._filterAdvanced.call(this);
         });
       } else {
         const input = document.createElement('input');
@@ -390,7 +393,7 @@ class Table {
           const input = event.target;
           const keywords = input.value;
           const fieldName = input.dataset.fieldname;
-          this._filter(keywords, fieldName);
+          this._filterAdvanced();
         });
       }
     });
@@ -421,59 +424,79 @@ class Table {
     wrapper.appendChild(input);
   }
 
-  _filter(keywords, fieldName = '') {
+  _filter(keywords) {
     let keywordArray = keywords.trim().split(' ');
     const facetSelect = document.querySelector('[name="facets"]');
     const facetValue = facetSelect.value;
     const facet = this.facets.find((facet) => facet.value === facetValue);
     const func = facet.filter;
 
-    this.body.innerHTML = null;
-    this.page = 1;
+
     this.filteredData = this.sortedData.filter((item) => {
       const keywordRegExpArray = keywordArray.map((word) => {
         return `(?=.*${word})`;
       });
       const isValidFacet = func(item);
       const exp = new RegExp(`${keywordRegExpArray.join('')}`, 'gim');
-      const columnsToSearch = fieldName
-        ? item[fieldName]
-        : Object.values(item).join('');
-      const containsKeyword = columnsToSearch.search(exp) > -1;
+      const containsKeyword = Object.values(item).join('').search(exp) > -1;
       return isValidFacet && containsKeyword;
     });
 
+    this._resetResults();
+  }
+
+  _resetResults(){
+    this.body.innerHTML = null;
+    this.page = 1;
     this._renderPage();
     this._updatePagination();
   }
+  _filterAdvanced() {
+    const inputs = [
+      ...document.querySelectorAll('.advanced-search__container input'),
+    ];
+    const inputsWithValue = inputs.filter((input) => input.value);
+    const facetSelect = document.querySelector('[name="facets"]');
+    const facetValue = facetSelect.value;
+    const facet = this.facets.find((facet) => facet.value === facetValue);
+    const func = facet.filter;
+    this.filteredData = [...this.sortedData]
+    inputsWithValue.forEach((input) => {
+      const type = input.type;
+      const fieldName = input.dataset.fieldname;
+      const value = input.value;
+      if (type === 'date') {
+        const select = document.querySelector(
+          `select[data-fieldname="${fieldName}"]`
+        );
+        const selectValue = select.value;
+        if (selectValue) {
+          this.filteredData = this.filteredData.filter((item) => {
+            const isValidFacet = func(item);
+            if (selectValue == 'less_than') {
+              return isValidFacet && item[fieldName] < value;
+            }
+            if (selectValue == 'greater_than') {
+              return isValidFacet && item[fieldName] > value;
+            }
+            if (selectValue == 'equal_to') {
+              return isValidFacet && item[fieldName] == value;
+            }
+          });
+        }
+      } else {
+        
+        const exp = new RegExp(`${value}`, 'gim');
+        
+        this.filteredData = this.filteredData.filter((item) => {
+          const isValidFacet = func(item);
+         
+          const containsKeyword = item[fieldName].search(exp) > -1;
+          return isValidFacet && containsKeyword;
+        });
+      }
 
-  // TODO apply one omre more advanced searchs
-  _filterByDate(event) {
-    const fieldName = event.target.dataset.fieldname;
-  
-    const select = document.querySelector(
-      `select[data-fieldname="${fieldName}"`
-    );
-    const input = document.querySelector(
-      `input[type="date"][data-fieldname=${fieldName}]`
-    );
-    const selectValue = select.value;
-    const inputValue = input.value;
-    if (!selectValue || !inputValue) return;
-    this.body.innerHTML = null;
-    this.page = 1;
-    this.filteredData = this.sortedData.filter((item) => {
-      if (selectValue == 'less_than') {
-        return item[fieldName] < inputValue;
-      }
-      if (selectValue == 'greater_than') {
-        return item[fieldName] > inputValue;
-      }
-      if (selectValue == 'equal_to') {
-        return item[fieldName] == inputValue;
-      }
+      this._resetResults();
     });
-    this._renderPage();
-    this._updatePagination();
   }
 }
