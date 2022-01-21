@@ -306,6 +306,8 @@ class Table {
     search.value = '';
     const facet = document.querySelector('[name="facets"]');
     facet.value = this.facets.find((facet) => facet.default).value;
+    const inputs = [...document.querySelectorAll('.advanced-search__container input'), document.querySelectorAll('.advanced-search__container select')];
+    inputs.forEach(input => input.value = '');
     this.page = 1;
     this.filteredData = [...this.data];
     this.sortedData = [...this.data];
@@ -335,19 +337,62 @@ class Table {
     );
 
     this.columns.forEach((col, index) => {
-      const input = document.createElement('input');
-      input.type = col.type;
-      input.placeholder = col.name;
-      input.setAttribute('data-col', index);
-      input.setAttribute('data-fieldname', col.fieldName);
-      input.style.display = col.hidden ? 'none' : '';
-      this.advancedSearchFields.appendChild(input);
-      input.addEventListener('keyup', (event)=> {
-        const input = event.target;
-        const keywords = input.value;
-        const fieldName = input.dataset.fieldname;
-        this._filter(keywords, fieldName);
-      });
+      if (col.type === 'date') {
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('data-col', index);
+        wrapper.setAttribute('data-fieldname', col.fieldName);
+        wrapper.style.display = col.hidden ? 'none' : '';
+
+        const dateSelect = document.createElement('select');
+        dateSelect.setAttribute('data-fieldname', col.fieldName);
+        const greaterThan = document.createElement('option');
+        const lessThan = document.createElement('option');
+        const equalTo = document.createElement('option');
+
+        greaterThan.value = 'greater_than';
+        greaterThan.innerText = '>';
+        lessThan.value = 'less_than';
+        lessThan.innerText = '<';
+        equalTo.value = 'equal_to';
+        equalTo.innerText = '=';
+
+        dateSelect.appendChild(greaterThan);
+        dateSelect.appendChild(lessThan);
+        dateSelect.appendChild(equalTo);
+
+        wrapper.appendChild(dateSelect);
+
+        const input = document.createElement('input');
+        input.type = col.type;
+        input.placeholder = col.name;
+        input.setAttribute('data-col', index);
+        input.setAttribute('data-fieldname', col.fieldName);
+        input.style.display = col.hidden ? 'none' : '';
+        wrapper.appendChild(input);
+
+        this.advancedSearchFields.appendChild(wrapper);
+
+        dateSelect.addEventListener('change', (event) => {
+          this._filterByDate.call(this, event);
+        });
+        input.addEventListener('change', (event) => {
+          this._filterByDate.call(this, event);
+        });
+      } else {
+        const input = document.createElement('input');
+        input.type = col.type;
+        input.placeholder = col.name;
+        input.setAttribute('data-col', index);
+        input.setAttribute('data-fieldname', col.fieldName);
+        input.style.display = col.hidden ? 'none' : '';
+        this.advancedSearchFields.appendChild(input);
+        input.addEventListener('keyup', (event) => {
+          const input = event.target;
+          const keywords = input.value;
+          const fieldName = input.dataset.fieldname;
+          this._filter(keywords, fieldName);
+        });
+      }
     });
 
     this.container.appendChild(this.advancedSearchFields);
@@ -376,11 +421,9 @@ class Table {
     wrapper.appendChild(input);
   }
 
- 
   _filter(keywords, fieldName = '') {
-    console.log({keywords, fieldName});
     let keywordArray = keywords.trim().split(' ');
-    const facetSelect = document.querySelector('[name="facets"]')
+    const facetSelect = document.querySelector('[name="facets"]');
     const facetValue = facetSelect.value;
     const facet = this.facets.find((facet) => facet.value === facetValue);
     const func = facet.filter;
@@ -404,5 +447,33 @@ class Table {
     this._updatePagination();
   }
 
-
+  // TODO apply one omre more advanced searchs
+  _filterByDate(event) {
+    const fieldName = event.target.dataset.fieldname;
+  
+    const select = document.querySelector(
+      `select[data-fieldname="${fieldName}"`
+    );
+    const input = document.querySelector(
+      `input[type="date"][data-fieldname=${fieldName}]`
+    );
+    const selectValue = select.value;
+    const inputValue = input.value;
+    if (!selectValue || !inputValue) return;
+    this.body.innerHTML = null;
+    this.page = 1;
+    this.filteredData = this.sortedData.filter((item) => {
+      if (selectValue == 'less_than') {
+        return item[fieldName] < inputValue;
+      }
+      if (selectValue == 'greater_than') {
+        return item[fieldName] > inputValue;
+      }
+      if (selectValue == 'equal_to') {
+        return item[fieldName] == inputValue;
+      }
+    });
+    this._renderPage();
+    this._updatePagination();
+  }
 }

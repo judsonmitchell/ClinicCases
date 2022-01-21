@@ -129,9 +129,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
   margin: 0 -0.25rem;
-  input {
+  > * {
     margin: 1rem 0.25rem;
     width: calc(100% - 0.5rem);
+    display: flex;
     &:first-child {
       margin-left: 0;
     }
