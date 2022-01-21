@@ -3,7 +3,7 @@ class Table {
   data;
   table;
   body;
-  limit = 25;
+  limit = 10;
   table;
   container;
   page = 1;
@@ -41,14 +41,12 @@ class Table {
     this._createPagination(this.page, this.limit, this.filteredData);
   }
 
-  _initDataToDefaultFacet(){
-    const defaultFacet = this.facets.find(facet => facet.default);
+  _initDataToDefaultFacet() {
+    const defaultFacet = this.facets.find((facet) => facet.default);
     const func = defaultFacet.filter;
-    console.log(func)
     this.filteredData = this.sortedData.filter((item) => {
-      return this._shouldShow(item, func, []);
+      return func(item);
     });
-    console.log(this.filteredData);
   }
 
   _createTable() {
@@ -63,7 +61,11 @@ class Table {
     this.container.append(this.table);
   }
   _renderPage() {
-    var currentPageData = this._getPageData(this.filteredData, this.limit, this.page);
+    var currentPageData = this._getPageData(
+      this.filteredData,
+      this.limit,
+      this.page
+    );
     this._insertData(currentPageData);
   }
 
@@ -190,7 +192,6 @@ class Table {
     this.pagination.total.innerText = `${totalItems} total cases`;
     this.pagination.prev.disabled = this.page == 1;
     this.pagination.next.disabled = this.page == totalPages;
-
   }
 
   _createControlsContainer() {
@@ -254,14 +255,14 @@ class Table {
     });
   }
 
-  _createReset(){
+  _createReset() {
     const button = document.createElement('button');
     button.innerText = 'Reset';
     button.classList.add('secondary-button');
     this.controls.appendChild(button);
-    button.addEventListener('click',()=> {
+    button.addEventListener('click', () => {
       this._resetTable();
-    })
+    });
   }
 
   _printTable() {
@@ -295,7 +296,7 @@ class Table {
     var worker = html2pdf().from(wrapper).save('Cases');
   }
 
-  _resetTable(){
+  _resetTable() {
     const search = document.querySelector('[name="search"]');
     const headings = this.table.querySelectorAll('td');
     headings.forEach((head) => {
@@ -304,7 +305,7 @@ class Table {
     });
     search.value = '';
     const facet = document.querySelector('[name="facets"]');
-    facet.value = this.facets.find(facet => facet.default).value;
+    facet.value = this.facets.find((facet) => facet.default).value;
     this.page = 1;
     this.filteredData = [...this.data];
     this.sortedData = [...this.data];
@@ -338,8 +339,15 @@ class Table {
       input.type = col.type;
       input.placeholder = col.name;
       input.setAttribute('data-col', index);
+      input.setAttribute('data-fieldname', col.fieldName);
       input.style.display = col.hidden ? 'none' : '';
       this.advancedSearchFields.appendChild(input);
+      input.addEventListener('keyup', (event)=> {
+        const input = event.target;
+        const keywords = input.value;
+        const fieldName = input.dataset.fieldname;
+        this._filter(keywords, fieldName);
+      });
     });
 
     this.container.appendChild(this.advancedSearchFields);
@@ -361,38 +369,40 @@ class Table {
     input.type = 'text';
     input.name = 'search';
     input.addEventListener('keyup', () => {
-      const keyword = input.value;
-      const facetValue = facetSelect.value;
-      const facet = this.facets.find((facet) => facet.value === facetValue);
-      const func = facet.filter;
-      this._filter(keyword, func);
+      const keywords = input.value;
+      this._filter(keywords);
     });
     wrapper.appendChild(facetSelect);
     wrapper.appendChild(input);
   }
 
-  _filter(keywords, func) {
-    // TODO find how to match the first or MORE
+ 
+  _filter(keywords, fieldName = '') {
+    console.log({keywords, fieldName});
     let keywordArray = keywords.trim().split(' ');
-   
+    const facetSelect = document.querySelector('[name="facets"]')
+    const facetValue = facetSelect.value;
+    const facet = this.facets.find((facet) => facet.value === facetValue);
+    const func = facet.filter;
+
     this.body.innerHTML = null;
     this.page = 1;
     this.filteredData = this.sortedData.filter((item) => {
-      return this._shouldShow(item, func, keywordArray);
+      const keywordRegExpArray = keywordArray.map((word) => {
+        return `(?=.*${word})`;
+      });
+      const isValidFacet = func(item);
+      const exp = new RegExp(`${keywordRegExpArray.join('')}`, 'gim');
+      const columnsToSearch = fieldName
+        ? item[fieldName]
+        : Object.values(item).join('');
+      const containsKeyword = columnsToSearch.search(exp) > -1;
+      return isValidFacet && containsKeyword;
     });
-
 
     this._renderPage();
     this._updatePagination();
   }
 
-  _shouldShow(item, func, keywordArray) {
-    const keywordRegExpArray = keywordArray.map(word => {
-      return `(?=.*${word})`;
-    })
-    const isValidFacet = func(item, func, keywordArray);
-    const exp = new RegExp(`${keywordRegExpArray.join('')}`, 'gim');
-    const containsKeyword = Object.values(item).join('').search(exp) > -1;
-    return isValidFacet && containsKeyword;
-  }
+
 }
