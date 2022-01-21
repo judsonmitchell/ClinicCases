@@ -11,6 +11,35 @@
     tr {
       color: $dark-blue;
       font-weight: 600;
+      position:relative;
+      td {
+        position: relative;
+        &::after {
+          content: '';
+          display: block;
+          height: 20px;
+          width: 20px;
+          background-image: url("../ico/sort.svg");
+          background-repeat: no-repeat;
+          background-size: contain;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+  
+        }
+        &.asc{
+          &::after{
+          background-image: url("../ico/asc.svg");
+
+          }
+        }
+        &.desc{
+          &::after{
+          background-image: url("../ico/desc.svg");
+
+          }
+        }
+      }
     }
   }
   tr {

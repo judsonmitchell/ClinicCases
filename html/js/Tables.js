@@ -15,7 +15,6 @@ class Table {
 
   constructor({ columns, data, containerId, limit, facets, facetField }) {
     this.columns = columns;
-    console.log(this.columns);
     this.data = data;
     this.container = document.querySelector(containerId);
     if (limit) {
@@ -86,27 +85,29 @@ class Table {
   }
 
   _sortByColumn(event){
-    // TODO better solution for date data
-    // Add iconograpy
     const column = event.target;
     const fieldName = column.dataset.fieldname;
+    const headings = Array.from(this.table.querySelectorAll('td')).filter(col => col != column);
   
+    headings.forEach(head => {
+      head.classList.remove("asc");
+      head.classList.remove("desc");
+    });
+
     if(!column.classList.length || column.classList.contains('desc')) {
       column.classList.add('asc');
+      column.classList.remove('desc');
       this.filteredData = this.filteredData.sort((a,b)=> {
         return a[fieldName] > b[fieldName] ? 1 : - 1;
       })
     } else {
       column.classList.add('desc');
+      column.classList.remove('asc');
       this.filteredData = this.filteredData.sort((a,b)=> {
-        console.log(b[fieldName] - a[fieldName])
-
         return a[fieldName] > b[fieldName] ? -1 : 1;
-
-
       })
     };
-    console.log(this.filteredData)
+
     this.page == 1;
     this.body.innerHTML = null;
     this._renderPage();
