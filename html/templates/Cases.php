@@ -35,20 +35,6 @@
 			<!-- SEARCH CASES -->
 			<div role="tabpane" class="tab-pane fade show active" id="searchCases">
 				<div class=" display-grid-2-1">
-					<div class="search_container">
-						<select id="cases_select">
-							<option value="open">Open Cases Only</option>
-							<option value="closed">Closed Cases Only</option>
-							<option value="all">All Cases</option>
-
-						</select>
-						<div class="input_search">
-							<input type="search" id="cases_search" placeholder="Search" />
-							<img src="html/ico/search.png" />
-						</div>
-
-					</div>
-
 					<button data-bs-toggle="modal" data-bs-target="#newCaseModal" class="primary-button" type="button">+ Add Case</button>
 				</div>
 			

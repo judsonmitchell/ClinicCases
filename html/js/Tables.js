@@ -17,20 +17,21 @@ class Table {
 
   constructor({ columns, data, containerId, limit, facets, facetField }) {
     this.columns = columns;
-    this.data = data;
+    this.data = [...data];
     this.container = document.querySelector(containerId);
     if (limit) {
       this.limit = limit;
     }
     this.facets = facets;
-    this.filteredData = data;
-    this.sortedData = data;
+    this.filteredData = [...data];
+    this.sortedData = [...data];
     this._createControlsContainer();
     this._createFacetsAndSearch();
     this._createAdvancedSearchToggle();
     this._createColumnControls();
     this._createAdvancedSearchContainer();
     this._createPrint();
+    this._createReset();
     this._createTable();
     this._createHeader();
     this._createBody();
@@ -105,7 +106,7 @@ class Table {
       this.filteredData = this.filteredData.sort((a, b) => {
         return a[fieldName] > b[fieldName] ? 1 : -1;
       });
-      this.sortedData = this.data.sort((a, b) => {
+      this.sortedData = this.sortedData.sort((a, b) => {
         return a[fieldName] > b[fieldName] ? 1 : -1;
       });
     } else {
@@ -114,7 +115,7 @@ class Table {
       this.filteredData = this.filteredData.sort((a, b) => {
         return a[fieldName] > b[fieldName] ? -1 : 1;
       });
-      this.sortedData = this.data.sort((a, b) => {
+      this.sortedData = this.sortedData.sort((a, b) => {
         return a[fieldName] > b[fieldName] ? -1 : 1;
       });
     }
@@ -242,6 +243,16 @@ class Table {
     });
   }
 
+  _createReset(){
+    const button = document.createElement('button');
+    button.innerText = 'Reset';
+    button.classList.add('secondary-button');
+    this.controls.appendChild(button);
+    button.addEventListener('click',()=> {
+      this._resetTable();
+    })
+  }
+
   _printTable() {
     // TODO add options for exporting
     // Ask judson
@@ -271,6 +282,23 @@ class Table {
     });
 
     var worker = html2pdf().from(wrapper).save('Cases');
+  }
+
+  _resetTable(){
+    const search = document.querySelector('[name="search"]');
+    const headings = this.table.querySelectorAll('td');
+    headings.forEach((head) => {
+      head.classList.remove('asc');
+      head.classList.remove('desc');
+    });
+    search.value = '';
+    this.page = 1;
+    this.filteredData = this.data;
+    this.sortedData = this.data;
+    console.log(this.data);
+    this.body.innerHTML = null;
+    this._renderPage();
+    this._updatePagination();
   }
 
   _createAdvancedSearchToggle() {
@@ -350,10 +378,8 @@ class Table {
     const keywordRegExpArray = keywordArray.map(word => {
       return `(?=.*${word})`;
     })
-    console.log(`keywordRegExpArray.join('')`)
     const isValidFacet = func(item, func, keywordArray);
     const exp = new RegExp(`${keywordRegExpArray.join('')}`, 'gim');
-    console.log(exp)
     const containsKeyword = Object.values(item).join('').search(exp) > -1;
     return isValidFacet && containsKeyword;
   }
