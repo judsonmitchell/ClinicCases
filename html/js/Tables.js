@@ -26,8 +26,8 @@ class Table {
     this.filteredData = [...data];
     this.sortedData = [...data];
     this._initDataToDefaultFacet();
-    this._createControlsContainer();
     this._createFacetsAndSearch();
+    this._createControlsContainer();
     this._createAdvancedSearchToggle();
     this._createColumnControls();
     this._createAdvancedSearchContainer();
@@ -58,7 +58,10 @@ class Table {
     this.table.appendChild(this.body);
   }
   _attachContainer() {
-    this.container.append(this.table);
+    const tableContainer = document.createElement('div');
+    tableContainer.classList.add('table__container');
+    tableContainer.append(this.table)
+    this.container.append(tableContainer);
   }
   _renderPage() {
     var currentPageData = this._getPageData(
@@ -198,11 +201,18 @@ class Table {
     this.controls = document.createElement('div');
     this.controls.classList.add('table__controls');
     this.container.appendChild(this.controls);
+    const left = document.createElement('div');
+    const right = document.createElement('div');
+    left.classList.add('controls__left');
+    right.classList.add('controls__right');
+    this.controls.appendChild(left);
+    this.controls.appendChild(right);
+
   }
   _createColumnControls() {
     const columns = document.createElement('div');
     columns.className = 'controls__columns';
-    const label = document.createElement('p');
+    const label = document.createElement('button');
     label.innerText = 'Columns';
     label.classList.add('controls__label');
 
@@ -211,9 +221,13 @@ class Table {
     wrapper.classList.add('controls__dropdown');
     wrapper.classList.add('hidden');
     columns.appendChild(wrapper);
+    label.setAttribute('tabindex', '0');
     label.addEventListener('click', () => {
       wrapper.classList.toggle('hidden');
     });
+    label.addEventListener('blur', ()=> {
+      wrapper.classList.add("hidden");
+    })
     this.columns.forEach((column, index) => {
       const select = document.createElement('div');
       select.classList.add('dropdown__option');
@@ -242,14 +256,17 @@ class Table {
     });
     bottomBar.appendChild(button);
     wrapper.appendChild(bottomBar);
-    this.controls.append(columns);
+    const right = this.controls.querySelector('.controls__right');
+    right.append(columns);
   }
 
   _createPrint() {
     const button = document.createElement('button');
     button.innerText = 'Print';
     button.classList.add('neutral-button');
-    this.controls.appendChild(button);
+    button.setAttribute('id', 'printButton');
+    const right = this.controls.querySelector('.controls__right');
+    right.appendChild(button);
     button.addEventListener('click', () => {
       this._printTable();
     });
@@ -257,9 +274,10 @@ class Table {
 
   _createReset() {
     const button = document.createElement('button');
-    button.innerText = 'Reset';
+    button.innerHTML = '<img src="html/ico/reset.svg" alt="null" /> <span>&nbsp;Reset</span>';
     button.classList.add('secondary-button');
-    this.controls.appendChild(button);
+    const right = this.controls.querySelector('.controls__right');
+    right.appendChild(button);
     button.addEventListener('click', () => {
       this._resetTable();
     });
@@ -323,13 +341,14 @@ class Table {
     const wrapper = document.createElement('div');
     wrapper.classList.add('controls__advanced-search');
     const p = document.createElement('p');
-    p.innerText = 'Advanced Search';
+    p.innerHTML = 'Advanced Search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     wrapper.appendChild(p);
     p.addEventListener('click', () => {
       wrapper.classList.toggle('open');
       this.advancedSearchFields.classList.toggle('hidden');
     });
-    this.controls.appendChild(wrapper);
+    const left = this.controls.querySelector('.controls__left');
+    left.appendChild(wrapper);
   }
 
   _createAdvancedSearchContainer() {
@@ -395,6 +414,7 @@ class Table {
           const fieldName = input.dataset.fieldname;
           this._filterAdvanced();
         });
+        
       }
     });
 
@@ -403,8 +423,8 @@ class Table {
 
   _createFacetsAndSearch() {
     const wrapper = document.createElement('div');
-    wrapper.classList.add('controls__search');
-    this.controls.appendChild(wrapper);
+    wrapper.classList.add('table__search');
+    this.container.appendChild(wrapper);
     const facetSelect = document.createElement('select');
     facetSelect.setAttribute('name', 'facets');
     this.facets.forEach((facet) => {

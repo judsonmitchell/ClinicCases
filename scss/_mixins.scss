@@ -16,7 +16,7 @@
   border: 1px solid black;
 }
 @mixin body-font() {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
   color: $black;
@@ -61,21 +61,84 @@
 
 @mixin secondary-button {
   @include primary-button();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   background-color: $light-blue;
   color: $dark-blue;
+  border: 2px solid $dark-blue;
+  border-radius: 50%;
+  font-family: 'Montserrat';
+  text-align: left;
+  font-weight: 900;
+  font-size: 1rem;
+  font-weight: 900;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+
+  img {
+    height: 40px;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    padding: 0.75rem;
+    border-radius: 50%;
+  }
+  span {
+    visibility: collapse;
+    opacity: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 0 4rem 0rem 6rem;
+    
+  }
+  &:hover {
+    cursor: pointer;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    transition: max-width 0.2s ease-in-out 1s, border-radius 0.1s ease-in-out 0.9s, width 0.2s ease-in-out 1s, padding 0.2s ease-in-out 1s;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    width: 125px;
+    img {
+      background: hsl(203, 48%, 68%);
+      transition: background 0.75s ease-in-out;
+    }
+
+    span {
+      visibility: visible;
+      opacity: 1;
+      transition: visibility 0.5s linear 1s, opacity 0.3s ease-in-out 1s;
+
+    }
+  }
+  &:focus{
+    border-radius: 50%;
+    width: 40px;
+
+    span {
+      visibility: collapse;
+      opacity: 0;
+    }
+  }
 }
 
 @mixin neutral-button {
   @include box-shadow--light();
   padding: 1rem;
+  margin: 1rem;
   border: 1px solid $border-gray;
   border-radius: 4px;
-  &:focus{
+  width: 125px;
+  &:focus {
     box-shadow: none;
   }
 }
 
-.neutral-button{
+.neutral-button {
   @include neutral-button();
 }
 
@@ -92,7 +155,7 @@
 @mixin input() {
   @include body-font();
   @include light-border();
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 5px;
   font-weight: 400;
   ::placeholder {
@@ -116,11 +179,10 @@
   }
 }
 
-
-@mixin triangle(){
-  content: "";
+@mixin triangle() {
+  content: '';
   display: block;
-  background-image: url("../ico/triangle-down.svg");
+  background-image: url('../ico/triangle-down.svg');
   height: 20px;
   width: 20px;
   background-size: contain;

@@ -1,14 +1,17 @@
-// Data Tables Overrides
+//.. Data Tables Overrides
 @import './variables';
 @import './mixins';
 @import './layouts/content-with-sidebar';
 @import './layouts/modal';
-@import './tables';
+@import './tables';  
 
 
 #content {
   .tab-pane{
     position: absolute;
-
+    width: calc(100% - 25%);
+    @media screen and (max-width: $lg) {
+      width: calc(100% - 4rem);
+    }
   }
 }

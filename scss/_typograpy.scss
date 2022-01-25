@@ -29,3 +29,7 @@ th {
     color: $dark-blue;
     font-size: 1.2rem;
 }
+
+.secondary-button{
+  @include secondary-button();
+}

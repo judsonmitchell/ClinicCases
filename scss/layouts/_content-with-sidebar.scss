@@ -14,7 +14,7 @@
 }
 #content {
   grid-area: content;
-  margin: 3rem 6rem;
+  margin: 2rem;
   width: calc(100% - 12rem);
   @media screen and (max-width: $lg) {
     margin: 3rem 2rem;
