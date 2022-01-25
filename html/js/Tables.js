@@ -60,7 +60,7 @@ class Table {
   _attachContainer() {
     const tableContainer = document.createElement('div');
     tableContainer.classList.add('table__container');
-    tableContainer.append(this.table)
+    tableContainer.append(this.table);
     this.container.append(tableContainer);
   }
   _renderPage() {
@@ -207,7 +207,6 @@ class Table {
     right.classList.add('controls__right');
     this.controls.appendChild(left);
     this.controls.appendChild(right);
-
   }
   _createColumnControls() {
     const columns = document.createElement('div');
@@ -225,9 +224,9 @@ class Table {
     label.addEventListener('click', () => {
       wrapper.classList.toggle('hidden');
     });
-    label.addEventListener('blur', ()=> {
-      wrapper.classList.add("hidden");
-    })
+    label.addEventListener('blur', () => {
+      wrapper.classList.add('hidden');
+    });
     this.columns.forEach((column, index) => {
       const select = document.createElement('div');
       select.classList.add('dropdown__option');
@@ -274,7 +273,8 @@ class Table {
 
   _createReset() {
     const button = document.createElement('button');
-    button.innerHTML = '<img src="html/ico/reset.svg" alt="null" /> <span>&nbsp;Reset</span>';
+    button.innerHTML =
+      '<img src="html/ico/reset.svg" alt="null" /> <span>&nbsp;Reset</span>';
     button.classList.add('secondary-button');
     const right = this.controls.querySelector('.controls__right');
     right.appendChild(button);
@@ -414,7 +414,6 @@ class Table {
           const fieldName = input.dataset.fieldname;
           this._filterAdvanced();
         });
-        
       }
     });
 
@@ -451,7 +450,6 @@ class Table {
     const facet = this.facets.find((facet) => facet.value === facetValue);
     const func = facet.filter;
 
-
     this.filteredData = this.sortedData.filter((item) => {
       const keywordRegExpArray = keywordArray.map((word) => {
         return `(?=.*${word})`;
@@ -465,7 +463,7 @@ class Table {
     this._resetResults();
   }
 
-  _resetResults(){
+  _resetResults() {
     this.body.innerHTML = null;
     this.page = 1;
     this._renderPage();
@@ -480,7 +478,7 @@ class Table {
     const facetValue = facetSelect.value;
     const facet = this.facets.find((facet) => facet.value === facetValue);
     const func = facet.filter;
-    this.filteredData = [...this.sortedData]
+    this.filteredData = [...this.sortedData];
     inputsWithValue.forEach((input) => {
       const type = input.type;
       const fieldName = input.dataset.fieldname;
@@ -505,12 +503,11 @@ class Table {
           });
         }
       } else {
-        
         const exp = new RegExp(`${value}`, 'gim');
-        
+
         this.filteredData = this.filteredData.filter((item) => {
           const isValidFacet = func(item);
-         
+
           const containsKeyword = item[fieldName].search(exp) > -1;
           return isValidFacet && containsKeyword;
         });
