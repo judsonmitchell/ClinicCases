@@ -4,53 +4,53 @@ textarea {
     @include input();
 }
 
-.search_container {
-    display: flex;
+// .search_container {
+//     display: flex;
 
-    .input_search {
-        display: flex;
-        align-items: center;
-        position: relative;
-        width: 100%;
+//     .input_search {
+//         display: flex;
+//         align-items: center;
+//         position: relative;
+//         width: 100%;
 
-        img {
-            position: absolute;
-            right: 0;
-            height: 2rem;
-            width: 2rem;
-            padding: 0.5rem;
-        }
-    }
+//         img {
+//             position: absolute;
+//             right: 0;
+//             height: 2rem;
+//             width: 2rem;
+//             padding: 0.5rem;
+//         }
+//     }
 
-    select {
-        border-radius: 5px 0px 0px 5px;
+//     select {
+//         border-radius: 5px 0px 0px 5px;
 
-        @media screen and (max-width: $mobile) {
-            border-radius: 5px;
-        }
-    }
+//         @media screen and (max-width: $mobile) {
+//             border-radius: 5px;
+//         }
+//     }
 
-    input[type='search'] {
-        border-radius: 0px 5px 5px 0px;
-        height: 100%;
-        width: 100%;
-        border-left-color: transparent;
+//     input[type='search'] {
+//         border-radius: 0px 5px 5px 0px;
+//         height: 100%;
+//         width: 100%;
+//         border-left-color: transparent;
 
-        @media screen and (max-width: $mobile) {
-            border-left-color: inherit;
-            margin: 0.5rem 0;
-            border-radius: 5px;
-        }
+//         @media screen and (max-width: $mobile) {
+//             border-left-color: inherit;
+//             margin: 0.5rem 0;
+//             border-radius: 5px;
+//         }
 
-        &:focus {
-            border-left-color: inherit;
-        }
-    }
+//         &:focus {
+//             border-left-color: inherit;
+//         }
+//     }
 
-    @media screen and (max-width: $mobile) {
-        flex-direction: column;
-    }
-}
+//     @media screen and (max-width: $mobile) {
+//         flex-direction: column;
+//     }
+// }
 
 
 .form__control {
@@ -63,7 +63,7 @@ textarea {
         padding: 0.5rem 1rem;
         transition: transform 0.1s ease-out;
         text-align: left;
-        min-height: 3.8rem;
+        min-height: 3.5srem;
 
         &.float,
         &.float--lock {
@@ -80,11 +80,11 @@ textarea {
 
     &.form__control--select {
         position: relative;
-
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+            padding-right: 3rem;
 
         }
 
@@ -96,7 +96,7 @@ textarea {
             width: 19px;
             display: block;
             background-size: cover;
-            bottom: 5px;
+            bottom: 10px;
             right: 7px;
             z-index: 10;
         }

@@ -12,7 +12,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" data-bs-dismiss="modal">Cancel</button>
-        <button id="updateCaseButton" data-bs-dismiss="modal" type="button">Create</button>
+        <button id="updateCaseButton" data-bs-dismiss="modal" type="button" class="primary-button">Create</button>
       </div>
     </div>
   </div>
@@ -33,6 +33,7 @@
   function getNewCaseId() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
+      console.log(this.responseText);
       const response = JSON.parse(this.responseText.replace(',', ', '));
       if (response?.error) {
         alert(error);

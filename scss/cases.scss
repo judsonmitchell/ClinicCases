@@ -7,11 +7,39 @@
 
 
 #content {
-  .tab-pane{
+
+  #searchCases, #openCases{
     position: absolute;
     width: calc(100% - 25%);
     @media screen and (max-width: $lg) {
       width: calc(100% - 4rem);
     }
   }
+  .fade:not(.show){
+    z-index: -1;
+  }
+}
+
+#openCases{
+  .tab-pane{
+    width: 100%;
+  }
+}
+
+#caseData{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+.case-data__group{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid $trans-border-gray;
+  .data__heading{
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+
 }

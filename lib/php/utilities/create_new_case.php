@@ -2,6 +2,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+
 function create_new_case_number($dbh)
 {
 	$m = CC_CASE_NUMBER_MASK;
@@ -79,6 +80,8 @@ function create_new_case_number($dbh)
 
 	return $result;
 }
+
+try {
 // TODO set up appropriate error handling
 
 $new_case_number =  create_new_case_number($dbh);
@@ -114,4 +117,8 @@ if (!$error[1]) {
 	$response = array('error' => false, 'newId' => $new_id);
 
 	echo json_encode($response);
+}
+
+} catch(Exception $e){
+	echo $e->getMessage();
 }

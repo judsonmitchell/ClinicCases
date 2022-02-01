@@ -14,6 +14,7 @@ class Table {
   filteredData;
   currentSort;
   sortedData;
+  topControls;
 
   constructor({ columns, data, containerId, limit, facets, facetField }) {
     this.columns = columns;
@@ -27,6 +28,7 @@ class Table {
     this.sortedData = [...data];
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
+    this._createAddButton();
     this._createControlsContainer();
     this._createAdvancedSearchToggle();
     this._createColumnControls();
@@ -151,7 +153,8 @@ class Table {
         var cell = row.insertCell(valIndex);
         cell.innerHTML = val;
         cell.setAttribute('data-col', valIndex);
-
+        cell.setAttribute('data-caseid', item.id);
+        cell.setAttribute('data-name', `${item.last_name}, ${item.first_name}`);
         if (this.columns[valIndex].hidden) cell.style.display = 'none';
       });
     });
@@ -240,7 +243,7 @@ class Table {
     const bottomBar = document.createElement('div');
     bottomBar.classList.add('dropdown__bottom-bar');
     const button = document.createElement('button');
-    button.innerText = 'Apply Changes';
+    button.innerText = 'Apply';
     button.addEventListener('click', () => {
       const checkboxes = document.querySelectorAll('[name="dropdown-option"]');
       checkboxes.forEach((box) => {
@@ -422,10 +425,13 @@ class Table {
 
   _createFacetsAndSearch() {
     const wrapper = document.createElement('div');
+    this.topControls = wrapper;
     wrapper.classList.add('table__search');
     this.container.appendChild(wrapper);
+    const facetSelectControl = document.createElement('div');
     const facetSelect = document.createElement('select');
     facetSelect.setAttribute('name', 'facets');
+    facetSelectControl.classList.add("form__control", "form__control--select")
     this.facets.forEach((facet) => {
       const option = document.createElement('option');
       option.value = facet.value;
@@ -439,8 +445,23 @@ class Table {
       const keywords = input.value;
       this._filter(keywords);
     });
-    wrapper.appendChild(facetSelect);
+    facetSelectControl.appendChild(facetSelect);
+    wrapper.appendChild(facetSelectControl);
     wrapper.appendChild(input);
+  }
+
+  _createAddButton(){
+    const canAdd = this.container.classList.contains('can_add');
+    if(canAdd){
+      const button = document.createElement('button');
+      button.setAttribute('data-bs-toggle', 'modal');
+      // TODO make this dynamic for other forms
+      button.setAttribute('data-bs-target', '#newCaseModal')
+      button.classList.add('primary-button');
+      button.setAttribute('type', 'button');
+      button.innerText = '+ Add Case';
+      this.topControls.appendChild(button);
+    }
   }
 
   _filter(keywords) {
@@ -515,5 +536,9 @@ class Table {
 
       this._resetResults();
     });
+  }
+
+  onRowClick(func){
+    this.table.addEventListener('click', func)
   }
 }

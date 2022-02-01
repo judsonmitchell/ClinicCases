@@ -136,15 +136,21 @@
 .table__search {
   display: flex;
   width: 100%;
+  align-items: stretch;
 
   select {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    height: 100%;
   }
   input {
-    width: 100%;
+    flex: 1;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    margin-right: 1rem;
+  }
+  button{
+    flex: 0.5;
   }
 }
 .controls__columns {
@@ -153,13 +159,13 @@
 
   .controls__label {
     @include neutral-button();
-
+    padding-right: 3rem;
     &:hover {
       cursor: pointer;
     }
     &::after {
       @include triangle();
-
+      right: 20px;
       top: 22px;
     }
   }
@@ -236,7 +242,17 @@
 
   .pagination__navigation {
     display: flex;
-    align-items: stretch;
+    align-items: center;
+
+    p {
+      margin: 0;
+      padding: 0; 
+      font-size: 1.2rem;
+    }
+    button{
+      font-weight: 600;
+      text-decoration: underline;
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 //Refreshes the row of assigned user thumbnails when a new user is added to a case.
 session_start();
 require('../auth/session_check.php');

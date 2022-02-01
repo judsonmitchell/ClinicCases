@@ -59,6 +59,10 @@
   }
 }
 
+.primary-button{
+  @include primary-button();
+}
+
 @mixin secondary-button {
   @include primary-button();
   display: flex;

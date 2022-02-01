@@ -25,7 +25,7 @@
 				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#searchCases" role='tab'>
 					<h2>Search Cases</h2>
 				</div>
-				<div class="nav-link" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
+				<div class="nav-link hidden" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
 					<h2>Open Cases</h2>
 				</div>
 			</div>
@@ -34,21 +34,27 @@
 		<div id="content">
 			<!-- SEARCH CASES -->
 			<div role="tabpane" class="tab-pane fade show active" id="searchCases">
-				<div class=" display-grid-2-1">
-					<button data-bs-toggle="modal" data-bs-target="#newCaseModal" class="primary-button" type="button">+ Add Case</button>
-				</div>
-			
 				<!--CASES TABLE -->
 				<div id="table_cases" class="display <?php if ($_SESSION['permissions']['add_cases'] == "1") {
-																									echo "can_add";
-																								} ?>"></div>
+																								echo "can_add";
+																							} ?>">
+				</div>
 			</div>
 			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade" id="openCases">
-				<h1>Open Cases</h1>
-					<div class="open-cases-container">
+				<div class="open-cases-container">
 
+
+					<nav>
+						<div class="nav nav-tabs" id="openCasesTabs" role="tablist">
+							<!-- <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button> -->
+						</div>
+
+					</nav>
+					<div class="tab-content" id="openCasesTabContent">
 					</div>
+
+				</div>
 			</div>
 
 		</div>

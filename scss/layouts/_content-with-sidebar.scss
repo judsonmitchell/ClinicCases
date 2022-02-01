@@ -16,13 +16,17 @@
   grid-area: content;
   margin: 2rem;
   width: calc(100% - 12rem);
+  position: relative;
+  left: 25%;
   @media screen and (max-width: $lg) {
     margin: 3rem 2rem;
     width: calc(100% - 4rem);
+    left: 0; 
   }
 }
 #sidebar {
-  grid-area: sidebar;
+  position: fixed;
+  top: 0;
   width: 25%;
   height: 100%;
   background: $trans-border-gray;
@@ -32,11 +36,12 @@
     width: 100%;
     background-color: white;
     height: auto;
+    position: unset;
   }
   .nav-tabs {
     flex-direction: column;
     position: relative;
-    top: 8rem;
+    top: 16rem;
     right: -103px;
     width: 75%;
     @media screen and (max-width: $xl) {
@@ -54,7 +59,7 @@
       margin: 1rem 0;
       h2 {
         @include body-font();
-        font-weight: 600;
+        font-weight: 500;
         margin: 0;
       }
       &:hover {
