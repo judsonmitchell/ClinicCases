@@ -10,10 +10,7 @@
 
   #searchCases, #openCases{
     position: absolute;
-    width: calc(100% - 25%);
-    @media screen and (max-width: $lg) {
-      width: calc(100% - 4rem);
-    }
+    width: 100%;
   }
   .fade:not(.show){
     z-index: -1;
@@ -26,10 +23,45 @@
   }
 }
 
-#caseData{
+#viewCaseData, #editCaseData{
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
+  padding: 2rem;
+
+  @media screen and (max-width: 567px) {
+    grid-template-columns: 1fr;
+  }
+
+  form{
+    width: 100%;
+  }
+
+  .form__control{
+    margin: 0 1rem;
+  }
+}
+
+.case__controls{
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  padding: 1rem;
+  padding-right: 2rem;
+  border-bottom: 1px solid $trans-border-gray;
+  margin: 0 -2rem;
+  button {
+    margin: 0 1rem;
+  }
+
+  .controls__end{
+    display: flex;
+    margin-left: auto;
+  }
 }
 .case-data__group{
   display: flex;
@@ -37,9 +69,31 @@
   text-align: left;
   padding: 1rem;
   border-bottom: 1px solid $trans-border-gray;
+  min-height: 58.5px;
   .data__heading{
     font-weight: 800;
     font-size: 1.1rem;
   }
 
+}
+
+.hidden{
+  display: none !important;
+}
+
+@media screen and (max-width: $tablet) {
+    #addButton{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 1rem;
+    }
+}
+
+.let-me-edit-this{
+  text-decoration: underline;
+  font-size: 10px;
+  cursor: pointer;
+  float: right;
 }

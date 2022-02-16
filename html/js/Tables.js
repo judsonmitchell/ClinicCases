@@ -264,8 +264,8 @@ class Table {
 
   _createPrint() {
     const button = document.createElement('button');
-    button.innerText = 'Print';
-    button.classList.add('neutral-button');
+    button.innerHTML = '<img src="html/ico/printer.svg" alt="Print icon" /> <span>&nbsp;Print</span>';
+    button.classList.add('secondary-button');
     button.setAttribute('id', 'printButton');
     const right = this.controls.querySelector('.controls__right');
     right.appendChild(button);
@@ -459,6 +459,7 @@ class Table {
       button.setAttribute('data-bs-target', '#newCaseModal')
       button.classList.add('primary-button');
       button.setAttribute('type', 'button');
+      button.setAttribute('id','addButton');
       button.innerText = '+ Add Case';
       this.topControls.appendChild(button);
     }

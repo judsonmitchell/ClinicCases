@@ -1,10 +1,14 @@
+.header{
+  background-color: white;
+  position: relative;
+  z-index: 50;
+}
 .header > div {
   display: flex;
   justify-content: space-between;
   padding: 0rem 4rem;
   border-bottom: 2px solid black;
   height: 80px;
-  background-color: white;
   @media screen and (max-width: $lg) {
     border-bottom: none;
   }

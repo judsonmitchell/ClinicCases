@@ -5,9 +5,11 @@
 <!-- Js Calls Specific to this page -->
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
+<script type="text/javascript" src="html/js/Forms.js "></script>
 <script src="html/js/cases.js" type="text/javascript"></script>
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
+
 </head>
 
 <body>
@@ -25,7 +27,7 @@
 				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#searchCases" role='tab'>
 					<h2>Search Cases</h2>
 				</div>
-				<div class="nav-link hidden" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
+				<div class="nav-link disabled"  aria-disabled="true" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
 					<h2>Open Cases</h2>
 				</div>
 			</div>

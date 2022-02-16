@@ -56,18 +56,9 @@
       const formatted = this.responseText.replace(',', ', ');
       const json = JSON.parse(formatted);
       const case_data = JSON.parse(json.case_data.replace(',', ', '));
-      // const case_types = JSON.parse(json.case_types.replace(',', ', '));
-      // const clinic_types = JSON.parse(json.clinic_types.replace(',', ', '));
-      // const courts = JSON.parse(json.courts.replace(',', ', '));
-      // const referrals = JSON.parse(json.referrals.replace(',', ', '));
-      // const dispositions = JSON.parse(json.dispositions.replace(',', ', '));
 
       setFormValues(case_data);
-      // setCaseTypes(case_types);
-      // setClinicTypes(clinic_types);
-      // setCourts(courts);
-      // setReferrals(referrals);
-      // setDispositions(dispositions);
+
     };
 
     xhttp.open("GET", `lib/php/data/cases_detail_load.php?id=${id}`, false);
@@ -87,9 +78,9 @@
     xhttp.onreadystatechange = function() {
       const response = JSON.parse(this.responseText);
       if (response.error) {
-
+          notify(response.error, true, 'error');
       } else {
-        // todo show success message using response.message
+        notify(response.message, true, 'error');
         openCase(case_id);
 
       }

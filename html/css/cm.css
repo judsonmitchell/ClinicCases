@@ -87,24 +87,6 @@ h5 {
   max-width: 1290px;
 }
 
-#notifications {
-  display: none;
-  position: absolute;
-  top: 10px;
-  z-index: 99;
-  left: 50%;
-  margin-left: -150px;
-  width: 300px;
-  background-color: white;
-  font-weight: normal;
-  border: 1px solid gray;
-}
-
-#notifications p {
-  font-size: 14pt;
-  font-weight: normal;
-  color: red;
-}
 
 #idletimeout {
   background: #ed1212;

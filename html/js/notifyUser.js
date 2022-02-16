@@ -3,17 +3,12 @@
 function notify(str, wait, state) {
     const notifications = document.querySelector('#notifications');
     notifications.innerHTML = str;
-    notifications.classList.add('ui-corner-all');
     notifications.style.display = 'block';
 
     if (state === 'error'){
-        notifications.style.color = 'white';
-        notifications.style.fontWeight = 'bold';
-        notifications.style.backgroundColor = 'red';
+        notifications.classList.add('notification--error');
     } else if (state ==='success'){
-        notifications.style.color = 'white';
-        notifications.style.fontWeight = 'bold';
-        notifications.style.backgroundColor = 'green';
+        notifications.classList.add("notification--success")
     } else {
         const body = document.querySelector('body');
         if(body.classList.contains('isMobile')) {
@@ -30,7 +25,7 @@ function notify(str, wait, state) {
 
     if (wait === true) {
         const p = document.createElement('p');
-        p.innerHTML  = '<a href="">Dismiss</a>';
+        p.innerHTML  = '<a href="">&times;</a>';
         notifications.appendChild(p)
         const link = notifications.querySelector('a');
         link.addEventListener('click', (event)=> {
@@ -41,9 +36,10 @@ function notify(str, wait, state) {
     } else {
         setTimeout(
             ()=> {
+                notifications.classList = '';
                 fadeOutEffect(notifications)
 
-            }, 20000
+            }, 200
         )
     }
 }

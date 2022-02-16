@@ -1,34 +1,123 @@
+<div class="case__controls">
+	<div class="controls__end">
+		<button id="caseDataPrintButton" class="secondary-button">
+			<img src="html/ico/printer.svg" alt="Print icon" /> <span>&nbsp;Print</span>
+		</button>
+		<?php if ($_SESSION['permissions']['edit_cases'] === 1) {
+		?>
+			<button id="editCaseButton" class="secondary-button">
+				<img src="html/ico/edit.svg" alt="Edit icon" /> <span>&nbsp;Edit</span>
+			</button>
+		<?php
+		} ?>
+
+		<button id="caseDataCancelButton" class="cancel-button hidden">Cancel</button>
+		<button id="caseDataSaveButton" class="primary-button hidden">Save</button>
+	</div>
+</div>
 <div id="caseData">
-	<?php foreach ($dta as $col) {
-	?>
-		<!-- <?php echo var_dump($col); ?> -->
-		<div class="case-data__group">
-			
-			<p class="data__heading"><?php echo $col['display_name'] ?></p>
-			<p class="data__value">		<?php
-					//first check if this is a serialized value
-					$items = @unserialize($col['value']);
-					if ($items !== false) {
-						$val = null;
-						foreach ($items as $key => $item) {
-							$val .= $key . ", ";
-						}
+	<div id="viewCaseData">
+		<?php foreach ($dta as $col) {
+		?>
+			<div class="case-data__group">
 
-						echo htmlspecialchars(substr($val, 0, -2), ENT_QUOTES, 'UTF-8');
-					} elseif ($col['input_type'] === 'date')
-					//then check if it's a date
-					{
-						echo $col['value'];
-						// echo sql_date_to_us_date($col['value']);
-					} else {
-						echo htmlspecialchars($col['value'], ENT_QUOTES, 'UTF-8');
-					} ?></p>
+				<p class="data__heading"><?php echo $col['display_name'] ?></p>
+				<p class="data__value" data-displayfield="<?php echo $col['db_name'] ?>"> <?php
+																																									//first check if this is a serialized value
+																																									$items = unserialize($col['value']);
+																																									if ($items !== false) {
+																																										$val = null;
+																																										foreach ($items as $key => $item) {
+																																											$val .= $key . ", ";
+																																										}
+																																										echo htmlspecialchars(substr($val, 0, -2), ENT_QUOTES, 'UTF-8');
+																																									} elseif ($col['input_type'] === 'date')
+																																									//then check if it's a date
+																																									{
+																																										echo $col['value'];
+																																										// echo sql_date_to_us_date($col['value']);
+																																									} else {
+																																										echo htmlspecialchars($col['value'], ENT_QUOTES, 'UTF-8');
+																																									} ?></p>
 
-		</div>
-	<?php
-	}
-	?>
+			</div>
+		<?php
+		}
+		?>
 
+	</div>
+	<form id="editCaseData" class="hidden">
+		<?php foreach ($dta as $col) {
+
+		?>
+			<!-- TODO handle adding more than one phone/ email et from design doc -->
+			<?php if ($col['select_options'] == 'select') { ?>
+				<div class="form__control form__control--select">
+					<label class="float--lock" id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>"><?php echo $col['display_name']; ?></label>
+					<select name="<?php echo $col['db_name'] ?>" id="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+						<option value="" disabled <?php if (!isset($col['value'])) {
+																				echo 'selected';
+																			} ?>>Select one...</option>
+						<?php
+						$options = unserialize($col['select_options']);
+						foreach ($options as $key => $option) {
+						?>
+							<option value="<?php echo $key ?>"><?php echo $option ?></option>
+						<?php
+						} 	?>
+					</select>
+				</div>
+			<?php
+			} else if ($col['input_type'] == 'textarea') {
+			?>
+				<div class="form__control">
+					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> </label>
+					<textarea <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>"></textarea>
+				</div>
+			<?php
+			} else if ($col['input_type'] == 'dual') {
+			?>
+				<!-- TODO NEXT - add + button and hook up button to insert new row; then save data -->
+				<div class="form-control__multiple">
+					<div class="form-control__dual">
+						<div class="form__control form__control--select">
+							<label class="float--lock" id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>"><?php echo $col['display_name']; ?></label>
+							<select name="<?php echo $col['db_name'] ?>_select" id="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+								<option value="" disabled <?php if (!isset($col['value'])) {
+																						echo 'selected';
+																					} ?>>Select one...</option>
+								<?php
+								$options = unserialize($col['select_options']);
+								foreach ($options as $key => $option) {
+								?>
+									<option value="<?php echo $key ?>"><?php echo $option ?></option>
+								<?php
+								} 	?>
+							</select>
+						</div>
+						<div class="form__control">
+							<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <span class="let-me-edit-this" data-target="<?php echo $col['id'] ?>">Let me edit this</span> <?php } ?> </label>
+							<input <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+						</div>
+					</div>
+				</div>
+
+
+			<?php
+			} else { ?>
+				<div class="form__control">
+					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <span class="let-me-edit-this" data-target="<?php echo $col['id'] ?>">Let me edit this</span> <?php } ?> </label>
+					<input <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+				</div>
+			<?php
+			} ?>
+
+		<?php } ?>
+
+
+
+
+	</form>
 
 
 </div>

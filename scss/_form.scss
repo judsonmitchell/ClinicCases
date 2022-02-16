@@ -63,7 +63,7 @@ textarea {
         padding: 0.5rem 1rem;
         transition: transform 0.1s ease-out;
         text-align: left;
-        min-height: 3.5srem;
+        min-height: 3.8rem;
 
         &.float,
         &.float--lock {
@@ -98,11 +98,22 @@ textarea {
             background-size: cover;
             bottom: 10px;
             right: 7px;
-            z-index: 10;
+            z-index: 9;
         }
     }
 }
 
+
+.form-control__dual{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+
+}
+.form-control__multiple{
+    .form-control__dual:last-child{
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+}
 .form__array {
     display: flex;
     flex-direction: column;

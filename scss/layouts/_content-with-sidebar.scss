@@ -15,13 +15,13 @@
 #content {
   grid-area: content;
   margin: 2rem;
-  width: calc(100% - 12rem);
+  width: calc(75% - 4rem);
   position: relative;
   left: 25%;
   @media screen and (max-width: $lg) {
     margin: 3rem 2rem;
     width: calc(100% - 4rem);
-    left: 0; 
+    left: 0;
   }
 }
 #sidebar {
@@ -38,11 +38,12 @@
     height: auto;
     position: unset;
   }
+
   .nav-tabs {
     flex-direction: column;
     position: relative;
     top: 16rem;
-    right: -103px;
+    left: 26%;
     width: 75%;
     @media screen and (max-width: $xl) {
       width: 80%;
@@ -91,13 +92,23 @@
         border-radius: 0px;
         margin: 0;
         padding: 2rem;
-        
+      }
+
+      &.disabled{
+        display: none;
+        @media screen and (max-width: $lg) {
+          display: flex;
+          cursor: not-allowed;
+          color: lightgray;
+          h2{
+            color: lightgray;
+          }
+        }
       }
     }
   }
 }
 
-
-.tab-pane{
+.tab-pane {
   width: calc(100% - 514px);
 }

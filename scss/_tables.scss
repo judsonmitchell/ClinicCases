@@ -80,6 +80,9 @@
     margin: 0 1rem;
     flex-basis: 200px;
   }
+  button {
+    margin: 0 0.5rem;
+  }
 }
 .controls__left,
 .controls__right {
@@ -194,6 +197,7 @@
       }
     }
   }
+
 
   @media screen and (max-width: $tablet) {
     width: 100%;

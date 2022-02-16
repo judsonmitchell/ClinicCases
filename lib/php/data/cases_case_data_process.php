@@ -1,9 +1,12 @@
 <?php
 //script to edit and delete cases
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-
+$_POST = json_decode(file_get_contents("php://input"), true);
 try {
 
 	function bindPostVals($query_string,$open_close)
@@ -42,6 +45,7 @@ try {
 		return array('columns'=>$columns,'values' => $values);
 	}
 	$action = $_POST['action'];
+
 	if (isset($_POST['id']))
 		{$id = $_POST['id'];}
 	
@@ -101,7 +105,6 @@ try {
 		break;
 	
 		case 'edit':
-	
 			//First, determine if we are opening or closing a case
 			if (!empty($_POST['date_close']))
 				{$open_close = 'close';}
@@ -111,9 +114,8 @@ try {
 			$post = bindPostVals($_POST,$open_close);
 	
 			$q = $dbh->prepare("UPDATE cm SET " . $post['columns'] . " WHERE id = :id");
-	
 			$q->execute($post['values']);
-	
+			
 			$error = $q->errorInfo();
 	
 			if ($error[1])
@@ -147,7 +149,7 @@ try {
 					}
 	
 				}
-	
+				
 	
 		break;
 	
@@ -250,8 +252,8 @@ try {
 	}
 	else
 	{
+
 		switch ($action) {
-	
 			case 'update_new_case':
 				if (empty($_POST['first_name']) && empty($_POST['last_name']))
 					{
@@ -267,9 +269,10 @@ try {
 					{$text = 'opened';}
 				else
 					{$text = 'closed';}
-	
-				$return = array("message" => htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . " is now $text.", "error" => false);
-				echo json_encode($return);
+					
+				$return = '{ "error": false, "message": "' . htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . '" }';
+				// echo json_encode($return);
+				echo $return;
 	
 			break;
 	
@@ -288,9 +291,11 @@ try {
 					{$text = 'edited';}
 						else
 					{$text = 'closed';}
+
 	
-				$return = array("message" => htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . " case $text.","error" => false);
-				echo json_encode($return);
+					$return = '{ "error": false, "message": "' . htmlspecialchars($case_name ,ENT_QUOTES,'UTF-8') . ' successfully edited!" }';
+					// echo json_encode($return);
+					echo $return;
 	
 			break;
 	
@@ -304,5 +309,6 @@ try {
 	}
 	
 } catch(Exception $e){
-	echo $e->getMessage();
+	$error = '{ "error" : true, "message": "' . $e->getMessage() . '" }';
+	echo $error;
 }

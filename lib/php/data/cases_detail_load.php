@@ -37,39 +37,8 @@ $case_query->bindParam(1, $id);
 $case_query->execute();
 $case_data = $case_query->fetch(PDO::FETCH_OBJ);
 
-//Get the case types
-$case_types = $dbh->prepare("SELECT * FROM cm_case_types");
-$case_types->execute();
-$case_types_data = $case_types->fetchAll(PDO::FETCH_OBJ);
-
-
-//Get the clinic types
-$clinic_types = $dbh->prepare("SELECT * FROM cm_clinic_type");
-$clinic_types->execute();
-$clinic_types_data = $clinic_types->fetchAll(PDO::FETCH_OBJ);
-
-//Get the courts
-$courts = $dbh->prepare("SELECT * FROM cm_courts");
-$courts->execute();
-$courts_data = $courts->fetchAll(PDO::FETCH_OBJ);
-
-//Get the referrals
-$referrals = $dbh->prepare("SELECT * FROM cm_referral");
-$referrals->execute();
-$referrals_data = $referrals->fetchAll(PDO::FETCH_OBJ);
-
-//Get the dispositions
-$dispositions = $dbh->prepare("SELECT * FROM cm_dispos");
-$dispositions->execute();
-$dispositions_data = $dispositions->fetchAll(PDO::FETCH_OBJ);
-
 $response = (object) [
-    'courts' => json_encode($courts_data),
-    'clinic_types' => json_encode($clinic_types_data),
     'case_data' => json_encode($case_data),
-    'case_types' => json_encode($case_types_data),
-    'referrals' => json_encode($referrals_data),
-    'dispositions' => json_encode($dispositions_data)
 ];
 
 echo json_encode($response);
