@@ -227,7 +227,7 @@ class Table {
     label.addEventListener('click', () => {
       wrapper.classList.toggle('hidden');
     });
-    label.addEventListener('blur', () => {
+    wrapper.addEventListener('blur', () => {
       wrapper.classList.add('hidden');
     });
     this.columns.forEach((column, index) => {
