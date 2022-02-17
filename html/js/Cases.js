@@ -148,10 +148,10 @@ async function openCase(id, name) {
 
       const dataContainer = document.querySelector(`#nav-${id}-data`);
       dataContainer.innerHTML = caseData.data;
-      setUpCasePrintFunctionality(name);
-      setUpOpenEditCaseViewFunctionality();
-      setUpFloatingLabelStyles();
-      setUpCancelEditFunctionality();
+      setUpCasePrintFunctionality(id, name);
+      setUpOpenEditCaseViewFunctionality(id);
+      setUpFloatingLabelStyles(id);
+      setUpCancelEditFunctionality(id);
       setUpSaveCaseFunctionality(id);
       setLetMeEditThisFunctionality(id);
       // TODO connect this to tab pane
@@ -168,6 +168,7 @@ async function openCase(id, name) {
       // const assignedUsersContainer = document.querySelector('#assignedUsersContainer');
       // assignedUsersContainer.innerHTML = assignedUsersView.data;
     } catch (error) {
+      console.log(error);
       notify(error, true, 'error');
     } finally {
       button.click();
@@ -178,9 +179,9 @@ async function openCase(id, name) {
   open_cases_tab_button.click();
 }
 
-function setUpCasePrintFunctionality(name) {
-  const button = document.querySelector('#caseDataPrintButton');
-  const caseData = document.querySelector('#caseData');
+function setUpCasePrintFunctionality(id,name) {
+  const button = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataPrintButton');
+  const caseData = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseData');
   button.removeEventListener('click', printPDF);
   button.addEventListener('click', printPDF);
 
@@ -189,13 +190,13 @@ function setUpCasePrintFunctionality(name) {
   }
 }
 
-function setUpOpenEditCaseViewFunctionality() {
-  const button = document.querySelector('#editCaseButton');
-  const editCase = document.querySelector('#editCaseData');
-  const viewCase = document.querySelector('#viewCaseData');
-  const printButton = document.querySelector('#caseDataPrintButton');
-  const saveButton = document.querySelector('#caseDataSaveButton');
-  const cancelButton = document.querySelector('#caseDataCancelButton');
+function setUpOpenEditCaseViewFunctionality(id) {
+  const button = document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseButton');
+  const editCase = document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseData');
+  const viewCase = document.querySelector(`#nav-${id}-tabContent`).querySelector('#viewCaseData');
+  const printButton = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataPrintButton');
+  const saveButton = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataSaveButton');
+  const cancelButton = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataCancelButton');
 
   button.addEventListener('click', () => {
     button.classList.add('hidden');
@@ -210,10 +211,10 @@ function setUpOpenEditCaseViewFunctionality() {
 
 function setUpSaveCaseFunctionality(id) {
   // hook up the button
-  const button = document.querySelector('#caseDataSaveButton');
+  const button = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataSaveButton');
   button.addEventListener('click', async () => {
     caseEditFormIsSubmitting = true;
-    const form = document.querySelector('#editCaseData');
+    const form = document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseData');
     const formState = [...form.elements].reduce((prev, current) => {
       const name = current.name;
       if (name) {
@@ -238,9 +239,10 @@ function setUpSaveCaseFunctionality(id) {
     const data = JSON.parse(JSON.stringify(editCaseResponse.data));
     if (data.error) {
       notify(data.message, true, 'error');
+
     } else {
       notify(data.message, true, 'success');
-      const displayFields = document.querySelectorAll('[data-displayfield]');
+      const displayFields = document.querySelector(`#nav-${id}-tabContent`).querySelectorAll('#viewCaseData [data-displayfield]');
       displayFields.forEach((el) => {
         const field = el.dataset.displayfield;
         el.innerText = formState[field];
@@ -258,9 +260,9 @@ function setUpSaveCaseFunctionality(id) {
   });
 }
 
-function setUpCancelEditFunctionality() {
-  const button = document.querySelector('#caseDataCancelButton');
-  const form = document.querySelector('#editCaseData');
+function setUpCancelEditFunctionality(id) {
+  const button = document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataCancelButton');
+  const form = document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseData');
   // save the initial state of the form
   const initialState = [...form.elements].map((el) => {
     const obj = {};
@@ -278,7 +280,7 @@ function setUpCancelEditFunctionality() {
         const input = form[el.name];
         input.value = el.value;
         if (el.value) {
-          const label = document.querySelector(input.dataset.label);
+          const label = document.querySelector(`#nav-${id}-tabContent`).querySelector(input.dataset?.label);
           if (label && !label.classList.contains('float')) {
             label.classList.add('float');
           }
@@ -286,17 +288,17 @@ function setUpCancelEditFunctionality() {
       }
     });
     // reset the UI
-    resentCaseDataUI();
+    resentCaseDataUI(id);
   });
 }
 
-function resentCaseDataUI() {
-  document.querySelector('#caseDataCancelButton').classList.add('hidden');
-  document.querySelector('#caseDataSaveButton').classList.add('hidden');
-  document.querySelector('#caseDataPrintButton').classList.remove('hidden');
-  document.querySelector('#editCaseButton').classList.remove('hidden');
-  document.querySelector('#editCaseData').classList.add('hidden');
-  document.querySelector('#viewCaseData').classList.remove('hidden');
+function resentCaseDataUI(id) {
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataCancelButton').classList.add('hidden');
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataSaveButton').classList.add('hidden');
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#caseDataPrintButton').classList.remove('hidden');
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseButton').classList.remove('hidden');
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#editCaseData').classList.add('hidden');
+  document.querySelector(`#nav-${id}-tabContent`).querySelector('#viewCaseData').classList.remove('hidden');
   removeAlertToNotLoseCaseData();
 }
 function setAlertToNotLoseCaseData() {
@@ -326,10 +328,12 @@ function areYouSure(e) {
 
 
 function setLetMeEditThisFunctionality(id){
-const letMeEditThisButton = document.querySelector(`.let-me-edit-this[data-target="${id}"]`);
+const letMeEditThisButton = document.querySelector(`#nav-${id}-tabContent`).querySelector(`.let-me-edit-this[data-target="${id}"]`);
+console.log(`.let-me-edit-this[data-target="${id}"]`);
+console.log(letMeEditThisButton)
 letMeEditThisButton.addEventListener('click', ()=> {
   if(confirm('ClinicCases automatically assigns the next available case number. If your case number contains "CaseType" or "ClinicType", these values will be replaced when you change those fields below. Manually editing a case number may have undesirable results. Are you sure?')){
-    const clinicIdInput = document.querySelector(`#nav-${id}-data [name="clinic_id"]`);
+    const clinicIdInput = document.querySelector(`#nav-${id}-tabContent`).querySelector(`[name="clinic_id"]`);
     clinicIdInput.disabled = false;
     console.log(clinicIdInput);
     console.log(clinicIdInput.disabled);
