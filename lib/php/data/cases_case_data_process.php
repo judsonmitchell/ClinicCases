@@ -48,6 +48,7 @@ try {
 
 	if (isset($_POST['id']))
 		{$id = $_POST['id'];}
+
 	
 	//check for json in post values; convert to serialized array
 	foreach ($_POST as $key => $value) {
@@ -105,6 +106,7 @@ try {
 		break;
 	
 		case 'edit':
+
 			//First, determine if we are opening or closing a case
 			if (!empty($_POST['date_close']))
 				{$open_close = 'close';}
@@ -112,7 +114,6 @@ try {
 				{$open_close = 'edit';}
 	
 			$post = bindPostVals($_POST,$open_close);
-	
 			$q = $dbh->prepare("UPDATE cm SET " . $post['columns'] . " WHERE id = :id");
 			$q->execute($post['values']);
 			

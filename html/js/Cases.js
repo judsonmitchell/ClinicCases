@@ -181,6 +181,9 @@ async function openCase(id, name) {
 }
 
 function setUpCasePrintFunctionality(id, name) {
+  const container =  document
+  .querySelector(`#nav-${id}-tabContent`);
+  console.log({container})
   const button = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataPrintButton');
@@ -238,17 +241,38 @@ function setUpSaveCaseFunctionality(id) {
       .querySelector('#editCaseData');
     const formState = [...form.elements].reduce((prev, current) => {
       const name = current.name;
-      if (name) {
+      const isDual = Boolean(current.dataset.dual);
+
+      if (name && !isDual) {
         prev[current.name] = current.value;
       }
       return prev;
     }, {});
+
+    // Extract values from all dual inputs
+    const dualInputs = document.querySelectorAll(
+      `#nav-${id}-tabContent .form-control__dual`,
+    );
+    const dualInputValues = {};
+    dualInputs.forEach((el) => {
+      const select = el.querySelector('select');
+      const input = el.querySelector('input');
+      const name = input.name;
+      if (dualInputValues[name]) {
+        dualInputValues[name] = JSON.parse(dualInputValues[name])
+        dualInputValues[name][input.value] = select.value;
+      } else {
+        dualInputValues[name] = { [input.value]: select.value };
+      }
+      dualInputValues[name] = JSON.stringify(dualInputValues[name])
+    });
     const editCaseResponse = await axios.post(
       `lib/php/data/cases_case_data_process.php`,
       {
         action: 'edit',
         id,
         ...formState,
+        ...dualInputValues,
       },
       {
         headers: {
@@ -267,17 +291,21 @@ function setUpSaveCaseFunctionality(id) {
         .querySelectorAll('#viewCaseData [data-displayfield]');
       displayFields.forEach((el) => {
         const field = el.dataset.displayfield;
-        el.innerText = formState[field];
+        if(formState[field]){
+          el.innerText = formState[field];
+        } else if(dualInputValues[field]){
+          el.innerText = Object.keys(JSON.parse(dualInputValues[field])).join(', ')
+        }
       });
 
       // update the name in the tab for this case
       const updatedName = `${formState.last_name}, ${formState.first_name}`;
       const dataContainer = document.querySelector(`#case${id}Tab`);
       dataContainer.innerText = updatedName;
-      // update ethe print functionality to reflect the changes
-      setUpCasePrintFunctionality(updatedName);
+      // update the print functionality to reflect the changes
+      setUpCasePrintFunctionality(id, updatedName);
+      resentCaseDataUI(id);
 
-      resentCaseDataUI();
     }
   });
 }
@@ -322,6 +350,7 @@ function setUpCancelEditFunctionality(id) {
 }
 
 function resentCaseDataUI(id) {
+  console.log('reset')
   document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataCancelButton')
@@ -376,7 +405,6 @@ function setLetMeEditThisFunctionality(id) {
   const letMeEditThisButton = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector(`.let-me-edit-this[data-target="${id}"]`);
-  console.log(`.let-me-edit-this[data-target="${id}"]`);
   console.log(letMeEditThisButton);
   letMeEditThisButton.addEventListener('click', () => {
     if (
@@ -388,8 +416,6 @@ function setLetMeEditThisFunctionality(id) {
         .querySelector(`#nav-${id}-tabContent`)
         .querySelector(`[name="clinic_id"]`);
       clinicIdInput.disabled = false;
-      console.log(clinicIdInput);
-      console.log(clinicIdInput.disabled);
     }
   });
 }
@@ -403,17 +429,14 @@ function setUpAddItemsButtonFunctionality(id) {
     button.addEventListener('click', addNewItem);
 
     function addNewItem() {
-      const field = button?.dataset?.field;
       const containerId = button?.dataset?.container;
       const container = document.querySelector(containerId);
       const elementToClone = container.querySelector('.form-control__dual');
-      console.log(container);
       const newElement = elementToClone.cloneNode(true);
       const newElementInputs = newElement.querySelectorAll('input', 'select');
-      newElementInputs.forEach(el => {
+      newElementInputs.forEach((el) => {
         el.value = '';
-      })
-      console.log({newElement})
+      });
       container.append(newElement);
     }
   });
