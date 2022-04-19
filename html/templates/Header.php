@@ -12,8 +12,11 @@
 
 	<!-- Judson -->
 	<link rel="stylesheet" href="lib/bootstrap-5.1.3-dist/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="lib/default.min.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="html/css/print.css" type="text/css" media="print" />
+	<!-- <link rel="stylesheet" href="lib/alertify.min.css" type="text/css" media="print" /> -->
+
 	<!-- <link rel="stylesheet" href="lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" />
 	<link rel="stylesheet" href="lib/jqueryui/css/custom-theme/jquery-ui-1.8.9.custom.css" type="text/css" /> -->
 	<link type="text/css" href="html/css/fff.icon.core.css" rel="stylesheet" />
@@ -30,8 +33,15 @@
 	<!-- Nina -->
 	<script src="html/js/tabs.js" type="text/javascript"></script>
 	<script src="lib/jquery/jquery-3.6.0.min.js" type="text/javascript"></script>
-	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> -->
 	<script src="lib/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
+	<!-- <script src="lib/alertify.min.js"></script> -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
+
 	<!-- Judson -->
 
 	<!-- <script src="lib/jqueryui/js/jquery-1.4.4.min.js" type="text/javascript"></script> -->

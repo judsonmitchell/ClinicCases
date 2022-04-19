@@ -66,7 +66,7 @@ async function initCasesTable() {
       ],
     });
   } catch (error) {
-    notify(error, true, 'error');
+    alertify.error(error);
   } finally {
     registerTableRowClickEvent();
   }
@@ -170,7 +170,7 @@ async function openCase(id, name) {
       // assignedUsersContainer.innerHTML = assignedUsersView.data;
     } catch (error) {
       console.log(error);
-      notify(error, true, 'error');
+      alertify.error(error);
     } finally {
       button.click();
     }
@@ -229,103 +229,99 @@ function setUpOpenEditCaseViewFunctionality(id) {
 }
 
 function setUpSaveCaseFunctionality(id) {
-    // hook up the button
-    const button = document
-      .querySelector(`#nav-${id}-tabContent`)
-      .querySelector('#caseDataSaveButton');
-    button.addEventListener('click', async () => {
-      try {
+  // hook up the button
+  const button = document
+    .querySelector(`#nav-${id}-tabContent`)
+    .querySelector('#caseDataSaveButton');
+  button.addEventListener('click', async () => {
+    try {
+      caseEditFormIsSubmitting = true;
+      const form = document
+        .querySelector(`#nav-${id}-tabContent`)
+        .querySelector('#editCaseData');
 
-        caseEditFormIsSubmitting = true;
-        const form = document
-          .querySelector(`#nav-${id}-tabContent`)
-          .querySelector('#editCaseData');
-  
-        if (!form.checkValidity()) {
-          const invalidFields = [];
-          form.elements.forEach(el => {
-            if(!el.checkValidity()) {
-              invalidFields.push(el.name);
-            }
-          })
-          throw new Error(`Fix invalid field: ${invalidFields.join(',') }`);
-        }
-        const formState = [...form.elements].reduce((prev, current) => {
-          const name = current.name;
-          const isDual = Boolean(current.dataset.dual);
-  
-          if (name && !isDual) {
-            prev[current.name] = current.value;
+      if (!form.checkValidity()) {
+        const invalidFields = [];
+        form.elements.forEach((el) => {
+          if (!el.checkValidity()) {
+            invalidFields.push(el.name);
           }
-          return prev;
-        }, {});
-  
-        // Extract values from all dual inputs
-        const dualInputs = document.querySelectorAll(
-          `#nav-${id}-tabContent .form-control__dual`,
-        );
-        const dualInputValues = {};
-        dualInputs.forEach((el) => {
-          const select = el.querySelector('select');
-          const input = el.querySelector('input');
-          const name = input.name;
-          if (dualInputValues[name]) {
-            dualInputValues[name] = JSON.parse(dualInputValues[name]);
-            dualInputValues[name][input.value] = select.value;
-          } else {
-            dualInputValues[name] = { [input.value]: select.value };
-          }
-          dualInputValues[name] = JSON.stringify(dualInputValues[name]);
         });
-        const editCaseResponse = await axios.post(
-          `lib/php/data/cases_case_data_process.php`,
-          {
-            action: 'edit',
-            id,
-            ...formState,
-            ...dualInputValues,
-          },
-          {
-            headers: {
-              'Content-type': 'application/json',
-            },
-          },
-        );
-        caseEditFormIsSubmitting = false;
-        const data = JSON.parse(JSON.stringify(editCaseResponse.data));
-        if (data.error) {
-          notify(data.message, true, 'error');
-        } else {
-          notify(data.message, true, 'success');
-          const displayFields = document
-            .querySelector(`#nav-${id}-tabContent`)
-            .querySelectorAll('#viewCaseData [data-displayfield]');
-          displayFields.forEach((el) => {
-            const field = el.dataset.displayfield;
-            if (formState[field]) {
-              el.innerText = formState[field];
-            } else if (dualInputValues[field]) {
-              el.innerText = Object.keys(JSON.parse(dualInputValues[field])).join(
-                ', ',
-              );
-            }
-          });
-  
-          // update the name in the tab for this case
-          const updatedName = `${formState.last_name}, ${formState.first_name}`;
-          const dataContainer = document.querySelector(`#case${id}Tab`);
-          dataContainer.innerText = updatedName;
-          // update the print functionality to reflect the changes
-          setUpCasePrintFunctionality(id, updatedName);
-          resentCaseDataUI(id);
-        }
-       
-      } catch(error){
-        console.log(error);
-        notify(error.message, true, 'error');
+        throw new Error(`Fix invalid field(s): ${invalidFields.join(', ')}`);
       }
-    });
-  
+      const formState = [...form.elements].reduce((prev, current) => {
+        const name = current.name;
+        const isDual = Boolean(current.dataset.dual);
+
+        if (name && !isDual) {
+          prev[current.name] = current.value;
+        }
+        return prev;
+      }, {});
+
+      // Extract values from all dual inputs
+      const dualInputs = document.querySelectorAll(
+        `#nav-${id}-tabContent .form-control__dual`,
+      );
+      const dualInputValues = {};
+      dualInputs.forEach((el) => {
+        const select = el.querySelector('select');
+        const input = el.querySelector('input');
+        const name = input.name;
+        if (dualInputValues[name]) {
+          dualInputValues[name] = JSON.parse(dualInputValues[name]);
+          dualInputValues[name][input.value] = select.value;
+        } else {
+          dualInputValues[name] = { [input.value]: select.value };
+        }
+        dualInputValues[name] = JSON.stringify(dualInputValues[name]);
+      });
+      const editCaseResponse = await axios.post(
+        `lib/php/data/cases_case_data_process.php`,
+        {
+          action: 'edit',
+          id,
+          ...formState,
+          ...dualInputValues,
+        },
+        {
+          headers: {
+            'Content-type': 'application/json',
+          },
+        },
+      );
+      caseEditFormIsSubmitting = false;
+      const data = JSON.parse(JSON.stringify(editCaseResponse.data));
+      if (data.error) {
+        alertify.error(data.message);
+      } else {
+        alertify.success(data.message);
+        const displayFields = document
+          .querySelector(`#nav-${id}-tabContent`)
+          .querySelectorAll('#viewCaseData [data-displayfield]');
+        displayFields.forEach((el) => {
+          const field = el.dataset.displayfield;
+          if (formState[field]) {
+            el.innerText = formState[field];
+          } else if (dualInputValues[field]) {
+            el.innerText = Object.keys(JSON.parse(dualInputValues[field])).join(
+              ', ',
+            );
+          }
+        });
+
+        // update the name in the tab for this case
+        const updatedName = `${formState.last_name}, ${formState.first_name}`;
+        const dataContainer = document.querySelector(`#case${id}Tab`);
+        dataContainer.innerText = updatedName;
+        // update the print functionality to reflect the changes
+        setUpCasePrintFunctionality(id, updatedName);
+        resentCaseDataUI(id);
+      }
+    } catch (error) {
+      alertify.error(error.message);
+    }
+  });
 }
 
 function setUpCancelEditFunctionality(id) {
@@ -344,26 +340,30 @@ function setUpCancelEditFunctionality(id) {
   });
 
   button.addEventListener('click', () => {
-    if (!window.confirm('Are you sure you want to cancel? You may lose data'))
-      return;
-
-    // revert the form to the initial state
-    initialState.forEach((el) => {
-      if (el.name) {
-        const input = form[el.name];
-        input.value = el.value;
-        if (el.value) {
-          const label = document
-            .querySelector(`#nav-${id}-tabContent`)
-            .querySelector(input.dataset?.label);
-          if (label && !label.classList.contains('float')) {
-            label.classList.add('float');
+    alertify.confirm(
+      'Confirm',
+      'Are you sure you want to cancel? You may lose data.',
+      () => {
+        // revert the form to the initial state
+        initialState.forEach((el) => {
+          if (el.name) {
+            const input = form[el.name];
+            input.value = el.value;
+            if (el.value) {
+              const label = document
+                .querySelector(`#nav-${id}-tabContent`)
+                .querySelector(input.dataset?.label);
+              if (label && !label.classList.contains('float')) {
+                label.classList.add('float');
+              }
+            }
           }
-        }
-      }
-    });
-    // reset the UI
-    resentCaseDataUI(id);
+        });
+        // reset the UI
+        resentCaseDataUI(id);
+      },
+      null
+    );
   });
 }
 
