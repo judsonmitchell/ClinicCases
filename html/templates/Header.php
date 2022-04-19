@@ -12,7 +12,7 @@
 
 	<!-- Judson -->
 	<link rel="stylesheet" href="lib/bootstrap-5.1.3-dist/css/bootstrap.min.css" type="text/css" />
-	<link rel="stylesheet" href="lib/default.min.css" type="text/css" media="print" />
+	<!-- <link rel="stylesheet" href="lib/default.min.css" type="text/css" media="print" /> -->
 	<link rel="stylesheet" href="html/css/cm.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="html/css/print.css" type="text/css" media="print" />
 	<!-- <link rel="stylesheet" href="lib/alertify.min.css" type="text/css" media="print" /> -->

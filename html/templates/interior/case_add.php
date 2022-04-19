@@ -1,21 +1,20 @@
 <div class="form__control">
-    <label class="float" id="clinicIdLabel" for="clinicId">Case Number</label>
-    <input id="clinicId" data-label="#clinicIdLabel" name="clinic_id" type="text" />
-    <!--TODO add 'Let me change this' -->
+    <label class="float--lock" id="newCaseClinicTypeLabel" for="newCaseClinicType">Clinic Type</label>
+    <select required id="newCaseClinicType" data-label="#newCaseClinicTypeLabel" name="clinic_type" type="text"></select>
 </div>
 <div class="form__control">
-    <label id="firstNameLabel" for="firstName">First Name</label>
-    <input id="firstName" data-label="#firstNameLabel" name="first_name" type="text" />
+    <label id="newCaseFirstNameLabel" for="newCaseFirstName">First Name</label>
+    <input required id="newCaseFirstName" data-label="#newCaseFirstNameLabel" name="first_name" type="text" />
 </div>
 <div class="form__control">
-    <label id="lastNameLabel" for="lastName">Last Name</label>
-    <input id="lastName" data-label="#lastNameLabel" name="last_name" type="text" />
+    <label id="newCaseLastNameLabel" for="newCaseLastName">Last Name</label>
+    <input required id="newCaseLastName" data-label="#newCaseLastNameLabel" name="last_name" type="text" />
 </div>
 <div class="form__control">
-    <label id="organizationLabel" for="organization">Organization</label>
-    <input id="organization" data-label="#organizationLabel" name="organization" type="text" />
+    <label id="newCaseOrganizationLabel" for="newCaseOrganization">Organization</label>
+    <input required id="newCaseOrganization" data-label="#newCaseOrganizationLabel" name="organization" type="text" />
 </div>
 <div class="form__control">
-    <label class="float--lock" id="dateOpenLabel" for="dateOpen">Date Open</label>
-    <input id="dateOpen" data-label="#dateOpenLabel" name="date_open" type="date" />
+    <label class="float--lock" id="newCaseDateOpenLabel" for="newCaseDateOpen">Date Open</label>
+    <input required id="newCaseDateOpen" data-label="#newCaseDateOpenLabel" name="date_open" type="date" />
 </div>

@@ -53,7 +53,7 @@
 			<?php if ($col['input_type'] == 'select') { ?>
 				<div class="form__control form__control--select">
 					<label class="float--lock" id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>"><?php echo $col['display_name']; ?></label>
-					<select <?php if($col['required']) {?> required <?php  } ?> name="<?php echo $col['db_name'] ?>" id="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+					<select <?php if ($col['required']) { ?> required <?php  } ?> name="<?php echo $col['db_name'] ?>" id="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
 						<option value="" disabled <?php if (!isset($col['value'])) {
 																				echo 'selected';
 																			} ?>>Select one...</option>
@@ -71,7 +71,7 @@
 			?>
 				<div class="form__control">
 					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> </label>
-					<textarea <?php if($col['required']) {?> required <?php  } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>"></textarea>
+					<textarea <?php if ($col['required']) { ?> required <?php  } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>"></textarea>
 				</div>
 			<?php
 			} else if ($col['input_type'] == 'dual') {
@@ -87,7 +87,7 @@
 						<div class="form-control__dual">
 							<div class="form__control form__control--select">
 								<label class="float--lock" id="<?php echo $col['db_name'] ?>Select1Label" for="<?php echo $col['db_name'] ?>_select1"><?php echo $col['display_name']; ?> Select</label>
-								<select <?php if($col['required']) {?> required <?php  } ?> data-dual="true" name="<?php echo $col['db_name'] ?>_select1" id="<?php echo $col['db_name'] ?>">
+								<select <?php if ($col['required']) { ?> required <?php  } ?> data-dual="true" name="<?php echo $col['db_name'] ?>_select1" id="<?php echo $col['db_name'] ?>">
 									<option value="" disabled <?php if (!isset($col['value'])) {
 																							echo 'selected';
 																						} ?>>Select one...</option>
@@ -102,7 +102,7 @@
 							</div>
 							<div class="form__control">
 								<label id="<?php echo $col['db_name'] ?>1Label" for="<?php echo $col['db_name'] ?>1" class="<?php if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <?php } ?> </label>
-								<input <?php if($col['required']) {?> required <?php  } ?> data-dual="true" <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>1" data-label="#<?php echo $col['db_name'] ?>1Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>">
+								<input <?php if ($col['required']) { ?> required <?php  } ?> data-dual="true" <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>1" data-label="#<?php echo $col['db_name'] ?>1Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>">
 							</div>
 						</div>
 						<?php
@@ -116,7 +116,7 @@
 							<div class="form-control__dual">
 								<div class="form__control form__control--select">
 									<label class="float--lock" id="<?php echo $col['db_name'] . $index ?>Label" for="<?php echo $col['db_name'] . $index ?>"><?php echo $col['display_name']; ?> Select</label>
-									<select <?php if($col['required']) {?> required <?php  } ?> data-dual="true" name="<?php echo $col['db_name'] ?>_select" id="<?php echo $col['db_name'] . $index ?>" value="<?php echo $selectValue ?>">
+									<select <?php if ($col['required']) { ?> required <?php  } ?> data-dual="true" name="<?php echo $col['db_name'] ?>_select" id="<?php echo $col['db_name'] . $index ?>" value="<?php echo $selectValue ?>">
 										<option value="" disabled <?php if (!isset($col['value'])) {
 																								echo 'selected';
 																							} ?>>Select one...</option>
@@ -131,7 +131,7 @@
 								</div>
 								<div class="form__control">
 									<label id="<?php echo $col['db_name'] . $index ?>Label" for="<?php echo $col['db_name'] . $index ?>" class="<?php if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <?php } ?> </label>
-									<input <?php if($col['required']) {?> required <?php  } ?> <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] . $index ?>" data-label="#<?php echo $col['db_name'] . $index ?>Label" type="<?php echo $col['db_name'] ?>" name="<?php echo $col['db_name']?>" data-dual="true" value="<?php echo $formValue ?>">
+									<input <?php if ($col['required']) { ?> required <?php  } ?> <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] . $index ?>" data-label="#<?php echo $col['db_name'] . $index ?>Label" type="<?php echo $col['db_name'] ?>" name="<?php echo $col['db_name'] ?>" data-dual="true" value="<?php echo $formValue ?>">
 								</div>
 							</div>
 
@@ -150,7 +150,7 @@
 			} else { ?>
 				<div class="form__control">
 					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <span class="let-me-edit-this" data-target="<?php echo $case_id ?>">Let me edit this</span> <?php } ?> </label>
-					<input  <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required'] && $col['db_name'] != 'date_close') { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+					<input <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required'] && $col['db_name'] != 'date_close') { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
 				</div>
 			<?php
 			} ?>

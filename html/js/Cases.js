@@ -235,12 +235,14 @@ function setUpSaveCaseFunctionality(id) {
     .querySelector('#caseDataSaveButton');
   button.addEventListener('click', async () => {
     try {
+
       caseEditFormIsSubmitting = true;
       const form = document
         .querySelector(`#nav-${id}-tabContent`)
         .querySelector('#editCaseData');
-
+      form.classList.remove('invalid');
       if (!form.checkValidity()) {
+        form.classList.add('invalid');
         const invalidFields = [];
         form.elements.forEach((el) => {
           if (!el.checkValidity()) {

@@ -2,7 +2,7 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-
+var_dump($_POST);
 function create_new_case_number($dbh)
 {
 	$m = CC_CASE_NUMBER_MASK;
@@ -82,43 +82,43 @@ function create_new_case_number($dbh)
 }
 
 try {
-// TODO set up appropriate error handling
 
-$new_case_number =  create_new_case_number($dbh);
-
-$user = $_SESSION['login'];
-
+	$new_case_number =  create_new_case_number($dbh) . $_POST['clinic_type'];
+	
+	$user = $_SESSION['login'];
 
 
+	//Check to see if user has permission to do this.
+	if (!$_SESSION['permissions']['add_cases'] == "1") {
+		$response = array('error' => true, 'message' => 'Sorry, you do not have permission to add cases.');
+		echo json_encode($response);
+		die;
+	}
 
-//Check to see if user has permission to do this.
-if (!$_SESSION['permissions']['add_cases'] == "1") {
-	$response = array('error' => true, 'message' => 'Sorry, you do not have permission to add cases.');
+
+	$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`,`organization`, `date_open`,`opened_by`, `clinic_type`) VALUES (NULL, ?, ? , ?, ?, ?);");
+	$q->bindParam(1, $new_case_number);
+	$q->bindParam(2, $_POST['organization']);
+	$q->bindParam(3, $_POST['date_open']);
+	$q->bindParam(4, $user);
+	$q->bindParam(5, $_POST['clinic_type']);
+
+
+	$q->execute();
+
+
+	$error = $q->errorInfo();
+	var_dump($q);
+
+	if (!$error[1]) {
+		$new_id = $dbh->lastInsertId();
+
+		$response = array('error' => false, 'newId' => $new_id);
+	}
 	echo json_encode($response);
-	die;
-}
-
-
-$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`,`organization`, `date_open`,`opened_by`) VALUES (NULL, ?, 'New Case', CURDATE(),?);");
-
-$q->bindParam(1, $new_case_number);
-
-$q->bindParam(2, $user);
-
-
-$q->execute();
-
-
-$error = $q->errorInfo();
-
-if (!$error[1]) {
-	$new_id = $dbh->lastInsertId();
-
-	$response = array('error' => false, 'newId' => $new_id);
-
-	echo json_encode($response);
-}
-
-} catch(Exception $e){
+} catch (Exception $e) {
 	echo $e->getMessage();
+	$response = array('error' => true);
+	echo json_encode($response);
+
 }
