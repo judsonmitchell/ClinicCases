@@ -76,6 +76,9 @@ textarea {
     input {
         width: 100%;
         color: black;
+        &:invalid{
+            border-color: red;
+        }
     }
 
     &.form__control--select {

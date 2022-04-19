@@ -181,9 +181,8 @@ async function openCase(id, name) {
 }
 
 function setUpCasePrintFunctionality(id, name) {
-  const container =  document
-  .querySelector(`#nav-${id}-tabContent`);
-  console.log({container})
+  const container = document.querySelector(`#nav-${id}-tabContent`);
+  console.log({ container });
   const button = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataPrintButton');
@@ -230,84 +229,103 @@ function setUpOpenEditCaseViewFunctionality(id) {
 }
 
 function setUpSaveCaseFunctionality(id) {
-  // hook up the button
-  const button = document
-    .querySelector(`#nav-${id}-tabContent`)
-    .querySelector('#caseDataSaveButton');
-  button.addEventListener('click', async () => {
-    caseEditFormIsSubmitting = true;
-    const form = document
+    // hook up the button
+    const button = document
       .querySelector(`#nav-${id}-tabContent`)
-      .querySelector('#editCaseData');
-    const formState = [...form.elements].reduce((prev, current) => {
-      const name = current.name;
-      const isDual = Boolean(current.dataset.dual);
+      .querySelector('#caseDataSaveButton');
+    button.addEventListener('click', async () => {
+      try {
 
-      if (name && !isDual) {
-        prev[current.name] = current.value;
-      }
-      return prev;
-    }, {});
-
-    // Extract values from all dual inputs
-    const dualInputs = document.querySelectorAll(
-      `#nav-${id}-tabContent .form-control__dual`,
-    );
-    const dualInputValues = {};
-    dualInputs.forEach((el) => {
-      const select = el.querySelector('select');
-      const input = el.querySelector('input');
-      const name = input.name;
-      if (dualInputValues[name]) {
-        dualInputValues[name] = JSON.parse(dualInputValues[name])
-        dualInputValues[name][input.value] = select.value;
-      } else {
-        dualInputValues[name] = { [input.value]: select.value };
-      }
-      dualInputValues[name] = JSON.stringify(dualInputValues[name])
-    });
-    const editCaseResponse = await axios.post(
-      `lib/php/data/cases_case_data_process.php`,
-      {
-        action: 'edit',
-        id,
-        ...formState,
-        ...dualInputValues,
-      },
-      {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      },
-    );
-    caseEditFormIsSubmitting = false;
-    const data = JSON.parse(JSON.stringify(editCaseResponse.data));
-    if (data.error) {
-      notify(data.message, true, 'error');
-    } else {
-      notify(data.message, true, 'success');
-      const displayFields = document
-        .querySelector(`#nav-${id}-tabContent`)
-        .querySelectorAll('#viewCaseData [data-displayfield]');
-      displayFields.forEach((el) => {
-        const field = el.dataset.displayfield;
-        if(formState[field]){
-          el.innerText = formState[field];
-        } else if(dualInputValues[field]){
-          el.innerText = Object.keys(JSON.parse(dualInputValues[field])).join(', ')
+        caseEditFormIsSubmitting = true;
+        const form = document
+          .querySelector(`#nav-${id}-tabContent`)
+          .querySelector('#editCaseData');
+  
+        if (!form.checkValidity()) {
+          const invalidFields = [];
+          form.elements.forEach(el => {
+            if(!el.checkValidity()) {
+              invalidFields.push(el.name);
+            }
+          })
+          throw new Error(`Fix invalid field: ${invalidFields.join(',') }`);
         }
-      });
-
-      // update the name in the tab for this case
-      const updatedName = `${formState.last_name}, ${formState.first_name}`;
-      const dataContainer = document.querySelector(`#case${id}Tab`);
-      dataContainer.innerText = updatedName;
-      // update the print functionality to reflect the changes
-      setUpCasePrintFunctionality(id, updatedName);
-      resentCaseDataUI(id);
-
-    }
-  });
+        const formState = [...form.elements].reduce((prev, current) => {
+          const name = current.name;
+          const isDual = Boolean(current.dataset.dual);
+  
+          if (name && !isDual) {
+            prev[current.name] = current.value;
+          }
+          return prev;
+        }, {});
+  
+        // Extract values from all dual inputs
+        const dualInputs = document.querySelectorAll(
+          `#nav-${id}-tabContent .form-control__dual`,
+        );
+        const dualInputValues = {};
+        dualInputs.forEach((el) => {
+          const select = el.querySelector('select');
+          const input = el.querySelector('input');
+          const name = input.name;
+          if (dualInputValues[name]) {
+            dualInputValues[name] = JSON.parse(dualInputValues[name]);
+            dualInputValues[name][input.value] = select.value;
+          } else {
+            dualInputValues[name] = { [input.value]: select.value };
+          }
+          dualInputValues[name] = JSON.stringify(dualInputValues[name]);
+        });
+        const editCaseResponse = await axios.post(
+          `lib/php/data/cases_case_data_process.php`,
+          {
+            action: 'edit',
+            id,
+            ...formState,
+            ...dualInputValues,
+          },
+          {
+            headers: {
+              'Content-type': 'application/json',
+            },
+          },
+        );
+        caseEditFormIsSubmitting = false;
+        const data = JSON.parse(JSON.stringify(editCaseResponse.data));
+        if (data.error) {
+          notify(data.message, true, 'error');
+        } else {
+          notify(data.message, true, 'success');
+          const displayFields = document
+            .querySelector(`#nav-${id}-tabContent`)
+            .querySelectorAll('#viewCaseData [data-displayfield]');
+          displayFields.forEach((el) => {
+            const field = el.dataset.displayfield;
+            if (formState[field]) {
+              el.innerText = formState[field];
+            } else if (dualInputValues[field]) {
+              el.innerText = Object.keys(JSON.parse(dualInputValues[field])).join(
+                ', ',
+              );
+            }
+          });
+  
+          // update the name in the tab for this case
+          const updatedName = `${formState.last_name}, ${formState.first_name}`;
+          const dataContainer = document.querySelector(`#case${id}Tab`);
+          dataContainer.innerText = updatedName;
+          // update the print functionality to reflect the changes
+          setUpCasePrintFunctionality(id, updatedName);
+          resentCaseDataUI(id);
+        }
+       
+      } catch(error){
+        console.log(error);
+        notify(error.message, true, 'error');
+      }
+    });
+  
 }
 
 function setUpCancelEditFunctionality(id) {
@@ -350,7 +368,6 @@ function setUpCancelEditFunctionality(id) {
 }
 
 function resentCaseDataUI(id) {
-  console.log('reset')
   document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataCancelButton')
@@ -436,6 +453,7 @@ function setUpAddItemsButtonFunctionality(id) {
       const newElementInputs = newElement.querySelectorAll('input', 'select');
       newElementInputs.forEach((el) => {
         el.value = '';
+        el.required = false;
       });
       container.append(newElement);
     }
