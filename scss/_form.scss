@@ -104,10 +104,18 @@ form.invalid {
     border-color: red;
   }
 }
+#newCaseModal {
+  input:valid,
+  select:valid {
+    border-color: black;
+    border-width: 2px;
+  }
+}
 
 .form-control__dual {
   display: grid;
   grid-template-columns: 1fr 4fr;
+  grid-gap: 1rem;
 }
 .form-control__multiple {
   position: relative;
@@ -155,4 +163,21 @@ form.invalid {
       grid-template-columns: 1fr auto;
     }
   }
+}
+
+@media screen and (max-width: $tablet) {
+  #addButton {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 1rem;
+  }
+}
+
+.let-me-edit-this {
+  text-decoration: underline;
+  font-size: 10px;
+  cursor: pointer;
+  float: right;
 }

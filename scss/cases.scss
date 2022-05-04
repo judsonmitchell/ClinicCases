@@ -3,27 +3,27 @@
 @import './mixins';
 @import './layouts/content-with-sidebar';
 @import './layouts/modal';
-@import './tables';  
-
+@import './tables';
 
 #content {
-
-  #searchCases, #openCases{
+  #searchCases,
+  #openCases {
     position: absolute;
     width: 100%;
   }
-  .fade:not(.show){
+  .fade:not(.show) {
     z-index: -1;
   }
 }
 
-#openCases{
-  .tab-pane{
+#openCases {
+  .tab-pane {
     width: 100%;
   }
 }
 
-#viewCaseData, #editCaseData{
+#viewCaseData,
+#editCaseData {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
@@ -33,19 +33,19 @@
     grid-template-columns: 1fr;
   }
 
-  form{
+  form {
     width: 100%;
   }
 
-  .form__control{
+  .form__control {
     margin: 0 1rem;
   }
 }
 
-#editCaseData{
+#editCaseData {
   display: block;
 }
-.case__controls{
+.case__controls {
   display: flex;
   flex-direction: row;
   margin: 1rem;
@@ -61,43 +61,32 @@
     margin: 0 1rem;
   }
 
-  .controls__end{
+  .controls__end {
     display: flex;
     margin-left: auto;
   }
 }
-.case-data__group{
+.case-data__group {
   display: flex;
   flex-direction: column;
   text-align: left;
   padding: 1rem;
   border-bottom: 1px solid $trans-border-gray;
   min-height: 58.5px;
-  .data__heading{
+  .data__heading {
     font-weight: 800;
     font-size: 1.1rem;
   }
-
 }
 
-.hidden{
+.hidden {
   display: none !important;
 }
 
-@media screen and (max-width: $tablet) {
-    #addButton{
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: 1rem;
-    }
+.fadeIn {
+  transition: all 0.3s ease-in-out;
 }
 
-.let-me-edit-this{
-  text-decoration: underline;
-  font-size: 10px;
-  cursor: pointer;
-  float: right;
+.opacity-0{
+  opacity: 0;
 }
-

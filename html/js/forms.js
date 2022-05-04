@@ -56,8 +56,36 @@ const checkFormValidity = (form) => {
 
 const resetForm = (form) => {
   const elements = [...form.elements];
-	form.classList.remove('invalid');
+  form.classList.remove('invalid');
   elements.forEach((el) => {
     el.value = '';
   });
+};
+
+const addNewItem = (button) => {
+  const containerId = button?.dataset?.container;
+  const container = document.querySelector(containerId);
+  const elementToClone = container.querySelector('.form-control__dual');
+  const newElement = elementToClone.cloneNode(true);
+  const newElementInputs = newElement.querySelectorAll('input', 'select');
+  newElementInputs.forEach((el) => {
+    el.value = '';
+    el.required = false;
+  });
+  container.append(newElement);
+};
+
+const getDualInputValues = (dualInputs) => {
+  return dualInputs.reduce((values, el) => {
+    const select = el.querySelector('select');
+    const input = el.querySelector('input');
+    const name = input.name;
+    if (values[name]) {
+      values[name] = JSON.parse(values[name]);
+      values[name][input.value] = select.value;
+    } else {
+      values[name] = { [input.value]: select.value };
+    }
+    values[name] = JSON.stringify(values[name]);
+  }, {});
 };

@@ -182,7 +182,6 @@ async function openCase(id, name) {
 
 function setUpCasePrintFunctionality(id, name) {
   const container = document.querySelector(`#nav-${id}-tabContent`);
-  console.log({ container });
   const button = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataPrintButton');
@@ -235,7 +234,6 @@ function setUpSaveCaseFunctionality(id) {
     .querySelector('#caseDataSaveButton');
   button.addEventListener('click', async () => {
     try {
-
       caseEditFormIsSubmitting = true;
       const form = document
         .querySelector(`#nav-${id}-tabContent`)
@@ -265,19 +263,7 @@ function setUpSaveCaseFunctionality(id) {
       const dualInputs = document.querySelectorAll(
         `#nav-${id}-tabContent .form-control__dual`,
       );
-      const dualInputValues = {};
-      dualInputs.forEach((el) => {
-        const select = el.querySelector('select');
-        const input = el.querySelector('input');
-        const name = input.name;
-        if (dualInputValues[name]) {
-          dualInputValues[name] = JSON.parse(dualInputValues[name]);
-          dualInputValues[name][input.value] = select.value;
-        } else {
-          dualInputValues[name] = { [input.value]: select.value };
-        }
-        dualInputValues[name] = JSON.stringify(dualInputValues[name]);
-      });
+     const dualInputValues =  getDualInputValues(dualInputs)
       const editCaseResponse = await axios.post(
         `lib/php/data/cases_case_data_process.php`,
         {
@@ -364,7 +350,7 @@ function setUpCancelEditFunctionality(id) {
         // reset the UI
         resentCaseDataUI(id);
       },
-      null
+      null,
     );
   });
 }
@@ -445,19 +431,6 @@ function setUpAddItemsButtonFunctionality(id) {
     .querySelectorAll(`.add-item-button`);
 
   addItemButtons.forEach((button) => {
-    button.addEventListener('click', addNewItem);
-
-    function addNewItem() {
-      const containerId = button?.dataset?.container;
-      const container = document.querySelector(containerId);
-      const elementToClone = container.querySelector('.form-control__dual');
-      const newElement = elementToClone.cloneNode(true);
-      const newElementInputs = newElement.querySelectorAll('input', 'select');
-      newElementInputs.forEach((el) => {
-        el.value = '';
-        el.required = false;
-      });
-      container.append(newElement);
-    }
+    button.addEventListener('click', () => addNewItem(button));
   });
 }
