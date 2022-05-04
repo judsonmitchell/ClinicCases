@@ -21,7 +21,6 @@ foreach ($result as $col) {
 		$obj['name'] = $col[2];
 		$obj['type'] = $col[4];
 		$obj['fieldName'] = $col[1];
-		$obj['selectOptions'] = unserialize($col[5]);
 
 
 		$output['aoColumns'][] = $obj;

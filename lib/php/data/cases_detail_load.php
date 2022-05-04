@@ -6,7 +6,9 @@ require('../../../db.php');
 include '../utilities/thumbnails.php';
 $id = $_GET['id'];
 $username = $_SESSION['login'];
+$_REQUEST = json_decode(file_get_contents("php://input"), true);
 
+var_dump($_GET);
 function array_searchRecursive($needle, $haystack, $strict = false, $path = array())
 {
     if (!is_array($haystack)) {

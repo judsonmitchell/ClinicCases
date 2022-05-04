@@ -6,10 +6,9 @@
         <h5 class="modal-title" id="newCaseLabel">New Case</h5>
       </div>
       <div class="modal-body">
-        <?php include('case_add_stepped_form.php') ?>
+        <?php include('case_add.php') ?>
       </div>
 
     </div>
   </div>
 </div>
-<!-- <script type="text/javascript" src="html/js/forms.js"></script> -->

@@ -2,7 +2,8 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-var_dump($_POST);
+$_POST = json_decode(file_get_contents("php://input"), true);
+
 function create_new_case_number($dbh)
 {
 	$m = CC_CASE_NUMBER_MASK;
@@ -71,6 +72,7 @@ function create_new_case_number($dbh)
 		}
 
 		$result = str_replace('Number', $number, $result);
+
 		if (stristr($result, 'Infinite')) {
 			$result =	str_replace('Infinite', '', $result);
 		}
@@ -82,11 +84,9 @@ function create_new_case_number($dbh)
 }
 
 try {
+	$new_case_number =  create_new_case_number($dbh);
 
-	$new_case_number =  create_new_case_number($dbh) . $_POST['clinic_type'];
-	
 	$user = $_SESSION['login'];
-
 
 	//Check to see if user has permission to do this.
 	if (!$_SESSION['permissions']['add_cases'] == "1") {
@@ -94,31 +94,32 @@ try {
 		echo json_encode($response);
 		die;
 	}
+	$firstName = $_POST['params']['first_name'];
+	$lastName = $_POST['params']['last_name'];
+	$organization = $_POST['params']['organization'];
 
 
-	$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`,`organization`, `date_open`,`opened_by`, `clinic_type`) VALUES (NULL, ?, ? , ?, ?, ?);");
+	$q = $dbh->prepare("INSERT INTO `cm` (`id`, `clinic_id`, `date_open`,`opened_by`, `first_name`, `last_name`, `organization`, `clinic_type`, `phone`, `email`, `per`, `adverse_parties`, `notes`, `close_notes`, `time_opened`, `closed_by`, `time_closed`) VALUES (NULL, ?, CURDATE(), ?, ?, ?, ?, '', '', '', '', '', '', '', CURTIME(), '', NULL);");
+
 	$q->bindParam(1, $new_case_number);
-	$q->bindParam(2, $_POST['organization']);
-	$q->bindParam(3, $_POST['date_open']);
-	$q->bindParam(4, $user);
-	$q->bindParam(5, $_POST['clinic_type']);
 
+
+	$q->bindParam(2, $user);
+	$q->bindParam(3, $firstName);
+	$q->bindParam(4, $lastName);
+	$q->bindParam(5, $organization);
 
 	$q->execute();
 
-
 	$error = $q->errorInfo();
-	var_dump($q);
 
 	if (!$error[1]) {
 		$new_id = $dbh->lastInsertId();
 
 		$response = array('error' => false, 'newId' => $new_id);
-	}
-	echo json_encode($response);
-} catch (Exception $e) {
-	echo $e->getMessage();
-	$response = array('error' => true);
-	echo json_encode($response);
 
+		echo json_encode($response);
+	}
+} catch (Exception $e) {
+	$response = array('error' => true, 'message' => $e->getMessage());
 }
