@@ -20,26 +20,25 @@ body {
   grid-gap: 1rem;
 
   @media screen and (max-width: $mobile) {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-.two-columns{
+.two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
 }
 
-.center-vertically{
+.center-vertically {
   display: flex;
   align-items: center;
 }
 
-#content{
+#content {
   font-size: 1.4rem;
 }
-
 
 // #notifications {
 //   display: none;
@@ -79,28 +78,33 @@ body {
 // .notification--success {
 //   // TODO better green? transparent?
 //   background-color: green;
-//   color: white; 
+//   color: white;
 //   p {
 //     color: white;
 //   }
 // }
 
-.ajs-message, .ajs-content {
+.ajs-message,
+.ajs-content {
   font-family: 'Montserrat';
   font-size: 1.5rem;
   font-weight: 600;
 }
 
 .notification {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   height: 2rem;
   width: 2rem;
   border-radius: 100%;
-  &.blue{
+  &.blue {
     color: white;
     background-color: $dark-blue;
+  }
+
+  @media screen and (max-width: $med) {
+    display: flex;
   }
 }
 .notification:empty {

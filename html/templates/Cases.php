@@ -29,7 +29,7 @@
 				</div>
 				<div class="nav-link disabled" aria-disabled="true" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
 					<h2>
-						<span class="flex-row">
+						<span class="open-cases-label">
 							Open Cases &nbsp;&nbsp;
 							<span class="notification blue"></span>
 						</span>

@@ -78,7 +78,7 @@
     font-size: 1.1rem;
   }
 }
-.tab-close{
+.tab-close {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,7 +98,14 @@
   transition: all 0.3s ease-in-out;
 }
 
-.opacity-0{
+.opacity-0 {
   opacity: 0;
 }
 
+.open-cases-label {
+  display: block;
+  @media screen and (max-width: $med) {
+    display: flex;
+    align-items: center;
+  }
+}
