@@ -80,9 +80,19 @@ function registerTableRowClickEvent() {
   });
 }
 
+function addCountToOpenCasesLabel() {
+  const count = open_case_ids.length;
+  const notification = document.querySelector(
+    '[data-bs-target="#openCases"] .notification',
+  );
+  console.log({count});
+  notification.innerText = count;
+}
+
 async function openCase(id, name) {
   if (!open_case_ids.includes(id)) {
     open_case_ids.push(id);
+    addCountToOpenCasesLabel();
     const tabContainer = document.querySelector('#openCasesTabs');
     const tabContentContainer = document.querySelector('#openCasesTabContent');
     const panes = tabContentContainer.querySelectorAll('.tab-pane');
@@ -263,7 +273,7 @@ function setUpSaveCaseFunctionality(id) {
       const dualInputs = document.querySelectorAll(
         `#nav-${id}-tabContent .form-control__dual`,
       );
-     const dualInputValues =  getDualInputValues(dualInputs)
+      const dualInputValues = getDualInputValues(dualInputs);
       const editCaseResponse = await axios.post(
         `lib/php/data/cases_case_data_process.php`,
         {

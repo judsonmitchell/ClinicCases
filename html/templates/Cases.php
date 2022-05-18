@@ -27,8 +27,14 @@
 				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#searchCases" role='tab'>
 					<h2>Search Cases</h2>
 				</div>
-				<div class="nav-link disabled"  aria-disabled="true" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
-					<h2>Open Cases</h2>
+				<div class="nav-link disabled" aria-disabled="true" data-bs-toggle="tab" data-bs-target="#openCases" role='tab'>
+					<h2>
+						<span class="flex-row">
+							Open Cases &nbsp;&nbsp;
+							<span class="notification blue"></span>
+						</span>
+					</h2>
+					</span>
 				</div>
 			</div>
 		</div>

@@ -93,15 +93,14 @@
     width: 100%;
     padding-top: 1rem;
     justify-content: space-between;
-
   }
 }
 .controls__advanced-search {
   position: relative;
   cursor: pointer;
- p{
-   margin-bottom: 0;
- }
+  p {
+    margin-bottom: 0;
+  }
 
   &::after {
     content: '';
@@ -128,12 +127,11 @@
     padding: 1rem;
     border: 1px solid black;
     margin-bottom: 1rem;
- 
-    &:after{
-     top: 10px;
-     right: 10px;
+
+    &:after {
+      top: 10px;
+      right: 10px;
     }
- 
   }
 }
 .table__search {
@@ -152,7 +150,7 @@
     border-bottom-left-radius: 0px;
     margin-right: 1rem;
   }
-  button{
+  button {
     flex: 0.5;
   }
 }
@@ -198,22 +196,20 @@
     }
   }
 
-
   @media screen and (max-width: $tablet) {
     width: 100%;
     padding-right: 1rem;
 
-    .controls__label{
+    .controls__label {
       width: 100%;
       margin: 0;
-      &:after{
+      &:after {
         top: 1rem;
         right: 2rem;
       }
     }
   }
 }
-
 
 .advanced-search__container {
   display: grid;
@@ -222,7 +218,13 @@
 
   @media screen and (max-width: $tablet) {
     grid-template-columns: auto;
-
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 5;
+    padding: 2rem;
+    border: 1px solid black;
     input {
       width: 100%;
     }
@@ -250,10 +252,10 @@
 
     p {
       margin: 0;
-      padding: 0; 
+      padding: 0;
       font-size: 1.2rem;
     }
-    button{
+    button {
       font-weight: 600;
       text-decoration: underline;
     }
@@ -265,9 +267,9 @@
 }
 
 @media screen and (max-width: $tablet) {
-    #printButton{
-      display: none;
-    }
+  #printButton {
+    display: none;
+  }
 }
 // #table_cases {
 //     width: 100%;
