@@ -57,7 +57,11 @@
 						<div class="nav nav-tabs" id="openCasesTabs" role="tablist">
 							<!-- <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button> -->
 						</div>
+						<div id="openCasesTabsMobile">
+							<select name="openCasesTabs">
 
+							</select>
+						</div>
 					</nav>
 					<div class="tab-content" id="openCasesTabContent">
 					</div>

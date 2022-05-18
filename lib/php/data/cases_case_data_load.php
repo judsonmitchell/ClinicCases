@@ -4,7 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $_REQUEST = json_decode(file_get_contents("php://input"), true);
 
-
 try {
 	@session_start();
 	require_once dirname(__FILE__) . '/../../../db.php';

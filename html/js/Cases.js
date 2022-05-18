@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initOpenCaseFunctions();
 });
 
-const open_case_ids = [];
+let open_case_ids = [];
 let caseData;
 let openCasesDataArray;
 let closedCasesDataArray;
@@ -85,7 +85,7 @@ function addCountToOpenCasesLabel() {
   const notification = document.querySelector(
     '[data-bs-target="#openCases"] .notification',
   );
-  console.log({count});
+  console.log({ count });
   notification.innerText = count;
 }
 
@@ -113,6 +113,12 @@ async function openCase(id, name) {
     button.innerText = name;
     tabContainer.appendChild(button);
 
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('tab-close');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', () => closeTab(id));
+    button.append(closeButton);
+
     const content = document.createElement('div');
     content.classList.add('tab-pane', 'fade', 'show', 'active');
     content.setAttribute('id', contentLabel);
@@ -121,7 +127,15 @@ async function openCase(id, name) {
     content.innerText = name;
     content.style.backgroundColor = 'white';
     tabContentContainer.appendChild(content);
-
+    const mobileCasesSelector = document.querySelector(
+      '#openCasesTabsMobile select',
+    );
+    // TODO this needs to work more like tabs
+    const newOption = document.createElement('option');
+    newOption.value = id;
+    newOption.innerText = name;
+    newOption.setAttribute('id', `case${id}Option`);
+    mobileCasesSelector.appendChild(newOption);
     try {
       const caseView = await axios.post(`lib/php/data/open_case_load.php`, {
         id,
@@ -443,4 +457,14 @@ function setUpAddItemsButtonFunctionality(id) {
   addItemButtons.forEach((button) => {
     button.addEventListener('click', () => addNewItem(button));
   });
+}
+
+function closeTab(id) {
+  open_case_ids = open_case_ids.filter((case_id) => case_id != id);
+  const tabContent = document.querySelector(`#case${id}Content`);
+  const tabButton = document.querySelector(`#case${id}Tab`);
+  const option = document.querySelector(`#case${id}Option`)
+  tabContent.remove();
+  tabButton.remove();
+  option.remove();
 }
