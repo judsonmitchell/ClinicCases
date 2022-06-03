@@ -161,19 +161,7 @@ async function openCase(id, name) {
       setUpSaveCaseFunctionality(id);
       setLetMeEditThisFunctionality(id);
       setUpAddItemsButtonFunctionality(id);
-      // TODO connect this to tab pane
-
-      // const assignedUsersView = await axios.post(
-      //   `lib/php/users/cases_detail_assigned_people_refresh_load.php`,
-      //   { id },
-      //   {
-      //     headers: {
-      //       'Content-type': 'application/json',
-      //     },
-      //   }
-      // );
-      // const assignedUsersContainer = document.querySelector('#assignedUsersContainer');
-      // assignedUsersContainer.innerHTML = assignedUsersView.data;
+      setUpAssignedUsersFunctionality(id);
     } catch (error) {
       console.log(error);
       alertify.error(error);
@@ -512,6 +500,57 @@ function navigateToSearchCases() {
   document.querySelector(`[data-bs-target="#searchCases"]`)?.click();
 }
 
+async function setUpAssignedUsersFunctionality(id) {
+  // TODO connect this to tab pane
+  const assignedUsersView = await getAssignedUsersView(id);
+  const assignedUsersContainer = document.querySelector(
+    `#case${id}Content #assignedUsersContainer ul`,
+  );
+  assignedUsersContainer.innerHTML = assignedUsersView.data;
+  const assignedUsersInterface = await getAssignedUsersInterface(id);
+  const addAssignedUser = document.querySelector(
+    `#case${id}Content #addAssignedUser`,
+  );
+  addAssignedUser.innerHTML = assignedUsersInterface;
+
+  const slimSelect = new SlimSelect({
+    select: `#case${id}Content .slim-select`,
+  });
+
+  document
+    .querySelector(`#case${id}Content .add-user-button`)
+    .addEventListener('click', async () => {
+      console.log(slimSelect.selected());
+      try {
+        await assignUsersToCase(id, slimSelect.selected());
+        const updatedAssignedUsersView = await getAssignedUsersView(id).then(
+          (res) => res.data,
+        );
+        const userList = document.querySelector(
+          `#case${id}Content #assignedUsersContainer ul`,
+        );
+        userList.innerHTML = updatedAssignedUsersView;
+      } catch {}
+      // $.ajax({
+      //   url: 'lib/php/users/add_user_to_case.php',
+      //   data: { users_add: usersArray, case_id: usersCaseId },
+      //   success: function (data) {
+      //     $('.assigned_people ul').load(
+      //       'lib/php/users/cases_detail_assigned_people_refresh_load.php',
+      //       {
+      //         id: usersCaseId,
+      //       },
+      //     );
+      //     $('div.user_widget').hide();
+      //     notify(data);
+      //     oTable.fnReloadAjax();
+      //   },
+      // });
+    });
+}
+
+// AXIOS requests
+
 function getCaseNotes(id) {
   return axios.post(
     `lib/php/data/cases_casenotes_load.php`,
@@ -535,6 +574,51 @@ function getCaseData(id) {
     `lib/php/data/cases_case_data_load.php`,
     {
       id,
+    },
+    {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  );
+}
+
+function getAssignedUsersView(id) {
+  return axios.post(
+    `lib/php/users/cases_detail_assigned_people_refresh_load.php`,
+    { id },
+    {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  );
+}
+
+function getAssignedUsersInterface(id) {
+  return axios
+    .post(
+      'lib/php/users/cases_detail_user_chooser_load.php',
+      {
+        case_id: id,
+      },
+      {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      },
+    )
+    .then((res) => res.data);
+}
+
+function assignUsersToCase(id, usersArray) {
+  return axios.get(
+    'lib/php/users/add_user_to_case.php',
+    {
+      params: {
+        users_add: usersArray,
+        case_id: id,
+      },
     },
     {
       headers: {

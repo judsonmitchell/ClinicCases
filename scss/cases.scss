@@ -151,3 +151,19 @@
     display: flex;
   }
 }
+
+
+#assignedUsersContainer{
+  display: flex;
+  align-items: center;
+  img{
+    width: 2rem;
+  }
+  .user_add_button{
+    cursor: pointer;
+  }
+
+  #addAssignedUser {
+    // display: none;
+  }
+}

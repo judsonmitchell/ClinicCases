@@ -1,19 +1,21 @@
-<div class="add_user_detail">
 
-<h3 style="text-align:center">Add a User</h3>
+<div class="">
 
-<form>
+	<h3 style="text-align:center">Add a User</h3>
 
-	<select multiple data-placeholder = "Type the user's name"  class="chzn-select" tabindex="2">
+	<form>
 
-		<?php echo $user_list; ?>
+		<select multiple class="slim-select" tabindex="2">
 
-	</select>
+			<?php echo $user_list; ?>
 
-	<input type="hidden" id="user_chooser_case_id" value="<?php echo $case_id; ?>">
+		</select>
 
-</form>
+		<input type="hidden" id="user_chooser_case_id" value="<?php echo $case_id; ?>">
 
-<button class="user-action-adduser-button" tabindex = "3">Add</button>
+	</form>
+	<button class="" tabindex="3">Cancel</button>
+
+	<button class="primary-button add-user-button" tabindex="3">Save</button>
 
 </div>

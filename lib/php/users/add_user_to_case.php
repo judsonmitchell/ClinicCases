@@ -31,6 +31,9 @@ function array_searchRecursive( $needle, $haystack, $strict=false, $path=array()
     return false;
 }
 
+try {
+
+
 //return an array of everybody currently assigned to the case
 $check_previous_assignment = $dbh->prepare("SELECT case_id,username from cm_case_assignees WHERE case_id = :case_id");
 
@@ -129,3 +132,7 @@ if($error[1])
 		echo "User(s) added to case";
 
 	}
+}
+catch (Exception $e) {
+	echo $e->getMessage();
+}
