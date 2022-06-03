@@ -109,3 +109,45 @@
     align-items: center;
   }
 }
+
+#openCasesTabs .nav-link {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+#openCasesTabsMobile {
+  display: none;
+  align-items: stretch;
+  justify-content: between;
+  width: 100%;
+  select {
+    width: 75%;
+    border-radius: 0px;
+    border-color: black;
+  }
+  button {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    background-color: $light-blue;
+    margin: 0 1rem;
+    border: 2px solid $dark-blue;
+    border-radius: 5px;
+    color: $dark-blue;
+    font-weight: 600;
+    text-align: center;
+    display: block;
+    img{
+      width: 2rem;
+      margin-right: 1rem;
+      stroke: 2px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    display: flex;
+  }
+}

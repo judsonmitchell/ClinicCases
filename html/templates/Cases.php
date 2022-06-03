@@ -61,7 +61,9 @@
 							<select name="openCasesTabs">
 
 							</select>
-							<button id="closeCaseTabMobile">Close</button>
+							<button id="closeCaseTabMobile">
+								<img src="html/ico/times_circle.svg" alt="Close Case Button">
+								Close</button>
 						</div>
 					</nav>
 					<div class="tab-content" id="openCasesTabContent">

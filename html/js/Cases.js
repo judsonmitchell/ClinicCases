@@ -91,7 +91,7 @@ function addCountToOpenCasesLabel() {
   const notification = document.querySelector(
     '[data-bs-target="#openCases"] .notification',
   );
-  notification.innerText = count;
+  notification.innerText = count || '';
 }
 
 function setUpOpenCasesMobileSelectListener() {
@@ -113,6 +113,7 @@ function setUpCloseCaseMobileListener() {
     )?.value;
     if (selectValue) {
       closeTab(selectValue);
+      addCountToOpenCasesLabel();
     }
   });
 }
