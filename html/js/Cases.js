@@ -501,7 +501,6 @@ function navigateToSearchCases() {
 }
 
 async function setUpAssignedUsersFunctionality(id) {
-  // TODO connect this to tab pane
   const assignedUsersView = await getAssignedUsersView(id);
   const assignedUsersContainer = document.querySelector(
     `#case${id}Content #assignedUsersContainer ul`,
@@ -513,14 +512,27 @@ async function setUpAssignedUsersFunctionality(id) {
   );
   addAssignedUser.innerHTML = assignedUsersInterface;
 
+  // Register the select/search combo box
   const slimSelect = new SlimSelect({
     select: `#case${id}Content .slim-select`,
   });
-
+  // initialize the tooltips
+  var tooltipTriggerList = [
+    ...document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+  ];
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    console.log('here');
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+  registerAddCaseClickEvent();
+  // register the click even to cancel the form
+  document
+    .querySelector(`#case${id}Content .cancel-add-user-button`)
+    .addEventListener('click', closeAddUsersForm);
+  // Register the click even for adding users
   document
     .querySelector(`#case${id}Content .add-user-button`)
     .addEventListener('click', async () => {
-      console.log(slimSelect.selected());
       try {
         await assignUsersToCase(id, slimSelect.selected());
         const updatedAssignedUsersView = await getAssignedUsersView(id).then(
@@ -530,23 +542,30 @@ async function setUpAssignedUsersFunctionality(id) {
           `#case${id}Content #assignedUsersContainer ul`,
         );
         userList.innerHTML = updatedAssignedUsersView;
-      } catch {}
-      // $.ajax({
-      //   url: 'lib/php/users/add_user_to_case.php',
-      //   data: { users_add: usersArray, case_id: usersCaseId },
-      //   success: function (data) {
-      //     $('.assigned_people ul').load(
-      //       'lib/php/users/cases_detail_assigned_people_refresh_load.php',
-      //       {
-      //         id: usersCaseId,
-      //       },
-      //     );
-      //     $('div.user_widget').hide();
-      //     notify(data);
-      //     oTable.fnReloadAjax();
-      //   },
-      // });
+        registerAddCaseClickEvent();
+
+        alertify.success('Users successfully assigned.');
+      } catch {
+        alertify.success('Error assigning users.');
+      } finally {
+        closeAddUsersForm();
+      }
     });
+
+  function closeAddUsersForm() {
+    document
+      .querySelector(`#case${id}Content #addAssignedUser`)
+      .classList.remove('open');
+  }
+  function registerAddCaseClickEvent() {
+    document
+      .querySelector(`#case${id}Content .user_add_button`)
+      .addEventListener('click', () => {
+        document
+          .querySelector(`#case${id}Content #addAssignedUser`)
+          .classList.add('open');
+      });
+  }
 }
 
 // AXIOS requests

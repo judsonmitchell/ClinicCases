@@ -141,7 +141,7 @@
     font-weight: 600;
     text-align: center;
     display: block;
-    img{
+    img {
       width: 2rem;
       margin-right: 1rem;
       stroke: 2px;
@@ -152,18 +152,55 @@
   }
 }
 
-
-#assignedUsersContainer{
+#assignedUsersContainer {
   display: flex;
   align-items: center;
-  img{
+  position: relative;
+  ul {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    li {
+      margin: 0 1rem;
+    }
+  }
+  img {
     width: 2rem;
   }
-  .user_add_button{
+  .user_add_button {
     cursor: pointer;
   }
 
   #addAssignedUser {
-    // display: none;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    padding: 2rem;
+    border: 1px solid gray;
+    width: 300px;
+    & > div {
+      display: flex;
+      height: 250px;
+      flex-direction: column;
+      justify-content: space-between;
+      form{
+        height: 100px;
+      }
+    }
+    &.open {
+      display: block;
+    }
+    .bottom-bar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .ss-main .ss-multi-selected .ss-values .ss-value {
+    background-color: $light-blue;
+    color: $dark-blue;
   }
 }
