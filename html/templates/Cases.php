@@ -6,7 +6,7 @@
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
 <script type="text/javascript" src="html/js/Forms.js "></script>
-<script src="html/js/cases.js" type="text/javascript"></script>
+<script src="html/js/cases.js" type="module"></script>
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
 
@@ -61,6 +61,7 @@
 							<select name="openCasesTabs">
 
 							</select>
+							<button id="closeCaseTabMobile">Close</button>
 						</div>
 					</nav>
 					<div class="tab-content" id="openCasesTabContent">

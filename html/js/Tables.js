@@ -101,6 +101,8 @@ class Table {
       cell.innerHTML = col.name;
       cell.setAttribute('data-col', index);
       cell.setAttribute('data-fieldName', col.fieldName);
+      cell.setAttribute('data-header', true);
+
       if (col.hidden) cell.style.display = 'none';
       cell.addEventListener('click', (event) => this._sortByColumn(event));
     });

@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   initCasesTable();
   initOpenCaseFunctions();
+  setUpOpenCasesMobileSelectListener();
+  setUpCloseCaseMobileListener();
 });
 
 let open_case_ids = [];
@@ -11,7 +13,6 @@ let open_cases_container;
 let open_cases_tab_button;
 let table;
 let caseEditFormIsSubmitting = false;
-
 // Set these to values to global variables
 function initOpenCaseFunctions() {
   open_cases_container = document.querySelector('.open-cases-container');
@@ -74,9 +75,14 @@ async function initCasesTable() {
 
 function registerTableRowClickEvent() {
   table.onRowClick((event) => {
-    const id = event.target.dataset.caseid;
-    const name = event.target.dataset.name;
-    openCase(id, name);
+    const dataset = event.target.dataset;
+    // if the td is a header, we don't want to  perform
+    // this action
+    if (!dataset.header) {
+      const id = dataset.caseid;
+      const name = dataset.name;
+      openCase(id, name);
+    }
   });
 }
 
@@ -85,91 +91,66 @@ function addCountToOpenCasesLabel() {
   const notification = document.querySelector(
     '[data-bs-target="#openCases"] .notification',
   );
-  console.log({ count });
   notification.innerText = count;
+}
+
+function setUpOpenCasesMobileSelectListener() {
+  const mobileCasesSelector = document.querySelector(
+    '#openCasesTabsMobile select',
+  );
+  mobileCasesSelector.addEventListener('change', () => {
+    const value = mobileCasesSelector.value;
+    const tab = document.querySelector(`#case${value}Tab`);
+    tab?.click();
+  });
+}
+
+function setUpCloseCaseMobileListener() {
+  const closeCaseButton = document.querySelector(`#closeCaseTabMobile`);
+  closeCaseButton.addEventListener('click', () => {
+    const selectValue = document.querySelector(
+      '#openCasesTabsMobile select',
+    )?.value;
+    if (selectValue) {
+      closeTab(selectValue);
+    }
+  });
 }
 
 async function openCase(id, name) {
   if (!open_case_ids.includes(id)) {
     open_case_ids.push(id);
-    addCountToOpenCasesLabel();
     const tabContainer = document.querySelector('#openCasesTabs');
     const tabContentContainer = document.querySelector('#openCasesTabContent');
     const panes = tabContentContainer.querySelectorAll('.tab-pane');
+    const contentLabel = `case${id}Content`;
+    // set the value in the mobile dropdown for
+    // open cases
+
     panes.forEach((pane) => {
       pane.classList.remove('show', 'active');
     });
-    const button = document.createElement('button');
-    button.classList.add('nav-link');
-    const tabLabel = `case${id}Tab`;
-    const contentLabel = `case${id}Content`;
-    button.setAttribute('id', tabLabel);
-    button.setAttribute('data-bs-toggle', 'tab');
-    button.setAttribute('data-bs-target', `#${contentLabel}`);
-    button.setAttribute('type', 'button');
-    button.setAttribute('role', 'tab');
-    button.setAttribute('aria-controls', contentLabel);
-    button.setAttribute('aria-selected', true);
-    button.innerText = name;
+    addCountToOpenCasesLabel();
+    const button = createOpenCasesButton(id, name, contentLabel);
+    const closeButton = createCloseButton(id);
+    button.append(closeButton);
     tabContainer.appendChild(button);
 
-    const closeButton = document.createElement('span');
-    closeButton.classList.add('tab-close');
-    closeButton.innerHTML = '&times;';
-    closeButton.addEventListener('click', () => closeTab(id));
-    button.append(closeButton);
-
-    const content = document.createElement('div');
-    content.classList.add('tab-pane', 'fade', 'show', 'active');
-    content.setAttribute('id', contentLabel);
-    content.setAttribute('role', 'tabpanel');
-    content.setAttribute('aria-labelledby', contentLabel);
-    content.innerText = name;
-    content.style.backgroundColor = 'white';
+    const content = createContentContainer(name, contentLabel);
     tabContentContainer.appendChild(content);
     const mobileCasesSelector = document.querySelector(
       '#openCasesTabsMobile select',
     );
     // TODO this needs to work more like tabs
-    const newOption = document.createElement('option');
-    newOption.value = id;
-    newOption.innerText = name;
-    newOption.setAttribute('id', `case${id}Option`);
+    const newOption = createNewOption(id, name);
     mobileCasesSelector.appendChild(newOption);
     try {
-      const caseView = await axios.post(`lib/php/data/open_case_load.php`, {
-        id,
-      });
-
+      const caseView = await getCaseView(id);
       content.innerHTML = caseView.data;
-
-      const caseNotes = await axios.post(
-        `lib/php/data/cases_casenotes_load.php`,
-        {
-          case_id: id,
-        },
-        {
-          headers: {
-            'Content-type': 'application/json',
-          },
-        },
-      );
-
+      const caseNotes = await getCaseNotes(id);
       const notesContainer = document.querySelector(`#nav-${id}-notes`);
       notesContainer.innerHTML = caseNotes.data;
-
-      const caseData = await axios.post(
-        `lib/php/data/cases_case_data_load.php`,
-        {
-          id,
-        },
-        {
-          headers: {
-            'Content-type': 'application/json',
-          },
-        },
-      );
-
+      const caseData = await getCaseData(id);
       const dataContainer = document.querySelector(`#nav-${id}-data`);
       dataContainer.innerHTML = caseData.data;
       setUpCasePrintFunctionality(id, name);
@@ -202,6 +183,11 @@ async function openCase(id, name) {
   open_cases_tab_button.classList.remove('disabled');
   open_cases_tab_button.setAttribute('aria-disabled', 'false');
   open_cases_tab_button.click();
+  setValueOfMobileSelect(id);
+}
+
+function setValueOfMobileSelect(id) {
+  document.querySelector('#openCasesTabsMobile select').value = id;
 }
 
 function setUpCasePrintFunctionality(id, name) {
@@ -218,6 +204,48 @@ function setUpCasePrintFunctionality(id, name) {
   function printPDF() {
     html2pdf().from(caseData).save(`${name} Case Data`);
   }
+}
+
+function createOpenCasesButton(id, name, contentLabel) {
+  const button = document.createElement('button');
+  button.classList.add('nav-link');
+  const tabLabel = `case${id}Tab`;
+  button.setAttribute('id', tabLabel);
+  button.setAttribute('data-bs-toggle', 'tab');
+  button.setAttribute('data-bs-target', `#${contentLabel}`);
+  button.setAttribute('type', 'button');
+  button.setAttribute('role', 'tab');
+  button.setAttribute('aria-controls', contentLabel);
+  button.setAttribute('aria-selected', true);
+  button.innerText = name;
+  return button;
+}
+
+function createCloseButton(id) {
+  const closeButton = document.createElement('span');
+  closeButton.classList.add('tab-close');
+  closeButton.innerHTML = '&times;';
+  closeButton.addEventListener('click', () => closeTab(id));
+  return closeButton;
+}
+
+function createContentContainer(name, contentLabel) {
+  const content = document.createElement('div');
+  content.classList.add('tab-pane', 'fade', 'show', 'active');
+  content.setAttribute('id', contentLabel);
+  content.setAttribute('role', 'tabpanel');
+  content.setAttribute('aria-labelledby', contentLabel);
+  content.innerText = name;
+  content.style.backgroundColor = 'white';
+  return content;
+}
+
+function createNewOption(id, name) {
+  const newOption = document.createElement('option');
+  newOption.value = id;
+  newOption.innerText = name;
+  newOption.setAttribute('id', `case${id}Option`);
+  return newOption;
 }
 
 function setUpOpenEditCaseViewFunctionality(id) {
@@ -463,8 +491,54 @@ function closeTab(id) {
   open_case_ids = open_case_ids.filter((case_id) => case_id != id);
   const tabContent = document.querySelector(`#case${id}Content`);
   const tabButton = document.querySelector(`#case${id}Tab`);
-  const option = document.querySelector(`#case${id}Option`)
+  const option = document.querySelector(`#case${id}Option`);
   tabContent.remove();
   tabButton.remove();
   option.remove();
+  if (!open_case_ids.length) {
+    removeOpenCaseTab();
+    navigateToSearchCases();
+  }
+}
+
+function removeOpenCaseTab() {
+  document
+    .querySelector('[data-bs-target="#openCases"]')
+    ?.classList.add('disabled');
+}
+
+function navigateToSearchCases() {
+  document.querySelector(`[data-bs-target="#searchCases"]`)?.click();
+}
+
+function getCaseNotes(id) {
+  return axios.post(
+    `lib/php/data/cases_casenotes_load.php`,
+    {
+      case_id: id,
+    },
+    {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  );
+}
+function getCaseView(id) {
+  return axios.post(`lib/php/data/open_case_load.php`, {
+    id,
+  });
+}
+function getCaseData(id) {
+  return axios.post(
+    `lib/php/data/cases_case_data_load.php`,
+    {
+      id,
+    },
+    {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  );
 }
