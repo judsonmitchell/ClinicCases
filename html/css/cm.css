@@ -114,14 +114,15 @@ h5 {
 }
 
 #timer {
-  position: relative;
+  position: fixed;
   top: 0;
   left: 0;
-  height: 50px;
+  right: 0;
   background-color: white;
   text-align: left;
   padding-bottom: 5px;
-  display: none;
+  display: flex;
+  align-items: center;
 }
 
 #timer img {

@@ -163,6 +163,7 @@ async function openCase(id, name) {
       setUpAssignedUsersFunctionality(id);
       setUpSearchCaseNotesFunctionality(id);
       setUpAddCaseNoteFunctionality(id);
+      setUpCaseNoteTimerFunctionality(id);
     } catch (error) {
       console.log(error);
       alertify.error(error);
@@ -619,6 +620,16 @@ function setUpAddCaseNoteFunctionality(id) {
   }
 }
 
+function setUpCaseNoteTimerFunctionality(id) {
+  const timerButton = document.querySelector(`#caseNotesTimerButton-${id}`);
+  timerButton.addEventListener('click', openTimer);
+  async function openTimer() {
+    const timer = await getTimer();
+    const timerContainer = document.createElement('div');
+    timerContainer.innerHTML = timer;
+    document.body.append(timerContainer);
+  }
+}
 // AXIOS requests
 
 function getCaseNotes(id, update, search) {
@@ -698,4 +709,8 @@ function assignUsersToCase(id, usersArray) {
       },
     },
   );
+}
+
+function getTimer() {
+  return axios.get(`html/templates/interior/timer.php`).then((res) => res.data);
 }

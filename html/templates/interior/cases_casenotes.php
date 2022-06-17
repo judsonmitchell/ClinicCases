@@ -12,19 +12,18 @@ try {
 	$this_case_id = $case_id;
 	$this_user = $_SESSION['login'];
 	if (!isset($_POST['update'])) {
-		echo '
-	
-				<div class="case_toolbar">
-					<div class="form__control">
-						<label id="caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" for="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '">Search Case Notes</label>
-						<input id="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" data-label="#caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" name="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" type="text" />
-					</div>
-					';
+
+		echo '<div class="case_toolbar">
+
+						<div class="form__control">
+							<label id="caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" for="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '">Search Case Notes</label>
+							<input id="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" data-label="#caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" name="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" type="text" />
+						</div>';
 
 		if ($_SESSION['permissions']['add_case_notes'] == '1') {
 			echo "<div><button id='caseNotesAddButton-" . $case_notes_data[0]['case_id'] . "' class = \"button--primary\">+ Add New Note</button>
-				<button class = \"secondary-button\">
-				<img src='html/ico/timer.svg' alt='Timer Icon' /> <span>&nbsp;Timer</span>
+				<button id='caseNotesTimerButton-" . $this_case_id . "' class = \"secondary-button\">
+					<img src='html/ico/timer.svg' alt='Timer Icon' /> <span>&nbsp;Timer</span>
 		   	</button>";
 		}
 		echo '<button class = "button--secondary">
