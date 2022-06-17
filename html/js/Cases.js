@@ -156,16 +156,17 @@ async function openCase(id, name) {
       dataContainer.innerHTML = caseData.data;
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
-      setUpFloatingLabelStyles(id);
       setUpCancelEditFunctionality(id);
       setUpSaveCaseFunctionality(id);
       setLetMeEditThisFunctionality(id);
       setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
+      setUpSearchCaseNotesFunctionality(id);
     } catch (error) {
       console.log(error);
       alertify.error(error);
     } finally {
+      setUpFloatingLabelStyles(id);
       button.click();
     }
   }
@@ -570,20 +571,32 @@ async function setUpAssignedUsersFunctionality(id) {
   }
 }
 
+function setUpSearchCaseNotesFunctionality(id) {
+  const input = document.querySelector(
+    `#case${id}Content #caseNotesSearch-${id}`,
+  );
+  input.addEventListener('change', search);
+
+  async function search(event) {
+    const value = event.target.value;
+    const response = await getCaseNotes(id, true, value);
+    const notesContainer = document.querySelector(`#nav-${id}-notes .case_detail_panel_casenotes`);
+    notesContainer.innerHTML = response.data;
+  }
+}
+
 // AXIOS requests
 
-function getCaseNotes(id) {
-  return axios.post(
-    `lib/php/data/cases_casenotes_load.php`,
-    {
-      case_id: id,
+function getCaseNotes(id, update, search) {
+  let body = { case_id: id };
+  if (update) {
+    body = { ...body, update: true, search };
+  }
+  return axios.post(`lib/php/data/cases_casenotes_load.php`, body, {
+    headers: {
+      'Content-type': 'application/json',
     },
-    {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    },
-  );
+  });
 }
 function getCaseView(id) {
   return axios.post(`lib/php/data/open_case_load.php`, {

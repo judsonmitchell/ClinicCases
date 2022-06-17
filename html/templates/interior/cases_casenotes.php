@@ -3,45 +3,28 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 try {
-	if (!isset($_REQUEST['update'])) {
+	if (!isset($_POST['update'])) {
 		echo '
 	
-			<div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
-	
-			</div>
-	
-			<div class="case_detail_panel_tools">
-	
-				<div class="case_detail_panel_tools_left"></div>
-	
-				<div class="case_detail_panel_tools_right">
-	
-					<input type="text" class="casenotes_search" id="casesearch_
-	';
-		echo $case_notes_data[0]['case_id'];
-
-		echo '
-	" value="Search Case Notes">
-	
-					<input type="button" class="casenotes_search_clear">
-	';
+				<div class="case_toolbar">
+					<div class="form__control">
+						<label id="caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" for="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '">Search Case Notes</label>
+						<input id="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" data-label="#caseNotesSearchLabel-' . $case_notes_data[0]['case_id']  . '" name="caseNotesSearch-' . $case_notes_data[0]['case_id']  . '" type="text" />
+					</div>
+					';
 
 		if ($_SESSION['permissions']['add_case_notes'] == '1') {
-			echo "<button class = \"button1\">Add</button>
-				<button class = \"button2\">Timer</button>";
+			echo "<div><button class = \"button--primary\">+ Add New Note</button>
+				<button class = \"secondary-button\">
+				<img src='html/ico/timer.svg' alt='Timer Icon' /> <span>&nbsp;Timer</span>
+		   	</button>";
 		}
+		echo '<button class = "button--secondary">
+					<img src="html/ico/printer.svg" alt="Print Icon" /> <span>&nbsp;Print</span>
 
-		echo
-		'
-	
-					<button class = "button3">Print All</button>
-	
 				</div>
-	
 			</div>
-	
-			<div class="print_content case_detail_panel_casenotes case_
-	';
+			<div class="print_content case_detail_panel_casenotes case_';
 		echo $case_notes_data[0]['case_id'] . "\">";
 	}
 	//new note form to be hidden
@@ -54,16 +37,17 @@ try {
 	$this_user = $_SESSION['login'];
 
 	echo "
-	<div class='csenote csenote_new'>
+	<div class=''>
 				<form>
-				<div class='csenote_bar'>
-					<div class = 'csenote_bar_left'><img src='$this_thumb'> $this_fname $this_lname</div>
-					<div class = 'csenote_bar_right'>
-					<label>Date:</label> <input type='hidden' name='csenote_date' class='csenote_date_value' value='$this_date'> $selector
+				<div class=''>
+					<div class = ''><img src='$this_thumb'> $this_fname $this_lname</div>
+					<div class = ''>
+					<label>Date:</label> <input type='hidden' name='csenote_date' class='' value='$this_date'> $selector
 					<input type='hidden' name='csenote_user' value='$this_user'>
 					<input type='hidden' name='csenote_case_id' value='$this_case_id'>
 					<input type='hidden' name='query_type' value='add'>
-					<button class='csenote_action_submit'>Add</button><button class='csenote_action_cancel'>Cancel</button></div>
+					<button class='button--primary'>
+					Add</button><button class=''>Cancel</button></div>
 				</div>
 				<textarea name='csenote_description'></textarea>
 				</form>
@@ -74,15 +58,15 @@ try {
 	foreach ($case_notes_data as $case_notes) {
 
 		$time = convert_case_time($case_notes['time']);
-		echo "<div class='csenote' id='csenote_" . $case_notes['id'] . "'>
-					<div class='csenote_bar'>
-					<div class = 'csenote_bar_left'><img class='thumbnail-mask' src='" . thumbify($case_notes['picture_url']) . "'>&nbsp " . username_to_fullname($dbh, $case_notes['username']) . "</div><div class = 'csenote_bar_right'><span class='csenote_date'>" . extract_date($case_notes['date']) .  "</span> &#183; <span class='csenote_time'>" . $time[0] . $time[1] . "</span>";
+		echo "<div class='' id='csenote_" . $case_notes['id'] . "'>
+					<div class=''>
+					<div class = ''><img class='thumbnail-mask' src='" . thumbify($case_notes['picture_url']) . "'>&nbsp " . username_to_fullname($dbh, $case_notes['username']) . "</div><div class = ''><span class=''>" . extract_date($case_notes['date']) .  "</span> &#183; <span class=''>" . $time[0] . $time[1] . "</span>";
 
 		if ($case_notes['username'] == $_SESSION['login']) {
-			echo "&nbsp;&nbsp;&nbsp; <a href='#' class='csenote_edit'>Edit</a>&nbsp;&nbsp;<a href='#' class='csenote_delete'>Delete</a>";
+			echo "&nbsp;&nbsp;&nbsp; <a href='#' class=''>Edit</a>&nbsp;&nbsp;<a href='#' class=''>Delete</a>";
 		}
-		echo "&nbsp;&nbsp;<a href='#' class='csenote_print'>Print</a>";
-		echo "</div></div><p class='csenote_instance'>"    . nl2br(htmlentities($case_notes['description'])) . "</p></div>";
+		echo "&nbsp;&nbsp;<a href='#' class=''>Print</a>";
+		echo "</div></div><p class=''>"    . nl2br(htmlentities($case_notes['description'])) . "</p></div>";
 	}
 
 	if (empty($case_notes_data)) {

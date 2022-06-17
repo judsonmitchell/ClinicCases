@@ -13,6 +13,7 @@ try {
     include_once('../../../lib/php/utilities/convert_case_time.php');
     include_once('../../../lib/php/html/gen_select.php');
     $_REQUEST = json_decode(file_get_contents("php://input"), true);
+    $_POST = json_decode(file_get_contents("php://input"), true);
 
 
     //Load all case notes for a given case, along with user data

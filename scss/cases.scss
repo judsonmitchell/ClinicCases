@@ -274,3 +274,16 @@
     }
   }
 }
+
+
+.case_toolbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  & div{
+    display: flex;
+    align-items: center;
+  }
+}
