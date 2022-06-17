@@ -1,5 +1,4 @@
 <?php
-//function to return the correct url for the user thumbnail
 
 function thumbify($url)
 	{
@@ -9,6 +8,7 @@ function thumbify($url)
 	}
 
 function return_thumbnail($dbh,$username)
+//function to return the correct url for the user thumbnail
 	{
 		$get_user_id = $dbh->prepare("SELECT id,username FROM cm_users WHERE username = '$username' LIMIT 1");
 

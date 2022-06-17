@@ -1,6 +1,5 @@
 <?php
 //Generate html for selects using db values
-
 function genSelect($target,$chosen_array,$select_name){
 
 echo "<select name=\"$select_name\" id=\"$select_name\">";
