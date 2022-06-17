@@ -503,7 +503,7 @@ function navigateToSearchCases() {
 async function setUpAssignedUsersFunctionality(id) {
   const assignedUsersView = await getAssignedUsersView(id);
   const assignedUsersContainer = document.querySelector(
-    `#case${id}Content #assignedUsersContainer ul`,
+    `#case${id}Content #assignedUsersContainer > div`,
   );
   assignedUsersContainer.innerHTML = assignedUsersView.data;
   const assignedUsersInterface = await getAssignedUsersInterface(id);
@@ -539,7 +539,7 @@ async function setUpAssignedUsersFunctionality(id) {
           (res) => res.data,
         );
         const userList = document.querySelector(
-          `#case${id}Content #assignedUsersContainer ul`,
+          `#case${id}Content #assignedUsersContainer > div`,
         );
         userList.innerHTML = updatedAssignedUsersView;
         registerAddCaseClickEvent();
@@ -561,9 +561,11 @@ async function setUpAssignedUsersFunctionality(id) {
     document
       .querySelector(`#case${id}Content .user_add_button`)
       .addEventListener('click', () => {
-        document
-          .querySelector(`#case${id}Content #addAssignedUser`)
-          .classList.add('open');
+        const dropdown = document.querySelector(
+          `#case${id}Content #addAssignedUser`,
+        );
+        console.log({ dropdown });
+        dropdown.classList.add('open');
       });
   }
 }

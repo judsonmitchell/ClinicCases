@@ -1,4 +1,4 @@
-<nav data-caseid='<?php echo $id ?>'>
+<nav class="case-tabs" data-caseid='<?php echo $id ?>'>
   <div class="nav nav-tabs" id="case<?php echo $id ?>Data" role="tablist">
     <button class="nav-link active" id="nav-<?php echo $id ?>-notes-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo $id ?>-notes" type="button" role="tab" aria-controls="nav-<?php echo $id ?>-notes" aria-selected="true">Case Notes</button>
     <button class="nav-link" id="nav-<?php echo $id ?>-data-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo $id ?>-data" type="button" role="tab" aria-controls="nav-<?php echo $id ?>-data" aria-selected="false">Case Data</button>
@@ -7,10 +7,11 @@
     <button class="nav-link" id="nav-<?php echo $id ?>-messages-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo $id ?>-messages" type="button" role="tab" aria-controls="nav-<?php echo $id ?>-messages" aria-selected="false">Messages</button>
     <button class="nav-link" id="nav-<?php echo $id ?>-conflicts-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo $id ?>-conflicts" type="button" role="tab" aria-controls="nav-<?php echo $id ?>-conflicts" aria-selected="false">Conflicts</button>
     <button class="nav-link" id="nav-<?php echo $id ?>-contacts-tab" data-bs-toggle="tab" data-bs-target="#nav-<?php echo $id ?>-contacts" type="button" role="tab" aria-controls="nav-<?php echo $id ?>-contacts" aria-selected="false">Contacts</button>
-    <div id="assignedUsersContainer">
-      <ul></ul>
-      <div id="addAssignedUser"></div>
-    </div>
+
+  </div>
+  <div id="assignedUsersContainer">
+    <div></div>
+    <div id="addAssignedUser"></div>
   </div>
 </nav>
 <div class="tab-content" id="nav-<?php echo $id ?>-tabContent">

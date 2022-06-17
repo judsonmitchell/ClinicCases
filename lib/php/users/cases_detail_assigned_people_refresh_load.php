@@ -16,8 +16,6 @@ $refresh_users_query->execute();
 	
 $refresh_users_data = $refresh_users_query->fetchAll(PDO::FETCH_OBJ);
 
-echo '<ul>';
 include '../../../html/templates/interior/cases_detail_assigned_people_refresh.php';
-echo '</ul>';
 
 

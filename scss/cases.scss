@@ -88,6 +88,7 @@
   margin: 1rem;
   border: 1px solid $trans-border-gray;
   border-radius: 100%;
+  color: $trans-border-gray;
 }
 
 .hidden {
@@ -156,10 +157,38 @@
   display: flex;
   align-items: center;
   position: relative;
+
+  & > div {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    margin-bottom: 1rem;
+    @media screen and (max-width: $tablet) {
+      margin-left: 0;
+      width: 100%;
+    }
+    p {
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   ul {
     display: flex;
     align-items: center;
     padding: 1rem;
+
+    @media screen and (max-width: $tablet) {
+      overflow-x: scroll;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    &::-webkit-scrollbar {
+      height: 2px;
+    }
     li {
       margin: 0 1rem;
     }
@@ -180,19 +209,24 @@
     padding: 2rem;
     border: 1px solid gray;
     width: 300px;
+
+    @media screen and (max-width: $tablet) {
+      width: 100%;
+    }
     & > div {
       display: flex;
       height: 250px;
       flex-direction: column;
       justify-content: space-between;
-      form{
+
+      form {
         height: 100px;
       }
     }
     &.open {
       display: block;
     }
-    .bottom-bar{
+    .bottom-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -202,5 +236,41 @@
   .ss-main .ss-multi-selected .ss-values .ss-value {
     background-color: $light-blue;
     color: $dark-blue;
+  }
+}
+
+.case-tabs {
+  .nav-tabs {
+    margin-left: auto;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+
+    justify-content: flex-end;
+    @media screen and (max-width: $tablet) {
+      justify-content: flex-start;
+    }
+    &::-webkit-scrollbar {
+      height: 2px;
+      display: none;
+    }
+    .nav-link {
+      border-color: transparent;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      color: black;
+      padding: 2rem;
+      white-space: nowrap;
+
+      &.active,
+      &:hover {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 2px solid $dark-blue;
+        font-weight: bold;
+        color: black;
+      }
+    }
   }
 }
