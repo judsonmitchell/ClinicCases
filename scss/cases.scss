@@ -285,5 +285,8 @@
   & div{
     display: flex;
     align-items: center;
+     > button {
+      margin: 0 1rem;
+    }
   }
 }

@@ -162,6 +162,7 @@ async function openCase(id, name) {
       setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
       setUpSearchCaseNotesFunctionality(id);
+      setUpAddCaseNoteFunctionality(id);
     } catch (error) {
       console.log(error);
       alertify.error(error);
@@ -565,7 +566,6 @@ async function setUpAssignedUsersFunctionality(id) {
         const dropdown = document.querySelector(
           `#case${id}Content #addAssignedUser`,
         );
-        console.log({ dropdown });
         dropdown.classList.add('open');
       });
   }
@@ -580,8 +580,42 @@ function setUpSearchCaseNotesFunctionality(id) {
   async function search(event) {
     const value = event.target.value;
     const response = await getCaseNotes(id, true, value);
-    const notesContainer = document.querySelector(`#nav-${id}-notes .case_detail_panel_casenotes`);
+    const notesContainer = document.querySelector(
+      `#nav-${id}-notes .case_detail_panel_casenotes`,
+    );
     notesContainer.innerHTML = response.data;
+  }
+}
+function setUpAddCaseNoteFunctionality(id) {
+  const addButton = document.querySelector(`#caseNotesAddButton-${id}`);
+  addButton.addEventListener('click', openAddForm);
+  const cancelButton = document.querySelector(`#caseNotesCancel-${id}`);
+  const formContainer = document.querySelector(`#caseNotesAddForm-${id}`);
+  const form = document.querySelector(`#caseNotesAddForm-${id} form`);
+  cancelButton.addEventListener('click', closeAddForm);
+  const submitButton = document.querySelector(`#caseNotesAddSubmit-${id}`);
+  submitButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const data = getFormValues(form);
+    const response = await processCaseNotes(data);
+    if (response.data.error) {
+      alertify.error(response.data.error);
+    } else {
+      alertify.success(response.data.message);
+      closeAddForm(event);
+      const updatedData = await getCaseNotes(id, true);
+      const notesContainer = document.querySelector(
+        `#nav-${id}-notes .case_detail_panel_casenotes`,
+      );
+      notesContainer.innerHTML = updatedData.data;
+    }
+  });
+  function openAddForm() {
+    formContainer.classList.remove('hidden');
+  }
+  function closeAddForm(event) {
+    event.preventDefault();
+    formContainer.classList.add('hidden');
   }
 }
 
@@ -597,6 +631,10 @@ function getCaseNotes(id, update, search) {
       'Content-type': 'application/json',
     },
   });
+}
+
+function processCaseNotes(data) {
+  return axios.post(`lib/php/data/cases_casenotes_process.php`, data);
 }
 function getCaseView(id) {
   return axios.post(`lib/php/data/open_case_load.php`, {
