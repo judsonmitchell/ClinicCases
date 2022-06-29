@@ -16,12 +16,11 @@
       <?php
       if ($case_notes['username'] == $_SESSION['login']) {
       ?>
-        <a href='#' class=''>Edit</a>&nbsp;&nbsp;<a href='#' class=''>Delete</a>
+        <a href='#' class='case_note_edit' data-casenotesid="<?php echo $case_notes['id'] ?>">Edit</a>&nbsp;&nbsp;<a href='#' class='case_note_delete' data-casenotesid="<?php echo $case_notes['id'] ?>">Delete</a>
       <?php
       } ?>
       &nbsp;&nbsp;
-      <a href='#' class=''>Print</a>
+      <a href='#' class='case_note_print' data-casenotesid="<?php echo $case_notes['id'] ?>">Print</a>
     </div>
   </div>
 </div>
-
