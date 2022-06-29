@@ -168,7 +168,6 @@ async function openCase(id, name) {
       console.log(error);
       alertify.error(error);
     } finally {
-      setUpFloatingLabelStyles(id);
       button.click();
     }
   }

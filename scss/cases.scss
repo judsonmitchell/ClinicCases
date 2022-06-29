@@ -275,18 +275,64 @@
   }
 }
 
-
 .case_toolbar {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 
-  & div{
+  & div {
     display: flex;
     align-items: center;
-     > button {
+    > button {
       margin: 0 1rem;
     }
   }
+}
+
+.case_note {
+  border-bottom: 1px solid $trans-border-gray;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding: 2rem;
+}
+
+.case_note_details {
+  margin-left: 2rem;
+
+  width: 100%;
+  flex: 1;
+
+  .case_note_top {
+    display: flex;
+    justify-content: space-between;
+  }
+  .case_note_name {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    h4 {
+      font-family: 'Montserrat';
+      font-weight: 600;
+      font-size: 1.4rem;
+    }
+    p {
+      margin-left: 2rem;
+      font-size: 1.2rem;
+      background-color: $trans-border-gray;
+      border-radius: 2px;
+      padding: 0rem 1rem;
+      color: $border-gray;
+    }
+  }
+}
+
+.case_note_description {
+  font-size: 1.4rem;
+  margin-top: 1rem;
+}
+
+.case_note_date{
+  color: $border-gray;
 }
