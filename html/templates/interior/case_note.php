@@ -1,4 +1,4 @@
-<div class="case_note" id="case_note_<?php echo $case_notes['id'] ?>">
+<div class="case_note case_note--closed" id="case_note_<?php echo $case_notes['id'] ?>">
   <div>
     <img class='thumbnail-mask' src='<?php echo thumbify($case_notes['picture_url']) ?>'>
   </div>
@@ -12,5 +12,16 @@
       <p class="case_note_date"><?php echo extract_date($case_notes['date']) ?></p>
     </div>
     <p class="case_note_description"> <?php echo nl2br(htmlentities($case_notes['description'])) ?></p>
+    <div class="case_note_actions">
+      <?php
+      if ($case_notes['username'] == $_SESSION['login']) {
+      ?>
+        <a href='#' class=''>Edit</a>&nbsp;&nbsp;<a href='#' class=''>Delete</a>
+      <?php
+      } ?>
+      &nbsp;&nbsp;
+      <a href='#' class=''>Print</a>
+    </div>
   </div>
 </div>
+

@@ -53,17 +53,8 @@ try {
 	foreach ($case_notes_data as $case_notes) {
 
 		$time = convert_case_time($case_notes['time']);
-
+		// TODO implement infinite scroll
 		include('../../../html/templates/interior/case_note.php');
-		// echo "<div class='case_note' id='csenote_" . $case_notes['id'] . "'>
-		// 			<div class=''>
-		// 			<div class = ''><img class='thumbnail-mask' src='" . thumbify($case_notes['picture_url']) . "'>&nbsp " . username_to_fullname($dbh, $case_notes['username']) . "</div><div class = ''><span class=''>" . extract_date($case_notes['date']) .  "</span> &#183; <span class=''>" . $time[0] . $time[1] . "</span>";
-
-		// if ($case_notes['username'] == $_SESSION['login']) {
-		// 	echo "&nbsp;&nbsp;&nbsp; <a href='#' class=''>Edit</a>&nbsp;&nbsp;<a href='#' class=''>Delete</a>";
-		// }
-		// echo "&nbsp;&nbsp;<a href='#' class=''>Print</a>";
-		// echo "</div></div><p class=''>"    . nl2br(htmlentities($case_notes['description'])) . "</p></div>";
 	}
 
 	if (empty($case_notes_data)) {
