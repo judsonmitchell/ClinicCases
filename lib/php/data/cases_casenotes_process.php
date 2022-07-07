@@ -3,7 +3,6 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 $_POST = json_decode(file_get_contents("php://input"), true);
-
 try {
 	//script to add, update and delete case notes
 	session_start();
@@ -11,7 +10,7 @@ try {
 	require('../../../db.php');
 	require('../utilities/convert_times.php');
 	require('../utilities/convert_case_time.php');
-	
+
 	//Get variables
 	if (isset($_POST['csenote_casenote_id'])) {
 		$case_note_id = $_POST['csenote_casenote_id'];
@@ -23,7 +22,9 @@ try {
 
 	if (isset($_POST['csenote_date'])) {
 		$selected_date = $_POST['csenote_date'];
-		$date = date_to_sql_datetime($selected_date);
+		$date = (new DateTime($selected_date))->format("Y-m-d H:i:s");
+
+		// $date = date_to_sql_datetime(date('Y-m-d H:i:s', strtotime($selected_date)));
 	}
 
 	if (isset($_POST['csenote_description'])) {

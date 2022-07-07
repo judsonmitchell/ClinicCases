@@ -8,7 +8,7 @@ textarea {
   display: flex;
   flex-direction: column;
   position: relative;
-
+  min-height: 7rem;
   label {
     // transform: translateY(4rem);
     text-align: left;
@@ -17,7 +17,7 @@ textarea {
     position: absolute;
     top: 0.7rem;
     transition: transform 0.1s ease-out;
-
+    min-height: 3.8rem;
     &.float,
     &.float--lock {
       transform: translateY(0);

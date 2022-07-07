@@ -1,3 +1,11 @@
+<?php
+$convertedTime = explode(':', str_replace(';', '', gmdate("H:i", $case_notes['time'])));
+$hours = ltrim($convertedTime[0], 0);
+$min = ltrim($convertedTime[1], 0);
+
+$editSelector = generate_time_selector($hours, $min);
+?>
+
 <div class="case_note case_note--closed" id="case_note_<?php echo $case_notes['id'] ?>">
   <div>
     <img class='thumbnail-mask' src='<?php echo thumbify($case_notes['picture_url']) ?>'>
@@ -22,5 +30,22 @@
       &nbsp;&nbsp;
       <a href='#' class='case_note_print' data-casenotesid="<?php echo $case_notes['id'] ?>">Print</a>
     </div>
+    <form class="case_note_form hidden" id="case_note_edit<?php echo $case_notes['id'] ?>">
+      <div class="case_note_form_dates">
+        <label>Date:</label> <input type="date" name="csenote_date" class="" value='<?php echo date('Y-m-d', strtotime($case_notes['date'])) ?>'> <?php echo  $editSelector ?>
+        <input type="hidden" name="csenote_user" value='<?php echo $this_user ?>'>
+        <input type="hidden" name="csenote_case_id" value='<?php echo $this_case_id ?>'>
+        <input type="hidden" name="csenote_casenote_id" value='<?php echo $case_notes['id'] ?>'>
+
+        <input type="hidden" name="query_type" value="modify">
+      </div>
+      <textarea name="csenote_description"><?php echo nl2br(htmlentities($case_notes['description'])) ?></textarea>
+      <div class="case_note_form_toolbar">
+        <button class="case_note_form_cancel" data-caseid="<?php echo $this_case_id ?>">Cancel</button>
+        <button class="button--primary case_note_form_save">Save</button>
+      </div>
+    </form>
   </div>
+
+
 </div>

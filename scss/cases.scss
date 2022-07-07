@@ -343,7 +343,6 @@
   font-size: 1.4rem;
   margin-top: 1rem;
   word-break: break-all;
-
 }
 
 .case_note_date {
@@ -355,4 +354,27 @@
   color: $border-gray;
   display: flex;
   justify-content: flex-end;
+}
+
+.case_note_form {
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+.case_note_form_toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0rem;
+  button {
+    margin: 0 1rem;
+  }
+}
+
+.case_note_form_dates {
+  margin: 2rem 0;
+  input, label {
+    margin: 0 1rem;
+  }
 }

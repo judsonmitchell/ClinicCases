@@ -164,7 +164,6 @@ async function openCase(id, name) {
       setUpSearchCaseNotesFunctionality(id);
       setUpAddCaseNoteFunctionality(id);
       setUpCaseNoteTimerFunctionality(id);
-      
     } catch (error) {
       console.log(error);
       alertify.error(error);

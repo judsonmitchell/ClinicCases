@@ -540,14 +540,75 @@ function live(eventType, className, cb) {
     }
   });
 }
-
+// Show more for the case notes descriptions
 live('click', 'case_note_description', function () {
   const parent = this.closest('.case_note');
   parent.classList.toggle('case_note--closed');
 });
 
+// Toggle the edit form for cases
 live('click', 'case_note_edit', function (event) {
   event.preventDefault();
   const parent = this.closest('.case_note');
-  console.log({ parent });
+  const details = parent.querySelector('.case_note_description');
+  const edit = parent.querySelector('.case_note_form');
+  const actions = parent.querySelector('.case_note_actions');
+  console.log({ parent, edit });
+  details?.classList.add('hidden');
+  actions?.classList.add('hidden');
+  edit?.classList.remove('hidden');
+  console.log(edit.classList);
 });
+
+live('click', 'case_note_form_cancel', async function (event) {
+  event.preventDefault();
+  const id = this.dataset.caseid;
+  const parent = this.closest('.case_note');
+  const details = parent.querySelector('.case_note_description');
+  const edit = parent.querySelector('.case_note_form');
+  const actions = parent.querySelector('.case_note_actions');
+  details?.classList.remove('hidden');
+  actions?.classList.remove('hidden');
+  edit?.classList.add('hidden');
+  const response = await getCaseNotes(id, true, '');
+  const notesContainer = document.querySelector(
+    `#nav-${id}-notes .case_detail_panel_casenotes`,
+  );
+  notesContainer.innerHTML = response.data;
+});
+
+// modify case
+live('click', 'case_note_form_save', async function (event) {
+
+  event.preventDefault();
+  const form = this.closest('form');
+  const data = getFormValues(form);
+  try {
+    const response = await axios
+      .post(`lib/php/data/cases_casenotes_process.php`, data)
+      .then((res) => res.data);
+    console.log(data);
+    alertify.success(response.message);
+  } catch (err) {
+    alertify.error(err.message);
+  } finally {
+    const { csenote_case_id: id } = data;
+    const response = await getCaseNotes(id, true, '');
+    const notesContainer = document.querySelector(
+      `#nav-${id}-notes .case_detail_panel_casenotes`,
+    );
+    notesContainer.innerHTML = response.data;
+  }
+});
+
+function getCaseNotes(id, update, search) {
+  let body = { case_id: id };
+  if (update) {
+    body = { ...body, update: true, search };
+  }
+  return axios.post(`lib/php/data/cases_casenotes_load.php`, body, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
