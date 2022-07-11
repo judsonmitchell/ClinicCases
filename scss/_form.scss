@@ -27,16 +27,18 @@ textarea {
   }
 
   input:focus + label,
-  input:not(:placeholder-shown) + label {
+  input:not(:placeholder-shown) + label,
+  textarea:focus + label,
+  textarea:not(:placeholder-shown) + label {
     top: -3rem;
     font-size: 1.2rem;
     padding: 1rem 1rem 1rem 0rem;
   }
-  input::placeholder {
+  input::placeholder, textarea::placeholder {
     opacity: 0;
   }
 
-  input {
+  input, textarea {
     width: 100%;
     color: black;
   }

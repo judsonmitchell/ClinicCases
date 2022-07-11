@@ -60,7 +60,7 @@
         if (state === true) {
 
             const formValues = getFormValues(form);
-            console.log(formValues);s
+            console.log(formValues);
             const response = await axios.post('lib/php/utilities/create_new_case.php', {
                 params: formValues
             }).then(res => res.data);

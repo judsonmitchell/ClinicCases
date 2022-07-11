@@ -571,10 +571,8 @@ async function setUpAssignedUsersFunctionality(id) {
 }
 
 function setUpSearchCaseNotesFunctionality(id) {
-  const input = document.querySelector(
-    `#caseNotesSearch-${id}`,
-  );
-  console.log(input)
+  const input = document.querySelector(`#caseNotesSearch-${id}`);
+  console.log(input);
   input.addEventListener('change', search);
 
   async function search(event) {
@@ -588,10 +586,7 @@ function setUpSearchCaseNotesFunctionality(id) {
   }
 }
 function setUpAddCaseNoteFunctionality(id) {
-  const addButton = document.querySelector(`#caseNotesAddButton-${id}`);
-  addButton.addEventListener('click', openAddForm);
   const cancelButton = document.querySelector(`#caseNotesCancel-${id}`);
-  const formContainer = document.querySelector(`#caseNotesAddForm-${id}`);
   const form = document.querySelector(`#caseNotesAddForm-${id} form`);
   cancelButton.addEventListener('click', closeAddForm);
   const submitButton = document.querySelector(`#caseNotesAddSubmit-${id}`);
@@ -611,12 +606,17 @@ function setUpAddCaseNoteFunctionality(id) {
       notesContainer.innerHTML = updatedData.data;
     }
   });
-  function openAddForm() {
-    formContainer.classList.remove('hidden');
-  }
+
+
   function closeAddForm(event) {
+    const newCaseModal = bootstrap.Modal.getInstance(
+      document.querySelector('#newCaseNoteModal'),
+    );
+    console.log({ newCaseModal });
+
     event.preventDefault();
-    formContainer.classList.add('hidden');
+    // formContainer.classList.add('hidden');
+    newCaseModal.hide();
   }
 }
 
