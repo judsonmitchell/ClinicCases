@@ -182,7 +182,6 @@ function setValueOfMobileSelect(id) {
 }
 
 function setUpCasePrintFunctionality(id, name) {
-  const container = document.querySelector(`#nav-${id}-tabContent`);
   const button = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector('#caseDataPrintButton');
@@ -573,8 +572,9 @@ async function setUpAssignedUsersFunctionality(id) {
 
 function setUpSearchCaseNotesFunctionality(id) {
   const input = document.querySelector(
-    `#case${id}Content #caseNotesSearch-${id}`,
+    `#caseNotesSearch-${id}`,
   );
+  console.log(input)
   input.addEventListener('change', search);
 
   async function search(event) {
@@ -583,6 +583,7 @@ function setUpSearchCaseNotesFunctionality(id) {
     const notesContainer = document.querySelector(
       `#nav-${id}-notes .case_detail_panel_casenotes`,
     );
+
     notesContainer.innerHTML = response.data;
   }
 }

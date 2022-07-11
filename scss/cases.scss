@@ -297,14 +297,23 @@
   flex-direction: row;
   padding: 2rem;
   cursor: pointer;
-  &.case_note--closed {
-    .case_note_description {
-      max-height: 150px;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+  .case_note_description{
+    text-align: left;
+  }
+}
+.case_detail_panel_casenotes {
+  &:not(.pdf) {
+    .case_note {
+      &.case_note--closed {
+        .case_note_description {
+          max-height: 150px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
     }
   }
 }
@@ -342,7 +351,7 @@
 .case_note_description {
   font-size: 1.4rem;
   margin-top: 1rem;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .case_note_date {
@@ -374,7 +383,8 @@
 
 .case_note_form_dates {
   margin: 2rem 0;
-  input, label {
+  input,
+  label {
     margin: 0 1rem;
   }
 }

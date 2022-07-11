@@ -28,7 +28,7 @@ $editSelector = generate_time_selector($hours, $min);
       <?php
       } ?>
       &nbsp;&nbsp;
-      <a href='#' class='case_note_print' data-casenotesid="<?php echo $case_notes['id'] ?>">Print</a>
+      <a href='#' data-print="#case_note_<?php echo $case_notes['id'] ?>" data-filename="<?php echo case_id_to_casename($dbh, $this_case_id) ?> - <?php echo username_to_fullname($dbh, $case_notes['username']) ?> - Note <?php echo date('Y-m-d', strtotime($case_notes['date'])) ?>" class='case_note_print print-button' data-casenotesid="<?php echo $case_notes['id'] ?>">Print</a>
     </div>
     <form class="case_note_form hidden" id="case_note_edit<?php echo $case_notes['id'] ?>">
       <div class="case_note_form_dates">
