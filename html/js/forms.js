@@ -7,7 +7,6 @@
 function getFormValues(form) {
   const elements = [...form.elements];
   const values = elements.reduce((obj, current) => {
-    console.log({ obj });
     obj[current.name] = current.value;
     return obj;
   }, {});

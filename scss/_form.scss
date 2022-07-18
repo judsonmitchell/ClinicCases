@@ -68,7 +68,7 @@ textarea {
 }
 
 form.invalid {
-  input:invalid {
+  input:invalid, textarea:invalid {
     border-color: red;
   }
 }

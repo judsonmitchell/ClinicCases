@@ -6,7 +6,6 @@ export const live = (eventType, className, cb) => {
 
       el = el.parentElement;
     }
-
     if (found) {
       cb.call(el, event);
     }

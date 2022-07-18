@@ -9,7 +9,7 @@
   if ($_SESSION['permissions']['add_case_notes'] == '1') {
   ?>
     <div><button id='caseNotesAddButton-<?php echo $this_case_id ?>' class="button--primary" data-bs-toggle="modal" data-bs-target="#newCaseNoteModal">+ Add New Note</button>
-      <button id='caseNotesTimerButton-<?php echo $this_case_id ?>' class="secondary-button">
+      <button id='caseNotesTimerButton-<?php echo $this_case_id ?>' class="secondary-button case_notes_timer" data-casename="<?php echo case_id_to_casename($dbh, $this_case_id) ?>" data-caseid="<?php echo $this_case_id ?>">
         <img src='html/ico/timer.svg' alt='Timer Icon' /> <span>&nbsp;Timer</span>
       </button>
     <?php } ?>

@@ -434,9 +434,50 @@
   }
 }
 
-.case_note_add_toolbar{
+.case_note_add_toolbar {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+#timer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: $dark-blue;
+}
+
+#timer_inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#timer_inner img {
+  width: 50px;
+}
+.timer_case_name{
+  @include title-font();
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.timer_time_elapsed {
+  color: white;
+  font-weight: 700;
+  font-size: 4rem;
+}
+#timer_inner div {
+  display: flex;
+  align-items: center;
+}
+
+#timer_controls button {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
 }

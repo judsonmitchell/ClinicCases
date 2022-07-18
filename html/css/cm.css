@@ -87,7 +87,6 @@ h5 {
   max-width: 1290px;
 }
 
-
 #idletimeout {
   background: #ed1212;
   border: 3px solid #ff6500;
@@ -112,65 +111,6 @@ h5 {
 #idletimeout span {
   font-weight: bold;
 }
-
-#timer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  text-align: left;
-  padding-bottom: 5px;
-  display: flex;
-  align-items: center;
-}
-
-#timer img {
-  width: 45px;
-  height: 40px;
-  border: 0;
-  vertical-align: text-bottom;
-  padding-right: 10px;
-}
-
-#timer > #timer_inner {
-  float: left;
-  height: 40px;
-  font-size: 14px;
-  width: 45%;
-  overflow: hidden;
-}
-
-#timer .timer_time_elapsed {
-  font-size: 40px;
-}
-
-#timer .timer_case_name {
-  color: navy;
-}
-
-#timer_controls {
-  float: right;
-  height: 40px;
-  width: 54%;
-  text-align: right;
-}
-
-#timer_controls textarea {
-  display: inline-block;
-  vertical-align: text-bottom;
-  margin-right: 5px;
-}
-
-#timer_controls button {
-  margin: 10px;
-}
-
-#timer_controls form > button {
-  vertical-align: bottom;
-  margin: 5px;
-}
-
 
 #content_left {
   float: left;
