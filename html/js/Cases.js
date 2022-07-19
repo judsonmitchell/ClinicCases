@@ -1,3 +1,12 @@
+import {
+  getCaseNotes,
+  getCaseView,
+  getCaseData,
+  getAssignedUsersView,
+  getAssignedUsersInterface,
+  assignUsersToCase,
+} from '../../lib/javascripts/axios.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   initCasesTable();
   initOpenCaseFunctions();
@@ -161,7 +170,6 @@ async function openCase(id, name) {
       setLetMeEditThisFunctionality(id);
       setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
-
     } catch (error) {
       console.log(error);
       alertify.error(error);
@@ -515,14 +523,7 @@ async function setUpAssignedUsersFunctionality(id) {
   const slimSelect = new SlimSelect({
     select: `#case${id}Content .slim-select`,
   });
-  // initialize the tooltips
-  var tooltipTriggerList = [
-    ...document.querySelectorAll('[data-bs-toggle="tooltip"]'),
-  ];
-  tooltipTriggerList.map(function (tooltipTriggerEl) {
-    console.log('here');
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
+  initTooltips();
   registerAddCaseClickEvent();
   // register the click even to cancel the form
   document
@@ -542,7 +543,7 @@ async function setUpAssignedUsersFunctionality(id) {
         );
         userList.innerHTML = updatedAssignedUsersView;
         registerAddCaseClickEvent();
-
+        initTooltips();
         alertify.success('Users successfully assigned.');
       } catch {
         alertify.success('Error assigning users.');
@@ -566,85 +567,14 @@ async function setUpAssignedUsersFunctionality(id) {
         dropdown.classList.add('open');
       });
   }
-}
 
-
-
-// AXIOS requests
-
-function getCaseNotes(id, update, search) {
-  let body = { case_id: id };
-  if (update) {
-    body = { ...body, update: true, search };
+  function initTooltips() {
+    // initialize the tooltips
+    var tooltipTriggerList = [
+      ...document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+    ];
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
   }
-  return axios.post(`lib/php/data/cases_casenotes_load.php`, body, {
-    headers: {
-      'Content-type': 'application/json',
-    },
-  });
-}
-
-
-function getCaseView(id) {
-  return axios.post(`lib/php/data/open_case_load.php`, {
-    id,
-  });
-}
-function getCaseData(id) {
-  return axios.post(
-    `lib/php/data/cases_case_data_load.php`,
-    {
-      id,
-    },
-    {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    },
-  );
-}
-
-function getAssignedUsersView(id) {
-  return axios.post(
-    `lib/php/users/cases_detail_assigned_people_refresh_load.php`,
-    { id },
-    {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    },
-  );
-}
-
-function getAssignedUsersInterface(id) {
-  return axios
-    .post(
-      'lib/php/users/cases_detail_user_chooser_load.php',
-      {
-        case_id: id,
-      },
-      {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      },
-    )
-    .then((res) => res.data);
-}
-
-function assignUsersToCase(id, usersArray) {
-  return axios.get(
-    'lib/php/users/add_user_to_case.php',
-    {
-      params: {
-        users_add: usersArray,
-        case_id: id,
-      },
-    },
-    {
-      headers: {
-        'Content-type': 'application/json',
-      },
-    },
-  );
 }

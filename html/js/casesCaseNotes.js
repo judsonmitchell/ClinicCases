@@ -1,10 +1,15 @@
 import { live } from './live.js';
+import {
+  deleteCaseNote,
+  reloadCaseNoteData,
+  processCaseNotes,
+} from '../../lib/javascripts/axios.js';
 
 // search case notes
 live('change', 'case_notes_search', async (event) => {
   const value = event.target.value;
   const id = event.target.dataset.caseid;
-  reloadCaseData(id, value);
+  reloadCaseNoteData(id, value);
 });
 
 // save new case note
@@ -32,7 +37,7 @@ live('click', 'case_note_add_save', async (event) => {
   } else {
     alertify.success(response.data.message);
     closeNewCaseNoteModal();
-    reloadCaseData(id);
+    reloadCaseNoteData(id);
     resetForm(form);
   }
 });
@@ -86,15 +91,13 @@ live('click', 'case_note_form_save', async function (event) {
   const form = this.closest('form');
   const data = getFormValues(form);
   try {
-    const response = await axios
-      .post(`lib/php/data/cases_casenotes_process.php`, data)
-      .then((res) => res.data);
+    const response = await processCaseNotes(data);
     alertify.success(response.message);
   } catch (err) {
     alertify.error(err.message);
   } finally {
     const { csenote_case_id: id } = data;
-    reloadCaseData(id);
+    reloadCaseNoteData(id);
   }
 });
 
@@ -114,7 +117,7 @@ live('click', 'case_note_delete', async function (event) {
       );
       if (deleteResponse.message) {
         alertify.success(deleteResponse.message);
-        reloadCaseData(csenote_case_id);
+        reloadCaseNoteData(csenote_case_id);
       } else {
         alertify.error(deleteResponse.error || 'Error deleting case note.');
       }
@@ -123,41 +126,6 @@ live('click', 'case_note_delete', async function (event) {
   );
 });
 
-function getCaseNotes(id, update, search) {
-  let body = { case_id: id };
-  if (update) {
-    body = { ...body, update: true, search };
-  }
-  return axios.post(`lib/php/data/cases_casenotes_load.php`, body, {
-    headers: {
-      'Content-type': 'application/json',
-    },
-  });
-}
-
-function deleteCaseNote(caseNoteId) {
-  const body = {
-    query_type: 'delete',
-    csenote_casenote_id: caseNoteId,
-  };
-  return axios.post(`lib/php/data/cases_casenotes_process.php`, body, {
-    headers: {
-      'Content-type': 'application/json',
-    },
-  });
-}
-
-async function reloadCaseData(id, value = '') {
-  const response = await getCaseNotes(id, true, value);
-  const notesContainer = document.querySelector(
-    `#nav-${id}-notes .case_detail_panel_casenotes`,
-  );
-  notesContainer.innerHTML = response.data;
-}
-
-function processCaseNotes(data) {
-  return axios.post(`lib/php/data/cases_casenotes_process.php`, data);
-}
 function closeNewCaseNoteModal() {
   const newCaseModal = bootstrap.Modal.getInstance(
     document.querySelector('#newCaseNoteModal'),
@@ -165,5 +133,4 @@ function closeNewCaseNoteModal() {
 
   // formContainer.classList.add('hidden');
   newCaseModal.hide();
-
 }

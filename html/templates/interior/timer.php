@@ -1,10 +1,10 @@
 <?php
 session_start();
+date_default_timezone_set('America/Chicago');
 $_POST = json_decode(file_get_contents("php://input"), true);
 $this_case_id = $_POST['case_id'];
 $this_user = $_SESSION['login'];
-$this_date = date('Y-m-d');
-
+$this_date = date('Y-m-d H:i:s');
 ?>
 
 

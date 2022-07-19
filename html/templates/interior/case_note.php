@@ -32,7 +32,7 @@ $editSelector = generate_time_selector($hours, $min);
     </div>
     <form class="case_note_form hidden" id="case_note_edit<?php echo $case_notes['id'] ?>">
       <div class="case_note_form_dates">
-        <label>Date:</label> <input type="date" name="csenote_date" class="" value='<?php echo date('Y-m-d', strtotime($case_notes['date'])) ?>'> <?php echo  $editSelector ?>
+        <label>Date:</label> <input type="datetime-local" name="csenote_date" class="" value='<?php echo date('Y-m-d H:i:s', strtotime($case_notes['date'])) ?>'> <?php echo  $editSelector ?>
         <input type="hidden" name="csenote_user" value='<?php echo $this_user ?>'>
         <input type="hidden" name="csenote_case_id" value='<?php echo $this_case_id ?>'>
         <input type="hidden" name="csenote_casenote_id" value='<?php echo $case_notes['id'] ?>'>

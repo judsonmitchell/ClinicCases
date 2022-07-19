@@ -209,7 +209,7 @@
     padding: 2rem;
     border: 1px solid gray;
     width: 300px;
-
+    z-index:10;
     @media screen and (max-width: $tablet) {
       width: 100%;
     }
