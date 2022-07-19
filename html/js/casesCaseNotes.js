@@ -31,8 +31,9 @@ live('click', 'case_note_add_save', async (event) => {
     alertify.error(response.data.error);
   } else {
     alertify.success(response.data.message);
-    closeAddForm(event);
+    closeNewCaseNoteModal();
     reloadCaseData(id);
+    resetForm(form);
   }
 });
 
@@ -154,6 +155,9 @@ async function reloadCaseData(id, value = '') {
   notesContainer.innerHTML = response.data;
 }
 
+function processCaseNotes(data) {
+  return axios.post(`lib/php/data/cases_casenotes_process.php`, data);
+}
 function closeNewCaseNoteModal() {
   const newCaseModal = bootstrap.Modal.getInstance(
     document.querySelector('#newCaseNoteModal'),
@@ -161,4 +165,5 @@ function closeNewCaseNoteModal() {
 
   // formContainer.classList.add('hidden');
   newCaseModal.hide();
+
 }

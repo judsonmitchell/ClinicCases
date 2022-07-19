@@ -4,8 +4,9 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 try {
 	//new note form to be hidden
+	date_default_timezone_set('America/Chicago');
 	$this_thumb = $_SESSION['picture_url'];
-	$this_date = date('Y-m-d');
+	$this_date = date('Y-m-d H:i:s');
 	$this_fname = $_SESSION['first_name'];
 	$this_lname = $_SESSION['last_name'];
 	$selector = generate_time_selector(null, null);

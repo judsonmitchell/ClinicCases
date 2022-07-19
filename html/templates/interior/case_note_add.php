@@ -30,7 +30,7 @@
             <div class="">
               <div class="case_note_user_info"><img src='<?php echo $this_thumb ?>'> <?php echo $this_fname . ' ' . $this_lname ?></div>
               <div class="case_note_inputs">
-                <label>Date:</label> <input required type="date" name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
+                <label>Date:</label> <input required type="datetime-local" name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
                 <div class="case_note_time_selector">
                   <?php echo  $selector ?>
                 </div>

@@ -44,7 +44,7 @@ $this_date = date('Y-m-d');
 									<textarea id="case_note_add_description" name="csenote_description" placeholder=" " required></textarea>
 									<label for="case_note_add_description">Describe what you did</label>
 								</div>
-								<input type="date" hidden name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
+								<input type="datetime-local" hidden name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
 								<input type="hidden" name="csenote_user" value='<?php echo $this_user ?>'>
 								<input type="hidden" name="csenote_case_id" value='<?php echo $this_case_id ?>'>
 								<input type="hidden" name="query_type" value="add">

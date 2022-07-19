@@ -584,9 +584,7 @@ function getCaseNotes(id, update, search) {
   });
 }
 
-function processCaseNotes(data) {
-  return axios.post(`lib/php/data/cases_casenotes_process.php`, data);
-}
+
 function getCaseView(id) {
   return axios.post(`lib/php/data/open_case_load.php`, {
     id,
