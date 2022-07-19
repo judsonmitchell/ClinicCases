@@ -161,8 +161,7 @@ async function openCase(id, name) {
       setLetMeEditThisFunctionality(id);
       setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
-      setUpSearchCaseNotesFunctionality(id);
-      setUpAddCaseNoteFunctionality(id);
+
     } catch (error) {
       console.log(error);
       alertify.error(error);
@@ -568,74 +567,8 @@ async function setUpAssignedUsersFunctionality(id) {
       });
   }
 }
-// move to casenotes.js
-function setUpSearchCaseNotesFunctionality(id) {
-  const input = document.querySelector(`#caseNotesSearch-${id}`);
-  console.log(input);
-  input.addEventListener('change', search);
 
-  async function search(event) {
-    const value = event.target.value;
-    const response = await getCaseNotes(id, true, value);
-    const notesContainer = document.querySelector(
-      `#nav-${id}-notes .case_detail_panel_casenotes`,
-    );
 
-    notesContainer.innerHTML = response.data;
-  }
-}
-// move to caseNotes.js
-function setUpAddCaseNoteFunctionality(id) {
-  const cancelButton = document.querySelector(`#caseNotesCancel-${id}`);
-  const form = document.querySelector(`#caseNotesAddForm-${id} form`);
-  cancelButton.addEventListener('click', closeAddForm);
-  const submitButton = document.querySelector(`#caseNotesAddSubmit-${id}`);
-  submitButton.addEventListener('click', async (event) => {
-    event.preventDefault();
-    const data = getFormValues(form);
-    const isValid = checkFormValidity(form);
-    const noTime = data.csenote_hours == 0 && data.csenote_minutes == 0;
-    if (noTime) {
-      form.classList.add('invalid');
-      alertify.error('Please provide a time');
-      return;
-    }
-    if (isValid != true) {
-      form.classList.add('invalid');
-      alertify.error(`Please correct invalid fields.`);
-      return;
-    }
-    const response = await processCaseNotes(data);
-    if (response.data.error) {
-      alertify.error(response.data.error);
-    } else {
-      alertify.success(response.data.message);
-      closeAddForm(event);
-      const updatedData = await getCaseNotes(id, true);
-      const notesContainer = document.querySelector(
-        `#nav-${id}-notes .case_detail_panel_casenotes`,
-      );
-      notesContainer.innerHTML = updatedData.data;
-    }
-  });
-
-  function closeAddForm(event) {
-    alertify.confirm(
-      'Confirm',
-      'Are you sure you want to cancel? You will lose your data.',
-      () => {
-        const newCaseModal = bootstrap.Modal.getInstance(
-          document.querySelector('#newCaseNoteModal'),
-        );
-
-        event.preventDefault();
-        // formContainer.classList.add('hidden');
-        newCaseModal.hide();
-      },
-      null,
-    );
-  }
-}
 
 // AXIOS requests
 

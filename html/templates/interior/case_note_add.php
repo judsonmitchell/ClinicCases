@@ -1,7 +1,7 @@
 <div class="case_toolbar">
 
   <div class="form__control">
-    <input id="caseNotesSearch-<?php echo $this_case_id ?>" data-label="#caseNotesSearchLabel-<?php echo $this_case_id ?>" name="caseNotesSearch-<?php echo $this_case_id ?>" type="text" placeholder="search" />
+    <input class="case_notes_search" data-caseid="<?php echo $this_case_id ?>" id="caseNotesSearch-<?php echo $this_case_id ?>" data-label="#caseNotesSearchLabel-<?php echo $this_case_id ?>" name="caseNotesSearch-<?php echo $this_case_id ?>" type="text" placeholder="search" />
     <label id="caseNotesSearchLabel-<?php echo $this_case_id ?>" for="caseNotesSearch-<?php echo $this_case_id ?>">Search Case Notes</label>
   </div>
   <?php
@@ -43,13 +43,13 @@
                 <input type="hidden" name="query_type" value="add">
               </div>
             </div>
-          </form>
-          <div class="case_note_add_toolbar">
+            <div class="case_note_add_toolbar">
 
-            <button id="caseNotesCancel-<?php echo $this_case_id ?>" class="">Cancel</button>
-            <button id="caseNotesAddSubmit-<?php echo $this_case_id ?>" class="button--primary">
-              Save</button>
-          </div>
+              <button id="caseNotesCancel-<?php echo $this_case_id ?>" class="case_note_add_cancel">Cancel</button>
+              <button data-caseid="<?php echo $this_case_id ?>" id="caseNotesAddSubmit-<?php echo $this_case_id ?>" class="button--primary case_note_add_save">
+                Save</button>
+            </div>
+          </form>
         </div>
       </div>
 

@@ -1,4 +1,54 @@
 import { live } from './live.js';
+
+// search case notes
+live('change', 'case_notes_search', async (event) => {
+  const value = event.target.value;
+  const id = event.target.dataset.caseid;
+  reloadCaseData(id, value);
+});
+
+// save new case note
+live('click', 'case_note_add_save', async (event) => {
+  event.preventDefault();
+  const el = event.target;
+  const id = el.dataset.caseid;
+  const form = el.closest('form');
+  const data = getFormValues(form);
+  const isValid = checkFormValidity(form);
+  const noTime = data.csenote_hours == 0 && data.csenote_minutes == 0;
+  if (noTime) {
+    form.classList.add('invalid');
+    alertify.error('Please provide a time');
+    return;
+  }
+  if (isValid != true) {
+    form.classList.add('invalid');
+    alertify.error(`Please correct invalid fields.`);
+    return;
+  }
+  const response = await processCaseNotes(data);
+  if (response.data.error) {
+    alertify.error(response.data.error);
+  } else {
+    alertify.success(response.data.message);
+    closeAddForm(event);
+    reloadCaseData(id);
+  }
+});
+
+// cancel case notes add form
+live('click', 'case_note_add_cancel', (event) => {
+  event.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      closeNewCaseNoteModal();
+    },
+    null,
+  );
+});
+
 // Show more for the case notes descriptions
 live('click', 'case_note_description', function () {
   const parent = this.closest('.case_note');
@@ -43,11 +93,7 @@ live('click', 'case_note_form_save', async function (event) {
     alertify.error(err.message);
   } finally {
     const { csenote_case_id: id } = data;
-    const response = await getCaseNotes(id, true, '');
-    const notesContainer = document.querySelector(
-      `#nav-${id}-notes .case_detail_panel_casenotes`,
-    );
-    notesContainer.innerHTML = response.data;
+    reloadCaseData(id);
   }
 });
 
@@ -67,11 +113,7 @@ live('click', 'case_note_delete', async function (event) {
       );
       if (deleteResponse.message) {
         alertify.success(deleteResponse.message);
-        const response = await getCaseNotes(csenote_case_id, true, '');
-        const notesContainer = document.querySelector(
-          `#nav-${csenote_case_id}-notes .case_detail_panel_casenotes`,
-        );
-        notesContainer.innerHTML = response.data;
+        reloadCaseData(csenote_case_id);
       } else {
         alertify.error(deleteResponse.error || 'Error deleting case note.');
       }
@@ -102,4 +144,21 @@ function deleteCaseNote(caseNoteId) {
       'Content-type': 'application/json',
     },
   });
+}
+
+async function reloadCaseData(id, value = '') {
+  const response = await getCaseNotes(id, true, value);
+  const notesContainer = document.querySelector(
+    `#nav-${id}-notes .case_detail_panel_casenotes`,
+  );
+  notesContainer.innerHTML = response.data;
+}
+
+function closeNewCaseNoteModal() {
+  const newCaseModal = bootstrap.Modal.getInstance(
+    document.querySelector('#newCaseNoteModal'),
+  );
+
+  // formContainer.classList.add('hidden');
+  newCaseModal.hide();
 }
