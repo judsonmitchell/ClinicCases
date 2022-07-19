@@ -1,22 +1,16 @@
-//Starts idletimer.js
-$(document).ready(function () {
-    $.idleTimeout('#idletimeout', '#idletimeout a', {
-        idleAfter: 3600, //60 minutes
-        pollingInterval: 30,
-        keepAliveURL: 'lib/php/auth/keep_alive.php',
-        serverResponseEquals: 'OK',
-        onTimeout: function () {
-            $(this).slideUp();
-            window.location = 'index.php?i=Logout.php';
-        },
-        onIdle: function () {
-            $(this).slideDown(); // show the warning bar
-        },
-        onCountdown: function (counter) {
-            $(this).find('span').html(counter); // update the counter
-        },
-        onResume: function () {
-            $(this).slideUp(); // hide the warning bar
-        }
-    });
-});
+let time;
+let inactivityTime = function () {
+  document.addEventListener('DOMContentLoaded', resetTimer);
+  document.addEventListener('keypress', resetTimer);
+  document.addEventListener('mousemove', resetTimer);
+  function logout() {
+    window.location = 'index.php?i=Logout.php';
+  }
+  function resetTimer() {
+    clearTimeout(time);
+    time = setTimeout(logout, 60 * 60 * 1000); // 60 minutes in miliseconds
+  }
+};
+inactivityTime();
+export const startIdletimeout = inactivityTime;
+export const endIdleTimeout = () => clearTimeout(time);
