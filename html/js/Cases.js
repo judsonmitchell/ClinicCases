@@ -568,7 +568,7 @@ async function setUpAssignedUsersFunctionality(id) {
       });
   }
 }
-
+// move to casenotes.js
 function setUpSearchCaseNotesFunctionality(id) {
   const input = document.querySelector(`#caseNotesSearch-${id}`);
   console.log(input);
@@ -584,6 +584,7 @@ function setUpSearchCaseNotesFunctionality(id) {
     notesContainer.innerHTML = response.data;
   }
 }
+// move to caseNotes.js
 function setUpAddCaseNoteFunctionality(id) {
   const cancelButton = document.querySelector(`#caseNotesCancel-${id}`);
   const form = document.querySelector(`#caseNotesAddForm-${id} form`);
@@ -592,6 +593,18 @@ function setUpAddCaseNoteFunctionality(id) {
   submitButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const data = getFormValues(form);
+    const isValid = checkFormValidity(form);
+    const noTime = data.csenote_hours == 0 && data.csenote_minutes == 0;
+    if (noTime) {
+      form.classList.add('invalid');
+      alertify.error('Please provide a time');
+      return;
+    }
+    if (isValid != true) {
+      form.classList.add('invalid');
+      alertify.error(`Please correct invalid fields.`);
+      return;
+    }
     const response = await processCaseNotes(data);
     if (response.data.error) {
       alertify.error(response.data.error);
@@ -607,17 +620,22 @@ function setUpAddCaseNoteFunctionality(id) {
   });
 
   function closeAddForm(event) {
-    const newCaseModal = bootstrap.Modal.getInstance(
-      document.querySelector('#newCaseNoteModal'),
-    );
-    console.log({ newCaseModal });
+    alertify.confirm(
+      'Confirm',
+      'Are you sure you want to cancel? You will lose your data.',
+      () => {
+        const newCaseModal = bootstrap.Modal.getInstance(
+          document.querySelector('#newCaseNoteModal'),
+        );
 
-    event.preventDefault();
-    // formContainer.classList.add('hidden');
-    newCaseModal.hide();
+        event.preventDefault();
+        // formContainer.classList.add('hidden');
+        newCaseModal.hide();
+      },
+      null,
+    );
   }
 }
-
 
 // AXIOS requests
 
@@ -699,4 +717,3 @@ function assignUsersToCase(id, usersArray) {
     },
   );
 }
-

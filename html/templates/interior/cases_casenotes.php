@@ -8,7 +8,7 @@ try {
 	$this_date = date('Y-m-d');
 	$this_fname = $_SESSION['first_name'];
 	$this_lname = $_SESSION['last_name'];
-	$selector = generate_time_selector();
+	$selector = generate_time_selector(null, null);
 	$this_case_id = $case_id;
 	$this_user = $_SESSION['login'];
 	if (!isset($_POST['update'])) {

@@ -30,26 +30,26 @@
             <div class="">
               <div class="case_note_user_info"><img src='<?php echo $this_thumb ?>'> <?php echo $this_fname . ' ' . $this_lname ?></div>
               <div class="case_note_inputs">
-                <label>Date:</label> <input type="date" name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
+                <label>Date:</label> <input required type="date" name="csenote_date" class="case_note_date" value='<?php echo  $this_date ?>'>
                 <div class="case_note_time_selector">
                   <?php echo  $selector ?>
                 </div>
                 <div class="form__control">
-                  <textarea id="case_note_add_description" name="csenote_description" placeholder=" "></textarea>
+                  <textarea required id="case_note_add_description" name="csenote_description" placeholder=" "></textarea>
                   <label for="case_note_add_description">Description</label>
                 </div>
                 <input type="hidden" name="csenote_user" value='<?php echo $this_user ?>'>
                 <input type="hidden" name="csenote_case_id" value='<?php echo $this_case_id ?>'>
                 <input type="hidden" name="query_type" value="add">
-                <div class="case_note_add_toolbar">
-
-                  <button id="caseNotesCancel-<?php echo $this_case_id ?>" class="">Cancel</button>
-                  <button id="caseNotesAddSubmit-<?php echo $this_case_id ?>" class="button--primary">
-                    Save</button>
-                </div>
               </div>
             </div>
           </form>
+          <div class="case_note_add_toolbar">
+
+            <button id="caseNotesCancel-<?php echo $this_case_id ?>" class="">Cancel</button>
+            <button id="caseNotesAddSubmit-<?php echo $this_case_id ?>" class="button--primary">
+              Save</button>
+          </div>
         </div>
       </div>
 

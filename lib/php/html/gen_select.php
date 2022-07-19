@@ -118,8 +118,11 @@ function generate_time_selector($hours = 0, $min = 0)
 		$minutes = array('0', '6', '12', '18', '24', '30', '36', '42', '48', '54');
 	}
 
-	$selects = "<label for 'cn_h'>Hours:</label><select name='csenote_hours' id='cn_h' value='" . strval($hours) . "'> ";
+	$selects = "<label for 'cn_h'>Hours:</label><select required name='csenote_hours' id='cn_h' value='" . strval($hours) . "'>";
 
+	if ($hours == null) {
+		$selects .= "<option value='' selected>Select one...</option>";
+	}
 	for ($i = 0; $i <= 8; $i++) {
 		if (strval($i) === $hours) {
 			$selects .= "<option value='$i' selected>" . $i . "</option>";
@@ -131,8 +134,10 @@ function generate_time_selector($hours = 0, $min = 0)
 
 	$selects .= "</select>";
 
-	$selects .= "<label for 'cn_m'>Minutes: </label><select name='csenote_minutes' id='cn_m' value='" . strval($min) . "'>";
-
+	$selects .= "<label for 'cn_m'>Minutes: </label><select required name='csenote_minutes' id='cn_m' value='" . strval($min) . "'>";
+	if ($min == null) {
+		$selects .= "<option value='' selected>Select one...</option>";
+	}
 	foreach ($minutes as $val) {
 		if (strval($val) === $min) {
 

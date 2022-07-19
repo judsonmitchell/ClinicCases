@@ -17,9 +17,9 @@ live('click', 'case_note_edit', function (event) {
   edit?.classList.remove('hidden');
 });
 
+// cancel edit case form
 live('click', 'case_note_form_cancel', async function (event) {
   event.preventDefault();
-  const id = this.dataset.caseid;
   const parent = this.closest('.case_note');
   const details = parent.querySelector('.case_note_description');
   const edit = parent.querySelector('.case_note_form');
@@ -29,7 +29,7 @@ live('click', 'case_note_form_cancel', async function (event) {
   edit?.classList.add('hidden');
 });
 
-// modify case
+// modify case (submit case note edit form)
 live('click', 'case_note_form_save', async function (event) {
   event.preventDefault();
   const form = this.closest('form');
@@ -51,7 +51,7 @@ live('click', 'case_note_form_save', async function (event) {
   }
 });
 
-// delete case
+// delete case note
 live('click', 'case_note_delete', async function (event) {
   event.preventDefault();
   alertify.confirm(
