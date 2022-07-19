@@ -5,6 +5,7 @@
 @import './layouts/modal';
 @import './tables';
 
+
 #content {
   #searchCases,
   #openCases {
@@ -20,7 +21,11 @@
   .tab-pane {
     width: 100%;
   }
+  .tab-content{
+    padding-bottom: 10rem;
+  }
 }
+
 
 #viewCaseData,
 #editCaseData {
@@ -209,7 +214,7 @@
     padding: 2rem;
     border: 1px solid gray;
     width: 300px;
-    z-index:10;
+    z-index: 10;
     @media screen and (max-width: $tablet) {
       width: 100%;
     }
@@ -450,6 +455,7 @@
   background: $dark-blue;
 }
 
+
 #timer_inner {
   display: flex;
   align-items: center;
@@ -457,18 +463,28 @@
 }
 #timer_inner img {
   width: 50px;
+
+  @media screen and (max-width: 767px) {
+    width: 30px;
+  }
 }
-.timer_case_name{
+.timer_case_name {
   @include title-font();
   color: white;
   font-size: 2rem;
   font-weight: 700;
+  @media screen and (max-width: 767px) {
+    font-size: 1.5rem;
+  }
 }
 
 .timer_time_elapsed {
   color: white;
   font-weight: 700;
   font-size: 4rem;
+  @media screen and (max-width: 767px) {
+    font-size: 2rem;
+  }
 }
 #timer_inner div {
   display: flex;
@@ -480,4 +496,7 @@
   align-items: center;
   color: white;
   font-size: 2rem;
+  @media screen and (max-width: 767px) {
+    font-size: 1.5rem;
+  }
 }

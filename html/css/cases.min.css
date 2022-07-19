@@ -521,6 +521,9 @@
 #openCases .tab-pane {
   width: 100%;
 }
+#openCases .tab-content {
+  padding-bottom: 10rem;
+}
 
 #viewCaseData,
 #editCaseData {
@@ -955,6 +958,11 @@
 #timer_inner img {
   width: 50px;
 }
+@media screen and (max-width: 767px) {
+  #timer_inner img {
+    width: 30px;
+  }
+}
 
 .timer_case_name {
   font-family: lemonde-journal, sans-serif;
@@ -963,11 +971,21 @@
   font-size: 2rem;
   font-weight: 700;
 }
+@media screen and (max-width: 767px) {
+  .timer_case_name {
+    font-size: 1.5rem;
+  }
+}
 
 .timer_time_elapsed {
   color: white;
   font-weight: 700;
   font-size: 4rem;
+}
+@media screen and (max-width: 767px) {
+  .timer_time_elapsed {
+    font-size: 2rem;
+  }
 }
 
 #timer_inner div {
@@ -980,4 +998,9 @@
   align-items: center;
   color: white;
   font-size: 2rem;
+}
+@media screen and (max-width: 767px) {
+  #timer_controls button {
+    font-size: 1.5rem;
+  }
 }/*# sourceMappingURL=cases.min.css.map */
