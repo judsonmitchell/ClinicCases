@@ -1,165 +1,152 @@
 <?php
 @session_start();
-require_once dirname(__FILE__) . '/../../../db.php';
-require(CC_PATH . '/lib/php/auth/session_check.php');
-include_once(CC_PATH . '/lib/php/utilities/names.php');
-include_once(CC_PATH . '/lib/php/utilities/convert_times.php');
-include_once(CC_PATH . '/lib/php/utilities/format_text.php');
-
-if (isset($_REQUEST['id'])) {
-    $case_id = $_REQUEST['id'];
-}
-
-if (isset($_REQUEST['container'])) {
-    if ($_SESSION['mobile']){
-        $container = preserve_slashes(rawurlencode($_REQUEST['container']));
-    } else {
-        $container = $_REQUEST['container'];
-    }
-}
-
-if (isset($_REQUEST['path'])) {
-    if ($_SESSION['mobile']){
-        $path = preserve_slashes(rawurlencode($_REQUEST['path']));
-    } else {
-        $path = $_REQUEST['path'];
-    }
-}
-
-if (isset($_REQUEST['update'])) {
-    $update = $_REQUEST['update'];
-}
-
-if (isset($_REQUEST['search'])) {
-    $search =  $_REQUEST['search'];
-    $search_wildcard = "%" . $search . "%";
-}
-
-if (isset($_REQUEST['list_view']) || $_COOKIE['cc_doc_view'] == 'list') {
-    $list_view = "yes";
-}
-
-
-//append the file type to each document array element.  Used to determine icon
-function append_file_type(&$value,$key)
-{
-	if (stristr($value['local_file_name'], 'http://') || stristr($value['local_file_name'], 'https://') || stristr($value['local_file_name'], 'ftp://'))
-	{
-		$file_type = 'url';
-	}
-	else
-	{
-		$parts = explode('.', $value['local_file_name']);
-		$file_type = strtolower(end($parts));
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+try {
+	require_once dirname(__FILE__) . '/../../../db.php';
+	require('../../../lib/php/auth/session_check.php');
+	include_once('../../../lib/php/utilities/names.php');
+	include_once('../../../lib/php/utilities/convert_times.php');
+	include_once('../../../lib/php/utilities/format_text.php');
+	$_REQUEST = json_decode(file_get_contents("php://input"), true);
+	if (isset($_REQUEST['id'])) {
+		$case_id = $_REQUEST['id'];
 	}
 
-	$value['type'] = $file_type;
+	if (isset($_REQUEST['container'])) {
+		if ($_SESSION['mobile']) {
+			$container = preserve_slashes(rawurlencode($_REQUEST['container']));
+		} else {
+			$container = $_REQUEST['container'];
+		}
+	}
 
-}
+	if (isset($_REQUEST['path'])) {
+		if ($_SESSION['mobile']) {
+			$path = preserve_slashes(rawurlencode($_REQUEST['path']));
+		} else {
+			$path = $_REQUEST['path'];
+		}
+	}
 
-//return appropriate icon for file type
-function get_icon($type)
-{
+	if (isset($_REQUEST['update'])) {
+		$update = $_REQUEST['update'];
+	}
 
-	if (in_array($type, array('doc','docx','odt','rtf','txt','wpd')))
-	{return "html/ico/doc.png";}
+	if (isset($_REQUEST['search'])) {
+		$search =  $_REQUEST['search'];
+		$search_wildcard = "%" . $search . "%";
+	}
 
-	if (in_array($type, array('xls','ods','csv')))
-	{return "html/ico/spreadsheet.png";}
+	if (isset($_REQUEST['list_view']) || isset($_COOKIE['cc_doc_view']) && $_COOKIE['cc_doc_view'] == 'list') {
+		$list_view = "yes";
+	}
 
-	elseif (in_array($type, array('mp3','wav','ogg','aif','aiff')))
-	{return "html/ico/audio.png";}
 
-	elseif (in_array($type, array('pdf')))
-	{return "html/ico/pdf.png";}
+	//append the file type to each document array element.  Used to determine icon
+	function append_file_type(&$value, $key)
+	{
+		if (stristr($value['local_file_name'], 'http://') || stristr($value['local_file_name'], 'https://') || stristr($value['local_file_name'], 'ftp://')) {
+			$file_type = 'url';
+		} else {
+			$parts = explode('.', $value['local_file_name']);
+			$file_type = strtolower(end($parts));
+		}
 
-	elseif (in_array($type, array('mpeg','avi','mp4','mpg','mov','qt','ovg','webm','ogv','flv')))
-	{return "html/ico/video.png";}
+		$value['type'] = $file_type;
+	}
 
-	elseif (in_array($type, array('bmp','jpg','jpeg','gif','png','svg','tif','tiff')))
-	{return "html/ico/image.png";}
+	//return appropriate icon for file type
+	function get_icon($type)
+	{
 
-	elseif (in_array($type, array('zip','tar','gz','bz')))
-	{return "html/ico/zip.png";}
+		if (in_array($type, array('doc', 'docx', 'odt', 'rtf', 'txt', 'wpd'))) {
+			return "html/ico/doc.png";
+		}
 
-	elseif (in_array($type, array('url')))
-	{return "html/ico/url.png";}
+		if (in_array($type, array('xls', 'ods', 'csv'))) {
+			return "html/ico/spreadsheet.png";
+		} elseif (in_array($type, array('mp3', 'wav', 'ogg', 'aif', 'aiff'))) {
+			return "html/ico/audio.png";
+		} elseif (in_array($type, array('pdf'))) {
+			return "html/ico/pdf.png";
+		} elseif (in_array($type, array('mpeg', 'avi', 'mp4', 'mpg', 'mov', 'qt', 'ovg', 'webm', 'ogv', 'flv'))) {
+			return "html/ico/video.png";
+		} elseif (in_array($type, array('bmp', 'jpg', 'jpeg', 'gif', 'png', 'svg', 'tif', 'tiff'))) {
+			return "html/ico/image.png";
+		} elseif (in_array($type, array('zip', 'tar', 'gz', 'bz'))) {
+			return "html/ico/zip.png";
+		} elseif (in_array($type, array('url'))) {
+			return "html/ico/url.png";
+		} elseif (in_array($type, array('ccd'))) {
+			return "html/ico/text-richtext.png";
+		} else {
+			return "html/ico/other.png";
+		}
+	}
 
-	elseif (in_array($type, array('ccd')))
-	{return "html/ico/text-richtext.png";}
+	//get document folders for this case and return array
 
-	else {return "html/ico/other.png";}
+	if (isset($container)) //Indicates this is a sub-folder
+	{
+		$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND local_file_name = '' AND case_id = :id";
+	} else if (isset($search)) {
+		$sql = "SELECT * FROM cm_documents WHERE folder LIKE :search  AND local_file_name='' AND case_id = :id";
+	} else //Is in the root directory.  Empty local_file_name indicates that this is a folder, not a document
+	{
+		$sql = "SELECT * FROM cm_documents WHERE folder != '' AND local_file_name='' AND containing_folder = '' AND case_id = :id";
+	}
 
-}
+	$folder_query = $dbh->prepare($sql);
 
-//get document folders for this case and return array
+	$folder_query->bindParam(':id', $case_id);
 
-if (isset($container)) //Indicates this is a sub-folder
-{
-	$sql = "SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND local_file_name = '' AND case_id = :id";
-}
-else if (isset($search))
-{
-	$sql = "SELECT * FROM cm_documents WHERE folder LIKE :search  AND local_file_name='' AND case_id = :id";
-}
-else //Is in the root directory.  Empty local_file_name indicates that this is a folder, not a document
-{
-	$sql = "SELECT * FROM cm_documents WHERE folder != '' AND local_file_name='' AND containing_folder = '' AND case_id = :id";
-}
+	if (isset($container)) {
+		$folder_query->bindParam(':container', $container);
+	}
 
-$folder_query = $dbh->prepare($sql);
+	if (isset($search)) {
+		$folder_query->bindParam(':search', $search_wildcard);
+	}
 
-$folder_query->bindParam(':id',$case_id);
+	$folder_query->execute();
 
-if (isset($container))
-{
-	$folder_query->bindParam(':container',$container);
-}
+	$folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
+	//get all documents not inside a folder
 
-if (isset($search))
-{
-	$folder_query->bindParam(':search',$search_wildcard);
-}
+	if (isset($path)) {
+		$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path";
+	} else if (isset($search)) {
+		$sql = "SELECT * FROM cm_documents where name like :search and case_id = :id";
+	} else {
 
-$folder_query->execute();
+		$sql = "SELECT * FROM cm_documents WHERE case_id = :id and folder = ''";
+	}
 
-$folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
-//get all documents not inside a folder
+	$documents_query = $dbh->prepare($sql);
 
-if (isset($path))
-{
-	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path";
-}
-else if (isset($search))
-{
-    $sql = "SELECT * FROM cm_documents where name like :search and case_id = :id";
-}
-else
-{
+	$documents_query->bindParam(':id', $case_id);
 
-	$sql = "SELECT * FROM cm_documents WHERE case_id = :id and folder = ''";
-}
+	if (isset($path)) {
+		$documents_query->bindParam(':path', $path);
+	}
 
-$documents_query = $dbh->prepare($sql);
+	if (isset($search)) {
+		$documents_query->bindParam(':search', $search_wildcard);
+	}
 
-$documents_query->bindParam(':id',$case_id);
+	$documents_query->execute();
 
-if (isset($path)) {
-    $documents_query->bindParam(':path',$path);
-}
+	$documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($search)) {
-    $documents_query->bindParam(':search',$search_wildcard);
-}
+	array_walk($documents, 'append_file_type');
 
-$documents_query->execute();
-
-$documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
-
-array_walk($documents, 'append_file_type');
-
-if (isset($search) || isset($list_view)){
-    include('../../../html/templates/interior/cases_documents_list.php');
-} else if ( !$_SESSION['mobile']){
-    include('../../../html/templates/interior/cases_documents.php');
+	if (isset($search) || isset($list_view)) {
+		include('../../../html/templates/interior/cases_documents_list.php');
+	} else if (!$_SESSION['mobile']) {
+		include('../../../html/templates/interior/cases_documents.php');
+	}
+} catch (Exception $e) {
+	var_dump($e);
 }

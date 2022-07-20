@@ -5,6 +5,7 @@ import {
   getAssignedUsersView,
   getAssignedUsersInterface,
   assignUsersToCase,
+  getDocuments,
 } from '../../lib/javascripts/axios.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -163,6 +164,10 @@ async function openCase(id, name) {
       const caseData = await getCaseData(id);
       const dataContainer = document.querySelector(`#nav-${id}-data`);
       dataContainer.innerHTML = caseData.data;
+      const documentsData = await getDocuments(id);
+      const documentsContainer = document.querySelector(`#nav-${id}-documents`);
+      documentsContainer.innerHTML= documentsData;
+
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
       setUpCancelEditFunctionality(id);

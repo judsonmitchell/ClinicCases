@@ -1118,7 +1118,7 @@ div.case_documents_submenu {
   width: 99%;
   text-align: left;
 }
-div.doc_item {
+/* div.doc_item {
   display: inline-block;
   margin: 10px;
   vertical-align: top;
@@ -1163,12 +1163,12 @@ div.doc_item textarea {
 }
 div.doc_item textarea.user_input {
   outline: #aaa solid thin;
-}
+} */
 a.active {
   text-decoration: none;
 }
 /* This allows for the context menu to be display on docs that are at the bottom of the window */
-div.doc_spacing_fix {
+/* div.doc_spacing_fix {
   width: 100%;
   height: 100px;
 }
@@ -1185,10 +1185,10 @@ input.documents_search_clear {
   position: relative;
   left: -30px;
   display: none;
-}
+} */
 
 /* Search Table */
-#doc_list {
+/* #doc_list {
   width: 100%;
   border-collapse: collapse;
 }
@@ -1197,11 +1197,11 @@ input.documents_search_clear {
 }
 #doc_list tbody tr:nth-child(odd) {
   background-color: rgb(195, 217, 255);
-}
+} */
 
-#doc_list tbody tr:nth-child(even) {
+/* #doc_list tbody tr:nth-child(even) {
   background-color: #ffffff;
-}
+} */
 
 .buttonset-inactive {
   background: #dadada
@@ -1209,7 +1209,7 @@ input.documents_search_clear {
     50% 50% repeat-x !important;
 }
 
-div.upload_dialog {
+/* div.upload_dialog {
   display: none;
 }
 div.upload_dialog p {
@@ -1217,22 +1217,22 @@ div.upload_dialog p {
 }
 div.upload_dialog * {
   outline: 0;
-}
-div.upload_dialog .upload_directory {
+} */
+/* div.upload_dialog .upload_directory {
   font-weight: bold;
 }
 div.upload_url_form {
   display: none;
   padding: 20px;
-}
-div.upload_url_form label {
+} */
+/* div.upload_url_form label {
   display: inline-block;
   width: 50px;
 }
 div.upload_url_form input {
   width: 300px;
-}
-div.upload_progress {
+} */
+/* div.upload_progress {
   height: 10px;
   color: black;
 }
@@ -1243,13 +1243,13 @@ p.upload_url_form_error_url {
 p.upload_url_form_error_name {
   color: red;
   font-size: 0.8em;
-}
-p.upload_url_notify {
+} */
+/* p.upload_url_notify {
   color: green;
   font-size: 1em;
-}
+} */
 
-div.text_editor_bar {
+/* div.text_editor_bar {
   width: 900px;
   margin: auto;
 }
@@ -1260,8 +1260,8 @@ div.text_editor_title {
 }
 div.text_editor_title input {
   font-size: 16pt;
-}
-div.text_editor_status {
+} */
+/* div.text_editor_status {
   width: 30%;
   float: right;
   text-align: right;
@@ -1270,8 +1270,8 @@ div.text_editor_status span.status {
   font-size: 0.7em;
   color: #aaaaaa;
   margin-right: 10px;
-}
-div.text_editor_status span.readonly {
+} */
+/* div.text_editor_status span.readonly {
   font-size: 0.7em;
   color: red;
   font-weight: bold;
@@ -1280,7 +1280,7 @@ div.text_editor_status span.readonly {
 
 ul.docMenu_copy_paste {
   display: none;
-}
+} */
 
 div.contact_bar {
   height: 45px;

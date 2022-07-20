@@ -5,7 +5,6 @@
 @import './layouts/modal';
 @import './tables';
 
-
 #content {
   #searchCases,
   #openCases {
@@ -21,11 +20,10 @@
   .tab-pane {
     width: 100%;
   }
-  .tab-content{
+  .tab-content {
     padding-bottom: 10rem;
   }
 }
-
 
 #viewCaseData,
 #editCaseData {
@@ -455,7 +453,6 @@
   background: $dark-blue;
 }
 
-
 #timer_inner {
   display: flex;
   align-items: center;
@@ -499,4 +496,81 @@
   @media screen and (max-width: 767px) {
     font-size: 1.5rem;
   }
+}
+
+// DOCUMENTS
+.doc_item p {
+  font-weight: bold;
+  color: $dark-blue;
+}
+
+.case_documents_toolbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.case_documents_toolbar--right {
+  display: flex;
+  align-items: center;
+}
+.case_documents_toolbar button{
+  margin: 0 0.5rem;
+}
+
+.documents_view_chooser {
+  display: flex;
+  align-items: stretch;
+  margin-left: 0.5rem;
+}
+
+.documents_view_chooser > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+}
+
+
+
+.documents_view_chooser--grid, .documents_view_chooser--list {
+  border: 2px solid $dark-blue;
+  padding: 0 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.documents_view_chooser--grid {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.documents_view_chooser--list {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.documents_view_chooser--grid img {
+  width: 20px;
+  margin-right: 5px;
+}
+.documents_view_chooser--list img {
+  width: 30px;
+}
+
+.documents_view_chooser.grid .documents_view_chooser--grid {
+  background: $dark-blue;
+  color: $light-blue;
+}
+.documents_view_chooser.grid .documents_view_chooser--list {
+  background: $light-blue;
+  color: $dark-blue;
+  font-weight: bold;
+}
+.documents_view_chooser.list .documents_view_chooser--grid {
+  background: $dark-blue;
+  color: $light-blue;
+}
+.documents_view_chooser.list .documents_view_chooser--list {
+  background: $light-blue;
+  color: $dark-blue;
+  font-weight: bold;
 }

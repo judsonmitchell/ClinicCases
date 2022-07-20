@@ -81,6 +81,7 @@
   width: 40px;
   height: 40px;
   overflow: hidden;
+  white-space: nowrap;
 
   img {
     height: 40px;
@@ -106,7 +107,7 @@
     border-bottom-left-radius: 50px;
     transition: max-width 0.2s ease-in-out 1s, border-radius 0.1s ease-in-out 0.9s, width 0.2s ease-in-out 1s, padding 0.2s ease-in-out 1s;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    width: 125px;
+    width: 175px;
     img {
       background: hsl(203, 48%, 68%);
       transition: background 0.75s ease-in-out;

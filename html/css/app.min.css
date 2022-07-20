@@ -118,6 +118,7 @@ th {
   width: 40px;
   height: 40px;
   overflow: hidden;
+  white-space: nowrap;
 }
 @media screen and (max-width: 1024px) {
   .secondary-button {
@@ -154,7 +155,7 @@ th {
   border-bottom-left-radius: 50px;
   transition: max-width 0.2s ease-in-out 1s, border-radius 0.1s ease-in-out 0.9s, width 0.2s ease-in-out 1s, padding 0.2s ease-in-out 1s;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  width: 125px;
+  width: 175px;
 }
 .secondary-button:hover img {
   background: hsl(203deg, 48%, 68%);
@@ -251,6 +252,7 @@ button {
   width: 40px;
   height: 40px;
   overflow: hidden;
+  white-space: nowrap;
 }
 @media screen and (max-width: 1024px) {
   .button--secondary {
@@ -299,7 +301,7 @@ button {
   border-bottom-left-radius: 50px;
   transition: max-width 0.2s ease-in-out 1s, border-radius 0.1s ease-in-out 0.9s, width 0.2s ease-in-out 1s, padding 0.2s ease-in-out 1s;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  width: 125px;
+  width: 175px;
 }
 .button--secondary:hover img {
   background: hsl(203deg, 48%, 68%);
