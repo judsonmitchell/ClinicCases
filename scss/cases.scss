@@ -514,26 +514,24 @@
   display: flex;
   align-items: center;
 }
-.case_documents_toolbar button{
+.case_documents_toolbar button {
   margin: 0 0.5rem;
 }
 
 .documents_view_chooser {
   display: flex;
   align-items: stretch;
-  margin-left: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 .documents_view_chooser > div {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-
 }
 
-
-
-.documents_view_chooser--grid, .documents_view_chooser--list {
+.documents_view_chooser--grid,
+.documents_view_chooser--list {
   border: 2px solid $dark-blue;
   padding: 0 1rem;
   font-weight: bold;
@@ -542,35 +540,72 @@
 .documents_view_chooser--grid {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  img {
+    width: 20px;
+    margin-right: 5px;
+  }
 }
 
 .documents_view_chooser--list {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-}
-.documents_view_chooser--grid img {
-  width: 20px;
-  margin-right: 5px;
-}
-.documents_view_chooser--list img {
-  width: 30px;
+  img {
+    width: 30px;
+  }
 }
 
 .documents_view_chooser.grid .documents_view_chooser--grid {
   background: $dark-blue;
-  color: $light-blue;
+  p {
+    color: $light-blue;
+  }
 }
 .documents_view_chooser.grid .documents_view_chooser--list {
   background: $light-blue;
-  color: $dark-blue;
   font-weight: bold;
+  p {
+    color: $dark-blue;
+  }
 }
 .documents_view_chooser.list .documents_view_chooser--grid {
   background: $dark-blue;
-  color: $light-blue;
+  p {
+    color: $light-blue;
+  }
 }
 .documents_view_chooser.list .documents_view_chooser--list {
   background: $light-blue;
-  color: $dark-blue;
   font-weight: bold;
+  p {
+    color: $dark-blue;
+  }
+}
+.case_detail_panel_casenotes {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 0rem;
+  .doc_item {
+    width: 150px;
+    cursor: pointer;
+    img {
+      display: block;
+      margin: 1rem auto;
+      height: 85px;
+    }
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+    &:hover {
+      p {
+        overflow: auto;
+        white-space: normal;
+      }
+    }
+  }
+  .doc_properties {
+    display: none;
+  }
 }

@@ -1029,7 +1029,7 @@
 .documents_view_chooser {
   display: flex;
   align-items: stretch;
-  margin-left: 0.5rem;
+  padding-left: 0.5rem;
 }
 
 .documents_view_chooser > div {
@@ -1038,7 +1038,8 @@
   justify-content: space-evenly;
 }
 
-.documents_view_chooser--grid, .documents_view_chooser--list {
+.documents_view_chooser--grid,
+.documents_view_chooser--list {
   border: 2px solid #2b50aa;
   padding: 0 1rem;
   font-weight: bold;
@@ -1049,39 +1050,73 @@
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-
-.documents_view_chooser--list {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
 .documents_view_chooser--grid img {
   width: 20px;
   margin-right: 5px;
 }
 
+.documents_view_chooser--list {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
 .documents_view_chooser--list img {
   width: 30px;
 }
 
 .documents_view_chooser.grid .documents_view_chooser--grid {
   background: #2b50aa;
+}
+.documents_view_chooser.grid .documents_view_chooser--grid p {
   color: #c3dbea;
 }
 
 .documents_view_chooser.grid .documents_view_chooser--list {
   background: #c3dbea;
-  color: #2b50aa;
   font-weight: bold;
+}
+.documents_view_chooser.grid .documents_view_chooser--list p {
+  color: #2b50aa;
 }
 
 .documents_view_chooser.list .documents_view_chooser--grid {
   background: #2b50aa;
+}
+.documents_view_chooser.list .documents_view_chooser--grid p {
   color: #c3dbea;
 }
 
 .documents_view_chooser.list .documents_view_chooser--list {
   background: #c3dbea;
-  color: #2b50aa;
   font-weight: bold;
+}
+.documents_view_chooser.list .documents_view_chooser--list p {
+  color: #2b50aa;
+}
+
+.case_detail_panel_casenotes {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 0rem;
+}
+.case_detail_panel_casenotes .doc_item {
+  width: 150px;
+  cursor: pointer;
+}
+.case_detail_panel_casenotes .doc_item img {
+  display: block;
+  margin: 1rem auto;
+  height: 85px;
+}
+.case_detail_panel_casenotes .doc_item p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.case_detail_panel_casenotes .doc_item:hover p {
+  overflow: auto;
+  white-space: normal;
+}
+.case_detail_panel_casenotes .doc_properties {
+  display: none;
 }/*# sourceMappingURL=cases.min.css.map */

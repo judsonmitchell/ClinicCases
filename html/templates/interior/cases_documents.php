@@ -30,11 +30,11 @@ if (!isset($update)) {
 				<div class="documents_view_chooser list">
 					<div class="documents_view_chooser--grid">
 						<img src="html/ico/grid-unselected.png" alt="">
-						Grid
+						<p>Grid</p>
 					</div>
 					<div class="documents_view_chooser--list">
 						<img src="html/ico/list-selected.png" alt="">
-						List
+						<p>List</p>
 					</div>
 				</div>
 			<?php } else { ?>
@@ -42,11 +42,13 @@ if (!isset($update)) {
 
 					<div class="documents_view_chooser--grid">
 						<img src="html/ico/grid-selected.png" alt="">
-						Grid
+						<p>Grid</p>
+
 					</div>
 					<div class="documents_view_chooser--list">
 						<img src="html/ico/list-unselected.png" alt="">
-						List
+						<p>List</p>
+
 					</div>
 				</div>
 		</div>
@@ -59,7 +61,7 @@ if (!isset($update)) {
 
 
 	<div class="case_documents_submenu">
-		<img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/
+		<a href="#" class="doc_trail_home">Home</a>>
 		<span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
 	</div>
 	<div class="case_detail_panel_casenotes">
@@ -83,7 +85,7 @@ if (!isset($update)) {
 		$user = username_to_fullname($dbh, $folder['username']);
 
 		$date = extract_date_time($folder['date_modified']);
-		echo "<div class='doc_item folder' path='$folder_path' data-id='$folder[id]'><img src='html/ico/folder.png'><p>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</p></div>";
+		echo "<div class='doc_item folder' data-caseid='$folder[case_id]' data-path='$folder_path' data-id='$folder[id]'><img src='html/ico/folder.png'><p>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</p></div>";
 		echo "<div class='doc_properties' tabindex='1'><h3><img src='html/ico/folder.png'>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</h3>
 					<hr />
 					<p><label>Type</label>    Folder</p>
@@ -98,7 +100,8 @@ if (!isset($update)) {
 		$user = username_to_fullname($dbh, $document['username']);
 		$date = extract_date_time($document['date_modified']);
 
-		echo "<div id='doc_$document[id]' class='doc_item item $document[type]' data-id='$document[id]'><img src='$icon'><p>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES, 'UTF-8') . "</p></div>";
+
+		echo "<div id='doc_$document[id]' data-caseid='$document[case_id]' data-path='$document[folder]' class='doc_item item $document[type]' data-id='$document[id]'><img src='$icon'><p>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES, 'UTF-8') . "</p></div>";
 		echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES, 'UTF-8') . "</h3>
 			<hr />
 			<p><label>Type</label>     $document[type]</p>
