@@ -568,16 +568,16 @@
   }
 }
 .documents_view_chooser.list .documents_view_chooser--grid {
-  background: $dark-blue;
+  background: $light-blue;
   p {
-    color: $light-blue;
+    color: $dark-blue;
   }
 }
 .documents_view_chooser.list .documents_view_chooser--list {
-  background: $light-blue;
+  background: $dark-blue;
   font-weight: bold;
   p {
-    color: $dark-blue;
+    color: $light-blue;
   }
 }
 .case_detail_panel_casenotes {

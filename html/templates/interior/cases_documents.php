@@ -28,11 +28,11 @@ if (!isset($update)) {
 			<?php
 			if (isset($list) && $list == "yes") { ?>
 				<div class="documents_view_chooser list">
-					<div class="documents_view_chooser--grid">
+					<div class="documents_view_chooser--grid" data-caseid="<?php echo $case_id ?>">
 						<img src="html/ico/grid-unselected.png" alt="">
 						<p>Grid</p>
 					</div>
-					<div class="documents_view_chooser--list">
+					<div class="documents_view_chooser--list" data-caseid="<?php echo $case_id ?>">
 						<img src="html/ico/list-selected.png" alt="">
 						<p>List</p>
 					</div>
@@ -40,12 +40,12 @@ if (!isset($update)) {
 			<?php } else { ?>
 				<div class="documents_view_chooser grid">
 
-					<div class="documents_view_chooser--grid">
+					<div class="documents_view_chooser--grid" data-caseid="<?php echo $case_id ?>">
 						<img src="html/ico/grid-selected.png" alt="">
 						<p>Grid</p>
 
 					</div>
-					<div class="documents_view_chooser--list">
+					<div class="documents_view_chooser--list" data-caseid="<?php echo $case_id ?>">
 						<img src="html/ico/list-unselected.png" alt="">
 						<p>List</p>
 

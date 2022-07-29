@@ -1079,18 +1079,18 @@
 }
 
 .documents_view_chooser.list .documents_view_chooser--grid {
-  background: #2b50aa;
+  background: #c3dbea;
 }
 .documents_view_chooser.list .documents_view_chooser--grid p {
-  color: #c3dbea;
+  color: #2b50aa;
 }
 
 .documents_view_chooser.list .documents_view_chooser--list {
-  background: #c3dbea;
+  background: #2b50aa;
   font-weight: bold;
 }
 .documents_view_chooser.list .documents_view_chooser--list p {
-  color: #2b50aa;
+  color: #c3dbea;
 }
 
 .case_detail_panel_casenotes {

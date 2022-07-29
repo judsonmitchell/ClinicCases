@@ -1197,10 +1197,35 @@ live('click', 'doc_item', (event) => {
 //   );
 // });
 
-live('click', 'documents_view_chooser--list', () => {
+live('click', 'documents_view_chooser--list', async (event) => {
   console.log('list');
+ 
+  const el = event.target;
+  console.log(el, this)
+  const parent = el.closest('.documents_view_chooser--list');
+  console.log(parent);
+
+  const caseId = el.dataset.caseid || parent.dataset.caseid;
+  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
+  console.log({caseId})
+  
+  const html = await getDocuments(caseId, true, 'yes');
+  documentsContainer.innerHTML = html;
+  console.log({html})
 });
-live('click', 'documents_view_chooser--grid', () => {
+live('click', 'documents_view_chooser--grid', async (event) => {
   console.log('grid');
+  const el = event.target;
+  console.log(el, this)
+
+  const parent = el.closest('.documents_view_chooser--grid');
+  console.log(parent);
+  const caseId = el.dataset.caseid || parent.dataset.caseid;  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
+  console.log({caseId})
+  const html = await getDocuments(caseId, true);
+  documentsContainer.innerHTML = html;
+  console.log({html})
+
+
 
 });
