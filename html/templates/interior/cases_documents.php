@@ -85,7 +85,7 @@ if (!isset($update)) {
 		$user = username_to_fullname($dbh, $folder['username']);
 
 		$date = extract_date_time($folder['date_modified']);
-		echo "<div class='doc_item folder' data-caseid='$folder[case_id]' data-path='$folder_path' data-id='$folder[id]'><img src='html/ico/folder.png'><p>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</p></div>";
+		echo "<div class='doc_item folder doc_item_folder' data-caseid='$folder[case_id]' data-path='$folder_path' data-id='$folder[id]'><img src='html/ico/folder.png'><p>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</p></div>";
 		echo "<div class='doc_properties' tabindex='1'><h3><img src='html/ico/folder.png'>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</h3>
 					<hr />
 					<p><label>Type</label>    Folder</p>

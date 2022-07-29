@@ -13,7 +13,7 @@ try {
 	if (isset($_REQUEST['id'])) {
 		$case_id = $_REQUEST['id'];
 	}
-
+	var_dump($_REQUEST);
 	if (isset($_REQUEST['container'])) {
 		if ($_SESSION['mobile']) {
 			$container = preserve_slashes(rawurlencode($_REQUEST['container']));
@@ -111,6 +111,7 @@ try {
 	}
 
 	$folder_query->execute();
+	echo '__HERE__';
 
 	$folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
 	//get all documents not inside a folder

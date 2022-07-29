@@ -681,21 +681,7 @@ function createTrail(path) {
 
 // });
 
-//User clicks a folder or document
-live('click', 'doc_item', (event) => {
-  event.preventDefault();
-  const el = event.target.closest('.doc_item');
-  const path = el.dataset.path;
-  const caseId = el.dataset.caseid;
-  const pathDisplay = document.querySelector(
-    `#nav-${caseId}-documents .path_display`,
-  );
-  console.log(el, caseId);
-  console.log({ pathDisplay });
-  const docType = 'document';
-  const itemId = el.dataset.id;
-  console.log({ path, caseId, itemId });
-});
+
 // $('.doc_item').live('click', function(event) {
 //     var path = $(this).attr('path');
 //     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
@@ -1196,35 +1182,32 @@ live('click', 'doc_item', (event) => {
 //     },
 //   );
 // });
-
+// Switch documents to list view
 live('click', 'documents_view_chooser--list', async (event) => {
   const el = event.target;
   const parent = el.closest('.documents_view_chooser--list');
   const caseId = el.dataset.caseid || parent.dataset.caseid;
-  const documentsContainer = document.querySelector(
-    `#nav-${caseId}-documents`,
-  );
-  const search = document.querySelector(
-    `#nav-${caseId}-documents .documents_search`,
-  ).value || null;
+  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
+  const search =
+    document.querySelector(`#nav-${caseId}-documents .documents_search`)
+      .value || null;
   const html = await getDocuments(caseId, search, null, 'yes');
-  
+
   documentsContainer.innerHTML = html;
 });
+// Switch documents to grid view
 live('click', 'documents_view_chooser--grid', async (event) => {
   const el = event.target;
   const parent = el.closest('.documents_view_chooser--grid');
   const caseId = el.dataset.caseid || parent.dataset.caseid;
-  const search = document.querySelector(
-    `#nav-${caseId}-documents .documents_search`,
-  ).value || null;
-  const documentsContainer = document.querySelector(
-    `#nav-${caseId}-documents`,
-  );
-  const html = await getDocuments(caseId, search, null, null,);
+  const search =
+    document.querySelector(`#nav-${caseId}-documents .documents_search`)
+      .value || null;
+  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
+  const html = await getDocuments(caseId, search, null, null);
   documentsContainer.innerHTML = html;
 });
-
+// Search documents
 live('change', 'documents_search', async (event) => {
   const el = event.target;
   const search = el.value;
@@ -1237,5 +1220,27 @@ live('change', 'documents_search', async (event) => {
     .classList.contains('list');
 
   const html = await getDocuments(caseId, search, true, listView || null);
+  documentsContainer.innerHTML = html;
+});
+//User clicks a folder or document
+live('click', 'doc_item_folder', async(event) => {
+  event.preventDefault();
+  const el = event.target.closest('.doc_item');
+  const path = el.dataset.path;
+  const caseId = el.dataset.caseid;
+  const pathDisplay = document.querySelector(
+    `#nav-${caseId}-documents .path_display`,
+  );
+  pathDisplay.innerText = path;
+  // const docType = el.classList.contains('folder') ? 'folder' : 'document';
+  const itemId = el.dataset.id;
+  // console.log({ docType,path, caseId, itemId });
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel_casenotes`,
+  );
+  const listView = document
+  .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
+  .classList.contains('list');
+  const html = await getDocuments(caseId, null, true, listView || null, path);
   documentsContainer.innerHTML = html;
 });
