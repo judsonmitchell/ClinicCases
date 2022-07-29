@@ -1,7 +1,6 @@
 <?php
 
 if (isset($search)) {
-    echo "Search Results for $search";
 }
 
 if (!isset($update)) {
@@ -17,8 +16,9 @@ if (!isset($update)) {
     <div class="case_documents_toolbar">
 
         <div class="form__control">
-            <input id="caseDocumentsSearch-<?php echo '' ?>" type="text" class="documents_search" placeholder=" ">
-            <label for="caseDocumentsSearch-<?php echo '' ?>">Search Titles</label>
+            <input id="caseDocumentsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="documents_search" placeholder=" " value="<?php if (isset($search)) {
+                                                                                                                                                                        echo $search;
+                                                                                                                                                                    } ?>"> <label for="caseDocumentsSearch-<?php echo $case_id ?>">Search Titles</label>
         </div>
         <div class="case_documents_toolbar--right">
             <button class="button--secondary">
@@ -52,6 +52,7 @@ if (!isset($update)) {
     <?php
 }
 if (empty($folders) and empty($documents)) {
+
     echo "<br /><span class='docs_empty'>No documents found.</a>";
     die;
 }

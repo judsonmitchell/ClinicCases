@@ -4,7 +4,7 @@
 
 /* global escape, escapeHtml, unescape, notify, rte_toolbar, qq , isUrl */
 import { live } from './live.js';
-import { getDocuments} from '../../lib/javascripts/axios.js'
+import { getDocuments } from '../../lib/javascripts/axios.js';
 
 function createTrail(path) {
   var pathArray = path.split('/');
@@ -1198,34 +1198,44 @@ live('click', 'doc_item', (event) => {
 // });
 
 live('click', 'documents_view_chooser--list', async (event) => {
-  console.log('list');
- 
   const el = event.target;
-  console.log(el, this)
   const parent = el.closest('.documents_view_chooser--list');
-  console.log(parent);
-
   const caseId = el.dataset.caseid || parent.dataset.caseid;
-  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
-  console.log({caseId})
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents`,
+  );
+  const search = document.querySelector(
+    `#nav-${caseId}-documents .documents_search`,
+  ).value || null;
+  const html = await getDocuments(caseId, search, null, 'yes');
   
-  const html = await getDocuments(caseId, true, 'yes');
   documentsContainer.innerHTML = html;
-  console.log({html})
 });
 live('click', 'documents_view_chooser--grid', async (event) => {
-  console.log('grid');
   const el = event.target;
-  console.log(el, this)
-
   const parent = el.closest('.documents_view_chooser--grid');
-  console.log(parent);
-  const caseId = el.dataset.caseid || parent.dataset.caseid;  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
-  console.log({caseId})
-  const html = await getDocuments(caseId, true);
+  const caseId = el.dataset.caseid || parent.dataset.caseid;
+  const search = document.querySelector(
+    `#nav-${caseId}-documents .documents_search`,
+  ).value || null;
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents`,
+  );
+  const html = await getDocuments(caseId, search, null, null,);
   documentsContainer.innerHTML = html;
-  console.log({html})
+});
 
+live('change', 'documents_search', async (event) => {
+  const el = event.target;
+  const search = el.value;
+  const caseId = el.dataset.caseid;
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel_casenotes`,
+  );
+  const listView = document
+    .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
+    .classList.contains('list');
 
-
+  const html = await getDocuments(caseId, search, true, listView || null);
+  documentsContainer.innerHTML = html;
 });

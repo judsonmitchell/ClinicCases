@@ -164,7 +164,7 @@ async function openCase(id, name) {
       const caseData = await getCaseData(id);
       const dataContainer = document.querySelector(`#nav-${id}-data`);
       dataContainer.innerHTML = caseData.data;
-      const documentsData = await getDocuments(id);
+      const documentsData = await getDocuments(id, '');
       const documentsContainer = document.querySelector(`#nav-${id}-documents`);
       documentsContainer.innerHTML= documentsData;
 

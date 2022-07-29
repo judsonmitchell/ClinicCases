@@ -139,10 +139,9 @@ try {
 	$documents_query->execute();
 
 	$documents = $documents_query->fetchAll(PDO::FETCH_ASSOC);
-
 	array_walk($documents, 'append_file_type');
 
-	if (isset($search) || isset($list_view)) {
+	if (isset($list_view)) {
 		include('../../../html/templates/interior/cases_documents_list.php');
 	} else if (!$_SESSION['mobile']) {
 		include('../../../html/templates/interior/cases_documents.php');
