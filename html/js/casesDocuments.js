@@ -1288,7 +1288,7 @@ live('drop', 'doc_item_folder', async (event) => {
       selection_path,
       docType,
     );
-    console.log(response);
+    draggedItem.classList.add('fadeOut');
   } catch (err) {
     console.log(err);
   } finally {

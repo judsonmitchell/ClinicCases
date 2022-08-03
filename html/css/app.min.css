@@ -330,6 +330,11 @@ button {
   align-items: center;
 }
 
+.fadeOut {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
 .header {
   background-color: white;
   position: relative;
