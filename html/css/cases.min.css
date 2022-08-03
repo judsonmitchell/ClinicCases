@@ -1119,4 +1119,9 @@
 }
 .case_detail_panel_casenotes .doc_properties {
   display: none;
+}
+
+.doc_item_folder--active {
+  background-color: #c3dbea;
+  border: 2px dashed #2b50aa;
 }/*# sourceMappingURL=cases.min.css.map */

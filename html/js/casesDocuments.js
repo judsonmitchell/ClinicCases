@@ -4,7 +4,7 @@
 
 /* global escape, escapeHtml, unescape, notify, rte_toolbar, qq , isUrl */
 import { live } from './live.js';
-import { getDocuments } from '../../lib/javascripts/axios.js';
+import { getDocuments, processDocuments } from '../../lib/javascripts/axios.js';
 
 function createTrail(path) {
   var pathArray = path.split('/');
@@ -681,7 +681,6 @@ function createTrail(path) {
 
 // });
 
-
 // $('.doc_item').live('click', function(event) {
 //     var path = $(this).attr('path');
 //     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
@@ -1223,7 +1222,7 @@ live('change', 'documents_search', async (event) => {
   documentsContainer.innerHTML = html;
 });
 //User clicks a folder or document
-live('click', 'doc_item_folder', async(event) => {
+live('click', 'doc_item_folder', async (event) => {
   event.preventDefault();
   const el = event.target.closest('.doc_item');
   const path = el.dataset.path;
@@ -1239,8 +1238,60 @@ live('click', 'doc_item_folder', async(event) => {
     `#nav-${caseId}-documents .case_detail_panel_casenotes`,
   );
   const listView = document
-  .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
-  .classList.contains('list');
+    .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
+    .classList.contains('list');
   const html = await getDocuments(caseId, null, true, listView || null, path);
   documentsContainer.innerHTML = html;
+});
+
+// User drags and drops a file or folder
+let draggedItem = null;
+// need this to allow drop
+live('dragover', 'doc_item_folder', (event) => {
+  event.preventDefault();
+});
+live('drag', 'doc_item', (event) => {
+  const el = event.target;
+  const item = el.classList.contains('doc_item') ? el : el.closest('.doc_item');
+  draggedItem = item;
+});
+live('dragenter', 'doc_item_folder', (event) => {
+  const el = event.target;
+  const folder = el.classList.contains('doc_item_folder')
+    ? el
+    : el.closest('.doc_item_folder');
+  folder.classList.add('doc_item_folder--active');
+});
+live('dragend', 'doc_item', () => {
+  const folders = document.querySelectorAll('.doc_item_folder');
+  folders.forEach((folder) =>
+    folder.classList.remove('doc_item_folder--active'),
+  );
+});
+live('drop', 'doc_item_folder', async (event) => {
+  event.preventDefault();
+  const el = event.target;
+  const folder = el.classList.contains('doc_item_folder')
+    ? el
+    : el.closest('.doc_item_folder');
+  const item_id = draggedItem.dataset.id;
+  const case_id = folder.dataset.caseid;
+  const path = folder.dataset.path;
+  const selection_path = draggedItem.dataset.path;
+  const docType = draggedItem.classList.contains('folder') ? 'folder' : 'item';
+  try {
+    const response = await processDocuments(
+      case_id,
+      'cut',
+      item_id,
+      path,
+      selection_path,
+      docType,
+    );
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    draggedItem = null;
+  }
 });

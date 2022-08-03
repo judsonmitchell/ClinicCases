@@ -1,15 +1,20 @@
 <?php
 session_start();
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 require('../auth/session_check.php');
 require('../../../db.php');
-function update_paths($dbh,$path,$new_path,$case_id) {
+$_POST = json_decode(file_get_contents("php://input"), true);
+
+function update_paths($dbh, $path, $new_path, $case_id)
+{
 
 	//Change paths of documents which reside in the recently changed folder
 	$find_old_paths = $dbh->prepare('SELECT * FROM cm_documents WHERE folder = :old_path AND case_id = :case_id');
 
-	$find_old_paths->bindParam(':old_path',$path);
+	$find_old_paths->bindParam(':old_path', $path);
 
-	$find_old_paths->bindParam(':case_id',$case_id);
+	$find_old_paths->bindParam(':case_id', $case_id);
 
 	$find_old_paths->execute();
 
@@ -26,7 +31,7 @@ function update_paths($dbh,$path,$new_path,$case_id) {
 
 	$find_old_containers = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE :container AND case_id = $case_id");
 
-	$find_old_containers->bindParam(':container',$path);
+	$find_old_containers->bindParam(':container', $path);
 
 	$find_old_containers->execute();
 
@@ -53,8 +58,7 @@ function update_paths($dbh,$path,$new_path,$case_id) {
 
 	foreach ($folder_fields as $folder_field) {
 		//if the new path is not already in the folder field as a result of previous queries
-		if (!stristr($folder_field['folder'],$new_path))
-		{
+		if (!stristr($folder_field['folder'], $new_path)) {
 			$descendants = str_replace($path, '', $folder_field['folder']);
 
 			$new_folder_field = $new_path . $descendants;
@@ -76,7 +80,7 @@ function update_paths($dbh,$path,$new_path,$case_id) {
 	foreach ($container_fields as $container_field) {
 
 		//if the new path is not already in the container field as a result of previous queries
-		if (!stristr($container_field['containing_folder'],$new_path)) {
+		if (!stristr($container_field['containing_folder'], $new_path)) {
 			$descendants = str_replace($path, '', $container_field['containing_folder']);
 
 			$new_container_field = $new_path . $descendants;
@@ -86,10 +90,10 @@ function update_paths($dbh,$path,$new_path,$case_id) {
 			$update_container_fields->execute();
 		}
 	}
-
 }
 
-function get_local_file_name($dbh,$id) {
+function get_local_file_name($dbh, $id)
+{
 	$local_query = $dbh->prepare("SELECT id, local_file_name,extension FROM cm_documents WHERE id = '$id'");
 
 	$local_query->execute();
@@ -100,25 +104,27 @@ function get_local_file_name($dbh,$id) {
 
 	$ext = $data['extension'];
 
-	return array($name,$ext);
+	return array($name, $ext);
 }
 
-function strstr_after($haystack, $needle, $case_insensitive = false) {
+function strstr_after($haystack, $needle, $case_insensitive = false)
+{
 
-    $strpos = ($case_insensitive) ? 'stripos' : 'strpos';
+	$strpos = ($case_insensitive) ? 'stripos' : 'strpos';
 
-    $pos = $strpos($haystack, $needle);
+	$pos = $strpos($haystack, $needle);
 
-    if (is_int($pos)) {
-        return substr($haystack, $pos + strlen($needle));
-    }
+	if (is_int($pos)) {
+		return substr($haystack, $pos + strlen($needle));
+	}
 
-    // Most likely false or null
-    return $pos;
+	// Most likely false or null
+	return $pos;
 }
 
 //Checks to see if the folder path is unique; if not, increments name
-function check_folder_unique($dbh,$container,$new_folder,$case_id) {
+function check_folder_unique($dbh, $container, $new_folder, $case_id)
+{
 	$q = $dbh->prepare("SELECT * FROM cm_documents WHERE containing_folder LIKE '$container' and folder LIKE '$new_folder' AND case_id = '$case_id'  ORDER BY date_modified ASC");
 
 	$q->execute();
@@ -135,15 +141,17 @@ function check_folder_unique($dbh,$container,$new_folder,$case_id) {
 //Create New Folder
 $username = $_SESSION['login'];
 $action = $_POST['action'];
+var_dump($_POST);
 
 if (isset($_POST['case_id'])) {
 	$case_id = $_POST['case_id'];
 }
 
-if (isset($_POST['container'])){
-	$container = $_POST['container'];}
-	else
-		{$container = '';}
+if (isset($_POST['container'])) {
+	$container = $_POST['container'];
+} else {
+	$container = '';
+}
 
 if (isset($_POST['new_folder'])) {
 	$new_folder = $_POST['new_folder'];
@@ -154,7 +162,7 @@ if (isset($_POST['new_name'])) {
 }
 
 if (isset($_POST['item_id'])) {
-	$item_id = $_POST['item_id'];
+	$item_id = intval($_POST['item_id']);
 }
 
 if (isset($_POST['doc_type'])) {
@@ -201,83 +209,71 @@ if (isset($_POST['selection_path'])) {
 	$selection_path = $_POST['selection_path'];
 }
 
-if ($action == 'newfolder')
-{
+if ($action == 'newfolder') {
 
-	if (check_folder_unique($dbh,$container,$new_folder,$case_id) === true)
-		{
-			$return = array('message'=>'Sorry, that folder name is already in use.  Please choose another name.','error'=>true);
-			echo json_encode($return);die;
-		};
+	if (check_folder_unique($dbh, $container, $new_folder, $case_id) === true) {
+		$return = array('message' => 'Sorry, that folder name is already in use.  Please choose another name.', 'error' => true);
+		echo json_encode($return);
+		die;
+	};
 
 	$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', :new_folder, :container, '$username', :case_id, CURRENT_TIMESTAMP);");
 
-	$new_folder_query->bindParam(':container',$container);
+	$new_folder_query->bindParam(':container', $container);
 
-	$new_folder_query->bindParam(':new_folder',$new_folder);
+	$new_folder_query->bindParam(':new_folder', $new_folder);
 
-	$new_folder_query->bindParam(':case_id',$case_id);
+	$new_folder_query->bindParam(':case_id', $case_id);
 
 	$new_folder_query->execute();
 
 	$error = $dbh->errorInfo();
-
 }
 
-if ($action == 'rename')
-{
-	if ($doc_type === 'folder')
+if ($action == 'rename') {
+	if ($doc_type === 'folder') {
+		if (check_folder_unique($dbh, $container, $new_name, $case_id) === true) {
+			$return = array('message' => 'Sorry, that folder name is already in use.  Please choose another name.', 'error' => true);
+			echo json_encode($return);
+			die;
+		};
+
+		$sql = "UPDATE cm_documents SET folder = :new_path WHERE id = :item_id";
+
+		if (strripos($path, '/'))  //path includes subdirectories
 		{
-            if (check_folder_unique($dbh,$container,$new_name,$case_id) === true) {
-                    $return = array('message'=>'Sorry, that folder name is already in use.  Please choose another name.','error'=>true);
-                    echo json_encode($return);die;
-            };
-
-			$sql = "UPDATE cm_documents SET folder = :new_path WHERE id = :item_id";
-
-			if (strripos($path,'/'))  //path includes subdirectories
-			{
-				$last_slash = strripos($path,'/');
-				$d = substr($path, 0,$last_slash);
-				$new_path = $d . "/"  . $new_name;
-			}
-			else
-			{
-				$new_path = $new_name;  //path is in the root
-			}
-
-			$rename_query = $dbh->prepare($sql);
-
-			$rename_query->bindParam(':item_id',$item_id);
-
-			$rename_query->bindParam(':new_path',$new_path);
-
+			$last_slash = strripos($path, '/');
+			$d = substr($path, 0, $last_slash);
+			$new_path = $d . "/"  . $new_name;
+		} else {
+			$new_path = $new_name;  //path is in the root
 		}
-		else
-		{
-			$sql = "UPDATE cm_documents SET name = :new_name WHERE id = :item_id";
 
-			$rename_query = $dbh->prepare($sql);
+		$rename_query = $dbh->prepare($sql);
 
-			$rename_query->bindParam(':new_name',$new_name);
+		$rename_query->bindParam(':item_id', $item_id);
 
-			$rename_query->bindParam(':item_id',$item_id);
+		$rename_query->bindParam(':new_path', $new_path);
+	} else {
+		$sql = "UPDATE cm_documents SET name = :new_name WHERE id = :item_id";
 
-		}
+		$rename_query = $dbh->prepare($sql);
+
+		$rename_query->bindParam(':new_name', $new_name);
+
+		$rename_query->bindParam(':item_id', $item_id);
+	}
 
 	$rename_query->execute();
 
 	$error = $rename_query->errorInfo();
 
-	if ($doc_type === 'folder'  and !$error[1])
-	{
-		update_paths($dbh,$path,$new_path,$case_id);//$path is the old path, $new_path is the new path
+	if ($doc_type === 'folder'  and !$error[1]) {
+		update_paths($dbh, $path, $new_path, $case_id); //$path is the old path, $new_path is the new path
 	}
-
 }
 
-if ($action == 'delete')
-{
+if ($action == 'delete') {
 	if ($doc_type === 'folder') {
 
 		//TODO: UNLINK EVERY FILE CONTAINED IN THE FOLDERS? Not until the delete
@@ -286,11 +282,11 @@ if ($action == 'delete')
 
 		$path_mask = $path . '/%';
 
-		$delete_query->bindParam(':path',$path);
+		$delete_query->bindParam(':path', $path);
 
-		$delete_query->bindParam(':path_mask',$path_mask);
+		$delete_query->bindParam(':path_mask', $path_mask);
 
-		$delete_query->bindParam(':case_id',$case_id);
+		$delete_query->bindParam(':case_id', $case_id);
 
 		//Temporary workaround to prevent deleting of all case documents
 		//if the path is empty; trying to find javascript error that
@@ -300,55 +296,49 @@ if ($action == 'delete')
 			$delete_query->execute();
 
 			$error = $delete_query->errorInfo();
-
 		}
 	} else {
 
-		$file_name = get_local_file_name($dbh,$item_id);
+		$file_name = get_local_file_name($dbh, $item_id);
 
 		$delete_query = $dbh->prepare("DELETE from cm_documents WHERE id = :id");
 
-		$delete_query->bindParam(':id',$item_id);
+		$delete_query->bindParam(':id', $item_id);
 
 		$delete_query->execute();
 
 		$error = $delete_query->errorInfo();
 
-		if (!$error[1] and $file_name[1] != 'ccd' AND $file_name[1] != 'url')
-			{unlink(CC_DOC_PATH . '/' . $file_name[0]);}
-
+		if (!$error[1] and $file_name[1] != 'ccd' and $file_name[1] != 'url') {
+			unlink(CC_DOC_PATH . '/' . $file_name[0]);
+		}
 	}
 }
 
 
-if ($action == 'add_url')
-{
+if ($action == 'add_url') {
 	$add_url_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, username, case_id, date_modified) VALUES (NULL, :url_name, :url, 'url', :folder, '', :user, :case_id, CURRENT_TIMESTAMP);");
 
-	$data = array('url_name' => $url_name, 'url' => $url, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id);
+	$data = array('url_name' => $url_name, 'url' => $url, 'folder' => $path, 'user' => $username, 'case_id' => $case_id);
 
 	$add_url_query->execute($data);
 
 	$error = $add_url_query->errorInfo();
-
 }
 
-if ($action == 'new_ccd')
-{
+if ($action == 'new_ccd') {
 	$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
 
 	$allowed_editors = serialize(array($username));
 
-	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' =>$case_id,'allowed_editors'=>$allowed_editors);
+	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' => $case_id, 'allowed_editors' => $allowed_editors);
 
 	$new_ccd_query->execute($data);
 
 	$error = $new_ccd_query->errorInfo();
-
 }
 
-if ($action == 'update_ccd')
-{
+if ($action == 'update_ccd') {
 	$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, local_file_name = :ccd_local_name, text = :ccd_text WHERE id = :doc_id");
 
 	$ccd_local_name = $ccd_id . ".ccd";
@@ -358,38 +348,30 @@ if ($action == 'update_ccd')
 	$update_ccd_query->execute($data);
 
 	$error = $update_ccd_query->errorInfo();
-
 }
 
-if ($action === 'change_ccd_permissions'){
+if ($action === 'change_ccd_permissions') {
 
-    $update_ccd_perm = $dbh->prepare("UPDATE cm_documents SET write_permission = :perm where id = :doc_id");
-    if ($ccd_lock === 'yes'){
-        $allowed_editors = serialize(array($username));
-    } else {
-        $allowed_editors = serialize(array('all'));
-    }
+	$update_ccd_perm = $dbh->prepare("UPDATE cm_documents SET write_permission = :perm where id = :doc_id");
+	if ($ccd_lock === 'yes') {
+		$allowed_editors = serialize(array($username));
+	} else {
+		$allowed_editors = serialize(array('all'));
+	}
 
 	$data = array('doc_id' => $ccd_id, 'perm' => $allowed_editors);
 
-    $update_ccd_perm->execute($data);
+	$update_ccd_perm->execute($data);
 
 	$error = $update_ccd_perm->errorInfo();
 }
 
-if ($action == 'open')
-{
-	if ($doc_type === 'folder')
-	{
-
-	}
-
-	else
-
-	{
+if ($action == 'open') {
+	if ($doc_type === 'folder') {
+	} else {
 		$open_query = $dbh->prepare("SELECT * FROM cm_documents WHERE id = :item_id");
 
-		$open_query->bindParam(':item_id',$item_id);
+		$open_query->bindParam(':item_id', $item_id);
 
 		$open_query->execute();
 
@@ -407,20 +389,20 @@ if ($action == 'open')
 				$ccd_title = $doc_properties['name'];
 				$ccd_content = $doc_properties['text'];
 				$allowed_editors = unserialize($doc_properties['write_permission']);
-                $ccd_locked = 'yes';
+				$ccd_locked = 'yes';
 				if (in_array('all', $allowed_editors)) {
-                    $ccd_permissions = 'yes';
-                    $ccd_locked = 'no';
-                } elseif ($username === $doc_properties['username']) {
-                    $ccd_permissions = 'yes';
-                } else {
-                    $ccd_permissions = 'no';
-                }
-                if ($doc_properties['username'] === $username){
-                    $ccd_owner = '1'; 
-                } else {
-                    $ccd_owner = '0';
-                }
+					$ccd_permissions = 'yes';
+					$ccd_locked = 'no';
+				} elseif ($username === $doc_properties['username']) {
+					$ccd_permissions = 'yes';
+				} else {
+					$ccd_permissions = 'no';
+				}
+				if ($doc_properties['username'] === $username) {
+					$ccd_owner = '1';
+				} else {
+					$ccd_owner = '0';
+				}
 				break;
 
 			case 'pdf':
@@ -428,27 +410,28 @@ if ($action == 'open')
 				$mime = finfo_open(FILEINFO_MIME_TYPE);
 				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 				header('Content-Description: File Transfer');
-                header('Content-type: application/pdf');
-				header('Content-disposition: inline; filename="'. $doc_properties['name'] .'"');
-                header('Content-Transfer-Encoding: binary');
-				header("Content-Length: ". filesize($file));
-                header('Accept-Ranges: bytes');
+				header('Content-type: application/pdf');
+				header('Content-disposition: inline; filename="' . $doc_properties['name'] . '"');
+				header('Content-Transfer-Encoding: binary');
+				header("Content-Length: " . filesize($file));
+				header('Accept-Ranges: bytes');
 				header('Expires: 0');
 				header('Cache-Control: no-store, no-cache, must-revalidate');
 				header('Pragma: no-cache');
 				readfile(CC_DOC_PATH . "/" . $doc_properties['local_file_name']);
-                break;
+				break;
 
 			default:
 				$mime = finfo_open(FILEINFO_MIME_TYPE);
 				$file = CC_DOC_PATH . "/" . $doc_properties['local_file_name'];
 				header('Content-Description: File Transfer');
 				//this added to deal with IE8: see: http://stackoverflow.com/a/4465299/49359
-                header("Content-type: $mime");
-				header("Pragma: "); header("Cache-Control: ");
-				header('Content-disposition: attachment; filename="'. $doc_properties['name'] .'"');
+				header("Content-type: $mime");
+				header("Pragma: ");
+				header("Cache-Control: ");
+				header('Content-disposition: attachment; filename="' . $doc_properties['name'] . '"');
 				header('Content-Transfer-Encoding:  binary');
-				header("Content-Length: ". filesize($file));
+				header("Content-Length: " . filesize($file));
 				header('Expires: 0');
 				header('Cache-Control: no-store, no-cache, must-revalidate');
 				header('Pragma: no-cache');
@@ -457,42 +440,33 @@ if ($action == 'open')
 				break;
 		}
 	}
-
 }
 
-if ($action == 'cut')
-{
+if ($action == 'cut') {
 	if ($doc_type == 'folder') {
 
-        if ($selection_path == ''){
-            $return = array('message'=>'There was an error moving your folder. Please reload the page and try again','wait'=>true,'error'=>true);
-            echo json_encode($return);
-            die;
-
-        }
+		if ($selection_path == '') {
+			$return = array('message' => 'There was an error moving your folder. Please reload the page and try again', 'wait' => true, 'error' => true);
+			echo json_encode($return);
+			die;
+		}
 		//change the path of the selected folder
 
-		if (stristr($selection_path, '/'))
-		{
-			$folder_name = substr(strrchr($selection_path,'/'),1);
-		}
-		else
-		{
+		if (stristr($selection_path, '/')) {
+			$folder_name = substr(strrchr($selection_path, '/'), 1);
+		} else {
 			$folder_name = $selection_path;
 		}
 
-		if ($target_path == '')
-		{
+		if ($target_path == '') {
 			$new_selection_path = $folder_name;
-		}
-		else
-		{
+		} else {
 			$new_selection_path = $target_path . "/" . $folder_name;
 		}
 
 		$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = :new_selection_path, containing_folder = :target_path WHERE id = :item_id");
 
-		$data = array('target_path' => $target_path,'new_selection_path' => $new_selection_path,'item_id' => $item_id);
+		$data = array('target_path' => $target_path, 'new_selection_path' => $new_selection_path, 'item_id' => $item_id);
 
 		$cut_query->execute($data);
 
@@ -500,65 +474,55 @@ if ($action == 'cut')
 
 		$update_paths = $dbh->prepare("SELECT * FROM cm_documents WHERE folder LIKE :old_path AND case_id = :case_id");
 
-            $old_path = $selection_path . "%";
-            // Bug Code:
-			//$old_path = '' . "%";
-			$data = array('old_path' => $old_path,'case_id' => $case_id);
+		$old_path = $selection_path . "%";
+		// Bug Code:
+		//$old_path = '' . "%";
+		$data = array('old_path' => $old_path, 'case_id' => $case_id);
 
-			$update_paths->execute($data);
+		$update_paths->execute($data);
 
-			$paths = $update_paths->fetchAll(PDO::FETCH_ASSOC);
+		$paths = $update_paths->fetchAll(PDO::FETCH_ASSOC);
 
-			foreach ($paths as $path) {
+		foreach ($paths as $path) {
 
-				$subfolder_path_part = strstr_after($path['folder'], $selection_path);
+			$subfolder_path_part = strstr_after($path['folder'], $selection_path);
 
-				$new_subfolder_path = $new_selection_path . $subfolder_path_part;
+			$new_subfolder_path = $new_selection_path . $subfolder_path_part;
 
-				//this for folders only
-				if ($path['name'] === '')
-				{
-					$pos = strrpos($new_subfolder_path, '/');
+			//this for folders only
+			if ($path['name'] === '') {
+				$pos = strrpos($new_subfolder_path, '/');
 
-					$new_container = substr($new_subfolder_path, 0, $pos);
-
-				}
-				else
-					{$new_container = '';}
-
-				$update_items = $dbh->prepare("UPDATE cm_documents SET folder = :folder, containing_folder = :container WHERE id = '$path[id]'");
-
-				$data = array('folder' => $new_subfolder_path, 'container' => $new_container);
-
-				$update_items->execute($data);
-
+				$new_container = substr($new_subfolder_path, 0, $pos);
+			} else {
+				$new_container = '';
 			}
 
+			$update_items = $dbh->prepare("UPDATE cm_documents SET folder = :folder, containing_folder = :container WHERE id = '$path[id]'");
 
+			$data = array('folder' => $new_subfolder_path, 'container' => $new_container);
+
+			$update_items->execute($data);
+		}
 	} else {
-
-		$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = :target WHERE id = :item_id");
-
-		$data = array('target' => $target_path,'item_id' => $item_id);
-
-		$cut_query->execute($data);
-
+		try {
+			$cut_query = $dbh->prepare("UPDATE cm_documents SET folder = '$target_path' WHERE id = $item_id");
+			var_dump($cut_query);
+			$response = $cut_query->execute();
+			$error = $cut_query->errorInfo();
+		} catch (Exception $e) {
+			var_dump($e->getMessage());
+		}
 	}
 
-
-	$error = $cut_query->errorInfo();
 
 }
 
-if ($action == 'copy')
-{
+if ($action == 'copy') {
 	if ($doc_type == 'folder') {
 
 		//TODO
-	}
-
-	else
-	{
+	} else {
 
 		//Lookup information about this item
 		$lookup_query = $dbh->prepare("SELECT * FROM cm_documents WHERE id = :item_id");
@@ -571,14 +535,13 @@ if ($action == 'copy')
 
 		$copy_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `extension`, `folder`, `containing_folder`, `text`, `write_permission`, `username`, `case_id`, `date_modified`) VALUES (NULL, :name, '', :extension, :folder, '', '', '', :username, :case_id, CURRENT_TIMESTAMP);");
 
-		$data = array('name' => $this_item['name'],'extension' => $this_item['extension'],'folder' => $target_path,'username' => $username,'case_id' => $case_id);
+		$data = array('name' => $this_item['name'], 'extension' => $this_item['extension'], 'folder' => $target_path, 'username' => $username, 'case_id' => $case_id);
 
 		$copy_query->execute($data);
 
 		$last_id = $dbh->lastInsertId();
 
-		if ($this_item['extension'] != 'url' AND $this_item['extension'] != 'ccd')
-		{
+		if ($this_item['extension'] != 'url' and $this_item['extension'] != 'ccd') {
 			//now, create the new document on the server
 
 			$file = CC_DOC_PATH . '/' . $this_item['local_file_name'];
@@ -587,111 +550,103 @@ if ($action == 'copy')
 
 			$new_file_name = $last_id . '.' . $this_item['extension'];
 
-			copy($file,$new_file);
-
+			copy($file, $new_file);
 		}
 
-		if ($this_item['extension'] === 'url' OR $this_item['extension']  === 'ccd')
-			{
-				$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$this_item[local_file_name]' WHERE id = $last_id");
+		if ($this_item['extension'] === 'url' or $this_item['extension']  === 'ccd') {
+			$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$this_item[local_file_name]' WHERE id = $last_id");
 
-				$update_name->execute();
-			}
-			else
-			{
-				$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$new_file_name' WHERE id = '$last_id'");
+			$update_name->execute();
+		} else {
+			$update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$new_file_name' WHERE id = '$last_id'");
 
-				$update_name->execute();
-			}
+			$update_name->execute();
+		}
 
 		$error = $copy_query->errorInfo();
-
 	}
-
 }
 
 //Handle mysql errors
 
-	if($error[1])
+if ($error[1]) {
+	$return = array('message' => 'Sorry,there was an error.', 'error' => true);
+	echo json_encode($return);
+} else {
 
-		{
-			$return = array('message'=>'Sorry,there was an error.','error'=>true);
-			echo json_encode($return);
-		}
+	switch ($_POST['action']) {
 
-		else
-		{
-
-			switch($_POST['action']){
-
-			case "newfolder":
+		case "newfolder":
 			$new_id = $dbh->lastInsertId();
-			$return = array('message'=>'Folder Created','id'=>$new_id);
+			$return = array('message' => 'Folder Created', 'id' => $new_id);
 			echo json_encode($return);
 			break;
 
-			case "rename":
-			if ($doc_type === 'folder')
-			{$return = array('message'=>'Folder Renamed.','newPath'=>$new_path);}
-			else
-				{$return = array('message'=>'Item Renamed.');}
+		case "rename":
+			if ($doc_type === 'folder') {
+				$return = array('message' => 'Folder Renamed.', 'newPath' => $new_path);
+			} else {
+				$return = array('message' => 'Item Renamed.');
+			}
 			echo json_encode($return);
 			break;
 
-			case "delete":
-			if ($doc_type === 'folder')
-			{$return = array('message'=>'Folder Deleted.');}
-			else
-				{$return =  array('message'=>'Item Deleted.','item_id'=>$item_id);}
+		case "delete":
+			if ($doc_type === 'folder') {
+				$return = array('message' => 'Folder Deleted.');
+			} else {
+				$return =  array('message' => 'Item Deleted.', 'item_id' => $item_id);
+			}
 			echo json_encode($return);
 			break;
 
-			case "add_url":
-			$return = array('message'=>'Web address added.');
+		case "add_url":
+			$return = array('message' => 'Web address added.');
 			echo json_encode($return);
 			break;
 
-			case "new_ccd":
+		case "new_ccd":
 			$new_id = $dbh->lastInsertId();
-			$return = array('ccd_id'=>$new_id,'ccd_title'=>$ccd_name);
+			$return = array('ccd_id' => $new_id, 'ccd_title' => $ccd_name);
 			echo json_encode($return);
 			break;
 
-			case "update_ccd":
-			$return = array('message'=>'Changes saved','ccd_title'=>$ccd_name);
+		case "update_ccd":
+			$return = array('message' => 'Changes saved', 'ccd_title' => $ccd_name);
 			echo json_encode($return);
 			break;
 
-			case "change_ccd_permissions":
-            if ($ccd_lock === 'yes'){
-                $p_msg = "Document Locked.<br />Only you can edit it.";
-            } else {
-                $p_msg = "Document Unlocked.<br />Everyone on this case may edit it.";
-            }
-			$return = array('message'=>$p_msg);
+		case "change_ccd_permissions":
+			if ($ccd_lock === 'yes') {
+				$p_msg = "Document Locked.<br />Only you can edit it.";
+			} else {
+				$p_msg = "Document Unlocked.<br />Everyone on this case may edit it.";
+			}
+			$return = array('message' => $p_msg);
 			echo json_encode($return);
 			break;
 
-			case "open":
-			if (isset($target_url))
-				{$return = array('target_url'=>$target_url);}
-				else
-				{$return = array('ccd_id'=>$ccd_id,'ccd_title'=>$ccd_title,
-                'ccd_content'=>$ccd_content,'ccd_permissions'=>$ccd_permissions,
-                'ccd_owner' => $ccd_owner,'ccd_locked'=>$ccd_locked);}
+		case "open":
+			if (isset($target_url)) {
+				$return = array('target_url' => $target_url);
+			} else {
+				$return = array(
+					'ccd_id' => $ccd_id, 'ccd_title' => $ccd_title,
+					'ccd_content' => $ccd_content, 'ccd_permissions' => $ccd_permissions,
+					'ccd_owner' => $ccd_owner, 'ccd_locked' => $ccd_locked
+				);
+			}
 			echo json_encode($return);
 			break;
 
-			case "cut":
+		case "cut":
 			$return = array('message' => 'Item moved.');
 			echo json_encode($return);
 			break;
 
-			case "copy":
+		case "copy":
 			$return = array('message' => 'Item copied.');
 			echo json_encode($return);
 			break;
-
-			}
-
-		}
+	}
+}

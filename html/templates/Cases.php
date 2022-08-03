@@ -13,7 +13,6 @@
 <script src="html/js/print.js" type="module"></script>
 <script src="html/js/idletimerStart.js" type="module"></script>
 <script src="lib/javascripts/timer.js" type="module"></script>
-
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>

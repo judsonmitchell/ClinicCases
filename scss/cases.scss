@@ -609,3 +609,8 @@
     display: none;
   }
 }
+
+.doc_item_folder--active{
+  background-color: $light-blue;
+  border: 2px dashed $dark-blue;
+}

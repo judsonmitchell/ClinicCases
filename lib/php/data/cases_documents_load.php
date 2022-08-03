@@ -13,7 +13,6 @@ try {
 	if (isset($_REQUEST['id'])) {
 		$case_id = $_REQUEST['id'];
 	}
-	var_dump($_REQUEST);
 	if (isset($_REQUEST['container'])) {
 		if ($_SESSION['mobile']) {
 			$container = preserve_slashes(rawurlencode($_REQUEST['container']));
@@ -34,7 +33,7 @@ try {
 		$update = $_REQUEST['update'];
 	}
 
-	if (isset($_REQUEST['search'])) {
+	if (isset($_REQUEST['search']) && $_REQUEST['search'] != '') {
 		$search =  $_REQUEST['search'];
 		$search_wildcard = "%" . $search . "%";
 	}
@@ -111,14 +110,14 @@ try {
 	}
 
 	$folder_query->execute();
-	echo '__HERE__';
 
 	$folders = $folder_query->fetchAll(PDO::FETCH_ASSOC);
-	//get all documents not inside a folder
 
+	//get all documents not inside a folder
 	if (isset($path)) {
-		$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path";
+		$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path_name";
 	} else if (isset($search)) {
+		echo 'search';
 		$sql = "SELECT * FROM cm_documents where name like :search and case_id = :id";
 	} else {
 
@@ -130,7 +129,7 @@ try {
 	$documents_query->bindParam(':id', $case_id);
 
 	if (isset($path)) {
-		$documents_query->bindParam(':path', $path);
+		$documents_query->bindParam(':path_name', $path);
 	}
 
 	if (isset($search)) {
