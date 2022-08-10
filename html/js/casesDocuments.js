@@ -1307,7 +1307,7 @@ live('click', 'docs_new_folder', (_event, button) => {
   const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
   const currentPath =
     caseDetailsRef.dataset.currentpath != 'Home'
-      ? caseDetailsRef.dataset.currentPath
+      ? caseDetailsRef.dataset.currentpath
       : null;
   const newFolderForm = document.querySelector('#newFolderModal form');
   setFormValues(newFolderForm, { caseId, isList, currentPath });
@@ -1329,17 +1329,18 @@ live('click', 'doc_new_folder_submit', async (event, button) => {
   }
   const values = getFormValues(form);
   const { folderName, caseId, isList, currentPath } = values;
+  console.log({ values });
   const response = await processDocuments(
     caseId,
     'newfolder',
     null,
-    null,
-    null,
+    currentPath,
+    folderName,
     'folder',
     folderName,
     currentPath || null,
   );
-  console.log(response);
+  console.log({ response });
   const documentsContainer = document.querySelector(
     `#nav-${caseId}-documents .case_detail_panel`,
   );

@@ -219,9 +219,8 @@ if ($action == 'newfolder') {
 	};
 
 	try {
-		if($container == "") {
-			$container = NULL;
-			var_dump($container);
+		if($container){
+			$new_folder = $container . '/' . $new_folder;
 		}
 		$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', '$new_folder', '$container', '$username', $case_id, CURRENT_TIMESTAMP);");
 		var_dump($new_folder_query);
