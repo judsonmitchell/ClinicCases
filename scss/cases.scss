@@ -304,7 +304,7 @@
     text-align: left;
   }
 }
-.case_detail_panel_casenotes {
+.case_detail_panel {
   &:not(.pdf) {
     .case_note {
       &.case_note--closed {
@@ -580,10 +580,11 @@
     color: $light-blue;
   }
 }
-.case_detail_panel_casenotes {
+.case_detail_panel {
   display: flex;
   flex-wrap: wrap;
   padding: 2rem 0rem;
+  width: 100%;
   .doc_item {
     width: 150px;
     cursor: pointer;

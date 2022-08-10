@@ -5,68 +5,66 @@ if (!isset($update)) {
 	$list_id = rand();
 
 ?>
+	<div class="case_details" data-caseid="<?php echo $case_id ?>" data-currentpath="Home" data-layout="Grid">
+		<div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
-	<div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
-
-	</div>
-	<div class="case_documents_toolbar">
-
-		<div class="form__control">
-			<input id="caseDocumentsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="documents_search" placeholder=" " value="<?php if (isset($search)) {
-																																																																																echo $search;
-																																																																															} ?>">
-			<label for="caseDocumentsSearch-<?php echo $case_id ?>">Search Titles</label>
 		</div>
-		<div class="case_documents_toolbar--right">
-			<button class="button--secondary">
-				<img src="html/ico/new-folder.png" alt="New Folder Icon" /> <span>&nbsp;New Folder</span>
-			</button>
-			<button class="button--secondary">
-				<img src="html/ico/new-document.png" alt="New Document Icon" /> <span>&nbsp;New Document</span>
-			</button>
-			<button class="button--secondary">
-				<img src="html/ico/upload.png" alt="Upload Icon" /> <span>&nbsp;Upload</span>
-			</button>
-			<?php
-			if (isset($list) && $list == "yes") { ?>
-				<div class="documents_view_chooser list">
-					<div class="documents_view_chooser--grid" data-caseid="<?php echo $case_id ?>">
-						<img src="html/ico/grid-unselected.png" alt="">
-						<p>Grid</p>
-					</div>
-					<div class="documents_view_chooser--list" data-caseid="<?php echo $case_id ?>">
-						<img src="html/ico/list-selected.png" alt="">
-						<p>List</p>
-					</div>
-				</div>
-			<?php } else { ?>
-				<div class="documents_view_chooser grid">
+		<div class="case_documents_toolbar">
 
-					<div class="documents_view_chooser--grid" data-caseid="<?php echo $case_id ?>">
-						<img src="html/ico/grid-selected.png" alt="">
-						<p>Grid</p>
+			<div class="form__control">
+				<input id="caseDocumentsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="documents_search" placeholder=" " value="<?php if (isset($search)) {
+																																																																																	echo $search;
+																																																																																} ?>">
+				<label for="caseDocumentsSearch-<?php echo $case_id ?>">Search Titles</label>
+			</div>
+			<div class="case_documents_toolbar--right">
+				<button class="button--secondary">
+					<img src="html/ico/new-folder.png" alt="New Folder Icon" /> <span>&nbsp;New Folder</span>
+				</button>
+				<button class="button--secondary">
+					<img src="html/ico/new-document.png" alt="New Document Icon" /> <span>&nbsp;New Document</span>
+				</button>
+				<button class="button--secondary">
+					<img src="html/ico/upload.png" alt="Upload Icon" /> <span>&nbsp;Upload</span>
+				</button>
+				<!-- // <div class="documents_view_chooser list">
+				// 	<div class="documents_view_chooser--grid" data-caseid="<?php echo $case_id 
+				?>">
+				// <img src="html/ico/grid-unselected.png" alt="">
+				// <p>Grid</p>
+				//
+			</div>
+			// <div class="documents_view_chooser--list" data-caseid="<?php echo $case_id ?>">
+				// <img src="html/ico/list-selected.png" alt="">
+				// <p>List</p>
+				// </div>
+			// -->
+		<!-- </div> -->
+		<div class="documents_view_chooser grid">
 
-					</div>
-					<div class="documents_view_chooser--list" data-caseid="<?php echo $case_id ?>">
-						<img src="html/ico/list-unselected.png" alt="">
-						<p>List</p>
+			<div class="documents_view_chooser--grid">
+				<img src="html/ico/grid-selected.png" alt="">
+				<p>Grid</p>
 
-					</div>
-				</div>
+			</div>
+			<div class="documents_view_chooser--list">
+				<img src="html/ico/list-unselected.png" alt="">
+				<p>List</p>
+
+			</div>
 		</div>
+	</div>
 
-	<?php } ?>
 	</div>
 
 
-	</div>
 
 
 	<div class="case_documents_submenu">
 		<a href="#" class="doc_trail_home">Home</a>>
 		<span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
 	</div>
-	<div class="case_detail_panel_casenotes">
+	<div class="case_detail_panel">
 	<?php
 }
 	?>
@@ -123,3 +121,5 @@ if (!isset($update)) {
 		echo "</div>";
 	}
 	?>
+
+	</div>

@@ -7,7 +7,7 @@ export const live = (eventType, className, cb) => {
       found = el?.classList.contains(className);
     }
     if (found) {
-      cb.call(el, event);
+      cb(event, el);
     }
   });
 };

@@ -27,43 +27,6 @@ function createTrail(path) {
   return pathString;
 }
 
-// function createDragDrop() {
-//     //Destroy any previously created draggables and droppables
-//     $('.item, .folder').draggable('destroy');
-//     $('.folder').droppable('destroy');
-
-//     $('.item').draggable({
-//         revert: 'invalid',
-//         helper: 'clone'
-//     });
-//     $('.folder').droppable({activeClass: 'ui-state-highlight',drop: function(event, ui) {
-//             var docType = null;
-//             if (ui.draggable.hasClass('folder')) {
-//                 docType = 'folder';
-//             } else {
-//                 docType = 'item';
-//             }
-
-//             var caseId = ui.draggable.closest('.case_detail_panel').data('CaseNumber');
-//             $.post('lib/php/data/cases_documents_process.php', {
-//                 'action': 'cut',
-//                 'item_id': ui.draggable.attr('data-id'),
-//                 'target_path': $(event.target).attr('path'),
-//                 'selection_path': ui.draggable.attr('path'),
-//                 'doc_type': docType,
-//                 'case_id': caseId
-//             }, function(data) {
-//                 var serverResponse = $.parseJSON(data);
-//                 if (serverResponse.wait){
-//                     notify(serverResponse.message,true,'error');
-//                 } else {
-//                     notify(serverResponse.message);
-//                     ui.draggable.fadeOut();
-//                 }
-//             });
-//         }}).draggable({revert: 'invalid',containment: 'div.case_detail_panel_casenotes'});
-// }
-
 // function createTextEditor(target, action, permission, title, content, id, owner, locked) {
 //     var editor = '<div class="text_editor_bar" data-id="">' +
 //     '<div class="text_editor_title" tabindex="0">' + title +
@@ -300,7 +263,7 @@ function createTrail(path) {
 //             return;
 //         }
 
-//         $(el).closest('.case_detail_panel_casenotes') .load('lib/php/data/cases_documents_load.php', {
+//         $(el).closest('.case_detail_panel') .load('lib/php/data/cases_documents_load.php', {
 //             'id': caseId,
 //             'container': path,
 //             'path': path,
@@ -317,7 +280,7 @@ function createTrail(path) {
 //             clearSearchBox($(this));
 
 //             //Apply shadow on scroll
-//             $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
+//             $(this).children('.case_detail_panel').bind('scroll', function() {
 //                 var scrollAmount = $(this).scrollTop();
 //                 if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
 //                     $(this).removeClass('csenote_shadow');
@@ -350,7 +313,7 @@ function createTrail(path) {
 //             'doc_type': 'document'
 //         }, function(data) {
 //             var serverResponse = $.parseJSON(data);
-//             var target = $(el).closest('.case_detail_panel_casenotes');
+//             var target = $(el).closest('.case_detail_panel');
 //             createTextEditor(target, 'view', serverResponse.ccd_permissions, serverResponse.ccd_title,
 //             serverResponse.ccd_content, serverResponse.ccd_id,serverResponse.ccd_owner,serverResponse.ccd_locked);
 //         });
@@ -411,7 +374,7 @@ function createTrail(path) {
 //     thisPanel.load('lib/php/data/cases_documents_load.php', {'id': caseId}, function() {
 //         //Set css
 //         $('div.case_detail_panel_tools').css({'height': toolsHeight});
-//         $('div.case_detail_panel_casenotes').css({'height': documentsWindowHeight});
+//         $('div.case_detail_panel').css({'height': documentsWindowHeight});
 //         $('div.case_detail_panel_tools_left').css({'width': '20%'});
 //         $('div.case_detail_panel_tools_right').css({'width': '80%'});
 //         $('div.case_detail_panel_tools').css({'border-bottom': '1px solid #AAA','margin-bottom':'10px'});
@@ -434,7 +397,7 @@ function createTrail(path) {
 //         }
 
 //         //Apply shadow on scroll
-//         $(this).children('.case_detail_panel_casenotes').bind('scroll', function() {
+//         $(this).children('.case_detail_panel').bind('scroll', function() {
 //             var scrollAmount = $(this).scrollTop();
 //             if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
 //                 $(this).removeClass('csenote_shadow');
@@ -452,7 +415,7 @@ function createTrail(path) {
 //         var docType = null;
 //         var caseId = $(el).closest('.case_detail_panel').data('CaseNumber');
 //         var docName = $(el).find('p').html();
-//         var pathDisplay = $(el).closest('.case_detail_panel_casenotes')
+//         var pathDisplay = $(el).closest('.case_detail_panel')
 //             .siblings('.case_detail_panel_tools')
 //             .find('.path_display');
 //         var path;
@@ -474,10 +437,10 @@ function createTrail(path) {
 
 //                 //Stash the data about the cut file or folder
 //                 var cutData = new Array(itemId, docType, path, caseId);
-//                 $(el).closest('.case_detail_panel_casenotes').data('cutValue', cutData);
+//                 $(el).closest('.case_detail_panel').data('cutValue', cutData);
 
 //                 //Create a new context menu which allows for copying and pasting into a div with no items;
-//                 $('div.case_detail_panel_casenotes').contextMenu({
+//                 $('div.case_detail_panel').contextMenu({
 //                     menu: 'docMenu_copy_paste'
 //                 }, function(action, el, pos) {
 //                     if (action === 'paste') {
@@ -504,7 +467,7 @@ function createTrail(path) {
 //                             } else {
 //                                 notify(serverResponse.message);
 //                             }
-//                             el.closest('.case_detail_panel_casenotes')
+//                             el.closest('.case_detail_panel')
 //                             .load('lib/php/data/cases_documents_load.php', {
 //                                 'id': caseId,
 //                                 'update': 'yes',
@@ -525,10 +488,10 @@ function createTrail(path) {
 //                     $(el).css({'border': '1px solid #AAA'});
 //                     //Stash the data about the copy file or folder
 //                     var copyData = new Array(itemId, docType, path, caseId);
-//                     $(el).closest('.case_detail_panel_casenotes').data('copyValue', copyData);
+//                     $(el).closest('.case_detail_panel').data('copyValue', copyData);
 
 //                     //Create a new context menu which allows for pasting into a div with no items;
-//                     $('div.case_detail_panel_casenotes').contextMenu({
+//                     $('div.case_detail_panel').contextMenu({
 //                         menu: 'docMenu_copy_paste'
 //                     }, function(action, el, pos) {
 //                         if (action === 'paste') {
@@ -550,7 +513,7 @@ function createTrail(path) {
 //                             function(data) {
 //                                 var serverResponse = $.parseJSON(data);
 //                                 notify(serverResponse.message);
-//                                 el.closest('.case_detail_panel_casenotes')
+//                                 el.closest('.case_detail_panel')
 //                                 .load('lib/php/data/cases_documents_load.php', {
 //                                     'id': caseId,
 //                                     'update': 'yes',
@@ -684,7 +647,7 @@ function createTrail(path) {
 // $('.doc_item').live('click', function(event) {
 //     var path = $(this).attr('path');
 //     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
-//     var pathDisplay = $(this).closest('.case_detail_panel_casenotes')
+//     var pathDisplay = $(this).closest('.case_detail_panel')
 //         .siblings('.case_documents_submenu')
 //         .find('.path_display');
 //     var el = $(this);
@@ -697,7 +660,7 @@ function createTrail(path) {
 // $('button.doc_new_doc').live('click', function () {
 //   var target = $(this)
 //     .closest('.case_detail_panel_tools')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   createTextEditor(
 //     target,
 //     'new',
@@ -714,7 +677,7 @@ function createTrail(path) {
 // $('button.doc_new_folder').live('click', function () {
 //   var target = $(this)
 //     .closest('.case_detail_panel_tools')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 
 //   //if this is an empty folder, remove the "No Documents Found" message
 //   if ($('span.docs_empty')) {
@@ -746,7 +709,7 @@ function createTrail(path) {
 //       if (e.type === 'blur' || e.which === 13) {
 //         e.preventDefault();
 //         var container = $(this)
-//           .closest('.case_detail_panel_casenotes')
+//           .closest('.case_detail_panel')
 //           .siblings('.case_documents_submenu')
 //           .find('a.active')
 //           .attr('path');
@@ -819,7 +782,7 @@ function createTrail(path) {
 // $('button.doc_upload').live('click', function () {
 //   var thisPanel = $(this)
 //     .closest('.case_detail_panel_tools')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 
 //   //if this is an empty folder, remove the "No Documents Found" message
@@ -975,7 +938,7 @@ function createTrail(path) {
 //   var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 //   var thisPanel = $(this)
 //     .closest('.case_documents_submenu')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   //Set the current path so that other functions can access it
 //   $(this).closest('.case_detail_panel').data('CurrentPath', 'Home');
 
@@ -1007,7 +970,7 @@ function createTrail(path) {
 //   $(this).closest('.case_detail_panel').data('CurrentPath', path);
 //   var thisPanel = $(this)
 //     .closest('.case_documents_submenu')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   var pathDisplay = $(this).parent();
 
 //   thisPanel.load(
@@ -1029,7 +992,7 @@ function createTrail(path) {
 
 //       //Apply shadow on scroll
 //       $(this)
-//         .children('.case_detail_panel_casenotes')
+//         .children('.case_detail_panel')
 //         .bind('scroll', function () {
 //           var scrollAmount = $(this).scrollTop();
 //           if (scrollAmount === 0 && $(this).hasClass('csenote_shadow')) {
@@ -1068,7 +1031,7 @@ function createTrail(path) {
 //   if ($(this).val() !== '') {
 //     var resultTarget = $(this)
 //       .closest('div.case_detail_panel_tools')
-//       .siblings('.case_detail_panel_casenotes');
+//       .siblings('.case_detail_panel');
 //     var search = $(this).val();
 //     var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 //     $(this)
@@ -1115,7 +1078,7 @@ function createTrail(path) {
 //   var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 //   var thisPanel = $(this)
 //     .closest('.case_detail_panel_tools')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
 //   var sendPath;
 //   if (currentPath === 'Home') {
@@ -1151,7 +1114,7 @@ function createTrail(path) {
 //   var caseId = $(this).closest('.case_detail_panel').data('CaseNumber');
 //   var thisPanel = $(this)
 //     .closest('.case_detail_panel_tools')
-//     .siblings('.case_detail_panel_casenotes');
+//     .siblings('.case_detail_panel');
 //   var currentPath = $(this).closest('.case_detail_panel').data('CurrentPath');
 //   var sendPath;
 //   if (currentPath === 'Home') {
@@ -1182,28 +1145,46 @@ function createTrail(path) {
 //   );
 // });
 // Switch documents to list view
-live('click', 'documents_view_chooser--list', async (event) => {
-  const el = event.target;
-  const parent = el.closest('.documents_view_chooser--list');
-  const caseId = el.dataset.caseid || parent.dataset.caseid;
-  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
+live('click', 'documents_view_chooser--list', async (_event, el) => {
+  const caseDetailsRef = el.closest('.case_details');
+  caseDetailsRef.dataset.layout = "List";
+  const caseId = caseDetailsRef.dataset.caseid;
+  const currentPath = caseDetailsRef.dataset.currentpath != 'Home' ? caseDetailsRef.dataset.currentpath : null;
+  const chooser = el.closest('.documents_view_chooser');
+  chooser.classList.remove('grid');
+  chooser.classList.add('list');
+  const gridImage = chooser.querySelector('.documents_view_chooser--grid img');
+  const listImage = chooser.querySelector('.documents_view_chooser--list img');
+  gridImage.src = 'html/ico/grid-unselected.png';
+  listImage.src = 'html/ico/list-selected.png';
+  const documentsContainer = document.querySelector(`#nav-${caseId}-documents .case_detail_panel`);
   const search =
     document.querySelector(`#nav-${caseId}-documents .documents_search`)
       .value || null;
-  const html = await getDocuments(caseId, search, null, 'yes');
+  const html = await getDocuments(caseId, search, true, 'yes', currentPath);
 
   documentsContainer.innerHTML = html;
 });
 // Switch documents to grid view
-live('click', 'documents_view_chooser--grid', async (event) => {
-  const el = event.target;
-  const parent = el.closest('.documents_view_chooser--grid');
-  const caseId = el.dataset.caseid || parent.dataset.caseid;
+live('click', 'documents_view_chooser--grid', async (_event, el) => {
+  const caseDetailsRef = el.closest('.case_details');
+  caseDetailsRef.dataset.layout = "Grid";
+  const caseId = caseDetailsRef.dataset.caseid;
+  const currentPath = caseDetailsRef.dataset.currentpath != 'Home' ? caseDetailsRef.dataset.currentpath : null;
+  const chooser = el.closest('.documents_view_chooser');
+  chooser.classList.remove('list');
+  chooser.classList.add('grid')
+  const gridImage = chooser.querySelector('.documents_view_chooser--grid img');
+  const listImage = chooser.querySelector('.documents_view_chooser--list img');
+  gridImage.src = 'html/ico/grid-selected.png';
+  listImage.src = 'html/ico/list-unselected.png';
+
+
   const search =
     document.querySelector(`#nav-${caseId}-documents .documents_search`)
       .value || null;
-  const documentsContainer = document.querySelector(`#nav-${caseId}-documents`);
-  const html = await getDocuments(caseId, search, null, null);
+  const documentsContainer = document.querySelector(`#nav-${caseId}-documents .case_detail_panel`);
+  const html = await getDocuments(caseId, search, true, null, currentPath);
   documentsContainer.innerHTML = html;
 });
 // Search documents
@@ -1211,36 +1192,35 @@ live('change', 'documents_search', async (event) => {
   const el = event.target;
   const search = el.value;
   const caseId = el.dataset.caseid;
+  const caseDetailsRef = el.closest('.case_details');
   const documentsContainer = document.querySelector(
-    `#nav-${caseId}-documents .case_detail_panel_casenotes`,
+    `#nav-${caseId}-documents .case_detail_panel`,
   );
-  const listView = document
-    .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
-    .classList.contains('list');
+  const listView = caseDetailsRef.dataset.currentpath === "List" ? true : null;
 
   const html = await getDocuments(caseId, search, true, listView || null);
   documentsContainer.innerHTML = html;
 });
 //User clicks a folder or document
-live('click', 'doc_item_folder', async (event) => {
+live('click', 'doc_item_folder', async (event, el) => {
   event.preventDefault();
-  const el = event.target.closest('.doc_item');
   const path = el.dataset.path;
-  const caseId = el.dataset.caseid;
+
+  const caseDetailsRef = el.closest('.case_details');
+  const caseId = caseDetailsRef.dataset.caseid;
   const pathDisplay = document.querySelector(
     `#nav-${caseId}-documents .path_display`,
   );
   pathDisplay.innerText = path;
+  caseDetailsRef.dataset.currentpath = path;
   // const docType = el.classList.contains('folder') ? 'folder' : 'document';
-  const itemId = el.dataset.id;
+  // const itemId = el.dataset.id;
   // console.log({ docType,path, caseId, itemId });
   const documentsContainer = document.querySelector(
-    `#nav-${caseId}-documents .case_detail_panel_casenotes`,
+    `#nav-${caseId}-documents .case_detail_panel`,
   );
-  const listView = document
-    .querySelector(`#nav-${caseId}-documents .documents_view_chooser`)
-    .classList.contains('list');
-  const html = await getDocuments(caseId, null, true, listView || null, path);
+  const isList = caseDetailsRef.dataset.layout === 'List' ? true : null;
+  const html = await getDocuments(caseId, null, true, isList || null, path);
   documentsContainer.innerHTML = html;
 });
 
@@ -1250,16 +1230,10 @@ let draggedItem = null;
 live('dragover', 'doc_item_folder', (event) => {
   event.preventDefault();
 });
-live('drag', 'doc_item', (event) => {
-  const el = event.target;
-  const item = el.classList.contains('doc_item') ? el : el.closest('.doc_item');
+live('drag', 'doc_item', (_event, item) => {
   draggedItem = item;
 });
-live('dragenter', 'doc_item_folder', (event) => {
-  const el = event.target;
-  const folder = el.classList.contains('doc_item_folder')
-    ? el
-    : el.closest('.doc_item_folder');
+live('dragenter', 'doc_item_folder', (_event, folder) => {
   folder.classList.add('doc_item_folder--active');
 });
 live('dragend', 'doc_item', () => {
@@ -1268,19 +1242,16 @@ live('dragend', 'doc_item', () => {
     folder.classList.remove('doc_item_folder--active'),
   );
 });
-live('drop', 'doc_item_folder', async (event) => {
+live('drop', 'doc_item_folder', async (event, folder) => {
   event.preventDefault();
-  const el = event.target;
-  const folder = el.classList.contains('doc_item_folder')
-    ? el
-    : el.closest('.doc_item_folder');
   const item_id = draggedItem.dataset.id;
-  const case_id = folder.dataset.caseid;
+  const caseDetailsRef = folder.closest('.case_details');
+  const case_id = caseDetailsRef.caseid;
   const path = folder.dataset.path;
   const selection_path = draggedItem.dataset.path;
   const docType = draggedItem.classList.contains('folder') ? 'folder' : 'item';
   try {
-    const response = await processDocuments(
+    await processDocuments(
       case_id,
       'cut',
       item_id,
@@ -1295,3 +1266,27 @@ live('drop', 'doc_item_folder', async (event) => {
     draggedItem = null;
   }
 });
+
+// NAVIGATING BETWEEN DIRECTORIES
+// user clicks on home directory doc_trail_home
+live('click', 'doc_trail_home', async (event, homePanel)=> {
+  const caseDetailsRef = homePanel.closest('.case_details')
+  const caseId = caseDetailsRef?.dataset.caseid;
+  caseDetailsRef.dataset.currentpath = 'Home';
+  const pathDisplay = homePanel.closest('.case_documents_submenu').querySelector('.path_display');
+  pathDisplay.innerText = '';
+  const isList = caseDetailsRef?.dataset.layout === 'List' ? true : null;
+  const html = await getDocuments(caseId, null, true, isList, null );
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel`,
+  );
+  documentsContainer.innerHTML = html;
+})
+// user clicks on another item in path doc_trail_path
+
+// OPENING DOCUMENTS
+// Adding folder
+// adding documents 
+// editing documents
+// uploading files
+// drag and drop on list 

@@ -1,7 +1,5 @@
 <?php
 
-if (isset($search)) {
-}
 
 if (!isset($update)) {
     $radio_name = rand();
@@ -48,7 +46,7 @@ if (!isset($update)) {
         <img src="html/ico/house.png"> <a href="#" class="doc_trail_home">Home</a>/
         <span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
     </div>
-    <div class="case_detail_panel_casenotes">
+    <div class="case_detail_panel">
     <?php
 }
 if (empty($folders) and empty($documents)) {
@@ -82,7 +80,7 @@ if (empty($folders) and empty($documents)) {
                 $folder_path = $folder['folder'];
             ?>
 
-                <tr class="doc_item folder" path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>">
+                <tr class="doc_item folder doc_item_folder" data-path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>">
                     <td width="10%"><img src="html/ico/folder.png"></td>
                     <td><?php echo htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') ?> </td>
                     <?php if (isset($search)) { ?>

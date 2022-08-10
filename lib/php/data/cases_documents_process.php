@@ -444,7 +444,6 @@ if ($action == 'open') {
 
 if ($action == 'cut') {
 	if ($doc_type == 'folder') {
-
 		if ($selection_path == '') {
 			$return = array('message' => 'There was an error moving your folder. Please reload the page and try again', 'wait' => true, 'error' => true);
 			echo json_encode($return);

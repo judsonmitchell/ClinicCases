@@ -812,7 +812,7 @@
   text-align: left;
 }
 
-.case_detail_panel_casenotes:not(.pdf) .case_note.case_note--closed .case_note_description {
+.case_detail_panel:not(.pdf) .case_note.case_note--closed .case_note_description {
   max-height: 150px;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1093,31 +1093,32 @@
   color: #c3dbea;
 }
 
-.case_detail_panel_casenotes {
+.case_detail_panel {
   display: flex;
   flex-wrap: wrap;
   padding: 2rem 0rem;
+  width: 100%;
 }
-.case_detail_panel_casenotes .doc_item {
+.case_detail_panel .doc_item {
   width: 150px;
   cursor: pointer;
 }
-.case_detail_panel_casenotes .doc_item img {
+.case_detail_panel .doc_item img {
   display: block;
   margin: 1rem auto;
   height: 85px;
 }
-.case_detail_panel_casenotes .doc_item p {
+.case_detail_panel .doc_item p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
 }
-.case_detail_panel_casenotes .doc_item:hover p {
+.case_detail_panel .doc_item:hover p {
   overflow: auto;
   white-space: normal;
 }
-.case_detail_panel_casenotes .doc_properties {
+.case_detail_panel .doc_properties {
   display: none;
 }
 
