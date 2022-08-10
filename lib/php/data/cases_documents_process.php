@@ -212,22 +212,26 @@ if (isset($_POST['selection_path'])) {
 if ($action == 'newfolder') {
 
 	if (check_folder_unique($dbh, $container, $new_folder, $case_id) === true) {
+		
 		$return = array('message' => 'Sorry, that folder name is already in use.  Please choose another name.', 'error' => true);
 		echo json_encode($return);
 		die;
 	};
 
-	$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', :new_folder, :container, '$username', :case_id, CURRENT_TIMESTAMP);");
-
-	$new_folder_query->bindParam(':container', $container);
-
-	$new_folder_query->bindParam(':new_folder', $new_folder);
-
-	$new_folder_query->bindParam(':case_id', $case_id);
-
-	$new_folder_query->execute();
-
-	$error = $dbh->errorInfo();
+	try {
+		if($container == "") {
+			$container = NULL;
+			var_dump($container);
+		}
+		$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', '$new_folder', '$container', '$username', $case_id, CURRENT_TIMESTAMP);");
+		var_dump($new_folder_query);
+		$new_folder_query->execute();
+	
+		$error = $dbh->errorInfo();
+		var_dump($error);
+	} catch (Exception $e) {
+		var_dump($e->getMessage());
+	}
 }
 
 if ($action == 'rename') {

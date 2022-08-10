@@ -5,6 +5,11 @@
 /* global escape, escapeHtml, unescape, notify, rte_toolbar, qq , isUrl */
 import { live } from './live.js';
 import { getDocuments, processDocuments } from '../../lib/javascripts/axios.js';
+import {
+  setFormValues,
+  checkFormValidity,
+  getFormValues,
+} from '../js/forms.js';
 
 function createTrail(path) {
   var pathArray = path.split('/');
@@ -1147,9 +1152,12 @@ function createTrail(path) {
 // Switch documents to list view
 live('click', 'documents_view_chooser--list', async (_event, el) => {
   const caseDetailsRef = el.closest('.case_details');
-  caseDetailsRef.dataset.layout = "List";
+  caseDetailsRef.dataset.layout = 'List';
   const caseId = caseDetailsRef.dataset.caseid;
-  const currentPath = caseDetailsRef.dataset.currentpath != 'Home' ? caseDetailsRef.dataset.currentpath : null;
+  const currentPath =
+    caseDetailsRef.dataset.currentpath != 'Home'
+      ? caseDetailsRef.dataset.currentpath
+      : null;
   const chooser = el.closest('.documents_view_chooser');
   chooser.classList.remove('grid');
   chooser.classList.add('list');
@@ -1157,7 +1165,9 @@ live('click', 'documents_view_chooser--list', async (_event, el) => {
   const listImage = chooser.querySelector('.documents_view_chooser--list img');
   gridImage.src = 'html/ico/grid-unselected.png';
   listImage.src = 'html/ico/list-selected.png';
-  const documentsContainer = document.querySelector(`#nav-${caseId}-documents .case_detail_panel`);
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel`,
+  );
   const search =
     document.querySelector(`#nav-${caseId}-documents .documents_search`)
       .value || null;
@@ -1168,22 +1178,26 @@ live('click', 'documents_view_chooser--list', async (_event, el) => {
 // Switch documents to grid view
 live('click', 'documents_view_chooser--grid', async (_event, el) => {
   const caseDetailsRef = el.closest('.case_details');
-  caseDetailsRef.dataset.layout = "Grid";
+  caseDetailsRef.dataset.layout = 'Grid';
   const caseId = caseDetailsRef.dataset.caseid;
-  const currentPath = caseDetailsRef.dataset.currentpath != 'Home' ? caseDetailsRef.dataset.currentpath : null;
+  const currentPath =
+    caseDetailsRef.dataset.currentpath != 'Home'
+      ? caseDetailsRef.dataset.currentpath
+      : null;
   const chooser = el.closest('.documents_view_chooser');
   chooser.classList.remove('list');
-  chooser.classList.add('grid')
+  chooser.classList.add('grid');
   const gridImage = chooser.querySelector('.documents_view_chooser--grid img');
   const listImage = chooser.querySelector('.documents_view_chooser--list img');
   gridImage.src = 'html/ico/grid-selected.png';
   listImage.src = 'html/ico/list-unselected.png';
 
-
   const search =
     document.querySelector(`#nav-${caseId}-documents .documents_search`)
       .value || null;
-  const documentsContainer = document.querySelector(`#nav-${caseId}-documents .case_detail_panel`);
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel`,
+  );
   const html = await getDocuments(caseId, search, true, null, currentPath);
   documentsContainer.innerHTML = html;
 });
@@ -1196,7 +1210,7 @@ live('change', 'documents_search', async (event) => {
   const documentsContainer = document.querySelector(
     `#nav-${caseId}-documents .case_detail_panel`,
   );
-  const listView = caseDetailsRef.dataset.currentpath === "List" ? true : null;
+  const listView = caseDetailsRef.dataset.currentpath === 'List' ? true : null;
 
   const html = await getDocuments(caseId, search, true, listView || null);
   documentsContainer.innerHTML = html;
@@ -1269,24 +1283,81 @@ live('drop', 'doc_item_folder', async (event, folder) => {
 
 // NAVIGATING BETWEEN DIRECTORIES
 // user clicks on home directory doc_trail_home
-live('click', 'doc_trail_home', async (event, homePanel)=> {
-  const caseDetailsRef = homePanel.closest('.case_details')
+live('click', 'doc_trail_home', async (event, homePanel) => {
+  const caseDetailsRef = homePanel.closest('.case_details');
   const caseId = caseDetailsRef?.dataset.caseid;
   caseDetailsRef.dataset.currentpath = 'Home';
-  const pathDisplay = homePanel.closest('.case_documents_submenu').querySelector('.path_display');
+  const pathDisplay = homePanel
+    .closest('.case_documents_submenu')
+    .querySelector('.path_display');
   pathDisplay.innerText = '';
   const isList = caseDetailsRef?.dataset.layout === 'List' ? true : null;
-  const html = await getDocuments(caseId, null, true, isList, null );
+  const html = await getDocuments(caseId, null, true, isList, null);
   const documentsContainer = document.querySelector(
     `#nav-${caseId}-documents .case_detail_panel`,
   );
   documentsContainer.innerHTML = html;
-})
+});
 // user clicks on another item in path doc_trail_path
 
 // OPENING DOCUMENTS
+live('click', 'docs_new_folder', (_event, button) => {
+  const caseDetailsRef = button.closest('.case_details');
+  const caseId = caseDetailsRef.dataset.caseid;
+  const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
+  const currentPath =
+    caseDetailsRef.dataset.currentpath != 'Home'
+      ? caseDetailsRef.dataset.currentPath
+      : null;
+  const newFolderForm = document.querySelector('#newFolderModal form');
+  setFormValues(newFolderForm, { caseId, isList, currentPath });
+  const newFolderModal =
+    bootstrap.Modal.getInstance('#newFolderModal') ||
+    new bootstrap.Modal('#newFolderModal');
+  newFolderModal.show();
+});
 // Adding folder
-// adding documents 
+live('click', 'doc_new_folder_submit', async (event, button) => {
+  const modal = document.querySelector('#newFolderModal');
+  const newFolderModal = bootstrap.Modal.getInstance(modal);
+  const form = modal.querySelector('form');
+  const isValid = checkFormValidity(form);
+  if (isValid == false) {
+    form.classList.add('invalid');
+    alertify.error('Please provide a folder name.');
+    return;
+  }
+  const values = getFormValues(form);
+  const { folderName, caseId, isList, currentPath } = values;
+  const response = await processDocuments(
+    caseId,
+    'newfolder',
+    null,
+    null,
+    null,
+    'folder',
+    folderName,
+    currentPath || null,
+  );
+  console.log(response);
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel`,
+  );
+  newFolderModal.hide();
+  const html = await getDocuments(
+    caseId,
+    null,
+    true,
+    isList || null,
+    currentPath || null,
+  );
+  documentsContainer.innerHTML = html;
+});
+
+// adding documents
 // editing documents
 // uploading files
-// drag and drop on list 
+// drag and drop on list
+// save preferred docs view to cookies
+// load docs based on cookies
+// make sure if initialized as list, appropriate toolbar is shown

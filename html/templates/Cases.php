@@ -80,4 +80,5 @@
 
 		</div>
 	</div>
-	<?php include('html/templates/interior/new_case_modal.php') ?>
+	<?php include('html/templates/interior/new_case_modal.php') ?>	
+	<?php include('html/templates/interior/cases_documents_new_folder_modal.php');?>

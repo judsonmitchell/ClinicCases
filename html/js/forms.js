@@ -4,7 +4,7 @@
  */
 
 // Returns a json object of form values
-function getFormValues(form) {
+export const getFormValues = (form) => {
   const elements = [...form.elements];
   const values = elements.reduce((obj, current) => {
     obj[current.name] = current.value;
@@ -14,7 +14,7 @@ function getFormValues(form) {
   return values;
 }
 
-const checkFormValidity = (form) => {
+export const checkFormValidity = (form) => {
   const isValid = form.checkValidity();
   const invalidFields = [];
   if (isValid) {
@@ -64,3 +64,24 @@ const getDualInputValues = (dualInputs) => {
     values[name] = JSON.stringify(values[name]);
   }, {});
 };
+
+
+export const setFormValues = (form, values) => {
+  const keys = Object.keys(values);
+  // keys.forEach(key => {
+  //   const el = els.find(el => el.name = key);
+  //   if(el){
+  //     el.value = values[key]
+  //   }
+  // })
+  console.log(values);
+  form.elements.forEach(el => {
+    const key = keys.find(key => el.name === key);
+    if(key){
+      el.value = values[key];
+    }
+  })
+
+  console.log(form);
+
+}
