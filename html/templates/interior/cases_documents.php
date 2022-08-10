@@ -61,7 +61,7 @@ if (!isset($update)) {
 
 
 		<div class="case_documents_submenu">
-			<a href="#" class="doc_trail_home">Home</a>>
+			<a href="#" class="doc_trail_home">Home</a>
 			<span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
 		</div>
 		<div class="case_detail_panel">

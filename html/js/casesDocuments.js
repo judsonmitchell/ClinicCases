@@ -12,20 +12,12 @@ import {
 } from '../js/forms.js';
 
 function createTrail(path) {
-  var pathArray = path.split('/');
+  let pathArray = path.split('/').map(p => decodeURI(p));
   var pathString = '';
-  var pathS = '';
   pathArray.forEach((v, i) => {
-    var pathSa = pathS.substring(1);
-    var pathItem =
-      '<a class="doc_trail_item" href="#" path="' +
-      pathSa +
-      '">' +
-      escapeHtml(decodeURI(v)) +
-      '</a>/';
-    pathS += '/' + v;
-    var pathSa = pathS.substring(1);
-
+    const pathName = decodeURI(v);
+    const fullPath = pathArray.slice(0,i + 1).join('/');
+    var pathItem = `> <a class="doc_trail_item" href="#" data-path="${fullPath}">${pathName}</a>`;
     pathString += pathItem;
   });
 
@@ -1225,7 +1217,7 @@ live('click', 'doc_item_folder', async (event, el) => {
   const pathDisplay = document.querySelector(
     `#nav-${caseId}-documents .path_display`,
   );
-  pathDisplay.innerText = path;
+  pathDisplay.innerHTML = createTrail(path);
   caseDetailsRef.dataset.currentpath = path;
   // const docType = el.classList.contains('folder') ? 'folder' : 'document';
   // const itemId = el.dataset.id;
@@ -1264,6 +1256,7 @@ live('drop', 'doc_item_folder', async (event, folder) => {
   const path = folder.dataset.path;
   const selection_path = draggedItem.dataset.path;
   const docType = draggedItem.classList.contains('folder') ? 'folder' : 'item';
+  if(path == selection_path) return;
   try {
     await processDocuments(
       case_id,
@@ -1290,7 +1283,7 @@ live('click', 'doc_trail_home', async (event, homePanel) => {
   const pathDisplay = homePanel
     .closest('.case_documents_submenu')
     .querySelector('.path_display');
-  pathDisplay.innerText = '';
+  pathDisplay.innerHTML = '';
   const isList = caseDetailsRef?.dataset.layout === 'List' ? true : null;
   const html = await getDocuments(caseId, null, true, isList, null);
   const documentsContainer = document.querySelector(
@@ -1299,7 +1292,23 @@ live('click', 'doc_trail_home', async (event, homePanel) => {
   documentsContainer.innerHTML = html;
 });
 // user clicks on another item in path doc_trail_path
-
+live('click', 'doc_trail_item', async (_event, trail) => {
+  const caseDetailsRef = trail.closest('.case_details');
+  const caseId = caseDetailsRef?.dataset.caseid;
+  const path = trail.dataset.path;
+  caseDetailsRef.dataset.currentpath = path;
+  const pathDisplay = trail
+    .closest('.case_documents_submenu')
+    .querySelector('.path_display');
+  pathDisplay.innerHTML = createTrail(path);
+  console.log({ path });
+  const isList = caseDetailsRef?.dataset.layout === 'List' ? true : null;
+  const html = await getDocuments(caseId, null, true, isList, path);
+  const documentsContainer = document.querySelector(
+    `#nav-${caseId}-documents .case_detail_panel`,
+  );
+  documentsContainer.innerHTML = html;
+});
 // OPENING DOCUMENTS
 live('click', 'docs_new_folder', (_event, button) => {
   const caseDetailsRef = button.closest('.case_details');
