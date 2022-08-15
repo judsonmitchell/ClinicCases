@@ -75,7 +75,14 @@ const setFormValues = (form, values) => {
   form?.elements?.forEach((el) => {
     const key = keys.find((key) => el.name === key);
     if (key) {
-      el.value = values[key];
+      if (el.type === 'checkbox') {
+        el.checked = values[key];
+        console.log(el);
+        console.log(el.checked)
+        console.log(values[key], key)
+      } else {
+        el.value = values[key];
+      }
     }
   });
 };

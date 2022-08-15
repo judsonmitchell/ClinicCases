@@ -5,7 +5,6 @@ ini_set('display_startup_errors', '1');
 require('../auth/session_check.php');
 require('../../../db.php');
 $_POST = json_decode(file_get_contents("php://input"), true);
-
 function update_paths($dbh, $path, $new_path, $case_id)
 {
 
@@ -141,7 +140,6 @@ function check_folder_unique($dbh, $container, $new_folder, $case_id)
 //Create New Folder
 $username = $_SESSION['login'];
 $action = $_POST['action'];
-var_dump($_POST);
 
 if (isset($_POST['case_id'])) {
 	$case_id = $_POST['case_id'];
@@ -212,22 +210,20 @@ if (isset($_POST['selection_path'])) {
 if ($action == 'newfolder') {
 
 	if (check_folder_unique($dbh, $container, $new_folder, $case_id) === true) {
-		
+
 		$return = array('message' => 'Sorry, that folder name is already in use.  Please choose another name.', 'error' => true);
 		echo json_encode($return);
 		die;
 	};
 
 	try {
-		if($container){
+		if ($container) {
 			$new_folder = $container . '/' . $new_folder;
 		}
 		$new_folder_query = $dbh->prepare("INSERT INTO cm_documents (`id`, `name`, `local_file_name`, `folder`, `containing_folder`, `username`, `case_id`, `date_modified`) VALUES (NULL, '', '', '$new_folder', '$container', '$username', $case_id, CURRENT_TIMESTAMP);");
-		var_dump($new_folder_query);
 		$new_folder_query->execute();
-	
+
 		$error = $dbh->errorInfo();
-		var_dump($error);
 	} catch (Exception $e) {
 		var_dump($e->getMessage());
 	}
@@ -332,35 +328,49 @@ if ($action == 'add_url') {
 try {
 
 	if ($action == 'new_ccd') {
-		$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
-	
-		$allowed_editors = serialize(array($username));
-	
+		$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','$ccd_text', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
+
+		if ($ccd_lock === 'yes') {
+			$allowed_editors = serialize(array($username));
+		} else {
+			$allowed_editors = serialize(array('all'));
+		}
+
 		$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' => $case_id, 'allowed_editors' => $allowed_editors);
-	
+
 		$new_ccd_query->execute($data);
-	
+
 		$error = $new_ccd_query->errorInfo();
 	}
-} catch(Exception $e){
+} catch (Exception $e) {
 	var_dump($e->getMessage());
 }
 
 if ($action == 'update_ccd') {
-	$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, local_file_name = :ccd_local_name, text = :ccd_text WHERE id = :doc_id");
+	try {
+		$update_ccd_query = $dbh->prepare("UPDATE cm_documents SET name = :name, local_file_name = :ccd_local_name, text = :ccd_text, write_permission = :perm WHERE id = :doc_id");
+		
+		if ($ccd_lock === 'yes') {
+			$allowed_editors = serialize(array($username));
+		} else {
+			$allowed_editors = serialize(array('all'));
+		}
+		$ccd_local_name = $ccd_id . ".ccd";
 
-	$ccd_local_name = $ccd_id . ".ccd";
+		$data = array('name' => $ccd_name, 'ccd_local_name' => $ccd_local_name, 'doc_id' => $ccd_id, 'ccd_text' => $ccd_text, 'perm' => $allowed_editors);
 
-	$data = array('name' => $ccd_name, 'ccd_local_name' => $ccd_local_name, 'doc_id' => $ccd_id, 'ccd_text' => $ccd_text);
+		$update_ccd_query->execute($data);
 
-	$update_ccd_query->execute($data);
-
-	$error = $update_ccd_query->errorInfo();
+		$error = $update_ccd_query->errorInfo();
+	} catch (Exception $e) {
+		var_dump($e->getMessage());
+	}
 }
 
 if ($action === 'change_ccd_permissions') {
 
 	$update_ccd_perm = $dbh->prepare("UPDATE cm_documents SET write_permission = :perm where id = :doc_id");
+
 	if ($ccd_lock === 'yes') {
 		$allowed_editors = serialize(array($username));
 	} else {
@@ -393,6 +403,7 @@ if ($action == 'open') {
 				break;
 
 			case 'ccd':
+
 				$ccd_id = $doc_properties['id'];
 				$ccd_title = $doc_properties['name'];
 				$ccd_content = $doc_properties['text'];
@@ -411,7 +422,9 @@ if ($action == 'open') {
 				} else {
 					$ccd_owner = '0';
 				}
+
 				break;
+
 
 			case 'pdf':
 
@@ -521,8 +534,6 @@ if ($action == 'cut') {
 			var_dump($e->getMessage());
 		}
 	}
-
-
 }
 
 if ($action == 'copy') {

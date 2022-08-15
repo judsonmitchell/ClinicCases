@@ -1369,7 +1369,7 @@ live('click', 'doc_new_folder_submit', async (event, button) => {
 });
 
 // adding documents
-let documentEditor;
+let newDocEditor;
 live('click', 'docs_new_document', (_event, button) => {
   const caseDetailsRef = button.closest('.case_details');
   const caseId = caseDetailsRef.dataset.caseid;
@@ -1378,9 +1378,9 @@ live('click', 'docs_new_document', (_event, button) => {
     caseDetailsRef.dataset.currentpath != 'Home'
       ? caseDetailsRef.dataset.currentpath
       : null;
-  if (!documentEditor) {
+  if (!newDocEditor) {
     ClassicEditor.create(document.querySelector('#newDocEditor'))
-      .then((editor) => (documentEditor = editor))
+      .then((editor) => (newDocEditor = editor))
       .catch((error) => {
         console.error(error);
       });
@@ -1396,11 +1396,10 @@ live('click', 'doc_new_document_submit', async (event, button) => {
   const modal = document.querySelector('#newDocumentModal');
   const newFolderModal = bootstrap.Modal.getInstance(modal);
   const form = modal.querySelector('form');
-  const text = documentEditor.getData();
+  const text = newDocEditor.getData();
   const textarea = modal.querySelector('#newDocEditor');
   textarea.value = text;
   const values = getFormValues(form);
-  console.log({values})
   const errors = checkFormValidity(form);
   const isValid = errors == true;
   if (!isValid) {
@@ -1419,11 +1418,11 @@ live('click', 'doc_new_document_submit', async (event, button) => {
       new_folder: folderName,
       container: currentPath || null,
       ccd_name: doc_name,
+      ccd_text: text,
       path: currentPath,
       local_file_name: `${doc_name}.ccd`,
-      ccd_lock: locked
+      ccd_lock: locked ? 'yes' : null,
     });
-
     const documentsContainer = document.querySelector(
       `#nav-${caseId}-documents .case_detail_panel`,
     );
@@ -1441,16 +1440,58 @@ live('click', 'doc_new_document_submit', async (event, button) => {
     alertify.error(error.message);
   } finally {
     resetForm(form);
-    documentEditor.setData('');
+    newDocEditor.setData('');
   }
 });
 // editing documents
-live('click', 'ccd', async (_event, ccd)=> {
-  const modal = document.querySelector('#newDocumentModal');
+let editDocEditor;
+live('click', 'ccd', async (_event, ccd) => {
+  const caseDetailsRef = ccd.closest('.case_details');
+  const caseId = caseDetailsRef.dataset.caseid;
+  const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
+  const currentPath =
+    caseDetailsRef.dataset.currentpath != 'Home'
+      ? caseDetailsRef.dataset.currentpath
+      : null;
+  if (!editDocEditor) {
+    ClassicEditor.create(document.querySelector('#editDocEditor'))
+      .then((editor) => (editDocEditor = editor))
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  const editDocumentForm = document.querySelector('#editDocumentModal form');
+  const doc_id = ccd.dataset.id;
+  const ccdoc = await processDocuments({
+    item_id: doc_id,
+    action: 'open',
+  });
+  console.log({ ccdoc });
+  // if readonly, show doc
+  // if not readonly, show edit form
+  if (ccdoc.ccd_permissions === 'yes') {
+    setFormValues(editDocumentForm, {
+      caseId,
+      isList,
+      currentPath,
+      doc_name: ccdoc.ccd_title,
+      locked: ccdoc.ccd_locked == 'yes',
+      ccd_id: ccdoc.ccd_id
+    });
+    editDocEditor.setData(ccdoc.ccd_content);
+    const newDocumentModal =
+      bootstrap.Modal.getInstance('#editDocumentModal') ||
+      new bootstrap.Modal('#editDocumentModal');
+    newDocumentModal.show();
+  } else {
+  }
+});
+live('click', 'doc_edit_document_submit', async (event, button) => {
+  const modal = document.querySelector('#editDocumentModal');
   const newFolderModal = bootstrap.Modal.getInstance(modal);
   const form = modal.querySelector('form');
-  const text = documentEditor.getData();
-  const textarea = modal.querySelector('#newDocEditor');
+  const text = editDocEditor.getData();
+  const textarea = modal.querySelector('#editDocEditor');
   textarea.value = text;
   const values = getFormValues(form);
   const errors = checkFormValidity(form);
@@ -1460,21 +1501,24 @@ live('click', 'ccd', async (_event, ccd)=> {
     alertify.error(`Please provide values for ${errors}`);
     return;
   }
-  const { folderName, caseId, isList, currentPath, doc_name, locked } = values;
+  const { folderName, caseId, isList, currentPath, doc_name, locked, ccd_id } = values;
   try {
     const response = await processDocuments({
       case_id: caseId,
-      action: 'new_ccd',
+      action: 'update_ccd',
       target_path: currentPath,
       selection_path: folderName,
       doc_type: 'item',
       new_folder: folderName,
       container: currentPath || null,
       ccd_name: doc_name,
+      ccd_text: text,
       path: currentPath,
       local_file_name: `${doc_name}.ccd`,
-      ccd_lock: locked
+      ccd_lock: locked ? 'yes' : null,
+      ccd_id
     });
+    console.log(response);
     const documentsContainer = document.querySelector(
       `#nav-${caseId}-documents .case_detail_panel`,
     );
@@ -1492,9 +1536,9 @@ live('click', 'ccd', async (_event, ccd)=> {
     alertify.error(error.message);
   } finally {
     resetForm(form);
-    documentEditor.setData('');
+    editDocEditor.setData('');
   }
-})
+});
 // uploading files
 // drag and drop on list
 // save preferred docs view to cookies
