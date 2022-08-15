@@ -1379,7 +1379,7 @@ live('click', 'docs_new_document', (_event, button) => {
       ? caseDetailsRef.dataset.currentpath
       : null;
   if (!documentEditor) {
-    ClassicEditor.create(document.querySelector('#editor'))
+    ClassicEditor.create(document.querySelector('#newDocEditor'))
       .then((editor) => (documentEditor = editor))
       .catch((error) => {
         console.error(error);
@@ -1397,9 +1397,10 @@ live('click', 'doc_new_document_submit', async (event, button) => {
   const newFolderModal = bootstrap.Modal.getInstance(modal);
   const form = modal.querySelector('form');
   const text = documentEditor.getData();
-  const textarea = modal.querySelector('#editor');
+  const textarea = modal.querySelector('#newDocEditor');
   textarea.value = text;
   const values = getFormValues(form);
+  console.log({values})
   const errors = checkFormValidity(form);
   const isValid = errors == true;
   if (!isValid) {
@@ -1407,7 +1408,7 @@ live('click', 'doc_new_document_submit', async (event, button) => {
     alertify.error(`Please provide values for ${errors}`);
     return;
   }
-  const { folderName, caseId, isList, currentPath, doc_name } = values;
+  const { folderName, caseId, isList, currentPath, doc_name, locked } = values;
   try {
     const response = await processDocuments({
       case_id: caseId,
@@ -1419,9 +1420,10 @@ live('click', 'doc_new_document_submit', async (event, button) => {
       container: currentPath || null,
       ccd_name: doc_name,
       path: currentPath,
-      local_file_name: `${doc_name}.ccd`
-      // allowed editors
+      local_file_name: `${doc_name}.ccd`,
+      ccd_lock: locked
     });
+
     const documentsContainer = document.querySelector(
       `#nav-${caseId}-documents .case_detail_panel`,
     );
@@ -1443,6 +1445,56 @@ live('click', 'doc_new_document_submit', async (event, button) => {
   }
 });
 // editing documents
+live('click', 'ccd', async (_event, ccd)=> {
+  const modal = document.querySelector('#newDocumentModal');
+  const newFolderModal = bootstrap.Modal.getInstance(modal);
+  const form = modal.querySelector('form');
+  const text = documentEditor.getData();
+  const textarea = modal.querySelector('#newDocEditor');
+  textarea.value = text;
+  const values = getFormValues(form);
+  const errors = checkFormValidity(form);
+  const isValid = errors == true;
+  if (!isValid) {
+    form.classList.add('invalid');
+    alertify.error(`Please provide values for ${errors}`);
+    return;
+  }
+  const { folderName, caseId, isList, currentPath, doc_name, locked } = values;
+  try {
+    const response = await processDocuments({
+      case_id: caseId,
+      action: 'new_ccd',
+      target_path: currentPath,
+      selection_path: folderName,
+      doc_type: 'item',
+      new_folder: folderName,
+      container: currentPath || null,
+      ccd_name: doc_name,
+      path: currentPath,
+      local_file_name: `${doc_name}.ccd`,
+      ccd_lock: locked
+    });
+    const documentsContainer = document.querySelector(
+      `#nav-${caseId}-documents .case_detail_panel`,
+    );
+    newFolderModal.hide();
+    const html = await getDocuments(
+      caseId,
+      null,
+      true,
+      isList || null,
+      currentPath || null,
+    );
+    documentsContainer.innerHTML = html;
+  } catch (error) {
+    console.log(error);
+    alertify.error(error.message);
+  } finally {
+    resetForm(form);
+    documentEditor.setData('');
+  }
+})
 // uploading files
 // drag and drop on list
 // save preferred docs view to cookies

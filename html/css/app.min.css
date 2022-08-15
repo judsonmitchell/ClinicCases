@@ -364,6 +364,60 @@ button {
   margin-left: 15px;
 }
 
+.switch {
+  position: relative;
+  border-radius: 100px;
+  background-color: white;
+  border: 2px solid black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  padding: 0.5rem 1rem;
+  grid-gap: 1rem;
+  cursor: pointer;
+}
+.switch .switch__selector {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  border-radius: 100px;
+  background-color: #2b50aa;
+  width: 100%;
+  height: 100%;
+  transition: all 3s ease-in-out;
+}
+.switch .switch__on {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  color: black;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.switch .switch__off {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  color: #c3dbea;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.switch input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+.switch input:checked ~ .switch__selector {
+  grid-column: 1/2;
+}
+.switch input:checked ~ .switch__on {
+  color: #c3dbea;
+}
+.switch input:checked ~ .switch__off {
+  color: black;
+}
+
 .header {
   background-color: white;
   position: relative;

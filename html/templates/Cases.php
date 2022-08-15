@@ -16,6 +16,8 @@
 <script type="text/javascript" src="lib/javascripts/router.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+
 </head>
 
 <body>
@@ -83,3 +85,4 @@
 	<?php include('html/templates/interior/new_case_modal.php') ?>	
 	<?php include('html/templates/interior/cases_documents_new_folder_modal.php');?>
 	<?php include('html/templates/interior/cases_documents_new_document_modal.php');?>
+	<?php include('html/templates/interior/cases_documents_edit_document_modal.php');?>

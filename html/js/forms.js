@@ -6,7 +6,12 @@
 const getFormValues = (form) => {
   const elements = [...form.elements];
   const values = elements.reduce((obj, current) => {
-    obj[current.name] = current.value;
+    if (current.type === 'checkbox') {
+      obj[current.name] = current.checked;
+    } else {
+      obj[current.name] = current.value;
+    }
+
     return obj;
   }, {});
 
