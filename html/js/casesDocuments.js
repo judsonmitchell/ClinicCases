@@ -9,14 +9,15 @@ import {
   setFormValues,
   checkFormValidity,
   getFormValues,
+  resetForm,
 } from '../js/forms.js';
 
 function createTrail(path) {
-  let pathArray = path.split('/').map(p => decodeURI(p));
+  let pathArray = path.split('/').map((p) => decodeURI(p));
   var pathString = '';
   pathArray.forEach((v, i) => {
     const pathName = decodeURI(v);
-    const fullPath = pathArray.slice(0,i + 1).join('/');
+    const fullPath = pathArray.slice(0, i + 1).join('/');
     var pathItem = `> <a class="doc_trail_item" href="#" data-path="${fullPath}">${pathName}</a>`;
     pathString += pathItem;
   });
@@ -1256,16 +1257,16 @@ live('drop', 'doc_item_folder', async (event, folder) => {
   const path = folder.dataset.path;
   const selection_path = draggedItem.dataset.path;
   const docType = draggedItem.classList.contains('folder') ? 'folder' : 'item';
-  if(path == selection_path) return;
+  if (path == selection_path) return;
   try {
-    await processDocuments(
+    await processDocuments({
       case_id,
-      'cut',
+      action: 'cut',
       item_id,
-      path,
+      target_path: path,
       selection_path,
-      docType,
-    );
+      doc_type: docType,
+    });
     draggedItem.classList.add('fadeOut');
   } catch (err) {
     console.log(err);
@@ -1338,33 +1339,109 @@ live('click', 'doc_new_folder_submit', async (event, button) => {
   }
   const values = getFormValues(form);
   const { folderName, caseId, isList, currentPath } = values;
-  console.log({ values });
-  const response = await processDocuments(
-    caseId,
-    'newfolder',
-    null,
-    currentPath,
-    folderName,
-    'folder',
-    folderName,
-    currentPath || null,
-  );
-  console.log({ response });
-  const documentsContainer = document.querySelector(
-    `#nav-${caseId}-documents .case_detail_panel`,
-  );
-  newFolderModal.hide();
-  const html = await getDocuments(
-    caseId,
-    null,
-    true,
-    isList || null,
-    currentPath || null,
-  );
-  documentsContainer.innerHTML = html;
+  try {
+    await processDocuments({
+      case_id: caseId,
+      action: 'newfolder',
+      target_path: currentPath,
+      selection_path: folderName,
+      doc_type: 'folder',
+      new_folder: folderName,
+      container: currentPath || null,
+    });
+    const documentsContainer = document.querySelector(
+      `#nav-${caseId}-documents .case_detail_panel`,
+    );
+    newFolderModal.hide();
+    const html = await getDocuments(
+      caseId,
+      null,
+      true,
+      isList || null,
+      currentPath || null,
+    );
+    documentsContainer.innerHTML = html;
+  } catch (error) {
+    alertify.error(error.message);
+  } finally {
+    resetForm(form);
+  }
 });
 
 // adding documents
+let documentEditor;
+live('click', 'docs_new_document', (_event, button) => {
+  const caseDetailsRef = button.closest('.case_details');
+  const caseId = caseDetailsRef.dataset.caseid;
+  const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
+  const currentPath =
+    caseDetailsRef.dataset.currentpath != 'Home'
+      ? caseDetailsRef.dataset.currentpath
+      : null;
+  if (!documentEditor) {
+    ClassicEditor.create(document.querySelector('#editor'))
+      .then((editor) => (documentEditor = editor))
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  const newDocumentForm = document.querySelector('#newDocumentModal form');
+  setFormValues(newDocumentForm, { caseId, isList, currentPath });
+  const newDocumentModal =
+    bootstrap.Modal.getInstance('#newDocumentModal') ||
+    new bootstrap.Modal('#newDocumentModal');
+  newDocumentModal.show();
+});
+live('click', 'doc_new_document_submit', async (event, button) => {
+  const modal = document.querySelector('#newDocumentModal');
+  const newFolderModal = bootstrap.Modal.getInstance(modal);
+  const form = modal.querySelector('form');
+  const text = documentEditor.getData();
+  const textarea = modal.querySelector('#editor');
+  textarea.value = text;
+  const values = getFormValues(form);
+  const errors = checkFormValidity(form);
+  const isValid = errors == true;
+  if (!isValid) {
+    form.classList.add('invalid');
+    alertify.error(`Please provide values for ${errors}`);
+    return;
+  }
+  const { folderName, caseId, isList, currentPath, doc_name } = values;
+  try {
+    const response = await processDocuments({
+      case_id: caseId,
+      action: 'new_ccd',
+      target_path: currentPath,
+      selection_path: folderName,
+      doc_type: 'item',
+      new_folder: folderName,
+      container: currentPath || null,
+      ccd_name: doc_name,
+      path: currentPath,
+      local_file_name: `${doc_name}.ccd`
+      // allowed editors
+    });
+    const documentsContainer = document.querySelector(
+      `#nav-${caseId}-documents .case_detail_panel`,
+    );
+    newFolderModal.hide();
+    const html = await getDocuments(
+      caseId,
+      null,
+      true,
+      isList || null,
+      currentPath || null,
+    );
+    documentsContainer.innerHTML = html;
+  } catch (error) {
+    console.log(error);
+    alertify.error(error.message);
+  } finally {
+    resetForm(form);
+    documentEditor.setData('');
+  }
+});
 // editing documents
 // uploading files
 // drag and drop on list

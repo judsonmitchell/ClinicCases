@@ -6,7 +6,7 @@
 <!-- <script src="html/js/live.js" type="module"></script> -->
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
-<script type="text/javascript" src="html/js/Forms.js "></script>
+<script type="module" src="html/js/Forms.js "></script>
 <script src="html/js/cases.js" type="module"></script>
 <script src="html/js/casesCaseNotes.js" type="module"></script>
 <script src="html/js/casesDocuments.js" type="module"></script>
@@ -82,3 +82,4 @@
 	</div>
 	<?php include('html/templates/interior/new_case_modal.php') ?>	
 	<?php include('html/templates/interior/cases_documents_new_folder_modal.php');?>
+	<?php include('html/templates/interior/cases_documents_new_document_modal.php');?>

@@ -329,16 +329,21 @@ if ($action == 'add_url') {
 	$error = $add_url_query->errorInfo();
 }
 
-if ($action == 'new_ccd') {
-	$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
+try {
 
-	$allowed_editors = serialize(array($username));
-
-	$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' => $case_id, 'allowed_editors' => $allowed_editors);
-
-	$new_ccd_query->execute($data);
-
-	$error = $new_ccd_query->errorInfo();
+	if ($action == 'new_ccd') {
+		$new_ccd_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, containing_folder, text, write_permission, username, case_id, date_modified) VALUES (NULL, :ccd_name, :local_file_name, 'ccd', :folder, '','', :allowed_editors , :user, :case_id, CURRENT_TIMESTAMP);");
+	
+		$allowed_editors = serialize(array($username));
+	
+		$data = array('ccd_name' => $ccd_name, 'local_file_name' => $local_file_name, 'folder' => $path, 'user' => $username, 'case_id' => $case_id, 'allowed_editors' => $allowed_editors);
+	
+		$new_ccd_query->execute($data);
+	
+		$error = $new_ccd_query->errorInfo();
+	}
+} catch(Exception $e){
+	var_dump($e->getMessage());
 }
 
 if ($action == 'update_ccd') {

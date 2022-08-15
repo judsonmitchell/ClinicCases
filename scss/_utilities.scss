@@ -24,5 +24,32 @@ button {
 
 .fadeOut {
   opacity: 0;
-  transition: opacity .3s linear;
+  transition: opacity 0.3s linear;
+}
+
+// CK EDITOR
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  padding: 2rem;
+}
+.ck ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+.ck ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+.ck ul ul,
+.ck ol ul {
+  list-style-type: circle;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+.ck ol ol,
+.ck ul ol {
+  list-style-type: lower-latin;
+  list-style-position: inside;
+  margin-left: 15px;
 }

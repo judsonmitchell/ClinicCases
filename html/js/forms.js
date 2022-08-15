@@ -1,10 +1,9 @@
 /**
  * This file contains utility functions for forms.
- * Import this on any page that uses forms.
  */
 
 // Returns a json object of form values
-export const getFormValues = (form) => {
+const getFormValues = (form) => {
   const elements = [...form.elements];
   const values = elements.reduce((obj, current) => {
     obj[current.name] = current.value;
@@ -12,9 +11,9 @@ export const getFormValues = (form) => {
   }, {});
 
   return values;
-}
+};
 
-export const checkFormValidity = (form) => {
+const checkFormValidity = (form) => {
   const isValid = form.checkValidity();
   const invalidFields = [];
   if (isValid) {
@@ -65,23 +64,22 @@ const getDualInputValues = (dualInputs) => {
   }, {});
 };
 
-
-export const setFormValues = (form, values) => {
+const setFormValues = (form, values) => {
   const keys = Object.keys(values);
-  // keys.forEach(key => {
-  //   const el = els.find(el => el.name = key);
-  //   if(el){
-  //     el.value = values[key]
-  //   }
-  // })
-  console.log(values);
-  form.elements.forEach(el => {
-    const key = keys.find(key => el.name === key);
-    if(key){
+
+  form?.elements?.forEach((el) => {
+    const key = keys.find((key) => el.name === key);
+    if (key) {
       el.value = values[key];
     }
-  })
+  });
+};
 
-  console.log(form);
-
-}
+export {
+  setFormValues,
+  getDualInputValues,
+  addNewItem,
+  resetForm,
+  checkFormValidity,
+  getFormValues,
+};
