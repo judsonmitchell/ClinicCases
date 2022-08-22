@@ -611,7 +611,7 @@
   }
 }
 
-.doc_item_folder--active{
+.doc_item_folder--active {
   background-color: $light-blue;
   border: 2px dashed $dark-blue;
 }
@@ -627,11 +627,12 @@
   border-radius: 10px;
   flex-direction: column;
 
-  &.highlight{
+  &.highlight {
     border-color: #138808;
   }
 
-  p, label {
+  p,
+  label {
     font-size: 2rem;
     color: $dark-blue;
     text-align: center;
@@ -651,3 +652,34 @@
   }
 }
 
+#uploadURLForm {
+  min-height: 350px;
+}
+#uploadFileModal {
+  #uploadURLForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #uploadURLFooter {
+    display: flex;
+
+  }
+
+  #uploadFileForm,
+  #uploadFileFooter {
+    display: none;
+  }
+
+  &.open {
+    #uploadURLForm,
+    #uploadURLFooter {
+      display: none;
+    }
+    #uploadFileForm,
+    #uploadFileFooter {
+      display: flex;
+
+    }
+  }
+}

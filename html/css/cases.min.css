@@ -1141,7 +1141,8 @@
 .file-upload.highlight {
   border-color: #138808;
 }
-.file-upload p, .file-upload label {
+.file-upload p,
+.file-upload label {
   font-size: 2rem;
   color: #2b50aa;
   text-align: center;
@@ -1158,4 +1159,29 @@
 .file-upload label {
   text-decoration: underline;
   cursor: pointer;
+}
+
+#uploadURLForm {
+  min-height: 350px;
+}
+
+#uploadFileModal #uploadURLForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#uploadFileModal #uploadURLFooter {
+  display: flex;
+}
+#uploadFileModal #uploadFileForm,
+#uploadFileModal #uploadFileFooter {
+  display: none;
+}
+#uploadFileModal.open #uploadURLForm,
+#uploadFileModal.open #uploadURLFooter {
+  display: none;
+}
+#uploadFileModal.open #uploadFileForm,
+#uploadFileModal.open #uploadFileFooter {
+  display: flex;
 }/*# sourceMappingURL=cases.min.css.map */

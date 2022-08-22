@@ -4,6 +4,10 @@ import {
   reloadCaseNoteData,
   processCaseNotes,
 } from '../../lib/javascripts/axios.js';
+import {
+  getFormValues,
+  checkFormValidity
+} from '../../html/js/forms.js';
 
 // search case notes
 live('change', 'case_notes_search', async (event) => {

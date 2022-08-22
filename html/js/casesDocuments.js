@@ -1272,10 +1272,16 @@ live('drop', 'doc_item_folder', async (event, folder) => {
       doc_type: docType,
     });
     draggedItem.classList.add('fadeOut');
+    setTimeout(()=> {
+      draggedItem.classList.add('hidden')
+      draggedItem = null;
+    }, 500)
   } catch (err) {
     console.log(err);
   } finally {
-    draggedItem = null;
+    setTimeout(()=> {
+      draggedItem = null;
+    }, 500)
   }
 });
 
@@ -1521,7 +1527,6 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
       ccd_lock: locked ? 'yes' : null,
       ccd_id,
     });
-    console.log(response);
     const documentsContainer = document.querySelector(
       `#nav-${caseId}-documents .case_detail_panel`,
     );
@@ -1535,7 +1540,6 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
     );
     documentsContainer.innerHTML = html;
   } catch (error) {
-    console.log(error);
     alertify.error(error.message);
   } finally {
     resetForm(form);
@@ -1623,6 +1627,63 @@ const handleDrop = async (files, case_id, path, isList) => {
 };
 
 // upload by url
+
+// toggle form
+live('click', 'file_or_url_switch', (_event, el) => {
+  const isChecked = el.checked;
+  const modal = document.querySelector('#uploadFileModal');
+  if (isChecked) {
+    modal.classList.add('open');
+  } else {
+    modal.classList.remove('open');
+  }
+});
+live('click', 'doc_upload_file_submit', async (_event, el) => {
+  const form = el.closest('form');
+  const errors = checkFormValidity(form);
+  const isValid = errors == true;
+  if (!isValid) {
+    form.classList.add('invalid');
+    alertify.error(`Please provide values for ${errors}`);
+    return;
+  }
+  const { caseId, isList, currentPath, url_name, url } = getFormValues(form);
+  try {
+    const response = await processDocuments({
+      action: 'add_url',
+      case_id: caseId,
+      isList: isList === 'true' || null,
+      path: currentPath == 'Home' ? '' : currentPath,
+      url_name,
+      url,
+    });
+    alertify.success('File uploaded successfully!');
+    const html = await getDocuments(
+      caseId,
+      null,
+      true,
+      isList == 'true' || null,
+      path || null,
+    );
+    const documentsContainer = document.querySelector(
+      `#nav-${caseId}-documents .case_detail_panel`,
+    );
+    documentsContainer.innerHTML = html;
+    alertify.success('Web address added!');
+
+  } catch (err) {
+    alertify.error(err.message);
+  } finally {
+    const newDocumentModal =
+      bootstrap.Modal.getInstance('#uploadFileModal') ||
+      new bootstrap.Modal('#uploadFileModal');
+    newDocumentModal.hide();
+  }
+});
+// open file (not ccdoc)
+// rename file
+// delete file
+// right click menu
 // drag and drop on list
 // save preferred docs view to cookies
 // load docs based on cookies
