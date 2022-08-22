@@ -12,7 +12,7 @@
             <p>Drag and drop your files here</p>
             <p>or</p>
             <label class="button" for="fileElem">click here to browse</label>
-            <input type="file" id="fileElem" class="file-upload-input" multiple accept="image/*" onchange="handleFiles(this.files)">
+            <input type="file" id="fileElem" class="file-upload-input" multiple accept="image/*">
           </div>
 
           <input type="text" hidden name="caseId">
@@ -22,7 +22,7 @@
       </form>
       <div class="modal-footer">
         <button type="button" data-bs-toggle='modal' data-bs-target="#uploadFileModal" class="dismiss">Cancel</button>
-        <button type="button" class="primary-button doc_edit_document_submit">Submit</button>
+        <!-- <button type="button" class="primary-button doc_edit_document_submit">Submit</button> -->
       </div>
     </div>
 

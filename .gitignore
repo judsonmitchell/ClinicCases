@@ -1,9 +1,10 @@
 _CONFIG.php
 people/*.jpg
 uploads/*
+cc_docs
 *.un~
 *.vim
 *.swp
 *.vim!
 *.swo
-
+.vscode/*

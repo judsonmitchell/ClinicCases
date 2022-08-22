@@ -1547,7 +1547,7 @@ live('click', 'docs_upload_file', async (_event, el) => {
   const caseDetailsRef = el.closest('.case_details');
   const currentPath = caseDetailsRef.dataset.currentpath;
   const case_id = caseDetailsRef.dataset.caseid;
-  console.log({ currentPath, case_id });
+  const isList = caseDetailsRef.dataset.layout === 'List';
   const label = document.querySelector('#uploadFileLabel span');
   const pathArray = currentPath.split('/');
   label.innerText = pathArray[pathArray.length - 1];
@@ -1556,7 +1556,7 @@ live('click', 'docs_upload_file', async (_event, el) => {
     new bootstrap.Modal('#uploadFileModal');
   newDocumentModal.show();
   const form = document.querySelector(`#uploadFileModal form`);
-  setFormValues(form, { caseId: case_id, currentPath });
+  setFormValues(form, { caseId: case_id, currentPath, isList });
 });
 let dropArea = document.querySelector('#dropArea');
 live('dragenter', 'file-upload', async (event, el) => {
@@ -1581,19 +1581,18 @@ live('drop', 'file-upload', async (event, el) => {
   let dt = event.dataTransfer;
   let files = dt.files;
   const form = el.closest('form');
-  const { currentPath, caseId } = getFormValues(form);
-  handleDrop(files, caseId, currentPath);
+  const { currentPath, caseId, isList } = getFormValues(form);
+  handleDrop(files, caseId, currentPath, isList);
 });
 live('change', 'file-upload-input', async (event, input) => {
-  let dt = event.dataTransfer;
-  let files = dt.files;
+  let files = input.files;
   const form = input.closest('form');
-  const { currentPath, caseId } = getFormValues(form);
-  handleDrop(files, caseId, currentPath);
+  const { currentPath, caseId, isList } = getFormValues(form);
+  handleDrop(files, caseId, currentPath, isList);
 });
 
-const handleDrop = async (files, case_id, path) => {
-  if(path === 'Home') {
+const handleDrop = async (files, case_id, path, isList) => {
+  if (path === 'Home') {
     path = '';
   }
   for (const file of [...files]) {
@@ -1603,25 +1602,30 @@ const handleDrop = async (files, case_id, path) => {
       return;
     }
     if (res.success) {
-      // const response = await processDocuments({
-      //   local_file_name: res.local_file_name,
-      //   path,
-      //   case_id,
-      //   action: 'new_ccd',
-      //   id: res.doc_id,
-      //   ccd_name: res.local_file_name
-      // });
-      // console.log(response);
-
-      // const newDocumentModal =
-      //   bootstrap.Modal.getInstance('#uploadFileModal') ||
-      //   new bootstrap.Modal('#uploadFileModal');
-      // newDocumentModal.hide();
+      alertify.success('File uploaded successfully!');
+      const html = await getDocuments(
+        case_id,
+        null,
+        true,
+        isList == 'true' || null,
+        path || null,
+      );
+      const documentsContainer = document.querySelector(
+        `#nav-${case_id}-documents .case_detail_panel`,
+      );
+      documentsContainer.innerHTML = html;
+      const newDocumentModal =
+        bootstrap.Modal.getInstance('#uploadFileModal') ||
+        new bootstrap.Modal('#uploadFileModal');
+      newDocumentModal.hide();
     }
   }
 };
 
+// upload by url
 // drag and drop on list
 // save preferred docs view to cookies
 // load docs based on cookies
 // make sure if initialized as list, appropriate toolbar is shown
+// tweak design to perfection
+// mobile design
