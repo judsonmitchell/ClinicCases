@@ -4,7 +4,11 @@
 
 /* global escape, escapeHtml, unescape, notify, rte_toolbar, qq , isUrl */
 import { live } from './live.js';
-import { getDocuments, processDocuments } from '../../lib/javascripts/axios.js';
+import {
+  getDocuments,
+  processDocuments,
+  uploadFile,
+} from '../../lib/javascripts/axios.js';
 import {
   setFormValues,
   checkFormValidity,
@@ -1409,7 +1413,7 @@ live('click', 'doc_new_document_submit', async (event, button) => {
   }
   const { folderName, caseId, isList, currentPath, doc_name, locked } = values;
   try {
-    const response = await processDocuments({
+    await processDocuments({
       case_id: caseId,
       action: 'new_ccd',
       target_path: currentPath,
@@ -1436,7 +1440,6 @@ live('click', 'doc_new_document_submit', async (event, button) => {
     );
     documentsContainer.innerHTML = html;
   } catch (error) {
-    console.log(error);
     alertify.error(error.message);
   } finally {
     resetForm(form);
@@ -1466,7 +1469,6 @@ live('click', 'ccd', async (_event, ccd) => {
     item_id: doc_id,
     action: 'open',
   });
-  console.log({ ccdoc });
   // if readonly, show doc
   // if not readonly, show edit form
   if (ccdoc.ccd_permissions === 'yes') {
@@ -1476,7 +1478,7 @@ live('click', 'ccd', async (_event, ccd) => {
       currentPath,
       doc_name: ccdoc.ccd_title,
       locked: ccdoc.ccd_locked == 'yes',
-      ccd_id: ccdoc.ccd_id
+      ccd_id: ccdoc.ccd_id,
     });
     editDocEditor.setData(ccdoc.ccd_content);
     const newDocumentModal =
@@ -1501,7 +1503,8 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
     alertify.error(`Please provide values for ${errors}`);
     return;
   }
-  const { folderName, caseId, isList, currentPath, doc_name, locked, ccd_id } = values;
+  const { folderName, caseId, isList, currentPath, doc_name, locked, ccd_id } =
+    values;
   try {
     const response = await processDocuments({
       case_id: caseId,
@@ -1516,7 +1519,7 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
       path: currentPath,
       local_file_name: `${doc_name}.ccd`,
       ccd_lock: locked ? 'yes' : null,
-      ccd_id
+      ccd_id,
     });
     console.log(response);
     const documentsContainer = document.querySelector(
@@ -1540,6 +1543,84 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
   }
 });
 // uploading files
+live('click', 'docs_upload_file', async (_event, el) => {
+  const caseDetailsRef = el.closest('.case_details');
+  const currentPath = caseDetailsRef.dataset.currentpath;
+  const case_id = caseDetailsRef.dataset.caseid;
+  console.log({ currentPath, case_id });
+  const label = document.querySelector('#uploadFileLabel span');
+  const pathArray = currentPath.split('/');
+  label.innerText = pathArray[pathArray.length - 1];
+  const newDocumentModal =
+    bootstrap.Modal.getInstance('#uploadFileModal') ||
+    new bootstrap.Modal('#uploadFileModal');
+  newDocumentModal.show();
+  const form = document.querySelector(`#uploadFileModal form`);
+  setFormValues(form, { caseId: case_id, currentPath });
+});
+let dropArea = document.querySelector('#dropArea');
+live('dragenter', 'file-upload', async (event, el) => {
+  event.preventDefault();
+  event.stopPropagation();
+  dropArea.classList.add('highlight');
+});
+live('dragleave', 'file-upload', async (event, el) => {
+  event.preventDefault();
+  event.stopPropagation();
+  dropArea.classList.remove('highlight');
+});
+live('dragover', 'file-upload', async (event, el) => {
+  event.preventDefault();
+  event.stopPropagation();
+  dropArea.classList.add('highlight');
+});
+live('drop', 'file-upload', async (event, el) => {
+  event.preventDefault();
+  event.stopPropagation();
+  dropArea.classList.remove('highlight');
+  let dt = event.dataTransfer;
+  let files = dt.files;
+  const form = el.closest('form');
+  const { currentPath, caseId } = getFormValues(form);
+  handleDrop(files, caseId, currentPath);
+});
+live('change', 'file-upload-input', async (event, input) => {
+  let dt = event.dataTransfer;
+  let files = dt.files;
+  const form = input.closest('form');
+  const { currentPath, caseId } = getFormValues(form);
+  handleDrop(files, caseId, currentPath);
+});
+
+const handleDrop = async (files, case_id, path) => {
+  if(path === 'Home') {
+    path = '';
+  }
+  for (const file of [...files]) {
+    const res = await uploadFile(file, path, case_id);
+    if (res.error) {
+      alertify.error(res.error);
+      return;
+    }
+    if (res.success) {
+      // const response = await processDocuments({
+      //   local_file_name: res.local_file_name,
+      //   path,
+      //   case_id,
+      //   action: 'new_ccd',
+      //   id: res.doc_id,
+      //   ccd_name: res.local_file_name
+      // });
+      // console.log(response);
+
+      // const newDocumentModal =
+      //   bootstrap.Modal.getInstance('#uploadFileModal') ||
+      //   new bootstrap.Modal('#uploadFileModal');
+      // newDocumentModal.hide();
+    }
+  }
+};
+
 // drag and drop on list
 // save preferred docs view to cookies
 // load docs based on cookies

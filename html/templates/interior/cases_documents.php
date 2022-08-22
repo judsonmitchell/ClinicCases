@@ -24,7 +24,7 @@ if (!isset($update)) {
 				<button class="button--secondary docs_new_document">
 					<img src="html/ico/new-document.png" alt="New Document Icon" /> <span>&nbsp;New Document</span>
 				</button>
-				<button class="button--secondary">
+				<button class="button--secondary docs_upload_file">
 					<img src="html/ico/upload.png" alt="Upload Icon" /> <span>&nbsp;Upload</span>
 				</button>
 				<!-- // <div class="documents_view_chooser list">

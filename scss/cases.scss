@@ -615,3 +615,39 @@
   background-color: $light-blue;
   border: 2px dashed $dark-blue;
 }
+
+.file-upload {
+  border: 4px dashed $dark-blue;
+  background: $light-blue;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 10px;
+  flex-direction: column;
+
+  &.highlight{
+    border-color: #138808;
+  }
+
+  p, label {
+    font-size: 2rem;
+    color: $dark-blue;
+    text-align: center;
+    display: block;
+    font-weight: 700;
+    margin: 2rem 0;
+  }
+  input {
+    display: none;
+  }
+  img {
+    width: 100px;
+  }
+  label {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+

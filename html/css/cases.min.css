@@ -1125,4 +1125,37 @@
 .doc_item_folder--active {
   background-color: #c3dbea;
   border: 2px dashed #2b50aa;
+}
+
+.file-upload {
+  border: 4px dashed #2b50aa;
+  background: #c3dbea;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 10px;
+  flex-direction: column;
+}
+.file-upload.highlight {
+  border-color: #138808;
+}
+.file-upload p, .file-upload label {
+  font-size: 2rem;
+  color: #2b50aa;
+  text-align: center;
+  display: block;
+  font-weight: 700;
+  margin: 2rem 0;
+}
+.file-upload input {
+  display: none;
+}
+.file-upload img {
+  width: 100px;
+}
+.file-upload label {
+  text-decoration: underline;
+  cursor: pointer;
 }/*# sourceMappingURL=cases.min.css.map */

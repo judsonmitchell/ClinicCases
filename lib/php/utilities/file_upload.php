@@ -2,41 +2,41 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
-
 $username = $_SESSION['login'];
 
-if (isset($_GET['case_id'])) {
-    $case_id = $_GET['case_id'];
+if (isset($_POST['case_id'])) {
+    $case_id = $_POST['case_id'];
 }
 
-if (isset($_GET['path'])) {
-    $path = $_GET['path'];
+if (isset($_POST['path'])) {
+    $path = $_POST['path'];
 
     //if this is a subfolder, create container path
-    if (stristr($path, '/'))
-        {
-            $last_slash = strpos($path, '/');
-            $container = substr($path, 0,$last_slash);
-        }
-        else
-            {$container = '';}
+    if (stristr($path, '/')) {
+        $last_slash = strpos($path, '/');
+        $container = substr($path, 0, $last_slash);
+    } else {
+        $container = '';
+    }
 }
 
 /**
  * Handle file uploads via XMLHttpRequest
  */
-class qqUploadedFileXhr {
+class qqUploadedFileXhr
+{
     /**
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
-    function save($path) {
+    function save($path)
+    {
         $input = fopen("php://input", "r");
         $temp = tmpfile();
         $realSize = stream_copy_to_stream($input, $temp);
         fclose($input);
 
-        if ($realSize != $this->getSize()){
+        if ($realSize != $this->getSize()) {
             return false;
         }
 
@@ -47,11 +47,13 @@ class qqUploadedFileXhr {
 
         return true;
     }
-    function getName() {
-        return $_GET['qqfile'];
+    function getName()
+    {
+        return $_POST['file'];
     }
-    function getSize() {
-        if (isset($_SERVER["CONTENT_LENGTH"])){
+    function getSize()
+    {
+        if (isset($_SERVER["CONTENT_LENGTH"])) {
             return (int)$_SERVER["CONTENT_LENGTH"];
         } else {
             throw new Exception('Getting content length is not supported.');
@@ -62,31 +64,37 @@ class qqUploadedFileXhr {
 /**
  * Handle file uploads via regular form post (uses the $_FILES array)
  */
-class qqUploadedFileForm {
+class qqUploadedFileForm
+{
     /**
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
-    function save($path) {
-        if(!move_uploaded_file($_FILES['qqfile']['tmp_name'], $path)){
+    function save($path)
+    {
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $path)) {
             return false;
         }
         return true;
     }
-    function getName() {
-        return $_FILES['qqfile']['name'];
+    function getName()
+    {
+        return $_FILES['file']['name'];
     }
-    function getSize() {
-        return $_FILES['qqfile']['size'];
+    function getSize()
+    {
+        return $_FILES['file']['size'];
     }
 }
 
-class qqFileUploader {
+class fileUploader
+{
     private $allowedExtensions = array();
     private $sizeLimit = 10485760;
     private $file;
 
-    function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760){
+    function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760)
+    {
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
 
         $this->allowedExtensions = $allowedExtensions;
@@ -94,32 +102,37 @@ class qqFileUploader {
 
         $this->checkServerSettings();
 
-        if (isset($_GET['qqfile'])) {
+        if (isset($_POST['file'])) {
             $this->file = new qqUploadedFileXhr();
-        } elseif (isset($_FILES['qqfile'])) {
+        } elseif (isset($_FILES['file'])) {
             $this->file = new qqUploadedFileForm();
         } else {
             $this->file = false;
         }
     }
 
-    private function checkServerSettings(){
+    private function checkServerSettings()
+    {
         $postSize = $this->toBytes(ini_get('post_max_size'));
         $uploadSize = $this->toBytes(ini_get('upload_max_filesize'));
 
-        if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit){
+        if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit) {
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
             die("{'error':'increase post_max_size and upload_max_filesize to $size'}");
         }
     }
 
-    private function toBytes($str){
+    private function toBytes($str)
+    {
         $val = trim($str);
-        $last = strtolower($str[strlen($str)-1]);
-        switch($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
-            case 'k': $val *= 1024;
+        $last = strtolower($str[strlen($str) - 1]);
+        switch ($last) {
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
         }
         return $val;
     }
@@ -127,12 +140,13 @@ class qqFileUploader {
     /**
      * Returns array('success'=>true) or array('error'=>'error message')
      */
-    function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
-        if (!is_writable($uploadDirectory)){
+    function handleUpload($uploadDirectory, $replaceOldFile = FALSE)
+    {
+        if (!is_writable($uploadDirectory)) {
             return array('error' => "Server error. Upload directory isn't writable.");
         }
 
-        if (!$this->file){
+        if (!$this->file) {
             return array('error' => 'No files were uploaded.');
         }
 
@@ -149,84 +163,81 @@ class qqFileUploader {
         $pathinfo = pathinfo($this->file->getName());
         $filename = $pathinfo['filename'];
 
-        if (isset($pathinfo['extension']))
-        {$ext = $pathinfo['extension'];}
-        else
-        {$ext = '';}
+        if (isset($pathinfo['extension'])) {
+            $ext = $pathinfo['extension'];
+        } else {
+            $ext = '';
+        }
 
-        if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
+        if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
             $these = implode(', ', $this->allowedExtensions);
             return array('error' => 'This file type is not permitted.  Ask your administrator to add this file type.');
         }
 
-        if(!$replaceOldFile){
+        if (!$replaceOldFile) {
             /// don't overwrite previous files that were uploaded
             while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
                 $filename .= rand(10, 99);
             }
         }
 
-        if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true,'file'=>$filename,'ext'=>$ext);
+        if ($this->file->save($uploadDirectory . $filename . '.' . $ext)) {
+            return array('success' => true, 'file' => $filename, 'ext' => $ext);
         } else {
-            return array('error'=> 'Could not save uploaded file.' .
+            return array('error' => 'Could not save uploaded file.' .
                 'The upload was cancelled, or server error encountered');
         }
-
     }
 }
+try {
+    //$allowed_file_types is set in the config file
+    $allowedExtensions = unserialize(ALLOWED_FILE_TYPES);
 
-//$allowed_file_types is set in the config file
-$allowedExtensions = unserialize(ALLOWED_FILE_TYPES);
+    $sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
 
-$sizeLimit = MAX_FILE_UPLOAD * 1024 * 1024;
+    $uploader = new fileUploader($allowedExtensions, $sizeLimit);
 
-$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+    $result = $uploader->handleUpload('../../../uploads/');
 
-$result = $uploader->handleUpload('../../../uploads/');
+    if (array_key_exists("error", $result))  //upload fails
+    {
+        echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+        die;
+    } else {
+        $upload_doc_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, username, case_id, date_modified) VALUES (NULL, :name, '', :extension, :folder,:user, :case_id, CURRENT_TIMESTAMP);");
+        $users_file_name = $result['file'] . "." . $result['ext'];
 
- if (array_key_exists("error", $result))  //upload fails
-     {echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);die;}
- else
- {
-    $upload_doc_query = $dbh->prepare("INSERT INTO cm_documents (id, name, local_file_name, extension, folder, username, case_id, date_modified) VALUES (NULL, :name, '', :extension, :folder,:user, :case_id, CURRENT_TIMESTAMP);");
+        $data = array('name' => $users_file_name, 'extension' => strtolower($result["ext"]), 'folder' => $path, 'user' => $username, 'case_id' => $case_id);
 
-    $users_file_name = $result['file'] . "." . $result['ext'];
+        $upload_doc_query->execute($data);
 
-    $data = array('name' => $users_file_name, 'extension' => strtolower($result["ext"]), 'folder' => $path,'user' => $username, 'case_id' => $case_id);
+        $error = $upload_doc_query->errorInfo();
 
-    $upload_doc_query->execute($data);
-
-    $error = $upload_doc_query->errorInfo();
-
-    if ($error[1])
-        {
-            $result = array('error'=>$error[1]);
+        if ($error[1]) {
+            $result = array('error' => $error[1]);
             htmlspecialchars(json_encode($result), ENT_NOQUOTES);
             die;
         };
 
-    $doc_id = $dbh->lastInsertId();
+        $doc_id = $dbh->lastInsertId();
 
-    //now update the local_file_name field with the id and the extension
+        //now update the local_file_name field with the id and the extension
 
-    $local_file_name = $doc_id . "." . $result['ext'];
+        $local_file_name = $doc_id . "." . $result['ext'];
 
-    $update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$local_file_name' WHERE id = '$doc_id'");
+        $update_name = $dbh->prepare("UPDATE cm_documents SET local_file_name = '$local_file_name' WHERE id = '$doc_id'");
 
-    $update_name->execute();
-
-    if (!is_writable(CC_DOC_PATH))
-        {
+        $update_name->execute();
+        if (!is_writable(CC_DOC_PATH)) {
             $return = array('error' => 'Error: Documents directory is not writable');
             echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
-        }
-        else
-
-        {
-            rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
-            $return = array('success'=>true);
+        } else {
+            // rename(CC_PATH . "/uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
+            rename("../../../uploads/" . $result['file'] . "." . $result['ext'], CC_DOC_PATH . "/" .  $local_file_name);
+            $return = array('success' => true, 'local_file_name'=> $local_file_name, 'doc_id'=> $doc_id,);
             echo htmlspecialchars(json_encode($return), ENT_NOQUOTES);
         }
-
- }
+    }
+} catch (Exception $e) {
+    var_dump($e);
+}

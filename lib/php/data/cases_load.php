@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/../../../db.php';
 // require(CC_PATH . '/lib/php/auth/session_check.php');
 include(CC_PATH . '/lib/php/utilities/convert_times.php');
 include(CC_PATH . '/lib/php/utilities/names.php');
-
 function sortBySubkey(&$array, $subkey, $sortType = SORT_ASC)
 {
 

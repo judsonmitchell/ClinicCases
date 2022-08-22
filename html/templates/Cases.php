@@ -86,3 +86,4 @@
 	<?php include('html/templates/interior/cases_documents_new_folder_modal.php');?>
 	<?php include('html/templates/interior/cases_documents_new_document_modal.php');?>
 	<?php include('html/templates/interior/cases_documents_edit_document_modal.php');?>
+	<?php include('html/templates/interior/cases_documents_upload_file_modal.php');?>
