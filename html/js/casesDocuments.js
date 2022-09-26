@@ -15,6 +15,7 @@ import {
   getFormValues,
   resetForm,
 } from '../js/forms.js';
+import { setCookie } from '../../lib/javascripts/cookies.js';
 
 function createTrail(path) {
   let pathArray = path.split('/').map((p) => decodeURI(p));
@@ -1171,6 +1172,7 @@ live('click', 'documents_view_chooser--list', async (_event, el) => {
   const html = await getDocuments(caseId, search, true, 'yes', currentPath);
 
   documentsContainer.innerHTML = html;
+  setCookie('cc_docs_view', 'list', 2);
 });
 // Switch documents to grid view
 live('click', 'documents_view_chooser--grid', async (_event, el) => {
@@ -1197,6 +1199,7 @@ live('click', 'documents_view_chooser--grid', async (_event, el) => {
   );
   const html = await getDocuments(caseId, search, true, null, currentPath);
   documentsContainer.innerHTML = html;
+  setCookie('cc_docs_view', 'grid', 2);
 });
 // Search documents
 live('change', 'documents_search', async (event) => {
@@ -1272,16 +1275,16 @@ live('drop', 'doc_item_folder', async (event, folder) => {
       doc_type: docType,
     });
     draggedItem.classList.add('fadeOut');
-    setTimeout(()=> {
-      draggedItem.classList.add('hidden')
+    setTimeout(() => {
+      draggedItem.classList.add('hidden');
       draggedItem = null;
-    }, 500)
+    }, 500);
   } catch (err) {
     console.log(err);
   } finally {
-    setTimeout(()=> {
+    setTimeout(() => {
       draggedItem = null;
-    }, 500)
+    }, 500);
   }
 });
 
@@ -1487,11 +1490,20 @@ live('click', 'ccd', async (_event, ccd) => {
       ccd_id: ccdoc.ccd_id,
     });
     editDocEditor.setData(ccdoc.ccd_content);
-    const newDocumentModal =
+    const editDocumentModal =
       bootstrap.Modal.getInstance('#editDocumentModal') ||
       new bootstrap.Modal('#editDocumentModal');
-    newDocumentModal.show();
+    editDocumentModal.show();
   } else {
+    const viewCCDModal =
+      bootstrap.Modal.getInstance('#viewCCDModal') ||
+      new bootstrap.Modal('#viewCCDModal');
+    const viewCCDLabel = document.getElementById('viewCCDLabel');
+    viewCCDLabel.innerText = ccdoc.ccd_title;
+    const viewCCDContent = document.getElementById('viewCCDContent');
+    viewCCDContent.innerHTML = ccdoc.ccd_content;
+
+    viewCCDModal.show();
   }
 });
 live('click', 'doc_edit_document_submit', async (event, button) => {
@@ -1670,7 +1682,6 @@ live('click', 'doc_upload_file_submit', async (_event, el) => {
     );
     documentsContainer.innerHTML = html;
     alertify.success('Web address added!');
-
   } catch (err) {
     alertify.error(err.message);
   } finally {

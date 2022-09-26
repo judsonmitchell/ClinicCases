@@ -586,23 +586,40 @@
   padding: 2rem 0rem;
   width: 100%;
   .doc_item {
-    width: 150px;
+    position: relative;
+    width: 140px;
     cursor: pointer;
+    padding: 2rem 0rem;
+    margin: 0 2rem;
+
     img {
       display: block;
       margin: 1rem auto;
-      height: 85px;
+      height: 60px;
     }
+    &.png,
+    &.svg,
+    &.jpg,
+    &.jpeg,
+    &.doc {
+      img {
+        padding: 1rem;
+      }
+    }
+
     p {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: center;
+      position: absolute;
+      width: 100%;
     }
     &:hover {
       p {
         overflow: auto;
         white-space: normal;
+        text-align: center;
       }
     }
   }
@@ -663,7 +680,6 @@
   }
   #uploadURLFooter {
     display: flex;
-
   }
 
   #uploadFileForm,
@@ -679,7 +695,10 @@
     #uploadFileForm,
     #uploadFileFooter {
       display: flex;
-
     }
   }
+}
+
+#doc_list {
+  width: 100%;
 }

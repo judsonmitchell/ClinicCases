@@ -633,7 +633,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 7rem;
+  min-height: 4rem;
 }
 .form__control label {
   text-align: left;

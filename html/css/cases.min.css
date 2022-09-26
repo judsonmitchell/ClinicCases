@@ -1100,23 +1100,32 @@
   width: 100%;
 }
 .case_detail_panel .doc_item {
-  width: 150px;
+  position: relative;
+  width: 140px;
   cursor: pointer;
+  padding: 2rem 0rem;
+  margin: 0 2rem;
 }
 .case_detail_panel .doc_item img {
   display: block;
   margin: 1rem auto;
-  height: 85px;
+  height: 60px;
+}
+.case_detail_panel .doc_item.png img, .case_detail_panel .doc_item.svg img, .case_detail_panel .doc_item.jpg img, .case_detail_panel .doc_item.jpeg img, .case_detail_panel .doc_item.doc img {
+  padding: 1rem;
 }
 .case_detail_panel .doc_item p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  position: absolute;
+  width: 100%;
 }
 .case_detail_panel .doc_item:hover p {
   overflow: auto;
   white-space: normal;
+  text-align: center;
 }
 .case_detail_panel .doc_properties {
   display: none;
@@ -1184,4 +1193,8 @@
 #uploadFileModal.open #uploadFileForm,
 #uploadFileModal.open #uploadFileFooter {
   display: flex;
+}
+
+#doc_list {
+  width: 100%;
 }/*# sourceMappingURL=cases.min.css.map */

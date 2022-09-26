@@ -7,6 +7,7 @@ import {
   assignUsersToCase,
   getDocuments,
 } from '../../lib/javascripts/axios.js';
+import { getCookie } from '../../lib/javascripts/cookies.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCasesTable();
@@ -164,9 +165,15 @@ async function openCase(id, name) {
       const caseData = await getCaseData(id);
       const dataContainer = document.querySelector(`#nav-${id}-data`);
       dataContainer.innerHTML = caseData.data;
-      const documentsData = await getDocuments(id, '');
+      const cc_docs_view = getCookie('cc_docs_view');
+      const documentsData = await getDocuments(
+        id,
+        '',
+        null,
+        cc_docs_view === 'list' || null,
+      );
       const documentsContainer = document.querySelector(`#nav-${id}-documents`);
-      documentsContainer.innerHTML= documentsData;
+      documentsContainer.innerHTML = documentsData;
 
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
