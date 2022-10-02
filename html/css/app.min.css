@@ -634,6 +634,7 @@ textarea:focus {
   flex-direction: column;
   position: relative;
   min-height: 4rem;
+  margin: 4rem 1rem 0rem;
 }
 .form__control label {
   text-align: left;
@@ -662,7 +663,7 @@ textarea:focus {
 .form__control input:focus + label,
 .form__control input:not(:placeholder-shown) + label,
 .form__control textarea:focus + label,
-.form__control textarea:not(:placeholder-shown) + label {
+.form__control textarea:not(:placeholder-shown) + label, .form__control.form__control--select label {
   top: -3rem;
   font-size: 1.2rem;
   padding: 1rem 1rem 1rem 0rem;
@@ -673,10 +674,12 @@ textarea:focus {
 .form__control input:-ms-input-placeholder, .form__control textarea:-ms-input-placeholder {
   opacity: 0;
 }
-.form__control input::placeholder, .form__control textarea::placeholder {
+.form__control input::placeholder,
+.form__control textarea::placeholder {
   opacity: 0;
 }
-.form__control input, .form__control textarea {
+.form__control input,
+.form__control textarea {
   width: 100%;
   color: black;
 }
@@ -702,7 +705,9 @@ textarea:focus {
   z-index: 9;
 }
 
-form.invalid input:invalid, form.invalid textarea:invalid, form.invalid select:invalid {
+form.invalid input:invalid,
+form.invalid textarea:invalid,
+form.invalid select:invalid {
   border-color: red;
 }
 

@@ -1,18 +1,18 @@
 <div id="addNewCaseForm">
     <form>
         <div class="form__control">
+            <input placeholder=" " required id="newCaseFirstName" data-label="#newCaseFirstNameLabel" name="first_name" type="text" />
             <label id="newCaseFirstNameLabel" for="newCaseFirstName">First Name</label>
-            <input required id="newCaseFirstName" data-label="#newCaseFirstNameLabel" name="first_name" type="text" />
         </div>
 
         <div class="form__control">
+            <input placeholder=" " required id="newCaseLastName" data-label="#newCaseLastNameLabel" name="last_name" type="text" />
             <label id="newCaseLastNameLabel" for="newCaseLastName">Last Name</label>
-            <input required id="newCaseLastName" data-label="#newCaseLastNameLabel" name="last_name" type="text" />
         </div>
 
         <div class="form__control">
+            <input placeholder=" " required id="newCaseOrganization" data-label="#newCaseOrganizationLabel" name="organization" type="text" />
             <label id="newCaseOrganizationLabel" for="newCaseOrganization">Organization</label>
-            <input required id="newCaseOrganization" data-label="#newCaseOrganizationLabel" name="organization" type="text" />
         </div>
 
         <div class="modal-footer">
@@ -26,10 +26,6 @@
 <script>
     const newCaseSubmitButton = document.querySelector("#newCaseSubmitButton");
     newCaseSubmitButton.addEventListener('click', submit)
-
-    console.log({
-        newCaseModal
-    });
 
     const cancelButtons = document.querySelectorAll('.dismiss');
     cancelButtons.forEach(button => {
@@ -45,6 +41,7 @@
             const newCaseModal = bootstrap.Modal.getInstance(document.querySelector('#newCaseModal'));
 
             const form = document.querySelector('#newCaseModal form');
+            // MOVE THIS TO ANOTHER FILE TO IMPORT RESET FORM NINA
             resetForm(form);
             newCaseModal.hide();
 
@@ -60,7 +57,6 @@
         if (state === true) {
 
             const formValues = getFormValues(form);
-            console.log(formValues);
             const response = await axios.post('lib/php/utilities/create_new_case.php', {
                 params: formValues
             }).then(res => res.data);

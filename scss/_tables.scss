@@ -137,7 +137,12 @@
 .table__search {
   display: flex;
   width: 100%;
-  align-items: stretch;
+  // align-items: stretch;
+  align-items: center;
+  .form__control{
+    margin: 1px 0;
+    height: 4rem;
+  }
 
   select {
     border-top-right-radius: 0px;
@@ -149,6 +154,7 @@
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     margin-right: 1rem;
+    height: 4rem;
   }
   button {
     flex: 0.5;

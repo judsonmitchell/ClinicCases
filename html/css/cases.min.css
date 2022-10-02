@@ -336,7 +336,11 @@
 .table__search {
   display: flex;
   width: 100%;
-  align-items: stretch;
+  align-items: center;
+}
+.table__search .form__control {
+  margin: 1px 0;
+  height: 4rem;
 }
 .table__search select {
   border-top-right-radius: 0px;
@@ -348,6 +352,7 @@
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   margin-right: 1rem;
+  height: 4rem;
 }
 .table__search button {
   flex: 0.5;
@@ -544,7 +549,7 @@
 }
 #viewCaseData .form__control,
 #editCaseData .form__control {
-  margin: 0 1rem;
+  margin: 4rem 1rem;
 }
 
 #editCaseData {

@@ -64,14 +64,14 @@
 						<?php
 						} 	?>
 					</select>
-					<label class="float--lock" id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>"><?php echo $col['display_name']; ?></label>
+					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>"><?php echo $col['display_name']; ?></label>
 				</div>
 			<?php
 			} else if ($col['input_type'] == 'textarea') {
 			?>
 				<div class="form__control">
-					<textarea <?php if ($col['required']) { ?> required <?php  } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>"></textarea>
-					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> </label>
+					<textarea placeholder=" " <?php if ($col['required']) { ?> required <?php  } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>"></textarea>
+					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?>  <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> </label>
 				</div>
 			<?php
 			} else if ($col['input_type'] == 'dual') {
@@ -98,10 +98,10 @@
 									<?php
 									} 	?>
 								</select>
-								<label class="float--lock" id="<?php echo $col['db_name'] ?>Select1Label" for="<?php echo $col['db_name'] ?>_select1"><?php echo $col['display_name']; ?> Select</label>
+								<label  id="<?php echo $col['db_name'] ?>Select1Label" for="<?php echo $col['db_name'] ?>_select1"><?php echo $col['display_name']; ?> Select</label>
 							</div>
 							<div class="form__control">
-								<input <?php if ($col['required']) { ?> required <?php  } ?> data-dual="true" <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>1" data-label="#<?php echo $col['db_name'] ?>1Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>">
+								<input placeholder=" " <?php if ($col['required']) { ?> required <?php  } ?> data-dual="true" <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>1" data-label="#<?php echo $col['db_name'] ?>1Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>">
 								<label id="<?php echo $col['db_name'] ?>1Label" for="<?php echo $col['db_name'] ?>1" class="<?php if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <?php } ?> </label>
 							</div>
 						</div>
@@ -127,10 +127,10 @@
 										<?php
 										} 	?>
 									</select>
-									<label class="float--lock" id="<?php echo $col['db_name'] . $index ?>Label" for="<?php echo $col['db_name'] . $index ?>"><?php echo $col['display_name']; ?> Select</label>
+									<label id="<?php echo $col['db_name'] . $index ?>Label" for="<?php echo $col['db_name'] . $index ?>"><?php echo $col['display_name']; ?> Select</label>
 								</div>
 								<div class="form__control">
-									<input <?php if ($col['required']) { ?> required <?php  } ?> <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] . $index ?>" data-label="#<?php echo $col['db_name'] . $index ?>Label" type="<?php echo $col['db_name'] ?>" name="<?php echo $col['db_name'] ?>" data-dual="true" value="<?php echo $formValue ?>">
+									<input placeholder=" "  <?php if ($col['required']) { ?> required <?php  } ?> <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required']) { ?> required <?php } ?> id="<?php echo $col['db_name'] . $index ?>" data-label="#<?php echo $col['db_name'] . $index ?>Label" type="<?php echo $col['db_name'] ?>" name="<?php echo $col['db_name'] ?>" data-dual="true" value="<?php echo $formValue ?>">
 									<label id="<?php echo $col['db_name'] . $index ?>Label" for="<?php echo $col['db_name'] . $index ?>" class="<?php if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <?php } ?> </label>
 								</div>
 							</div>
@@ -149,8 +149,8 @@
 
 			} else { ?>
 				<div class="form__control">
-					<input <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required'] && $col['db_name'] != 'date_close') { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
-					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?> float--lock <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <span class="let-me-edit-this" data-target="<?php echo $case_id ?>">Let me edit this</span> <?php } ?> </label>
+					<input placeholder=" " <?php if ($col['db_name'] == 'clinic_id') { ?> disabled <?php } ?> <?php if ($col['required'] && $col['db_name'] != 'date_close') { ?> required <?php } ?> id="<?php echo $col['db_name'] ?>" data-label="#<?php echo $col['db_name'] ?>Label" type="<?php echo $col['input_type'] ?>" name="<?php echo $col['db_name'] ?>" value="<?php echo $col['value'] ?>">
+					<label id="<?php echo $col['db_name'] ?>Label" for="<?php echo $col['db_name'] ?>" class="<?php if ($col['input_type'] == 'date') { ?>  <?php } else if (!empty($col['value'])) { ?> float <?php } ?>"><?php echo $col['display_name']; ?> <?php if ($col['db_name'] == 'clinic_id') { ?> <span class="let-me-edit-this" data-target="<?php echo $case_id ?>">Let me edit this</span> <?php } ?> </label>
 				</div>
 			<?php
 			} ?>

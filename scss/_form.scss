@@ -9,6 +9,7 @@ textarea {
   flex-direction: column;
   position: relative;
   min-height: 4rem;
+  margin: 4rem 1rem 0rem;
   label {
     // transform: translateY(4rem);
     text-align: left;
@@ -29,16 +30,19 @@ textarea {
   input:focus + label,
   input:not(:placeholder-shown) + label,
   textarea:focus + label,
-  textarea:not(:placeholder-shown) + label {
+  textarea:not(:placeholder-shown) + label,
+  &.form__control--select label {
     top: -3rem;
     font-size: 1.2rem;
     padding: 1rem 1rem 1rem 0rem;
   }
-  input::placeholder, textarea::placeholder {
+  input::placeholder,
+  textarea::placeholder {
     opacity: 0;
   }
 
-  input, textarea {
+  input,
+  textarea {
     width: 100%;
     color: black;
   }
@@ -68,7 +72,9 @@ textarea {
 }
 
 form.invalid {
-  input:invalid, textarea:invalid, select:invalid {
+  input:invalid,
+  textarea:invalid,
+  select:invalid {
     border-color: red;
   }
 }
