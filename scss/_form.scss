@@ -10,6 +10,7 @@ textarea {
   position: relative;
   min-height: 4rem;
   margin: 4rem 1rem 0rem;
+  cursor: pointer;
   label {
     // transform: translateY(4rem);
     text-align: left;
@@ -19,6 +20,9 @@ textarea {
     top: 0.7rem;
     transition: transform 0.1s ease-out;
     min-height: 3.8rem;
+    color: $border-gray;
+    cursor: pointer;
+
     &.float,
     &.float--lock {
       transform: translateY(0);
@@ -35,6 +39,10 @@ textarea {
     top: -3rem;
     font-size: 1.2rem;
     padding: 1rem 1rem 1rem 0rem;
+    color: black;
+    img {
+      display: none;
+    }
   }
   input::placeholder,
   textarea::placeholder {

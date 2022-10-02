@@ -676,6 +676,9 @@
   display: flex;
   align-items: center;
   position: relative;
+  border-left: 1px solid rgba(160, 156, 176, 0.3);
+  border-right: 1px solid rgba(160, 156, 176, 0.3);
+  padding: 1rem;
 }
 #assignedUsersContainer > div {
   display: flex;
@@ -786,7 +789,7 @@
   border-left: none;
   border-right: none;
   border-top: none;
-  border-bottom: 2px solid #2b50aa;
+  border-bottom: 4px solid #2b50aa;
   font-weight: bold;
   color: black;
 }
@@ -796,6 +799,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  margin: 1rem 0;
 }
 .case_toolbar div {
   display: flex;
@@ -1020,6 +1024,24 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  border: 1px solid rgba(160, 156, 176, 0.3);
+  padding: 2rem 1rem;
+}
+.case_documents_toolbar .form__control {
+  margin-top: 0;
+}
+.case_documents_toolbar .form__control.search label {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.case_documents_toolbar .form__control.search label img {
+  height: 3rem;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  position: relative;
+  top: -5px;
 }
 
 .case_documents_toolbar--right {
@@ -1098,28 +1120,34 @@
   color: #c3dbea;
 }
 
-.case_detail_panel {
+.case_detail_panel.documents {
   display: flex;
   flex-wrap: wrap;
-  padding: 2rem 0rem;
   width: 100%;
+  height: 100%;
+  border: 1px solid rgba(160, 156, 176, 0.3);
+  margin-bottom: 20rem;
+  padding-bottom: 4rem;
 }
-.case_detail_panel .doc_item {
+.case_detail_panel.documents.list {
+  padding-bottom: 0;
+}
+.case_detail_panel.documents .doc_item {
   position: relative;
   width: 140px;
   cursor: pointer;
   padding: 2rem 0rem;
   margin: 0 2rem;
 }
-.case_detail_panel .doc_item img {
+.case_detail_panel.documents .doc_item img {
   display: block;
   margin: 1rem auto;
   height: 60px;
 }
-.case_detail_panel .doc_item.png img, .case_detail_panel .doc_item.svg img, .case_detail_panel .doc_item.jpg img, .case_detail_panel .doc_item.jpeg img, .case_detail_panel .doc_item.doc img {
+.case_detail_panel.documents .doc_item.png img, .case_detail_panel.documents .doc_item.svg img, .case_detail_panel.documents .doc_item.jpg img, .case_detail_panel.documents .doc_item.jpeg img, .case_detail_panel.documents .doc_item.doc img {
   padding: 1rem;
 }
-.case_detail_panel .doc_item p {
+.case_detail_panel.documents .doc_item p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1127,13 +1155,19 @@
   position: absolute;
   width: 100%;
 }
-.case_detail_panel .doc_item:hover p {
+.case_detail_panel.documents .doc_item:hover p {
   overflow: auto;
   white-space: normal;
   text-align: center;
 }
-.case_detail_panel .doc_properties {
+.case_detail_panel.documents .doc_properties {
   display: none;
+}
+
+.doc_item.folder img {
+  background: #c3dbea;
+  border-radius: 100%;
+  padding: 1rem;
 }
 
 .doc_item_folder--active {
@@ -1202,4 +1236,43 @@
 
 #doc_list {
   width: 100%;
+  border: 1px solid rgba(160, 156, 176, 0.3);
+  padding: 1rem 0rem;
+}
+#doc_list thead {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(160, 156, 176, 0.3);
+}
+#doc_list thead td {
+  color: #2b50aa;
+  font-weight: 700;
+}
+#doc_list tr:nth-child(odd) {
+  background: rgba(160, 156, 176, 0.1);
+}
+#doc_list tr td:first-child {
+  width: 100px;
+}
+
+.case_documents_submenu {
+  width: 100%;
+  text-align: left;
+  padding: 2rem 1rem;
+  border-left: 1px solid rgba(160, 156, 176, 0.3);
+  border-right: 1px solid rgba(160, 156, 176, 0.3);
+}
+
+.path_display .doc_trail_item {
+  padding: 0 0.5rem;
+}
+.path_display .doc_trail_item:last-child {
+  font-weight: 700;
+  color: #2b50aa;
+}
+
+.docs_empty {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0rem 2rem;
 }/*# sourceMappingURL=cases.min.css.map */

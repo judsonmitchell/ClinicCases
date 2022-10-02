@@ -14,10 +14,9 @@ if (!isset($update)) {
 
         <div class="case_documents_toolbar">
 
-            <div class="form__control">
+            <div class="form__control search">
                 <input id="caseDocumentsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="documents_search" placeholder=" " value="<?php if (isset($search)) {
-                                                                                                                                                                            echo $search;
-                                                                                                                                                                        } ?>"> <label for="caseDocumentsSearch-<?php echo $case_id ?>">Search Titles</label>
+                                                                                                                                                                        } ?>"> <label for="caseDocumentsSearch-<?php echo $case_id ?>">Search Titles <span><img src="html/ico/search.png" /></span></label>
             </div>
             <div class="case_documents_toolbar--right">
                 <button class="button--secondary">
@@ -47,7 +46,7 @@ if (!isset($update)) {
             <a href="#" class="doc_trail_home">Home</a>
             <span class="path_display" path=""><a href="#" class="doc_trail_item active" path=""></a></span>
         </div>
-        <div class="case_detail_panel">
+        <div class="case_detail_panel documents">
         <?php
     }
     if (empty($folders) and empty($documents)) {

@@ -335,6 +335,10 @@ button {
   transition: opacity 0.3s linear;
 }
 
+.ck.ck-editor {
+  margin: 2rem 1rem !important;
+}
+
 .ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
 .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
   padding: 2rem;
@@ -635,6 +639,7 @@ textarea:focus {
   position: relative;
   min-height: 4rem;
   margin: 4rem 1rem 0rem;
+  cursor: pointer;
 }
 .form__control label {
   text-align: left;
@@ -644,6 +649,8 @@ textarea:focus {
   top: 0.7rem;
   transition: transform 0.1s ease-out;
   min-height: 3.8rem;
+  color: #a09cb0;
+  cursor: pointer;
 }
 .form__control label.float, .form__control label.float--lock {
   transform: translateY(0);
@@ -654,11 +661,13 @@ textarea:focus {
   top: -3rem;
   font-size: 1.2rem;
   padding: 1rem 1rem 1rem 0rem;
+  color: black;
 }
 .form__control input:not(:-ms-input-placeholder) + label, .form__control textarea:not(:-ms-input-placeholder) + label {
   top: -3rem;
   font-size: 1.2rem;
   padding: 1rem 1rem 1rem 0rem;
+  color: black;
 }
 .form__control input:focus + label,
 .form__control input:not(:placeholder-shown) + label,
@@ -667,6 +676,19 @@ textarea:focus {
   top: -3rem;
   font-size: 1.2rem;
   padding: 1rem 1rem 1rem 0rem;
+  color: black;
+}
+.form__control input:not(:-moz-placeholder-shown) + label img, .form__control textarea:not(:-moz-placeholder-shown) + label img {
+  display: none;
+}
+.form__control input:not(:-ms-input-placeholder) + label img, .form__control textarea:not(:-ms-input-placeholder) + label img {
+  display: none;
+}
+.form__control input:focus + label img,
+.form__control input:not(:placeholder-shown) + label img,
+.form__control textarea:focus + label img,
+.form__control textarea:not(:placeholder-shown) + label img, .form__control.form__control--select label img {
+  display: none;
 }
 .form__control input::-moz-placeholder, .form__control textarea::-moz-placeholder {
   opacity: 0;

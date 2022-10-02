@@ -28,7 +28,9 @@ button {
 }
 
 // CK EDITOR
-
+.ck.ck-editor {
+  margin: 2rem 1rem !important;
+}
 .ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
 .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
   padding: 2rem;

@@ -117,7 +117,6 @@ try {
 	if (isset($path)) {
 		$sql = "SELECT * FROM cm_documents WHERE case_id = :id and local_file_name !='' and folder = :path_name";
 	} else if (isset($search)) {
-		echo 'search';
 		$sql = "SELECT * FROM cm_documents where name like :search and case_id = :id";
 	} else {
 
