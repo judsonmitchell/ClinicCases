@@ -1758,12 +1758,30 @@ live('click', 'context-menu-open', (e) => {
 live('click', 'context-menu-cut', (e) => {
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
+  const doc_item = document.querySelector(
+    `[data-id="${id}"][data-caseid="${caseid}"]`,
+  );
+  console.log(doc_item.dataset);
+  const { path } = doc_item.dataset;
+  const case_details = doc_item.closest('.case_detail_panel');
+  // Store cut data
+  const cut_data = new Array(id, type, path, caseid);
+  case_details.dataset.cutdata = cut_data;
+  case_details.dataset.copydata = '';
 });
 // Copy file from context menu
 live('click', 'context-menu-copy', (e) => {
-  console.log('copy');
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
+  const doc_item = document.querySelector(
+    `[data-id="${id}"][data-caseid="${caseid}"]`,
+  );
+  const { path } = doc_item.dataset;
+  const case_details = doc_item.closest('.case_detail_panel');
+  // Store cut data
+  const cut_data = new Array(id, type, path, caseid);
+  case_details.dataset.copydata = cut_data;
+  case_details.dataset.cutdata = '';
 });
 // Paste file from context menu
 live('click', 'context-menu-paste', (e) => {
