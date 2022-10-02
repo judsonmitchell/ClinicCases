@@ -1695,6 +1695,25 @@ live('click', 'doc_upload_file_submit', async (_event, el) => {
 // rename file
 // delete file
 // right click menu
+const openContextMenu = (e) => {
+  const target = e.target;
+  const doc_item = target.classList.contains('doc_item')
+    ? target
+    : target.closest('.doc_item');
+  if (doc_item) {
+    e.preventDefault();
+    const { pageX, pageY } = e;
+    const contextMenu = document.getElementById('contextMenu');
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = `${pageX}px`;
+    contextMenu.style.top = `${pageY}px`;
+  }
+};
+const hideContextMenu = () => {
+  const contextMenu = document.getElementById('contextMenu');
+  contextMenu.style.display = 'none';
+};
+document.oncontextmenu = openContextMenu;
 // drag and drop on list
 // save preferred docs view to cookies
 // load docs based on cookies

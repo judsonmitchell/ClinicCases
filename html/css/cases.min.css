@@ -1275,4 +1275,42 @@
   display: flex;
   align-items: center;
   padding: 0rem 2rem;
+}
+
+#contextMenu {
+  position: absolute;
+  background-color: white;
+  width: 180px;
+}
+#contextMenu ul {
+  border: 2px solid #2b50aa;
+  border-radius: 3px;
+}
+#contextMenu ul li {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(160, 156, 176, 0.3);
+  text-align: left;
+}
+#contextMenu ul li:hover {
+  background-color: rgba(195, 219, 234, 0.3);
+}
+#contextMenu ul li img {
+  height: 20px;
+  width: 20px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  grid-row-start: 1;
+  grid-column-start: 1;
+}
+#contextMenu ul li a {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  text-align: center;
 }/*# sourceMappingURL=cases.min.css.map */
