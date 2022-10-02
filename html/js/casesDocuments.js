@@ -1691,10 +1691,17 @@ live('click', 'doc_upload_file_submit', async (_event, el) => {
     newDocumentModal.hide();
   }
 });
-// open file (not ccdoc)
-// rename file
-// delete file
-// right click menu
+
+const getFileType = (classList) => {
+  if (classList.contains('folder')) {
+    return 'folder';
+  }
+  if (classList.contains('ccd')) {
+    return 'ccd';
+  }
+  return 'download';
+};
+
 const openContextMenu = (e) => {
   const target = e.target;
   const doc_item = target.classList.contains('doc_item')
@@ -1707,6 +1714,11 @@ const openContextMenu = (e) => {
     contextMenu.style.display = 'block';
     contextMenu.style.left = `${pageX}px`;
     contextMenu.style.top = `${pageY}px`;
+    // Add case details so they're available inside the context menu
+    const caseDetails = contextMenu.querySelector('.context-menu-details');
+    caseDetails.dataset.caseid = doc_item.dataset.caseid;
+    caseDetails.dataset.id = doc_item.dataset.id;
+    caseDetails.dataset.type = getFileType(doc_item.classList);
   }
 };
 const hideContextMenu = () => {
@@ -1714,9 +1726,68 @@ const hideContextMenu = () => {
   contextMenu.style.display = 'none';
 };
 document.oncontextmenu = openContextMenu;
+document.addEventListener('click', (e) => {
+  const target = e.target;
+  const contextMenu = target.classList.contains('context-menu')
+    ? target
+    : target.closest('.context-menu');
+  if (!contextMenu) {
+    hideContextMenu();
+  }
+});
+
+// Open file from context menu
+live('click', 'context-menu-open', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+  let clickItem;
+  if (type === 'download') {
+    clickItem = document.querySelector(
+      `[data-id="${id}"][data-caseid="${caseid}"] a`,
+    );
+  } else {
+    clickItem = document.querySelector(
+      `.doc_item[data-id="${id}"][data-caseid="${caseid}"]`,
+    );
+  }
+  if (clickItem) {
+    clickItem.click();
+  }
+});
+// Cut file from context menu
+live('click', 'context-menu-cut', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// Copy file from context menu
+live('click', 'context-menu-copy', (e) => {
+  console.log('copy');
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// Paste file from context menu
+live('click', 'context-menu-paste', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// Rename file from context menu
+live('click', 'context-menu-rename', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// Delete file from context menu
+live('click', 'context-menu-delete', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// Properties file from context menu
+live('click', 'context-menu-properties', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+});
+// rename file
+// delete file
 // drag and drop on list
 // save preferred docs view to cookies
 // load docs based on cookies
-// make sure if initialized as list, appropriate toolbar is shown
-// tweak design to perfection
 // mobile design

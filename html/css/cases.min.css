@@ -1308,7 +1308,7 @@
   grid-row-start: 1;
   grid-column-start: 1;
 }
-#contextMenu ul li a {
+#contextMenu ul li button {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row-start: 1;
