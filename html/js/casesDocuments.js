@@ -1707,6 +1707,9 @@ const openContextMenu = (e) => {
   const doc_item = target.classList.contains('doc_item')
     ? target
     : target.closest('.doc_item');
+  const case_detail_panel = target.classList.contains('case_detail_panel')
+    ? target
+    : target.closest('.case_detail_panel');
   if (doc_item) {
     e.preventDefault();
     const { pageX, pageY } = e;
@@ -1714,16 +1717,40 @@ const openContextMenu = (e) => {
     contextMenu.style.display = 'block';
     contextMenu.style.left = `${pageX}px`;
     contextMenu.style.top = `${pageY}px`;
+    doc_item.classList.add('selected');
     // Add case details so they're available inside the context menu
     const caseDetails = contextMenu.querySelector('.context-menu-details');
     caseDetails.dataset.caseid = doc_item.dataset.caseid;
     caseDetails.dataset.id = doc_item.dataset.id;
     caseDetails.dataset.type = getFileType(doc_item.classList);
+    return;
+  } else {
+    if (case_detail_panel) {
+      e.preventDefault();
+      const { pageX, pageY } = e;
+      const contextMenu = document.getElementById('contextMenu');
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = `${pageX}px`;
+      contextMenu.style.top = `${pageY}px`;
+      contextMenu.classList.add('non-doc');
+      // Add case details so they're available inside the context menu
+      const caseDetails = contextMenu.querySelector('.context-menu-details');
+      caseDetails.dataset.caseid =
+        e.target.closest('.case_details').dataset.caseid;
+      console.log(caseDetails.dataset);
+      caseDetails.dataset.id = '';
+      caseDetails.dataset.type = '';
+    }
   }
+  // Nina also open when no doc_item if we're in a case_detail_panel
+  // for pasting
 };
 const hideContextMenu = () => {
   const contextMenu = document.getElementById('contextMenu');
   contextMenu.style.display = 'none';
+  contextMenu.classList.remove('non-doc');
+  const doc_items = document.querySelectorAll('.doc_item');
+  doc_items.forEach((item) => item.classList.remove('selected'));
 };
 document.oncontextmenu = openContextMenu;
 document.addEventListener('click', (e) => {
@@ -1761,13 +1788,13 @@ live('click', 'context-menu-cut', (e) => {
   const doc_item = document.querySelector(
     `[data-id="${id}"][data-caseid="${caseid}"]`,
   );
-  console.log(doc_item.dataset);
   const { path } = doc_item.dataset;
   const case_details = doc_item.closest('.case_detail_panel');
   // Store cut data
   const cut_data = new Array(id, type, path, caseid);
   case_details.dataset.cutdata = cut_data;
   case_details.dataset.copydata = '';
+  hideContextMenu();
 });
 // Copy file from context menu
 live('click', 'context-menu-copy', (e) => {
@@ -1784,9 +1811,37 @@ live('click', 'context-menu-copy', (e) => {
   case_details.dataset.cutdata = '';
 });
 // Paste file from context menu
-live('click', 'context-menu-paste', (e) => {
+live('click', 'context-menu-paste', async (e) => {
   const details = e.target.closest('.context-menu-details');
-  const { type, id, caseid } = details.dataset;
+  const { caseid } = details.dataset;
+  const caseDetails = document.querySelector(
+    `.case_details[data-caseid='${caseid}']`,
+  );
+  const caseDetailPanel = document.querySelector(
+    `.case_details[data-caseid='${caseid}'] .case_detail_panel`,
+  );
+  const { currentPath, layout } = caseDetails.dataset;
+  const { cutdata } = caseDetailPanel.dataset;
+  const [item_id, doc_type, selection_path, case_id] = cutdata.split(',');
+  console.log({item_id})
+  try {
+    const res = await processDocuments({
+      case_id,
+      action: 'cut',
+      item_id,
+      target_path: currentPath,
+      selection_path,
+      doc_type,
+    });
+    const isList = layout === 'List' ? true : null;
+    const html = await getDocuments(case_id, null, true, isList, null);
+    const documentsContainer = document.querySelector(
+      `#nav-${case_id}-documents .case_detail_panel`,
+    );
+    documentsContainer.innerHTML = html;
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
 // Rename file from context menu
 live('click', 'context-menu-rename', (e) => {

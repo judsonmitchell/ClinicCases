@@ -1014,11 +1014,6 @@
   }
 }
 
-.doc_item p {
-  font-weight: bold;
-  color: #2b50aa;
-}
-
 .case_documents_toolbar {
   display: flex;
   align-items: center;
@@ -1139,6 +1134,10 @@
   padding: 2rem 0rem;
   margin: 0 2rem;
 }
+.case_detail_panel.documents .doc_item.selected, .case_detail_panel.documents .doc_item:hover {
+  background: #c3dbea;
+  height: auto;
+}
 .case_detail_panel.documents .doc_item img {
   display: block;
   margin: 1rem auto;
@@ -1152,8 +1151,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  position: absolute;
   width: 100%;
+  font-weight: bold;
+  color: #2b50aa;
 }
 .case_detail_panel.documents .doc_item:hover p {
   overflow: auto;
@@ -1162,6 +1162,15 @@
 }
 .case_detail_panel.documents .doc_properties {
   display: none;
+}
+
+.doc_wrapper {
+  position: relative;
+  height: 141px;
+  width: calc(140px + 4rem);
+}
+.doc_wrapper .doc_item:hover {
+  position: absolute;
 }
 
 .doc_item.folder img {
@@ -1313,4 +1322,12 @@
   grid-column-end: 3;
   grid-row-start: 1;
   text-align: center;
+}
+#contextMenu.non-doc .context-menu-open,
+#contextMenu.non-doc .context-menu-cut,
+#contextMenu.non-doc .context-menu-copy,
+#contextMenu.non-doc .context-menu-rename,
+#contextMenu.non-doc .context-menu-delete,
+#contextMenu.non-doc .context-menu-properties {
+  display: none;
 }/*# sourceMappingURL=cases.min.css.map */
