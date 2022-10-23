@@ -1149,7 +1149,7 @@ function createTrail(path) {
 // });
 // Switch documents to list view
 live('click', 'documents_view_chooser--list', async (_event, el) => {
-  const caseDetailsRef = el.closest('.case_details');
+  const caseDetailsRef = el.closest('.case_details_documents');
   caseDetailsRef.dataset.layout = 'List';
   const caseId = caseDetailsRef.dataset.caseid;
   const currentPath =
@@ -1176,7 +1176,7 @@ live('click', 'documents_view_chooser--list', async (_event, el) => {
 });
 // Switch documents to grid view
 live('click', 'documents_view_chooser--grid', async (_event, el) => {
-  const caseDetailsRef = el.closest('.case_details');
+  const caseDetailsRef = el.closest('.case_details_documents');
   caseDetailsRef.dataset.layout = 'Grid';
   const caseId = caseDetailsRef.dataset.caseid;
   const currentPath =
@@ -1206,7 +1206,7 @@ live('change', 'documents_search', async (event) => {
   const el = event.target;
   const search = el.value;
   const caseId = el.dataset.caseid;
-  const caseDetailsRef = el.closest('.case_details');
+  const caseDetailsRef = el.closest('.case_details_documents');
   const documentsContainer = document.querySelector(
     `#nav-${caseId}-documents .case_detail_panel`,
   );
@@ -1220,7 +1220,7 @@ live('click', 'doc_item_folder', async (event, el) => {
   event.preventDefault();
   const path = el.dataset.path;
 
-  const caseDetailsRef = el.closest('.case_details');
+  const caseDetailsRef = el.closest('.case_details_documents');
   const caseId = caseDetailsRef.dataset.caseid;
   const pathDisplay = document.querySelector(
     `#nav-${caseId}-documents .path_display`,
@@ -1259,7 +1259,7 @@ live('dragend', 'doc_item', () => {
 live('drop', 'doc_item_folder', async (event, folder) => {
   event.preventDefault();
   const item_id = draggedItem.dataset.id;
-  const caseDetailsRef = folder.closest('.case_details');
+  const caseDetailsRef = folder.closest('.case_details_documents');
   const case_id = caseDetailsRef.caseid;
   const path = folder.dataset.path;
   const selection_path = draggedItem.dataset.path;
@@ -1291,7 +1291,7 @@ live('drop', 'doc_item_folder', async (event, folder) => {
 // NAVIGATING BETWEEN DIRECTORIES
 // user clicks on home directory doc_trail_home
 live('click', 'doc_trail_home', async (event, homePanel) => {
-  const caseDetailsRef = homePanel.closest('.case_details');
+  const caseDetailsRef = homePanel.closest('.case_details_documents');
   const caseId = caseDetailsRef?.dataset.caseid;
   caseDetailsRef.dataset.currentpath = 'Home';
   const pathDisplay = homePanel
@@ -1307,7 +1307,7 @@ live('click', 'doc_trail_home', async (event, homePanel) => {
 });
 // user clicks on another item in path doc_trail_path
 live('click', 'doc_trail_item', async (_event, trail) => {
-  const caseDetailsRef = trail.closest('.case_details');
+  const caseDetailsRef = trail.closest('.case_details_documents');
   const caseId = caseDetailsRef?.dataset.caseid;
   const path = trail.dataset.path;
   caseDetailsRef.dataset.currentpath = path;
@@ -1325,7 +1325,7 @@ live('click', 'doc_trail_item', async (_event, trail) => {
 });
 // OPENING DOCUMENTS
 live('click', 'docs_new_folder', (_event, button) => {
-  const caseDetailsRef = button.closest('.case_details');
+  const caseDetailsRef = button.closest('.case_details_documents');
   const caseId = caseDetailsRef.dataset.caseid;
   const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
   const currentPath =
@@ -1384,7 +1384,7 @@ live('click', 'doc_new_folder_submit', async (event, button) => {
 // adding documents
 let newDocEditor;
 live('click', 'docs_new_document', (_event, button) => {
-  const caseDetailsRef = button.closest('.case_details');
+  const caseDetailsRef = button.closest('.case_details_documents');
   const caseId = caseDetailsRef.dataset.caseid;
   const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
   const currentPath =
@@ -1458,7 +1458,7 @@ live('click', 'doc_new_document_submit', async (event, button) => {
 // editing documents
 let editDocEditor;
 live('click', 'ccd', async (_event, ccd) => {
-  const caseDetailsRef = ccd.closest('.case_details');
+  const caseDetailsRef = ccd.closest('.case_details_documents');
   const caseId = caseDetailsRef.dataset.caseid;
   const isList = caseDetailsRef.dataset.layout == 'List' ? true : null;
   const currentPath =
@@ -1560,7 +1560,7 @@ live('click', 'doc_edit_document_submit', async (event, button) => {
 });
 // uploading files
 live('click', 'docs_upload_file', async (_event, el) => {
-  const caseDetailsRef = el.closest('.case_details');
+  const caseDetailsRef = el.closest('.case_details_documents');
   const currentPath = caseDetailsRef.dataset.currentpath;
   const case_id = caseDetailsRef.dataset.caseid;
   const isList = caseDetailsRef.dataset.layout === 'List';
@@ -1735,8 +1735,9 @@ const openContextMenu = (e) => {
       contextMenu.classList.add('non-doc');
       // Add case details so they're available inside the context menu
       const caseDetails = contextMenu.querySelector('.context-menu-details');
-      caseDetails.dataset.caseid =
-        e.target.closest('.case_details').dataset.caseid;
+      caseDetails.dataset.caseid = e.target.closest(
+        '.case_details_documents',
+      ).dataset.caseid;
       console.log(caseDetails.dataset);
       caseDetails.dataset.id = '';
       caseDetails.dataset.type = '';
@@ -1789,41 +1790,41 @@ live('click', 'context-menu-cut', (e) => {
     `[data-id="${id}"][data-caseid="${caseid}"]`,
   );
   const { path } = doc_item.dataset;
-  const case_details = doc_item.closest('.case_detail_panel');
+  const case_details_documents = doc_item.closest('.case_detail_panel');
   // Store cut data
   const cut_data = new Array(id, type, path, caseid);
-  case_details.dataset.cutdata = cut_data;
-  case_details.dataset.copydata = '';
+  case_details_documents.dataset.cutdata = cut_data;
+  case_details_documents.dataset.copydata = '';
   hideContextMenu();
 });
 // Copy file from context menu
 live('click', 'context-menu-copy', (e) => {
+  // Nina - don't allow this if it's a folder
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
   const doc_item = document.querySelector(
     `[data-id="${id}"][data-caseid="${caseid}"]`,
   );
   const { path } = doc_item.dataset;
-  const case_details = doc_item.closest('.case_detail_panel');
+  const case_details_documents = doc_item.closest('.case_detail_panel');
   // Store cut data
   const cut_data = new Array(id, type, path, caseid);
-  case_details.dataset.copydata = cut_data;
-  case_details.dataset.cutdata = '';
+  case_details_documents.dataset.copydata = cut_data;
+  case_details_documents.dataset.cutdata = '';
 });
 // Paste file from context menu
 live('click', 'context-menu-paste', async (e) => {
   const details = e.target.closest('.context-menu-details');
   const { caseid } = details.dataset;
   const caseDetails = document.querySelector(
-    `.case_details[data-caseid='${caseid}']`,
+    `.case_details_documents[data-caseid='${caseid}']`,
   );
   const caseDetailPanel = document.querySelector(
-    `.case_details[data-caseid='${caseid}'] .case_detail_panel`,
+    `.case_details_documents[data-caseid='${caseid}'] .case_detail_panel`,
   );
   const { currentPath, layout } = caseDetails.dataset;
   const { cutdata } = caseDetailPanel.dataset;
   const [item_id, doc_type, selection_path, case_id] = cutdata.split(',');
-  console.log({item_id})
   try {
     const res = await processDocuments({
       case_id,
@@ -1846,8 +1847,73 @@ live('click', 'context-menu-paste', async (e) => {
 // Rename file from context menu
 live('click', 'context-menu-rename', (e) => {
   const details = e.target.closest('.context-menu-details');
-  const { type, id, caseid } = details.dataset;
+  const { type: docType, id: itemId, caseid } = details.dataset;
+  const renameFileModal =
+    bootstrap.Modal.getInstance('#renameFileModal') ||
+    new bootstrap.Modal('#renameFileModal');
+  const docItem = document.querySelector(`.doc_item[data-id="${itemId}"]`);
+  let { filename, type } = docItem.dataset;
+  const fileName = filename.replace(`.${type}`, '');
+  const renameFileForm = document.querySelector('#renameFileModal form');
+  const caseDetailPanel = document.querySelector('.case_details_documents');
+  const { currentpath: currentPath, layout } = caseDetailPanel.dataset;
+  const isList = layout === 'List';
+  setFormValues(renameFileForm, {
+    caseId: caseid,
+    isList,
+    currentPath,
+    itemId,
+    docType,
+    fileName,
+    fileType: type,
+  });
+  renameFileModal.show();
 });
+// Rename file -- listen to form submit
+live('click', 'doc_rename_file_submit', async (e) => {
+  const form = document.querySelector('#renameFileModal form');
+  const isValid = checkFormValidity(form);
+  if (isValid != true) {
+    form.classList.add('invalid');
+    alertify.error('Please provide a file name.');
+    return;
+  }
+  const { caseId, isList, currentPath, itemId, docType, fileType, fileName } =
+    getFormValues(form);
+  console.log(isList, isList == true, Boolean(isList) || null);
+  const new_name =
+    docType == 'ccd' || docType == 'url' || docType == 'folder'
+      ? fileName
+      : `${fileName}.${fileType}`;
+  try {
+    const res = await processDocuments({
+      action: 'rename',
+      new_name,
+      item_id: itemId,
+      doc_type: docType,
+      path: currentPath,
+      case_id: caseId,
+    });
+    const html = await getDocuments(
+      caseId,
+      null,
+      true,
+      isList == true || null,
+      null,
+    );
+    const documentsContainer = document.querySelector(
+      `#nav-${caseId}-documents .case_detail_panel`,
+    );
+    documentsContainer.innerHTML = html;
+    const renameFileModal =
+      bootstrap.Modal.getInstance('#renameFileModal') ||
+      new bootstrap.Modal('#renameFileModal');
+    renameFileModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
+
 // Delete file from context menu
 live('click', 'context-menu-delete', (e) => {
   const details = e.target.closest('.context-menu-details');
@@ -1858,7 +1924,6 @@ live('click', 'context-menu-properties', (e) => {
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
 });
-// rename file
 // delete file
 // drag and drop on list
 // save preferred docs view to cookies

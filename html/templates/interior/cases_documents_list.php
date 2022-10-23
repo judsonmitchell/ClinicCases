@@ -6,7 +6,7 @@ if (!isset($update)) {
     $grid_id = rand();
     $list_id = rand();
 ?>
-    <div class="case_details" data-caseid="<?php echo $case_id ?>" data-currentpath="Home" data-layout="List">
+    <div class="case_details_documents" data-caseid="<?php echo $case_id ?>" data-currentpath="Home" data-layout="List">
 
         <div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
@@ -97,7 +97,7 @@ if (!isset($update)) {
                     $user = username_to_fullname($dbh, $document['username']);
                     $date = extract_date_time($document['date_modified']);
                 ?>
-                    <tr id="doc_<?php echo $document['id']; ?>" class="doc_item item <?php echo $document['type']; ?>" data-id="<?php echo $document['id']; ?>">
+                    <tr id="doc_<?php echo $document['id']; ?>" class="doc_item item <?php echo $document['type']; ?>" data-id="<?php echo $document['id']; ?> " data-filename='<?php echo $document['name'] ?>' data-caseid='<?php echo $document['case_id'] ?>' data-type='<?php echo $document['type'] ?>' data-path='<?php $document['folder'] ?>'>
                         <td>
                             <?php if ($document['type'] != 'ccd') {
                                 if ($document['type'] == 'url') {

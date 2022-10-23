@@ -88,4 +88,5 @@
 	<?php include('html/templates/interior/cases_documents_edit_document_modal.php'); ?>
 	<?php include('html/templates/interior/cases_documents_upload_file_modal.php'); ?>
 	<?php include('html/templates/interior/cases_documents_view_ccdoc_modal.php'); ?>
+	<?php include('html/templates/interior/cases_documents_rename_file_modal.php'); ?>
 	<?php include('html/templates/interior/cases_documents_context_menu.php'); ?>
