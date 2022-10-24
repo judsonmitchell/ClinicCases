@@ -1855,7 +1855,9 @@ live('click', 'context-menu-rename', (e) => {
   let { filename, type } = docItem.dataset;
   const fileName = filename.replace(`.${type}`, '');
   const renameFileForm = document.querySelector('#renameFileModal form');
-  const caseDetailPanel = document.querySelector('.case_details_documents');
+  const caseDetailPanel = document.querySelector(
+    `.case_details_documents[data-caseid="${caseid}"]`,
+  );
   const { currentpath: currentPath, layout } = caseDetailPanel.dataset;
   const isList = layout === 'List';
   setFormValues(renameFileForm, {
@@ -1918,6 +1920,45 @@ live('click', 'doc_rename_file_submit', async (e) => {
 live('click', 'context-menu-delete', (e) => {
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
+  const caseDetailPanel = document.querySelector(
+    `.case_details_documents[data-caseid="${caseid}"]`,
+  );
+  const folder = document.querySelector(`.doc_item.folder[data-id="${id}"]`);
+  const { path: folderPath } = folder.dataset;
+  const { currentpath: currentPath, layout } = caseDetailPanel.dataset;
+  const isList = layout === 'List';
+  alertify.confirm(
+    'Confirm',
+    type == 'folder'
+      ? 'This folder and all of its contents will be permanently deleted from the server. Are you sure you want to delete it?'
+      : `This item will be permanently deleted from the server.  Are you sure?`,
+    async function () {
+      try {
+        await processDocuments({
+          action: 'delete',
+          item_id: id,
+          doc_type: type,
+          path: folder ? folderPath : currentPath,
+          case_id: caseid,
+        });
+        const html = await getDocuments(
+          caseid,
+          null,
+          true,
+          isList == true || null,
+          null,
+        );
+        const documentsContainer = document.querySelector(
+          `#nav-${caseid}-documents .case_detail_panel`,
+        );
+        documentsContainer.innerHTML = html;
+        alertify.success('File deleted');
+      } catch (err) {
+        alertify.error('Error deleting file.');
+      }
+    },
+    function () {},
+  );
 });
 // Properties file from context menu
 live('click', 'context-menu-properties', (e) => {
