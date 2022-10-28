@@ -6,6 +6,7 @@ import {
   getAssignedUsersInterface,
   assignUsersToCase,
   getDocuments,
+  getCaseEventData,
 } from '../../lib/javascripts/axios.js';
 import { getCookie } from '../../lib/javascripts/cookies.js';
 
@@ -174,7 +175,10 @@ async function openCase(id, name) {
       );
       const documentsContainer = document.querySelector(`#nav-${id}-documents`);
       documentsContainer.innerHTML = documentsData;
-
+      const caseEvents = await getCaseEventData(id);
+      const eventsContainer = document.querySelector(`#nav-${id}-events`);
+      eventsContainer.innerHTML = caseEvents;
+      console.log({ caseEvents });
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
       setUpCancelEditFunctionality(id);
@@ -470,7 +474,6 @@ function setLetMeEditThisFunctionality(id) {
   const letMeEditThisButton = document
     .querySelector(`#nav-${id}-tabContent`)
     .querySelector(`.let-me-edit-this[data-target="${id}"]`);
-  console.log(letMeEditThisButton);
   letMeEditThisButton.addEventListener('click', () => {
     if (
       confirm(
