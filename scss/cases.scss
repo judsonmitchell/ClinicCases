@@ -657,7 +657,16 @@
   }
 
   .doc_properties {
-    display: none;
+    img {
+      width: 100px;
+      display: block;
+      margin: -auto;
+    }
+    h3 {
+      display: flex;
+      align-items: center;
+      justify-content: center;;
+    }
   }
 }
 

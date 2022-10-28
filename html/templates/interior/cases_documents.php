@@ -71,14 +71,36 @@ if (!isset($update)) {
 			$user = username_to_fullname($dbh, $folder['username']);
 
 			$date = extract_date_time($folder['date_modified']);
+			$name = $folder['folder'];
+			$id = $folder['id'];
+			$icon = 'folder';
+			$type = 'folder';
 			echo "<div class='doc_wrapper'><div class='doc_item folder doc_item_folder' data-caseid='$folder[case_id]' data-path='$folder_path' data-id='$folder[id]' draggable='true' droppable='true' data-filename='$folder_name' data-type='folder'>
 			<img src='html/ico/folder.png' draggable='false'><p> " . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</p></div>";
-			echo "<div class='doc_properties' tabindex='1'><h3><img src='html/ico/folder.png'>" . htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') . "</h3>
-					<hr />
-					<p><label>Type</label>    Folder</p>
-					<p><label>Created:</label>     $date</p>
-					<p><label>Created By:</label>     $user</p>
-					</div></div>";
+			echo '<div class="modal fade" role="dialog" id="documentPropertiesModal_' . $id . '" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="documentPropertiesLabel_' . $id . '" aria-hidden="true">
+  		<div class="modal-dialog modal-lg modal-dialog-centered">
+  	  <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="documentPropertiesLabel_' . $id . '">New Folder</h5>
+
+      </div>
+      <div class="modal-body">
+        <div class="doc_properties" data-id="' . $id . '" tabindex="1">
+          <h3><img src="html/ico/' . $icon . '.png">' .  htmlspecialchars(rawurldecode($name), ENT_QUOTES, 'UTF-8') . '</h3>
+          <hr />
+          <p><label>Type</label> ' . $type . '</p>
+          <p><label>Created:</label>' .  $date . '</p>
+          <p><label>Created By:</label>' .  $user . '</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-bs-toggle="modal" data-bs-target="documentPropertiesModal_' . $id . '" class="dismiss">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>';
 		}
 
 
@@ -100,14 +122,34 @@ if (!isset($update)) {
 			if ($document['type'] != 'ccd') {
 				echo "</a>";
 			}
-			echo "</div></div>";
-			echo "<div class='doc_properties' tabindex='1'><h3><img src='$icon'>" . htmlspecialchars(rawurldecode($document['name']), ENT_QUOTES, 'UTF-8') . "</h3>
-			<hr />
-			<p><label>Type</label>     $document[type]</p>
-			<p><label>Uploaded:</label>     $date</p>
-			<p><label>Uploaded By:</label>     $user</p>
-			</div>";
-		}
+			echo "</div>";
+			$id = $document['id'];
+			$type = $document['type'];
+			echo '<div class="modal fade" role="dialog" id="documentPropertiesModal_' . $id . '" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="documentPropertiesLabel_' . $id . '" aria-hidden="true">
+					<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="documentPropertiesLabel_' . $id . '">New Folder</h5>
+		
+					</div>
+					<div class="modal-body">
+						<div class="doc_properties" data-id="' . $id . '" tabindex="1">
+							<h3><img src="'. $icon .'">' .  htmlspecialchars(rawurldecode($name), ENT_QUOTES, 'UTF-8') . '</h3>
+							<hr />
+							<p><label>Type</label> ' . $type . '</p>
+							<p><label>Created:</label>' .  $date . '</p>
+							<p><label>Created By:</label>' .  $user . '</p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-bs-toggle="modal" data-bs-target="documentPropertiesModal_' . $id . '" class="dismiss">Close</button>
+					</div>
+				</div>
+		
+					</div>
+					</div>
+					</div>';
+			}
 
 		if (empty($folders) and empty($documents)) {
 			echo "<span class='docs_empty'>No documents found.</a>";

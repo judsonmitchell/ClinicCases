@@ -1888,7 +1888,6 @@ live('click', 'doc_rename_file_submit', async (e) => {
       ? fileName
       : `${fileName}.${fileType}`;
 
-  console.log({ new_name });
   try {
     const res = await processDocuments({
       action: 'rename',
@@ -1970,7 +1969,14 @@ live('click', 'context-menu-delete', (e) => {
 live('click', 'context-menu-properties', (e) => {
   const details = e.target.closest('.context-menu-details');
   const { type, id, caseid } = details.dataset;
+  const docPropertiesModal =
+    bootstrap.Modal.getInstance(`#documentPropertiesModal_${id}`) ||
+    new bootstrap.Modal(`#documentPropertiesModal_${id}`, { keyboard: true });
+
+  hideContextMenu();
+  docPropertiesModal.show();
 });
+
 // delete file
 // drag and drop on list
 // save preferred docs view to cookies

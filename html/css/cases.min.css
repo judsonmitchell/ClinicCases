@@ -1160,8 +1160,15 @@
   white-space: normal;
   text-align: center;
 }
-.case_detail_panel.documents .doc_properties {
-  display: none;
+.case_detail_panel.documents .doc_properties img {
+  width: 100px;
+  display: block;
+  margin: -auto;
+}
+.case_detail_panel.documents .doc_properties h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .doc_wrapper {
