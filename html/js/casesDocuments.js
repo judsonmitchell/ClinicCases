@@ -1148,7 +1148,6 @@ function createTrail(path) {
 //   );
 // });
 
-
 const reloadDocuments = async (caseid) => {
   const caseDetailPanel = document.querySelector(
     `.case_details_documents[data-caseid="${caseid}"]`,
@@ -2002,6 +2001,7 @@ live('click', 'context-menu-delete', (e) => {
   const { type, id, caseid } = details.dataset;
   const doc_item = document.querySelector(`.doc_item[data-id="${id}"]`);
   const { path } = doc_item.dataset;
+  console.log({ path });
   alertify.confirm(
     'Confirm',
     'This item will be permanently deleted from the server. Are you sure?',
@@ -2012,6 +2012,7 @@ live('click', 'context-menu-delete', (e) => {
           doc_type: type,
           item_id: id,
           path,
+          case_id: caseid
         });
         if (res.error) {
           throw new Error(res.message);
@@ -2025,7 +2026,6 @@ live('click', 'context-menu-delete', (e) => {
     null,
   );
 });
-
 
 // delete file
 // drag and drop on list

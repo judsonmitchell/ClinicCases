@@ -761,6 +761,9 @@
   color: #2b50aa;
 }
 
+.case-tabs {
+  border-left: 1px solid rgba(160, 156, 176, 0.3);
+}
 .case-tabs .nav-tabs {
   margin-left: auto;
   flex-wrap: nowrap;
@@ -1037,6 +1040,15 @@
      object-fit: contain;
   position: relative;
   top: -5px;
+}
+@media screen and (max-width: 992px) {
+  .case_documents_toolbar {
+    flex-wrap: wrap;
+  }
+  .case_documents_toolbar .form__control {
+    margin: 1rem 0;
+    width: 100%;
+  }
 }
 
 .case_documents_toolbar--right {

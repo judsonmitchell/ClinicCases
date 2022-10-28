@@ -245,6 +245,7 @@
 }
 
 .case-tabs {
+  border-left: 1px solid $trans-border-gray;
   .nav-tabs {
     margin-left: auto;
     flex-wrap: nowrap;
@@ -510,6 +511,8 @@
   justify-content: space-between;
   border: 1px solid $trans-border-gray;
   padding: 2rem 1rem;
+
+
   .form__control {
     margin-top: 0;
     &.search {
@@ -525,6 +528,13 @@
           top: -5px;
         }
       }
+    }
+  }
+  @media screen and (max-width: $med){
+    flex-wrap: wrap;
+    .form__control {
+      margin: 1rem 0;
+      width: 100%;
     }
   }
 }
