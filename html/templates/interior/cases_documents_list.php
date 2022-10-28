@@ -80,7 +80,7 @@ if (!isset($update)) {
                     $folder_path = $folder['folder'];
                 ?>
 
-                    <tr class="doc_item folder doc_item_folder" data-path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>">
+                    <tr class="doc_item folder doc_item_folder" data-filename='<?php echo $folder_name ?>' data-path="<?php echo $folder_path; ?>" data-id="<?php echo $folder['id']; ?>" data-caseid='<?php echo $case_id; ?>'>
                         <td><img src="html/ico/folder.png"></td>
                         <td><?php echo htmlspecialchars(rawurldecode($folder_name), ENT_QUOTES, 'UTF-8') ?> </td>
                         <?php if (isset($search)) { ?>

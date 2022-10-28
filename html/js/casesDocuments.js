@@ -1719,6 +1719,7 @@ const openContextMenu = (e) => {
     contextMenu.style.top = `${pageY}px`;
     doc_item.classList.add('selected');
     // Add case details so they're available inside the context menu
+    console.log(doc_item);
     const caseDetails = contextMenu.querySelector('.context-menu-details');
     caseDetails.dataset.caseid = doc_item.dataset.caseid;
     caseDetails.dataset.id = doc_item.dataset.id;
@@ -1882,11 +1883,12 @@ live('click', 'doc_rename_file_submit', async (e) => {
   }
   const { caseId, isList, currentPath, itemId, docType, fileType, fileName } =
     getFormValues(form);
-  console.log(isList, isList == true, Boolean(isList) || null);
   const new_name =
     docType == 'ccd' || docType == 'url' || docType == 'folder'
       ? fileName
       : `${fileName}.${fileType}`;
+
+  console.log({ new_name });
   try {
     const res = await processDocuments({
       action: 'rename',
@@ -1896,11 +1898,14 @@ live('click', 'doc_rename_file_submit', async (e) => {
       path: currentPath,
       case_id: caseId,
     });
+    if (res.error) {
+      throw new Error(res.message);
+    }
     const html = await getDocuments(
       caseId,
       null,
       true,
-      isList == true || null,
+      isList == 'true' || null,
       null,
     );
     const documentsContainer = document.querySelector(
@@ -1912,6 +1917,7 @@ live('click', 'doc_rename_file_submit', async (e) => {
       new bootstrap.Modal('#renameFileModal');
     renameFileModal.hide();
   } catch (err) {
+    console.log(err.message);
     alertify.error(err.message);
   }
 });
@@ -1924,7 +1930,7 @@ live('click', 'context-menu-delete', (e) => {
     `.case_details_documents[data-caseid="${caseid}"]`,
   );
   const folder = document.querySelector(`.doc_item.folder[data-id="${id}"]`);
-  const { path: folderPath } = folder.dataset;
+  const { path: folderPath } = folder?.dataset || {};
   const { currentpath: currentPath, layout } = caseDetailPanel.dataset;
   const isList = layout === 'List';
   alertify.confirm(
