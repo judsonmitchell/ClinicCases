@@ -783,6 +783,10 @@
 #newEventModal .form__control--select:after {
   display: none;
 }
+#assignedUsersContainer .new_event_slim_select.invalid .ss-multi-selected,
+#newEventModal .new_event_slim_select.invalid .ss-multi-selected {
+  border: 1px solid red;
+}
 
 .case-tabs {
   border-left: 1px solid rgba(160, 156, 176, 0.3);

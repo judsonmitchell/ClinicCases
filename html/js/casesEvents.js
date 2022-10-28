@@ -8,7 +8,12 @@ import {
   getUserChooserList,
 } from '../../lib/javascripts/axios.js';
 import { getModal } from '../../lib/javascripts/modal.js';
-import { setFormValues } from './forms.js';
+import {
+  checkFormValidity,
+  getFormValues,
+  resetForm,
+  setFormValues,
+} from './forms.js';
 
 /* global notify, elPrint, validEvent */
 
@@ -402,6 +407,11 @@ import { setFormValues } from './forms.js';
 //         }
 //     });
 // });
+const slimSelect = new SlimSelect({
+  select: '.new_event_slim_select',
+});
+const newEventForm = document.querySelector(`#newEventModal form`);
+const newEventModal = getModal('#newEventModal');
 
 const reloadCaseEvents = async (case_id, q) => {
   const html = await getCaseEventData(case_id, q);
@@ -423,20 +433,66 @@ live('click', 'case_events_search_clear', (e) => {
   reloadCaseEvents(case_id);
 });
 
-const slimSelect = new SlimSelect({
-  select: '.new_event_slim_select',
-});
-
 live('click', 'events_new', async (e) => {
-  const { caseid: case_id } = e.target.dataset;
-  const modal = getModal('#newEventModal');
-  const form = document.getElementById(`#newEventModal form`);
-  setFormValues(form, { case_id });
+  const newEventButton =
+    e.target.classList.contains('events_new') ||
+    e.target.closest('.events_new');
+
+  const { caseid: case_id } = newEventButton.dataset;
+  setFormValues(newEventForm, { case_id });
   const responsibles_selector = document.querySelector(
     '.new_event_slim_select',
   );
   const usersList = await getUserChooserList(case_id);
   responsibles_selector.innerHTML = usersList;
-  console.log({ usersList });
-  modal.show();
+
+  newEventModal.show();
+});
+
+live('click', 'new_event_submit', () => {
+  let values = getFormValues(newEventForm);
+  const isValid = checkFormValidity(newEventForm);
+  const responsibles = slimSelect.selected();
+  const slim_select = document.querySelector('.new_event_slim_select');
+  if (isValid != true || !responsibles.length) {
+    newEventForm.classList.add('invalid');
+    alertify.error(
+      `Please correct the following fields: ${isValid} ${
+        !responsibles.length ? 'responsibles' : ''
+      }`,
+    );
+    if (!responsibles.length) {
+      slim_select.classList.add('invalid');
+    }
+    return;
+  }
+  newEventForm.classList.remove('invalid');
+  slim_select.classList.remove('invalid');
+
+  values = { ...values, responsibles };
+});
+
+const caseEventCancelButton = document.querySelector('#newCaseEventCancel');
+caseEventCancelButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  const values = getFormValues(newEventForm);
+  const hasValue = Object.keys(values)
+    .filter((k) => k != 'case_id')
+    .map((key) => (values[key] ? values[key] : ''))
+    .join('');
+  console.log(slimSelect.selected().length);
+  if (!hasValue && !slimSelect.selected().length) {
+    resetForm(newEventForm);
+    newEventModal.hide();
+    return;
+  }
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose all of your data.',
+    () => {
+      resetForm(newEventForm);
+      newEventModal.hide();
+    },
+    null,
+  );
 });

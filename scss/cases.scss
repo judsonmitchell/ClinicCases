@@ -265,6 +265,12 @@
       display: none;
     }
   }
+
+  .new_event_slim_select.invalid {
+    .ss-multi-selected {
+      border: 1px solid red;
+    }
+  }
 }
 
 .case-tabs {
