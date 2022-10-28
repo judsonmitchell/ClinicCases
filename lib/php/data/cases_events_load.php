@@ -18,7 +18,8 @@ try {
 	require_once('../html/gen_select.php');
 
 	$_POST = json_decode(file_get_contents("php://input"), true);
-
+	$_REQUEST = json_decode(file_get_contents("php://input"), true);
+	
 	$user = $_SESSION['login'];
 
 	if (isset($_GET['id'])) {
@@ -90,7 +91,7 @@ try {
 	$get_events->execute($data);
 
 	$events = $get_events->fetchAll(PDO::FETCH_ASSOC);
-
+	$this_case_id = $id;
 	include('../../../html/templates/interior/cases_events.php');
 } catch (Exception $e) {
 	// echo 'here';

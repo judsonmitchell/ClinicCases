@@ -161,8 +161,6 @@
   display: flex;
   align-items: center;
   position: relative;
-  border-left: 1px solid $trans-border-gray;
-  border-right: 1px solid $trans-border-gray;
   padding: 1rem;
   & > div {
     display: flex;
@@ -297,7 +295,7 @@
     }
   }
 
-  @media screen and (max-width: $med){
+  @media screen and (max-width: $med) {
     flex-wrap: wrap;
     .form__control {
       margin: 1rem;
@@ -521,7 +519,6 @@
   border: 1px solid $trans-border-gray;
   padding: 2rem 1rem;
 
-
   .form__control {
     margin-top: 0;
     &.search {
@@ -539,7 +536,7 @@
       }
     }
   }
-  @media screen and (max-width: $med){
+  @media screen and (max-width: $med) {
     flex-wrap: wrap;
     .form__control {
       margin: 1rem 0;
@@ -684,7 +681,7 @@
     h3 {
       display: flex;
       align-items: center;
-      justify-content: center;;
+      justify-content: center;
     }
   }
 }
@@ -869,5 +866,15 @@
     .context-menu-properties {
       display: none;
     }
+  }
+}
+
+/* Events */
+.case_toolbar {
+  .case_events_search_clear {
+    align-self: end;
+    font-size: 20px;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
   }
 }

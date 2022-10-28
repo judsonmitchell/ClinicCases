@@ -178,7 +178,6 @@ async function openCase(id, name) {
       const caseEvents = await getCaseEventData(id);
       const eventsContainer = document.querySelector(`#nav-${id}-events`);
       eventsContainer.innerHTML = caseEvents;
-      console.log({ caseEvents });
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
       setUpCancelEditFunctionality(id);
