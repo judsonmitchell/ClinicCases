@@ -528,6 +528,7 @@
 }
 #openCases .tab-content {
   padding-bottom: 10rem;
+  border: 1px solid rgba(160, 156, 176, 0.3);
 }
 
 #viewCaseData,
@@ -568,7 +569,7 @@
   padding: 1rem;
   padding-right: 2rem;
   border-bottom: 1px solid rgba(160, 156, 176, 0.3);
-  margin: 0 -2rem;
+  margin: 0;
 }
 .case__controls button {
   margin: 0 1rem;
@@ -810,6 +811,15 @@
 }
 .case_toolbar div > button {
   margin: 0 1rem;
+}
+@media screen and (max-width: 992px) {
+  .case_toolbar {
+    flex-wrap: wrap;
+  }
+  .case_toolbar .form__control {
+    margin: 1rem;
+    width: 100%;
+  }
 }
 
 .case_note {
