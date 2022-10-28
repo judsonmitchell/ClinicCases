@@ -755,9 +755,33 @@
   justify-content: space-between;
   align-items: center;
 }
-#assignedUsersContainer .ss-main .ss-multi-selected .ss-values .ss-value {
+
+/* Slim Select */
+#assignedUsersContainer .ss-main .ss-multi-selected .ss-values .ss-value,
+#newEventModal .ss-main .ss-multi-selected .ss-values .ss-value {
   background-color: #c3dbea;
   color: #2b50aa;
+}
+#assignedUsersContainer .ss-disabled,
+#newEventModal .ss-disabled {
+  color: black;
+}
+#assignedUsersContainer .ss-main *,
+#newEventModal .ss-main * {
+  font-size: 16px;
+}
+#assignedUsersContainer .ss-main .ss-multi-selected,
+#newEventModal .ss-main .ss-multi-selected {
+  margin: 1rem 0;
+  height: 4rem;
+}
+#assignedUsersContainer .new_event_slim_select,
+#newEventModal .new_event_slim_select {
+  height: 4rem;
+}
+#assignedUsersContainer .form__control--select:after,
+#newEventModal .form__control--select:after {
+  display: none;
 }
 
 .case-tabs {

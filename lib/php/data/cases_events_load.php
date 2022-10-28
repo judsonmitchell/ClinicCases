@@ -21,7 +21,7 @@ try {
 	$_REQUEST = json_decode(file_get_contents("php://input"), true);
 	
 	$user = $_SESSION['login'];
-
+	
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 	} else {

@@ -4,6 +4,13 @@ textarea {
   @include input();
 }
 
+
+.form-control__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
 .form__control {
   display: flex;
   flex-direction: column;
@@ -77,6 +84,11 @@ textarea {
       z-index: 9;
     }
   }
+
+}
+.form__control--checkbox {
+  margin: 2rem;
+  text-align: left;
 }
 
 form.invalid {
@@ -163,3 +175,5 @@ form.invalid {
   cursor: pointer;
   float: right;
 }
+
+

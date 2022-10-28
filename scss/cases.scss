@@ -236,10 +236,34 @@
       align-items: center;
     }
   }
+}
 
+/* Slim Select */
+#assignedUsersContainer,
+#newEventModal {
   .ss-main .ss-multi-selected .ss-values .ss-value {
     background-color: $light-blue;
     color: $dark-blue;
+  }
+  .ss-disabled {
+    color: black;
+  }
+  .ss-main {
+    * {
+      font-size: 16px;
+    }
+    .ss-multi-selected {
+      margin: 1rem 0;
+      height: 4rem;
+    }
+  }
+  .new_event_slim_select {
+    height: 4rem;
+  }
+  .form__control--select {
+    &:after {
+      display: none;
+    }
   }
 }
 

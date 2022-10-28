@@ -19,7 +19,7 @@
 		<?php
 		if ($_SESSION['permissions']['add_events'] == '1') {
 		?>
-			<button class="button--secondary docs_new_folder">
+			<button class="button--secondary events_new" data-caseid="<?php echo $this_case_id ?>">
 				<img src="html/ico/new-event.png" alt="New Event Icon" /> <span>&nbsp;New Event</span>
 			</button>
 		<?php

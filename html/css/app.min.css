@@ -633,6 +633,12 @@ textarea:focus {
   outline: none;
 }
 
+.form-control__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
 .form__control {
   display: flex;
   flex-direction: column;
@@ -725,6 +731,11 @@ textarea:focus {
   bottom: 10px;
   right: 7px;
   z-index: 9;
+}
+
+.form__control--checkbox {
+  margin: 2rem;
+  text-align: left;
 }
 
 form.invalid input:invalid,

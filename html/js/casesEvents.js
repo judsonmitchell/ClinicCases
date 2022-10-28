@@ -3,7 +3,12 @@
 //
 import { live } from './live.js';
 
-import { getCaseEventData } from '../../lib/javascripts/axios.js';
+import {
+  getCaseEventData,
+  getUserChooserList,
+} from '../../lib/javascripts/axios.js';
+import { getModal } from '../../lib/javascripts/modal.js';
+import { setFormValues } from './forms.js';
 
 /* global notify, elPrint, validEvent */
 
@@ -416,4 +421,22 @@ live('change', 'case_events_search', async (event) => {
 live('click', 'case_events_search_clear', (e) => {
   const { caseid: case_id } = e.target.dataset;
   reloadCaseEvents(case_id);
+});
+
+const slimSelect = new SlimSelect({
+  select: '.new_event_slim_select',
+});
+
+live('click', 'events_new', async (e) => {
+  const { caseid: case_id } = e.target.dataset;
+  const modal = getModal('#newEventModal');
+  const form = document.getElementById(`#newEventModal form`);
+  setFormValues(form, { case_id });
+  const responsibles_selector = document.querySelector(
+    '.new_event_slim_select',
+  );
+  const usersList = await getUserChooserList(case_id);
+  responsibles_selector.innerHTML = usersList;
+  console.log({ usersList });
+  modal.show();
 });
