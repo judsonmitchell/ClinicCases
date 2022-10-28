@@ -108,8 +108,10 @@ if (!isset($update)) {
 			$icon = get_icon($document['type']);
 			$user = username_to_fullname($dbh, $document['username']);
 			$date = extract_date_time($document['date_modified']);
-
-
+			$name = $document['name'];
+			$id = $document['id'];
+			$type = $document['type'];
+			
 			echo "<div class='doc_wrapper'><div id='doc_$document[id]' data-caseid='$document[case_id]' data-path='$document[folder]' class='doc_item item $document[type]' data-id='$document[id]' data-type='$document[type]' draggable='true' data-filename='$document[name]'>";
 			if ($document['type'] != 'ccd' && $document['type'] != 'url') {
 				echo "<a href='" . CC_DOC_PATH . "/$document[local_file_name]' download='$document[name]'>";
@@ -123,8 +125,7 @@ if (!isset($update)) {
 				echo "</a>";
 			}
 			echo "</div>";
-			$id = $document['id'];
-			$type = $document['type'];
+		
 			echo '<div class="modal fade" role="dialog" id="documentPropertiesModal_' . $id . '" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="documentPropertiesLabel_' . $id . '" aria-hidden="true">
 					<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">

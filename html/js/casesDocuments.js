@@ -1147,6 +1147,27 @@ function createTrail(path) {
 //     },
 //   );
 // });
+
+
+const reloadDocuments = async (caseid) => {
+  const caseDetailPanel = document.querySelector(
+    `.case_details_documents[data-caseid="${caseid}"]`,
+  );
+  const { layout } = caseDetailPanel.dataset;
+  const isList = layout === 'List';
+  const html = await getDocuments(
+    caseid,
+    null,
+    true,
+    isList == true || null,
+    null,
+  );
+  const documentsContainer = document.querySelector(
+    `#nav-${caseid}-documents .case_detail_panel`,
+  );
+  documentsContainer.innerHTML = html;
+};
+
 // Switch documents to list view
 live('click', 'documents_view_chooser--list', async (_event, el) => {
   const caseDetailsRef = el.closest('.case_details_documents');
@@ -1976,6 +1997,35 @@ live('click', 'context-menu-properties', (e) => {
   hideContextMenu();
   docPropertiesModal.show();
 });
+live('click', 'context-menu-delete', (e) => {
+  const details = e.target.closest('.context-menu-details');
+  const { type, id, caseid } = details.dataset;
+  const doc_item = document.querySelector(`.doc_item[data-id="${id}"]`);
+  const { path } = doc_item.dataset;
+  alertify.confirm(
+    'Confirm',
+    'This item will be permanently deleted from the server. Are you sure?',
+    async () => {
+      try {
+        const res = await processDocuments({
+          action: 'delete',
+          doc_type: type,
+          item_id: id,
+          path,
+        });
+        if (res.error) {
+          throw new Error(res.message);
+        }
+        await reloadDocuments(caseid);
+        alertify.success(res.message);
+      } catch (err) {
+        alertify.error(err.message);
+      }
+    },
+    null,
+  );
+});
+
 
 // delete file
 // drag and drop on list
