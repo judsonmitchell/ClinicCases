@@ -5,6 +5,7 @@ require('../auth/session_check.php');
 require('../../../db.php');
 include('../users/user_data.php');
 include('../utilities/names.php');
+$_POST = json_decode(file_get_contents("php://input"), true);
 
 function flatten_array($mArray) {
 	$sArray = array();

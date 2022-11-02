@@ -2,6 +2,12 @@
   padding: 4rem;
 }
 
+@media screen and (max-width: $med) {
+  .modal-content {
+    padding: 1rem;
+  }
+}
+
 .modal-header{
   border: none;
 }

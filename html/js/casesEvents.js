@@ -6,6 +6,7 @@ import { live } from './live.js';
 import {
   getCaseEventData,
   getUserChooserList,
+  processEvents,
 } from '../../lib/javascripts/axios.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import {
@@ -449,7 +450,7 @@ live('click', 'events_new', async (e) => {
   newEventModal.show();
 });
 
-live('click', 'new_event_submit', () => {
+live('click', 'new_event_submit', async () => {
   let values = getFormValues(newEventForm);
   const isValid = checkFormValidity(newEventForm);
   const responsibles = slimSelect.selected();
@@ -466,10 +467,24 @@ live('click', 'new_event_submit', () => {
     }
     return;
   }
+
   newEventForm.classList.remove('invalid');
   slim_select.classList.remove('invalid');
 
   values = { ...values, responsibles };
+  const { case_id } = values;
+  try {
+    const res = await processEvents({ action: 'add', ...values });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    await reloadCaseEvents(case_id);
+    newEventModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
 
 const caseEventCancelButton = document.querySelector('#newCaseEventCancel');

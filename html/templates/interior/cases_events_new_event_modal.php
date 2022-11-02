@@ -37,8 +37,8 @@
           </div>
 
           <div class="form__control">
-            <textarea id="description" required name="description" placeholder=" "></textarea>
-            <label for="description">Description</label>
+            <textarea id="notes" required name="notes" placeholder=" "></textarea>
+            <label for="notes">Description</label>
           </div>
           <input type="text" hidden name="case_id">
     </form>

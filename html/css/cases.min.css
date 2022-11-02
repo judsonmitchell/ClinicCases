@@ -178,6 +178,11 @@
   padding: 4rem;
 }
 
+@media screen and (max-width: 992px) {
+  .modal-content {
+    padding: 1rem;
+  }
+}
 .modal-header {
   border: none;
 }
