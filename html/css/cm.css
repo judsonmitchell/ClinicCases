@@ -1022,11 +1022,7 @@ div.case_detail_panel_tools_right {
   padding-top: 1%;
   margin-bottom: -1%;
 }
-div.case_detail_panel_casenotes {
-  width: 99%;
-  overflow: auto;
-  text-align: left;
-}
+
 input.casenotes_search,
 input.contacts_search,
 input.documents_search,

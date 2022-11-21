@@ -1398,4 +1398,58 @@
   font-size: 20px;
   margin: 0 0 0.5rem 0;
   padding: 0;
+}
+
+.case_detail_panel_caseevents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 4rem;
+  width: 100%;
+  padding: 4rem;
+}
+.case_detail_panel_caseevents .case-event {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  margin: 0 auto;
+  width: 100%;
+  cursor: pointer;
+}
+.case_detail_panel_caseevents .case-event .case-event__title {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+.case_detail_panel_caseevents .case-event .case-event__title .event_task_title {
+  margin-left: 10px;
+}
+.case_detail_panel_caseevents .case-event .case-event__details {
+  display: block;
+  text-align: left;
+}
+.case_detail_panel_caseevents .case-event .case-event__details .event-task-time {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+.case_detail_panel_caseevents .case-event .case-event__details .event-task-time .event_all_day {
+  background-color: #c3dbea;
+  border-radius: 3px;
+  color: #2b50aa;
+  margin-left: auto;
+  padding: 0 1rem;
+  font-weight: 400;
+}
+.case_detail_panel_caseevents .case-event .case-event__details .event-location {
+  padding: 1rem 0;
+}
+.case_detail_panel_caseevents .case-event .case-event__details .event-location img {
+  width: 20px;
+}
+.case_detail_panel_caseevents .case-event .case-event__bar {
+  display: flex;
+  justify-content: flex-end;
+}
+.case_detail_panel_caseevents .case-event .case-event__bar a {
+  margin-left: 1rem;
 }/*# sourceMappingURL=cases.min.css.map */

@@ -908,3 +908,61 @@
     padding: 0;
   }
 }
+
+.case_detail_panel_caseevents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 4rem;
+  width: 100%;
+  padding: 4rem;
+
+  .case-event {
+    padding: 1rem;
+    border-radius: 8px;
+    @include box-shadow--light();
+    margin: 0 auto;
+    width: 100%;
+    cursor: pointer;
+
+    .case-event__title {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      .event_task_title {
+        margin-left: 10px;
+      }
+    }
+    .case-event__details {
+      display: block;
+      text-align: left;
+
+      .event-task-time {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+
+        .event_all_day {
+          background-color: $light-blue;
+          border-radius: 3px;
+          color: $dark-blue;
+          margin-left: auto;
+          padding: 0 1rem;
+          font-weight: 400;
+        }
+      }
+      .event-location {
+        padding: 1rem 0;
+        img {
+          width: 20px;
+        }
+      }
+    }
+    .case-event__bar {
+      display: flex;
+      justify-content: flex-end;
+      a {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
