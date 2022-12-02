@@ -107,7 +107,7 @@
 				}
 
 				if ($_SESSION['permissions']['delete_events'] == '1') {
-					echo " <a href='#'' class='event_delete'>Delete</a>";
+					echo " <a data-id='$id' data-caseid='$this_case_id' class='event_delete'>Delete</a>";
 				}
 				?>
 			</div>
@@ -139,7 +139,9 @@
 								</div>
 
 								<div class="form__control--checkbox">
-									<input name="all_day" type="checkbox" <?php if($all_day == '1') { echo 'checked'; } ?>>
+									<input name="all_day" type="checkbox" <?php if ($all_day == '1') {
+																													echo 'checked';
+																												} ?>>
 									<label for="all_day">All Day?</label>
 								</div>
 
