@@ -2,6 +2,10 @@
 
 </div>
 
+<?php function return_user_name($user)
+{
+	return $user['username'];
+} ?>
 <div class="case_toolbar">
 
 	<div>
@@ -50,6 +54,9 @@
 	foreach ($events as $event) {
 		$resps = get_responsibles($dbh, $event['id']);
 		extract($event);
+
+
+		$respFormValue = array_map("return_user_name", $resps);;
 		//Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  
 	?>
 		<div class="case-event" data-id="<?php echo $id; ?>" data-caseid="<?php echo $this_case_id; ?>">
@@ -63,10 +70,10 @@
 			<div class="case-event__details">
 				<div class="event-task-time">
 					<div>
-						<p><label>Start:</label>
+						<p><label><strong>Start:</strong></label>
 							<span class="event_start"><?php echo extract_date_time($start); ?></span>
 						</p>
-						<p><label>End:</label>
+						<p><label><strong>End:</strong></label>
 							<span class="event_end"><?php if (!empty($end)  && $end != '0000-00-00 00:00:00') {
 																				echo extract_date_time($end);
 																			} ?></span>
@@ -87,15 +94,16 @@
 					<span><?php echo count($resps) . ' guests' ?></span>
 				</p>
 
-				<p><label>Notes:</label>
+				<p><label><strong>Notes:</strong></label>
 					<span class="event_notes"><?php echo htmlentities($notes); ?></span>
 				</p>
+
 
 
 			</div>
 			<div class="case-event__bar">
 				<?php if ($_SESSION['permissions']['edit_events'] == '1') {
-					echo "<a href='#'' class='event_edit'>Edit</a>";
+					echo "<a href='#' data-target='#editEventModal-$id' class='event_edit'>Edit</a>";
 				}
 
 				if ($_SESSION['permissions']['delete_events'] == '1') {
@@ -103,11 +111,63 @@
 				}
 				?>
 			</div>
+			<div class="modal fade" role="dialog" id="editEventModal-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editEventLabel-<?php echo $id ?>" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<form>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="editEventLabel-<?php echo $id ?>">Edit Event</h5>
+							</div>
+							<div class="modal-body">
+								<div class="form__control">
+									<input id="task" required type="text" name="task" placeholder=" " value="<?php echo $task ?>">
+									<label for="task">What is the name of this event?</label>
+								</div>
+								<div class="form__control">
+									<input id="where" required type="text" name="where" placeholder=" " value="<?php echo $location ?>">
+									<label for="where">Where is this event?</label>
+								</div>
+								<div class="form-control__two">
+									<div class="form__control">
+										<input required type="datetime-local" name="start" placeholder=" " value="<?php echo $start ?>">
+										<label for="start">When does this event start?</label>
+									</div>
+									<div class="form__control">
+										<input required type="datetime-local" name="end" placeholder=" " value="<?php echo $end ?>">
+										<label for="end">When does this event end?</label>
+									</div>
+								</div>
 
+								<div class="form__control--checkbox">
+									<input name="all_day" type="checkbox" checked="<?php echo $allDay == '1' ?>">
+									<label for="all_day">All Day?</label>
+								</div>
+
+								<div class="form__control form__control--select">
+									<select name="responsibles" multiple class="edit_event_slim_select" tabindex="2" data-value="<?php echo implode(',', $respFormValue) ?>">
+									</select>
+									<label for="responsibles">Who's Responsible?</label>
+								</div>
+
+								<div class="form__control">
+									<textarea id="notes" required name="notes" placeholder=" "><?php echo $notes ?></textarea>
+									<label for="notes">Description</label>
+								</div>
+								<input type="text" hidden name="case_id" value="<?php echo $this_case_id ?>">
+					</form>
+					<div class="modal-footer">
+						<button id="editCaseEventEventCancel-<?php echo $id ?>" data-target="editEventModal-<?php echo $id ?>" class="case_event_edit_cancel">Cancel</button>
+						<button type="button" class="primary-button edit_event_submit">Submit</button>
+					</div>
+				</div>
+
+			</div>
 		</div>
+</div>
+</div>
 
 
-	<?php }
+<?php }
 	if (empty($events)) {
 		echo "<p>No events found.</p>";
 	} ?>

@@ -917,7 +917,7 @@
   padding: 4rem;
 
   .case-event {
-    padding: 1rem;
+    padding: 2rem;
     border-radius: 8px;
     @include box-shadow--light();
     margin: 0 auto;
@@ -928,8 +928,14 @@
       display: flex;
       align-items: center;
       padding: 1rem 0;
+      img {
+        margin-right: 0.5rem;
+      }
       .event_task_title {
         margin-left: 10px;
+        color: $dark-blue;
+        font-weight: 600;
+        font-size: 25px;
       }
     }
     .case-event__details {
@@ -954,6 +960,7 @@
         padding: 1rem 0;
         img {
           width: 20px;
+          margin-right: 1rem;
         }
       }
     }
@@ -962,6 +969,10 @@
       justify-content: flex-end;
       a {
         margin-left: 1rem;
+        color: $gray;
+        &:hover{
+          color: $dark-blue;
+        }
       }
     }
   }

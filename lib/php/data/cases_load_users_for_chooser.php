@@ -1,25 +1,37 @@
 <?php
-require_once dirname(__FILE__) . '/../../../db.php';
+try {
 
-$_POST = json_decode(file_get_contents("php://input"), true);
-$case_id = $_POST['case_id'];
+  require_once dirname(__FILE__) . '/../../../db.php';
 
-function load_user_list($dbh)
-{
-  $user_list_query = $dbh->prepare("SELECT * from cm_users where status='active' ORDER BY last_name asc");
+  $_POST = json_decode(file_get_contents("php://input"), true);
+  $case_id = $_POST['case_id'];
+  $value = $_POST['value'];
 
-  $user_list_query->execute();
+  function load_user_list($dbh, $value)
+  {
+    $user_list_query = $dbh->prepare("SELECT * from cm_users where status='active' ORDER BY last_name asc");
 
-  $user_list_data = $user_list_query->fetchAll();
+    $user_list_query->execute();
 
-  $users = NULL;
+    $user_list_data = $user_list_query->fetchAll();
 
-  foreach ($user_list_data as $user) {
+    $users = NULL;
 
-    $users .= "<option value='" . $user['username'] . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
+    foreach ($user_list_data as $user) {
+
+      $selected = '';
+
+      if (strpos($value, $user['username']) !== false) {
+        $selected = 'selected';
+      }
+
+      $users .= "<option " . $selected . " value='" . $user['username'] . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
+    }
+
+    return $users;
   }
-
-  return $users;
+  $users = load_user_list($dbh, $value);
+  echo $users;
+} catch (Exception $e) {
+  echo $e->getMessage();
 }
-$users = load_user_list($dbh);
-echo $users;

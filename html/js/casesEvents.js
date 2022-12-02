@@ -495,7 +495,6 @@ caseEventCancelButton.addEventListener('click', (e) => {
     .filter((k) => k != 'case_id')
     .map((key) => (values[key] ? values[key] : ''))
     .join('');
-  console.log(slimSelect.selected().length);
   if (!hasValue && !slimSelect.selected().length) {
     resetForm(newEventForm);
     newEventModal.hide();
@@ -507,6 +506,46 @@ caseEventCancelButton.addEventListener('click', (e) => {
     () => {
       resetForm(newEventForm);
       newEventModal.hide();
+    },
+    null,
+  );
+});
+
+// Edit case event
+live('click', 'event_edit', async (e) => {
+  e.preventDefault();
+  const { target } = e.target.dataset;
+  const {
+    dataset: { id, caseid },
+  } = e.target.closest('.case-event');
+
+  const modal = getModal(target);
+  const slimSelect = new SlimSelect({
+    select: `${target} .edit_event_slim_select`,
+  });
+  const slimSelectContainer = document.querySelector(
+    `${target} .edit_event_slim_select`,
+  );
+  const {
+    dataset: { value },
+  } = slimSelectContainer;
+
+  const usersList = await getUserChooserList(caseid, value);
+  slimSelectContainer.innerHTML = usersList;
+
+  modal.show();
+});
+
+live('click', 'case_event_edit_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const id = e.target.dataset.target;
+      console.log({id})
+      const modal = getModal(`#${id}`);
+      modal.hide();
     },
     null,
   );

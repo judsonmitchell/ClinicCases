@@ -1408,7 +1408,7 @@
   padding: 4rem;
 }
 .case_detail_panel_caseevents .case-event {
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   margin: 0 auto;
@@ -1420,8 +1420,14 @@
   align-items: center;
   padding: 1rem 0;
 }
+.case_detail_panel_caseevents .case-event .case-event__title img {
+  margin-right: 0.5rem;
+}
 .case_detail_panel_caseevents .case-event .case-event__title .event_task_title {
   margin-left: 10px;
+  color: #2b50aa;
+  font-weight: 600;
+  font-size: 25px;
 }
 .case_detail_panel_caseevents .case-event .case-event__details {
   display: block;
@@ -1445,6 +1451,7 @@
 }
 .case_detail_panel_caseevents .case-event .case-event__details .event-location img {
   width: 20px;
+  margin-right: 1rem;
 }
 .case_detail_panel_caseevents .case-event .case-event__bar {
   display: flex;
@@ -1452,4 +1459,8 @@
 }
 .case_detail_panel_caseevents .case-event .case-event__bar a {
   margin-left: 1rem;
+  color: #D8D8D8;
+}
+.case_detail_panel_caseevents .case-event .case-event__bar a:hover {
+  color: #2b50aa;
 }/*# sourceMappingURL=cases.min.css.map */

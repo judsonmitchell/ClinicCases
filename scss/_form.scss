@@ -105,7 +105,9 @@ form.invalid {
     border-width: 2px;
   }
 }
-
+form {
+  width: 100%;
+}
 .form-control__dual {
   display: grid;
   grid-template-columns: 1fr 4fr;
