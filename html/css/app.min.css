@@ -740,7 +740,9 @@ textarea:focus {
 
 form.invalid input:invalid,
 form.invalid textarea:invalid,
-form.invalid select:invalid {
+form.invalid select:invalid,
+form.invalid .ss-main.invalid {
+  border: 1px solid red;
   border-color: red;
 }
 

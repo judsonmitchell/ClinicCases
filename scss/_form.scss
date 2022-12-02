@@ -4,7 +4,6 @@ textarea {
   @include input();
 }
 
-
 .form-control__two {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -84,7 +83,6 @@ textarea {
       z-index: 9;
     }
   }
-
 }
 .form__control--checkbox {
   margin: 2rem;
@@ -94,7 +92,9 @@ textarea {
 form.invalid {
   input:invalid,
   textarea:invalid,
-  select:invalid {
+  select:invalid,
+  .ss-main.invalid {
+    border: 1px solid red;
     border-color: red;
   }
 }
@@ -177,5 +177,3 @@ form {
   cursor: pointer;
   float: right;
 }
-
-

@@ -520,9 +520,14 @@ live('click', 'event_edit', async (e) => {
   } = e.target.closest('.case-event');
 
   const modal = getModal(target);
-  const slimSelect = new SlimSelect({
-    select: `${target} .edit_event_slim_select`,
-  });
+  const slimSelect = document.querySelector(
+    `${target} .edit_event_slim_select`,
+  )?.slim;
+  if (!slimSelect) {
+    new SlimSelect({
+      select: `${target} .edit_event_slim_select`,
+    });
+  }
   const slimSelectContainer = document.querySelector(
     `${target} .edit_event_slim_select`,
   );
@@ -536,6 +541,8 @@ live('click', 'event_edit', async (e) => {
   modal.show();
 });
 
+// cancel case event edit
+
 live('click', 'case_event_edit_cancel', (e) => {
   e.preventDefault();
   alertify.confirm(
@@ -543,10 +550,55 @@ live('click', 'case_event_edit_cancel', (e) => {
     'Are you sure you want to cancel? You will lose your data.',
     () => {
       const id = e.target.dataset.target;
-      console.log({id})
+      console.log({ id });
       const modal = getModal(`#${id}`);
       modal.hide();
     },
     null,
   );
+});
+
+// submit case event edit
+live('click', 'edit_event_submit', async (e) => {
+  const id = e.target.dataset.target;
+  const editEventModal = getModal(`#${id}`);
+  const editEventForm = document.querySelector(`#${id} form`);
+  let values = getFormValues(editEventForm);
+  const isValid = checkFormValidity(editEventForm);
+  const slimSelectRef = editEventForm.querySelector('select');
+  const editEventSlimSelect = slimSelectRef.slim;
+  const responsibles = editEventSlimSelect.selected();
+  if (!responsibles.length) {
+    slimSelectRef.classList.add('invalid');
+  } else {
+    slimSelectRef.classList.remove('invalid');
+  }
+  if (isValid != true || !responsibles.length) {
+    editEventForm.classList.add('invalid');
+    alertify.error(
+      `Please correct the following fields: ${isValid != true && isValid} ${
+        !responsibles.length ? 'responsibles' : ''
+      }`,
+    );
+
+    return;
+  }
+
+  editEventForm.classList.remove('invalid');
+  slimSelectRef.classList.remove('invalid');
+
+  values = { ...values, all_day: values.all_day?.toString(), responsibles };
+  const { case_id } = values;
+  try {
+    const res = await processEvents({ action: 'edit', ...values });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    await reloadCaseEvents(case_id);
+    editEventModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });

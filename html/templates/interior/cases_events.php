@@ -139,7 +139,7 @@
 								</div>
 
 								<div class="form__control--checkbox">
-									<input name="all_day" type="checkbox" checked="<?php echo $allDay == '1' ?>">
+									<input name="all_day" type="checkbox" <?php if($all_day == '1') { echo 'checked'; } ?>>
 									<label for="all_day">All Day?</label>
 								</div>
 
@@ -154,10 +154,11 @@
 									<label for="notes">Description</label>
 								</div>
 								<input type="text" hidden name="case_id" value="<?php echo $this_case_id ?>">
+								<input type="text" hidden name="event_id" value="<?php echo $id ?>">
 					</form>
 					<div class="modal-footer">
 						<button id="editCaseEventEventCancel-<?php echo $id ?>" data-target="editEventModal-<?php echo $id ?>" class="case_event_edit_cancel">Cancel</button>
-						<button type="button" class="primary-button edit_event_submit">Submit</button>
+						<button type="button" data-target="editEventModal-<?php echo $id ?>" class="primary-button edit_event_submit">Submit</button>
 					</div>
 				</div>
 
