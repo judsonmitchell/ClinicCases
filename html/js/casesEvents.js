@@ -627,3 +627,13 @@ live('click', 'event_delete', async function (event) {
     null,
   );
 });
+// close view event modal
+live('click', 'close_modal', (e) => {
+  const {
+    target: {
+      dataset: { target: modalId },
+    },
+  } = e;
+  const modal = getModal(modalId);
+  modal.hide();
+});

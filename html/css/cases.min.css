@@ -176,6 +176,7 @@
 
 .modal-content {
   padding: 4rem;
+  max-width: 100vw;
 }
 
 @media screen and (max-width: 992px) {
@@ -199,6 +200,16 @@
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
+}
+
+.close_modal {
+  height: 20px;
+  width: 20px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  position: absolute;
+  top: 4rem;
+  right: 4rem;
 }
 
 #table_cases {
@@ -1438,20 +1449,15 @@
   align-items: center;
   padding: 1rem 0;
 }
-.case_detail_panel_caseevents .case-event .case-event__details .event-task-time .event_all_day {
-  background-color: #c3dbea;
-  border-radius: 3px;
-  color: #2b50aa;
-  margin-left: auto;
-  padding: 0 1rem;
-  font-weight: 400;
-}
 .case_detail_panel_caseevents .case-event .case-event__details .event-location {
   padding: 1rem 0;
 }
 .case_detail_panel_caseevents .case-event .case-event__details .event-location img {
   width: 20px;
   margin-right: 1rem;
+}
+.case_detail_panel_caseevents .case-event .case-event__details .event_all_day {
+  margin-left: auto;
 }
 .case_detail_panel_caseevents .case-event .case-event__bar {
   display: flex;
@@ -1463,4 +1469,58 @@
 }
 .case_detail_panel_caseevents .case-event .case-event__bar a:hover {
   color: #2b50aa;
+}
+
+.event_all_day {
+  background-color: #c3dbea;
+  border-radius: 3px;
+  color: #2b50aa;
+  margin-left: 2rem;
+  padding: 0 1rem;
+  font-weight: 400;
+}
+
+.event_responsibles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 2rem;
+  grid-gap: 2rem;
+}
+.event_responsibles .responsbiles_row {
+  display: flex;
+  align-items: center;
+}
+.event_responsibles .responsbiles_row .thumbnail-mask {
+  margin-right: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .event_responsibles {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 576px) {
+  .event_responsibles {
+    grid-template-columns: 1fr;
+  }
+}
+.event_notes {
+  overflow: hidden;
+}
+.event_notes.clamp-3 {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.thumb-ellipsis {
+  margin-left: 1rem;
+  font-size: 16px;
+  color: #2b50aa;
+}
+
+.details_notes {
+  padding: 2rem 0;
 }/*# sourceMappingURL=cases.min.css.map */

@@ -19,9 +19,9 @@ try {
 
 	$_POST = json_decode(file_get_contents("php://input"), true);
 	$_REQUEST = json_decode(file_get_contents("php://input"), true);
-	
+
 	$user = $_SESSION['login'];
-	
+
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 	} else {
@@ -58,13 +58,24 @@ try {
 		return $responsibles;
 	}
 
-	function generate_thumbs($responsibles)
+	function generate_thumbs($responsibles, $count = null)
 	{ //create thumbnail row for assigned users
 
 		$thumb_row = null;
-		foreach ($responsibles as $resp) {;
-			$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
-				"'><img class='thumbnail-mask' src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
+		if ($count) {
+			foreach (array_slice($responsibles, 0, 3) as $resp) {;
+				$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
+					"'><img class='thumbnail-mask' src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
+			}
+			if(count($responsibles) > 3) {
+				$thumb_row .= "<span class='thumb-ellipsis'>...</span>";
+			}
+		} else {
+
+			foreach ($responsibles as $resp) {;
+				$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
+					"'><img class='thumbnail-mask' src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
+			}
 		}
 
 		return $thumb_row;

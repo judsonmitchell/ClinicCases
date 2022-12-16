@@ -59,10 +59,77 @@
 		$respFormValue = array_map("return_user_name", $resps);;
 		//Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  
 	?>
-		<div class="case-event" data-id="<?php echo $id; ?>" data-caseid="<?php echo $this_case_id; ?>">
+
+
+		<div class="modal fade case-event" role="dialog" id="viewEventModal-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewEventLabel-<?php echo $id ?>" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<img data-target="#viewEventModal-<?php echo $id ?>" src="html/ico/times_circle.svg" alt="" class="close_modal">
+
+					<div class="modal-header">
+						<div class="case-event__title">
+							<h5 class="modal-title" id="viewEventLabel-<?php echo $id ?>">
+								<h2 class="event_task_title"><?php echo htmlentities($task); ?></h2>
+								<?php if ($all_day == '1') {
+									echo " <span class='event_all_day'>all day</span>";
+								} ?>
+							</h5>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="case-event__details">
+							<div class="event-task-time">
+								<div>
+									<p><label><strong>Start:</strong></label>
+										<span class="event_start"><?php echo extract_date_time($start); ?></span>
+									</p>
+									<p><label><strong>End:</strong></label>
+										<span class="event_end"><?php if (!empty($end)  && $end != '0000-00-00 00:00:00') {
+																							echo extract_date_time($end);
+																						} ?></span>
+									</p>
+								</div>
+
+							</div>
+							<p class="event-location"><label><img src="html/ico/location.svg" alt=""></label>
+								<span><?php echo htmlentities($location); ?></span>
+							</p>
+							<p class="event-location"><label><img src="html/ico/guests.svg" alt=""></label>
+								<span><?php echo count($resps) . ' guests' ?></span>
+							</p>
+							<div class="event_responsibles">
+								<?php
+								$responsibles = get_responsibles($dbh, $id);
+								foreach ($responsibles as $resp) {
+									// var_dump($resp);
+
+									echo "
+										<div class='responsbiles_row'>
+										<img class='thumbnail-mask' src='" . $resp['thumb'] . "' />
+										<p>" . $resp['full_name'] . "</p>
+										</div>
+									";
+								}
+
+
+								?>
+							</div>
+							<div class="details_notes">
+								<p><strong>Notes:</strong></p>
+								<p>
+									<span class="event_notes"><?php echo htmlentities($notes); ?></span>
+								</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="case-event" data-id="<?php echo $id; ?>" data-caseid="<?php echo $this_case_id; ?>" data-bs-toggle="modal" data-bs-target="#viewEventModal-<?php echo $id ?>">
 			<div class="case-event__title">
 				<div>
-					<?php echo generate_thumbs($resps); ?>
+					<?php echo generate_thumbs($resps, 3); ?>
 				</div>
 				<h2 class="event_task_title"><?php echo htmlentities($task); ?></h2>
 
@@ -95,7 +162,7 @@
 				</p>
 
 				<p><label><strong>Notes:</strong></label>
-					<span class="event_notes"><?php echo htmlentities($notes); ?></span>
+					<span class="event_notes clamp-3"><?php echo htmlentities($notes); ?></span>
 				</p>
 
 
@@ -120,17 +187,17 @@
 							</div>
 							<div class="modal-body">
 								<div class="form__control">
-									<input id="task" required type="text" name="task" placeholder=" " value="<?php echo $task ?>">
-									<label for="task">What is the name of this event?</label>
+									<input id="task<?php echo $id ?>" required type="text" name="task" placeholder=" " value="<?php echo $task ?>">
+									<label for="task<?php echo $id ?>">What is the name of this event?</label>
 								</div>
 								<div class="form__control">
-									<input id="where" required type="text" name="where" placeholder=" " value="<?php echo $location ?>">
-									<label for="where">Where is this event?</label>
+									<input id="where<?php echo $id ?>" required type="text" name="where" placeholder=" " value="<?php echo $location ?>">
+									<label for="where<?php echo $id ?>">Where is this event?</label>
 								</div>
 								<div class="form-control__two">
 									<div class="form__control">
-										<input required type="datetime-local" name="start" placeholder=" " value="<?php echo $start ?>">
-										<label for="start">When does this event start?</label>
+										<input id="start<?php echo $id ?>" required type="datetime-local" name="start" placeholder=" " value="<?php echo $start ?>">
+										<label for="start<?php echo $id ?>">When does this event start?</label>
 									</div>
 									<div class="form__control">
 										<input required type="datetime-local" name="end" placeholder=" " value="<?php echo $end ?>">
@@ -139,21 +206,21 @@
 								</div>
 
 								<div class="form__control--checkbox">
-									<input name="all_day" type="checkbox" <?php if ($all_day == '1') {
-																													echo 'checked';
-																												} ?>>
-									<label for="all_day">All Day?</label>
+									<input id="all_day<?php echo $id ?>" name="all_day" type="checkbox" <?php if ($all_day == '1') {
+																																												echo 'checked';
+																																											} ?>>
+									<label for="all_day<?php echo $id ?>">All Day?</label>
 								</div>
 
 								<div class="form__control form__control--select">
-									<select name="responsibles" multiple class="edit_event_slim_select" tabindex="2" data-value="<?php echo implode(',', $respFormValue) ?>">
+									<select id="responsibles" name="responsibles" multiple class="edit_event_slim_select" tabindex="2" data-value="<?php echo implode(',', $respFormValue) ?>">
 									</select>
-									<label for="responsibles">Who's Responsible?</label>
+									<label for="responsibles<?php echo $id ?>">Who's Responsible?</label>
 								</div>
 
 								<div class="form__control">
-									<textarea id="notes" required name="notes" placeholder=" "><?php echo $notes ?></textarea>
-									<label for="notes">Description</label>
+									<textarea id="notes<?php echo $id ?>" required name="notes" placeholder=" "><?php echo $notes ?></textarea>
+									<label for="notes<?php echo $id ?>">Description</label>
 								</div>
 								<input type="text" hidden name="case_id" value="<?php echo $this_case_id ?>">
 								<input type="text" hidden name="event_id" value="<?php echo $id ?>">
@@ -163,9 +230,12 @@
 						<button type="button" data-target="editEventModal-<?php echo $id ?>" class="primary-button edit_event_submit">Submit</button>
 					</div>
 				</div>
-
 			</div>
+
 		</div>
+
+
+
 </div>
 </div>
 
