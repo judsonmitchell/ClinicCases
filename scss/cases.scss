@@ -915,58 +915,56 @@
   grid-gap: 4rem;
   width: 100%;
   padding: 4rem;
+}
+.case-event {
+  padding: 2rem;
+  border-radius: 8px;
+  @include box-shadow--light();
+  margin: 0 auto;
+  width: 100%;
+  cursor: pointer;
 
-  .case-event {
-    padding: 2rem;
-    border-radius: 8px;
-    @include box-shadow--light();
-    margin: 0 auto;
-    width: 100%;
-    cursor: pointer;
+  .case-event__title {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    img {
+      margin-right: 0.5rem;
+    }
+    .event_task_title {
+      color: $dark-blue;
+      font-weight: 600;
+      font-size: 25px;
+    }
+  }
+  .case-event__details {
+    display: block;
+    text-align: left;
 
-    .case-event__title {
+    .event-task-time {
       display: flex;
       align-items: center;
       padding: 1rem 0;
+    }
+    .event-location {
+      padding: 1rem 0;
       img {
-        margin-right: 0.5rem;
+        width: 20px;
+        margin-right: 1rem;
       }
-      .event_task_title {
-        margin-left: 10px;
+    }
+    .event_all_day {
+      margin-left: auto;
+    }
+  }
+  .case-event__bar {
+    display: flex;
+    justify-content: flex-end;
+    a {
+      margin-left: 1rem;
+      color: $gray;
+      &:hover {
         color: $dark-blue;
-        font-weight: 600;
-        font-size: 25px;
-      }
-    }
-    .case-event__details {
-      display: block;
-      text-align: left;
-
-      .event-task-time {
-        display: flex;
-        align-items: center;
-        padding: 1rem 0;
-      }
-      .event-location {
-        padding: 1rem 0;
-        img {
-          width: 20px;
-          margin-right: 1rem;
-        }
-      }
-      .event_all_day {
-        margin-left: auto;
-      }
-    }
-    .case-event__bar {
-      display: flex;
-      justify-content: flex-end;
-      a {
-        margin-left: 1rem;
-        color: $gray;
-        &:hover {
-          color: $dark-blue;
-        }
       }
     }
   }
@@ -988,19 +986,18 @@
   .responsbiles_row {
     display: flex;
     align-items: center;
-    .thumbnail-mask{
+    .thumbnail-mask {
       margin-right: 2rem;
     }
-  
   }
 }
 
-@media screen and (max-width: $tablet){
+@media screen and (max-width: $tablet) {
   .event_responsibles {
     grid-template-columns: 1fr 1fr;
   }
 }
-@media screen and (max-width: $mobile){
+@media screen and (max-width: $mobile) {
   .event_responsibles {
     grid-template-columns: 1fr;
   }
@@ -1022,6 +1019,12 @@
   color: $dark-blue;
 }
 
-.details_notes{
+.details_notes {
   padding: 2rem 0;
+}
+.pdf {
+  padding: 4rem;
+  .case-event {
+      page-break-inside: avoid;
+  }
 }

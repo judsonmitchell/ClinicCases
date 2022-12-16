@@ -29,7 +29,7 @@
 		<?php
 		} ?>
 
-		<button class="button--secondary print-button" data-print=".print_content.case_<?php echo $this_case_id ?>" data-filename="<?php echo case_id_to_casename($dbh, $this_case_id) ?> Events">
+		<button class="button--secondary print-button" data-print=".print_content.case-events_<?php echo $this_case_id ?>" data-filename="<?php echo case_id_to_casename($dbh, $this_case_id) ?> Events">
 			<img src="html/ico/printer.svg" alt="Print Icon" /> <span>&nbsp;Print</span>
 		</button>
 
@@ -131,7 +131,7 @@
 				<div>
 					<?php echo generate_thumbs($resps, 3); ?>
 				</div>
-				<h2 class="event_task_title"><?php echo htmlentities($task); ?></h2>
+				<h2 class="event_task_title" style="margin-left: 10px"><?php echo htmlentities($task); ?></h2>
 
 			</div>
 			<div class="case-event__details">
@@ -245,4 +245,85 @@
 		echo "<p>No events found.</p>";
 	} ?>
 
+</div>
+<div class="hidden">
+	<div class="print_content case-events_<?php echo $this_case_id ?>">
+		<?php
+		foreach ($events as $event) {
+			$resps = get_responsibles($dbh, $event['id']);
+			extract($event);
+
+
+			$respFormValue = array_map("return_user_name", $resps);
+
+		?>
+			<div class="case-event">
+				<div class="case-event__title">
+
+					<h2 class="event_task_title"><?php echo htmlentities($task); ?></h2>
+
+				</div>
+				<div class="case-event__details">
+					<div class="event-task-time">
+						<div>
+							<p><label><strong>Start:</strong></label>
+								<span class="event_start"><?php echo extract_date_time($start); ?></span>
+							</p>
+							<p><label><strong>End:</strong></label>
+								<span class="event_end"><?php if (!empty($end)  && $end != '0000-00-00 00:00:00') {
+																					echo extract_date_time($end);
+																				} ?></span>
+							</p>
+						</div>
+
+						<?php if ($all_day == '1') {
+							echo " <span class='event_all_day'>all day</span>";
+						} ?>
+					</div>
+
+
+
+					<p class="event-location"><label><img src="html/ico/location.svg" alt=""></label>
+						<span><?php echo htmlentities($location); ?></span>
+					</p>
+					<p class="event-location"><label><img src="html/ico/guests.svg" alt=""></label>
+						<span><?php echo count($resps) . ' guests' ?></span>
+					</p>
+					<div class="event_responsibles">
+						<?php
+						$responsibles = get_responsibles($dbh, $id);
+						foreach ($responsibles as $resp) {
+							// var_dump($resp);
+
+							echo "
+											<div class='responsbiles_row'>
+											<img class='thumbnail-mask' src='" . $resp['thumb'] . "' />
+											<p>" . $resp['full_name'] . "</p>
+											</div>
+										";
+						}
+
+
+						?>
+					</div>
+					<p><label><strong>Notes:</strong></label>
+						<span class="event_notes"><?php echo htmlentities($notes); ?></span>
+					</p>
+
+
+
+				</div>
+
+
+
+			</div>
+
+		<?php
+		}
+
+
+		//Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  
+		?>
+
+	</div>
 </div>
