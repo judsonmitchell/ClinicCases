@@ -1025,6 +1025,59 @@
 .pdf {
   padding: 4rem;
   .case-event {
-      page-break-inside: avoid;
+    page-break-inside: avoid;
   }
+}
+
+/** Case Messages */
+.msg_bar {
+  height: 90px;
+  border: 1px solid $trans-border-gray;
+  display: grid;
+  width: 100%;
+  align-items: center;
+  grid-template-columns: 4fr 1fr;
+  .msg_bar_left {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    justify-items: start;
+    padding: 1rem;
+    > div {
+      display: flex;
+      align-items: center;
+      font-family: 'Montserrat';
+    }
+    .username {
+      font-weight: 700;
+      font-size: 18px;
+      white-space: nowrap;
+      margin: 0 1rem;
+    }
+    .thumbnail-mask {
+      margin-right: 1rem;
+    }
+    .horizontal-line {
+      width: 100px;
+      height: 2px;
+      background-color: $border-gray;
+      margin: 0 1rem;
+    }
+  }
+  .msg_bar_right {
+    .star_msg {
+      img {
+        width: 30px;
+      }
+    }
+  }
+}
+.msg{
+  margin: 0 -1px;
+}
+.msg_closed {
+  height: 90px;
+  overflow: hidden;
+  width: 100%;
+  cursor: pointer;
 }

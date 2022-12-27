@@ -1448,7 +1448,7 @@ input.msg_search_clear {
   display: none;
 }
 
-div.msg {
+/* div.msg {
   position: relative;
   border: 1px solid #aaa;
   text-align: left;
@@ -1461,16 +1461,16 @@ div.msg {
   overflow: hidden;
   padding-bottom: 20px;
   font-size: 1em;
-}
-div.msg p {
+} */
+/* div.msg p {
   margin: 10px;
 }
 div.msg div.more {
   position: absolute;
   bottom: 0;
   right: 15px;
-}
-div.more > a {
+} */
+/* div.more > a {
   font-size: 0.8em;
   color: #aaa;
 }
@@ -1489,8 +1489,8 @@ div#msg_new {
 div#msg_new select,
 div#msg_new input {
   width: 450px;
-}
-div#msg_new label {
+} */
+/* div#msg_new label {
   display: inline-block;
   margin: 12px 0 0;
   width: 45px;
@@ -1508,7 +1508,7 @@ div#msg_new textarea {
   margin-top: 20px;
   margin-left: 45px;
   border: 1px solid #aaa;
-}
+} */
 /* The following is to match the styles for chosen.js */
 div#msg_new input {
   background-color: #fff;
@@ -1536,7 +1536,7 @@ p.msg_new_buttons {
   text-align: right;
 }
 
-div.msg_bar {
+/* div.msg_bar {
   width: 800px;
   height: 41px;
   background-color: #e2e4ff;
@@ -1575,8 +1575,8 @@ div.msg_body {
 }
 div.msg_body_text {
   margin-left: 10px;
-}
-div.msg_replies,
+} */
+/* div.msg_replies,
 div.msg_actions {
   margin-left: 120px !important;
   width: 450px;
@@ -1596,9 +1596,9 @@ div.msg_reply_text {
 div.msg_reply_text textarea {
   width: 450px;
   height: 200px;
-}
+} */
 
-div.msg_reply {
+/* div.msg_reply {
   width: 500px;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -1622,8 +1622,8 @@ div.msg_forward select {
 div.msg_reply_left {
   display: inline-block;
   width: 50%;
-}
-div.msg_reply_right {
+} */
+/* div.msg_reply_right {
   display: inline-block;
   width: 49%;
   text-align: right;
@@ -1646,7 +1646,7 @@ p.msg_to_more {
 }
 p.msg_to_more a {
   color: #aaa;
-}
+} */
 
 span.label_inbox {
   background-color: green;
@@ -1689,10 +1689,10 @@ input.cse_msg_search_clear {
   display: none;
 }
 
-div.cse_msg {
+/* div.cse_msg {
   width: 98%;
-}
-div.cse_msg_bar {
+} */
+/* div.cse_msg_bar {
   width: 100%;
 }
 div.cse_msg_bar_left {
@@ -1710,7 +1710,7 @@ span.cse_msg_subject {
 }
 div.cse_msg_new {
   margin-top: 3% !important;
-}
+} */
 
 .msg_number {
   color: red;

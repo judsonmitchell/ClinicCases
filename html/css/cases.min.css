@@ -1530,4 +1530,55 @@
 }
 .pdf .case-event {
   page-break-inside: avoid;
+}
+
+/** Case Messages */
+.msg_bar {
+  height: 90px;
+  border: 1px solid rgba(160, 156, 176, 0.3);
+  display: grid;
+  width: 100%;
+  align-items: center;
+  grid-template-columns: 4fr 1fr;
+}
+.msg_bar .msg_bar_left {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  justify-items: start;
+  padding: 1rem;
+}
+.msg_bar .msg_bar_left > div {
+  display: flex;
+  align-items: center;
+  font-family: "Montserrat";
+}
+.msg_bar .msg_bar_left .username {
+  font-weight: 700;
+  font-size: 18px;
+  white-space: nowrap;
+  margin: 0 1rem;
+}
+.msg_bar .msg_bar_left .thumbnail-mask {
+  margin-right: 1rem;
+}
+.msg_bar .msg_bar_left .horizontal-line {
+  width: 100px;
+  height: 2px;
+  background-color: #a09cb0;
+  margin: 0 1rem;
+}
+.msg_bar .msg_bar_right .star_msg img {
+  width: 30px;
+}
+
+.msg {
+  margin: 0 -1px;
+}
+
+.msg_closed {
+  height: 90px;
+  overflow: hidden;
+  width: 100%;
+  cursor: pointer;
 }/*# sourceMappingURL=cases.min.css.map */
