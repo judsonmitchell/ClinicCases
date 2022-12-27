@@ -9,6 +9,7 @@ require('../utilities/convert_times.php');
 require('../utilities/thumbnails.php');
 require('../utilities/format_text.php');
 require('../html/gen_select.php');
+$_POST = json_decode(file_get_contents("php://input"), true);
 
 function in_string($val,$string)
 {
@@ -62,7 +63,6 @@ if (isset($_POST['update']))
 	{$refresh = true;}
 	else
 	{$refresh = false;}
-
 $replies = false;
 
 switch ($type) {

@@ -11,6 +11,7 @@
 <script src="html/js/casesCaseNotes.js" type="module"></script>
 <script src="html/js/casesDocuments.js" type="module"></script>
 <script src="html/js/casesEvents.js" type="module"></script>
+<script src="html/js/casesMessages.js" type="module"></script>
 <script src="html/js/print.js" type="module"></script>
 <script src="html/js/idletimerStart.js" type="module"></script>
 <script src="lib/javascripts/timer.js" type="module"></script>

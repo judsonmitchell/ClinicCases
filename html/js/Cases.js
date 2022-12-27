@@ -7,6 +7,7 @@ import {
   assignUsersToCase,
   getDocuments,
   getCaseEventData,
+  getCaseMessagesData
 } from '../../lib/javascripts/axios.js';
 import { getCookie } from '../../lib/javascripts/cookies.js';
 
@@ -178,6 +179,9 @@ async function openCase(id, name) {
       const caseEvents = await getCaseEventData(id);
       const eventsContainer = document.querySelector(`#nav-${id}-events`);
       eventsContainer.innerHTML = caseEvents;
+      const caseMessages = await getCaseMessagesData(id, '', 'main', 1);
+      const messagesContainer = document.querySelector(`#nav-${id}-messages`);
+      messagesContainer.innerHTML = caseMessages;
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
       setUpCancelEditFunctionality(id);
