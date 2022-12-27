@@ -135,20 +135,27 @@
 				</div>
 
 				<div class="msg_body">
+					<div class="msg_info">
 
-					<p class="tos">To: <?php echo format_name_list($dbh, $to); ?></p>
+						<p class="tos"> <strong>
+								To:
+							</strong> </p>
+						<p><?php echo format_name_list($dbh, $to); ?></p>
 
-					<?php if ($ccs) {
-						echo "<p class='ccs'>Cc: " . format_name_list($dbh, $ccs) . "</p>";
-					} ?>
+						<?php if ($ccs) {
+							echo "<p class='ccs'><strong>Cc: </stong></p><p>" . format_name_list($dbh, $ccs) . "</p>";
+						} ?>
 
-					<p class="subj">Subject: <?php echo htmlspecialchars($subject, ENT_QUOTES, 'UTF-8'); ?></p>
+						<p class="subj"><strong>Subject: </strong></p>
+						<p><?php echo htmlspecialchars($subject, ENT_QUOTES, 'UTF-8'); ?></p>
 
-					<p class="assoc_case">Filed in: <?php if (!$assoc_case) {
-																						echo "(Not Filed)";
-																					} else {
-																						echo case_id_to_casename($dbh, $assoc_case);
-																					} ?></p>
+						<p class="assoc_case"><strong>Filed in: </strong></p>
+						<p><?php if (!$assoc_case) {
+									echo "(Not Filed)";
+								} else {
+									echo case_id_to_casename($dbh, $assoc_case);
+								} ?></p>
+					</div>
 
 					<div class="msg_body_text"><?php echo nl2br(htmlentities(text_prepare($body))); ?></div>
 
@@ -158,16 +165,20 @@
 					</div>
 
 					<div class="msg_actions">
+						<button class="button--secondary">
+							<img src="html/ico/reply.png" alt="Reply Icon"> <span>&nbsp;Reply</span>
+						</button>
+						<button class="button--secondary">
+							<img src="html/ico/forward.png" alt="Forward Icon"> <span>&nbsp;Forward</span>
+						</button>
+						<button class="button--secondary">
+							<img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
+						</button>
 
-						<a href="#" class="reply">Reply</a>
-
-						<a href="#" class="forward">Forward</a>
-
-						<a href="#" class="print">Print</a>
 
 					</div>
 
-					<div class="msg_forward">
+					<!-- <div class="msg_forward">
 
 						<select name="forward_r" multiple class="msg_forward_choices" data-placeholder="Choose Recipients">
 
@@ -183,7 +194,7 @@
 
 						<button class="msg_send">Send</button>
 
-					</div>
+					</div> -->
 
 				</div>
 

@@ -1,8 +1,8 @@
 //  //
 // //Scripts for messages panel on cases tab
 // //
-
-import { getCaseMessagesData } from '../../lib/javascripts/axios';
+import { getCaseMessagesData } from '../../lib/javascripts/axios.js';
+import { live } from '../js/live.js';
 
 // /* global notify, elPrint */
 window.addEventListener('scroll', () => {
@@ -41,6 +41,15 @@ const addMoreMessages = async () => {
     }
   }
 };
+const getClosest = (el, cl) => {
+  return el.classList.contains(cl) ? el : el.closest(cl);
+};
+// open message
+live('click', 'msg_closed', (e) => {
+  console.log('click');
+  const message = getClosest(e.target, '.msg_closed');
+  message.classList.remove('msg_closed');
+});
 // //Load new messages on scroll
 // function addMoreMessages(scrollTarget, view, caseId) {
 

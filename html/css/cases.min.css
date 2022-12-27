@@ -1535,7 +1535,6 @@
 /** Case Messages */
 .msg_bar {
   height: 90px;
-  border: 1px solid rgba(160, 156, 176, 0.3);
   display: grid;
   width: 100%;
   align-items: center;
@@ -1574,6 +1573,8 @@
 
 .msg {
   margin: 0 -1px;
+  border-top: 1px solid rgba(160, 156, 176, 0.3);
+  border-bottom: 1px solid rgba(160, 156, 176, 0.3);
 }
 
 .msg_closed {
@@ -1581,4 +1582,25 @@
   overflow: hidden;
   width: 100%;
   cursor: pointer;
+}
+
+.msg_body {
+  padding: 1rem 4rem;
+  text-align: left;
+}
+.msg_body .msg_info {
+  display: grid;
+  grid-template-columns: 100px auto;
+  grid-gap: 1rem;
+  padding: 1rem 0;
+}
+
+.msg_actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 1rem 0;
+}
+.msg_actions button {
+  margin: 0 0.5rem;
 }/*# sourceMappingURL=cases.min.css.map */
