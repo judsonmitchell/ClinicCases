@@ -61,23 +61,23 @@ window.addEventListener('scroll', () => {
     );
   }
   const scrollPercentage = currentScrollPercentage();
-  if (scrollPercentage > 70) {
+  if (scrollPercentage > 75) {
     addMoreMessages();
   }
 });
 const addMoreMessages = async () => {
   const activeTab = document.querySelector('.tab-pane.active .case-tabs');
   const case_id = activeTab?.dataset.caseid;
-
   if (case_id && activeTab) {
     const messages = document.querySelectorAll(`#nav-${case_id}-messages .msg`);
     const messagesContainer = document.querySelector(
       `#nav-${case_id}-messages .case_detail_panel_casenotes`,
     );
-    const isComplete = messages.length == 0 || messages % 20 != 0;
+    const isComplete = messages.length == 0 || messages.length % 20 != 0;
     if (!isComplete) {
-      const searchValue =
-        messagesContainer.querySelector('.messages_search').value;
+      const searchValue = document.querySelector(
+        `#caseMessagesSearch-${case_id}`,
+      ).value;
       const moreMessages = await getCaseMessagesData(
         case_id,
         searchValue || '',
