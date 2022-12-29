@@ -37,16 +37,15 @@ const newMessageForm = document.querySelector(`#newMessageModal form`);
 const newMessageModal = getModal('#newMessageModal');
 
 const reloadCaseMessages = async (case_id, searchValue) => {
-  const messages = await getCaseMessagesData(
+  const messages = await getCaseMessagesData({
     case_id,
-    searchValue || '',
-    'search',
-    0,
-  );
+    s: searchValue || '',
+    type: 'search',
+    start: 0,
+  });
   const messagesContainer = document.querySelector(
     `#nav-${case_id}-messages .case_detail_panel_casenotes`,
   );
-  console.log({ messagesContainer, case_id, messages });
   if (messagesContainer) {
     messagesContainer.innerHTML = messages;
   }
@@ -78,12 +77,12 @@ const addMoreMessages = async () => {
       const searchValue = document.querySelector(
         `#caseMessagesSearch-${case_id}`,
       ).value;
-      const moreMessages = await getCaseMessagesData(
+      const moreMessages = await getCaseMessagesData({
         case_id,
-        searchValue || '',
-        'search',
-        messages.length,
-      );
+        s: searchValue || '',
+        type: 'search',
+        start: messages.length,
+      });
       messagesContainer.innerHTML =
         messagesContainer.innerHTML.concat(moreMessages);
     }
@@ -92,10 +91,29 @@ const addMoreMessages = async () => {
 const getClosest = (el, cl) => {
   return el.classList.contains(cl) ? el : el.closest(cl);
 };
+
+const fetchReplies = async (messageEl) => {
+  const messageRepliesEl = messageEl.querySelector('.msg_replies');
+  const case_id = messageEl.dataset.caseid;
+  const thread_id = messageEl.dataset.threadid;
+
+  try {
+    const replies = await getCaseMessagesData({
+      case_id,
+      type: 'replies',
+      start: 0,
+      thread_id,
+    });
+    messageRepliesEl.innerHTML = replies;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 // open message
 live('click', 'msg_bar', (e) => {
   const message = getClosest(e.target, '.msg');
   message.classList.toggle('msg_closed');
+  fetchReplies(message);
 });
 
 // search messagse
@@ -106,12 +124,12 @@ live('change', 'messages_search', async (e) => {
   const messagesContainer = document.querySelector(
     `#nav-${case_id}-messages .case_detail_panel_casenotes`,
   );
-  const searchResults = await getCaseMessagesData(
+  const searchResults = await getCaseMessagesData({
     case_id,
-    searchValue || '',
-    'search',
-    0,
-  );
+    s: searchValue || '',
+    type: 'search',
+    start: 0,
+  });
 
   messagesContainer.innerHTML = searchResults;
 });
@@ -213,6 +231,52 @@ caseMessageCancelButton.addEventListener('click', (e) => {
     },
     null,
   );
+});
+
+// open reply modal
+live('click', 'reply_button', (e) => {
+  const replyButton = getClosest(e.target, '.reply_button');
+  const modalId = replyButton.dataset.target;
+  const modal = getModal(modalId);
+
+  modal.show();
+});
+
+// submit reply
+live('click', 'reply_to_message_submit', async (e) => {
+  const replyToMessageButton = getClosest(e.target, '.reply_to_message_submit');
+  const modalId = replyToMessageButton.dataset.target;
+  const form = document.querySelector(`${modalId} form`);
+  const modal = getModal(modalId);
+  const isValid = checkFormValidity(form);
+  if (isValid != true) {
+    form.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}`);
+    return;
+  }
+
+  form.classList.remove('invalid');
+  const values = getFormValues(form);
+  const { case_id, id } = values;
+  try {
+    const res = await processMessages({
+      action: 'reply',
+      ...values,
+    });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    const messageEl = document.querySelector(
+      `.msg[data-id="${id}"][data-caseid="${case_id}"]`,
+    );
+    await fetchReplies(messageEl);
+    resetForm(form);
+    modal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
 // //Load new messages on scroll
 // function addMoreMessages(scrollTarget, view, caseId) {

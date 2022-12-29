@@ -177,6 +177,7 @@
 .modal-content {
   padding: 4rem;
   max-width: 100vw;
+  text-align: left;
 }
 
 @media screen and (max-width: 992px) {
@@ -1606,4 +1607,27 @@
 }
 .msg_actions button {
   margin: 0 0.5rem;
+}
+
+.msg_replies:has(.msg_reply) {
+  margin: 4rem;
+  border-top: 1px solid #2b50aa;
+  padding-top: 4rem;
+}
+
+.msg_body_text {
+  padding: 4rem;
+}
+
+.msg_reply {
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.msg_reply .thumbnail-mask {
+  margin-right: 1rem;
+}
+.msg_reply p {
+  padding-left: 5rem;
+  padding-top: 2rem;
 }/*# sourceMappingURL=cases.min.css.map */

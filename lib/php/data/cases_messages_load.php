@@ -37,7 +37,6 @@ function format_name_list($dbh, $list)
 }
 
 $username = $_SESSION['login'];
-
 $type = $_POST['type'];
 
 $limit = '20';
@@ -58,6 +57,7 @@ if (isset($_POST['new_message'])) {
 } else {
 	$new_message = false;
 }
+
 
 if (isset($_POST['s'])) {
 	$s = $_POST['s'];
@@ -111,5 +111,6 @@ switch ($type) {
 
 		break;
 }
+
 
 include('../../../html/templates/interior/cases_messages.php');

@@ -36,7 +36,6 @@
       <button type="button" class="primary-button new_message_submit">Submit</button>
     </div>
   </div>
-
 </div>
 </div>
 </div>

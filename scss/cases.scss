@@ -1106,3 +1106,24 @@
     margin: 0 0.5rem;
   }
 }
+
+.msg_replies:has(.msg_reply) {
+  margin: 4rem;
+  border-top: 1px solid $dark-blue;
+  padding-top: 4rem;
+}
+.msg_body_text {
+  padding: 4rem;
+}
+.msg_reply {
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  .thumbnail-mask {
+    margin-right: 1rem;
+  }
+  p {
+    padding-left: 5rem;
+    padding-top: 2rem;
+  }
+}
