@@ -179,7 +179,7 @@ async function openCase(id, name) {
       const caseEvents = await getCaseEventData(id);
       const eventsContainer = document.querySelector(`#nav-${id}-events`);
       eventsContainer.innerHTML = caseEvents;
-      const caseMessages = await getCaseMessagesData(id, '', 'main', 1);
+      const caseMessages = await getCaseMessagesData(id, '', 'main', 0);
       const messagesContainer = document.querySelector(`#nav-${id}-messages`);
       messagesContainer.innerHTML = caseMessages;
       setUpCasePrintFunctionality(id, name);

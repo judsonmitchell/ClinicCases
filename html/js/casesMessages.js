@@ -26,15 +26,17 @@ const addMoreMessages = async () => {
   if (case_id && activeTab) {
     const messages = document.querySelectorAll(`#nav-${case_id}-messages .msg`);
     const messagesContainer = document.querySelector(
-      `#nav-${case_id}-messages case_detail_panel_casenotes`,
+      `#nav-${case_id}-messages .case_detail_panel_casenotes`,
     );
     const isComplete = messages.length == 0 || messages % 20 != 0;
     if (!isComplete) {
+      const searchValue =
+        messagesContainer.querySelector('.messages_search').value;
       const moreMessages = await getCaseMessagesData(
         case_id,
-        '',
+        searchValue || '',
         'search',
-        messages.length + 1,
+        messages.length,
       );
       messagesContainer.innerHTML =
         messagesContainer.innerHTML.concat(moreMessages);
@@ -46,9 +48,26 @@ const getClosest = (el, cl) => {
 };
 // open message
 live('click', 'msg_closed', (e) => {
-  console.log('click');
   const message = getClosest(e.target, '.msg_closed');
   message.classList.remove('msg_closed');
+});
+
+// search messagse
+live('change', 'messages_search', async (e) => {
+  const searchInput = e.target;
+  const searchValue = searchInput.value;
+  const case_id = searchInput.dataset.caseid;
+  const messagesContainer = document.querySelector(
+    `#nav-${case_id}-messages .case_detail_panel_casenotes`,
+  );
+  const searchResults = await getCaseMessagesData(
+    case_id,
+    searchValue || '',
+    'search',
+    0,
+  );
+
+  messagesContainer.innerHTML = searchResults;
 });
 // //Load new messages on scroll
 // function addMoreMessages(scrollTarget, view, caseId) {

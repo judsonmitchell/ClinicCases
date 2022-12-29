@@ -3,17 +3,20 @@
 
 	</div>
 
-	<div class="case_detail_panel_tools">
+	<div class="case_documents_toolbar">
 
-		<div class="case_detail_panel_tools_left"></div>
+		<div class="form__control search">
+			<input id="caseMessagesSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="messages_search" placeholder=" " value="<?php if (isset($s)) {
+																																																																																echo $s;
+																																																																															} ?>">
+			<label for="caseMessagesSearch-<?php echo $case_id ?>">Search Messages <span><img src="html/ico/search.png" /></span></label>
+		</div>
+		<div class="case_documents_toolbar--right">
+			<button class="button--primary">
+				+ <span>&nbsp;New Message</span>
+			</button>
 
-		<div class="case_detail_panel_tools_right">
 
-			<input type="text" class="cse_msg_search" value="Search Messages">
-
-			<input type="button" class="cse_msg_search_clear">
-
-			<button class='cse_new_msg'>New Message</button>
 
 		</div>
 
