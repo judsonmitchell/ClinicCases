@@ -1,10 +1,56 @@
 //  //
 // //Scripts for messages panel on cases tab
 // //
-import { getCaseMessagesData } from '../../lib/javascripts/axios.js';
+import {
+  getCaseMessagesData,
+  getUserChooserList,
+  processMessages,
+} from '../../lib/javascripts/axios.js';
+import { getModal } from '../../lib/javascripts/modal.js';
 import { live } from '../js/live.js';
+import {
+  checkFormValidity,
+  getFormValues,
+  resetForm,
+  setFormValues,
+} from './forms.js';
+const tosSlimSelectSelector = '.new_message_tos_slim_select';
+const ccsSlimSelectSelector = '.new_message_ccs_slim_select';
+const fileInSlimSelectSelector = '.new_message_file_in_slim_select';
+const tosSlimSelect = new SlimSelect({
+  select: tosSlimSelectSelector,
+});
+const tosSlimSelectContainer = document.querySelector(tosSlimSelectSelector);
+const ccsSlimSelect = new SlimSelect({
+  select: ccsSlimSelectSelector,
+});
+const ccsSlimSelectContainer = document.querySelector(ccsSlimSelectSelector);
 
-// /* global notify, elPrint */
+const fileInSlimSelect = new SlimSelect({
+  select: fileInSlimSelectSelector,
+});
+const fileInSlimSelectContainer = document.querySelector(
+  fileInSlimSelectSelector,
+);
+
+const newMessageForm = document.querySelector(`#newMessageModal form`);
+const newMessageModal = getModal('#newMessageModal');
+
+const reloadCaseMessages = async (case_id, searchValue) => {
+  const messages = await getCaseMessagesData(
+    case_id,
+    searchValue || '',
+    'search',
+    0,
+  );
+  const messagesContainer = document.querySelector(
+    `#nav-${case_id}-messages .case_detail_panel_casenotes`,
+  );
+  console.log({ messagesContainer, case_id, messages });
+  if (messagesContainer) {
+    messagesContainer.innerHTML = messages;
+  }
+};
 window.addEventListener('scroll', () => {
   function currentScrollPercentage() {
     return (
@@ -47,9 +93,9 @@ const getClosest = (el, cl) => {
   return el.classList.contains(cl) ? el : el.closest(cl);
 };
 // open message
-live('click', 'msg_closed', (e) => {
-  const message = getClosest(e.target, '.msg_closed');
-  message.classList.remove('msg_closed');
+live('click', 'msg_bar', (e) => {
+  const message = getClosest(e.target, '.msg');
+  message.classList.toggle('msg_closed');
 });
 
 // search messagse
@@ -68,6 +114,105 @@ live('change', 'messages_search', async (e) => {
   );
 
   messagesContainer.innerHTML = searchResults;
+});
+
+// add new message
+live('click', 'new_message', async (e) => {
+  const case_id = getClosest(e.target, '.new_message')?.dataset.caseid;
+  const case_name = getClosest(e.target, '.new_message')?.dataset.casename;
+  const usersList = await getUserChooserList(case_id);
+  setFormValues(newMessageForm, { case_id });
+  tosSlimSelectContainer.innerHTML = usersList;
+  ccsSlimSelectContainer.innerHTML = usersList;
+  fileInSlimSelectContainer.innerHTML = `<option value="${case_id}">${case_name}</option>`;
+  newMessageModal.show();
+});
+
+// submit add new message form
+live('click', 'new_message_submit', async (e) => {
+  let values = getFormValues(newMessageForm);
+  const isValid = checkFormValidity(newMessageForm);
+  const tos = tosSlimSelect.selected();
+  const ccs = ccsSlimSelect.selected();
+  const file_in = fileInSlimSelect.selected();
+  if (isValid != true || !tos.length || !file_in.length) {
+    newMessageForm.classList.add('invalid');
+    alertify.error(
+      `Please correct the following fields: ${isValid}, ${
+        !tos.length ? 'to,' : ''
+      }  ${!file_in.length ? 'file in' : ''}`,
+    );
+    if (!tos.length) {
+      tosSlimSelectContainer.classList.add('invalid');
+    } else {
+      tosSlimSelectContainer.classList.remove('invalid');
+    }
+
+    if (!file_in.length) {
+      fileInSlimSelectContainer.classList.add('invalid');
+    } else {
+      fileInSlimSelectContainer.classList.remove('invalid');
+    }
+    return;
+  }
+
+  newMessageForm.classList.remove('invalid');
+  tosSlimSelectContainer.classList.remove('invalid');
+  ccsSlimSelectContainer.classList.remove('invalid');
+  fileInSlimSelectContainer.classList.remove('invalid');
+
+  values = { ...values, tos, ccs, file_in };
+  const { case_id } = values;
+  try {
+    const res = await processMessages({
+      action: 'send',
+      new_tos: tos,
+      ...(ccs.length ? { new_ccs: ccs } : {}),
+      new_subject: values.subject,
+      new_msg_text: values.message,
+      new_file_msg: file_in[0],
+    });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    await reloadCaseMessages(case_id, '');
+    resetForm(newMessageForm);
+    newMessageModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
+
+// Cancel add message
+const caseMessageCancelButton = document.querySelector('#newCaseMessageCancel');
+caseMessageCancelButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  const values = getFormValues(newMessageForm);
+  const hasValue = Object.keys(values)
+    .filter((k) => k != 'case_id')
+    .map((key) => (values[key] ? values[key] : ''))
+    .join('');
+  if (
+    !hasValue &&
+    !tosSlimSelect.selected().length &&
+    !ccsSlimSelect.selected().length &&
+    !fileInSlimSelect.selected().length
+  ) {
+    resetForm(newMessageForm);
+    newMessageModal.hide();
+    return;
+  }
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose all of your data.',
+    () => {
+      resetForm(newMessageForm);
+      newMessageModal.hide();
+    },
+    null,
+  );
 });
 // //Load new messages on scroll
 // function addMoreMessages(scrollTarget, view, caseId) {

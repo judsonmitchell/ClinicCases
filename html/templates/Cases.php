@@ -93,3 +93,4 @@
 	<?php include('html/templates/interior/cases_documents_rename_file_modal.php'); ?>
 	<?php include('html/templates/interior/cases_documents_context_menu.php'); ?>
 	<?php include('html/templates/interior/cases_events_new_event_modal.php'); ?>
+	<?php include('html/templates/interior/cases_messages_new_message_modal.php'); ?>

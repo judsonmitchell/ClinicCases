@@ -7,12 +7,12 @@
 
 		<div class="form__control search">
 			<input id="caseMessagesSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="messages_search" placeholder=" " value="<?php if (isset($s)) {
-																																																																																echo $s;
-																																																																															} ?>">
+																																																																															echo $s;
+																																																																														} ?>">
 			<label for="caseMessagesSearch-<?php echo $case_id ?>">Search Messages <span><img src="html/ico/search.png" /></span></label>
 		</div>
 		<div class="case_documents_toolbar--right">
-			<button class="button--primary">
+			<button class="button--primary new_message" data-caseid="<?php echo $case_id ?>"  data-casename="<?php echo case_id_to_casename($dbh, $case_id);  ?>">
 				+ <span>&nbsp;New Message</span>
 			</button>
 
@@ -146,7 +146,7 @@
 						<p><?php echo format_name_list($dbh, $to); ?></p>
 
 						<?php if ($ccs) {
-							echo "<p class='ccs'><strong>Cc: </stong></p><p>" . format_name_list($dbh, $ccs) . "</p>";
+							echo "<p class='ccs'><strong>Cc: </strong></p><p>" . format_name_list($dbh, $ccs) . "</p>";
 						} ?>
 
 						<p class="subj"><strong>Subject: </strong></p>

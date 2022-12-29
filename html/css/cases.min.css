@@ -1581,6 +1581,9 @@
   height: 90px;
   overflow: hidden;
   width: 100%;
+}
+
+.msg_bar {
   cursor: pointer;
 }
 
