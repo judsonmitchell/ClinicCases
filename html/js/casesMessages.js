@@ -112,6 +112,10 @@ const fetchReplies = async (messageEl) => {
 // open message
 live('click', 'msg_bar', (e) => {
   const message = getClosest(e.target, '.msg');
+  const starMessage = getClosest(e.target, '.star_msg');
+  if (starMessage) {
+    return;
+  }
   message.classList.toggle('msg_closed');
   fetchReplies(message);
 });
@@ -332,9 +336,8 @@ live('click', 'forward_message_submit', async (e) => {
     const res = await processMessages({
       action: 'forward',
       ...values,
-      forward_tos: forwardTos
+      forward_tos: forwardTos,
     });
-    console.log(res);
     if (res.error) {
       alertify.error(res.message);
     } else {
@@ -346,6 +349,37 @@ live('click', 'forward_message_submit', async (e) => {
     await fetchReplies(messageEl);
     resetForm(form);
     modal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
+
+live('click', 'star_msg', async (e) => {
+  const starEl = getClosest(e.target, '.star_msg');
+  const { id } = starEl.dataset;
+  try {
+    const action = starEl.classList.contains('star_on')
+      ? 'star_off'
+      : 'star_on';
+
+    const res = await processMessages({
+      action,
+      id,
+    });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      starEl.classList.toggle('star_on');
+      starEl.classList.toggle('star_off');
+
+      if (action == 'star_on') {
+        starEl.innerHTML =
+          "<img src='html/ico/starred.png' title = 'Remove star from message'>";
+      } else {
+        starEl.innerHTML =
+          "<img src='html/ico/not_starred.png' title='Star this message'>";
+      }
+    }
   } catch (err) {
     alertify.error(err.message);
   }

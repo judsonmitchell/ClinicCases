@@ -1568,8 +1568,13 @@
   background-color: #a09cb0;
   margin: 0 1rem;
 }
-.msg_bar .msg_bar_right .star_msg img {
+
+.star_msg.star_off img {
   width: 30px;
+}
+.star_msg.star_on img {
+  width: 20px;
+  margin: 0 5px;
 }
 
 .msg {

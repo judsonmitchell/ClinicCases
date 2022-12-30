@@ -120,7 +120,7 @@
 
 			<?php echo extract_date_time($time_sent); ?>
 
-			<span <?php
+			<span data-id="<?php echo $id; ?>" <?php
 
 						if (in_string($username, $starred)) {
 							echo "class = 'star_msg star_on'><img src='html/ico/starred.png' title = 'Remove star from message'>";
