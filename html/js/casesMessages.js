@@ -278,6 +278,78 @@ live('click', 'reply_to_message_submit', async (e) => {
     alertify.error(err.message);
   }
 });
+
+let forwardToSlimSelects = {};
+// open forward modal
+live('click', 'forward_button', async (e) => {
+  const forwardButton = getClosest(e.target, '.forward_button');
+  const modalId = forwardButton.dataset.target;
+  const id = forwardButton.dataset.id;
+  const case_id = forwardButton.dataset.caseid;
+  const forwardFormSlimSelector = `.forward_tos_slim_select-${id}`;
+  forwardToSlimSelects[id] = new SlimSelect({
+    select: forwardFormSlimSelector,
+  });
+  const forwardFormSlimSelectContainer = document.querySelector(
+    forwardFormSlimSelector,
+  );
+  const usersList = await getUserChooserList(case_id);
+  forwardFormSlimSelectContainer.innerHTML = usersList;
+  const modal = getModal(modalId);
+  modal.show();
+});
+
+// submit forward
+live('click', 'forward_message_submit', async (e) => {
+  const forwardMessageButton = getClosest(e.target, '.forward_message_submit');
+  const modalId = forwardMessageButton.dataset.target;
+  const form = document.querySelector(`${modalId} form`);
+  const modal = getModal(modalId);
+  const isValid = checkFormValidity(form);
+  const values = getFormValues(form);
+  const { case_id, id } = values;
+  const forwardTos = forwardToSlimSelects[id].selected();
+  const forwardTosElement = document.querySelector(
+    `.forward_tos_slim_select-${id}`,
+  );
+  if (!forwardTos.length) {
+    forwardTosElement.classList.add('invalid');
+  } else {
+    forwardTosElement.classList.remove('invalid');
+  }
+  if (isValid != true || !forwardTos.length) {
+    form.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}
+      ${!forwardTos.length ? 'Recipients' : ''}
+      `);
+
+    return;
+  }
+
+  form.classList.remove('invalid');
+
+  try {
+    const res = await processMessages({
+      action: 'forward',
+      ...values,
+      forward_tos: forwardTos
+    });
+    console.log(res);
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    const messageEl = document.querySelector(
+      `.msg[data-id="${id}"][data-caseid="${case_id}"]`,
+    );
+    await fetchReplies(messageEl);
+    resetForm(form);
+    modal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
 // //Load new messages on scroll
 // function addMoreMessages(scrollTarget, view, caseId) {
 
