@@ -10,9 +10,12 @@ live('click', 'print-button', async function (event) {
   const filename = container.dataset.filename;
   const copyOfTarget = printTarget.cloneNode(true);
   copyOfTarget.classList.add('pdf');
-  console.log(copyOfTarget)
+  console.log(copyOfTarget);
   printPDF();
   function printPDF() {
-    html2pdf().from(copyOfTarget).save(filename);
+    html2pdf()
+      .set({ html2canvas: { scale: 1, scrollY: 0 }, filename })
+      .from(copyOfTarget)
+      .save();
   }
 });

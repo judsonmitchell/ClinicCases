@@ -1095,7 +1095,6 @@
       font-weight: 700;
       font-size: 18px;
       white-space: nowrap;
-
     }
   }
   .cse_msg_subject {
@@ -1132,11 +1131,11 @@
   margin: 0 -1px;
   border-top: 1px solid $trans-border-gray;
   border-bottom: 1px solid $trans-border-gray;
-}
-.msg_closed {
-  height: 90px;
-  overflow: hidden;
-  width: 100%;
+  &:not(.pdf).msg_closed {
+    height: 90px;
+    overflow: hidden;
+    width: 100%;
+  }
 }
 .msg_bar {
   cursor: pointer;

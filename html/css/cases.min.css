@@ -1642,8 +1642,7 @@
   border-top: 1px solid rgba(160, 156, 176, 0.3);
   border-bottom: 1px solid rgba(160, 156, 176, 0.3);
 }
-
-.msg_closed {
+.msg:not(.pdf).msg_closed {
   height: 90px;
   overflow: hidden;
   width: 100%;

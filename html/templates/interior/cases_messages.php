@@ -198,7 +198,7 @@
 			<button class="button--secondary forward_button" data-target="#forwardMessage-<?php echo $id ?>" data-id="<?php echo $id ?>" data-caseid="<?php echo $case_id ?>">
 				<img src="html/ico/forward.png" alt="Forward Icon"> <span>&nbsp;Forward</span>
 			</button>
-			<button class="button--secondary">
+			<button class="button--secondary print-button" data-print=".msg[data-id='<?php echo $id; ?>']" data-filename="Message from <?php echo username_to_fullname($dbh, $from); ?>">
 				<img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
 			</button>
 
