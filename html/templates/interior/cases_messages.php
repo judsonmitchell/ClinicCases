@@ -4,12 +4,15 @@
 	</div>
 
 	<div class="case_documents_toolbar">
+		<div>
 
-		<div class="form__control search">
-			<input id="caseMessagesSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="messages_search" placeholder=" " value="<?php if (isset($s)) {
-																																																																															echo $s;
-																																																																														} ?>">
-			<label for="caseMessagesSearch-<?php echo $case_id ?>">Search Messages <span><img src="html/ico/search.png" /></span></label>
+			<div class="form__control search">
+				<input id="caseMessagesSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="messages_search" placeholder=" " value="<?php if (isset($s)) {
+																																																																																echo $s;
+																																																																															} ?>">
+				<label for="caseMessagesSearch-<?php echo $case_id ?>">Search Messages <span><img src="html/ico/search.png" /></span></label>
+			</div>
+			<button class="search_clear cases_messages_search_clear" data-caseid="4">×</button>
 		</div>
 		<div class="case_documents_toolbar--right">
 			<button class="button--primary new_message" data-caseid="<?php echo $case_id ?>" data-casename="<?php echo case_id_to_casename($dbh, $case_id);  ?>">
@@ -74,7 +77,7 @@
 							<div class="modal-body">
 								<p>Subject: FWD: <?php echo $subject ?></p>
 								<div class="form__control form__control--select">
-									<select multiple class="forward_tos_slim_select-<?php echo $id?>"  tabindex="2">
+									<select multiple class="forward_tos_slim_select-<?php echo $id ?>" tabindex="2">
 									</select>
 									<label for="forward_tos">To: Choose Recipients</label>
 								</div>
@@ -96,7 +99,7 @@
 				</div>
 			</div>
 	</div>
-	<div class="msg_bar cse_msg_bar">
+	<div class="msg_bar cse_msg_bar msg_bar_desktop">
 
 		<div class="msg_bar_left cse_msg_bar_left">
 
@@ -122,14 +125,39 @@
 
 			<span data-id="<?php echo $id; ?>" <?php
 
-						if (in_string($username, $starred)) {
-							echo "class = 'star_msg star_on'><img src='html/ico/starred.png' title = 'Remove star from message'>";
-						} else {
-							echo "class = 'star_msg star_off'><img src='html/ico/not_starred.png' title='Star this message'>";
-						}
-						?> </span>
+																					if (in_string($username, $starred)) {
+																						echo "class = 'star_msg star_on'><img src='html/ico/starred.png' title = 'Remove star from message'>";
+																					} else {
+																						echo "class = 'star_msg star_off'><img src='html/ico/not_starred.png' title='Star this message'>";
+																					}
+																					?> </span>
 
 		</div>
+
+	</div>
+	<div class="msg_bar msg_bar_mobile cse_msg_bar">
+		<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $from); ?>">
+		<p class="username">
+			<?php echo username_to_fullname($dbh, $from) . "     "; ?>
+		</p>
+		<?php echo extract_date_time($time_sent); ?>
+		<span class="cse_msg_subject">
+
+			<?php echo htmlspecialchars($subject, ENT_QUOTES, 'UTF-8'); ?>
+
+			<span data-id="<?php echo $id; ?>" <?php
+
+
+																					if (in_string($username, $starred)) {
+																						echo "class = 'star_msg star_on'><img src='html/ico/starred.png' title = 'Remove star from message'>";
+																					} else {
+																						echo "class = 'star_msg star_off'><img src='html/ico/not_starred.png' title='Star this message'>";
+																					}
+																					?> </span>
+			</span>
+
+
+
 
 	</div>
 

@@ -732,6 +732,9 @@ textarea:focus {
   right: 7px;
   z-index: 9;
 }
+.form__control.form__control--select:has(.ss-main)::after {
+  bottom: 14px;
+}
 
 .form__control--checkbox {
   margin: 2rem;

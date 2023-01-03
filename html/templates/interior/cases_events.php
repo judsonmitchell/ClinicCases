@@ -14,7 +14,7 @@
 			<label id="caseEventsSearchLabel-<?php echo $this_case_id ?>" for="caseEventsSearch-<?php echo $this_case_id ?>">Search Case Events</label>
 
 		</div>
-		<button class="case_events_search_clear" data-caseid="<?php echo $this_case_id ?>">&times;</button>
+		<button class="case_events_search_clear search_clear" data-caseid="<?php echo $this_case_id ?>">&times;</button>
 	</div>
 
 

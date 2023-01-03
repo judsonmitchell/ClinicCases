@@ -183,6 +183,16 @@
 @media screen and (max-width: 992px) {
   .modal-content {
     padding: 1rem;
+    height: 100vh;
+  }
+  .modal-dialog {
+    margin: 0;
+  }
+  .modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 .modal-header {
@@ -805,6 +815,10 @@
   border: 1px solid red;
 }
 
+.ss-add {
+  display: none !important;
+}
+
 .case-tabs {
   border-left: 1px solid rgba(160, 156, 176, 0.3);
 }
@@ -1075,8 +1089,14 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  border: 1px solid rgba(160, 156, 176, 0.3);
+  border-left: 1px solid rgba(160, 156, 176, 0.3);
+  border-right: 1px solid rgba(160, 156, 176, 0.3);
   padding: 2rem 1rem;
+}
+.case_documents_toolbar > div {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 .case_documents_toolbar .form__control {
   margin-top: 0;
@@ -1099,7 +1119,6 @@
     flex-wrap: wrap;
   }
   .case_documents_toolbar .form__control {
-    margin: 1rem 0;
     width: 100%;
   }
 }
@@ -1405,7 +1424,7 @@
 }
 
 /* Events */
-.case_toolbar .case_events_search_clear {
+.search_clear {
   align-self: end;
   font-size: 20px;
   margin: 0 0 0.5rem 0;
@@ -1420,6 +1439,11 @@
   padding: 4rem;
 }
 
+@media screen and (max-width: 992px) {
+  .case_detail_panel_caseevents {
+    grid-template-columns: 1fr;
+  }
+}
 .case-event {
   padding: 2rem;
   border-radius: 8px;
@@ -1569,6 +1593,42 @@
   margin: 0 1rem;
 }
 
+.msg_bar_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .msg_bar {
+    display: grid;
+    grid-template-columns: 68px 1fr 1fr;
+    text-align: left;
+  }
+  .msg_bar .thumbnail-mask {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    margin: 0 auto;
+  }
+  .msg_bar .username {
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+  .cse_msg_subject {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg_bar_mobile {
+    display: grid;
+  }
+  .msg_bar_desktop {
+    display: none;
+  }
+}
 .star_msg.star_off img {
   width: 30px;
 }

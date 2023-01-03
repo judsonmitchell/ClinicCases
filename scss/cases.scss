@@ -257,6 +257,7 @@
       height: 4rem;
     }
   }
+
   .new_event_slim_select {
     height: 4rem;
   }
@@ -272,7 +273,9 @@
     }
   }
 }
-
+.ss-add {
+  display: none !important;
+}
 .case-tabs {
   border-left: 1px solid $trans-border-gray;
   .nav-tabs {
@@ -546,9 +549,15 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  border: 1px solid $trans-border-gray;
+  border-left: 1px solid $trans-border-gray;
+  border-right: 1px solid $trans-border-gray;
   padding: 2rem 1rem;
 
+  > div {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
   .form__control {
     margin-top: 0;
     &.search {
@@ -569,7 +578,7 @@
   @media screen and (max-width: $med) {
     flex-wrap: wrap;
     .form__control {
-      margin: 1rem 0;
+      // margin: 1rem 0;
       width: 100%;
     }
   }
@@ -900,13 +909,12 @@
 }
 
 /* Events */
-.case_toolbar {
-  .case_events_search_clear {
-    align-self: end;
-    font-size: 20px;
-    margin: 0 0 0.5rem 0;
-    padding: 0;
-  }
+
+.search_clear {
+  align-self: end;
+  font-size: 20px;
+  margin: 0 0 0.5rem 0;
+  padding: 0;
 }
 
 .case_detail_panel_caseevents {
@@ -915,6 +923,12 @@
   grid-gap: 4rem;
   width: 100%;
   padding: 4rem;
+}
+
+@media screen and (max-width: $med) {
+  .case_detail_panel_caseevents {
+    grid-template-columns: 1fr;
+  }
 }
 .case-event {
   padding: 2rem;
@@ -1062,6 +1076,43 @@
       background-color: $border-gray;
       margin: 0 1rem;
     }
+  }
+}
+.msg_bar_mobile {
+  display: none;
+}
+@media screen and (max-width: $med) {
+  .msg_bar {
+    display: grid;
+    grid-template-columns: 68px 1fr 1fr;
+    text-align: left;
+    .thumbnail-mask {
+      grid-row-start: 1;
+      grid-row-end: 3;
+      margin: 0 auto;
+    }
+    .username {
+      font-weight: 700;
+      font-size: 18px;
+      white-space: nowrap;
+
+    }
+  }
+  .cse_msg_subject {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .msg_bar_mobile {
+    display: grid;
+  }
+  .msg_bar_desktop {
+    display: none;
   }
 }
 .star_msg {

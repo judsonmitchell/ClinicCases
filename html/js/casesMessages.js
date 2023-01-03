@@ -138,6 +138,13 @@ live('change', 'messages_search', async (e) => {
   messagesContainer.innerHTML = searchResults;
 });
 
+// clear search
+live('click', 'cases_messages_search_clear', async (e) => {
+  const button = getClosest(e.target, '.cases_messages_search_clear');
+  const { caseid: case_id } = button.dataset;
+  await reloadCaseMessages(case_id, '');
+});
+
 // add new message
 live('click', 'new_message', async (e) => {
   const case_id = getClosest(e.target, '.new_message')?.dataset.caseid;

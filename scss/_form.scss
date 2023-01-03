@@ -82,6 +82,11 @@ textarea {
       right: 7px;
       z-index: 9;
     }
+    &:has(.ss-main) {
+      &::after {
+        bottom: 14px;
+      }
+    }
   }
 }
 .form__control--checkbox {
