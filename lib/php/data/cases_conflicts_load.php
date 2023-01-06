@@ -5,7 +5,7 @@ require('../auth/session_check.php');
 require('../../../db.php');
 require('../utilities/names.php');
 require('../utilities/convert_times.php');
-
+$_POST = json_decode(file_get_contents("php://input"), true);
 //function to sort the activities array by subkey - date
 
 function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC) {

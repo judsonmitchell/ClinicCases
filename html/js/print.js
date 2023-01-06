@@ -10,7 +10,6 @@ live('click', 'print-button', async function (event) {
   const filename = container.dataset.filename;
   const copyOfTarget = printTarget.cloneNode(true);
   copyOfTarget.classList.add('pdf');
-  console.log(copyOfTarget);
   printPDF();
   function printPDF() {
     html2pdf()

@@ -8,6 +8,7 @@ import {
   getDocuments,
   getCaseEventData,
   getCaseMessagesData,
+  getCaseConflictsData,
 } from '../../lib/javascripts/axios.js';
 import { getCookie } from '../../lib/javascripts/cookies.js';
 
@@ -186,6 +187,9 @@ async function openCase(id, name) {
       });
       const messagesContainer = document.querySelector(`#nav-${id}-messages`);
       messagesContainer.innerHTML = caseMessages;
+      const conflicts = await getCaseConflictsData(id);
+      const conflictsContainer = document.querySelector(`#nav-${id}-conflicts`);
+      conflictsContainer.innerHTML = conflicts;
       setUpCasePrintFunctionality(id, name);
       setUpOpenEditCaseViewFunctionality(id);
       setUpCancelEditFunctionality(id);

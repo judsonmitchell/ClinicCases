@@ -1694,4 +1694,20 @@
 .msg_reply p {
   padding-left: 5rem;
   padding-top: 2rem;
+}
+
+/* Conflicts */
+.case_detail_panel_conflicts {
+  display: block;
+  padding: 0 2rem;
+  text-align: left;
+}
+.case_detail_panel_conflicts h1 {
+  font-weight: 600;
+}
+.case_detail_panel_conflicts p {
+  margin: 1rem 0;
+}
+.case_detail_panel_conflicts p a {
+  text-decoration: underline;
 }/*# sourceMappingURL=cases.min.css.map */

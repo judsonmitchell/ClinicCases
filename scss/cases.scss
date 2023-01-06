@@ -1183,3 +1183,20 @@
     padding-top: 2rem;
   }
 }
+
+/* Conflicts */
+
+.case_detail_panel_conflicts {
+  display: block;
+  padding: 0 2rem;
+  text-align: left;
+  h1 {
+    font-weight: 600;
+  }
+  p {
+    margin: 1rem 0;
+    a {
+      text-decoration: underline;
+    }
+  }
+}
