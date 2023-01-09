@@ -1274,7 +1274,7 @@ div.text_editor_status span.status {
 ul.docMenu_copy_paste {
   display: none;
 } */
-
+/* 
 div.contact_bar {
   height: 45px;
 }
@@ -1356,7 +1356,7 @@ input.contacts_search_clear {
   position: relative;
   left: -30px;
   display: none;
-}
+} */
 
 div.event_group img {
   margin-right: 5px;

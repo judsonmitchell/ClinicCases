@@ -1710,4 +1710,76 @@
 }
 .case_detail_panel_conflicts p a {
   text-decoration: underline;
+}
+
+/* Contacts */
+.case_detail_panel_contacts {
+  padding: 0rem 4rem;
+}
+.case_detail_panel_contacts .contact {
+  border-top: 2px solid rgba(160, 156, 176, 0.3);
+  border-bottom: 2px solid rgba(160, 156, 176, 0.3);
+  text-align: left;
+  margin: 2rem 0;
+  padding: 2rem;
+}
+.case_detail_panel_contacts .contact .contact_bar {
+  display: flex;
+  border-bottom: 1px solid #a09cb0;
+  padding: 1rem 0;
+  justify-content: space-between;
+}
+.case_detail_panel_contacts .contact h4 {
+  font-family: "Montserrat";
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.csecontact_bar_left {
+  display: flex;
+  align-items: center;
+}
+
+.csecontact_bar_right {
+  display: flex;
+}
+.csecontact_bar_right a {
+  color: #a09cb0;
+  margin: 0rem 1rem;
+}
+
+.cnt_type {
+  margin: 0 1rem;
+  padding: 0 1rem;
+  background: #c3dbea;
+  color: #2b50aa;
+  border-radius: 4px;
+  font-style: normal;
+  font-size: 12px;
+  font-family: "Montserrat";
+  font-weight: 500;
+}
+
+.contact_body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem 0;
+}
+.contact_body label {
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-weight: 700;
+  display: block;
+}
+.contact_body .contact_phone_value,
+.contact_body .cnt_organization,
+.contact_body .contact_email_value,
+.contact_body .cnt_city,
+.contact_body .cnt_state,
+.contact_body .cnt_zip,
+.contact_body .cnt_url,
+.contact_body .cnt_notes,
+.contact_body .cnt_address {
+  font-size: 20px;
+  font-weight: 400;
 }/*# sourceMappingURL=cases.min.css.map */

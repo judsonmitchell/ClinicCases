@@ -1200,3 +1200,71 @@
     }
   }
 }
+
+/* Contacts */
+.case_detail_panel_contacts {
+  padding: 0rem 4rem;
+  .contact {
+    border-top: 2px solid $trans-border-gray;
+    border-bottom: 2px solid $trans-border-gray;
+    text-align: left;
+    margin: 2rem 0;
+    padding: 2rem;
+    .contact_bar {
+      display: flex;
+      border-bottom: 1px solid $border-gray;
+      padding: 1rem 0;
+      justify-content: space-between;
+    }
+    h4 {
+      font-family: 'Montserrat';
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}
+.csecontact_bar_left {
+  display: flex;
+  align-items: center;
+}
+.csecontact_bar_right {
+  display: flex;
+  a {
+    color: $border-gray;
+    margin: 0rem 1rem;
+  }
+}
+.cnt_type {
+  margin: 0 1rem;
+  padding: 0 1rem;
+  background: $light-blue;
+  color: $dark-blue;
+  border-radius: 4px;
+  font-style: normal;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+}
+.contact_body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem 0;
+  label {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+  }
+  .contact_phone_value,
+  .cnt_organization,
+  .contact_email_value,
+  .cnt_city,
+  .cnt_state,
+  .cnt_zip,
+  .cnt_url,
+  .cnt_notes,
+  .cnt_address {
+    font-size: 20px;
+    font-weight: 400;
+  }
+}
