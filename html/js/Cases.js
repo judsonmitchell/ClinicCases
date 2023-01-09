@@ -191,8 +191,7 @@ async function openCase(id, name) {
       const conflicts = await getCaseConflictsData(id);
       const conflictsContainer = document.querySelector(`#nav-${id}-conflicts`);
       conflictsContainer.innerHTML = conflicts;
-      const contacts = await getCaseContactsData(id);
-      console.log({ contacts });
+      const contacts = await getCaseContactsData({ case_id: id });
       const contactsContainer = document.querySelector(`#nav-${id}-contacts`);
       contactsContainer.innerHTML = contacts;
       setUpCasePrintFunctionality(id, name);

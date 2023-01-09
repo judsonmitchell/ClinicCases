@@ -1,32 +1,36 @@
 <div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
 
 </div>
+<?php if ($update == false) {
+?>
+    <div class="case_documents_toolbar">
+        <div>
 
-<div class="case_documents_toolbar">
-    <div>
+            <div class="form__control search">
+                <input id="caseContactsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="contacts_search" placeholder=" " value="<?php if (isset($s)) {
+                                                                                                                                                                            echo $s;
+                                                                                                                                                                        } ?>">
+                <label for="caseContactsSearch-<?php echo $case_id ?>">Search Contacts <span><img src="html/ico/search.png" /></span></label>
+            </div>
 
-        <div class="form__control search">
-            <input id="caseContactsSearch-<?php echo $case_id ?>" data-caseid="<?php echo $case_id ?>" type="text" class="contacts_search" placeholder=" " value="<?php if (isset($s)) {
-                                                                                                                                                                        echo $s;
-                                                                                                                                                                    } ?>">
-            <label for="caseContactsSearch-<?php echo $case_id ?>">Search Contacts <span><img src="html/ico/search.png" /></span></label>
+            <button class="search_clear cases_contacts_search_clear" data-caseid="4">×</button>
+
         </div>
 
-        <button class="search_clear cases_contacts_search_clear" data-caseid="4">×</button>
-
+        <div class="case_documents_toolbar--right">
+            <button class="button--secondary print-button">
+                <img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
+            </button>
+            <button class="button--primary new_contact">
+                + <span>&nbsp;New Contact</span>
+            </button>
+        </div>
     </div>
+    <div class="case_detail_panel_contacts">
+    <?php
+}
+    ?>
 
-    <div class="case_documents_toolbar--right">
-        <button class="button--secondary print-button">
-            <img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
-        </button>
-        <button class="button--primary new_contact">
-            + <span>&nbsp;New Contact</span>
-        </button>
-    </div>
-</div>
-
-<div class="case_detail_panel_contacts">
 
 
 
@@ -122,5 +126,9 @@
         }
     }
     ?>
-
-</div>
+    <?php if ($update == false) {
+    ?>
+    </div>
+<?php
+    }
+?>

@@ -14,3 +14,7 @@ export const live = (eventType, className, cb) => {
     }
   });
 };
+
+export const getClosest = (el, cl) => {
+  return el.classList.contains(cl) ? el : el.closest(cl);
+};

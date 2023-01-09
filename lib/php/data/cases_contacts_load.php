@@ -12,6 +12,7 @@ try {
     require_once('../utilities/states.php');
     require_once('../../php/html/gen_select.php');
     $_POST = json_decode(file_get_contents("php://input"), true);
+    $_REQUEST = json_decode(file_get_contents("php://input"), true);
 
     function array_unique_deep($array)
     {
@@ -33,10 +34,15 @@ try {
         $case_id = $_POST['case_id'];
     }
 
-    if (isset($_REQUEST['q'])) {
-        $q = $_REQUEST['q'];
+    if (isset($_POST['q'])) {
+        $q = $_POST['q'];
     } else {
         $q = null;
+    }
+    if (isset($_POST['update'])) {
+        $update = true;
+    } else {
+        $update = false;
     }
 
     if (isset($q)) {
