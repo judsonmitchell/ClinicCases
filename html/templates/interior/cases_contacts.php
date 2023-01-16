@@ -1,8 +1,6 @@
-<div class="user_display ui-widget ui-corner-bottom user_widget" tabindex="1">
-
-</div>
 <?php if ($update == false) {
 ?>
+
     <div class="case_documents_toolbar">
         <div>
 
@@ -21,12 +19,14 @@
             <button class="button--secondary print-button">
                 <img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
             </button>
-            <button class="button--primary new_contact">
+            <button class="button--primary new_contact" data-caseid="<?php echo $case_id ?>">
                 + <span>&nbsp;New Contact</span>
             </button>
         </div>
     </div>
+
     <div class="case_detail_panel_contacts">
+
     <?php
 }
     ?>

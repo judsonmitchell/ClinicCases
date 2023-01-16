@@ -1,3 +1,6 @@
+<?php
+require("lib/php/html/gen_select.php");
+?>
 <div class="modal fade" role="dialog" id="newContactModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newContactLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <form>
@@ -20,7 +23,7 @@
           </div>
 
           <div class="form__control form__control--select">
-            <select tabindex="2">
+            <select id="contact_type" tabindex="2">
             </select>
             <label for="contact_type">Contact Type</label>
           </div>
@@ -34,8 +37,7 @@
           </div>
           <div class="form-control__two">
             <div class="form__control form__control--select">
-              <select placeholder=" " id="state" name="state" tabindex="2">
-              </select>
+              <?php echo genStateSelect('', 'state')  ?>
               <label for="state">State</label>
             </div>
             <div class="form__control">
@@ -52,8 +54,11 @@
               <div class="form__control form__control--select">
                 <select data-dual="true" name="phone-select1" id="phone-select1">
                   <option value="" disabled selected>Select one...</option>
-
-
+                  <option value="home">Home</option>
+                  <option value="work">Work</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="fax">Fax</option>
+                  <option value="other">Other</option>
                 </select>
                 <label id="phone-Select1Label" for="phone-select1">Phone</label>
               </div>
