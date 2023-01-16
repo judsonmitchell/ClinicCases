@@ -6,7 +6,6 @@
 <!-- <script src="html/js/live.js" type="module"></script> -->
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
-<script type="module" src="html/js/Forms.js "></script>
 <script src="html/js/cases.js" type="module"></script>
 <script src="html/js/casesCaseNotes.js" type="module"></script>
 <script src="html/js/casesDocuments.js" type="module"></script>
@@ -95,3 +94,4 @@
 	<?php include('html/templates/interior/cases_documents_context_menu.php'); ?>
 	<?php include('html/templates/interior/cases_events_new_event_modal.php'); ?>
 	<?php include('html/templates/interior/cases_messages_new_message_modal.php'); ?>
+	<?php include('html/templates/interior/cases_contacts_new_contact_modal.php'); ?>

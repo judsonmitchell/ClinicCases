@@ -31,9 +31,6 @@
 }
     ?>
 
-
-
-
     <?php
     foreach ($contacts as $contact) {
         echo "

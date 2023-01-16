@@ -1,5 +1,6 @@
 import { getCaseContactsData } from '../../lib/javascripts/axios.js';
 import { getClosest, live } from './live.js';
+import { getModal } from '../../lib/javascripts/modal.js';
 const reloadCaseContacts = async (case_id, searchValue) => {
   const contactsContainer = document.querySelector(
     `#nav-${case_id}-contacts .case_detail_panel_contacts`,
@@ -28,6 +29,12 @@ live('click', 'cases_contacts_search_clear', async (e) => {
   searchInput.value = '';
   await reloadCaseContacts(case_id);
 });
+
+// open add a case modal
+live('click', 'new_contact', ()=> {
+  const modal = getModal('#newContactModal');
+  modal.show();
+})
 //  //
 // // Scripts for contacts panel on cases tab
 // //

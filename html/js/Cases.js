@@ -199,7 +199,7 @@ async function openCase(id, name) {
       setUpCancelEditFunctionality(id);
       setUpSaveCaseFunctionality(id);
       setLetMeEditThisFunctionality(id);
-      setUpAddItemsButtonFunctionality(id);
+      // setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
     } catch (error) {
       console.log(error);

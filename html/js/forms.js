@@ -1,8 +1,5 @@
-/**
- * This file contains utility functions for forms.
- */
+import { getClosest, live } from '../../html/js/live.js';
 
-// Returns a json object of form values
 const getFormValues = (form) => {
   const elements = [...form.elements];
   const values = elements.reduce((obj, current) => {
@@ -78,14 +75,20 @@ const setFormValues = (form, values) => {
       if (el.type === 'checkbox') {
         el.checked = values[key];
         console.log(el);
-        console.log(el.checked)
-        console.log(values[key], key)
+        console.log(el.checked);
+        console.log(values[key], key);
       } else {
         el.value = values[key];
       }
     }
   });
 };
+
+live('click', 'add-item-button', (e) => {
+  const button = getClosest(e.target, '.add-item-button');
+  console.log(button);
+  addNewItem(button);
+});
 
 export {
   setFormValues,
