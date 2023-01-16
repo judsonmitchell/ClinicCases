@@ -52,18 +52,22 @@ const addNewItem = (button) => {
 };
 
 const getDualInputValues = (dualInputs) => {
-  return dualInputs.reduce((values, el) => {
+  const val = dualInputs.reduce((values, el) => {
     const select = el.querySelector('select');
     const input = el.querySelector('input');
     const name = input.name;
-    if (values[name]) {
-      values[name] = JSON.parse(values[name]);
-      values[name][input.value] = select.value;
-    } else {
-      values[name] = { [input.value]: select.value };
+    if (input.value) {
+      if (values[name]) {
+        values[name] = JSON.parse(values[name]);
+        values[name][input.value] = select.value;
+      } else {
+        values[name] = { [input.value]: select.value };
+      }
+      values[name] = JSON.stringify(values[name]);
     }
-    values[name] = JSON.stringify(values[name]);
+    return values;
   }, {});
+  return val || undefined;
 };
 
 const setFormValues = (form, values) => {

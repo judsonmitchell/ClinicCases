@@ -10,16 +10,16 @@ require("lib/php/html/gen_select.php");
         </div>
         <div class="modal-body">
           <div class="form__control">
-            <input id="first_name" required type="text" name="first_name" placeholder=" ">
+            <input id="first_name" type="text" name="first_name" placeholder=" ">
             <label for="first_name">First Name</label>
           </div>
           <div class="form__control">
-            <input id="where" required type="text" name="where" placeholder=" ">
-            <label for="where">Last Name</label>
+            <input id="last_name" type="text" name="last_name" placeholder=" ">
+            <label for="last_name">Last Name</label>
           </div>
           <div class="form__control">
-            <input id="organization" required type="text" name="organization" placeholder=" ">
-            <label for="where">Organization</label>
+            <input id="organization" type="text" name="organization" placeholder=" ">
+            <label for="organization">Organization</label>
           </div>
 
           <div class="form__control form__control--select">
@@ -28,11 +28,11 @@ require("lib/php/html/gen_select.php");
             <label for="contact_type">Contact Type</label>
           </div>
           <div class="form__control">
-            <textarea id="address" required name="address" placeholder=" "></textarea>
+            <textarea id="address" name="address" placeholder=" "></textarea>
             <label for="address">Address</label>
           </div>
           <div class="form__control">
-            <input id="city" required type="text" name="city" placeholder=" ">
+            <input id="city" type="text" name="city" placeholder=" ">
             <label for="where">City</label>
           </div>
           <div class="form-control__two">
@@ -41,7 +41,7 @@ require("lib/php/html/gen_select.php");
               <label for="state">State</label>
             </div>
             <div class="form__control">
-              <input id="zip" required type="text" name="zip" placeholder=" ">
+              <input id="zip" type="text" name="zip" placeholder=" ">
               <label for="zip">Zip</label>
             </div>
           </div>
@@ -63,7 +63,7 @@ require("lib/php/html/gen_select.php");
                 <label id="phone-Select1Label" for="phone-select1">Phone</label>
               </div>
               <div class="form__control">
-                <input placeholder=" " id="phone1" type="text" name="phone1" data-dual="true">
+                <input placeholder=" " id="phone1" type="text" name="phone" data-dual="true">
                 <label id="phoneLabel" for="phone1"> </label>
               </div>
             </div>
@@ -73,16 +73,17 @@ require("lib/php/html/gen_select.php");
 
           </div>
           <div class="form__control">
-            <input id="url" required type="text" name="url" placeholder=" ">
+            <input id="url" type="text" name="url" placeholder=" ">
             <label for="url">Website</label>
           </div>
 
 
 
           <div class="form__control">
-            <textarea id="notes" required name="notes" placeholder=" "></textarea>
+            <textarea id="notes" name="notes" placeholder=" "></textarea>
             <label for="notes">Notes</label>
           </div>
+          <input hidden id="case_id" name="case_id" />
     </form>
     <div class="modal-footer">
       <button id="newCaseContactCancel" class="case_contact_add_cancel">Cancel</button>

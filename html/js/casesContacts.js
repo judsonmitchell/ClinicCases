@@ -1,9 +1,21 @@
 import {
   getCaseContactsData,
   getContactTypeOptions,
+  processContacts,
 } from '../../lib/javascripts/axios.js';
 import { getClosest, live } from './live.js';
 import { getModal } from '../../lib/javascripts/modal.js';
+import {
+  getDualInputValues,
+  getFormValues,
+  resetForm,
+  setFormValues,
+} from './forms.js';
+
+const newMessageModal = getModal('#newContactModal');
+const newContactForm = document.querySelector('#newContactModal form');
+const caseContactCancelButton = document.querySelector('#newCaseContactCancel');
+
 const reloadCaseContacts = async (case_id, searchValue) => {
   const contactsContainer = document.querySelector(
     `#nav-${case_id}-contacts .case_detail_panel_contacts`,
@@ -37,13 +49,70 @@ live('click', 'cases_contacts_search_clear', async (e) => {
 live('click', 'new_contact', async (e) => {
   const button = getClosest(e.target, '.new_contact');
   const case_id = button.dataset.caseid;
-  const modal = getModal('#newContactModal');
+  setFormValues(newContactForm, { case_id });
   const contactTypeSelect = document.querySelector(
     '#newContactModal #contact_type',
   );
+  // Nina todo - generate select values
   const contactTypeOptions = await getContactTypeOptions(case_id);
-  console.log(contactTypeOptions);
-  modal.show();
+  newMessageModal.show();
+});
+
+// Cancel add contact
+caseContactCancelButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  const values = getFormValues(newContactForm);
+  const hasValue = Object.keys(values)
+    .filter((k) => k != 'case_id' && k != 'state')
+    .map((key) => (values[key] ? values[key] : ''))
+    .join('');
+  if (!Boolean(hasValue)) {
+    resetForm(newContactForm);
+    newMessageModal.hide();
+    return;
+  }
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose all of your data.',
+    () => {
+      resetForm(newMessageForm);
+      newMessageModal.hide();
+    },
+    null,
+  );
+});
+
+// submit add new contact form
+live('click', 'new_contact_submit', async (e) => {
+  let values = getFormValues(newContactForm);
+  const { first_name, last_name, organization } = values;
+  if (!first_name && !last_name && !organization) {
+    alertify.error('Please provide a value for name or organization.');
+    return;
+  }
+  const phoneInputs = newContactForm.querySelectorAll('.form-control__dual');
+  const phoneValues = getDualInputValues([...phoneInputs]);
+  delete values.phone;
+
+  const { case_id } = values;
+  try {
+    const res = await processContacts({
+      action: 'add',
+      ...values,
+      ...(phoneValues ? phoneValues : []),
+    });
+    console.log(res);
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    await reloadCaseContacts(case_id, '');
+    resetForm(newContactForm);
+    newMessageModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
 //  //
 // // Scripts for contacts panel on cases tab
