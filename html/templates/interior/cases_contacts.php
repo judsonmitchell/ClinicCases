@@ -16,7 +16,7 @@
         </div>
 
         <div class="case_documents_toolbar--right">
-            <button class="button--secondary print-button">
+            <button class="button--secondary print-button" data-print=".case_detail_panel_contacts[data-caseid='<?php echo $case_id; ?>']" data-filename="Contacts for <?php echo case_id_to_casename($dbh, $case_id); ?>">
                 <img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
             </button>
             <button class="button--primary new_contact" data-caseid="<?php echo $case_id ?>">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="case_detail_panel_contacts">
+    <div class="case_detail_panel_contacts" data-caseid="<?php echo $case_id ?>">
 
     <?php
 }

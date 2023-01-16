@@ -1749,6 +1749,10 @@
   cursor: pointer;
 }
 
+.pdf .csecontact_bar_right {
+  display: none;
+}
+
 .cnt_type {
   margin: 0 1rem;
   padding: 0 1rem;

@@ -11,6 +11,7 @@ try {
     require_once('../auth/session_check.php');
     require_once('../utilities/states.php');
     require_once('../../php/html/gen_select.php');
+    require_once('../utilities/names.php');
     $_POST = json_decode(file_get_contents("php://input"), true);
     $_REQUEST = json_decode(file_get_contents("php://input"), true);
 

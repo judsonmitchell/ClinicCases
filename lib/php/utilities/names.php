@@ -1,9 +1,6 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 
-try {
+
 	//This file includes all functions which deal with formatting names
 	function username_to_lastname($dbh, $name)
 
@@ -136,7 +133,4 @@ try {
 
 		return $vals;
 	}
-} catch (Exception $e) {
-	var_dump($e);
-	echo $e->getMessage();
-}
+
