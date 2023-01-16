@@ -49,11 +49,11 @@
                     <div class = 'csecontact_bar_right'>";
 
         if ($_SESSION['permissions']['edit_contacts'] == '1') {
-            echo "<a href='#' class='contact_edit'>Edit</a> ";
+            echo "<a class='contact_edit'>Edit</a> ";
         }
 
         if ($_SESSION['permissions']['delete_contacts'] == '1') {
-            echo "<a href='#' class='contact_delete'>Delete</a>";
+            echo "<a data-id='" . $contact['id'] . "' data-caseid='" . $case_id . "' class='contact_delete'>Delete</a>";
         }
 
         echo "

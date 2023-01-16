@@ -114,6 +114,31 @@ live('click', 'new_contact_submit', async (e) => {
     alertify.error(err.message);
   }
 });
+
+// delete case event
+live('click', 'contact_delete', async function (event) {
+  event.preventDefault();
+  const contact_id = event.target.dataset.id;
+  const case_id = event.target.dataset.caseid;
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to delete this contact?',
+    async () => {
+      try {
+        const res = await processContacts({ action: 'delete', id: contact_id });
+        if (res.error) {
+          alertify.error(res.message);
+        } else {
+          alertify.success(res.message);
+        }
+        await reloadCaseContacts(case_id);
+      } catch (err) {
+        alertify.error(err.message);
+      }
+    },
+    null,
+  );
+});
 //  //
 // // Scripts for contacts panel on cases tab
 // //

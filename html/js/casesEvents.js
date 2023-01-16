@@ -211,7 +211,7 @@ live('click', 'edit_event_submit', async (e) => {
   }
 });
 
-// delete case note
+// delete case event
 live('click', 'event_delete', async function (event) {
   event.preventDefault();
   const event_id = event.target.dataset.id;

@@ -1746,6 +1746,7 @@
 .csecontact_bar_right a {
   color: #a09cb0;
   margin: 0rem 1rem;
+  cursor: pointer;
 }
 
 .cnt_type {
