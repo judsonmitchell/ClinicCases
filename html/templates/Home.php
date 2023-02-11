@@ -1,47 +1,44 @@
 <!-- Jquery Calls Specific to this page -->
-	<script src="html/js/home.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="lib/javascripts/fullcalendar/fullcalendar.min.js"></script>
-	<script type="text/javascript" src="lib/javascripts/jQuery.download.js"></script>
-	<script type="text/javascript" src="lib/javascripts/timepicker/jquery-ui-timepicker-addon.js"></script>
-	<script type="text/javascript" src="lib/javascripts/chosen/chosen.jquery.min.js"></script>
+<script src="lib/axios/axios.bundle.min.js"></script>
+<script src="html/js/Home.js" type="module" ></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 
 <!-- Css specific to this page -->
-	<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
-	<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet"/>
-
+<link rel="stylesheet" type="text/css" href="lib/javascripts/fullcalendar/fullcalendar.css" />
+<link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="html/css/home.min.css" />
 </head>
+
 <body>
-    <div id="pdf-viewer">
-        <iframe src = ""  id="frme" allowfullscreen="true"></iframe>
-    </div>
+	<div id="pdf-viewer">
+		<iframe src="" id="frme" allowfullscreen="true"></iframe>
+	</div>
 
 	<div id="notifications"></div>
 
-	<?php include 'html/templates/interior/timer.php' ?>
 	<?php include 'html/templates/interior/idletimeout.php' ?>
 
 	<div class="header">
-		<?php $t = tabs($dbh,$_GET['i']); echo $t; ?>
-		<!-- <div id="menus">
-			<?php include 'html/templates/Menus.php'; ?>
+		<?php $t = tabs($dbh, $_GET['i']);
+		echo $t; ?>
+		<?php include 'html/templates/Menus.php'; ?>
 
-		</div> -->
 	</div>
 
-	<div id="content">
+	<!-- <div id="content">
 
-		<div id = "home_nav" data-key = "<?php echo $_SESSION['private_key'];?>">
+		<div id="home_nav" data-key="<?php echo $_SESSION['private_key']; ?>">
 
-			<div id = "home_data">
+			<div id="home_data">
 
 				<div><?php echo $_SESSION['first_name'] . ' ' . $_SESSION['last_name']; ?></div>
 
 				<?php
-					include 'lib/php/auth/last_login.php';
+				include 'lib/php/auth/last_login.php';
 
-					include 'lib/php/utilities/convert_times.php';
+				include 'lib/php/utilities/convert_times.php';
 
-					$last_log = extract_date_time(get_last_login($dbh,$_SESSION['login']));
+				$last_log = extract_date_time(get_last_login($dbh, $_SESSION['login']));
 
 				?>
 
@@ -49,7 +46,7 @@
 
 			</div>
 
-			<span class = "home_nav_choices">
+			<span class="home_nav_choices">
 
 				<input type="radio" id="activity_button" name="radio" checked="checked" /><label for="activity_button">Activity</label>
 
@@ -61,12 +58,12 @@
 
 		</div>
 
-		<div id = "home_panel" class="print_content">Loading .... </div>
+		<div id="home_panel" class="print_content">Loading .... </div>
 
 
 	</div>
 
-	<div id = "quick_add_form">
+	<div id="quick_add_form">
 
 		<div id="quick_add_nav">
 
@@ -80,127 +77,127 @@
 
 		<div id="quick_add_body">
 
-				<div id = "quick_add_body_cn" class="toggle_form">
+			<div id="quick_add_body_cn" class="toggle_form">
 
-					<form name="quick_cn">
+				<form name="quick_cn">
 
-						<p class="error"></p>
+					<p class="error"></p>
 
-						<p><label>Date</label><input type="text" name="csenote_date" id="cn_date"></p>
+					<p><label>Date</label><input type="text" name="csenote_date" id="cn_date"></p>
 
-						<p><label>Case</label>
+					<p><label>Case</label>
 
-							<select name="csenote_case_id" id="cn_case" style="width:230px;" >
-							<!-- Note Chosen seems to require the inline style width -->
-								<option value="NC">Non-Case Time</option>
+						<select name="csenote_case_id" id="cn_case" style="width:230px;">
+							<option value="NC">Non-Case Time</option>
 
-								<?php
-								include('lib/php/utilities/names.php');
+							<?php
+							include('lib/php/utilities/names.php');
 
-								include('lib/php/html/gen_select.php');
+							include('lib/php/html/gen_select.php');
 
-								$options = generate_active_cases_select($dbh,$_SESSION['login']);
+							$options = generate_active_cases_select($dbh, $_SESSION['login']);
 
-								echo $options;
+							echo $options;
 
 							?>
 
 
-							</select>
+						</select>
 
-						</p>
+					</p>
 
-						<p class="quick_add_times">
+					<p class="quick_add_times">
 
-							<?php $selector = generate_time_selector(); echo $selector; ?>
+						<?php $selector = generate_time_selector();
+						echo $selector; ?>
 
-						</p>
+					</p>
 
-						<p>
-							<label>Description</label><br />
+					<p>
+						<label>Description</label><br />
 
-							<textarea name="csenote_description"></textarea>
+						<textarea name="csenote_description"></textarea>
 
-						</p>
+					</p>
 
-						<input type="hidden" name="query_type" value="add">
+					<input type="hidden" name="query_type" value="add">
 
-						<input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login'];?>">
+					<input type="hidden" name="csenote_user" value="<?php echo $_SESSION['login']; ?>">
 
-						<p id = "quick_add_cn">
+					<p id="quick_add_cn">
 
-							<button id="quick_add_cn_submit">Add</button>
+						<button id="quick_add_cn_submit">Add</button>
 
-						</p>
+					</p>
 
-					</form>
+				</form>
 
-				</div>
+			</div>
 
-				<div id = "quick_add_body_event" class="toggle_form">
+			<div id="quick_add_body_event" class="toggle_form">
 
-					<form name = "quick_event">
+				<form name="quick_event">
 
-						<p class="error"></p>
+					<p class="error"></p>
 
-						<p><label>What: </label><input type="text" name="task"></p>
+					<p><label>What: </label><input type="text" name="task"></p>
 
-						<p><label>Where: </label><input type="text" name="where"></p>
+					<p><label>Where: </label><input type="text" name="where"></p>
 
-						<p><label>Start: </label><input type="text" id="ev_start" name="start"></p>
+					<p><label>Start: </label><input type="text" id="ev_start" name="start"></p>
 
-						<p><label>End: </label><input type="text" id="ev_end" name="end"></p>
+					<p><label>End: </label><input type="text" id="ev_end" name="end"></p>
 
-						<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
+					<p><label>All Day? </label><input type="checkbox" class="check" name="all_day" value="off"></p>
 
-						<p><label>Case: </label>
+					<p><label>Case: </label>
 
-							<select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
+						<select id="ev_case" style="width:230px;" data-placeholder="Select a Case" name="case_id">
 
-								<option selected=selected value="NC">Non-Case</option>
+							<option selected=selected value="NC">Non-Case</option>
 
-								<?php $options = generate_active_cases_select($dbh,$_SESSION['login']);
+							<?php $options = generate_active_cases_select($dbh, $_SESSION['login']);
 
-								echo $options;?>
+							echo $options; ?>
 
-							</select>
+						</select>
 
-						</p>
+					</p>
 
-						<p><label>Who?</label>
+					<p><label>Who?</label>
 
-							<select multiple id="ev_users" style="width:230px;" data-placeholder="Select Users" name="responsibles">
+						<select multiple id="ev_users" style="width:230px;" data-placeholder="Select Users" name="responsibles">
 
-								<?php echo all_active_users_and_groups($dbh,false,$_SESSION['login']); ?>
+							<?php echo all_active_users_and_groups($dbh, false, $_SESSION['login']); ?>
 
-							</select>
+						</select>
 
-						</p>
+					</p>
 
-						<p><label>Notes</label>
+					<p><label>Notes</label>
 
-							<textarea name="notes"></textarea>
+						<textarea name="notes"></textarea>
 
-						</p>
+					</p>
 
-						<input type="hidden" name="action" value="add">
+					<input type="hidden" name="action" value="add">
 
-						<p id = "quick_add_ev">
+					<p id="quick_add_ev">
 
-							<button id="quick_add_ev_submit">Add</button>
+						<button id="quick_add_ev_submit">Add</button>
 
-						</p>
+					</p>
 
-					</form>
+				</form>
 
-				</div>
+			</div>
 
 		</div>
 
-	</div>
+	</div> -->
 
-	<div id = "event_detail_window">
+	<div id="calendar"></div>
+	<!-- <div id="event_detail_window">
 
 
-	</div>
-
+	</div> -->

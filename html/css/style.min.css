@@ -3,7 +3,6 @@ pre[class*=language-] {
   border-radius: 2px;
   color: #445870;
   -webkit-hyphens: none;
-      -ms-hyphens: none;
           hyphens: none;
   line-height: 1.5;
   -moz-tab-size: 4;

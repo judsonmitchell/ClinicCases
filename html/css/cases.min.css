@@ -315,7 +315,7 @@
 }
 @media screen and (max-width: 768px) {
   .controls__left,
-.controls__right {
+  .controls__right {
     width: 100%;
     padding-top: 1rem;
     justify-content: space-between;
@@ -432,7 +432,6 @@
   padding: 0.5rem;
 }
 .controls__columns .controls__dropdown .dropdown__bottom-bar {
-  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   background-color: white;
@@ -567,7 +566,7 @@
 }
 @media screen and (max-width: 567px) {
   #viewCaseData,
-#editCaseData {
+  #editCaseData {
     grid-template-columns: 1fr;
   }
 }
@@ -588,7 +587,6 @@
   display: flex;
   flex-direction: row;
   margin: 1rem;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   background-color: white;
@@ -1017,71 +1015,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-}
-
-#timer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
-  background: #2b50aa;
-}
-
-#timer_inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#timer_inner img {
-  width: 50px;
-}
-@media screen and (max-width: 767px) {
-  #timer_inner img {
-    width: 30px;
-  }
-}
-
-.timer_case_name {
-  font-family: lemonde-journal, sans-serif;
-  color: #272727;
-  color: white;
-  font-size: 2rem;
-  font-weight: 700;
-}
-@media screen and (max-width: 767px) {
-  .timer_case_name {
-    font-size: 1.5rem;
-  }
-}
-
-.timer_time_elapsed {
-  color: white;
-  font-weight: 700;
-  font-size: 4rem;
-}
-@media screen and (max-width: 767px) {
-  .timer_time_elapsed {
-    font-size: 2rem;
-  }
-}
-
-#timer_inner div {
-  display: flex;
-  align-items: center;
-}
-
-#timer_controls button {
-  display: flex;
-  align-items: center;
-  color: white;
-  font-size: 2rem;
-}
-@media screen and (max-width: 767px) {
-  #timer_controls button {
-    font-size: 1.5rem;
-  }
 }
 
 .case_documents_toolbar {

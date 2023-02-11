@@ -1,0 +1,351 @@
+.primary-button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  padding: 1rem;
+}
+@media screen and (max-width: 1024px) {
+  .primary-button {
+    font-size: 1.2rem;
+  }
+}
+.primary-button:hover {
+  border-radius: 5px;
+  cursor: pointer;
+}
+.primary-button:focus {
+  box-shadow: none;
+}
+
+.neutral-button {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 1rem;
+  margin: 1rem;
+  border: 1px solid #a09cb0;
+  border-radius: 4px;
+  width: 125px;
+}
+.neutral-button:focus {
+  box-shadow: none;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+
+.button--primary {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  padding: 1rem;
+  border-radius: 5px;
+}
+@media screen and (max-width: 1024px) {
+  .button--primary {
+    font-size: 1.2rem;
+  }
+}
+.button--primary:hover {
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button--primary:focus {
+  box-shadow: none;
+}
+
+.button--secondary {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  padding: 1rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #2b50aa;
+  border: 2px solid #2b50aa;
+  outline: none;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #c3dbea;
+  color: #2b50aa;
+  border: 2px solid #2b50aa;
+  border-radius: 50%;
+  font-family: "Montserrat";
+  text-align: left;
+  font-weight: 900;
+  font-size: 1rem;
+  font-weight: 900;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+@media screen and (max-width: 1024px) {
+  .button--secondary {
+    font-size: 1.2rem;
+  }
+}
+.button--secondary:hover {
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button--secondary:focus {
+  box-shadow: none;
+}
+@media screen and (max-width: 1024px) {
+  .button--secondary {
+    font-size: 1.2rem;
+  }
+}
+.button--secondary:hover {
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button--secondary:focus {
+  box-shadow: none;
+}
+.button--secondary img {
+  height: 40px;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  padding: 0.75rem;
+  border-radius: 50%;
+}
+.button--secondary span {
+  visibility: collapse;
+  opacity: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 0 4rem 0rem 6rem;
+}
+.button--secondary:hover {
+  cursor: pointer;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  transition: max-width 0.2s ease-in-out 1s, border-radius 0.1s ease-in-out 0.9s, width 0.2s ease-in-out 1s, padding 0.2s ease-in-out 1s;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  width: 175px;
+}
+.button--secondary:hover img {
+  background: hsl(203deg, 48%, 68%);
+  transition: background 0.75s ease-in-out;
+}
+.button--secondary:hover span {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.5s linear 1s, opacity 0.3s ease-in-out 1s;
+}
+.button--secondary:focus {
+  border-radius: 50%;
+  width: 40px;
+}
+.button--secondary:focus span {
+  visibility: collapse;
+  opacity: 0;
+}
+
+.button__icon img {
+  max-width: 2.5rem;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.ck.ck-editor {
+  margin: 2rem 1rem !important;
+}
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  padding: 2rem;
+}
+
+.ck ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.ck ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+.ck ul ul,
+.ck ol ul {
+  list-style-type: circle;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+
+.ck ol ol,
+.ck ul ol {
+  list-style-type: lower-latin;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+
+.switch {
+  position: relative;
+  border-radius: 100px;
+  background-color: white;
+  border: 2px solid black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  padding: 0.5rem 1rem;
+  grid-gap: 1rem;
+  cursor: pointer;
+}
+.switch .switch__selector {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  border-radius: 100px;
+  background-color: #2b50aa;
+  width: 100%;
+  height: 100%;
+  transition: all 3s ease-in-out;
+}
+.switch .switch__on {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  color: black;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.switch .switch__off {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  color: #c3dbea;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.switch input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+.switch input:checked ~ .switch__selector {
+  grid-column: 1/2;
+}
+.switch input:checked ~ .switch__on {
+  color: #c3dbea;
+}
+.switch input:checked ~ .switch__off {
+  color: black;
+}
+
+#timer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: #2b50aa;
+}
+
+#timer_inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#timer_inner img {
+  width: 50px;
+}
+@media screen and (max-width: 767px) {
+  #timer_inner img {
+    width: 30px;
+  }
+}
+
+.timer_case_name {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+@media screen and (max-width: 767px) {
+  .timer_case_name {
+    font-size: 1.5rem;
+  }
+}
+
+.timer_time_elapsed {
+  color: white;
+  font-weight: 700;
+  font-size: 4rem;
+}
+@media screen and (max-width: 767px) {
+  .timer_time_elapsed {
+    font-size: 2rem;
+  }
+}
+
+#timer_inner div {
+  display: flex;
+  align-items: center;
+}
+
+#timer_controls button {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+}
+@media screen and (max-width: 767px) {
+  #timer_controls button {
+    font-size: 1.5rem;
+  }
+}/*# sourceMappingURL=home.min.css.map */

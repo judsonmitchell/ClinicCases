@@ -47,7 +47,7 @@ li, label, button {
 }
 @media screen and (max-width: 1024px) {
   p,
-li, label, button {
+  li, label, button {
     font-size: 1.2rem;
   }
 }
@@ -422,6 +422,71 @@ button {
   color: black;
 }
 
+#timer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: #2b50aa;
+}
+
+#timer_inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#timer_inner img {
+  width: 50px;
+}
+@media screen and (max-width: 767px) {
+  #timer_inner img {
+    width: 30px;
+  }
+}
+
+.timer_case_name {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+@media screen and (max-width: 767px) {
+  .timer_case_name {
+    font-size: 1.5rem;
+  }
+}
+
+.timer_time_elapsed {
+  color: white;
+  font-weight: 700;
+  font-size: 4rem;
+}
+@media screen and (max-width: 767px) {
+  .timer_time_elapsed {
+    font-size: 2rem;
+  }
+}
+
+#timer_inner div {
+  display: flex;
+  align-items: center;
+}
+
+#timer_controls button {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+}
+@media screen and (max-width: 767px) {
+  #timer_controls button {
+    font-size: 1.5rem;
+  }
+}
+
 .header {
   background-color: white;
   position: relative;
@@ -609,15 +674,12 @@ textarea {
 }
 @media screen and (max-width: 1024px) {
   input,
-select,
-textarea {
+  select,
+  textarea {
     font-size: 1.2rem;
   }
 }
 input ::-moz-placeholder, select ::-moz-placeholder, textarea ::-moz-placeholder {
-  color: #a09cb0;
-}
-input :-ms-input-placeholder, select :-ms-input-placeholder, textarea :-ms-input-placeholder {
   color: #a09cb0;
 }
 input ::placeholder,
@@ -669,12 +731,6 @@ textarea:focus {
   padding: 1rem 1rem 1rem 0rem;
   color: black;
 }
-.form__control input:not(:-ms-input-placeholder) + label, .form__control textarea:not(:-ms-input-placeholder) + label {
-  top: -3rem;
-  font-size: 1.2rem;
-  padding: 1rem 1rem 1rem 0rem;
-  color: black;
-}
 .form__control input:focus + label,
 .form__control input:not(:placeholder-shown) + label,
 .form__control textarea:focus + label,
@@ -687,9 +743,6 @@ textarea:focus {
 .form__control input:not(:-moz-placeholder-shown) + label img, .form__control textarea:not(:-moz-placeholder-shown) + label img {
   display: none;
 }
-.form__control input:not(:-ms-input-placeholder) + label img, .form__control textarea:not(:-ms-input-placeholder) + label img {
-  display: none;
-}
 .form__control input:focus + label img,
 .form__control input:not(:placeholder-shown) + label img,
 .form__control textarea:focus + label img,
@@ -697,9 +750,6 @@ textarea:focus {
   display: none;
 }
 .form__control input::-moz-placeholder, .form__control textarea::-moz-placeholder {
-  opacity: 0;
-}
-.form__control input:-ms-input-placeholder, .form__control textarea:-ms-input-placeholder {
   opacity: 0;
 }
 .form__control input::placeholder,
