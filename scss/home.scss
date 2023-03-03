@@ -2,4 +2,32 @@
 @import "./mixins";
 @import "./utilities";
 @import "../scss/layouts/modal";
+@import '../scss/layouts/content-with-sidebar';
 @import "../scss/views/_events";
+
+
+#calendar {
+  padding: 20px;
+}
+
+#sidebar {
+  background-color: white;
+}
+.welcome-message {
+  margin-top: 100px;
+  display: block;
+  position: relative;
+  padding: 20px;
+}
+
+.welcome-message h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.welcome-message .last_login {
+  font-size: 16px;
+  text-align: left;
+  color: black;
+  margin: 10px 0;
+}

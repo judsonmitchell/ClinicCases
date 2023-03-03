@@ -446,15 +446,14 @@ const formatDate = (date) => {
   const month = months[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
-  console.log({ time });
 
   return `${month} ${day}, ${year} ${time}`;
 };
 const initializeCalendar = async () => {
   const events = await loadHomeEvents();
-  console.log({ events });
   const activities = await loadHomeActivities();
   var calendarEl = document.getElementById('calendar');
+  console.log({ calendarEl });
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events,
@@ -483,12 +482,14 @@ const initializeCalendar = async () => {
       const guests = event.users;
       guestsEl.innerText = `${guests?.length || 0} guests`;
       const responsiblesEl = modalEl.querySelector('.event_responsibles');
-      responsiblesEl.innerHTML = guests.map((guest) => {
-        console.log(guest.full_name);
-        return `<div class='responsbiles_row'>
+      responsiblesEl.innerHTML = guests
+        .map((guest) => {
+          console.log(guest.full_name);
+          return `<div class='responsbiles_row'>
           <p>${guest.full_name}</p>
           </div>`;
-      }).join('');
+        })
+        .join('');
       const notesEl = modalEl.querySelector('.event_notes');
       notesEl.innerText = event.notes;
       modal.show();
