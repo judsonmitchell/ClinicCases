@@ -201,3 +201,4 @@
 
 
 	</div> -->
+	<?php include('html/templates/interior/home_view_event.php'); ?>

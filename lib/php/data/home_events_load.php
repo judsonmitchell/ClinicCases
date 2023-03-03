@@ -119,7 +119,8 @@ try {
 				'description' => $event['notes'], 'where' => $event['location'],
 				'backgroundColor' => $bg_color, 'caseId' => $event['case_id'],
 				'caseName' => $case_name, 'users' => $resps, 'canDelete' => $delete,
-				'largeGroup' => $large_group
+				'largeGroup' => $large_group,
+				'notes'=> $event['notes']
 			);
 		}
 	}

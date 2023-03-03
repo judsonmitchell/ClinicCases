@@ -1,4 +1,6 @@
 //  //Scripts for Home page
+import { getModal } from '../../lib/javascripts/modal.js';
+import { live } from './live.js';
 
 // /* global notify, validQuickCaseNote, validEvent */
 // function escapeHtml(text) {
@@ -423,14 +425,74 @@ import {
   loadHomeEvents,
   loadHomeActivities,
 } from '../../lib/javascripts/axios.js';
+
+const formatDate = (date) => {
+  const time = date.toLocaleTimeString();
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  console.log({ time });
+
+  return `${month} ${day}, ${year} ${time}`;
+};
 const initializeCalendar = async () => {
   const events = await loadHomeEvents();
+  console.log({ events });
   const activities = await loadHomeActivities();
-  console.log({ activities, events });
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events,
+    eventClick: function (info) {
+      const eventId = info.event._def.publicId;
+      const event = events.find((e) => e.id == eventId);
+      const modal = getModal('#viewEventModal');
+      const modalEl = document.querySelector('#viewEventModal');
+      const titleEl = modalEl.querySelector('.event_task_title');
+      titleEl.innerText = event.title;
+      const allDay = event.allDay;
+      if (allDay) {
+        const span = document.createElement('span');
+        span.classList.add('event_all_day');
+        span.innerText = 'all day';
+        modalEl.querySelector('.case-event__title').appendChild(span);
+      }
+      const eventStartEl = modalEl.querySelector('.event_start');
+      eventStartEl.innerText = formatDate(new Date(event.start));
+      const eventEndEl = modalEl.querySelector('.event_end');
+      eventEndEl.innerText = formatDate(new Date(event.end));
+      const locationEl = modalEl.querySelector('.event-location.location span');
+      locationEl.innerText = event.where;
+
+      const guestsEl = modalEl.querySelector('.event-location.guests span');
+      const guests = event.users;
+      guestsEl.innerText = `${guests?.length || 0} guests`;
+      const responsiblesEl = modalEl.querySelector('.event_responsibles');
+      responsiblesEl.innerHTML = guests.map((guest) => {
+        console.log(guest.full_name);
+        return `<div class='responsbiles_row'>
+          <p>${guest.full_name}</p>
+          </div>`;
+      }).join('');
+      const notesEl = modalEl.querySelector('.event_notes');
+      notesEl.innerText = event.notes;
+      modal.show();
+    },
   });
   calendar.render();
 };
@@ -443,3 +505,14 @@ if (document.readyState) {
     initializeCalendar();
   });
 }
+
+// close view event modal
+live('click', 'close_modal', (e) => {
+  const {
+    target: {
+      dataset: { target: modalId },
+    },
+  } = e;
+  const modal = getModal(modalId);
+  modal.hide();
+});
