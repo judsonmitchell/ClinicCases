@@ -452,8 +452,8 @@ const formatDate = (date) => {
 const initializeCalendar = async () => {
   const events = await loadHomeEvents();
   const activities = await loadHomeActivities();
+  
   var calendarEl = document.getElementById('calendar');
-  console.log({ calendarEl });
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events,
@@ -496,6 +496,8 @@ const initializeCalendar = async () => {
     },
   });
   calendar.render();
+  const activitiesContainer = document.getElementById('activities');
+  activitiesContainer.innerHTML = activities;
 };
 
 if (document.readyState) {

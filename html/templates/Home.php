@@ -41,6 +41,7 @@
 
 				<div class="last_login"> Last login: <?php echo $last_log; ?> </div>
 			</div>
+			<div id="activities"></div>
 		</div>
 		<div id="content">
 
