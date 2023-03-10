@@ -113,6 +113,10 @@ switch ($action) {
 				{
 					$resps[] = all_active_users_a($dbh);
 				}
+				elseif (stristr($responsible, '_all_on_case_'))
+				{
+					$resps[] = all_users_on_case($dbh, $case_id);
+				}
 				else
 				{
 					$resps[] = $responsible;
@@ -195,6 +199,10 @@ switch ($action) {
 				elseif (stristr($responsible, '_all_users_'))
 				{
 					$resps[] = all_active_users_a($dbh);
+				}
+				elseif (stristr($responsible, '_all_on_case_'))
+				{
+					$resps[] = all_users_on_case($dbh, $case_id);
 				}
 				else
 				{

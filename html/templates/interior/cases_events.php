@@ -95,7 +95,7 @@
 								<span><?php echo htmlentities($location); ?></span>
 							</p>
 							<p class="event-location"><label><img src="html/ico/guests.svg" alt=""></label>
-								<span><?php echo count($resps) . ' guests' ?></span>
+								<span><?php echo count($resps) ?> guests</span>
 							</p>
 							<div class="event_responsibles">
 								<?php
@@ -126,7 +126,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="case-event" data-id="<?php echo $id; ?>" data-caseid="<?php echo $this_case_id; ?>" data-bs-toggle="modal" data-bs-target="#viewEventModal-<?php echo $id ?>">
+
+		<div class="case-event" data-id="<?php echo $id; ?>" data-caseid="<?php echo $this_case_id; ?>">
 			<div class="case-event__title">
 				<div>
 					<?php echo generate_thumbs($resps, 3); ?>
@@ -158,7 +159,8 @@
 					<span><?php echo htmlentities($location); ?></span>
 				</p>
 				<p class="event-location"><label><img src="html/ico/guests.svg" alt=""></label>
-					<span><?php echo count($resps) . ' guests' ?></span>
+					<span><?php echo count($resps) ?> guests</span>
+
 				</p>
 
 				<p><label><strong>Notes:</strong></label>
@@ -178,62 +180,62 @@
 				}
 				?>
 			</div>
-			<div class="modal fade" role="dialog" id="editEventModal-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editEventLabel-<?php echo $id ?>" aria-hidden="true">
-				<div class="modal-dialog modal-lg modal-dialog-centered">
-					<form>
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="editEventLabel-<?php echo $id ?>">Edit Event</h5>
-							</div>
-							<div class="modal-body">
-								<div class="form__control">
-									<input id="task<?php echo $id ?>" required type="text" name="task" placeholder=" " value="<?php echo $task ?>">
-									<label for="task<?php echo $id ?>">What is the name of this event?</label>
-								</div>
-								<div class="form__control">
-									<input id="where<?php echo $id ?>" required type="text" name="where" placeholder=" " value="<?php echo $location ?>">
-									<label for="where<?php echo $id ?>">Where is this event?</label>
-								</div>
-								<div class="form-control__two">
-									<div class="form__control">
-										<input id="start<?php echo $id ?>" required type="datetime-local" name="start" placeholder=" " value="<?php echo $start ?>">
-										<label for="start<?php echo $id ?>">When does this event start?</label>
-									</div>
-									<div class="form__control">
-										<input required type="datetime-local" name="end" placeholder=" " value="<?php echo $end ?>">
-										<label for="end">When does this event end?</label>
-									</div>
-								</div>
 
-								<div class="form__control--checkbox">
-									<input id="all_day<?php echo $id ?>" name="all_day" type="checkbox" <?php if ($all_day == '1') {
-																																												echo 'checked';
-																																											} ?>>
-									<label for="all_day<?php echo $id ?>">All Day?</label>
-								</div>
-
-								<div class="form__control form__control--select">
-									<select id="responsibles" name="responsibles" multiple class="edit_event_slim_select" tabindex="2" data-value="<?php echo implode(',', $respFormValue) ?>">
-									</select>
-									<label for="responsibles<?php echo $id ?>">Who's Responsible?</label>
-								</div>
-
-								<div class="form__control">
-									<textarea id="notes<?php echo $id ?>" required name="notes" placeholder=" "><?php echo $notes ?></textarea>
-									<label for="notes<?php echo $id ?>">Description</label>
-								</div>
-								<input type="text" hidden name="case_id" value="<?php echo $this_case_id ?>">
-								<input type="text" hidden name="event_id" value="<?php echo $id ?>">
-					</form>
-					<div class="modal-footer">
-						<button id="editCaseEventEventCancel-<?php echo $id ?>" data-target="editEventModal-<?php echo $id ?>" class="case_event_edit_cancel">Cancel</button>
-						<button type="button" data-target="editEventModal-<?php echo $id ?>" class="primary-button edit_event_submit">Submit</button>
-					</div>
-				</div>
-			</div>
 
 		</div>
+		<div class="modal fade" role="dialog" id="editEventModal-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editEventLabel-<?php echo $id ?>" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<form>
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="editEventLabel-<?php echo $id ?>">Edit Event</h5>
+						</div>
+						<div class="modal-body">
+							<div class="form__control">
+								<input id="task<?php echo $id ?>" required type="text" name="task" placeholder=" " value="<?php echo $task ?>">
+								<label for="task<?php echo $id ?>">What is the name of this event?</label>
+							</div>
+							<div class="form__control">
+								<input id="where<?php echo $id ?>" required type="text" name="where" placeholder=" " value="<?php echo $location ?>">
+								<label for="where<?php echo $id ?>">Where is this event?</label>
+							</div>
+							<div class="form-control__two">
+								<div class="form__control">
+									<input id="start<?php echo $id ?>" required type="datetime-local" name="start" placeholder=" " value="<?php echo $start ?>">
+									<label for="start<?php echo $id ?>">When does this event start?</label>
+								</div>
+								<div class="form__control">
+									<input required type="datetime-local" name="end" placeholder=" " value="<?php echo $end ?>">
+									<label for="end">When does this event end?</label>
+								</div>
+							</div>
 
+							<div class="form__control--checkbox">
+								<input id="all_day<?php echo $id ?>" name="all_day" type="checkbox" <?php if ($all_day == '1') {
+																																											echo 'checked';
+																																										} ?>>
+								<label for="all_day<?php echo $id ?>">All Day?</label>
+							</div>
+
+							<div class="form__control form__control--select">
+								<select id="responsibles" name="responsibles" multiple class="edit_event_slim_select" tabindex="2" data-selected="<?php echo $resp ?>" data-value="<?php echo implode(',', $respFormValue) ?>">
+								</select>
+								<label for="responsibles<?php echo $id ?>">Who's Responsible?</label>
+							</div>
+
+							<div class="form__control">
+								<textarea id="notes<?php echo $id ?>" required name="notes" placeholder=" "><?php echo $notes ?></textarea>
+								<label for="notes<?php echo $id ?>">Description</label>
+							</div>
+							<input type="text" hidden name="case_id" value="<?php echo $this_case_id ?>">
+							<input type="text" hidden name="event_id" value="<?php echo $id ?>">
+				</form>
+				<div class="modal-footer">
+					<button id="editCaseEventEventCancel-<?php echo $id ?>" data-target="editEventModal-<?php echo $id ?>" class="case_event_edit_cancel">Cancel</button>
+					<button type="button" data-target="editEventModal-<?php echo $id ?>" class="primary-button edit_event_submit">Submit</button>
+				</div>
+			</div>
+		</div>
 
 
 </div>
@@ -252,10 +254,7 @@
 		foreach ($events as $event) {
 			$resps = get_responsibles($dbh, $event['id']);
 			extract($event);
-
-
 			$respFormValue = array_map("return_user_name", $resps);
-
 		?>
 			<div class="case-event">
 				<div class="case-event__title">
@@ -286,14 +285,12 @@
 					<p class="event-location"><label><img src="html/ico/location.svg" alt=""></label>
 						<span><?php echo htmlentities($location); ?></span>
 					</p>
-					<p class="event-location"><label><img src="html/ico/guests.svg" alt=""></label>
-						<span><?php echo count($resps) . ' guests' ?></span>
-					</p>
+
 					<div class="event_responsibles">
 						<?php
 						$responsibles = get_responsibles($dbh, $id);
 						foreach ($responsibles as $resp) {
-							// var_dump($resp);
+							var_dump($resp);
 
 							echo "
 											<div class='responsbiles_row'>
@@ -322,7 +319,6 @@
 		}
 
 
-		//Geez, I just learned about php extract http://stackoverflow.com/a/8286401/49359  
 		?>
 
 	</div>

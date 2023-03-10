@@ -1,7 +1,7 @@
 //
 // Scripts for events panel on cases
 //
-import { live } from './live.js';
+import { getClosest, live } from './live.js';
 
 import {
   getCaseEventData,
@@ -128,11 +128,11 @@ live('click', 'event_edit', async (e) => {
   } = e.target.closest('.case-event');
 
   const modal = getModal(target);
-  const slimSelect = document.querySelector(
+  let slimSelect = document.querySelector(
     `${target} .edit_event_slim_select`,
   )?.slim;
   if (!slimSelect) {
-    new SlimSelect({
+    slimSelect = new SlimSelect({
       select: `${target} .edit_event_slim_select`,
     });
   }
@@ -142,11 +142,15 @@ live('click', 'event_edit', async (e) => {
   const {
     dataset: { value },
   } = slimSelectContainer;
-
   const usersList = await getUserChooserList(caseid, value);
   slimSelectContainer.innerHTML = usersList;
-
-  modal.show();
+  const valAsArray = value?.split(',') || [];
+  // need to give slim select a milisecond to register the data
+  console.log(slimSelect)
+  setTimeout(() => {
+    slimSelect.setSelected(valAsArray);
+    modal.show();
+  }, [100]);
 });
 
 // cancel case event edit
@@ -158,7 +162,6 @@ live('click', 'case_event_edit_cancel', (e) => {
     'Are you sure you want to cancel? You will lose your data.',
     () => {
       const id = e.target.dataset.target;
-      console.log({ id });
       const modal = getModal(`#${id}`);
       modal.hide();
     },
@@ -209,6 +212,27 @@ live('click', 'edit_event_submit', async (e) => {
   } catch (err) {
     alertify.error(err.message);
   }
+});
+
+// open the modal
+live('click', 'case-event', (event) => {
+  const target = event.target;
+  // If clicking delete or edit, don't open the modal
+  if (
+    target.classList.contains('event_delete') ||
+    target.classList.contains('event_edit') ||
+    target.classList.contains('case_event_edit_cancel') ||
+    target.classList.contains('case_edit_event_save')
+  ) {
+    return;
+  }
+
+  const case_event_el = getClosest(target, '.case-event');
+  console.log({ target, case_event_el });
+  const event_id = case_event_el.dataset.id;
+  const modal = getModal(`#viewEventModal-${event_id}`);
+
+  modal.show();
 });
 
 // delete case event

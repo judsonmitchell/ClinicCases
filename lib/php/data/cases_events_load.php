@@ -14,6 +14,7 @@ try {
 	require_once('../utilities/names.php');
 	require_once('../utilities/convert_times.php');
 	require_once('../html/gen_select.php');
+	require_once('../../php/users/user_data.php');
 
 	$_POST = json_decode(file_get_contents("php://input"), true);
 	$_REQUEST = json_decode(file_get_contents("php://input"), true);
@@ -33,6 +34,7 @@ try {
 	}
 
 
+
 	function get_responsibles($dbh, $event_id)
 	{ //get names of all users on event
 
@@ -41,6 +43,7 @@ try {
 		$q->execute();
 		$users = $q->fetchAll(PDO::FETCH_ASSOC);
 		$responsibles = array();
+
 
 		foreach ($users as $user) {
 			$lastname = username_to_lastname($dbh, $user['username']);
@@ -65,7 +68,7 @@ try {
 				$thumb_row .= "<span class='user_identifier' data='" . $resp['username'] .
 					"'><img class='thumbnail-mask' src = '" . $resp['thumb']  . "' border = '0' title='" . $resp['full_name']  . "'></span>";
 			}
-			if(count($responsibles) > 3) {
+			if (count($responsibles) > 3) {
 				$thumb_row .= "<span class='thumb-ellipsis'>...</span>";
 			}
 		} else {
