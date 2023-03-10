@@ -661,6 +661,9 @@ button {
 
 .activities_stream {
   padding: 20px;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+  height: calc(100vh - 200px);
 }
 
 .activity_card {

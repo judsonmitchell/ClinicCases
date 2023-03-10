@@ -146,7 +146,6 @@ live('click', 'event_edit', async (e) => {
   slimSelectContainer.innerHTML = usersList;
   const valAsArray = value?.split(',') || [];
   // need to give slim select a milisecond to register the data
-  console.log(slimSelect)
   setTimeout(() => {
     slimSelect.setSelected(valAsArray);
     modal.show();
