@@ -13,21 +13,20 @@ import {
 } from '../../lib/javascripts/axios.js';
 import { getCookie } from '../../lib/javascripts/cookies.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  initCasesTable();
+document.addEventListener('DOMContentLoaded', async () => {
   initOpenCaseFunctions();
   setUpOpenCasesMobileSelectListener();
   setUpCloseCaseMobileListener();
+  await initCasesTable();
+  checkForCaseInHash();
 });
 
 let open_case_ids = [];
 let caseData;
-let openCasesDataArray;
-let closedCasesDataArray;
-let open_cases_container;
 let open_cases_tab_button;
 let table;
 let caseEditFormIsSubmitting = false;
+let open_cases_container;
 // Set these to values to global variables
 function initOpenCaseFunctions() {
   open_cases_container = document.querySelector('.open-cases-container');
@@ -83,8 +82,10 @@ async function initCasesTable() {
     });
   } catch (error) {
     alertify.error(error);
+    return Promise.reject();
   } finally {
     registerTableRowClickEvent();
+    return Promise.resolve();
   }
 }
 
@@ -199,11 +200,11 @@ async function openCase(id, name) {
       setUpCancelEditFunctionality(id);
       setUpSaveCaseFunctionality(id);
       setLetMeEditThisFunctionality(id);
-      // setUpAddItemsButtonFunctionality(id);
       setUpAssignedUsersFunctionality(id);
     } catch (error) {
       console.log(error);
       alertify.error(error);
+      return Promise.reject()
     } finally {
       button.click();
     }
@@ -212,6 +213,8 @@ async function openCase(id, name) {
   open_cases_tab_button.setAttribute('aria-disabled', 'false');
   open_cases_tab_button.click();
   setValueOfMobileSelect(id);
+  return Promise.resolve()
+
 }
 
 function setValueOfMobileSelect(id) {
@@ -606,5 +609,24 @@ async function setUpAssignedUsersFunctionality(id) {
     tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl);
     });
+  }
+}
+async function checkForCaseInHash() {
+  const hash = location.hash;
+  const case_id = hash?.split('/')[1];
+  const tab = hash?.split('/')[2];
+
+  if (case_id) {
+    const opened_case = caseData.find((c) => c.id == case_id);
+    if (opened_case) {
+      await openCase(
+        case_id,
+        `${opened_case?.last_name}, ${opened_case?.first_name}`,
+      );
+      if(tab){
+        const tab_to_open = document.querySelectorAll(`#case${case_id}Data .nav-link`)[tab - 1]
+        tab_to_open?.click()
+      }
+    }
   }
 }
