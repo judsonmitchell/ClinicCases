@@ -6,11 +6,33 @@
 @import '../scss/views/_events';
 
 #calendar {
-  padding: 20px;
+  padding: 40px;
+}
+.fc .fc-button-primary {
+  background-color: white;
+  border: 2px solid black;
+  color: $dark-blue;
+  font-weight: 700;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:hover {
+  border-color: $dark-blue;
+  background: white;
+  color: $dark-blue;
+}
+
+.fc-button-group button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.fc-button-group button:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 #sidebar {
-  background-color: white;
+  background-color: $light-background;
 }
 .welcome-message {
   margin-top: 100px;
@@ -60,7 +82,7 @@
   font-size: 18px;
 }
 .activity_card .activity_time {
-  margin: 5px 0; 
+  margin: 5px 0;
   color: $gray;
 }
 .activity_card .activity_what {

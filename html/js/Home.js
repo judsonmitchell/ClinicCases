@@ -452,11 +452,16 @@ const formatDate = (date) => {
 const initializeCalendar = async () => {
   const events = await loadHomeEvents();
   const activities = await loadHomeActivities();
-  
+
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events,
+    headerToolbar: {
+      start: 'prev,next', // will normally be on the left. if RTL, will be on the right
+      center: 'title',
+      end: 'today,dayGridMonth,dayGridWeek,dayGridDay',
+    },
     eventClick: function (info) {
       const eventId = info.event._def.publicId;
       const event = events.find((e) => e.id == eventId);
