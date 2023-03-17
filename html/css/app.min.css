@@ -488,8 +488,9 @@ button {
 }
 
 .header {
+  position: sticky;
+  top: 0;
   background-color: white;
-  position: relative;
   z-index: 50;
 }
 

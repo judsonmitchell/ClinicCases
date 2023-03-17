@@ -6,6 +6,7 @@
 
 	{
 
+
 		$query = $dbh->prepare("SELECT username,last_name FROM cm_users WHERE username = ? LIMIT 1");
 
 		$query->bindParam(1, $name);

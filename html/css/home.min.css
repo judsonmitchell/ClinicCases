@@ -632,6 +632,12 @@ button {
   overflow: hidden;
 }
 
+@media screen and (max-width: 1024px) {
+  #grid {
+    height: auto;
+  }
+}
+
 #calendar {
   padding: 40px;
 }
@@ -662,13 +668,23 @@ button {
 
 #sidebar {
   background-color: rgba(160, 156, 176, 0.1);
+  padding-top: 200px;
+}
+@media screen and (max-width: 1024px) {
+  #sidebar {
+    padding-top: 50px;
+  }
 }
 
 .welcome-message {
-  margin-top: 100px;
-  display: block;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
+  background-color: white;
+  position: sticky;
+  top: 80px;
+  z-index: 2;
 }
 
 .welcome-message h1 {
@@ -683,11 +699,22 @@ button {
   margin: 10px 0;
 }
 
+.welcome-message button {
+  height: auto;
+}
+
 .activities_stream {
   padding: 20px;
   overflow-y: scroll;
   padding-bottom: 50px;
   height: calc(100vh - 200px);
+}
+@media screen and (max-width: 1024px) {
+  .activities_stream {
+    height: 200px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
 }
 
 .activity_card {
@@ -725,4 +752,55 @@ button {
 .activity_card .activity_what {
   grid-column-start: 2;
   text-align: left;
+}
+
+#quickAddModal .switch {
+  margin: 0 auto;
+}
+
+#quickAddModal .ss-main .ss-multi-selected .ss-values .ss-value {
+  background-color: #c3dbea;
+  color: #2b50aa;
+}
+#quickAddModal .ss-disabled {
+  color: black;
+}
+#quickAddModal .ss-main * {
+  font-size: 16px;
+}
+#quickAddModal .ss-main .ss-multi-selected {
+  margin: 1rem 0;
+  height: 4rem;
+}
+#quickAddModal .ss-single-selected {
+  height: 4rem;
+  border-color: #a09cb0;
+  border-radius: 5px;
+}
+#quickAddModal .form__control--select:after {
+  display: none;
+}
+#quickAddModal .placeholder {
+  background-color: transparent;
+  font-size: 14px;
+  color: black;
+  opacity: 1;
+}
+#quickAddModal .case_note_time_selector {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 2rem 1rem;
+}
+#quickAddModal .case_note_time_selector > * {
+  flex: 1;
+}
+#quickAddModal .case_note_time_selector > *:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.hidden {
+  display: none;
 }/*# sourceMappingURL=home.min.css.map */

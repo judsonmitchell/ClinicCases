@@ -460,7 +460,7 @@ const initializeCalendar = async () => {
     headerToolbar: {
       start: 'prev,next', // will normally be on the left. if RTL, will be on the right
       center: 'title',
-      end: 'today,dayGridMonth,dayGridWeek,dayGridDay',
+      end: 'today,dayGridMonth,dayGridWeek,timeGridDay',
     },
     eventClick: function (info) {
       const eventId = info.event._def.publicId;

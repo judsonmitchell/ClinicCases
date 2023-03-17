@@ -5,6 +5,11 @@
 @import '../scss/layouts/content-with-sidebar';
 @import '../scss/views/_events';
 
+#grid {
+  @media screen and (max-width: 1024px) {
+    height: auto;
+  }
+}
 #calendar {
   padding: 40px;
 }
@@ -33,12 +38,21 @@
 
 #sidebar {
   background-color: $light-background;
+  padding-top: 200px;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 50px;
+  }
 }
 .welcome-message {
-  margin-top: 100px;
-  display: block;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
+  background-color: white;
+  position: sticky;
+  top: 80px;
+  z-index: 2;
 }
 
 .welcome-message h1 {
@@ -53,11 +67,21 @@
   margin: 10px 0;
 }
 
+.welcome-message button {
+  height: auto;
+}
+
 .activities_stream {
   padding: 20px;
   overflow-y: scroll;
   padding-bottom: 50px;
   height: calc(100vh - 200px);
+
+  @media screen and (max-width: 1024px) {
+    height: 200px;
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
 }
 .activity_card {
   display: grid;
@@ -88,4 +112,68 @@
 .activity_card .activity_what {
   grid-column-start: 2;
   text-align: left;
+}
+
+#quickAddModal {
+  .switch {
+    margin: 0 auto;
+  }
+}
+
+
+#quickAddModal {
+  .ss-main .ss-multi-selected .ss-values .ss-value {
+    background-color: $light-blue;
+    color: $dark-blue;
+  }
+  .ss-disabled {
+    color: black;
+  }
+  .ss-main {
+    * {
+      font-size: 16px;
+    }
+    .ss-multi-selected {
+      margin: 1rem 0;
+      height: 4rem;
+    }
+  }
+
+  .ss-single-selected {
+    height: 4rem;
+    border-color: $border-gray;
+    border-radius: 5px;
+  }
+  .form__control--select {
+    &:after {
+      display: none;
+    }
+  }
+
+  .placeholder {
+    background-color: transparent;
+    font-size: 14px;
+    color: black;
+    opacity: 1;
+  }
+  
+  .case_note_time_selector {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 2rem 1rem;
+    > * {
+      flex: 1;
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
+
+.hidden {
+  display: none;
 }

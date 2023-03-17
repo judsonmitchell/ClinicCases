@@ -1,4 +1,7 @@
 <?php
+session_start();
+ini_set('display_errors', 1);
+error_reporting(-1);
 //Generate html for selects using db values
 function genSelect($target, $chosen_array, $select_name)
 {
@@ -158,6 +161,7 @@ function generate_time_selector($hours = 0, $min = 0)
 function generate_active_cases_select($dbh, $user)
 {
 
+
 	if ($_SESSION['permissions']['view_all_cases'] == '1') {
 		$sql = "SELECT *,cm.id as case_id_val FROM cm WHERE date_close = '' ORDER BY last_name ASC";
 	} else {
@@ -243,78 +247,86 @@ function all_active_users($dbh)
 function all_active_users_and_groups($dbh, $case_num, $you)
 {
 
-	$options = null;
+	try {
 
-	//If case, add ability to send to all on the case
-	if ($case_num) {
-		$q = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE `case_id` = '$case_num' AND `status` = 'active'");
+
+		$options = null;
+
+		//If case, add ability to send to all on the case
+		if ($case_num) {
+			$q = $dbh->prepare("SELECT * FROM cm_case_assignees WHERE `case_id` = '$case_num' AND `status` = 'active'");
+
+			$q->execute();
+
+			$count = $q->rowCount();
+
+			$options .= "<option value='_all_on_case_'>All Users on this Case ($count)</option>";
+		}
+
+		//Determine total number of active users
+		$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
 
 		$q->execute();
 
 		$count = $q->rowCount();
 
-		$options .= "<option value='_all_on_case_'>All Users on this Case ($count)</option>";
-	}
+		$options .= "<option value='_all_users_'>All Users ($count)</option>";
 
-	//Determine total number of active users
-	$q = $dbh->prepare("SELECT * FROM `cm_users` WHERE `status` = 'active'");
+		//First get all groups defined in cm_groups config
+		$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");
 
-	$q->execute();
+		$q->execute();
 
-	$count = $q->rowCount();
+		$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
-	$options .= "<option value='_all_users_'>All Users ($count)</option>";
+		foreach ($groups as $group) {
+			$options .= "<option value='_grp_" . $group['group_name'] . "'>Group: All " . $group['group_title'] . "s</option>";
+		}
 
-	//First get all groups defined in cm_groups config
-	$q = $dbh->prepare("SELECT group_name, group_title FROM cm_groups ORDER BY group_title ASC");
-
-	$q->execute();
-
-	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
-
-	foreach ($groups as $group) {
-		$options .= "<option value='_grp_" . $group['group_name'] . "'>Group: All " . $group['group_title'] . "s</option>";
-	}
-
-	//Then get every supervisor
-	$q = $dbh->prepare("SELECT cm_groups.group_name, cm_groups.supervises, cm_users.grp, cm_users.username
+		//Then get every supervisor
+		$q = $dbh->prepare("SELECT cm_groups.group_name, cm_groups.supervises, cm_users.grp, cm_users.username
 		FROM cm_groups, cm_users
 		WHERE cm_groups.supervises =  '1'
 		AND cm_users.grp = cm_groups.group_name
 		AND cm_users.status =  'active'
 		ORDER BY cm_users.username ASC");
 
-	$q->execute();
+		$q->execute();
 
-	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
+		$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
-	foreach ($groups as $group) {
-		$options .= "<option value = '_spv_" . $group['username'] . "'>Group: " . username_to_fullname($dbh, $group['username']) . "'s group</option>";
-	}
+		foreach ($groups as $group) {
+			$options .= "<option value = '_spv_" . $group['username'] . "'>Group: " . username_to_fullname($dbh, $group['username']) . "'s group</option>";
+		}
 
-	//Then just get individual users
-	$q = $dbh->prepare("SELECT * FROM cm_users WHERE status = 'active' ORDER BY last_name ASC");
+		//Then just get individual users
+		$q = $dbh->prepare("SELECT * FROM cm_users WHERE status = 'active' ORDER BY last_name ASC");
 
-	$q->execute();
+		$q->execute();
 
-	$users = $q->fetchAll(PDO::FETCH_ASSOC);
+		$users = $q->fetchAll(PDO::FETCH_ASSOC);
+		echo 'here';
 
-	foreach ($users as $user) {
+		foreach ($users as $user) {
 
-		if ($you) {
+			if ($you) {
 
-			if ($user['username'] == $_SESSION['login']) {
-				$options .= "<option selected=selected value='" . $user['username'] . "'>You</option>";
+				if ($user['username'] == $_SESSION['login']) {
+					$options .= "<option selected=selected value='" . $user['username'] . "'>You</option>";
+				} else {
+					$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
+				}
 			} else {
+
 				$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
 			}
-		} else {
-
-			$options .= "<option value = '" . $user['username']  . "'>" . $user['first_name'] . " " . $user['last_name'] . "</option>";
 		}
-	}
+		echo 'here1';
 
-	return $options;
+		return $options;
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
 }
 
 //Used in user_detail.php
