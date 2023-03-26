@@ -14,7 +14,7 @@
       </div>
       <div class="modal-body">
         <form id="quickAddCaseNote">
-        <input type="text" name="csenote_user" hidden value="<?php echo $_SESSION['login'] ?>">
+          <input type="text" name="csenote_user" hidden value="<?php echo $_SESSION['login'] ?>">
 
           <div class="form__control">
             <input required type="datetime-local" name="csenote_date" placeholder=" ">
@@ -68,8 +68,7 @@
             <label for="all_day">All Day?</label>
           </div>
           <div class="form__control form__control--select">
-            <select name="csenote_case_id" class="quick_add_event_slim_select" id="cn_case">
-              <option value="NC">Non-Case Time</option>
+            <select name="case_id" class="quick_add_event_slim_select" id="cn_case">
               <?php
               $options = generate_active_cases_select($dbh, $_SESSION['login']);
               echo $options;
@@ -101,12 +100,3 @@
     </div>
   </div>
 </div>
-
-
-
-<script>
-
-
-
-
-</script>
