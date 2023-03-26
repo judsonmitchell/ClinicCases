@@ -42,7 +42,10 @@
 			<div class="last_login"> Last login: <?php echo $last_log; ?> </div>
 		</div>
 
-		<button data-bs-toggle="modal" data-bs-target="#quickAddModal" class="button--primary">+ Quick Add</button>
+		<div class="quick_add_button">
+
+			<button data-bs-toggle="modal" data-bs-target="#quickAddModal" class="button--primary">+ Quick Add</button>
+		</div>
 	</div>
 
 

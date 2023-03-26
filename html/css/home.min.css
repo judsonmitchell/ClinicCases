@@ -632,6 +632,10 @@ button {
   overflow: hidden;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 @media screen and (max-width: 1024px) {
   #grid {
     height: auto;
@@ -649,6 +653,15 @@ button {
   font-weight: 700;
 }
 
+@media screen and (max-width: 1024px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 13px;
+  }
+}
 .fc .fc-button-primary:not(:disabled).fc-button-active,
 .fc .fc-button-primary:hover {
   border-color: #2b50aa;
@@ -699,8 +712,28 @@ button {
   margin: 10px 0;
 }
 
-.welcome-message button {
+.welcome-message .quick_add_button {
   height: auto;
+}
+@media screen and (max-width: 1024px) {
+  .welcome-message .quick_add_button {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    left: 0;
+    right: 0;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+  .welcome-message .quick_add_button button {
+    width: 100%;
+    font-size: 20px;
+  }
 }
 
 .activities_stream {
