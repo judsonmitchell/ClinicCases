@@ -14,13 +14,14 @@
       </div>
       <div class="modal-body">
         <form id="quickAddCaseNote">
+        <input type="text" name="csenote_user" hidden value="<?php echo $_SESSION['login'] ?>">
 
           <div class="form__control">
-            <input required type="datetime-local" name="date" placeholder=" ">
+            <input required type="datetime-local" name="csenote_date" placeholder=" ">
             <label for="date">Date</label>
           </div>
           <div class="form__control form__control--select">
-            <select name="csenote_case_id" class="quick_add_case_slim_select" id="cn_case">
+            <select required name="csenote_case_id" class="quick_add_case_slim_select" id="cn_case">
               <option value="NC">Non-Case Time</option>
               <?php
               $options = generate_active_cases_select($dbh, $_SESSION['login']);
@@ -35,6 +36,7 @@
             $selector = generate_time_selector(null, null);
             echo  $selector ?>
           </div>
+
           <div class="form__control">
             <textarea required id="case_note_add_description" name="csenote_description" placeholder=" "></textarea>
             <label for="case_note_add_description">Description</label>
@@ -42,7 +44,6 @@
 
         </form>
         <form id="quickAddEvent" class="hidden">
-
           <div class="form__control">
             <input id="task" required type="text" name="task" placeholder=" ">
             <label for="task">What is the name of this event?</label>
@@ -104,34 +105,8 @@
 
 
 <script>
-  let caseNoteHTML;
-  let eventHTML;
-  const quickAddContent = document.querySelector('#quickAddContent');
-  const quickAddCaseNote = document.querySelector('#quickAddCaseNote')
-  const quickAddEvent = document.querySelector('#quickAddEvent')
-  const initForm = () => {
-    const case_note_input = document.querySelector('#isCaseNote');
-    case_note_input.addEventListener('change', (e) => {
-      const isCaseNote = e.target.checked;
-      if (isCaseNote) {
-        quickAddCaseNote.classList.remove("hidden");
-        quickAddEvent.classList.add("hidden");
-      } else {
-        quickAddCaseNote.classList.add("hidden");
-        quickAddEvent.classList.remove("hidden");
-      }
-    });
-    const caseNoteSlimSelect = new SlimSelect({
-      select: '.quick_add_case_slim_select',
-    });
-    const eventSlimSelect = new SlimSelect({
-      select: '.quick_add_event_slim_select',
-    });
-    const responsiblesSlimSelect = new SlimSelect({
-      select: '.responsibles_slim_select',
-    });
-  }
 
 
-  document.addEventListener('DOMContentLoaded', initForm)
+
+
 </script>

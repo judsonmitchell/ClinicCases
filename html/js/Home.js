@@ -1,7 +1,51 @@
-//  //Scripts for Home page
 import { getModal } from '../../lib/javascripts/modal.js';
 import { live } from './live.js';
+import { checkFormValidity, getFormValues, resetForm } from './forms.js';
+let caseNoteHTML;
+let eventHTML;
 
+const quickAddContent = document.querySelector('#quickAddContent');
+const quickAddCaseNoteForm = document.querySelector('#quickAddCaseNote');
+const quickAddEventForm = document.querySelector('#quickAddEvent');
+let caseNoteSlimSelect;
+let caseNoteSlimSelectContainer;
+let eventSlimSelect;
+let eventSlimSelectContainer;
+let responsiblesSlimSelect;
+let responsiblesSlimSelectContainer;
+
+const initForm = () => {
+  const case_note_input = document.querySelector('#isCaseNote');
+  case_note_input.addEventListener('change', (e) => {
+    const isCaseNote = e.target.checked;
+    if (isCaseNote) {
+      quickAddCaseNoteForm.classList.remove('hidden');
+      quickAddEventForm.classList.add('hidden');
+    } else {
+      quickAddCaseNoteForm.classList.add('hidden');
+      quickAddEventForm.classList.remove('hidden');
+    }
+  });
+  caseNoteSlimSelect = new SlimSelect({
+    select: '.quick_add_case_slim_select',
+  });
+  caseNoteSlimSelectContainer = document.querySelector(
+    '.quick_add_case_slim_select',
+  );
+  eventSlimSelect = new SlimSelect({
+    select: '.quick_add_event_slim_select',
+  });
+  eventSlimSelectContainer = document.querySelector(
+    '.quick_add_event_slim_select',
+  );
+
+  responsiblesSlimSelect = new SlimSelect({
+    select: '.responsibles_slim_select',
+  });
+  responsiblesSlimSelectContainer = document.querySelector(
+    '.responsibles_slim_select',
+  );
+};
 // /* global notify, validQuickCaseNote, validEvent */
 // function escapeHtml(text) {
 //   var map = {
@@ -424,6 +468,8 @@ import { live } from './live.js';
 import {
   loadHomeEvents,
   loadHomeActivities,
+  reloadCaseNoteData,
+  processCaseNotes,
 } from '../../lib/javascripts/axios.js';
 
 const formatDate = (date) => {
@@ -448,6 +494,12 @@ const formatDate = (date) => {
   const year = date.getFullYear();
 
   return `${month} ${day}, ${year} ${time}`;
+};
+
+const reloadActivites = async () => {
+  const activities = await loadHomeActivities();
+  const activitiesContainer = document.getElementById('activities');
+  activitiesContainer.innerHTML = activities;
 };
 const initializeCalendar = async () => {
   const events = await loadHomeEvents();
@@ -524,3 +576,85 @@ live('click', 'close_modal', (e) => {
   const modal = getModal(modalId);
   modal.hide();
 });
+
+// cancel case event edit
+live('click', 'quick_add_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const form = document.querySelector('#quickAddModal form');
+      resetForm(form);
+      const modal = getModal(`#quickAddModal`);
+      modal.hide();
+    },
+    null,
+  );
+});
+
+live('click', 'quick_add_submit', async (e) => {
+  e.preventDefault();
+
+  const isCaseNote = document.querySelector('#isCaseNote')?.checked;
+  const form = isCaseNote ? quickAddCaseNoteForm : quickAddEventForm;
+
+  const isValid = checkFormValidity(form);
+  const data = getFormValues(form);
+
+  if (isCaseNote && !caseNoteSlimSelect.selected()?.length) {
+    caseNoteSlimSelectContainer.classList.add('invaid');
+    isValid =
+      isValid == true ? ['csenote_case_id'] : [...isValid, 'csenote_case_id'];
+  }
+  if (isValid != true) {
+    form.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}`);
+    return;
+  } else {
+    caseNoteSlimSelectContainer.classList.remove('invaid');
+    form.classList.remove('invalid');
+    try {
+      const response = await processCaseNotes({
+        query_type: 'add',
+        ...data,
+      }).then((res) => res.data);
+      console.log(response);
+      alertify.success(response.message);
+      resetForm(form);
+      const modal = getModal('#quickAddModal');
+      modal.hide();
+      reloadActivites();
+    } catch (err) {
+      alertify.error(err.message);
+    }
+  }
+  // try {
+  //   if (isValid != true) {
+  //     form.classList.add('invalid');
+  //     alertify.error(`Please correct: ${isValid}`);
+  //     return;
+  //   }
+  //   const response = await processCaseNotes(data);
+  //   alertify.success(response.message);
+  // } catch (err) {
+  //   alertify.error(err.message);
+  // } finally {
+  //   const { csenote_case_id: id } = data;
+  //   // reloadCaseNoteData(id);
+  // }
+  //   console.log('save case note');
+  // } else {
+  //   console.log('save case event');
+  // }
+  // try {
+  //   const response = await processCaseNotes(data);
+  //   alertify.success(response.message);
+  // } catch (err) {
+  //   alertify.error(err.message);
+  // } finally {
+  //   const { csenote_case_id: id } = data;
+  //   reloadCaseNoteData(id);
+  // }
+});
+document.addEventListener('DOMContentLoaded', initForm);

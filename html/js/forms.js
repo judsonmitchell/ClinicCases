@@ -18,10 +18,11 @@ const getFormValues = (form) => {
 const checkFormValidity = (form) => {
   const isValid = form.checkValidity();
   const invalidFields = [];
+  console.log(form.elements)
   if (isValid) {
     return true;
   } else {
-    form.elements.forEach((el) => {
+    [...form.elements].forEach((el) => {
       if (!el.checkValidity()) {
         invalidFields.push(el.name);
       }
