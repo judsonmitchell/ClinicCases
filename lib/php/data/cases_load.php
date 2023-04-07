@@ -47,11 +47,6 @@ if ($_SESSION['permissions']['view_all_cases'] == "0") {
 }
 $response = $case_query->execute();
 
-
-// if ($_SESSION['mobile']){ //mobile does not need json, so return a php array
-//     $raw_results = $case_query->fetchAll();//used for mobile
-//     sortBySubkey($raw_results,'last_name');
-// } else {
 //Create array of column names for json output
 foreach ($col_result as $value) {
     if ($value[3] == "true") {
@@ -77,38 +72,6 @@ while ($result = $case_query->fetch(PDO::FETCH_ASSOC)) {
         }
     }
 
-    // foreach($cols as $col){
-    //     echo $col;
-    // }
-
-
-    // //loop through results, create array, convert to json
-    // foreach ($cols as $col) {
-    //     //First look for fields containining serialized arrays
-    //     //and convert to strings
-    //     if ($data !== false) //this is a serialized array
-    //     {
-    //         $make_string = null;
-
-    //         foreach ($data as $key => $value) {
-    //             $make_string .= "$key, ";
-    //         }
-
-    //         $result[$col] = rtrim($make_string, ' ,');
-
-    //     }
-    //     //Then check for rows containing dates
-    //     if (preg_match('/^(\d\d\d\d)-(\d\d?)-(\d\d?)$/', $result[$col])) {
-
-    //         $result[$col] = sql_date_to_us_date($result[$col]);
-    //     }
-
-
-    //     $rows[] = $result[$col];
-
-    // }
-
-
     //Return aaData object to DataTables
     $output['aaData'][] = $rows;
 }
@@ -120,4 +83,4 @@ if ($case_query->rowCount() < 1) {
 
 $json = json_encode($output);
 echo $json;
-// }
+

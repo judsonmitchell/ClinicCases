@@ -46,7 +46,6 @@ async function initCasesTable() {
     // Fetch all case data
     const caseDataResponse = await axios.get(`lib/php/data/cases_load.php`);
     caseData = caseDataResponse.data.aaData;
-
     // Custom table plugin initiation
     table = new Table({
       columns: columnResponseData.aoColumns,
@@ -79,6 +78,7 @@ async function initCasesTable() {
           },
         },
       ],
+      tableName: 'Cases'
     });
   } catch (error) {
     alertify.error(error);
@@ -204,7 +204,7 @@ async function openCase(id, name) {
     } catch (error) {
       console.log(error);
       alertify.error(error);
-      return Promise.reject()
+      return Promise.reject();
     } finally {
       button.click();
     }
@@ -213,8 +213,7 @@ async function openCase(id, name) {
   open_cases_tab_button.setAttribute('aria-disabled', 'false');
   open_cases_tab_button.click();
   setValueOfMobileSelect(id);
-  return Promise.resolve()
-
+  return Promise.resolve();
 }
 
 function setValueOfMobileSelect(id) {
@@ -623,9 +622,11 @@ async function checkForCaseInHash() {
         case_id,
         `${opened_case?.last_name}, ${opened_case?.first_name}`,
       );
-      if(tab){
-        const tab_to_open = document.querySelectorAll(`#case${case_id}Data .nav-link`)[tab - 1]
-        tab_to_open?.click()
+      if (tab) {
+        const tab_to_open = document.querySelectorAll(
+          `#case${case_id}Data .nav-link`,
+        )[tab - 1];
+        tab_to_open?.click();
       }
     }
   }

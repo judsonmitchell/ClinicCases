@@ -35,15 +35,15 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 			if ($col === 'picture_url') //generate thumbnail url and hmtl
 			{
 				$th = thumbify($result[$col]);
-				$rows[] = "<img class='thumbnail-mask' src = '" . $th . "?" . rand() . "'></img>";
+				$rows[$col] = "<img class='thumbnail-mask' src = '" . $th . "?" . rand() . "'></img>";
 			}
 			elseif ($col === 'date_created') //convert dates
 			{
-				$rows[] = extract_date_time_sortable($result[$col]);
+				$rows[$col] = extract_date_time_sortable($result[$col]);
 			}
 			elseif ($col === 'grp') //show display name of group, instead of db name
 			{
-				$rows[] = array_search($result[$col], $group_name_data);
+				$rows[$col] = array_search($result[$col], $group_name_data);
 			}
 			elseif ($col === 'supervisors') //show display name of group, instead of db name
 			{
@@ -55,16 +55,16 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC))
 						$sup_names[] = array_search($sup, $supervisor_name_data);
 					}
 
-					$rows[] = rtrim(implode(', ', $sup_names),', ');
+					$rows[$col] = rtrim(implode(', ', $sup_names),', ');
 				}
 				else
 				{
-					$rows[] = '';
+					$rows[$col] = '';
 				}
 			}
 			else
 			{
-				$rows[] = $result[$col];
+				$rows[$col] = $result[$col];
 			}
 		}
 

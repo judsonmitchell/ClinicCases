@@ -15,8 +15,9 @@ class Table {
   currentSort;
   sortedData;
   topControls;
+  tableName;
 
-  constructor({ columns, data, containerId, limit, facets, facetField }) {
+  constructor({ columns, data, containerId, limit, facets, tableName }) {
     this.columns = columns;
     this.data = [...data];
     this.container = document.querySelector(containerId);
@@ -26,6 +27,7 @@ class Table {
     this.facets = facets;
     this.filteredData = [...data];
     this.sortedData = [...data];
+    this.tableName = tableName;
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
     this._createAddButton();
@@ -69,7 +71,7 @@ class Table {
     var currentPageData = this._getPageData(
       this.filteredData,
       this.limit,
-      this.page
+      this.page,
     );
     this._insertData(currentPageData);
   }
@@ -112,7 +114,7 @@ class Table {
     const column = event.target;
     const fieldName = column.dataset.fieldname;
     const headings = Array.from(this.table.querySelectorAll('td')).filter(
-      (col) => col != column
+      (col) => col != column,
     );
 
     headings.forEach((head) => {
@@ -266,7 +268,8 @@ class Table {
 
   _createPrint() {
     const button = document.createElement('button');
-    button.innerHTML = '<img src="html/ico/printer.svg" alt="Print icon" /> <span>&nbsp;Print</span>';
+    button.innerHTML =
+      '<img src="html/ico/printer.svg" alt="Print icon" /> <span>&nbsp;Print</span>';
     button.classList.add('secondary-button');
     button.setAttribute('id', 'printButton');
     const right = this.controls.querySelector('.controls__right');
@@ -316,7 +319,7 @@ class Table {
       });
     });
 
-    var worker = html2pdf().from(wrapper).save('Cases');
+    var worker = html2pdf().from(wrapper).save(this.tableName);
   }
 
   _resetTable() {
@@ -360,7 +363,7 @@ class Table {
     this.advancedSearchFields = document.createElement('div');
     this.advancedSearchFields.classList.add(
       'advanced-search__container',
-      'hidden'
+      'hidden',
     );
 
     this.columns.forEach((col, index) => {
@@ -433,7 +436,7 @@ class Table {
     const facetSelectControl = document.createElement('div');
     const facetSelect = document.createElement('select');
     facetSelect.setAttribute('name', 'facets');
-    facetSelectControl.classList.add("form__control", "form__control--select")
+    facetSelectControl.classList.add('form__control', 'form__control--select');
     this.facets.forEach((facet) => {
       const option = document.createElement('option');
       option.value = facet.value;
@@ -452,16 +455,16 @@ class Table {
     wrapper.appendChild(input);
   }
 
-  _createAddButton(){
+  _createAddButton() {
     const canAdd = this.container.classList.contains('can_add');
-    if(canAdd){
+    if (canAdd) {
       const button = document.createElement('button');
       button.setAttribute('data-bs-toggle', 'modal');
       // TODO make this dynamic for other forms
-      button.setAttribute('data-bs-target', '#newCaseModal')
+      button.setAttribute('data-bs-target', '#newCaseModal');
       button.classList.add('primary-button');
       button.setAttribute('type', 'button');
-      button.setAttribute('id','addButton');
+      button.setAttribute('id', 'addButton');
       button.innerText = '+ Add Case';
       this.topControls.appendChild(button);
     }
@@ -509,7 +512,7 @@ class Table {
       const value = input.value;
       if (type === 'date') {
         const select = document.querySelector(
-          `select[data-fieldname="${fieldName}"]`
+          `select[data-fieldname="${fieldName}"]`,
         );
         const selectValue = select.value;
         if (selectValue) {
@@ -531,7 +534,7 @@ class Table {
 
         this.filteredData = this.filteredData.filter((item) => {
           const isValidFacet = func(item);
-
+          console.log({ item });
           const containsKeyword = item[fieldName].search(exp) > -1;
           return isValidFacet && containsKeyword;
         });
@@ -541,7 +544,7 @@ class Table {
     });
   }
 
-  onRowClick(func){
-    this.table.addEventListener('click', func)
+  onRowClick(func) {
+    this.table.addEventListener('click', func);
   }
 }

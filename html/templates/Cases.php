@@ -1,6 +1,6 @@
 <!-- CSS specific to this page -->
 <link rel="stylesheet" type="text/css" href="html/css/cases.min.css" />
-<link href="lib/Grid/mermaid.min.css" rel="stylestheet" />
+<link href="lib/Grid/mermaid.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css">
 <!-- Js Calls Specific to this page -->
 <!-- <script src="html/js/live.js" type="module"></script> -->
