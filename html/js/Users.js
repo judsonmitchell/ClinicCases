@@ -870,11 +870,32 @@ import { fetchUsers } from '../../lib/javascripts/axios.js';
 // });
 
 let table;
+let newUserGroupSlimSelect;
+let newUserSupervisorSlimSelect;
 
+const initNewUserForm = () => {
+  newUserGroupSlimSelect = new SlimSelect({
+    select: '.new_user_group_slim_select',
+  });
+  newUserSupervisorSlimSelect = new SlimSelect({
+    select: '.new_user_supervisor_slim_select',
+  });
+};
+
+const createCanAddUserButton = () => {
+  const button = document.createElement('button');
+  button.setAttribute('data-bs-toggle', 'modal');
+  button.setAttribute('data-bs-target', '#newUserModal');
+  button.classList.add('primary-button');
+  button.setAttribute('type', 'button');
+  button.setAttribute('id', 'addButton');
+  button.innerText = '+ Add User';
+
+  return button;
+};
 const initUsersTable = async () => {
   const users = await fetchUsers();
-  console.log({ users });
-
+  const canAddButton = createCanAddUserButton();
   const aoColumns = [
     { name: 'Id', hidden: true, type: 'text', fieldName: 'id' },
     { name: 'Face', hidden: false, type: 'img', fieldName: 'picture_url' },
@@ -951,7 +972,11 @@ const initUsersTable = async () => {
       },
     ],
     tableName: 'Users',
+    canAddButton,
   });
 };
 
-initUsersTable();
+document.addEventListener('DOMContentLoaded', () => {
+  initUsersTable();
+  initNewUserForm();
+});

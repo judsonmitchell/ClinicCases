@@ -35,6 +35,17 @@ function initOpenCaseFunctions() {
   );
 }
 
+const createCanAddCaseButton = () => {
+  const button = document.createElement('button');
+  button.setAttribute('data-bs-toggle', 'modal');
+  button.setAttribute('data-bs-target', '#newCaseModal');
+  button.classList.add('primary-button');
+  button.setAttribute('type', 'button');
+  button.setAttribute('id', 'addButton');
+  button.innerText = '+ Add Case';
+
+  return button;
+};
 async function initCasesTable() {
   try {
     // Fetch the inital state column visibility information
@@ -46,6 +57,8 @@ async function initCasesTable() {
     // Fetch all case data
     const caseDataResponse = await axios.get(`lib/php/data/cases_load.php`);
     caseData = caseDataResponse.data.aaData;
+
+    const canAddButton = createCanAddCaseButton();
     // Custom table plugin initiation
     table = new Table({
       columns: columnResponseData.aoColumns,
@@ -78,7 +91,8 @@ async function initCasesTable() {
           },
         },
       ],
-      tableName: 'Cases'
+      tableName: 'Cases',
+      canAddButton
     });
   } catch (error) {
     alertify.error(error);

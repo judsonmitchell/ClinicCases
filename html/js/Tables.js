@@ -16,8 +16,17 @@ class Table {
   sortedData;
   topControls;
   tableName;
+  canAddButton;
 
-  constructor({ columns, data, containerId, limit, facets, tableName }) {
+  constructor({
+    columns,
+    data,
+    containerId,
+    limit,
+    facets,
+    tableName,
+    canAddButton,
+  }) {
     this.columns = columns;
     this.data = [...data];
     this.container = document.querySelector(containerId);
@@ -28,6 +37,7 @@ class Table {
     this.filteredData = [...data];
     this.sortedData = [...data];
     this.tableName = tableName;
+    this.canAddButton = canAddButton;
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
     this._createAddButton();
@@ -199,7 +209,7 @@ class Table {
     this.pagination.summary.innerHTML = `Page ${this.page} of ${
       totalPages || 1
     }`;
-    this.pagination.total.innerText = `${totalItems} total cases`;
+    this.pagination.total.innerText = `${totalItems} total ${this.tabelName?.toLowerCase()}}`;
     this.pagination.prev.disabled = this.page == 1;
     this.pagination.next.disabled = this.page == totalPages;
   }
@@ -457,16 +467,8 @@ class Table {
 
   _createAddButton() {
     const canAdd = this.container.classList.contains('can_add');
-    if (canAdd) {
-      const button = document.createElement('button');
-      button.setAttribute('data-bs-toggle', 'modal');
-      // TODO make this dynamic for other forms
-      button.setAttribute('data-bs-target', '#newCaseModal');
-      button.classList.add('primary-button');
-      button.setAttribute('type', 'button');
-      button.setAttribute('id', 'addButton');
-      button.innerText = '+ Add Case';
-      this.topControls.appendChild(button);
+    if (canAdd && this.canAddButton) {
+      this.topControls.appendChild(this.canAddButton);
     }
   }
 
