@@ -877,6 +877,44 @@ form {
   float: right;
 }
 
+.ss-main .ss-values .ss-value {
+  background-color: #c3dbea;
+  color: #2b50aa;
+}
+
+.ss-disabled {
+  color: black;
+}
+
+.ss-main * {
+  font-size: 16px;
+}
+.ss-main .ss-multi-selected, .ss-main .ss-single-selected {
+  margin: 1rem 0;
+  height: 4rem !important;
+}
+
+.ss-plus, .ss-arrow {
+  display: none !important;
+}
+
+.ss-single-selected {
+  height: 4rem;
+  border-color: #a09cb0;
+  border-radius: 5px;
+}
+
+.form__control--select:after {
+  display: none;
+}
+
+.placeholder {
+  background-color: transparent;
+  font-size: 14px;
+  color: black;
+  opacity: 1;
+}
+
 html {
   font-size: 10px;
 }

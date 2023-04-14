@@ -182,3 +182,41 @@ form {
   cursor: pointer;
   float: right;
 }
+
+.ss-main .ss-values .ss-value {
+  background-color: $light-blue;
+  color: $dark-blue;
+}
+.ss-disabled {
+  color: black;
+}
+.ss-main {
+  * {
+    font-size: 16px;
+  }
+  .ss-multi-selected, .ss-single-selected {
+    margin: 1rem 0;
+    height: 4rem !important;
+  }
+}
+.ss-plus, .ss-arrow {
+  display: none !important;
+}
+
+.ss-single-selected {
+  height: 4rem;
+  border-color: $border-gray;
+  border-radius: 5px;
+}
+.form__control--select {
+  &:after {
+    display: none;
+  }
+}
+
+.placeholder {
+  background-color: transparent;
+  font-size: 14px;
+  color: black;
+  opacity: 1;
+}

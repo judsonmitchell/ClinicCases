@@ -371,24 +371,37 @@ function supervisors_select($supervisors, $supervisor_name_data)
 //also used in Users.php.  Get all groups
 function group_select($dbh, $val)
 {
-	$q = $dbh->prepare("SELECT DISTINCT `group_name`, `group_title`  FROM `cm_groups`");
+	try {
 
-	$q->execute();
+		echo 'here';
+		$q = $dbh->prepare("SELECT DISTINCT `group_name`, `group_title`  FROM `cm_groups`");
+		echo 'here2';
 
-	$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
-	$options = null;
+		$q->execute();
+		echo 'here3';
 
-	foreach ($groups as $group) {
+		$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
-		if ($group['group_name'] == $val) {
-			$options .= '<option value = "' . $group['group_name'] . '" selected=selected>' . $group['group_title'] . '</option>';
-		} else {
-			$options .= '<option value = "' . $group['group_name'] . '">' . $group['group_title'] . '</option>';
+		$options = null;
+		echo 'here4';
+
+		foreach ($groups as $group) {
+
+			if ($group['group_name'] == $val) {
+				$options .= '<option value = "' . $group['group_name'] . '" selected=selected>' . $group['group_title'] . '</option>';
+			} else {
+				$options .= '<option value = "' . $group['group_name'] . '">' . $group['group_title'] . '</option>';
+			}
 		}
-	}
+		echo 'here5';
 
-	return $options;
+		return $options;
+	} catch (Exception $e) {
+		echo 'here6';
+
+		echo $e->getMessage();
+	}
 }
 
 //Generate a list of all active users and all groups.  Used in reports.

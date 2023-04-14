@@ -540,6 +540,260 @@
     display: none;
   }
 }
+input,
+select,
+textarea {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  border: 1px solid #a09cb0;
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: 400;
+}
+@media screen and (max-width: 1024px) {
+  input,
+  select,
+  textarea {
+    font-size: 1.2rem;
+  }
+}
+input ::-moz-placeholder, select ::-moz-placeholder, textarea ::-moz-placeholder {
+  color: #a09cb0;
+}
+input ::placeholder,
+select ::placeholder,
+textarea ::placeholder {
+  color: #a09cb0;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border: 1px solid black;
+  outline: none;
+}
+
+.form-control__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.form__control {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 4rem;
+  margin: 4rem 1rem 0rem;
+  cursor: pointer;
+}
+.form__control label {
+  text-align: left;
+  padding: 0.5rem 1rem;
+  left: 0;
+  position: absolute;
+  top: 0.7rem;
+  transition: transform 0.1s ease-out;
+  min-height: 3.8rem;
+  color: #a09cb0;
+  cursor: pointer;
+}
+.form__control label.float, .form__control label.float--lock {
+  transform: translateY(0);
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+.form__control input:not(:-moz-placeholder-shown) + label, .form__control textarea:not(:-moz-placeholder-shown) + label {
+  top: -3rem;
+  font-size: 1.2rem;
+  padding: 1rem 1rem 1rem 0rem;
+  color: black;
+}
+.form__control input:focus + label,
+.form__control input:not(:placeholder-shown) + label,
+.form__control textarea:focus + label,
+.form__control textarea:not(:placeholder-shown) + label, .form__control.form__control--select label {
+  top: -3rem;
+  font-size: 1.2rem;
+  padding: 1rem 1rem 1rem 0rem;
+  color: black;
+}
+.form__control input:not(:-moz-placeholder-shown) + label img, .form__control textarea:not(:-moz-placeholder-shown) + label img {
+  display: none;
+}
+.form__control input:focus + label img,
+.form__control input:not(:placeholder-shown) + label img,
+.form__control textarea:focus + label img,
+.form__control textarea:not(:placeholder-shown) + label img, .form__control.form__control--select label img {
+  display: none;
+}
+.form__control input::-moz-placeholder, .form__control textarea::-moz-placeholder {
+  opacity: 0;
+}
+.form__control input::placeholder,
+.form__control textarea::placeholder {
+  opacity: 0;
+}
+.form__control input,
+.form__control textarea {
+  width: 100%;
+  color: black;
+}
+.form__control.form__control--select {
+  position: relative;
+}
+.form__control.form__control--select select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 3rem;
+}
+.form__control.form__control--select::after {
+  content: "";
+  position: absolute;
+  background-image: url("../../html/ico/triangle-down.svg");
+  height: 20px;
+  width: 19px;
+  display: block;
+  background-size: cover;
+  bottom: 10px;
+  right: 7px;
+  z-index: 9;
+}
+.form__control.form__control--select:has(.ss-main)::after {
+  bottom: 14px;
+}
+
+.form__control--checkbox {
+  margin: 2rem;
+  text-align: left;
+}
+
+form.invalid input:invalid,
+form.invalid textarea:invalid,
+form.invalid select:invalid,
+form.invalid .ss-main.invalid {
+  border: 1px solid red;
+  border-color: red;
+}
+
+#newCaseModal input:valid,
+#newCaseModal select:valid {
+  border-color: black;
+  border-width: 2px;
+}
+
+form {
+  width: 100%;
+}
+
+.form-control__dual {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 1rem;
+}
+
+.form-control__multiple {
+  position: relative;
+  background-color: rgba(160, 156, 176, 0.3);
+  padding: 1rem;
+  margin: 1rem;
+}
+.form-control__multiple .form-control__dual:last-child {
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+.form__add {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form__add i {
+  cursor: pointer;
+  margin-top: 3rem;
+}
+.form__add i img {
+  width: 2rem;
+}
+
+.form__array {
+  display: flex;
+  flex-direction: column;
+}
+.form__array legend {
+  text-align: left;
+  font-size: 1.2rem;
+  padding: 1rem 0;
+}
+.form__array .array__grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: 1rem;
+  margin: 0.5rem 0;
+}
+.form__array .array__grid.array__grid--two {
+  grid-template-columns: 1fr auto;
+}
+
+@media screen and (max-width: 768px) {
+  #addButton {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 1rem;
+  }
+}
+.let-me-edit-this {
+  text-decoration: underline;
+  font-size: 10px;
+  cursor: pointer;
+  float: right;
+}
+
+.ss-main .ss-values .ss-value {
+  background-color: #c3dbea;
+  color: #2b50aa;
+}
+
+.ss-disabled {
+  color: black;
+}
+
+.ss-main * {
+  font-size: 16px;
+}
+.ss-main .ss-multi-selected, .ss-main .ss-single-selected {
+  margin: 1rem 0;
+  height: 4rem !important;
+}
+
+.ss-plus, .ss-arrow {
+  display: none !important;
+}
+
+.ss-single-selected {
+  height: 4rem;
+  border-color: #a09cb0;
+  border-radius: 5px;
+}
+
+.form__control--select:after {
+  display: none;
+}
+
+.placeholder {
+  background-color: transparent;
+  font-size: 14px;
+  color: black;
+  opacity: 1;
+}
+
 .picture_dropzone {
   border: 4px dashed #2b50aa;
   padding: 50px;
@@ -587,13 +841,15 @@
   position: absolute;
   bottom: 0;
   right: 0;
+  padding: 10px;
+  height: 60px;
+  width: 60px;
 }
 .picture_dropzone .file_info button img {
   border-radius: 100%;
   border: 2px solid #2b50aa;
   background-color: #c3dbea;
-  height: 60px;
-  width: 60px;
+  width: 100%;
 }
 
 .picture_dropzone:has(input[type=file].has_file) {

@@ -1,4 +1,11 @@
 <!-- Modal -->
+<?php
+require('lib/php/utilities/names.php');
+$supervisor_name_data  = supervisor_names_array($dbh);
+require('lib/php/html/gen_select.php');
+
+?>
+
 <div class="modal fade" id="newUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newCaseLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -49,11 +56,17 @@
           </div>
           <div class="form__control form__control--select">
             <select multiple class="new_user_group_slim_select" tabindex="2">
+              <?php
+              echo group_select($dbh, $_SESSION['group']);
+              ?>
             </select>
             <label for="responsibles">Group</label>
           </div>
           <div class="form__control form__control--select">
             <select class="new_user_supervisor_slim_select" tabindex="2">
+              <?php
+              echo supervisors_select($_SESSION['group'], $supervisor_name_data);
+              ?>
             </select>
             <label for="responsibles">Supervisor</label>
           </div>
