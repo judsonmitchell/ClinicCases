@@ -8,8 +8,7 @@ import {
   processEvents,
 } from '../../lib/javascripts/axios.js';
 
-let caseNoteHTML;
-let eventHTML;
+let events;
 let calendar;
 const quickAddContent = document.querySelector('#quickAddContent');
 const quickAddCaseNoteForm = document.querySelector('#quickAddCaseNote');
@@ -84,7 +83,6 @@ const reloadActivites = async () => {
   activitiesContainer.innerHTML = activities;
 };
 
-
 const initializeCalendar = async () => {
   const activities = await loadHomeActivities();
 
@@ -134,6 +132,7 @@ const initializeCalendar = async () => {
       modal.show();
     },
   });
+  events = await loadHomeEvents();
   calendar.addEventSource(loadHomeEvents);
   calendar.render();
   const activitiesContainer = document.getElementById('activities');
@@ -222,6 +221,7 @@ live('click', 'quick_add_submit', async (e) => {
         alertify.success(response.message);
         resetForm(form);
         modal.hide();
+        events = await loadHomeEvents();
         calendar.refetchEvents();
         reloadActivites();
       } catch (err) {

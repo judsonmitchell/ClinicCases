@@ -539,4 +539,72 @@
   #printButton {
     display: none;
   }
+}
+.picture_dropzone {
+  border: 4px dashed #2b50aa;
+  padding: 50px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 10px;
+  background-color: #c3dbea;
+}
+.picture_dropzone p,
+.picture_dropzone label {
+  color: #2b50aa;
+}
+.picture_dropzone label {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.picture_dropzone.dragover {
+  border-color: green;
+}
+.picture_dropzone [name=picture] {
+  display: none;
+}
+.picture_dropzone .file_info {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
+}
+.picture_dropzone .file_info h4 {
+  color: #2b50aa;
+  font-weight: bold;
+}
+.picture_dropzone .file_info .file_preview {
+  height: 200px;
+  width: 200px;
+  border: 2px solid #2b50aa;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.picture_dropzone .file_info button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.picture_dropzone .file_info button img {
+  border-radius: 100%;
+  border: 2px solid #2b50aa;
+  background-color: #c3dbea;
+  height: 60px;
+  width: 60px;
+}
+
+.picture_dropzone:has(input[type=file].has_file) {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+.picture_dropzone:has(input[type=file].has_file) > p,
+.picture_dropzone:has(input[type=file].has_file) > label {
+  display: none;
+}
+.picture_dropzone:has(input[type=file].has_file) .file_info {
+  display: block;
 }/*# sourceMappingURL=users.min.css.map */

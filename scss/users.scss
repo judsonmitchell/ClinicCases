@@ -3,3 +3,74 @@
 @import './layouts/content-with-sidebar';
 @import './layouts/modal';
 @import './tables';
+
+.picture_dropzone {
+  border: 4px dashed $dark-blue;
+  padding: 50px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 10px;
+  background-color: $light-blue;
+  p,
+  label {
+    color: $dark-blue;
+  }
+  label {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &.dragover {
+    border-color: green;
+  }
+  [name='picture'] {
+    display: none;
+  }
+  .file_info {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    height: 200px;
+    width: 200px;
+    margin: 0 auto;
+
+    h4 {
+      color: $dark-blue;
+      font-weight: bold;
+    }
+    .file_preview {
+      height: 200px;
+      width: 200px;
+      border: 2px solid $dark-blue;
+      border-radius: 100%;
+      object-fit: cover;
+    }
+
+    button {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      img {
+        border-radius: 100%;
+        border: 2px solid $dark-blue;
+        background-color: $light-blue;
+        height: 60px;
+        width: 60px;
+      }
+    }
+  }
+}
+
+.picture_dropzone:has(input[type='file'].has_file) {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  > p,
+  > label {
+    display: none;
+  }
+  .file_info {
+    display: block;
+  }
+}

@@ -976,7 +976,80 @@ const initUsersTable = async () => {
   });
 };
 
+const setupImageDropzone = () => {
+  const dropzones = document.querySelectorAll('.picture_dropzone');
+
+  dropzones.forEach((dropzone) => {
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+
+      handleFiles(files);
+    });
+
+    const fileInput = dropzone.querySelector('[name="picture"]');
+    const fileDelete = dropzone.querySelector('.file_delete');
+    fileDelete.addEventListener('click', () => {
+      fileInput.value = '';
+      const event = new Event('change');
+      fileInput.dispatchEvent(event);
+    });
+    fileInput.addEventListener('change', () => {
+      const files = fileInput.files;
+      handleFiles(files);
+    });
+    function handleFiles(files) {
+      fileInput.files = files;
+      const event = new Event('change');
+      fileInput.dispatchEvent(event);
+      const picturePreview = dropzone.querySelector('.file_preview');
+      const file = files[0];
+      if (file) {
+        const file_name = dropzone.querySelector('.file_info .file_name');
+        file_name.innerText = file.name;
+        const reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          picturePreview.setAttribute('src', this.result);
+        });
+
+        reader.readAsDataURL(file);
+
+        console.log(fileInput.files);
+      } else {
+        picturePreview.setAttribute('src', '#');
+      }
+      if (files?.length) {
+        fileInput.classList.add('has_file');
+      } else {
+        fileInput.classList.remove('has_file');
+      }
+
+    }
+  });
+};
+
+// submit form handler
+// function handleFiles(files) {
+//   const file = files[0];
+//   const formData = new FormData();
+//   formData.append("file", file);
+//   axios.post("/upload", formData).then((response) => {
+//     console.log(response.data);
+//   });
+// }
+
 document.addEventListener('DOMContentLoaded', () => {
   initUsersTable();
   initNewUserForm();
+  setupImageDropzone();
 });

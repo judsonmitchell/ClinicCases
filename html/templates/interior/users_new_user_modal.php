@@ -8,6 +8,21 @@
           <h5 class="modal-title" id="newUserLabel">New User</h5>
         </div>
         <div class="modal-body">
+          <div>
+            <div id="dropzone" class="picture_dropzone">
+              <p>Drag and drop your image here</p>
+              <p>or</p>
+              <label for="picture">click here to browse
+              </label>
+              <input id="picture" type="file" name="picture">
+              <div class="file_info">
+
+                <img src="#" alt="Preview of user picture" class="file_preview">
+                <button type="button" class="file_delete"><img src="html/ico/times.png" alt="" /></button>
+                <p class="file_name"></p>
+              </div>
+            </div>
+          </div>
           <div class="form__control">
             <input id="first_name" required type="text" name="first_name" placeholder=" ">
             <label for="first_name">First Name</label>
@@ -52,9 +67,7 @@
     </form>
     <div class="modal-footer">
       <button id="newUserCancel" class="new_user_cancel">Cancel</button>
-      <button type="button" class="primary-button new_user_submit">Submit</button>
+      <button type="button" class="primary-button new_user_submit">Add</button>
     </div>
   </div>
 </div>
-
-
