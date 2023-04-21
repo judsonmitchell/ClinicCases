@@ -6,6 +6,7 @@ require('../../../db.php');
 require('../auth/pbkdf2.php');
 require('../utilities/names.php');
 require('../users/user_data.php');
+$_POST = json_decode(file_get_contents("php://input"), true);
 
 function bindPostVals($query_string)
 {
@@ -28,6 +29,7 @@ function bindPostVals($query_string)
 //Get variables
 
 $action = $_POST['action'];
+
 
 if (isset($_POST['users'])) {
 	$users = $_POST['users'];
@@ -104,103 +106,116 @@ switch ($action) {
 
 	case 'create':
 
-		var_dump($_POST);
-		$post = bindPostVals($_POST);
-		var_dump($post);
-		$q = $dbh->prepare("UPDATE cm_users SET " . $post['columns'] . " WHERE id = :id");
-		$q->execute($post['values']);
-		$error = $q->errorInfo();
 
-		if (!$error[1]) {
+		try {
+			$post = bindPostVals($_POST);
+			$q = $dbh->prepare("INSERT cm_users SET " . $post['columns']);
+			$q->execute($post['values']);
+			$error = $q->errorInfo();
+			if (!$error[1]) {
+				$id = $dbh->lastInsertId();
+				// Check if picture is uploaded
+				if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+					$picture_name = $_FILES['picture']['name'];
+					$picture_tmp_name = $_FILES['picture']['tmp_name'];
+					$picture_url = "http://yourdomain.com/people/" . $picture_name;
+					move_uploaded_file($picture_tmp_name, "people/" . $picture_name);
 
-			// Check if picture is uploaded
-			if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-				$picture_name = $_FILES['picture']['name'];
-				$picture_tmp_name = $_FILES['picture']['tmp_name'];
-				$picture_url = "http://yourdomain.com/people/" . $picture_name;
-				move_uploaded_file($picture_tmp_name, "people/" . $picture_name);
-
-				// Set the picture_url field in the $post array
-				$post['columns'] .= ',picture_url';
-				$post['values']['picture_url'] = $picture_url;
-			}
-			//Create username
-			$fname = trim(str_replace(' ', '', $_POST['first_name']));
-			$lname = trim(str_replace(' ', '', $_POST['last_name']));
-			$concat_name = substr($fname, 0, 1) . $lname;
-			$proposed_username =  preg_replace("/[^a-zA-Z0-9]/", "", $concat_name);
-
-			function check_uniqueness($dbh, $proposed_username)
-			{
-				$q = $dbh->prepare("SELECT username FROM cm_users WHERE username = '$proposed_username'");
-
-				$q->execute();
-
-				if ($q->rowCount() > 0) {
-					return true;
-				} else {
-					return false;
+					// Set the picture_url field in the $post array
+					$post['columns'] .= ',picture_url';
+					$post['values']['picture_url'] = $picture_url;
 				}
-			}
+				//Create username
+				$fname = trim(str_replace(' ', '', $_POST['first_name']));
+				$lname = trim(str_replace(' ', '', $_POST['last_name']));
+				$concat_name = substr($fname, 0, 1) . $lname;
+				$proposed_username =  preg_replace("/[^a-zA-Z0-9]/", "", $concat_name);
 
-			//Loop until we get a unique username
-			while (check_uniqueness($dbh, $proposed_username)) {
-				if (is_numeric(substr($proposed_username, -1)))
-				//we have already tried to make username unique by adding a number
+				function check_uniqueness($dbh, $proposed_username)
 				{
-					$digit = substr($proposed_username, -1) + 1;
-					$proposed_username = substr($proposed_username, 0, -1) . $digit;
-				} else {
-					$proposed_username = $proposed_username . "1";
-				}
-			}
+					$q = $dbh->prepare("SELECT username FROM cm_users WHERE username = '$proposed_username'");
 
-			$new_username = strtolower($proposed_username);
+					$q->execute();
 
-			//Create temp password
-			function generatePassword($length = 8)
-			{
-				// start with a blank password
-				$password = "";
-
-				// define possible characters
-				$possible = "0123456789bcdfghjkmnpqrstvwxyz";
-
-				// set up a counter
-				$i = 0;
-
-				// add random characters to $password until $length is reached
-				while ($i < $length) {
-
-					// pick a random character from the possible ones
-					$char = substr($possible, mt_rand(0, strlen($possible) - 1), 1);
-
-					// we don't want this character if it's already in the password
-					if (!strstr($password, $char)) {
-						$password .= $char;
-						$i++;
+					if ($q->rowCount() > 0) {
+						return true;
+					} else {
+						return false;
 					}
 				}
 
-				return $password;
+				//Loop until we get a unique username
+				while (check_uniqueness($dbh, $proposed_username)) {
+					if (is_numeric(substr($proposed_username, -1)))
+					//we have already tried to make username unique by adding a number
+					{
+						$digit = substr($proposed_username, -1) + 1;
+						$proposed_username = substr($proposed_username, 0, -1) . $digit;
+					} else {
+						$proposed_username = $proposed_username . "1";
+					}
+				}
+
+				$new_username = strtolower($proposed_username);
+
+				//Create temp password
+				function generatePassword($length = 8)
+				{
+					// start with a blank password
+					$password = "";
+
+					// define possible characters
+					$possible = "0123456789bcdfghjkmnpqrstvwxyz";
+
+					// set up a counter
+					$i = 0;
+
+					// add random characters to $password until $length is reached
+					while ($i < $length) {
+
+						// pick a random character from the possible ones
+						$char = substr($possible, mt_rand(0, strlen($possible) - 1), 1);
+
+						// we don't want this character if it's already in the password
+						if (!strstr($password, $char)) {
+							$password .= $char;
+							$i++;
+						}
+					}
+
+					return $password;
+				}
+
+				$gen_pass = generatePassword();
+
+				$pass = md5($gen_pass);
+
+
+				try {
+
+					echo $new_username;
+					echo $id;
+					//Update database with this info
+					$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass,force_new_password ='1' WHERE id = :id");
+					$data = array('user' => $new_username, 'pass' => $pass, 'id' => $id);
+					$q->execute($data);
+
+					//Notify new user
+					$email = $_POST['email'];
+					$subject = "ClinicCases: Your new account has been created";
+					$body = "You new ClinicCases account has been created. Your username is $new_username. " .
+						"Your temporary password is $gen_pass .  Please log on to ClinicCases at " . CC_BASE_URL .
+						" . You will then be prompted to update your password.";
+
+					mail($email, $subject, $body, CC_EMAIL_HEADERS, "-f " . CC_EMAIL_FROM);
+				} catch (Exception $e) {
+					echo 'Here';
+					echo $e->getMessage();
+				}
 			}
-
-			$gen_pass = generatePassword();
-			$pass = md5($gen_pass);
-
-			//Update database with this info
-			$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass,force_new_password ='1' WHERE id = :id");
-			$data = array('user' => $new_username, 'pass' => $pass, 'id' => $_POST['id']);
-			$q->execute($data);
-
-			//Notify new user
-			$email = $_POST['email'];
-			$subject = "ClinicCases: Your new account has been created";
-			$body = "You new ClinicCases account has been created. Your username is $new_username. " .
-				"Your temporary password is $gen_pass .  Please log on to ClinicCases at " . CC_BASE_URL .
-				" . You will then be prompted to update your password.";
-
-			mail($email, $subject, $body, CC_EMAIL_HEADERS, "-f " . CC_EMAIL_FROM);
+		} catch (Exception $e) {
+			echo "ERROR:";
+			echo $e->getMessage();
 		}
 }
 

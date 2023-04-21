@@ -24,7 +24,7 @@
   &.dragover {
     border-color: green;
   }
-  [name='picture'] {
+  [name='picture_url'] {
     display: none;
   }
   .file_info {
@@ -77,3 +77,4 @@
     display: block;
   }
 }
+

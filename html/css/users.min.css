@@ -813,7 +813,7 @@ form {
 .picture_dropzone.dragover {
   border-color: green;
 }
-.picture_dropzone [name=picture] {
+.picture_dropzone [name=picture_url] {
   display: none;
 }
 .picture_dropzone .file_info {

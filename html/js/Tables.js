@@ -209,7 +209,7 @@ class Table {
     this.pagination.summary.innerHTML = `Page ${this.page} of ${
       totalPages || 1
     }`;
-    this.pagination.total.innerText = `${totalItems} total ${this.tabelName?.toLowerCase()}}`;
+    this.pagination.total.innerText = `${totalItems} total ${this.tableName?.toLowerCase()}`;
     this.pagination.prev.disabled = this.page == 1;
     this.pagination.next.disabled = this.page == totalPages;
   }
