@@ -487,6 +487,12 @@ button {
   }
 }
 
+.thumbnail-mask {
+  border: 2px solid #ffffdc;
+  box-shadow: 3px 3px 5px gray;
+  border-radius: 50%;
+}
+
 .header {
   position: sticky;
   top: 0;

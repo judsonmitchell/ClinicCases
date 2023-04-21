@@ -6,15 +6,11 @@ import { getModal } from '../../lib/javascripts/modal.js';
 import { getFormValues, checkFormValidity } from './forms.js';
 let table;
 let newUserGroupSlimSelect;
-let newUserSupervisorSlimSelect;
 
 const initNewUserForm = () => {
   newUserGroupSlimSelect = new SlimSelect({
     select: '.new_user_group_slim_select',
   });
-  // newUserSupervisorSlimSelect = new SlimSelect({
-  //   select: '.new_user_supervisor_slim_select',
-  // });
 };
 
 const reloadUsersTable = () => {
@@ -35,6 +31,7 @@ const createCanAddUserButton = () => {
 };
 const initUsersTable = async () => {
   const users = await fetchUsers();
+  console.log({ users });
   const canAddButton = createCanAddUserButton();
   const aoColumns = [
     { name: 'Id', hidden: true, type: 'text', fieldName: 'id' },
@@ -188,7 +185,6 @@ live('click', 'new_user_submit', async (e) => {
   );
   const addUserSlimSelect = slimSelectRef.slim;
   const group = addUserSlimSelect.selected();
-  console.log({ values, group });
 
   if (!group.length) {
     slimSelectRef.classList.add('invalid');
@@ -209,15 +205,25 @@ live('click', 'new_user_submit', async (e) => {
   addUserForm.classList.remove('invalid');
   slimSelectRef.classList.remove('invalid');
 
+  const picture_file = addUserForm.querySelector('[name="picture_url"]')
+    .files[0];
+
+  console.log({ picture_file });
+
   delete values[''];
+  delete values['picture_url'];
   try {
-    const res = await processUsers({ action: 'create', ...values });
+    const res = await processUsers(
+      { action: 'create', ...values },
+      picture_file,
+    );
     if (res.error) {
       alertify.error(res.message);
     } else {
       alertify.success(res.message);
     }
-    await reloadUsersTable();
+    console.log(res);
+    reloadUsersTable();
     addUserModal.hide();
   } catch (err) {
     alertify.error(err.message);

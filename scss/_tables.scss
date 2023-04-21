@@ -14,6 +14,11 @@
     @media screen and (max-width: $tablet) {
       width: auto;
     }
+    .thumbnail-mask {
+      max-width: 100%;
+      object-fit: cover;
+      width: 30px;
+    }
   }
   thead {
     border-bottom: 3px solid $border-gray;
@@ -21,6 +26,7 @@
       color: $dark-blue;
       font-weight: 600;
       position: relative;
+   
       td {
         position: relative;
 

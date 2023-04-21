@@ -166,3 +166,12 @@ button {
     font-size: 1.5rem;
   }
 }
+
+
+.thumbnail-mask {
+  border: 2px solid #ffffdc;
+  -moz-box-shadow: 3px 3px 5px gray;
+  -webkit-box-shadow: 3px 3px 5px gray;
+  box-shadow: 3px 3px 5px gray;
+  border-radius: 50%;
+}

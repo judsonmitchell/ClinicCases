@@ -350,6 +350,12 @@ button {
   }
 }
 
+.thumbnail-mask {
+  border: 2px solid #ffffdc;
+  box-shadow: 3px 3px 5px gray;
+  border-radius: 50%;
+}
+
 .modal-content {
   padding: 4rem;
   max-width: 100vw;

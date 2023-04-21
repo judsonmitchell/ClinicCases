@@ -243,6 +243,12 @@
     width: auto;
   }
 }
+#table_cases table .thumbnail-mask, #table_users table .thumbnail-mask {
+  max-width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 30px;
+}
 #table_cases thead, #table_users thead {
   border-bottom: 3px solid #a09cb0;
 }

@@ -6,7 +6,7 @@ require('../../../db.php');
 require('../auth/pbkdf2.php');
 require('../utilities/names.php');
 require('../users/user_data.php');
-$_POST = json_decode(file_get_contents("php://input"), true);
+// $_POST = json_decode(file_get_contents("php://input"), true);
 
 function bindPostVals($query_string)
 {
@@ -109,21 +109,22 @@ switch ($action) {
 
 		try {
 			$post = bindPostVals($_POST);
+
 			$q = $dbh->prepare("INSERT cm_users SET " . $post['columns']);
 			$q->execute($post['values']);
 			$error = $q->errorInfo();
 			if (!$error[1]) {
 				$id = $dbh->lastInsertId();
-				// Check if picture is uploaded
-				if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-					$picture_name = $_FILES['picture']['name'];
-					$picture_tmp_name = $_FILES['picture']['tmp_name'];
-					$picture_url = "http://yourdomain.com/people/" . $picture_name;
-					move_uploaded_file($picture_tmp_name, "people/" . $picture_name);
-
-					// Set the picture_url field in the $post array
-					$post['columns'] .= ',picture_url';
-					$post['values']['picture_url'] = $picture_url;
+				if (isset($_FILES['picture_url']) && $_FILES['picture_url']['error'] == 0) {
+					$picture_name = $_FILES['picture_url']['name'];
+					$extension = pathinfo($picture_name, PATHINFO_EXTENSION);
+					$picture_tmp_name = $_FILES['picture_url']['tmp_name'];
+					$full_path = CC_PATH . "/people/tn_" . $id . '.' . $extension;
+					move_uploaded_file($picture_tmp_name, $full_path);
+					$picture_url = "people/" . $id . '.' . $extension;
+					$q = $dbh->prepare("UPDATE cm_users SET picture_url = :picture_url WHERE id = :id");
+					$data = array('picture_url' => $picture_url, 'id' => $id);
+					$q->execute($data);
 				}
 				//Create username
 				$fname = trim(str_replace(' ', '', $_POST['first_name']));
