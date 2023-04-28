@@ -1,17 +1,34 @@
 // //Scripts for users page
 
 import { fetchUsers, processUsers } from '../../lib/javascripts/axios.js';
-import { live } from './live.js';
+import { getClosest, live } from './live.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import { getFormValues, checkFormValidity } from './forms.js';
 let table;
 let newUserGroupSlimSelect;
 
+const checkForOpenUser = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const user_id = urlParams.get('user_id');
+  const page = urlParams.get('page');
+  if (user_id) {
+    const viewUserModal = getModal('#viewUserModal');
+    viewUserModal.show();
+  }
+};
 const initNewUserForm = () => {
   newUserGroupSlimSelect = new SlimSelect({
     select: '.new_user_group_slim_select',
   });
 };
+live('click', 'table__cell', (e) => {
+  const row = getClosest(e.target, 'table__cell');
+  row.addEventListener('click', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('user_id', row.dataset.userid);
+    window.location.search = urlParams.toString();
+  });
+});
 
 const reloadUsersTable = () => {
   const table_users = document.querySelector('#table_users');
@@ -31,11 +48,16 @@ const createCanAddUserButton = () => {
 };
 const initUsersTable = async () => {
   const users = await fetchUsers();
-  console.log({ users });
   const canAddButton = createCanAddUserButton();
   const aoColumns = [
     { name: 'Id', hidden: true, type: 'text', fieldName: 'id' },
-    { name: 'Face', hidden: false, type: 'img', fieldName: 'picture_url' },
+    {
+      name: 'Face',
+      hidden: false,
+      type: 'img',
+      fieldName: 'picture_url',
+      noLabel: true,
+    },
     {
       name: 'First Name',
       hidden: false,
@@ -109,8 +131,11 @@ const initUsersTable = async () => {
       },
     ],
     tableName: 'Users',
+    tableNameSingular: 'User',
     canAddButton,
   });
+
+
 };
 
 const setupImageDropzone = () => {
@@ -208,8 +233,6 @@ live('click', 'new_user_submit', async (e) => {
   const picture_file = addUserForm.querySelector('[name="picture_url"]')
     .files[0];
 
-  console.log({ picture_file });
-
   delete values[''];
   delete values['picture_url'];
   try {
@@ -242,6 +265,7 @@ live('click', 'new_user_cancel', (e) => {
     null,
   );
 });
+
 // submit form handler
 // function handleFiles(files) {
 //   const file = files[0];
@@ -256,4 +280,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initUsersTable();
   initNewUserForm();
   setupImageDropzone();
+  checkForOpenUser();
 });

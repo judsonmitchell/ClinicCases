@@ -119,12 +119,13 @@ switch ($action) {
 					$picture_name = $_FILES['picture_url']['name'];
 					$extension = pathinfo($picture_name, PATHINFO_EXTENSION);
 					$picture_tmp_name = $_FILES['picture_url']['tmp_name'];
-					$full_path = CC_PATH . "/people/tn_" . $id . '.' . $extension;
+					$full_path = CC_PATH . "/people" . '/' . $id . '.' . $extension;
 					move_uploaded_file($picture_tmp_name, $full_path);
 					$picture_url = "people/" . $id . '.' . $extension;
 					$q = $dbh->prepare("UPDATE cm_users SET picture_url = :picture_url WHERE id = :id");
 					$data = array('picture_url' => $picture_url, 'id' => $id);
 					$q->execute($data);
+					// TODO figure out thumb nails
 				}
 				//Create username
 				$fname = trim(str_replace(' ', '', $_POST['first_name']));
@@ -194,8 +195,7 @@ switch ($action) {
 
 				try {
 
-					echo $new_username;
-					echo $id;
+
 					//Update database with this info
 					$q = $dbh->prepare("UPDATE cm_users SET username = :user,password = :pass,force_new_password ='1' WHERE id = :id");
 					$data = array('user' => $new_username, 'pass' => $pass, 'id' => $id);
@@ -210,7 +210,6 @@ switch ($action) {
 
 					mail($email, $subject, $body, CC_EMAIL_HEADERS, "-f " . CC_EMAIL_FROM);
 				} catch (Exception $e) {
-					echo 'Here';
 					echo $e->getMessage();
 				}
 			}

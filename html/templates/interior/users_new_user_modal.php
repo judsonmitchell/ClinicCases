@@ -86,3 +86,5 @@ require('lib/php/html/gen_select.php');
     </div>
   </div>
 </div>
+</div>
+</div>

@@ -25,6 +25,7 @@ class Table {
     limit,
     facets,
     tableName,
+    tableNameSingular,
     canAddButton,
   }) {
     this.columns = columns;
@@ -37,6 +38,7 @@ class Table {
     this.filteredData = [...data];
     this.sortedData = [...data];
     this.tableName = tableName;
+    this.tableNameSingular = tableNameSingular;
     this.canAddButton = canAddButton;
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
@@ -86,15 +88,26 @@ class Table {
     this._insertData(currentPageData);
   }
 
+  // TODO nav to page on load
+  _setPageParams(page) {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('page', page);
+    const newUrl = window.location.pathname + '?' + searchParams.toString();
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  }
+
   _renderNextPage() {
     this.page++;
     this.body.innerHTML = null;
+    this._setPageParams(this.page);
     this._renderPage();
     this._updatePagination();
   }
   _renderPrevPage() {
     this.page--;
     this.body.innerHTML = null;
+    this._setPageParams(this.page);
+
     this._renderPage();
     this._updatePagination();
   }
@@ -110,7 +123,9 @@ class Table {
     var row = header.insertRow(0);
     this.columns.forEach((col, index) => {
       var cell = row.insertCell(index);
-      cell.innerHTML = col.name;
+      if (!col.noLabel) {
+        cell.innerHTML = col.name;
+      }
       cell.setAttribute('data-col', index);
       cell.setAttribute('data-fieldName', col.fieldName);
       cell.setAttribute('data-header', true);
@@ -166,8 +181,12 @@ class Table {
       values.forEach((val, valIndex) => {
         var cell = row.insertCell(valIndex);
         cell.innerHTML = val;
+        cell.classList.add('table__cell')
         cell.setAttribute('data-col', valIndex);
-        cell.setAttribute('data-caseid', item.id);
+        cell.setAttribute(
+          `data-${this.tableNameSingular?.toLowerCase()}id`,
+          item.id,
+        );
         cell.setAttribute('data-name', `${item.last_name}, ${item.first_name}`);
         if (this.columns[valIndex].hidden) cell.style.display = 'none';
       });

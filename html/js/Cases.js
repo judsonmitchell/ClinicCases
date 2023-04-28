@@ -57,7 +57,7 @@ async function initCasesTable() {
     // Fetch all case data
     const caseDataResponse = await axios.get(`lib/php/data/cases_load.php`);
     caseData = caseDataResponse.data.aaData;
-
+    // TODO each row click changes url params
     const canAddButton = createCanAddCaseButton();
     // Custom table plugin initiation
     table = new Table({
@@ -92,7 +92,8 @@ async function initCasesTable() {
         },
       ],
       tableName: 'Cases',
-      canAddButton
+      tableNameSingular: 'Case',
+      canAddButton,
     });
   } catch (error) {
     alertify.error(error);

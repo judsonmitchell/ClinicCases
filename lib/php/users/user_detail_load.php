@@ -1,18 +1,17 @@
 <?php
-session_start();
-require('../auth/session_check.php');
-include '../../../db.php';
-include '../utilities/convert_times.php';
-include '../utilities/convert_case_time.php';
-include '../utilities/names.php';
-include '../utilities/thumbnails.php';
-include '../auth/last_login.php';
-include '../html/gen_select.php';
-include 'user_data.php';
+// session_start();
+// require('lip/php/auth/session_check.php');
+// include '../../../db.php';
+// include '../utilities/convert_times.php';
+include 'lib/php/utilities/convert_case_time.php';
+// include '../utilities/thumbnails.php';
+// include '../auth/last_login.php';
+// include '../html/gen_select.php';
+// include './user_data.php';
 
 
 //Returns the name of open cases that user is assigned to
-function get_active_cases($dbh,$user)
+function get_active_cases($dbh, $user)
 {
 
 	$q = $dbh->prepare("SELECT cm.date_close,cm.id,cm_case_assignees.case_id,
@@ -32,16 +31,15 @@ function get_active_cases($dbh,$user)
 
 	foreach ($cases as $case) {
 
-		$case_array[$case['case_id']] = case_id_to_casename($dbh,$case['case_id']);
+		$case_array[$case['case_id']] = case_id_to_casename($dbh, $case['case_id']);
 	}
 
 	asort($case_array);
 
 	return $case_array;
-
 }
 
-function get_total_hours($dbh,$user)
+function get_total_hours($dbh, $user)
 {
 	$q = $dbh->prepare("SELECT SUM(time) FROM `cm_case_notes` WHERE username = ?");
 
@@ -51,51 +49,48 @@ function get_total_hours($dbh,$user)
 
 	$sum = $q->fetch();
 
-	if (!empty($sum['SUM(time)']))
-	{
+	if (!empty($sum['SUM(time)'])) {
 		$time = convert_case_time($sum['SUM(time)']);
+	} else {
+		$time = array('0', ' minutes');
 	}
-	else
-		{
-			$time = array('0',' minutes');
-		}
 
 	return $time;
-
 }
 
-function get_last_case_activity($dbh,$user)
-{
-	$q = $dbh->prepare("SELECT * FROM `cm_case_notes`
-		WHERE username = ? ORDER BY `date` desc LIMIT 0,1");
+// function get_last_case_activity($dbh,$user)
+// {
+// 	$q = $dbh->prepare("SELECT * FROM `cm_case_notes`
+// 		WHERE username = ? ORDER BY `date` desc LIMIT 0,1");
 
-	$q->bindParam(1, $user);
+// 	$q->bindParam(1, $user);
 
-	$q->execute();
+// 	$q->execute();
 
-	$c = $q->fetch();
+// 	$c = $q->fetch();
 
-	if ($c)
-	{
-		$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh,$c['case_id']) . "</a> case.";
-	}
-	else
-	{
-		$data = "None";
-	}
+// 	if ($c)
+// 	{
+// 		$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh,$c['case_id']) . "</a> case.";
+// 	}
+// 	else
+// 	{
+// 		$data = "None";
+// 	}
 
-	return $data;
+// 	return $data;
 
+// }
+
+// $group_name_data = group_display_name_array($dbh);
+
+// $supervisor_name_data  = supervisor_names_array($dbh);
+
+$id = $user_id;
+
+if (isset($_POST['view'])) {
+	$view = $_POST['view'];
 }
-
-$group_name_data = group_display_name_array($dbh);
-
-$supervisor_name_data  = supervisor_names_array($dbh);
-
-$id = $_POST['id'];
-
-if (isset($_POST['view']))
-{$view = $_POST['view'];}
 
 $q = $dbh->prepare("SELECT * FROM cm_users WHERE id = ?");
 
@@ -105,5 +100,7 @@ $q->execute();
 
 $user = $q->fetch(PDO::FETCH_ASSOC);
 
-include('../../../html/templates/interior/user_detail.php');
+$total_hours = get_total_hours($dbh, $user['username']);
+$cases = get_active_cases($dbh, $user['username']);
 
+include('html/templates/interior/user_detail.php');

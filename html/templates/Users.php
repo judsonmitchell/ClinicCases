@@ -11,10 +11,10 @@
 
 </head>
 
+
 <body>
 
 	<div id="notifications"></div>
-
 
 
 	<div class="header">
@@ -37,5 +37,10 @@
 		} ?>
 
 <?php include('html/templates/interior/users_new_user_modal.php'); ?>
-
+<?php
+$user_id = $_GET['user_id'];
+if ($user_id) {
+	include('lib/php/users/user_detail_load.php');
+}
+?>
 	</div> -->

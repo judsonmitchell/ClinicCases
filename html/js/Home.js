@@ -184,7 +184,6 @@ live('click', 'quick_add_submit', async (e) => {
   const isValid = checkFormValidity(form);
   const data = getFormValues(form);
   const modal = getModal('#quickAddModal');
-  console.log({ isCaseNote });
   if (!isCaseNote && !responsiblesSlimSelect.selected()?.length) {
     responsiblesSlimSelectContainer.classList.add('invaid');
     isValid =
