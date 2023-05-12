@@ -918,6 +918,7 @@ form {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin: 40px 0;
+  align-items: baseline;
 }
 .user-details__detail h3 {
   font-family: "Montserrat", sans-serif;
@@ -934,4 +935,13 @@ form {
 }
 .user-details__detail a {
   text-align: left;
+}
+.user-details__detail p {
+  display: flex;
+  flex-direction: column;
+  align-items: start !important;
+}
+
+#viewUserModal hr {
+  margin: 40px -60px 20px;
 }/*# sourceMappingURL=users.min.css.map */

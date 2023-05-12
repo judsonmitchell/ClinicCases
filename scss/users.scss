@@ -104,6 +104,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin: 40px 0;
+  align-items: baseline;
+
   h3 {
     @include body-font();
     font-weight: 700;
@@ -112,5 +114,16 @@
   a {
     text-align: left;
   }
- 
+  p {
+    display: flex;
+    flex-direction: column;
+    align-items: start !important;
+
+  }
+}
+
+#viewUserModal {
+  hr {
+    margin: 40px -60px 20px;
+  }
 }

@@ -555,7 +555,6 @@ class Table {
 
         this.filteredData = this.filteredData.filter((item) => {
           const isValidFacet = func(item);
-          console.log({ item });
           const containsKeyword = item[fieldName].search(exp) > -1;
           return isValidFacet && containsKeyword;
         });

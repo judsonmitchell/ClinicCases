@@ -35,6 +35,7 @@ include 'lib/php/utilities/convert_times.php';
 						<span>&nbsp;&nbsp;Reset password </span>
 					</a>
 				</div>
+				<hr>
 				<div class="user-details__detail">
 					<h3>Total Hours:</h3>
 					<p><?php echo $total_hours[0] . ' ' . $total_hours[1] ?></p>

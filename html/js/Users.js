@@ -21,14 +21,6 @@ const initNewUserForm = () => {
     select: '.new_user_group_slim_select',
   });
 };
-live('click', 'table__cell', (e) => {
-  const row = getClosest(e.target, 'table__cell');
-  row.addEventListener('click', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('user_id', row.dataset.userid);
-    window.location.search = urlParams.toString();
-  });
-});
 
 const reloadUsersTable = () => {
   const table_users = document.querySelector('#table_users');
@@ -134,10 +126,19 @@ const initUsersTable = async () => {
     tableNameSingular: 'User',
     canAddButton,
   });
-
-
+  setUpRowClick();
 };
 
+const setUpRowClick = () => {
+  table.onRowClick((e) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set(
+      'user_id',
+      getClosest(e.target, 'table__cell')?.dataset?.userid,
+    );
+    window.location.search = urlParams.toString();
+  });
+};
 const setupImageDropzone = () => {
   const dropzones = document.querySelectorAll('.picture_dropzone');
 
