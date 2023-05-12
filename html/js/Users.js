@@ -10,7 +10,16 @@ import { getModal } from '../../lib/javascripts/modal.js';
 import { getFormValues, checkFormValidity } from './forms.js';
 let table;
 let newUserGroupSlimSelect;
-
+const removeUserIdFromParams = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.delete('user_id');
+  const newUrl =
+    window.location.origin +
+    window.location.pathname +
+    '?' +
+    searchParams.toString();
+  window.history.replaceState(null, null, newUrl);
+};
 const checkForOpenUser = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const user_id = urlParams.get('user_id');
@@ -250,13 +259,13 @@ live('click', 'new_user_submit', async (e) => {
     } else {
       alertify.success(res.message);
     }
-    console.log(res);
     reloadUsersTable();
     addUserModal.hide();
   } catch (err) {
     alertify.error(err.message);
   }
 });
+
 live('click', 'new_user_cancel', (e) => {
   e.preventDefault();
   alertify.confirm(
@@ -269,6 +278,10 @@ live('click', 'new_user_cancel', (e) => {
     },
     null,
   );
+});
+
+live('click', 'modal_close', () => {
+  removeUserIdFromParams();
 });
 
 // submit form handler
@@ -306,6 +319,33 @@ live('click', 'reset_password', async (e, el) => {
                 alertify.error(`Error: ${err.message}`);
               });
           });
+        }
+      } catch (e) {
+        alertify.error(e.message);
+      }
+    },
+    null,
+  );
+});
+live('click', 'user_detail_delete', async (e, el) => {
+  alertify.confirm(
+    'Confirm',
+    `<p>It is usually best to deactivate, rather than delete, a user account.</p>
+     <p>To deactivate, click the edit button below and then change the user status.</p>
+    <p>You should only delete if this user account was created by error or as a result of spam.</p> 
+    <p>Are you sure you want to delete?</p>`,
+    async () => {
+      try {
+        const id = el.dataset.id;
+        const res = await processUsers({ users: id, action: 'delete' });
+        if (res.error) {
+          throw new Error(res.message);
+        } else {
+          alertify.success(res.message)
+          const modal = getModal(el.dataset.target);
+          modal.hide();
+          removeUserIdFromParams();
+          reloadUsersTable();
         }
       } catch (e) {
         alertify.error(e.message);

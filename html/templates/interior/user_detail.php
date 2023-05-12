@@ -92,7 +92,7 @@ include 'lib/php/utilities/convert_times.php';
 				</div>
 
 				<div class="modal-footer">
-					<button id="editUserModal" data-target="editUserModal" class="user_detail_delete">Delete</button>
+					<button data-target="#viewUserModal" data-id="<?php echo $user['id'] ?>" class="user_detail_delete">Delete</button>
 					<button type="button" data-target="viewUserModal" class="primary-button user_deatil_edit">Edit</button>
 				</div>
 			</div>
@@ -100,14 +100,3 @@ include 'lib/php/utilities/convert_times.php';
 	</div>
 </div>
 
-<script>
-	document.querySelector('.modal_close').addEventListener('click', () => {
-		console.log(window.location.href);
-		const searchParams = new URLSearchParams(window.location.search);
-		searchParams.delete('user_id');
-		console.log(searchParams.toString());
-		const newUrl = window.location.origin + window.location.pathname + '?' + searchParams.toString();
-		window.history.replaceState(null, null, newUrl);
-
-	})
-</script>
