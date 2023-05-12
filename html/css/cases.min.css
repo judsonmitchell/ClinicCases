@@ -185,9 +185,6 @@
     padding: 1rem;
     height: 100vh;
   }
-  .modal-dialog {
-    margin: 0;
-  }
   .modal-footer {
     position: absolute;
     bottom: 0;
@@ -195,6 +192,22 @@
     right: 0;
   }
 }
+.modal_close {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 100%;
+  border: 2px solid #2b50aa;
+}
+.modal_close img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
 .modal-header {
   border: none;
 }

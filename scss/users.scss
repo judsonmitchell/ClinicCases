@@ -98,3 +98,19 @@
   justify-content: center;
   gap: 20px;
 }
+
+.user-details__detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 40px 0;
+  h3 {
+    @include body-font();
+    font-weight: 700;
+    text-align: right;
+  }
+  a {
+    text-align: left;
+  }
+ 
+}

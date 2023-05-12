@@ -30,12 +30,12 @@ include '../lib/php/html/gen_select.php';
 	<div id="content" class="content_login">
 
 		<h1>Set Up Your ClinicCases Account for <span style="color:<?php echo CC_SCHOOL_COLOR; ?>"><?php echo CC_PROGRAM_NAME; ?></span></h1>
-		<p>Submit the form to the right to apply for a ClinicCases account. Your application will be reviewed and approved by your administrator. If you have any questions, please contact your <a href="mailto:<?php echo CC_ADMIN_EMAIL; ?>">Administrator</a>.</p>
 
 
 
 
 		<div id="newAccount" class="new_account_right">
+			<p>Submit the form to the right to apply for a ClinicCases account. Your application will be reviewed and approved by your administrator. If you have any questions, please contact your <a href="mailto:<?php echo CC_ADMIN_EMAIL; ?>">Administrator</a>.</p>
 
 			<p>Fields with an <span style="color:red">asterisk</span> are required.</p>
 

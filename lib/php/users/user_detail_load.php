@@ -5,7 +5,7 @@
 // include '../utilities/convert_times.php';
 include 'lib/php/utilities/convert_case_time.php';
 // include '../utilities/thumbnails.php';
-// include '../auth/last_login.php';
+include 'lib/php/auth/last_login.php';
 // include '../html/gen_select.php';
 // include './user_data.php';
 
@@ -58,29 +58,25 @@ function get_total_hours($dbh, $user)
 	return $time;
 }
 
-// function get_last_case_activity($dbh,$user)
-// {
-// 	$q = $dbh->prepare("SELECT * FROM `cm_case_notes`
-// 		WHERE username = ? ORDER BY `date` desc LIMIT 0,1");
+function get_last_case_activity($dbh, $user)
+{
+	$q = $dbh->prepare("SELECT * FROM `cm_case_notes`
+		WHERE username = ? ORDER BY `date` desc LIMIT 0,1");
 
-// 	$q->bindParam(1, $user);
+	$q->bindParam(1, $user);
 
-// 	$q->execute();
+	$q->execute();
 
-// 	$c = $q->fetch();
+	$c = $q->fetch();
 
-// 	if ($c)
-// 	{
-// 		$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh,$c['case_id']) . "</a> case.";
-// 	}
-// 	else
-// 	{
-// 		$data = "None";
-// 	}
+	if ($c) {
+		$data = extract_date_time($c['date']) . ": " . implode(' ', convert_case_time($c['time'])) . ' on the <a href="index.php?i=Cases.php#cases/' . $c['case_id']  .  '" target="_new">' . case_id_to_casename($dbh, $c['case_id']) . "</a> case.";
+	} else {
+		$data = "None";
+	}
 
-// 	return $data;
-
-// }
+	return $data;
+}
 
 // $group_name_data = group_display_name_array($dbh);
 

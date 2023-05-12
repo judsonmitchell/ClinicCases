@@ -10,9 +10,7 @@
     height: 100vh;
 
   }
-  .modal-dialog{
-    margin: 0;
-  }
+ 
   .modal-footer {
     position: absolute;
     bottom: 0;
@@ -21,7 +19,20 @@
   }
 }
 
-
+.modal_close {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 100%;
+  border: 2px solid $dark-blue;
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
 .modal-header{
   border: none;
 }
