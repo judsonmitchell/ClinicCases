@@ -870,23 +870,24 @@ form {
 .picture_dropzone.dragover {
   border-color: green;
 }
-.picture_dropzone [name=picture_url] {
+.picture_dropzone [name=picture_url],
+.picture_dropzone [name=edit_picture_url] {
   display: none;
 }
 .picture_dropzone .file_info {
   display: none;
 }
 
-.picture_dropzone:has(input[type=file].has_file) {
+.picture_dropzone:has(.has_file) {
   border: none;
   background-color: transparent;
   padding: 0;
 }
-.picture_dropzone:has(input[type=file].has_file) > p,
-.picture_dropzone:has(input[type=file].has_file) > label {
+.picture_dropzone:has(.has_file) > p,
+.picture_dropzone:has(.has_file) > label {
   display: none;
 }
-.picture_dropzone:has(input[type=file].has_file) .file_info {
+.picture_dropzone:has(.has_file) .file_info {
   display: block;
 }
 

@@ -58,7 +58,8 @@
   &.dragover {
     border-color: green;
   }
-  [name='picture_url'] {
+  [name='picture_url'],
+  [name='edit_picture_url'] {
     display: none;
   }
   .file_info {
@@ -66,7 +67,7 @@
   }
 }
 
-.picture_dropzone:has(input[type='file'].has_file) {
+.picture_dropzone:has(.has_file) {
   border: none;
   background-color: transparent;
   padding: 0;
@@ -78,6 +79,7 @@
     display: block;
   }
 }
+
 .user-detail__info {
   display: flex;
   flex-direction: column;

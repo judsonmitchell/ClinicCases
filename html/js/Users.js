@@ -154,7 +154,6 @@ const setUpRowClick = () => {
 };
 const setupImageDropzone = () => {
   const dropzones = document.querySelectorAll('.picture_dropzone');
-
   dropzones.forEach((dropzone) => {
     dropzone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -172,7 +171,9 @@ const setupImageDropzone = () => {
       handleFiles(files);
     });
 
-    const fileInput = dropzone.querySelector('[name="picture_url"]');
+    const fileInput =
+      dropzone.querySelector('[name="picture_url"]') ||
+      document.querySelector('[name="picture_url"]');
     const fileDelete = dropzone.querySelector('.file_delete');
     fileDelete.addEventListener('click', () => {
       fileInput.value = '';
@@ -181,8 +182,34 @@ const setupImageDropzone = () => {
     });
     fileInput.addEventListener('change', () => {
       const files = fileInput.files;
-      handleFiles(files);
+      handleFilesFromBrowse(files);
     });
+    function handleFilesFromBrowse(files) {
+      console.log({ fileInput });
+
+      fileInput.files = files;
+      const picturePreview = dropzone.querySelector('.file_preview');
+
+      const file = files[0];
+      if (file) {
+        const file_name = dropzone.querySelector('.file_info .file_name');
+        file_name.innerText = file.name;
+        const reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          picturePreview.setAttribute('src', this.result);
+        });
+
+        reader.readAsDataURL(file);
+      } else {
+        picturePreview.setAttribute('src', '#');
+      }
+      if (files?.length) {
+        fileInput.classList.add('has_file');
+      } else {
+        fileInput.classList.remove('has_file');
+      }
+    }
     function handleFiles(files) {
       fileInput.files = files;
       const event = new Event('change');
@@ -199,8 +226,6 @@ const setupImageDropzone = () => {
         });
 
         reader.readAsDataURL(file);
-
-        console.log(fileInput.files);
       } else {
         picturePreview.setAttribute('src', '#');
       }
@@ -294,6 +319,22 @@ live('click', 'modal_close', () => {
 //   });
 // }
 
+const loadFile = (url) => {
+  if (!url) return;
+  // Create a File object with some sample data
+  var file = new File(['User picture'], url, { type: 'img/png' });
+  // Create a new DataTransfer object
+  var dataTransfer = new DataTransfer();
+
+  // Add the File object to the DataTransfer object
+  dataTransfer.items.add(file);
+  // Get a reference to the file input element
+  var fileInput = document.querySelector('#editUser #picture_url');
+
+  // Set its value to the File object
+  fileInput.files = dataTransfer.files;
+  fileInput.classList.add('has_file');
+};
 live('click', 'reset_password', async (e, el) => {
   alertify.confirm(
     'Confirm',
@@ -341,7 +382,7 @@ live('click', 'user_detail_delete', async (e, el) => {
         if (res.error) {
           throw new Error(res.message);
         } else {
-          alertify.success(res.message)
+          alertify.success(res.message);
           const modal = getModal(el.dataset.target);
           modal.hide();
           removeUserIdFromParams();
@@ -353,6 +394,16 @@ live('click', 'user_detail_delete', async (e, el) => {
     },
     null,
   );
+});
+live('click', 'user_detail_edit', async (e, el) => {
+  const viewUser = document.querySelector('#viewUser');
+  const editUser = document.querySelector('#editUser');
+  viewUser.classList.add('hidden');
+  editUser.classList.remove('hidden');
+  const modal = document.querySelector('#viewUserModal');
+  modal.scrollTop = 0;
+  const url = document.querySelector('#editUser .file_preview').src;
+  loadFile(url);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
