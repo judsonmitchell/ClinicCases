@@ -1,27 +1,35 @@
 /* global notify, validNewAccount */
 
+import { checkFormValidity, getFormValues } from '../html/js/forms.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const submitButton = document.querySelector('#sbmt');
-  const formVals = submitButton.closest('form');
 
   submitButton.addEventListener('click', (event) => {
     event.preventDefault();
-    var errString = validNewAccount(formVals);
-    if (errString.length) {
-      notify(errString, true);
-      const error = formVals.querySelector('.ui-state-error');
-      error.addEventListener('click', () => {
-        error.classList.remove('ui-state-error');
-      });
-      return false;
-    } else {
-      var formValsArray = new FormData(formVals);
-      submitForm(formValsArray);
+    const form = submitButton.closest('form');
+    const values = getFormValues(form);
+    const isValid = checkFormValidity(form);
+    if (isValid != true) {
+      form.classList.add('invalid');
+      alertify.error(`Please correct the following fields: ${isValid}`);
+
+      return;
     }
+    if (values.password != values.confirmPassword) {
+      form.classList.add('invalid');
+      document.querySelector('#password').classList.add('invalid');
+      document.querySelector('#confirmPassword').classList.add('invalid');
+      alertify.error(`Your passwords must match`);
+      return;
+    }
+    form.classList.remove('invalid');
+    document.querySelector('#password').classList.remove('invalid');
+    document.querySelector('#confirmPassword').classList.remove('invalid');
+    submitForm(values);
   });
 
   async function submitForm(formValsArray) {
-    console.log({ formValsArray });
     try {
       // Fetch the inital state column visibility information
       const registerResponse = await axios.post(
@@ -31,20 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-type': 'application/json',
           },
-        }
+        },
       );
+
       const data = registerResponse.data;
-      notify(data, false);
-      formVals.remove();
-      const newAccountRight = document.querySelector('div.new_account_right');
-      const newAccountLeft = document
-        .querySelector('div.new_account_left p')
-        .remove();
-      newAccountRight.innerHTML = data;
+
+      if (data.error) {
+        throw new Error(data.message);
+      } else {
+        alertify.success(data.message);
+        document.querySelector('#newAccount').innerHTML = data.html;
+      }
     } catch (error) {
-      notify(error.message, true);
+      alertify.error(error.message);
     }
   }
-  
 });
-

@@ -22,7 +22,7 @@
 	<link type="text/css" href="html/css/fff.icon.core.css" rel="stylesheet" />
 	<link type="text/css" href="html/css/fff.icon.icons.css" rel="stylesheet" />
 	<link rel="shortcut icon" type="image/x-icon" href="html/images/favicon.ico" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<!-- Nina -->
 	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->

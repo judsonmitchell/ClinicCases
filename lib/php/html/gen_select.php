@@ -373,18 +373,14 @@ function group_select($dbh, $val)
 {
 	try {
 
-		echo 'here';
 		$q = $dbh->prepare("SELECT DISTINCT `group_name`, `group_title`  FROM `cm_groups`");
-		echo 'here2';
 
 
 		$q->execute();
-		echo 'here3';
 
 		$groups = $q->fetchAll(PDO::FETCH_ASSOC);
 
 		$options = null;
-		echo 'here4';
 
 		foreach ($groups as $group) {
 
@@ -394,11 +390,9 @@ function group_select($dbh, $val)
 				$options .= '<option value = "' . $group['group_name'] . '">' . $group['group_title'] . '</option>';
 			}
 		}
-		echo 'here5';
 
 		return $options;
 	} catch (Exception $e) {
-		echo 'here6';
 
 		echo $e->getMessage();
 	}

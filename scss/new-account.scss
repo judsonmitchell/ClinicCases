@@ -1,0 +1,45 @@
+@import './variables';
+@import './mixins';
+@import './utilities';
+@import './typograpy';
+@import './form';
+
+html {
+  font-size: 10px;
+}
+.content_login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  h1 {
+    @include title-font();
+    color: $dark-blue;
+    max-width: 800px;
+    font-size: 22px;
+  }
+  p {
+    @include body-font();
+    max-width: 800px;
+    font-size: 16px;
+  }
+  form {
+    max-width: 800px;
+    width: 800px;
+  }
+
+  .form__control--select {
+    width: 100%;
+    label {
+      z-index: -1;
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0;
+  }
+}

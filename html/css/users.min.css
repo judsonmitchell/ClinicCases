@@ -680,6 +680,7 @@ textarea:focus {
 form.invalid input:invalid,
 form.invalid textarea:invalid,
 form.invalid select:invalid,
+form.invalid input.invalid,
 form.invalid .ss-main.invalid {
   border: 1px solid red;
   border-color: red;
@@ -774,12 +775,14 @@ form {
 .ss-main * {
   font-size: 16px;
 }
-.ss-main .ss-multi-selected, .ss-main .ss-single-selected {
+.ss-main .ss-multi-selected,
+.ss-main .ss-single-selected {
   margin: 1rem 0;
   height: 4rem !important;
 }
 
-.ss-plus, .ss-arrow {
+.ss-plus,
+.ss-arrow {
   display: none !important;
 }
 

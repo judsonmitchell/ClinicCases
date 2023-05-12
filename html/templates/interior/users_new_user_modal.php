@@ -57,7 +57,7 @@ require('lib/php/html/gen_select.php');
           <div class="form__control form__control--select">
             <select id="grp" name="grp" required multiple class="new_user_group_slim_select" tabindex="2">
               <?php
-              
+
               echo group_select($dbh, $_SESSION['group']);
               ?>
             </select>
@@ -82,7 +82,7 @@ require('lib/php/html/gen_select.php');
     </form>
     <div class="modal-footer">
       <button id="newUserCancel" data-target="newUserModal" class="new_user_cancel">Cancel</button>
-      <button type="button" data-target="newUserModal" class="primary-button new_user_submit">Add</button>
+      <button type="button" data-target="newUserModal" class="primary-button new_user_submit">Submit</button>
     </div>
   </div>
 </div>
