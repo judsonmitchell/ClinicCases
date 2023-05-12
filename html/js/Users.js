@@ -1,6 +1,10 @@
 // //Scripts for users page
 
-import { fetchUsers, processUsers } from '../../lib/javascripts/axios.js';
+import {
+  fetchUsers,
+  processUsers,
+  resetPassword,
+} from '../../lib/javascripts/axios.js';
 import { getClosest, live } from './live.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import { getFormValues, checkFormValidity } from './forms.js';
@@ -276,6 +280,40 @@ live('click', 'new_user_cancel', (e) => {
 //     console.log(response.data);
 //   });
 // }
+
+live('click', 'reset_password', async (e, el) => {
+  alertify.confirm(
+    'Confirm',
+    "This will reset the user's password. Are you sure you want to do that?",
+    async () => {
+      try {
+        const id = el.dataset.id;
+        const res = await resetPassword(id);
+        if (res.error) {
+          throw new Error(res.message);
+        } else {
+          alertify
+            .confirm('Success!', res.html, null, null)
+            .set('labels', { ok: 'OK', cancel: '' });
+          const copyButton = document.getElementById('copyButton');
+          copyButton.addEventListener('click', () => {
+            navigator.clipboard
+              .writeText(document.getElementById('copyText').innerText)
+              .then(() => {
+                alertify.success('Password copied to clipboard!');
+              })
+              .catch((err) => {
+                alertify.error(`Error: ${err.message}`);
+              });
+          });
+        }
+      } catch (e) {
+        alertify.error(e.message);
+      }
+    },
+    null,
+  );
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   initUsersTable();

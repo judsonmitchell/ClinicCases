@@ -118,7 +118,6 @@
     display: flex;
     flex-direction: column;
     align-items: start !important;
-
   }
 }
 
@@ -126,4 +125,33 @@
   hr {
     margin: 40px -60px 20px;
   }
+}
+
+#copyButton {
+  height: 40px;
+  width: 40px;
+  img {
+    height: 100%;
+    width: 100%;
+    padding: 4px;
+    object-fit: contain;
+  }
+  border: 1px solid $trans-border-gray;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: $trans-light-blue;
+}
+
+#copy {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  margin: 20px 0px;
+}
+
+#copyText {
+  align-self: stretch;
+  padding: 5px 0px;
+  border: 1px solid $trans-border-gray;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }

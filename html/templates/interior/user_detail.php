@@ -30,7 +30,7 @@ include 'lib/php/utilities/convert_times.php';
 						<img src="html/ico/call.svg" alt="Call User">
 						<span>&nbsp;&nbsp;Call</span>
 					</a>
-					<a href="mailto:<?php echo $user['email'] ?>" class="button--secondary">
+					<a data-id="<?php echo $user['id'] ?>" class="button--secondary reset_password">
 						<img src="html/ico/reset-password.svg" alt="Reset User Password">
 						<span>&nbsp;&nbsp;Reset password </span>
 					</a>
@@ -61,18 +61,19 @@ include 'lib/php/utilities/convert_times.php';
 					<h3>Username</h3>
 					<p><?php echo $user['username'] ?></p>
 					<h3>Supervisors</h3>
-					<p>
+					<div>
 						<?php
 						$usernames = explode(",", $user['supervisors']);
 						foreach ($usernames as $username) {
 							if (!empty($username)) {
-
-								$name = username_to_fullname($dbh, $username); // assuming you have a function named "username_to_name"
-								echo "<p>" . $name . "</p>";
+								$name = username_to_fullname($dbh, $username);
+								if (!empty($name)) {
+									echo "<p>" . $name . "</p>";
+								}
 							}
 						}
 						?>
-					</p>
+					</div>
 					<h3>Status</h3>
 					<p><?php echo $user['status'] ?></p>
 					<h3>Date Created</h3>
