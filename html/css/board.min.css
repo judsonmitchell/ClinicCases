@@ -664,4 +664,128 @@
 
 .ck-editor__editable {
   height: 200px;
+}
+
+#board_panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+  margin: 4rem 0;
+}
+#board_panel .board_item {
+  box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  background-color: white;
+  padding: 4rem;
+  cursor: pointer;
+}
+#board_panel .board_item .board_item_header {
+  display: grid;
+  grid-template-columns: 5rem auto;
+  grid-template-rows: auto auto auto;
+  margin: 0 -4rem;
+  border-bottom: 1px solid rgba(160, 156, 176, 0.3);
+  padding: 0 4rem 4rem;
+}
+#board_panel .board_item .board_item_header_date {
+  font-size: 1rem;
+  color: #a09cb0;
+  grid-column: 1/3;
+  text-align: right;
+}
+#board_panel .board_item .board_item_header_tn {
+  grid-column: 1/2;
+  grid-row: 2/4;
+}
+#board_panel .board_item .board_item_header_title {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  font-size: 18px;
+  grid-column: 2/3;
+  grid-row: 2;
+  text-align: left;
+  font-weight: 700;
+}
+#board_panel .board_item .board_item_author {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  font-size: 14px;
+  color: #a09cb0;
+  text-align: left;
+  font-style: italic;
+}
+@media screen and (max-width: 1024px) {
+  #board_panel .board_item .board_item_author {
+    font-size: 1.2rem;
+  }
+}
+#board_panel .board_item .border_item_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#board_panel .board_item .border_item_body {
+  padding: 2rem 0;
+  text-align: left;
+  overflow: hidden;
+  height: 150px;
+}
+#board_panel .board_item .border_item_body html,
+#board_panel .board_item .border_item_body body,
+#board_panel .board_item .border_item_body ul,
+#board_panel .board_item .border_item_body ol,
+#board_panel .board_item .border_item_body li,
+#board_panel .board_item .border_item_body p,
+#board_panel .board_item .border_item_body h1,
+#board_panel .board_item .border_item_body h2,
+#board_panel .board_item .border_item_body h3,
+#board_panel .board_item .border_item_body h4,
+#board_panel .board_item .border_item_body h5,
+#board_panel .board_item .border_item_body h6,
+#board_panel .board_item .border_item_body form,
+#board_panel .board_item .border_item_body iframe,
+#board_panel .board_item .border_item_body fieldset,
+#board_panel .board_item .border_item_body a {
+  margin: initial;
+  padding: initial;
+  border: initial;
+}
+#board_panel .board_item .board_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+#board_panel .board_item .board_actions a {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  font-size: 12px;
+  color: #a09cb0;
+  text-decoration: none;
+}
+@media screen and (max-width: 1024px) {
+  #board_panel .board_item .board_actions a {
+    font-size: 1.2rem;
+  }
+}
+#board_panel .board_item .board_item_attachments {
+  display: block;
+  text-align: left;
+}
+#board_panel .board_item .board_item_attachments label {
+  font-weight: 700;
+  font-size: 12px;
+}
+#board_panel .board_item .board_item_attachments .attachment_container {
+  display: flex;
+  font-size: 12px;
+}
+#board_panel .board_item.modal-content {
+  padding: 6rem;
+}
+#board_panel .board_item.modal-content .border_item_body {
+  height: auto;
 }/*# sourceMappingURL=board.min.css.map */

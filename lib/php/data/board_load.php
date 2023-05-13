@@ -14,7 +14,6 @@ try {
 
 	function check_attachments($dbh, $post_id)
 	{
-		var_dump($post_id);
 		$q = $dbh->prepare("SELECT * FROM cm_board_attachments WHERE post_id = ?");
 
 		$q->bindParam(1, $post_id);

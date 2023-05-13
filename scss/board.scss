@@ -3,8 +3,7 @@
 @import './layouts/content-with-sidebar';
 @import './layouts/modal';
 @import './tables';
-@import "../scss/views/_events";
-
+@import '../scss/views/_events';
 
 #board_nav {
   display: flex;
@@ -13,6 +12,116 @@
   align-items: center;
 }
 
-.ck-editor__editable{
+.ck-editor__editable {
   height: 200px;
+}
+#board_panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+  margin: 4rem 0;
+  .board_item {
+    @include box-shadow();
+    border-radius: 10px;
+    background-color: white;
+    padding: 4rem;
+    cursor: pointer;
+   
+    .board_item_header {
+      display: grid;
+      grid-template-columns: 5rem auto;
+      grid-template-rows: auto auto auto;
+      margin: 0 -4rem;
+      border-bottom: 1px solid $trans-border-gray;
+      padding: 0 4rem 4rem;
+    }
+    .board_item_header_date {
+      font-size: 1rem;
+      color: $border-gray;
+      grid-column: 1 / 3;
+      text-align: right;
+    }
+    .board_item_header_tn {
+      grid-column: 1/2;
+      grid-row: 2/4;
+    }
+    .board_item_header_title {
+      @include title-font();
+      font-size: 18px;
+      grid-column: 2/3;
+      grid-row: 2;
+      text-align: left;
+      font-weight: 700;
+    }
+    .board_item_author {
+      @include body-font();
+      font-size: 14px;
+      color: $border-gray;
+      text-align: left;
+      font-style: italic;
+    }
+    .border_item_content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .border_item_body {
+      padding: 2rem 0;
+      text-align: left;
+      overflow: hidden;
+      html,
+      body,
+      ul,
+      ol,
+      li,
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      form,
+      iframe,
+      fieldset,
+      a {
+        margin: initial;
+        padding: initial;
+        border: initial;
+      }
+      height: 150px;
+      
+    }
+   
+    .board_actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      a {
+        @include body-font();
+        font-size: 12px;
+        color: $border-gray;
+        text-decoration: none;
+      }
+    }
+    .board_item_attachments {
+      display: block;
+      text-align: left;
+
+      label {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .attachment_container {
+        display: flex;
+        font-size: 12px;
+      }
+    }
+    &.modal-content {
+      padding: 6rem;
+      .border_item_body {
+        height: auto;
+      }
+    }
+  }
 }

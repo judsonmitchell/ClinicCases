@@ -407,14 +407,13 @@ live('click', 'new_post_submit', async (_e, el) => {
     if (res.error) {
       alertify.error(res.message);
     } else {
-      const res2 = await processBoard({
+      await processBoard({
         action: 'edit',
         id: res.post_id,
         ...values,
         viewer_select,
       });
-      const res3 = await boardFileUpload(res.post_id, attachments);
-      console.log(res3);
+      await boardFileUpload(res.post_id, attachments);
       alertify.success(res.message);
     }
     // reloadUsersTable();
