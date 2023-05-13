@@ -7,7 +7,7 @@ include 'lib/php/utilities/convert_times.php';
 	<div class="modal-dialog modal-lg modal-dialog-centered">
 
 		<div class="modal-content">
-			<button data-target="#viewUserModal" class="modal_close close">
+			<button type="button" data-target="#viewUserModal" class="modal_close">
 				<img src="html/ico/times.png" alt="">
 			</button>
 			<div id="viewUser">
@@ -121,58 +121,60 @@ include 'lib/php/utilities/convert_times.php';
 							</div>
 						</div>
 						<div class="form__control">
-							<input id="first_name" required type="text" name="first_name" placeholder=" ">
+							<input id="first_name" value="<?php echo $user['first_name'] ?>" required type="text" name="first_name" placeholder=" ">
 							<label for="first_name">First Name</label>
 						</div>
 						<div class="form__control">
-							<input id="last_name" required type="text" name="last_name" placeholder=" ">
+							<input id="last_name" value="<?php echo $user['last_name'] ?>" required type="text" name="last_name" placeholder=" ">
 							<label for="last_name">Last Name</label>
 						</div>
 						<div class="form__control">
-							<input id="email" required type="text" name="email" placeholder=" ">
+							<input id="email" value="<?php echo $user['email'] ?>" required type="text" name="email" placeholder=" ">
 							<label for="email">Email</label>
 						</div>
 						<div class="form__control">
-							<input id="mobile_phone" required type="text" name="mobile_phone" placeholder=" ">
+							<input id="mobile_phone" value="<?php echo $user['mobile_phone'] ?>" required type="text" name="mobile_phone" placeholder=" ">
 							<label for="mobile_phone">Mobile Phone</label>
 						</div>
 						<div class="form__control">
-							<input id="office_phone" type="text" name="office_phone" placeholder=" ">
+							<input id="office_phone" value="<?php echo $user['office_phone'] ?>" type="text" name="office_phone" placeholder=" ">
 							<label for="office_phone">Office Phone</label>
 						</div>
 						<div class="form__control">
-							<input id="home_phone" type="text" name="home_phone" placeholder=" ">
+							<input id="home_phone" type="text" value="<?php echo $user['home_phone'] ?>" name="home_phone" placeholder=" ">
 							<label for="home_phone">Home Phone</label>
 						</div>
 						<div class="form__control form__control--select">
-							<select id="grp" name="grp" required multiple class="new_user_group_slim_select" tabindex="2">
+							<select id="grp" name="grp" required class="new_user_group_slim_select" tabindex="2">
+								<option value="" selected disabled>Select...</option>
+
 								<?php
 
-								echo group_select($dbh, $_SESSION['group']);
+								echo group_select($dbh, $user['grp']);
 								?>
 							</select>
 							<label for="grp">Group</label>
 						</div>
 						<div class="form__control form__control--select">
-							<select name="supervisors" class="" tabindex="2">
-								<option value="" selected disabled>Select...</option>
+							<select multiple name="supervisors" class="edit_user_supervisors_slim_select" tabindex="2">
 								<?php
-								echo supervisors_select($_SESSION['group'], $supervisor_name_data);
+								echo supervisors_select($user['supervisors'], $supervisor_name_data);
 								?>
 							</select>
 							<label for="supervisors">Supervisors</label>
 						</div>
 						<div class="form__control form__control--select">
-							<select class="status" name="status" tabindex="2">
+							<select value="<?php echo $user['status'] ?>" class="status" name="status" tabindex="2">
 								<option value="active">Active</option>
 								<option value="inactive">Inactive</option>
 							</select>
 						</div>
+						<input type="text" hidden value="<?php echo $user['id'] ?>" name="id">
 
 				</form>
 				<div class="modal-footer">
-					<button id="newUserCancel" data-target="newUserModal" class="new_user_cancel">Cancel</button>
-					<button type="button" data-target="newUserModal" class="primary-button new_user_submit">Submit</button>
+					<button id="viewUserCancel" data-target="viewUserModal" class="edit_user_cancel">Cancel</button>
+					<button type="button" data-target="viewUserModal" class="primary-button edit_user_submit">Submit</button>
 				</div>
 			</div>
 		</div>

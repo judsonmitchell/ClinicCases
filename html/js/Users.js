@@ -7,9 +7,10 @@ import {
 } from '../../lib/javascripts/axios.js';
 import { getClosest, live } from './live.js';
 import { getModal } from '../../lib/javascripts/modal.js';
-import { getFormValues, checkFormValidity } from './forms.js';
+import { getFormValues, checkFormValidity, resetForm } from './forms.js';
 let table;
-let newUserGroupSlimSelect;
+let newUserSupervisorsSlimSelect;
+let editUserSupervisorsSlimSelect;
 const removeUserIdFromParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.delete('user_id');
@@ -30,8 +31,11 @@ const checkForOpenUser = () => {
   }
 };
 const initNewUserForm = () => {
-  newUserGroupSlimSelect = new SlimSelect({
-    select: '.new_user_group_slim_select',
+  newUserSupervisorsSlimSelect = new SlimSelect({
+    select: '.new_user_supervisors_slim_select',
+  });
+  editUserSupervisorsSlimSelect = new SlimSelect({
+    select: '.edit_user_supervisors_slim_select',
   });
 };
 
@@ -144,12 +148,17 @@ const initUsersTable = async () => {
 
 const setUpRowClick = () => {
   table.onRowClick((e) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set(
-      'user_id',
-      getClosest(e.target, 'table__cell')?.dataset?.userid,
-    );
-    window.location.search = urlParams.toString();
+    const dataset = e.target.dataset;
+    // if the td is a header, we don't want to  perform
+    // this action
+    if (!dataset.header) {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set(
+        'user_id',
+        getClosest(e.target, 'table__cell')?.dataset?.userid,
+      );
+      window.location.search = urlParams.toString();
+    }
   });
 };
 const setupImageDropzone = () => {
@@ -245,23 +254,19 @@ live('click', 'new_user_submit', async (e) => {
   let values = getFormValues(addUserForm);
   const isValid = checkFormValidity(addUserForm);
   const slimSelectRef = addUserForm.querySelector(
-    '.new_user_group_slim_select',
+    '.new_user_supervisors_slim_select',
   );
   const addUserSlimSelect = slimSelectRef.slim;
-  const group = addUserSlimSelect.selected();
+  const supervisors = addUserSlimSelect.selected();
 
-  if (!group.length) {
+  if (!supervisors.length) {
     slimSelectRef.classList.add('invalid');
   } else {
     slimSelectRef.classList.remove('invalid');
   }
-  if (isValid != true || !group.length) {
+  if (isValid != true) {
     addUserForm.classList.add('invalid');
-    alertify.error(
-      `Please correct the following fields: ${isValid != true && isValid} ${
-        !group.length ? 'group' : ''
-      }`,
-    );
+    alertify.error(`Please correct the following fields: ${isValid}`);
 
     return;
   }
@@ -290,6 +295,55 @@ live('click', 'new_user_submit', async (e) => {
     alertify.error(err.message);
   }
 });
+live('click', 'edit_user_submit', async (e) => {
+  const id = e.target.dataset.target;
+  const editUserModal = getModal(`#${id}`);
+  const editUserForm = document.querySelector(`#${id} form`);
+  let values = getFormValues(editUserForm);
+  const isValid = checkFormValidity(editUserForm);
+  const slimSelectRef = editUserForm.querySelector(
+    '.edit_user_supervisors_slim_select',
+  );
+  const editUserSlimSelect = slimSelectRef.slim;
+  const supervisors = editUserSlimSelect.selected();
+
+  if (!supervisors.length) {
+    slimSelectRef.classList.add('invalid');
+  } else {
+    slimSelectRef.classList.remove('invalid');
+  }
+  if (isValid != true) {
+    editUserForm.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}`);
+
+    return;
+  }
+
+  editUserForm.classList.remove('invalid');
+  slimSelectRef.classList.remove('invalid');
+
+  const picture_file = editUserForm.querySelector('[name="picture_url"]')
+    .files[0];
+
+  delete values[''];
+  delete values['picture_url'];
+  try {
+    const res = await processUsers(
+      { action: 'update', ...values },
+      picture_file,
+    );
+    console.log({ res });
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      alertify.success(res.message);
+    }
+    reloadUsersTable();
+    editUserModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
 
 live('click', 'new_user_cancel', (e) => {
   e.preventDefault();
@@ -304,9 +358,39 @@ live('click', 'new_user_cancel', (e) => {
     null,
   );
 });
+live('click', 'edit_user_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const viewUser = document.querySelector('#viewUser');
+      const editUser = document.querySelector('#editUser');
+      viewUser.classList.remove('hidden');
+      editUser.classList.add('hidden');
+    },
+    null,
+  );
+});
 
 live('click', 'modal_close', () => {
-  removeUserIdFromParams();
+  const viewUser = document.querySelector('#viewUser');
+  const viewUserModal = getModal('#viewUserModal');
+
+  if (viewUser.classList.contains('hidden')) {
+    alertify.confirm(
+      'Confirm',
+      'Are you sure you want to close? You will lose your data.',
+      () => {
+        removeUserIdFromParams();
+        viewUserModal.hide();
+      },
+      null,
+    );
+  } else {
+    removeUserIdFromParams();
+    viewUserModal.hide();
+  }
 });
 
 // submit form handler
@@ -321,18 +405,7 @@ live('click', 'modal_close', () => {
 
 const loadFile = (url) => {
   if (!url) return;
-  // Create a File object with some sample data
-  var file = new File(['User picture'], url, { type: 'img/png' });
-  // Create a new DataTransfer object
-  var dataTransfer = new DataTransfer();
-
-  // Add the File object to the DataTransfer object
-  dataTransfer.items.add(file);
-  // Get a reference to the file input element
-  var fileInput = document.querySelector('#editUser #picture_url');
-
-  // Set its value to the File object
-  fileInput.files = dataTransfer.files;
+  var fileInput = document.querySelector('#editUser #edit_picture_url');
   fileInput.classList.add('has_file');
 };
 live('click', 'reset_password', async (e, el) => {

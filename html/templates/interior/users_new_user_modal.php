@@ -55,7 +55,9 @@ require('lib/php/html/gen_select.php');
             <label for="home_phone">Home Phone</label>
           </div>
           <div class="form__control form__control--select">
-            <select id="grp" name="grp" required multiple class="new_user_group_slim_select" tabindex="2">
+            <select id="grp" name="grp" required class="" tabindex="2">
+              <option value="" selected disabled>Select...</option>
+
               <?php
 
               echo group_select($dbh, $_SESSION['group']);
@@ -64,10 +66,10 @@ require('lib/php/html/gen_select.php');
             <label for="grp">Group</label>
           </div>
           <div class="form__control form__control--select">
-            <select name="supervisors" class="" tabindex="2">
+            <select name="supervisors" class="new_user_supervisors_slim_select" tabindex="2">
               <option value="" selected disabled>Select...</option>
               <?php
-              echo supervisors_select($_SESSION['group'], $supervisor_name_data);
+              echo supervisors_select($_SESSION['supervisors'], $supervisor_name_data);
               ?>
             </select>
             <label for="supervisors">Supervisors</label>
