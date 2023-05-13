@@ -157,3 +157,25 @@
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
+.modal-footer {
+  background-color: white;
+}
+
+@media screen and (max-width: 767px) {
+  #viewUser,
+  #editUser {
+    padding-bottom: 40px;
+  }
+  .modal-content,
+  #viewuser,
+  #editUser {
+    overflow-y: scroll;
+  }
+  .modal-footer {
+    position: fixed;
+    bottom: 10px;
+    left: 4rem;
+    right: 4rem;
+  }
+  
+}
