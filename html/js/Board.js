@@ -1,331 +1,425 @@
- //Scripts for Board
+//  //Scripts for Board
 
-/* globals qq, notify, rte_toolbar */
+import {
+  boardFileUpload,
+  loadBoard,
+  processBoard,
+  uploadFile,
+} from '../../lib/javascripts/axios.js';
+import { getModal } from '../../lib/javascripts/modal.js';
+import { checkFormValidity, getFormValues } from './forms.js';
+import { live } from './live.js';
 
-$(document).ready(function() {
+// /* globals qq, notify, rte_toolbar */
 
-    //Add new post button
-    $('#board_nav button').button({
-        icons: {primary: 'fff-icon-add'},
-        text: true
-    })
-    .click(function(event) {
-        event.preventDefault();
-        //Show hidden new post div
-        $('div.new_post').show().animate({'width': '900','height': '500'}).attr('data-new','yes');
+// $(document).ready(function() {
 
-        //Get the id of this post from server
-        $.post('lib/php/data/board_process.php', {'action': 'new'}, function(data) {
-            var serverResponse = $.parseJSON(data);
-            if (serverResponse.error === true) {
-                notify(serverResponse.message, true);
-            } else {
-                $('div.new_post').attr('data-id', serverResponse.post_id);
+//     //Add new post button
+//     $('#board_nav button').button({
+//         icons: {primary: 'fff-icon-add'},
+//         text: true
+//     })
+//     .click(function(event) {
+//         event.preventDefault();
+//         //Show hidden new post div
+//         $('div.new_post').show().animate({'width': '900','height': '500'}).attr('data-new','yes');
 
-                //handle attachment uploads
-                var uploader = new qq.FileUploader({
-                    element: $('.board_upload')[0],
-                    action: 'lib/php/utilities/file_upload_board.php',
-                    params: {'post_id': serverResponse.post_id},
-                    template: '<div class="qq-uploader">' +
-                    '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                    '<div class="qq-upload-button">Choose Files</div>' +
-                    '<ul class="qq-upload-list"></ul>' +
-                    '</div>'
-                });
-            }
-        });
+//         //Get the id of this post from server
+//         $.post('lib/php/data/board_process.php', {'action': 'new'}, function(data) {
+//             var serverResponse = $.parseJSON(data);
+//             if (serverResponse.error === true) {
+//                 notify(serverResponse.message, true);
+//             } else {
+//                 $('div.new_post').attr('data-id', serverResponse.post_id);
 
-        //Create lwrte
-        if ($('div.rte-zone').length < 1) {
-            var bodyText = $('div.new_post').find('.post_edit').rte({
-                css: ['lib/javascripts/lwrte/default2.css'],
-                width: 900,
-                height: 300,
-                controls_rte: rte_toolbar
-            });
-        }
+//                 //handle attachment uploads
+//                 var uploader = new qq.FileUploader({
+//                     element: $('.board_upload')[0],
+//                     action: 'lib/php/utilities/file_upload_board.php',
+//                     params: {'post_id': serverResponse.post_id},
+//                     template: '<div class="qq-uploader">' +
+//                     '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+//                     '<div class="qq-upload-button">Choose Files</div>' +
+//                     '<ul class="qq-upload-list"></ul>' +
+//                     '</div>'
+//                 });
+//             }
+//         });
 
-        //Define post title
-        $('input[name="post_title"]').focusin(function(event) {
-            event.stopPropagation();
-            $(this).parent().unbind('click.sizePost');
-            if ($(this).val() === 'New Post Title') {
-                $(this).val('').css({'color': 'black'});
-            }
-        });
+//         //Create lwrte
+//         if ($('div.rte-zone').length < 1) {
+//             var bodyText = $('div.new_post').find('.post_edit').rte({
+//                 css: ['lib/javascripts/lwrte/default2.css'],
+//                 width: 900,
+//                 height: 300,
+//                 controls_rte: rte_toolbar
+//             });
+//         }
 
-        //Add Chosen to select
-        $('select[name="viewer_select[]"]').chosen();
+//         //Define post title
+//         $('input[name="post_title"]').focusin(function(event) {
+//             event.stopPropagation();
+//             $(this).parent().unbind('click.sizePost');
+//             if ($(this).val() === 'New Post Title') {
+//                 $(this).val('').css({'color': 'black'});
+//             }
+//         });
 
-        //Add post color chooser
-        $('select[name="post_color"]').change(function() {
-            var colorVal = 'rgba(' + $(this).val() + ',0.5)';
-            $('div.rte-zone').css({'background-color': colorVal});
+//         //Add Chosen to select
+//         $('select[name="viewer_select[]"]').chosen();
 
-        });
+//         //Add post color chooser
+//         $('select[name="post_color"]').change(function() {
+//             var colorVal = 'rgba(' + $(this).val() + ',0.5)';
+//             $('div.rte-zone').css({'background-color': colorVal});
 
-        //Cancel or submit
-        $('.board_new_item_menu_bottom button')
-        .first().click(function(event) {
-            event.preventDefault();
+//         });
 
-            var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">Are you sure ' +
-            'you don\'t want to save this post?</div>')
-            .dialog({
-                autoOpen: false,
-                resizable: false,
-                modal: true,
-                buttons: {
-                    'Yes': function() {
-                        var postId = $('div.new_post').attr('data-id');
-                        $('div.new_post').hide();
-                        $('form[name="new_post_form"]')[0].reset();
-                        $('select[name="viewer_select[]"]').trigger('liszt:updated');
-                        bodyText[0].set_content('');
-                        $('div.rte-zone').css({'background-color': '#FFF'});
+//         //Cancel or submit
+//         $('.board_new_item_menu_bottom button')
+//         .first().click(function(event) {
+//             event.preventDefault();
 
-                        $.post('lib/php/data/board_process.php', {'action': 'delete','item_id':postId},
-                            function(data){
-                            var serverResponse = $.parseJSON(data);
-                            if (serverResponse.error === true) {
-                                notify(serverResponse.message, true);
-                            } else {
-                                notify(serverResponse.message);
-                            }
-                        });
+//             var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">Are you sure ' +
+//             'you don\'t want to save this post?</div>')
+//             .dialog({
+//                 autoOpen: false,
+//                 resizable: false,
+//                 modal: true,
+//                 buttons: {
+//                     'Yes': function() {
+//                         var postId = $('div.new_post').attr('data-id');
+//                         $('div.new_post').hide();
+//                         $('form[name="new_post_form"]')[0].reset();
+//                         $('select[name="viewer_select[]"]').trigger('liszt:updated');
+//                         bodyText[0].set_content('');
+//                         $('div.rte-zone').css({'background-color': '#FFF'});
 
-                        $(this).dialog('destroy');
-                    },
-                    'No': function() {
-                        $(this).dialog('destroy');
-                    }
-                }
-            });
+//                         $.post('lib/php/data/board_process.php', {'action': 'delete','item_id':postId},
+//                             function(data){
+//                             var serverResponse = $.parseJSON(data);
+//                             if (serverResponse.error === true) {
+//                                 notify(serverResponse.message, true);
+//                             } else {
+//                                 notify(serverResponse.message);
+//                             }
+//                         });
 
-            $(dialogWin).dialog('open');
-        })
-        .next().click(function(event) {
-            event.preventDefault();
-            var formVals = $('form').serializeArray();
-            var postId = $('div.new_post').attr('data-id');
-            formVals.push({'name': 'id','value': postId});
-            formVals.push({'name': 'action','value': 'edit'});
-            formVals.push({'name': 'text','value': bodyText[0].get_content()});
-            $.post('lib/php/data/board_process.php', formVals, function(data) {
-                var serverResponse = $.parseJSON(data);
-                if (serverResponse.error === true) {
-                    notify(serverResponse.message, true);
-                } else {
-                    notify(serverResponse.message);
-                    $('#board_panel').load('lib/php/data/board_load.php');
-                }
-            });
-        });
-    });
+//                         $(this).dialog('destroy');
+//                     },
+//                     'No': function() {
+//                         $(this).dialog('destroy');
+//                     }
+//                 }
+//             });
 
-    //Load posts from server
-    $('#board_panel').load('lib/php/data/board_load.php');
+//             $(dialogWin).dialog('open');
+//         })
+//         .next().click(function(event) {
+//             event.preventDefault();
+//             var formVals = $('form').serializeArray();
+//             var postId = $('div.new_post').attr('data-id');
+//             formVals.push({'name': 'id','value': postId});
+//             formVals.push({'name': 'action','value': 'edit'});
+//             formVals.push({'name': 'text','value': bodyText[0].get_content()});
+//             $.post('lib/php/data/board_process.php', formVals, function(data) {
+//                 var serverResponse = $.parseJSON(data);
+//                 if (serverResponse.error === true) {
+//                     notify(serverResponse.message, true);
+//                 } else {
+//                     notify(serverResponse.message);
+//                     $('#board_panel').load('lib/php/data/board_load.php');
+//                 }
+//             });
+//         });
+//     });
 
-    //Listeners
+//     //Load posts from server
+//     $('#board_panel').load('lib/php/data/board_load.php');
 
-    //resize post on click
-    $('.board_item').live('click.sizePost', function() {
-        $(this).not('.new_post').animate({'width': '400','height': '300'}, function() {
-            $(this).css({'height': 'auto','max-width': '400'});
-            $('.board_item').not(this).animate({'width': '200','height': '200'});
-        });
-    });
+//     //Listeners
 
-    //download attachments
-    $('a.attachment').live('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var itemId = $(this).attr('data-id');
-        if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
-            if (Object.create){ //informal browser check for ie8
-                //Show pdfjs viewer
-                $('#pdf-viewer').show();
-                $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?target=board&item_id=' + itemId);
+//     //resize post on click
+//     $('.board_item').live('click.sizePost', function() {
+//         $(this).not('.new_post').animate({'width': '400','height': '300'}, function() {
+//             $(this).css({'height': 'auto','max-width': '400'});
+//             $('.board_item').not(this).animate({'width': '200','height': '200'});
+//         });
+//     });
 
-                //Add listener to close pdf viewer
-                $('#pdf-viewer').click(function(){
-                    $('#frme').attr('src','');
-                    $(this).hide();
-                });
+//     //download attachments
+//     $('a.attachment').live('click', function(event) {
+//         event.preventDefault();
+//         event.stopPropagation();
+//         var itemId = $(this).attr('data-id');
+//         if ($(this).hasClass('pdf')) {  //a pdf document, so load viewer
+//             if (Object.create){ //informal browser check for ie8
+//                 //Show pdfjs viewer
+//                 $('#pdf-viewer').show();
+//                 $('#frme').attr('src', 'lib/javascripts/pdfjs/web/viewer.html?target=board&item_id=' + itemId);
 
-                //Close pdfviewer on escape key press
-                $('body').bind('keyup.pdfViewer', function (e){
-                    if (e.keyCode === 27){
-                        $('#frme').attr('src','');
-                        $('#pdf-viewer').hide();
-                    }
-                });
-            } else {
-                //pdfjs is not supported; revert to download
-                $.download('lib/php/data/board_process.php', {
-                    'item_id': itemId,
-                    'action': 'download',
-                });
-            }
-        } else {
-            $.download('lib/php/data/board_process.php', {
-                'item_id': itemId,
-                'action': 'download',
-            });
-        }
-    });
+//                 //Add listener to close pdf viewer
+//                 $('#pdf-viewer').click(function(){
+//                     $('#frme').attr('src','');
+//                     $(this).hide();
+//                 });
 
-    //Delete post
-    $('a.board_item_delete').live('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var itemId = $(this).closest('div.board_item').attr('data-id');
-        var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">This post and ' +
-        'any attachments will be permanently deleted.  Are you sure?</div>')
-        .dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            buttons: {
-                'Yes': function() {
-                    $.post('lib/php/data/board_process.php', {
-                        'action': 'delete',
-                        'item_id': itemId
-                    }, function(data) {
-                        var serverResponse = $.parseJSON(data);
-                        if (serverResponse.error === true) {
-                            notify(serverResponse.message, true);
-                        } else {
-                            notify(serverResponse.message);
-                            $('#board_panel').load('lib/php/data/board_load.php');
-                        }
-                    });
-                    $(this).dialog('destroy');
-                },
-                'No': function() {
-                    $(this).dialog('destroy');
-                }
-            }
-        });
-        $(dialogWin).dialog('open');
-    });
+//                 //Close pdfviewer on escape key press
+//                 $('body').bind('keyup.pdfViewer', function (e){
+//                     if (e.keyCode === 27){
+//                         $('#frme').attr('src','');
+//                         $('#pdf-viewer').hide();
+//                     }
+//                 });
+//             } else {
+//                 //pdfjs is not supported; revert to download
+//                 $.download('lib/php/data/board_process.php', {
+//                     'item_id': itemId,
+//                     'action': 'download',
+//                 });
+//             }
+//         } else {
+//             $.download('lib/php/data/board_process.php', {
+//                 'item_id': itemId,
+//                 'action': 'download',
+//             });
+//         }
+//     });
 
-    //Edit post
-    $('a.board_item_edit').live('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var thisItem = $(this).closest('div.board_item');
-        var editItem = $('div.new_post').clone();
-        var editId = thisItem.attr('data-id');
-        thisItem.hide();
-        thisItem.after(editItem);
-        editItem.css({'display': 'inline-block','height': '500px','width': '900px'});
+//     //Delete post
+//     $('a.board_item_delete').live('click', function(event) {
+//         event.preventDefault();
+//         event.stopPropagation();
+//         var itemId = $(this).closest('div.board_item').attr('data-id');
+//         var dialogWin = $('<div class="dialog-casenote-delete" title="Delete this Post?">This post and ' +
+//         'any attachments will be permanently deleted.  Are you sure?</div>')
+//         .dialog({
+//             autoOpen: false,
+//             resizable: false,
+//             modal: true,
+//             buttons: {
+//                 'Yes': function() {
+//                     $.post('lib/php/data/board_process.php', {
+//                         'action': 'delete',
+//                         'item_id': itemId
+//                     }, function(data) {
+//                         var serverResponse = $.parseJSON(data);
+//                         if (serverResponse.error === true) {
+//                             notify(serverResponse.message, true);
+//                         } else {
+//                             notify(serverResponse.message);
+//                             $('#board_panel').load('lib/php/data/board_load.php');
+//                         }
+//                     });
+//                     $(this).dialog('destroy');
+//                 },
+//                 'No': function() {
+//                     $(this).dialog('destroy');
+//                 }
+//             }
+//         });
+//         $(dialogWin).dialog('open');
+//     });
 
-        //Create lwrte
-        var bodyText = editItem.find('.post_edit').rte({
-            css: ['lib/javascripts/lwrte/default2.css'],
-            width: 900,
-            height: 300,
-            controls_rte: rte_toolbar
-        });
+//     //Edit post
+//     $('a.board_item_edit').live('click', function(event) {
+//         event.preventDefault();
+//         event.stopPropagation();
+//         var thisItem = $(this).closest('div.board_item');
+//         var editItem = $('div.new_post').clone();
+//         var editId = thisItem.attr('data-id');
+//         thisItem.hide();
+//         thisItem.after(editItem);
+//         editItem.css({'display': 'inline-block','height': '500px','width': '900px'});
 
-        //Add uploader
-        var editUploader = new qq.FileUploader({
-            element: editItem.find('.board_upload')[0],
-            action: 'lib/php/utilities/file_upload_board.php',
-            params: {'post_id': editId},
-            template: '<div class="qq-uploader">' +
-            '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-            '<div class="qq-upload-button">Choose Files</div>' +
-            '<ul class="qq-upload-list"></ul>' +
-            '</div>'
-        });
+//         //Create lwrte
+//         var bodyText = editItem.find('.post_edit').rte({
+//             css: ['lib/javascripts/lwrte/default2.css'],
+//             width: 900,
+//             height: 300,
+//             controls_rte: rte_toolbar
+//         });
 
-        //Set background color
-        editItem.find('div.rte-zone').css({'background-color': thisItem.css('background-color')});
+//         //Add uploader
+//         var editUploader = new qq.FileUploader({
+//             element: editItem.find('.board_upload')[0],
+//             action: 'lib/php/utilities/file_upload_board.php',
+//             params: {'post_id': editId},
+//             template: '<div class="qq-uploader">' +
+//             '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+//             '<div class="qq-upload-button">Choose Files</div>' +
+//             '<ul class="qq-upload-list"></ul>' +
+//             '</div>'
+//         });
 
-        //Add post color chooser
-        editItem.find('select[name="post_color"]').change(function() {
-            var colorVal = 'rgba(' + $(this).val() + ',0.5)';
-            editItem.find('div.rte-zone').css({'background-color': colorVal});
-        });
+//         //Set background color
+//         editItem.find('div.rte-zone').css({'background-color': thisItem.css('background-color')});
 
-        //Set current value for color chooser
-        editItem.find('select[name="post_color"]').val(thisItem.attr('data-color'));
+//         //Add post color chooser
+//         editItem.find('select[name="post_color"]').change(function() {
+//             var colorVal = 'rgba(' + $(this).val() + ',0.5)';
+//             editItem.find('div.rte-zone').css({'background-color': colorVal});
+//         });
 
-        //Set Values
-        editItem.find('input[name="post_title"]').val(thisItem.find('h3').text())
-        .css({'color': 'black'});
+//         //Set current value for color chooser
+//         editItem.find('select[name="post_color"]').val(thisItem.attr('data-color'));
 
-        editItem.find('div.new_post').attr('data-id', editId);
+//         //Set Values
+//         editItem.find('input[name="post_title"]').val(thisItem.find('h3').text())
+//         .css({'color': 'black'});
 
-        //Get body text from selected item and put it in text editor
-        bodyText[0].set_content(thisItem.find('div.body_text').html());
+//         editItem.find('div.new_post').attr('data-id', editId);
 
-        //Add Chosen to select
-        editItem.find('select[name="viewer_select[]"]').chosen();
+//         //Get body text from selected item and put it in text editor
+//         bodyText[0].set_content(thisItem.find('div.body_text').html());
 
-        //Set the current viewers
-        var currentViewers = thisItem.attr('data-viewers').split(',');
-        editItem.find('select[name="viewer_select[]"]')
-        .val(currentViewers)
-        .trigger('liszt:updated');
+//         //Add Chosen to select
+//         editItem.find('select[name="viewer_select[]"]').chosen();
 
-        //Show the current attachments
-        var currentAttch = thisItem.find('div.attachment_container').html();
-        if (currentAttch) {
-            editItem.find('div.board_new_item_menu_bottom label').append(currentAttch + '<br />');
-        }
+//         //Set the current viewers
+//         var currentViewers = thisItem.attr('data-viewers').split(',');
+//         editItem.find('select[name="viewer_select[]"]')
+//         .val(currentViewers)
+//         .trigger('liszt:updated');
 
-        //Cancel or save edit
-        editItem.find('button').first().click(function(event) {
-            event.preventDefault();
-            editItem.remove();
-            thisItem.show();
-            notify('Edit cancelled.');
-        })
-        .next()
-        .click(function(event) {
-            event.preventDefault();
-            var formVals = $(this).closest('form').serializeArray();
-            formVals.push({'name': 'id','value': editId});
-            formVals.push({'name': 'action','value': 'edit'});
-            formVals.push({'name': 'text','value': bodyText[0].get_content()});
-            $.post('lib/php/data/board_process.php', formVals, function(data) {
-                var serverResponse = $.parseJSON(data);
-                if (serverResponse.error === true) {
-                    notify(serverResponse.message, true);
-                } else {
-                    notify(serverResponse.message);
-                    $('#board_panel').load('lib/php/data/board_load.php');
-                }
-            });
-        });
-    });
+//         //Show the current attachments
+//         var currentAttch = thisItem.find('div.attachment_container').html();
+//         if (currentAttch) {
+//             editItem.find('div.board_new_item_menu_bottom label').append(currentAttch + '<br />');
+//         }
 
-    //Search
-    $('input[name = "board_search"]').keyup(function(){
+//         //Cancel or save edit
+//         editItem.find('button').first().click(function(event) {
+//             event.preventDefault();
+//             editItem.remove();
+//             thisItem.show();
+//             notify('Edit cancelled.');
+//         })
+//         .next()
+//         .click(function(event) {
+//             event.preventDefault();
+//             var formVals = $(this).closest('form').serializeArray();
+//             formVals.push({'name': 'id','value': editId});
+//             formVals.push({'name': 'action','value': 'edit'});
+//             formVals.push({'name': 'text','value': bodyText[0].get_content()});
+//             $.post('lib/php/data/board_process.php', formVals, function(data) {
+//                 var serverResponse = $.parseJSON(data);
+//                 if (serverResponse.error === true) {
+//                     notify(serverResponse.message, true);
+//                 } else {
+//                     notify(serverResponse.message);
+//                     $('#board_panel').load('lib/php/data/board_load.php');
+//                 }
+//             });
+//         });
+//     });
 
-        //Show clear search button and reset board on click
-        $(this).next('.casenotes_search_clear').show().click(function(event){
-            event.preventDefault();
-            $(this).prev().val('');
-            $('#board_panel').load('lib/php/data/board_load.php');
-            $(this).hide();
-        });
+//     //Search
+//     $('input[name = "board_search"]').keyup(function(){
 
-        var searchVal = $(this).val();
+//         //Show clear search button and reset board on click
+//         $(this).next('.casenotes_search_clear').show().click(function(event){
+//             event.preventDefault();
+//             $(this).prev().val('');
+//             $('#board_panel').load('lib/php/data/board_load.php');
+//             $(this).hide();
+//         });
 
-        if (searchVal !== '') {//searching on empty value crashes browser
+//         var searchVal = $(this).val();
 
-            $('#board_panel').load('lib/php/data/board_load.php',{'s':searchVal},function(){
-                $(this).highlight(searchVal);
-            });
-        } else {
-            $('#board_panel').load('lib/php/data/board_load.php',function(){
-                $('.casenotes_search_clear').hide();
-            });
-        }
-    });
+//         if (searchVal !== '') {//searching on empty value crashes browser
+
+//             $('#board_panel').load('lib/php/data/board_load.php',{'s':searchVal},function(){
+//                 $(this).highlight(searchVal);
+//             });
+//         } else {
+//             $('#board_panel').load('lib/php/data/board_load.php',function(){
+//                 $('.casenotes_search_clear').hide();
+//             });
+//         }
+//     });
+// });
+let newPostSlimSelect = new SlimSelect({
+  select: '.new_post_slim_select',
+});
+
+let ckEditor;
+ClassicEditor.create(document.querySelector('#editor'))
+  .then((editor) => {
+    ckEditor = editor;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const boardPanel = document.querySelector('#board_panel');
+  const boardContent = await loadBoard();
+  boardPanel.innerHTML = boardContent;
+});
+
+live('click', 'new_post_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const id = e.target.dataset.target;
+      const modal = getModal(`#${id}`);
+      modal.hide();
+    },
+    null,
+  );
+});
+
+live('click', 'new_post_submit', async (_e, el) => {
+  const id = el.dataset.target;
+  const addPostModal = getModal(`#${id}`);
+  const addPostForm = document.querySelector(`#${id} form`);
+  let values = getFormValues(addPostForm);
+  const isValid = checkFormValidity(addPostForm);
+  const slimSelectRef = addPostForm.querySelector('.new_post_slim_select');
+  const addPostSlimSelect = slimSelectRef.slim;
+  const viewer_select = addPostSlimSelect.selected();
+
+  //   if (!viewer_select.length) {
+  //     slimSelectRef.classList.add('invalid');
+  //   } else {
+  //     slimSelectRef.classList.remove('invalid');
+  //   }
+  if (isValid != true) {
+    addPostForm.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}`);
+
+    return;
+  }
+
+  addPostForm.classList.remove('invalid');
+  slimSelectRef.classList.remove('invalid');
+
+  const attachments = addPostForm.querySelector('[name="attachments"]').files;
+
+  values.text = ckEditor.getData();
+  delete values[''];
+  try {
+    const res = await processBoard({ action: 'new', ...values });
+
+    if (res.error) {
+      alertify.error(res.message);
+    } else {
+      const res2 = await processBoard({
+        action: 'edit',
+        id: res.post_id,
+        ...values,
+        viewer_select,
+      });
+      const res3 = await boardFileUpload(res.post_id, attachments);
+      console.log(res3);
+      alertify.success(res.message);
+    }
+    // reloadUsersTable();
+    addPostModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });

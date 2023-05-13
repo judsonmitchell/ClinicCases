@@ -1,106 +1,84 @@
-<div class="board_item new_post">
+<?php if (count($posts) == 0) {
+?>
+	<p> No boards. </p>
 
-	<form name = "new_post_form">
+<?php
+}
 
-	<div class="board_new_item_menu">
+?>
+<?php foreach ($posts as $post) {
+	var_dump($post);
+	extract($post);
+	$post_id = $post['post_id']
+?>
 
-		<label>Title</label>
+	<div>
+		<h2> <?php echo $title; ?> </h2>
+		<h2> <?php echo $author; ?> </h2>
+		<h2> <?php echo $body; ?> </h2>
+		<h2><?php echo $post_id ?></h2>
+		<h3><?php echo get_viewers($dbh, $post_id); ?></h3>
+		<?php $attach = check_attachments($dbh, $post_id);
+		if ($attach == true) { ?>
 
-		<input name="post_title" value="New Post Title">
+			<p><label>Attachments:</label>
+			<p>
 
-		<label>Who Sees This?</label>
+			<div class="attachment_container">
 
-		<select multiple name="viewer_select[]" data-placeholder ="Who Sees This?">
+				<p><?php echo $attach; ?> </p>
 
-			<option value=""></option>
+			</div>
 
-			<?php echo all_active_users_and_groups($dbh,false,true); ?>
-
-		</select>
-
-		<label>Color</label>
-
-		<select name="post_color">
-			<option value="255,250,240" style="background-color:rgba(255,250,240,0.5)">White</option>
-			<option value="0,255,0" style="background-color:rgba(0,255,0,0.5)">Green</option>
-			<option value="0,0,255" style="background-color:rgba(0,0,255,0.5)">Blue</option>
-			<option value="255,0,0" style="background-color:rgba(255,0,0,0.5)">Red</option>
-			<option value="255,255,0" style="background-color:rgba(255,255,0,0.5)">Yellow</option>
-		</select>
-
+		<?php } ?>
 	</div>
+	<!-- <div class="board_item" data-id="<?php echo $post_id; ?>" data-viewers="" data-color="<?php echo $color; ?>">
 
-	<textarea class="post_edit"></textarea>
+		<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $author); ?>" >
 
-	<div class="board_new_item_menu_bottom">
+		<h3><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></h3>
 
-		<label>Attachments</label>
+		<div class="body_text">
 
-		<div class="board_upload">
+			<?php echo $body; ?>
 
 		</div>
 
-		<div class = "board_new_item_menu_bottom_inner">
+		<p>
+			<label>
 
-			<button>Cancel</button>
-			<button>Save</button>
+				Posted by <?php echo username_to_fullname($dbh, $author); ?> on
 
-		</div>
+				<?php echo extract_date_time($time_added); ?>
 
-	</div>
+			</label>
 
-	</form>
+			<?php if ($author == $_SESSION['login'] || $_SESSION['permissions']['can_configure'] == '1') { ?>
 
-</div>
+				<a href="#" class="small board_item_edit">Edit</a>
 
-<?php foreach ($posts as $post) {extract($post) ?>
-
-<div class="board_item" style="background-color:rgba(<?php echo $color; ?>,0.5)"
-	data-id="<?php echo $post_id; ?>" data-viewers = "<?php echo get_viewers($dbh,$post_id);?>" data-color = "<?php echo $color; ?>">
-
-	<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh,$author); ?>" border="0">
-
-	<h3><?php echo htmlspecialchars($title,ENT_QUOTES,'UTF-8'); ?></h3>
-
-	<div class="body_text">
-
-		<?php echo $body; ?>
-
-	</div>
-
-	<p>
-		<label>
-
-			Posted by <?php echo username_to_fullname($dbh,$author); ?> on
-
-			<?php echo extract_date_time($time_added); ?>
-
-		</label>
-
-	<?php if ($author == $_SESSION['login'] || $_SESSION['permissions']['can_configure'] == '1'){ ?>
-
-		<a href="#" class="small board_item_edit">Edit</a>
-
-		<a href="#" class="small board_item_delete">Delete</a>
+				<a href="#" class="small board_item_delete">Delete</a>
 
 
-	<?php } ?>
+			<?php } ?>
 
-	</p>
+		</p>
 
 
-	<?php $attach = check_attachments($dbh,$post_id); if ($attach == true){ ?>
+		<?php $attach = check_attachments($dbh, $post_id);
+		if ($attach == true) { ?>
 
-	<p><label>Attachments:</label><p>
+			<p><label>Attachments:</label>
+			<p>
 
-	<div class="attachment_container">
+			<div class="attachment_container">
 
-		<p><?php echo $attach; ?> </p>
+				<p><?php echo $attach; ?> </p>
 
-	</div>
+			</div>
 
-	<?php } ?>
+		<?php } ?>
 
-</div>
+	</div> -->
 
 <?php } ?>

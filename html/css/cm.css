@@ -2143,7 +2143,7 @@ div.journal_text {
 }
 
 /* Board styles */
-div#board_nav {
+/* div#board_nav {
   position: relative;
   width: 100%;
   height: 6%;
@@ -2158,8 +2158,8 @@ div#board_nav {
   position: absolute;
   right: 20px;
   top: 5px;
-}
-div#board_panel {
+} */
+/* div#board_panel {
   width: 94%;
   height: 84%;
   border-left: 1px solid #aaa;
@@ -2169,8 +2169,8 @@ div#board_panel {
   overflow-x: hidden;
   overflow-y: auto;
   padding: 3%;
-}
-div.board_item {
+} */
+/* div.board_item {
   position: relative;
   display: inline-block;
   text-align: left;
@@ -2185,8 +2185,8 @@ div.board_item {
   -moz-box-shadow: 3px 3px 5px gray;
   -webkit-box-shadow: 3px 3px 5px gray;
   box-shadow: 3px 3px 5px gray;
-}
-div.board_item a.small {
+} */
+/* div.board_item a.small {
   font-size: 10pt;
   color: blue;
   text-decoration: underline;
@@ -2194,8 +2194,8 @@ div.board_item a.small {
 div.board_item h3 {
   margin-bottom: 10px;
   display: inline;
-}
-div.new_post {
+} */
+/* div.new_post {
   display: none;
   overflow-y: auto;
 }
@@ -2217,8 +2217,8 @@ div.board_new_item_menu input {
 div.board_new_item_menu .chzn-container {
   vertical-align: bottom;
   font-size: 14pt;
-}
-div.board_new_item_menu_bottom {
+} */
+/* div.board_new_item_menu_bottom {
   width: 100%;
   position: relative;
   margin-top: 10px;
@@ -2246,7 +2246,7 @@ div.board_new_item_menu_bottom_inner {
 }
 div.board_upload {
   display: inline-block;
-}
+} */
 
 /* ::-webkit-scrollbar
     width: 12px;

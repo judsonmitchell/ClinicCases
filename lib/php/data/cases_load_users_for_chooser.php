@@ -34,6 +34,7 @@ function load_user_list($dbh, $value)
 //Generate a list of all active users and all groups.  Used in messages.
 function all_active_users_and_groups($dbh, $case_num, $you)
 {
+
   $options = null;
 
   //If case, add ability to send to all on the case

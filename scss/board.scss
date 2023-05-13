@@ -1,0 +1,18 @@
+@import './variables';
+@import './mixins';
+@import './layouts/content-with-sidebar';
+@import './layouts/modal';
+@import './tables';
+@import "../scss/views/_events";
+
+
+#board_nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ck-editor__editable{
+  height: 200px;
+}
