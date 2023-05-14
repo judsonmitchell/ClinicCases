@@ -449,8 +449,10 @@ live('click', 'edit_post_submit', async (_e, el) => {
       ...values,
       viewer_select,
     });
-    const res2 = await boardFileUpload(id, attachments);
-    console.log({ res2 });
+    let res2;
+    if (attachments) {
+      res2 = await boardFileUpload(id, attachments);
+    }
     if (res.error) {
       alertify.error(res.message);
     } else if (res2.error) {
@@ -519,13 +521,6 @@ live('click', 'board_item_edit', async (e, el) => {
   modal.show();
 });
 
-live('click', 'board_item_delete', async (e, el) => {
-  console.log('here');
-  e.preventDefault();
-  e.stopPropagation();
-  const id = el.dataset.id;
-});
-
 live('click', 'edit_post_cancel', (e) => {
   e.preventDefault();
   alertify.confirm(
@@ -539,7 +534,29 @@ live('click', 'edit_post_cancel', (e) => {
     null,
   );
 });
-
+live('click', 'board_item_delete', async function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const id = event.target.dataset.id;
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to delete this post?',
+    async () => {
+      try {
+        const res = await processBoard({ action: 'delete', item_id: id });
+        if (res.error) {
+          alertify.error(res.message);
+        } else {
+          alertify.success(res.message);
+        }
+        await reloadBoardPosts();
+      } catch (err) {
+        alertify.error(err.message);
+      }
+    },
+    null,
+  );
+});
 document.addEventListener('DOMContentLoaded', async () => {
   reloadBoardPosts();
 });
