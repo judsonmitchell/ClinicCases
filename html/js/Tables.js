@@ -17,6 +17,7 @@ class Table {
   topControls;
   tableName;
   canAddButton;
+  customActions;
 
   constructor({
     columns,
@@ -27,6 +28,7 @@ class Table {
     tableName,
     tableNameSingular,
     canAddButton,
+    customActions,
   }) {
     this.columns = columns;
     this.data = [...data];
@@ -40,6 +42,8 @@ class Table {
     this.tableName = tableName;
     this.tableNameSingular = tableNameSingular;
     this.canAddButton = canAddButton;
+    this.customActions = customActions;
+
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
     this._createAddButton();
@@ -292,6 +296,11 @@ class Table {
     bottomBar.appendChild(button);
     wrapper.appendChild(bottomBar);
     const right = this.controls.querySelector('.controls__right');
+    if (this.customActions?.length) {
+      this.customActions.forEach((act) => {
+        right.append(act);
+      });
+    }
     right.append(columns);
   }
 

@@ -105,6 +105,17 @@ const initUsersTable = async () => {
     },
   ];
 
+  const bulkActionsEl = document.createElement('div');
+  bulkActionsEl.innerHTML = `<div class="actions">
+  <div class="form__control form__control--select">
+    <select name="" class="bulk_action" id="">
+      <option value="" selected>With displayed users</option>
+      <option value="activate">Activate</option>
+      <option value="deactivate">Deactivate</option>
+    </select>
+  </div>
+</div>`;
+
   // Custom table plugin initiation
   table = new Table({
     columns: aoColumns,
@@ -140,6 +151,7 @@ const initUsersTable = async () => {
     tableName: 'Users',
     tableNameSingular: 'User',
     canAddButton,
+    customActions: [bulkActionsEl],
   });
   setUpRowClick();
 };

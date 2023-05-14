@@ -25,16 +25,7 @@
 
 	<div class="container my-4">
 		<h1 class="fw-bold"> Users</h1>
-		<div class="actions">
-			<div class="form__control form__control--select">
-				<select name="" class="bulk_action" id="">
-					<option value="" selected>Choose one...</option>
-					<option value="activate">Activate</option>
-					<option value="deactivate">Deactivate</option>
-				</select>
-				<label for="">With displayed users</label>
-			</div>
-		</div>
+
 		<div id="table_users" class="<?php if ($_SESSION['permissions']['add_users'] == 1) {
 																		echo "can_add";
 																	} ?>"></div>

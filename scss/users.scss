@@ -163,6 +163,12 @@
 .actions {
   width: 300px;
   margin-left: auto;
+  .form__control{
+    margin: 0;
+  }
+  @media screen and (max-width: $tablet) {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -181,5 +187,4 @@
     left: 4rem;
     right: 4rem;
   }
-  
 }
