@@ -349,6 +349,8 @@ let newPostSlimSelect = new SlimSelect({
   select: '.new_post_slim_select',
 });
 
+let editPostSlimSelects = {};
+let editPostCKEditors = {};
 let ckEditor;
 ClassicEditor.create(document.querySelector('#editor'))
   .then((editor) => {
@@ -382,11 +384,6 @@ live('click', 'new_post_submit', async (_e, el) => {
   const addPostSlimSelect = slimSelectRef.slim;
   const viewer_select = addPostSlimSelect.selected();
 
-  //   if (!viewer_select.length) {
-  //     slimSelectRef.classList.add('invalid');
-  //   } else {
-  //     slimSelectRef.classList.remove('invalid');
-  //   }
   if (isValid != true) {
     addPostForm.classList.add('invalid');
     alertify.error(`Please correct the following fields: ${isValid}`);
@@ -416,8 +413,54 @@ live('click', 'new_post_submit', async (_e, el) => {
       await boardFileUpload(res.post_id, attachments);
       alertify.success(res.message);
     }
-    // reloadUsersTable();
+    reloadBoardPosts();
     addPostModal.hide();
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
+
+live('click', 'edit_post_submit', async (_e, el) => {
+  const modalId = el.dataset.target;
+  const id = el.dataset.id;
+  const editPostModal = getModal(`#${modalId}`);
+  const viewPostModal = getModal(`#viewPostModal-${id}`);
+  const editPostForm = document.querySelector(`#${modalId} form`);
+  let values = getFormValues(editPostForm);
+  const isValid = checkFormValidity(editPostForm);
+  const viewer_select = editPostSlimSelects[id].selected();
+
+  if (isValid != true) {
+    editPostForm.classList.add('invalid');
+    alertify.error(`Please correct the following fields: ${isValid}`);
+
+    return;
+  }
+
+  editPostForm.classList.remove('invalid');
+
+  const attachments = editPostForm.querySelector('[name="attachments"]').files;
+  values.text = editPostCKEditors[id].getData();
+  delete values[''];
+  try {
+    const res = await processBoard({
+      action: 'edit',
+      id,
+      ...values,
+      viewer_select,
+    });
+    const res2 = await boardFileUpload(id, attachments);
+    console.log({ res2 });
+    if (res.error) {
+      alertify.error(res.message);
+    } else if (res2.error) {
+      alertify.error(res2.message);
+    } else {
+      alertify.success(res.message);
+    }
+    reloadBoardPosts();
+    editPostModal.hide();
+    viewPostModal.hide();
   } catch (err) {
     alertify.error(err.message);
   }
@@ -434,6 +477,69 @@ live('click', 'search_clear', async () => {
   document.querySelector('.board_posts_search').value = '';
   reloadBoardPosts();
 });
+
+live('click', 'board_item_card', (e, el) => {
+  if (
+    e.target.classList.contains('board_item_edit') ||
+    e.target.classList.contains('board_item_delete')
+  ) {
+    return;
+  }
+  const id = el.dataset.id;
+  const modal = getModal(`#viewPostModal-${id}`);
+  modal.show();
+});
+live('click', 'board_item_edit', async (e, el) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const id = el.dataset.id;
+  const slimSelectClass = `.edit_post_slim_select-${id}`;
+  const editorId = `#editor-${id}`;
+  const modal = getModal(`#editPostModal-${id}`);
+
+  editPostSlimSelects[id] =
+    editPostSlimSelects[id] ||
+    new SlimSelect({
+      select: slimSelectClass,
+    });
+  const slimSelectEl = document.querySelector(`.edit_post_slim_select-${id}`);
+  const viewers = slimSelectEl.dataset.viewers.split(',');
+  editPostSlimSelects[id].set(viewers);
+  const editorEl = document.querySelector(editorId);
+  if (!editPostCKEditors[id]) {
+    ClassicEditor.create(document.querySelector(editorId))
+      .then((editor) => {
+        editPostCKEditors[id] = editor;
+        editPostCKEditors[id].setData(editorEl.dataset.body);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  modal.show();
+});
+
+live('click', 'board_item_delete', async (e, el) => {
+  console.log('here');
+  e.preventDefault();
+  e.stopPropagation();
+  const id = el.dataset.id;
+});
+
+live('click', 'edit_post_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const id = e.target.dataset.target;
+      const modal = getModal(`#${id}`);
+      modal.hide();
+    },
+    null,
+  );
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
   reloadBoardPosts();
 });

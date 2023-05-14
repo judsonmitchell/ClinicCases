@@ -116,13 +116,12 @@
     .board_item_attachments {
       display: block;
       text-align: left;
-
       label {
         font-weight: 700;
         font-size: 12px;
       }
       .attachment_container {
-        display: flex;
+        display: block;
         font-size: 12px;
       }
     }
@@ -131,6 +130,10 @@
       .border_item_body {
         height: auto;
       }
+     
     }
   }
+}
+.edit_post_attachments {
+  margin: 0 1rem;
 }

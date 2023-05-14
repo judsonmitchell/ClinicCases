@@ -16,7 +16,6 @@ try {
 	if (isset($_POST['id'])) {
 		$id = $_POST['id'];
 	}
-
 	if (isset($_POST['item_id'])) {
 		$item_id = $_POST['item_id'];
 	}
@@ -60,38 +59,28 @@ try {
 			$q = $dbh->prepare("UPDATE `cm_board` SET `title` = :title, `body` = :body, `color` = :color, `time_edited` = NOW() WHERE `id` = :id");
 
 			$data = array('title' => $title, 'body' => $text, 'color' => $color, 'id' => $id);
-			var_dump($title);
-			var_dump($text);
-			var_dump($color);
-			var_dump($id);
+
 			$q->execute($data);
-			
-			echo 'here4';
+
 
 			$error = $q->errorInfo();
 			//now, update cm_board_viewers with users who are allowed to see post
-			echo 'here5';
 
 			//first, delete old viewers
 			$del_viewers = $dbh->prepare("DELETE FROM cm_board_viewers WHERE post_id = ?");
-			echo 'here6';
 
 			$del_viewers->bindParam(1, $id);
-			echo 'here7';
 
 			$del_viewers->execute();
-			echo 'here8';
 
 			//second, add current viewers
 			$viewers_query = $dbh->prepare("INSERT INTO cm_board_viewers (`id`, `post_id`,`viewer`) VALUES (NULL,:post_id,:viewer)");
-			echo 'here9';
 
 			foreach ($viewers as $v) {
 
 				$data = array('post_id' => $id, 'viewer' => $v);
 				$viewers_query->execute($data);
 				$error = $viewers_query->errorInfo();
-				var_dump($error);
 				//Notify viewer; TODO test with mail server
 				$author = username_to_fullname($dbh, $_SESSION['login']);
 				$email = user_email($dbh, $v);

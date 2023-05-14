@@ -793,7 +793,7 @@
   font-size: 12px;
 }
 #board_panel .board_item .board_item_attachments .attachment_container {
-  display: flex;
+  display: block;
   font-size: 12px;
 }
 #board_panel .board_item.modal-content {
@@ -801,4 +801,8 @@
 }
 #board_panel .board_item.modal-content .border_item_body {
   height: auto;
+}
+
+.edit_post_attachments {
+  margin: 0 1rem;
 }/*# sourceMappingURL=board.min.css.map */
