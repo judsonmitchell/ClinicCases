@@ -34,7 +34,7 @@ try {
 
 
 	if (isset($_POST['users'])) {
-		$users = $_POST['users'];
+		$users = explode(',', $_POST['users']);
 	}
 
 	switch ($action) {
@@ -43,7 +43,6 @@ try {
 			$q = $dbh->prepare("UPDATE cm_users SET status = 'active', new = '' WHERE id = :id");
 
 			foreach ($users as $user) {
-
 				$data = array('id' => $user);
 				$q->execute($data);
 

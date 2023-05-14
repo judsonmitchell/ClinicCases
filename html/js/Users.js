@@ -1,5 +1,3 @@
-// //Scripts for users page
-
 import {
   fetchUsers,
   processUsers,
@@ -127,7 +125,7 @@ const initUsersTable = async () => {
         value: 'inactive',
         field: 'status',
         filter: (item) => {
-          return item.statu != 'active';
+          return item.status != 'active';
         },
       },
       {
@@ -477,6 +475,27 @@ live('click', 'user_detail_edit', async (e, el) => {
   modal.scrollTop = 0;
   const url = document.querySelector('#editUser .file_preview').src;
   loadFile(url);
+});
+
+live('change', 'bulk_action', async (e, el) => {
+  const value = el.value;
+  if (!value) {
+    return;
+  }
+  const filteredData = table.filteredData;
+  const userIds = filteredData.map((user) => user.id);
+
+  try {
+    const res = await processUsers({ action: value, users: userIds });
+    if (res.error) {
+      throw new Error(res.message);
+    } else {
+      alertify.success(res.message);
+      reloadUsersTable();
+    }
+  } catch (e) {
+    alertify.error(e.message);
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

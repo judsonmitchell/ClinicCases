@@ -181,7 +181,7 @@ class Table {
       values.forEach((val, valIndex) => {
         var cell = row.insertCell(valIndex);
         cell.innerHTML = val;
-        cell.classList.add('table__cell')
+        cell.classList.add('table__cell');
         cell.setAttribute('data-col', valIndex);
         cell.setAttribute(
           `data-${this.tableNameSingular?.toLowerCase()}id`,
@@ -464,6 +464,12 @@ class Table {
     this.container.appendChild(wrapper);
     const facetSelectControl = document.createElement('div');
     const facetSelect = document.createElement('select');
+    facetSelect.addEventListener('change', () => {
+      const searchInput = document.querySelector('[name="search"]');
+      const keyword = searchInput?.value || '';
+      this._filter(keyword);
+      // this._resetResults();
+    });
     facetSelect.setAttribute('name', 'facets');
     facetSelectControl.classList.add('form__control', 'form__control--select');
     this.facets.forEach((facet) => {
