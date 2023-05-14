@@ -618,6 +618,31 @@ textarea:focus {
 .form__control.form__control--select:has(.ss-main)::after {
   bottom: 14px;
 }
+.form__control.search input {
+  width: 200px;
+}
+.form__control.search label {
+  display: flex;
+  width: 100%;
+  width: 200px;
+  justify-content: space-between;
+}
+.form__control.search label img {
+  height: 3rem;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  position: relative;
+  top: -5px;
+}
+
+.search_container {
+  display: flex;
+  align-items: flex-end;
+}
+.search_container .search_clear {
+  margin: 1rem 0;
+}
 
 .form__control--checkbox {
   margin: 2rem;

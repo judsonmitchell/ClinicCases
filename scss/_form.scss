@@ -88,6 +88,34 @@ textarea {
       }
     }
   }
+
+  &.search {
+    input {
+      width: 200px;
+    }
+    label {
+      display: flex;
+      width: 100%;
+      width: 200px;
+
+      justify-content: space-between;
+      img {
+        height: 3rem;
+        width: auto;
+        object-fit: contain;
+        position: relative;
+        top: -5px;
+      }
+    }
+  }
+}
+
+.search_container {
+  display: flex;
+  align-items: flex-end;
+  .search_clear {
+    margin: 1rem 0;
+  }
 }
 .form__control--checkbox {
   margin: 2rem;

@@ -20,13 +20,23 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 4rem;
   margin: 4rem 0;
+
+  @media screen and (max-width: $med) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+  .board_no_posts {
+    grid-column: 1/4;
+  }
   .board_item {
     @include box-shadow();
     border-radius: 10px;
     background-color: white;
     padding: 4rem;
     cursor: pointer;
-   
+
     .board_item_header {
       display: grid;
       grid-template-columns: 5rem auto;
@@ -90,9 +100,8 @@
         border: initial;
       }
       height: 150px;
-      
     }
-   
+
     .board_actions {
       display: flex;
       justify-content: flex-end;

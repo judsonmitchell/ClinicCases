@@ -62,9 +62,13 @@ try {
 	$this_users_groups = user_which_groups($dbh, $_SESSION['login']);
 
 	$grps = implode("','", $this_users_groups);
-
+	function escape_quotes($string)
+	{
+		$escaped_string = str_replace("'", "\'", $string);
+		return $escaped_string;
+	}
 	if (isset($_POST['s'])) {
-		$search = $_POST['s'];
+		$search = escape_quotes($_POST['s']);
 
 		$sql = "SELECT * FROM `cm_board` as all_posts
 	JOIN

@@ -1,8 +1,11 @@
-<?php if (count($posts) == 0) {
-?>
-	<p> No boards. </p>
-
 <?php
+if (empty($posts)) {
+	if (isset($search)) {
+		echo "<p class='board_no_posts'>No board posts found matching <i>$search</i></p>";
+	} else {
+		echo "<p class='board_no_posts'>No board posts found.</p>";
+		die;
+	}
 }
 
 ?>

@@ -4,7 +4,7 @@
 @import './layouts/content-with-sidebar';
 @import './layouts/modal';
 @import './tables';
-@import "../scss/views/_events";
+@import '../scss/views/_events';
 
 #content {
   #searchCases,
@@ -489,7 +489,6 @@
   justify-content: flex-end;
 }
 
-
 // DOCUMENTS
 
 .case_documents_toolbar {
@@ -508,20 +507,6 @@
   }
   .form__control {
     margin-top: 0;
-    &.search {
-      label {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        img {
-          height: 3rem;
-          width: auto;
-          object-fit: contain;
-          position: relative;
-          top: -5px;
-        }
-      }
-    }
   }
   @media screen and (max-width: $med) {
     flex-wrap: wrap;
@@ -1087,7 +1072,7 @@
     cursor: pointer;
   }
 }
-.pdf .csecontact_bar_right{
+.pdf .csecontact_bar_right {
   display: none;
 }
 .cnt_type {

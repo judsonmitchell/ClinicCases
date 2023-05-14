@@ -8,7 +8,7 @@
 } ?>
 <div class="case_toolbar">
 
-	<div>
+	<div class="search_container">
 		<div class="form__control">
 			<input class="case_events_search" data-caseid="<?php echo $this_case_id ?>" id="caseEventsSearch-<?php echo $this_case_id ?>" data-label="#caseEventsSearchLabel-<?php echo $this_case_id ?>" name="caseEventsSearch-<?php echo $this_case_id ?>" type="text" placeholder="search" />
 			<label id="caseEventsSearchLabel-<?php echo $this_case_id ?>" for="caseEventsSearch-<?php echo $this_case_id ?>">Search Case Events</label>

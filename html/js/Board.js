@@ -10,6 +10,12 @@ import { getModal } from '../../lib/javascripts/modal.js';
 import { checkFormValidity, getFormValues } from './forms.js';
 import { live } from './live.js';
 
+const reloadBoardPosts = async (s) => {
+  const boardPanel = document.querySelector('#board_panel');
+  const boardContent = await loadBoard(s);
+  boardPanel.innerHTML = boardContent;
+};
+
 // /* globals qq, notify, rte_toolbar */
 
 // $(document).ready(function() {
@@ -352,12 +358,6 @@ ClassicEditor.create(document.querySelector('#editor'))
     console.error(error);
   });
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const boardPanel = document.querySelector('#board_panel');
-  const boardContent = await loadBoard();
-  boardPanel.innerHTML = boardContent;
-});
-
 live('click', 'new_post_cancel', (e) => {
   e.preventDefault();
   alertify.confirm(
@@ -421,4 +421,19 @@ live('click', 'new_post_submit', async (_e, el) => {
   } catch (err) {
     alertify.error(err.message);
   }
+});
+
+// search case notes
+live('change', 'board_posts_search', async (event) => {
+  const value = event.target.value;
+  console.log({ value });
+  reloadBoardPosts(value);
+});
+
+live('click', 'search_clear', async () => {
+  document.querySelector('.board_posts_search').value = '';
+  reloadBoardPosts();
+});
+document.addEventListener('DOMContentLoaded', async () => {
+  reloadBoardPosts();
 });

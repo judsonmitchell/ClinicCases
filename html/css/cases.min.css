@@ -1149,19 +1149,6 @@
 .case_documents_toolbar .form__control {
   margin-top: 0;
 }
-.case_documents_toolbar .form__control.search label {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.case_documents_toolbar .form__control.search label img {
-  height: 3rem;
-  width: auto;
-  -o-object-fit: contain;
-     object-fit: contain;
-  position: relative;
-  top: -5px;
-}
 @media screen and (max-width: 992px) {
   .case_documents_toolbar {
     flex-wrap: wrap;

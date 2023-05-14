@@ -34,10 +34,17 @@
 
 		<div id="board_nav">
 
-			<div class="form__control">
-				<input class="board_posts_search" id="board_posts_search" name="board_posts_search" type="text" placeholder="search" />
-				<label id="board_posts_search_label" for="board_posts_search">Search Board Posts</label>
+			<div class="search_container">
+
+				<div class="form__control search">
+					<input id="board_posts_search" data-caseid="<?php echo $case_id ?>" type="text" class="board_posts_search" placeholder=" " value="<?php if (isset($search)) {
+																																																																						} ?>"> <label for="board_posts_search">Search Board Posts <span><img src="html/ico/search.png" /></span></label>
+				</div>
+				<button class="search_clear" data-caseid="<?php echo $this_case_id ?>">&times;</button>
+
 			</div>
+
+
 			<?php if ($_SESSION['permissions']['post_in_board'] == '1') { ?>
 
 				<button class="button--primary" data-bs-toggle="modal" data-bs-target="#newPostModal">+ New Post</button>

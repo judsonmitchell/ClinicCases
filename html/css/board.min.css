@@ -672,6 +672,19 @@
   gap: 4rem;
   margin: 4rem 0;
 }
+@media screen and (max-width: 992px) {
+  #board_panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 768px) {
+  #board_panel {
+    grid-template-columns: 1fr;
+  }
+}
+#board_panel .board_no_posts {
+  grid-column: 1/4;
+}
 #board_panel .board_item {
   box-shadow: 0.2px 1px 1.4px rgba(0, 0, 0, 0.02), 0.4px 2.3px 3.3px rgba(0, 0, 0, 0.028), 0.8px 4.4px 6.3px rgba(0, 0, 0, 0.035), 1.3px 7.8px 11.2px rgba(0, 0, 0, 0.042), 2.5px 14.6px 20.9px rgba(0, 0, 0, 0.05), 6px 35px 50px rgba(0, 0, 0, 0.07);
   border-radius: 10px;
