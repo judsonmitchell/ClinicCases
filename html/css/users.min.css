@@ -719,7 +719,8 @@ form.invalid input:invalid,
 form.invalid textarea:invalid,
 form.invalid select:invalid,
 form.invalid input.invalid,
-form.invalid .ss-main.invalid {
+form.invalid .ss-main.invalid,
+form.invalid .ck-editor.invalid {
   border: 1px solid red;
   border-color: red;
 }
