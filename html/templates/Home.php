@@ -26,6 +26,7 @@
 		echo $t; ?>
 
 	</div>
+
 	<div class="welcome-message">
 		<div>
 
@@ -47,8 +48,6 @@
 			<button data-bs-toggle="modal" data-bs-target="#quickAddModal" class="button--primary">+ Quick Add</button>
 		</div>
 	</div>
-
-
 	<div id="grid">
 		<div id="sidebar">
 
@@ -59,6 +58,8 @@
 			<div id="calendar"></div>
 		</div>
 	</div>
+
+
 
 	<?php include('html/templates/interior/home_view_event.php'); ?>
 	<?php include('html/templates/interior/home_quick_add.php'); ?>

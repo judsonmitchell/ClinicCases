@@ -1,0 +1,10 @@
+@import './variables';
+@import './mixins';
+@import './layouts/content-with-sidebar';
+@import './layouts/modal';
+@import './tables';
+@import './form';
+
+#table_journals {
+  width: 100%;
+}

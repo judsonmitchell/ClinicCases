@@ -1015,4 +1015,31 @@ body {
 
 .notification:empty {
   display: none;
+}
+
+.force_new_password_content {
+  display: block;
+  padding: 4rem 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.force_new_password_content h3 {
+  font-family: lemonde-journal, sans-serif;
+  color: #272727;
+  font-size: 28px;
+  font-weight: bold;
+}
+.force_new_password_content h3 p {
+  text-align: left;
+}
+.force_new_password_content .submit_new_password {
+  display: block;
+  min-width: 200px;
+  margin: 2rem auto;
+}
+.force_new_password_content .indicator {
+  color: red;
+}
+.force_new_password_content .valid {
+  color: green;
 }/*# sourceMappingURL=app.min.css.map */

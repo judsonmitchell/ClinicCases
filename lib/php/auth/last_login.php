@@ -11,6 +11,6 @@ function get_last_login($dbh, $user)
 	if ($last_log) {
 		return $last_log['timestamp'];
 	} else {
-		return 'Never';
+		return false;
 	}
 }

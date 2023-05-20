@@ -1,26 +1,23 @@
 <?php
 try {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
 	@session_start();
 	require('../../../db.php');
-	// require(CC_PATH . '/lib/php/auth/session_check.php');
-	// include(CC_PATH . '/lib/php/utilities/thumbnails.php');
-	// include(CC_PATH . '/lib/php/utilities/names.php');
-	// include(CC_PATH . '/lib/php/utilities/convert_times.php');
-	// include(CC_PATH . '/lib/php/auth/last_login.php');
-	// include(CC_PATH . '/lib/php/html/gen_select.php');
-	// include(CC_PATH . '/lib/php/utilities/format_text.php');
-	// include(CC_PATH . '/lib/php/users/user_data.php');
-	require('../../php/auth/session_check.php');
-	include('../../php/utilities/thumbnails.php');
-	include('../../php/utilities/names.php');
-	include('../../php/utilities/convert_times.php');
-	include('../../php/auth/last_login.php');
-	include('../../php/html/gen_select.php');
-	include('../../php/utilities/format_text.php');
-	include('../../php/users/user_data.php');
+	require(CC_PATH . '/lib/php/auth/session_check.php');
+	include(CC_PATH . '/lib/php/utilities/thumbnails.php');
+	include(CC_PATH . '/lib/php/utilities/names.php');
+	include(CC_PATH . '/lib/php/utilities/convert_times.php');
+	include(CC_PATH . '/lib/php/auth/last_login.php');
+	include(CC_PATH . '/lib/php/html/gen_select.php');
+	include(CC_PATH . '/lib/php/utilities/format_text.php');
+	include(CC_PATH . '/lib/php/users/user_data.php');
+	// require('../../php/auth/session_check.php');
+	// include('../../php/utilities/thumbnails.php');
+	// include('../../php/utilities/names.php');
+	// include('../../php/utilities/convert_times.php');
+	// include('../../php/auth/last_login.php');
+	// include('../../php/html/gen_select.php');
+	// include('../../php/utilities/format_text.php');
+	// include('../../php/users/user_data.php');
 
 	//function to sort the activities array by subkey - date
 	function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC)
@@ -110,6 +107,7 @@ try {
 	AND datestamp >= '$mysqldate'");
 
 	$get_noncase->execute();
+
 
 	$noncases = $get_noncase->fetchAll(PDO::FETCH_ASSOC);
 
@@ -512,18 +510,23 @@ try {
 	//and any events that they created or were assigned to
 	//End queries for admins
 
+
 	//Journal comments
 	//select all journals that are newer than start date
 	//then take all serialized arrays from comments and add to $activities
 	if (
-		$_SESSION['permissions']['reads_journals'] == '1' ||
-		$_SESSION['permissions']['writes_journals'] == '1'
+		$_SESSION['permissions']['reads_journals'] == 1 ||
+		$_SESSION['permissions']['writes_journals'] == 1
 	) {
-		$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= '$mysqldate'
-		AND comments != '' AND (reader LIKE '$username,%' OR reader LIKE '%,$username,%' OR username LIKE '$username'");
+		$get_journals = $dbh->prepare("SELECT * FROM cm_journals WHERE date_added >= :mysqldate
+		AND comments != '' AND (reader LIKE :username1 OR reader LIKE :username2 OR username LIKE :username3)");
+		$get_journals->bindValue(':mysqldate', $mysqldate);
+		$get_journals->bindValue(':username1', "%,$username,%");
+		$get_journals->bindValue(':username2', "$username,%");
+		$get_journals->bindValue(':username3', $username);
+		$get_journals->execute();
 		//query is constructed like this so that if there is more than one reader,
 		//they get to be notified of the other reader's comments
-
 		$get_journals->execute();
 
 		$journals = $get_journals->fetchAll(PDO::FETCH_ASSOC);

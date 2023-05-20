@@ -67,3 +67,30 @@ body {
 .notification:empty {
   display: none;
 }
+
+.force_new_password_content {
+  display: block;
+  padding: 4rem 0;
+  max-width: 700px;
+  margin: 0 auto;
+
+  h3 {
+    @include title-font();
+    font-size: 28px;
+    font-weight: bold;
+    p {
+      text-align: left;
+    }
+  }
+  .submit_new_password {
+    display: block;
+    min-width: 200px;
+    margin: 2rem auto;
+  }
+  .indicator {
+    color: red;
+  }
+  .valid {
+    color: green;
+  }
+}
