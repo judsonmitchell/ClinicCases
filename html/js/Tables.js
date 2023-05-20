@@ -181,7 +181,7 @@ class Table {
       var row = this.body.insertRow(-1);
       row.setAttribute('data-item', item.id);
       row.style.display = 'table-row';
-      const values = Object.values(item);
+      const values = this.columns.map((col) => item[col.fieldName]);
       values.forEach((val, valIndex) => {
         var cell = row.insertCell(valIndex);
         cell.innerHTML = val;

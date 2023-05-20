@@ -1,5 +1,6 @@
 <!-- CSS specific to this page -->
 <link rel="stylesheet" type="text/css" href="html/css/journals.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css">
 
 
 <!-- Jquery Calls Specific to this page -->
@@ -7,6 +8,7 @@
 <script type="text/javascript" src="html/js/Tables.js "></script>
 <script src="html/js/Journals.js" type="module"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
 
 </head>
 

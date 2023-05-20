@@ -237,48 +237,48 @@
   cursor: pointer;
 }
 
-#table_cases, #table_users {
+#table_cases, #table_users, #table_journals {
   width: 100%;
   margin-top: 2rem;
 }
 @media screen and (max-width: 768px) {
-  #table_cases .table__container, #table_users .table__container {
+  #table_cases .table__container, #table_users .table__container, #table_journals .table__container {
     overflow-x: scroll;
   }
 }
-#table_cases table, #table_users table {
+#table_cases table, #table_users table, #table_journals table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 @media screen and (max-width: 768px) {
-  #table_cases table, #table_users table {
+  #table_cases table, #table_users table, #table_journals table {
     width: auto;
   }
 }
-#table_cases table .thumbnail-mask, #table_users table .thumbnail-mask {
+#table_cases table .thumbnail-mask, #table_users table .thumbnail-mask, #table_journals table .thumbnail-mask {
   max-width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   width: 30px;
 }
-#table_cases thead, #table_users thead {
+#table_cases thead, #table_users thead, #table_journals thead {
   border-bottom: 3px solid #a09cb0;
 }
-#table_cases thead tr, #table_users thead tr {
+#table_cases thead tr, #table_users thead tr, #table_journals thead tr {
   color: #2b50aa;
   font-weight: 600;
   position: relative;
 }
-#table_cases thead tr td, #table_users thead tr td {
+#table_cases thead tr td, #table_users thead tr td, #table_journals thead tr td {
   position: relative;
 }
 @media screen and (max-width: 768px) {
-  #table_cases thead tr td, #table_users thead tr td {
+  #table_cases thead tr td, #table_users thead tr td, #table_journals thead tr td {
     padding-right: 3rem;
   }
 }
-#table_cases thead tr td::after, #table_users thead tr td::after {
+#table_cases thead tr td::after, #table_users thead tr td::after, #table_journals thead tr td::after {
   content: "";
   display: block;
   height: 20px;
@@ -290,19 +290,19 @@
   right: 3px;
   top: 10px;
 }
-#table_cases thead tr td.asc::after, #table_users thead tr td.asc::after {
+#table_cases thead tr td.asc::after, #table_users thead tr td.asc::after, #table_journals thead tr td.asc::after {
   background-image: url("../ico/asc.svg");
 }
-#table_cases thead tr td.desc::after, #table_users thead tr td.desc::after {
+#table_cases thead tr td.desc::after, #table_users thead tr td.desc::after, #table_journals thead tr td.desc::after {
   background-image: url("../ico/desc.svg");
 }
-#table_cases tr:hover, #table_users tr:hover {
+#table_cases tr:hover, #table_users tr:hover, #table_journals tr:hover {
   cursor: pointer;
 }
-#table_cases tr:nth-child(even), #table_users tr:nth-child(even) {
+#table_cases tr:nth-child(even), #table_users tr:nth-child(even), #table_journals tr:nth-child(even) {
   background-color: rgba(160, 156, 176, 0.3);
 }
-#table_cases td, #table_users td {
+#table_cases td, #table_users td, #table_journals td {
   border: 2px solid rgba(160, 156, 176, 0.3);
   padding: 1rem;
   white-space: nowrap;

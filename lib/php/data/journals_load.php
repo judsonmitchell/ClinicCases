@@ -6,32 +6,28 @@ include '../utilities/convert_times.php';
 include '../utilities/names.php';
 include '../utilities/thumbnails.php';
 
-function in_string($val,$string)
+function in_string($val, $string)
 {
 	$val_1 = ',' . $val . ',';
 	$val_2 = $val . ',';
 
-	if (stristr($string, $val_1))
-		{return true;}
-	elseif (stristr($string, $val_2))
-		{return true;}
-	else
-		{return false;}
+	if (stristr($string, $val_1)) {
+		return true;
+	} elseif (stristr($string, $val_2)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 $user = $_SESSION['login'];
 
-if ($_SESSION['permissions']['reads_journals'] == '1')
-{
+if ($_SESSION['permissions']['reads_journals'] == '1') {
 	$sql = "SELECT * FROM cm_journals WHERE reader LIKE '$user,%'
 			OR reader LIKE '%,$user,%'";
-}
-elseif ($_SESSION['permissions']['writes_journals'] == '1')
-{
+} elseif ($_SESSION['permissions']['writes_journals'] == '1') {
 	$sql = "SELECT * FROM cm_journals WHERE username LIKE '$user'";
-}
-else
-{
+} else {
 	die("Sorry, you do not have permission to read or write journals.");
 }
 
@@ -49,53 +45,44 @@ $q->execute();
 
 $error = $q->errorInfo();
 
-while ($result = $q->fetch(PDO::FETCH_ASSOC))
-	{
+while ($result = $q->fetch(PDO::FETCH_ASSOC)) {
 
-		$rows= array();
+	$rows = array();
 
-		//Add user picture
-		$pic = "<img class='thumbnail-mask' src='" . return_thumbnail($dbh,$result['username']) . "' border='0'>";
+	//Add user picture
+	$pic = "<img class='thumbnail-mask' src='" . return_thumbnail($dbh, $result['username']) . "' border='0'>";
 
-		$rows[] = $pic;
+	$rows[] = $pic;
 
-		//Format data
-		$result['username'] = username_to_fullname($dbh,$result['username']);
+	//Format data
+	$result['username'] = username_to_fullname($dbh, $result['username']);
 
-		$result['date_added'] = extract_date_time_sortable($result['date_added']);
+	$result['date_added'] = extract_date_time_sortable($result['date_added']);
 
-		//Check to see if this user has read or archived this journal
-		if (in_string($user,$result['read']))
-		{
-			$result['read'] = 'yes';
-		}
-		else
-		{
-			$result['read'] = '';
-		}
-
-		if (in_string($user,$result['archived']))
-		{
-			$result['archived'] = 'yes';
-		}
-		else
-		{
-			$result['archived'] = '';
-		}
-
-		foreach ($cols as $col) {
-
-		  	$rows[] = $result[$col];
-
-		 }
-
-		$output['aaData'][] = $rows;
+	//Check to see if this user has read or archived this journal
+	if (in_string($user, $result['read'])) {
+		$result['read'] = true;
+	} else {
+		$result['read'] = false;
 	}
 
-	if ($q->rowCount() < 1)
-	{
-		$output['aaData'] = array();
+	if (in_string($user, $result['archived'])) {
+		$result['archived'] = true;
+	} else {
+		$result['archived'] = false;
 	}
+	// var_dump($result);
+
+	// foreach ($cols as $col) {
+
+	// 	$rows[] = $result[$col];
+	// }
+
+	$output['aaData'][] = $result;
+}
+
+if ($q->rowCount() < 1) {
+	$output['aaData'] = array();
+}
 
 echo json_encode($output);
-

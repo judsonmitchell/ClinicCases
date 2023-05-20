@@ -1,6 +1,8 @@
 // //Scripts for journals
 
-import { fetchJournals } from '../../lib/javascripts/axios.js';
+import { fetchJournals, processJournal } from '../../lib/javascripts/axios.js';
+import { getModal } from '../../lib/javascripts/modal.js';
+import { checkFormValidity, getFormValues, resetForm } from './forms.js';
 
 // /* global notify, elPrint, ColReorder, router, rte_toolbar  */
 // var oTable;
@@ -526,6 +528,10 @@ import { fetchJournals } from '../../lib/javascripts/axios.js';
 
 let table;
 let ckEditor;
+let readerEl;
+let readerSlimSelect = new SlimSelect({
+  select: '.reader_select',
+});
 ClassicEditor.create(document.querySelector('#editor'))
   .then((editor) => {
     ckEditor = editor;
@@ -535,22 +541,26 @@ ClassicEditor.create(document.querySelector('#editor'))
   });
 const initJournalsTable = async () => {
   const journals = await fetchJournals();
-  console.log({ journals });
   const canAddButton = createCanAddJournalButton();
+
   const aoColumns = [
     { name: 'Id', hidden: true, type: 'text', fieldName: 'id' },
     {
       name: 'Name',
-      hidden: false,
       type: 'text',
-      fieldName: 'name',
+      fieldName: 'username',
     },
     {
       name: 'Date Submitted',
-      hidden: false,
       type: 'date',
-      fieldName: 'date_submitted',
+      fieldName: 'date_added',
     },
+    { name: 'Archived', hidden: true, type: 'text', fieldName: 'archived' },
+    { name: 'Commented', hidden: true, type: 'text', fieldName: 'commented' },
+    { name: 'Comments', hidden: true, type: 'text', fieldName: 'comments' },
+    { name: 'Read', hidden: true, type: 'text', fieldName: 'read' },
+    { name: 'Reader', hidden: true, type: 'text', fieldName: 'reader' },
+    { name: 'Text', hidden: true, type: 'text', fieldName: 'text' },
   ];
 
   //     const bulkActionsEl = document.createElement('div');
@@ -575,7 +585,8 @@ const initJournalsTable = async () => {
         value: 'active',
         field: 'status',
         filter: (item) => {
-          return item.status == 'active';
+          console.log(item.read == false);
+          return item.read == false;
         },
         default: true,
       },
@@ -584,7 +595,7 @@ const initJournalsTable = async () => {
         value: 'inactive',
         field: 'status',
         filter: (item) => {
-          return item.status != 'active';
+          return item.read == true;
         },
       },
       {
@@ -592,7 +603,7 @@ const initJournalsTable = async () => {
         value: 'all',
         field: 'status',
         filter: () => {
-          return true;
+          return item.archived == true;
         },
       },
       {
@@ -609,9 +620,59 @@ const initJournalsTable = async () => {
     canAddButton,
     // customActions: [bulkActionsEl],
   });
-  console.log({ table });
   //     setUpRowClick();
 };
+
+const cancelJournalButton = document.querySelector('.new_journal_cancel');
+cancelJournalButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  const id = 'newJournalModal';
+  const modal = getModal(`#${id}`);
+  const form = document.querySelector(`#${id} form`);
+
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose all of your data.',
+    () => {
+      resetForm(form);
+      ckEditor.setData('');
+      modal.hide();
+    },
+    null,
+  );
+});
+
+const submitJournalButton = document.querySelector('.new_journal_submit');
+submitJournalButton.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const form = document.querySelector('#newJournalModal form');
+  const isValid = checkFormValidity(form);
+  const content = ckEditor.getData();
+  const editorEl = document.querySelector('#newJournalModal .ck-editor');
+  const readers = readerSlimSelect.selected();
+  if (isValid != true || !content || !readers.length) {
+    form.classList.add('invalid');
+    if (!content) {
+      editorEl.classList.add('invalid');
+    }
+    if (!readers.length) {
+      readerEl.classList.add('invalid');
+    }
+  } else {
+    form.classList.remove('invalid');
+    editorEl.classList.remove('invalid');
+    readerEl.classList.remove('invalid');
+  }
+  const values = getFormValues(form);
+  values.text = content;
+  try {
+    const res = await processJournal({ type: 'new', ...values });
+    console.log({ res });
+  } catch (err) {
+    alertify.error(err.message);
+  }
+});
+
 const createCanAddJournalButton = () => {
   const button = document.createElement('button');
   button.setAttribute('data-bs-toggle', 'modal');
@@ -625,4 +686,5 @@ const createCanAddJournalButton = () => {
 };
 document.addEventListener('DOMContentLoaded', () => {
   initJournalsTable();
+  readerEl = document.querySelector('.reader_select');
 });

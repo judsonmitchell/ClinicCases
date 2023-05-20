@@ -1,5 +1,7 @@
 <?php
+
 include 'lib/php/utilities/names.php';
+$reader = $_SESSION['supervisors'];
 include 'lib/php/html/gen_select.php';
 
 ?>
@@ -14,14 +16,21 @@ include 'lib/php/html/gen_select.php';
         </div>
         <div class="modal-body">
           <div class="form__control form__control--select">
-            <select name="supervisors" class="new_user_supervisors_slim_select" tabindex="2">
-              <option value="" selected disabled>Select...</option>
-              <?php
-              echo supervisors_select($_SESSION['supervisors'], $supervisor_name_data);
-              ?>
+            <select class="reader_select" multiple name="reader_select" data-placeholder="Submit this journal to">
+
+              <option value=""></option>
+              <?php echo get_journal_readers($dbh, $reader); ?>
+
             </select>
             <label for="supervisors">Submit journal to</label>
           </div>
+
+          <div class="p-4">
+
+            <input type="checkbox" name="remember_choice">
+            <label>Remember</label>
+          </div>
+
           <div id="editor"></div>
         </div>
       </form>
