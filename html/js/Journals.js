@@ -3,6 +3,7 @@
 import { fetchJournals, processJournal } from '../../lib/javascripts/axios.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import { checkFormValidity, getFormValues, resetForm } from './forms.js';
+import { getClosest } from './live.js';
 
 // /* global notify, elPrint, ColReorder, router, rte_toolbar  */
 // var oTable;
@@ -549,6 +550,22 @@ const reloadJournals = async () => {
   table_journals.innerHTML = '';
   initJournalsTable();
 };
+
+const setUpRowClick = () => {
+  table.onRowClick((e) => {
+    const dataset = e.target.dataset;
+    // if the td is a header, we don't want to  perform
+    // this action
+    if (!dataset.header) {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set(
+        'journal_id',
+        getClosest(e.target, 'table__cell')?.dataset?.journalid,
+      );
+      window.location.search = urlParams.toString();
+    }
+  });
+};
 const initJournalsTable = async () => {
   const journals = await fetchJournals();
   const canAddButton = createCanAddJournalButton();
@@ -630,7 +647,7 @@ const initJournalsTable = async () => {
     canAddButton,
     // customActions: [bulkActionsEl],
   });
-  //     setUpRowClick();
+  setUpRowClick();
 };
 
 const cancelJournalButton = document.querySelector('.new_journal_cancel');

@@ -104,9 +104,10 @@ try {
 				die;
 			}
 
-			$q = $dbh->prepare("INSERT INTO `cm_journals` (`id`, `username`, `reader`, `text`, `date_added`, `archived`, `read`, `commented`, `comments`) VALUES (NULL, ?, '', '', NOW(), '', '', '', '');");
+			$q = $dbh->prepare("INSERT INTO `cm_journals` (`id`, `username`, `reader`, `text`, `date_added`, `archived`, `read`, `commented`, `comments`) VALUES (NULL, ?, '', ?, NOW(), '', '', '', '');");
 
 			$q->bindParam(1, $user);
+			$q->bindParam(2, $text);
 
 			$q->execute();
 

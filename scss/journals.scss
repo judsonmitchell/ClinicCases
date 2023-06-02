@@ -8,3 +8,46 @@
 #table_journals {
   width: 100%;
 }
+
+.journal_detail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 100;
+  padding: 50px 30px;
+  .journal_actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .journal_group {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+    }
+    .chevron_left {
+      width: 20px;
+      transform: rotate(-90deg);
+    }
+  }
+  .journal_header {
+    display: flex;
+    align-items: center;
+    margin: 4rem 0;
+    gap: 4rem;
+    .thumbnail-mask {
+      width: 50px;
+      height: 50px;
+    }
+
+    h1 {
+      font-size: 25px;
+      font-weight: 700;
+    }
+    p {
+      color: $dark-gray;
+    }
+  }
+}

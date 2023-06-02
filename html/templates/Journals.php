@@ -49,3 +49,9 @@
 
 	</div>
 	<?php include('html/templates/interior/journals_new_journal_modal.php'); ?>
+	<?php
+if (isset($_GET['journal_id'])) {
+	$user_id = $_GET['journal_id'];
+	include('lib/php/data/journals_detail_load.php');
+}
+?>

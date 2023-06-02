@@ -2037,7 +2037,7 @@ table.display tfoot th {
 }
 
 /*Styles for journals */
-#journal_detail_window {
+/* #journal_detail_window {
   width: 97%;
   height: 98%;
   background-color: white;
@@ -2135,7 +2135,7 @@ div.journal_status {
 }
 div.journal_text {
   min-height: 100px;
-}
+} */
 
 /* Board styles */
 /* div#board_nav {

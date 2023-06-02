@@ -844,4 +844,46 @@ form {
 
 #table_journals {
   width: 100%;
+}
+
+.journal_detail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 100;
+  padding: 50px 30px;
+}
+.journal_detail .journal_actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.journal_detail .journal_actions .journal_group {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+.journal_detail .journal_actions .chevron_left {
+  width: 20px;
+  transform: rotate(-90deg);
+}
+.journal_detail .journal_header {
+  display: flex;
+  align-items: center;
+  margin: 4rem 0;
+  gap: 4rem;
+}
+.journal_detail .journal_header .thumbnail-mask {
+  width: 50px;
+  height: 50px;
+}
+.journal_detail .journal_header h1 {
+  font-size: 25px;
+  font-weight: 700;
+}
+.journal_detail .journal_header p {
+  color: #808080;
 }/*# sourceMappingURL=journals.min.css.map */
