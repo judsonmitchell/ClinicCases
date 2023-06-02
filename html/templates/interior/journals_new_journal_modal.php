@@ -2,6 +2,7 @@
 
 include 'lib/php/utilities/names.php';
 $reader = $_SESSION['supervisors'];
+
 include 'lib/php/html/gen_select.php';
 
 ?>

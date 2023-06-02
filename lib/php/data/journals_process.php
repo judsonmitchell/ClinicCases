@@ -143,14 +143,8 @@ try {
 		case 'update_readers':
 
 			$q = $dbh->prepare("UPDATE cm_journals SET `reader` = :reader WHERE `id` = :id");
-
-			if (is_array($readers)) {
-				$reader = implode(',', $readers) . ",";
-			} else {
-				$reader = '';
-			}
-
-			$data = array('id' => $id[0], 'reader' => $reader);
+	
+			$data = array('id' => $id, 'reader' => $readers);
 
 			$q->execute($data);
 

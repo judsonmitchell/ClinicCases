@@ -21,16 +21,14 @@ function in_string($val, $string)
 }
 
 $user = $_SESSION['login'];
-
 if ($_SESSION['permissions']['reads_journals'] == '1') {
 	$sql = "SELECT * FROM cm_journals WHERE reader LIKE '$user,%'
-			OR reader LIKE '%,$user,%'";
+			OR reader LIKE '%,$user,%' ORDER BY date_added DESC";
 } elseif ($_SESSION['permissions']['writes_journals'] == '1') {
-	$sql = "SELECT * FROM cm_journals WHERE username LIKE '$user'";
+	$sql = "SELECT * FROM cm_journals WHERE username LIKE '$user' ORDER BY date_added DESC";
 } else {
 	die("Sorry, you do not have permission to read or write journals.");
 }
-
 //Get column names
 $c = $dbh->prepare("DESCRIBE cm_journals");
 
@@ -71,7 +69,6 @@ while ($result = $q->fetch(PDO::FETCH_ASSOC)) {
 	} else {
 		$result['archived'] = false;
 	}
-	// var_dump($result);
 
 	// foreach ($cols as $col) {
 

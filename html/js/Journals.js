@@ -539,6 +539,16 @@ ClassicEditor.create(document.querySelector('#editor'))
   .catch((error) => {
     console.error(error);
   });
+
+const resetAltInputs = () => {
+  readerSlimSelect.setSelected([]);
+  ckEditor.setData('');
+};
+const reloadJournals = async () => {
+  const table_journals = document.querySelector('#table_journals');
+  table_journals.innerHTML = '';
+  initJournalsTable();
+};
 const initJournalsTable = async () => {
   const journals = await fetchJournals();
   const canAddButton = createCanAddJournalButton();
@@ -635,7 +645,7 @@ cancelJournalButton.addEventListener('click', (e) => {
     'Are you sure you want to cancel? You will lose all of your data.',
     () => {
       resetForm(form);
-      ckEditor.setData('');
+      resetAltInputs();
       modal.hide();
     },
     null,
@@ -668,6 +678,27 @@ submitJournalButton.addEventListener('click', async (e) => {
   try {
     const res = await processJournal({ type: 'new', ...values });
     console.log({ res });
+    if (res.error) {
+      throw new Error(res.message || 'Error creating journal.');
+    }
+    const { newId } = res;
+    console.log(readers);
+    const res2 = await processJournal({
+      type: 'update_readers',
+      readers: Array.isArray(readers) ? readers : [readers],
+      id: newId,
+    });
+
+    console.log({ res2 });
+    if (res2.error) {
+      throw new Error(res.message || 'Error creating journal.');
+    }
+    alertify.success('Journal created!');
+    await reloadJournals();
+    const modal = getModal('#newJournalModal');
+    modal.hide();
+    resetForm(form);
+    resetAltInputs();
   } catch (err) {
     alertify.error(err.message);
   }
