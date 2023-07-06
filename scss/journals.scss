@@ -50,4 +50,41 @@
       color: $dark-gray;
     }
   }
+  .journal_text {
+    padding: 4rem 0.5rem;
+  }
+  .comment {
+    border-left: 0.3rem solid $dark-blue;
+    margin: 4rem 0 4rem;
+    padding: 4rem;
+    @media screen and (max-width: $tablet) {
+      padding: 0 2rem;
+    }
+
+    .comment_info {
+      display: flex;
+
+      align-items: start;
+      textarea {
+        width: 100%;
+        height: 200px;
+        margin: 0 0 0 4rem;
+        
+      }
+      @media screen and (max-width: $tablet) {
+        flex-direction: column;
+        textarea {
+          margin: 0;
+        }
+        .thumbnail-mask {
+          margin: 0 0 4rem 0;
+        }
+      }
+    }
+    .btn {
+      display: block;
+      margin-left: auto;
+      margin-top: 4rem;
+    }
+  }
 }

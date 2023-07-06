@@ -94,11 +94,13 @@
 				<?php if ($view !== 'edit') { ?>
 
 					<div class="comment">
-						<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
+						<div class="comment_info">
+							<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
 
-						<textarea class="expand">Your comment</textarea>
+							<textarea class="expand">Your comment</textarea>
+						</div>
 
-						<a href="#" class="comment_save">Save</a>
+						<button  href="#" class="button--primary btn">Save</button>
 
 					</div>
 
