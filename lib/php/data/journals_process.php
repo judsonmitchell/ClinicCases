@@ -133,7 +133,7 @@ try {
 				$reader = '';
 			}
 
-			$data = array('text' => $text, 'id' => $id[0], 'reader' => $reader);
+			$data = array('text' => $text, 'id' => $id, 'reader' => $reader);
 
 			$q->execute($data);
 
@@ -157,7 +157,7 @@ try {
 
 			$q = $dbh->prepare("DELETE FROM cm_journals WHERE id = ?");
 
-			$q->bindParam(1, $id[0]);
+			$q->bindParam(1, $id);
 
 			$q->execute();
 
@@ -171,18 +171,17 @@ try {
 
 			$time =  date('Y-m-d H:i:s');
 
-			$c = array('id' => $id[0], 'by' =>  $_SESSION['login'], 'text' => $comment_text, 'time' => $time);
+			$c = array('id' => $id, 'by' =>  $_SESSION['login'], 'text' => $comment_text, 'time' => $time);
 
 			//Get current comment thread, if any
 			$q = $dbh->prepare("SELECT comments FROM cm_journals WHERE id = ?");
 
-			$q->bindParam('1', $id[0]);
+			$q->bindParam(1, $id);
 
 			$q->execute();
 
 			$thread = $q->fetch(PDO::FETCH_ASSOC);
-
-			if (count($thread['comments']) > 0) {
+			if (strlen($thread['comments'])) {
 				$old = unserialize($thread['comments']);
 
 				$old[] = $c;
@@ -191,7 +190,7 @@ try {
 
 				$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments, commented = 'yes' WHERE id = :id");
 
-				$data = array('comments' => $new, 'id' => $id[0]);
+				$data = array('comments' => $new, 'id' => $id);
 
 				$update->execute($data);
 
@@ -199,9 +198,9 @@ try {
 			} else {
 				$update = $dbh->prepare("UPDATE cm_journals SET comments = :comments, commented = 'yes' WHERE id = :id");
 
-				$new = serialize($c);
+				$new = serialize(array(0 => $c));
 
-				$data = array('comments' => $new, 'id' => $id[0]);
+				$data = array('comments' => $new, 'id' => $id);
 
 				$update->execute($data);
 
@@ -213,7 +212,7 @@ try {
 			//figure out who needs to receive this notification
 			$q = $dbh->prepare("SELECT reader,username FROM cm_journals WHERE id =?");
 
-			$q->bindParam(1, $id[0]);
+			$q->bindParam(1, $id);
 
 			$q->execute();
 
@@ -248,7 +247,7 @@ try {
 			//Get current comment array for this journal
 			$q = $dbh->prepare('SELECT comments FROM cm_journals WHERE id = ?');
 
-			$q->bindParam(1, $id[0]);
+			$q->bindParam(1, $id);
 
 			$q->execute();
 
@@ -275,7 +274,7 @@ try {
 
 			$update->bindParam(1, $new);
 
-			$update->bindParam(2, $id[0]);
+			$update->bindParam(2, $id);
 
 			$update->execute();
 

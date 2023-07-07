@@ -18,7 +18,6 @@ const getFormValues = (form) => {
 const checkFormValidity = (form) => {
   const isValid = form.checkValidity();
   const invalidFields = [];
-  console.log(form.elements)
   if (isValid) {
     return true;
   } else {
@@ -94,6 +93,28 @@ live('click', 'add-item-button', (e) => {
   console.log(button);
   addNewItem(button);
 });
+
+// Create a custom method to check form validity
+HTMLFormElement.prototype.validate = function () {
+  const isValid = this.checkValidity();
+  const invalidFields = [];
+  if (isValid) {
+    this.classList.remove('invalid');
+    return true;
+  } else {
+    this.classList.add('invalid');
+
+    [...this.elements].forEach((el) => {
+      if (!el.checkValidity()) {
+        invalidFields.push(el.name);
+      }
+    });
+    alertify.error(
+      `Please correct the following invalid fields: ${invalidFields}`,
+    );
+    return false;
+  }
+};
 
 export {
   setFormValues,

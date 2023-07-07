@@ -846,6 +846,10 @@ form {
   width: 100%;
 }
 
+.journal_comments {
+  border-top: 3px solid #2b50aa;
+}
+
 .journal_detail {
   position: absolute;
   top: 0;
@@ -891,12 +895,22 @@ form {
   padding: 4rem 0.5rem;
 }
 .journal_detail .comment {
+  padding: 2rem;
+  border: 1px solid #a09cb0;
+  border-radius: 10px;
+  margin: 2rem 0;
+}
+.journal_detail .comment.new {
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
   border-left: 0.3rem solid #2b50aa;
+  border-radius: 0;
   margin: 4rem 0 4rem;
-  padding: 4rem;
+  padding: 4rem 0rem 4rem 4rem;
 }
 @media screen and (max-width: 768px) {
-  .journal_detail .comment {
+  .journal_detail .comment.new {
     padding: 0 2rem;
   }
 }
@@ -905,8 +919,24 @@ form {
   align-items: start;
 }
 .journal_detail .comment .comment_info textarea {
-  width: 100%;
+  width: calc(100% - 4rem);
   height: 200px;
+}
+.journal_detail .comment .comment_info h6 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #272727;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+}
+@media screen and (max-width: 1024px) {
+  .journal_detail .comment .comment_info h6 {
+    font-size: 1.2rem;
+  }
+}
+.journal_detail .comment .comment_info textarea,
+.journal_detail .comment .comment_info p {
   margin: 0 0 0 4rem;
 }
 @media screen and (max-width: 768px) {
@@ -920,8 +950,8 @@ form {
     margin: 0 0 4rem 0;
   }
 }
-.journal_detail .comment .btn {
+.journal_detail .comment button {
   display: block;
   margin-left: auto;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }/*# sourceMappingURL=journals.min.css.map */

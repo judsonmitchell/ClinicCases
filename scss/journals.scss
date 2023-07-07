@@ -8,7 +8,9 @@
 #table_journals {
   width: 100%;
 }
-
+.journal_comments{
+  border-top: 3px solid $dark-blue;
+}
 .journal_detail {
   position: absolute;
   top: 0;
@@ -54,22 +56,39 @@
     padding: 4rem 0.5rem;
   }
   .comment {
-    border-left: 0.3rem solid $dark-blue;
-    margin: 4rem 0 4rem;
-    padding: 4rem;
-    @media screen and (max-width: $tablet) {
-      padding: 0 2rem;
+    padding: 2rem;
+    border: 1px solid $border-gray;
+    border-radius: 10px;
+    margin: 2rem 0;
+    &.new {
+      border-right: 0;
+      border-top: 0;
+      border-bottom: 0;
+      border-left: 0.3rem solid $dark-blue;
+      border-radius: 0;
+      margin: 4rem 0 4rem;
+      padding: 4rem 0rem 4rem 4rem;
+      @media screen and (max-width: $tablet) {
+        padding: 0 2rem;
+      }
     }
-
     .comment_info {
       display: flex;
 
       align-items: start;
       textarea {
-        width: 100%;
+        width: calc(100% - 4rem);
         height: 200px;
+      }
+
+      h6 {
+        @include body-font();
+        margin: 1rem 0;
+        font-size: 1.1rem;
+      }
+      textarea,
+      p {
         margin: 0 0 0 4rem;
-        
       }
       @media screen and (max-width: $tablet) {
         flex-direction: column;
@@ -81,10 +100,10 @@
         }
       }
     }
-    .btn {
+    button {
       display: block;
       margin-left: auto;
-      margin-top: 4rem;
+      margin-top: 2rem;
     }
   }
 }

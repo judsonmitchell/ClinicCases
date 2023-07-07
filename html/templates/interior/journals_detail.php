@@ -71,18 +71,27 @@
 
 				<?php if ($comments) {
 					$c_array = unserialize($comments);
+					foreach ($c_array as $key => $value) {
 
-					foreach ($c_array as $key => $value) { ?>
 
+				?>
 						<div class="comment <?php if ($value['by'] == $_SESSION['login']) {
 																	echo "can_delete";
 																} ?>" data-id="<?php echo $key; ?>">
 
-							<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
+							<div class="comment_info">
 
-							<p><?php echo  strip_tags($value['text'], '<br><br />'); ?></p>
+								<div>
+									<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
+									<h6><?php echo username_to_fullname($dbh, $value['by']); ?></h6>
+									<h6><?php echo extract_date_time($value['time']); ?>
 
-							<a href="#" class="comment_delete">Delete</a>
+								</div>
+
+								<p><?php echo  strip_tags($value['text'], '<br><br />'); ?></p>
+							</div>
+
+							<button href="#" class="comment_delete">Delete</button>
 
 
 						</div>
@@ -93,14 +102,16 @@
 
 				<?php if ($view !== 'edit') { ?>
 
-					<div class="comment">
+					<div class="comment new">
 						<div class="comment_info">
 							<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
 
-							<textarea class="expand">Your comment</textarea>
+							<form id="commentForm">
+								<textarea name="comment_text" required placeholder="Your comment" class="expand"></textarea>
+							</form>
 						</div>
 
-						<button  href="#" class="button--primary btn">Save</button>
+						<button data-id="<?php echo $id; ?>" data-target="#commentForm" href="#" class="button--primary comment_save">Save</button>
 
 					</div>
 

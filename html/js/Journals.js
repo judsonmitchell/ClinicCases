@@ -1,9 +1,13 @@
 // //Scripts for journals
 
-import { fetchJournals, processJournal } from '../../lib/javascripts/axios.js';
+import {
+  fetchJournals,
+  loadJournal,
+  processJournal,
+} from '../../lib/javascripts/axios.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import { checkFormValidity, getFormValues, resetForm } from './forms.js';
-import { getClosest } from './live.js';
+import { getClosest, live } from './live.js';
 
 // /* global notify, elPrint, ColReorder, router, rte_toolbar  */
 // var oTable;
@@ -694,19 +698,16 @@ submitJournalButton.addEventListener('click', async (e) => {
   values.text = content;
   try {
     const res = await processJournal({ type: 'new', ...values });
-    console.log({ res });
     if (res.error) {
       throw new Error(res.message || 'Error creating journal.');
     }
     const { newId } = res;
-    console.log(readers);
     const res2 = await processJournal({
       type: 'update_readers',
       readers: Array.isArray(readers) ? readers : [readers],
       id: newId,
     });
 
-    console.log({ res2 });
     if (res2.error) {
       throw new Error(res.message || 'Error creating journal.');
     }
@@ -735,4 +736,35 @@ const createCanAddJournalButton = () => {
 document.addEventListener('DOMContentLoaded', () => {
   initJournalsTable();
   readerEl = document.querySelector('.reader_select');
+});
+
+const reloadJournal = async () => {
+  const id = new URLSearchParams(window.location.search).get('journal_id');
+  const data = await loadJournal(id);
+  console.log({ data });
+};
+live('click', 'comment_save', async (_e, el) => {
+  const formSelector = el.dataset.target;
+  const journalId = el.dataset.id;
+  const form = document.querySelector(formSelector);
+  const isValid = form.validate();
+  if (!isValid) return;
+
+  const { comment_text } = getFormValues(form);
+  try {
+    const res = await processJournal({
+      type: 'add_comment',
+      comment_text,
+      id: journalId,
+    });
+    if (res.error) {
+      throw new Error('Error saving comment.');
+    }
+
+    alertify.success('Comment saved!');
+    // TODO figure out how to inject single new comment
+    window.location.reload()
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
