@@ -8,7 +8,7 @@
 #table_journals {
   width: 100%;
 }
-.journal_comments{
+.journal_comments {
   border-top: 3px solid $dark-blue;
 }
 .journal_detail {
@@ -83,7 +83,6 @@
 
       h6 {
         @include body-font();
-        margin: 1rem 0;
         font-size: 1.1rem;
       }
       textarea,
@@ -107,3 +106,13 @@
     }
   }
 }
+
+.comment_delete {
+  display: none;
+}
+
+.can_delete {
+  display: block;
+}
+
+

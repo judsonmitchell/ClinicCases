@@ -144,7 +144,7 @@ try {
 		case 'update_readers':
 
 			$q = $dbh->prepare("UPDATE cm_journals SET `reader` = :reader WHERE `id` = :id");
-	
+
 			$data = array('id' => $id, 'reader' => $readers);
 
 			$q->execute($data);
@@ -154,6 +154,8 @@ try {
 			break;
 
 		case 'delete':
+			echo 'here';
+			var_dump($id);
 
 			$q = $dbh->prepare("DELETE FROM cm_journals WHERE id = ?");
 

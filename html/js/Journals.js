@@ -743,6 +743,12 @@ const reloadJournal = async () => {
   const data = await loadJournal(id);
   console.log({ data });
 };
+
+const backToJournals = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.delete('journal_id');
+  window.location.search = urlParams.toString();
+};
 live('click', 'comment_save', async (_e, el) => {
   const formSelector = el.dataset.target;
   const journalId = el.dataset.id;
@@ -763,8 +769,34 @@ live('click', 'comment_save', async (_e, el) => {
 
     alertify.success('Comment saved!');
     // TODO figure out how to inject single new comment
-    window.location.reload()
+    window.location.reload();
   } catch (err) {
     alertify.error(err.message);
   }
 });
+
+live('click', 'journal_delete', (e, el) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to delete this journal? You cannot undo this action.',
+    async () => {
+      try {
+        const id = el.dataset.id;
+        const res = await processJournal({
+          type: 'delete',
+          id,
+        });
+        if (res.error) {
+          throw new Error(res.message);
+        }
+        backToJournals();
+      } catch (err) {
+        alertify.error(err.message || 'Error deleting journal');
+      }
+    },
+    null,
+  );
+});
+
+live('click', 'back_to_journals', backToJournals);

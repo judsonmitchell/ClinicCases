@@ -3,13 +3,15 @@
 
 		<div class="journal_actions">
 			<div class="journal_group">
-				<img class="chevron_left" src="html/ico/chevron-up.svg" alt="">
-				<p>Back to Journals</p>
+				<button class="d-flex back_to_journals">
+					<img class="chevron_left" src="html/ico/chevron-up.svg" alt="">
+					<p>Back to Journals</p>
+				</button>
 			</div>
 			<div class="journal_group">
 				<?php if ($view !== 'edit'  && $_SESSION['permissions']['writes_journals'] == '1') { ?>
 
-					<button class="journal_delete">Delete</button>
+					<button data-id="<?php echo $id; ?>" class="journal_delete">Delete</button>
 					<button class="journal_edit">Edit</button>
 					<button class="button--secondary print-button" data-print=".case_detail_panel_conflicts[data-id='<?php echo $id; ?>']" data-filename="Conflicts from <?php echo case_id_to_casename($dbh, $id); ?>">
 						<img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
@@ -81,17 +83,19 @@
 
 							<div class="comment_info">
 
-								<div>
-									<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
-									<h6><?php echo username_to_fullname($dbh, $value['by']); ?></h6>
-									<h6><?php echo extract_date_time($value['time']); ?>
+								<div class="d-flex align-items-center">
+									<img class="thumbnail-mask mx-3" src="<?php echo return_thumbnail($dbh, $value['by']); ?>" border="0">
+									<div>
+										<h6><?php echo username_to_fullname($dbh, $value['by']); ?></h6>
+										<h6><?php echo extract_date_time($value['time']); ?>
+									</div>
 
 								</div>
 
 								<p><?php echo  strip_tags($value['text'], '<br><br />'); ?></p>
 							</div>
 
-							<button href="#" class="comment_delete">Delete</button>
+							<button class="comment_delete">Delete</button>
 
 
 						</div>

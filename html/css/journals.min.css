@@ -927,7 +927,6 @@ form {
   font-size: 1.4rem;
   font-weight: 500;
   color: #272727;
-  margin: 1rem 0;
   font-size: 1.1rem;
 }
 @media screen and (max-width: 1024px) {
@@ -954,4 +953,12 @@ form {
   display: block;
   margin-left: auto;
   margin-top: 2rem;
+}
+
+.comment_delete {
+  display: none;
+}
+
+.can_delete {
+  display: block;
 }/*# sourceMappingURL=journals.min.css.map */
