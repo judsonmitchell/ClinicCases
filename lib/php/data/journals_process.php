@@ -266,16 +266,16 @@ try {
 
 			unset($old[$comment_id]);
 
-				if (count($old) > 0) {
-					$new = serialize($old);
+			if (count($old) > 0) {
+				$new = serialize($old);
 
-					$sql = "UPDATE cm_journals SET comments = ? WHERE id = ?";
-				} else {
-					$new = '';
+				$sql = "UPDATE cm_journals SET comments = ? WHERE id = ?";
+			} else {
+				$new = '';
 
-					$sql = "UPDATE cm_journals SET comments = ?, commented = '' WHERE id = ?";
-				}
-			
+				$sql = "UPDATE cm_journals SET comments = ?, commented = '' WHERE id = ?";
+			}
+
 
 			//put comment array back in db
 			$update = $dbh->prepare($sql);

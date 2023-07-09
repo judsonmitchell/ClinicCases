@@ -747,16 +747,16 @@ const createCanAddJournalButton = () => {
 
   return button;
 };
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initJournalsTable();
   readerEl = document.querySelector('.reader_select');
+  const journalId = new URLSearchParams(window.location.search).get(
+    'journal_id',
+  );
+  if (journalId) {
+    const res = await processJournal({ type: 'mark_read', id: [journalId] });
+  }
 });
-
-const reloadJournal = async () => {
-  const id = new URLSearchParams(window.location.search).get('journal_id');
-  const data = await loadJournal(id);
-  console.log({ data });
-};
 
 const backToJournals = () => {
   const urlParams = new URLSearchParams(window.location.search);
