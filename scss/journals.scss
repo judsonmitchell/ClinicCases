@@ -107,12 +107,17 @@
   }
 }
 
+.journal_delete {
+  display: none;
+}
 .comment_delete {
   display: none;
+  font-size: 1.1rem;
 }
 
 .can_delete {
-  display: block;
+  .comment_delete,
+  .journal_delete {
+    display: block;
+  }
 }
-
-

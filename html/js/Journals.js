@@ -800,3 +800,30 @@ live('click', 'journal_delete', (e, el) => {
 });
 
 live('click', 'back_to_journals', backToJournals);
+
+live('click', 'comment_delete', (e, el) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to delete this comment? You cannot undo this action.',
+    async () => {
+      try {
+        const comment_id = el.dataset.comment_id;
+        const journal_id = el.dataset.journal_id;
+        const res = await processJournal({
+          type: 'delete_comment',
+          comment_id,
+          id: journal_id,
+        });
+        if (res.error) {
+          throw new Error(res.message);
+        }
+        alertify.success(res.message);
+        window.location.reload();
+      } catch (err) {
+        alertify.error(err.message || 'Error deleting journal');
+      }
+    },
+    null,
+  );
+});

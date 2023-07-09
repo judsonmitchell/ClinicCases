@@ -79,7 +79,7 @@
 				?>
 						<div class="comment <?php if ($value['by'] == $_SESSION['login']) {
 																	echo "can_delete";
-																} ?>" data-id="<?php echo $key; ?>">
+																} ?>">
 
 							<div class="comment_info">
 
@@ -95,7 +95,7 @@
 								<p><?php echo  strip_tags($value['text'], '<br><br />'); ?></p>
 							</div>
 
-							<button class="comment_delete">Delete</button>
+							<button data-journal_id="<?php echo $value['id'] ?>" data-comment_id="<?php echo $key; ?>" class="comment_delete">Delete</button>
 
 
 						</div>

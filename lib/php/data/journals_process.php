@@ -4,6 +4,8 @@ require('../auth/session_check.php');
 include '../../../db.php';
 include '../utilities/names.php';
 include '../users/user_data.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 try {
 
@@ -261,15 +263,16 @@ try {
 
 			unset($old[$comment_id]);
 
-			if (count($old) > 0) {
-				$new = serialize($old);
+				if (count($old) > 0) {
+					$new = serialize($old);
 
-				$sql = "UPDATE cm_journals SET comments = ? WHERE id = ?";
-			} else {
-				$new = '';
+					$sql = "UPDATE cm_journals SET comments = ? WHERE id = ?";
+				} else {
+					$new = '';
 
-				$sql = "UPDATE cm_journals SET comments = ?, commented = '' WHERE id = ?";
-			}
+					$sql = "UPDATE cm_journals SET comments = ?, commented = '' WHERE id = ?";
+				}
+			
 
 			//put comment array back in db
 			$update = $dbh->prepare($sql);
