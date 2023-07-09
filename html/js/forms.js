@@ -95,22 +95,43 @@ live('click', 'add-item-button', (e) => {
 });
 
 // Create a custom method to check form validity
-HTMLFormElement.prototype.validate = function () {
+HTMLFormElement.prototype.validate = function (arrs) {
+  // Check regular fields
   const isValid = this.checkValidity();
   const invalidFields = [];
-  if (isValid) {
-    this.classList.remove('invalid');
+  const allElements = [this];
+  const invalidElements = [];
+
+  // Check special fields (ckEditors and slimselects)
+  arrs.forEach((arr) => {
+    allElements.push(arr.el);
+    if (!arr.value || !arr.value?.length) {
+      invalidFields.push(arr.name);
+      invalidElements.push(arr.el);
+    }
+  });
+
+  // If everything is valid, remove invalid class from everything and return
+  if (isValid && !invalidFields.length) {
+    allElements.forEach((el) => el.classList.remove('invalid'));
     return true;
   } else {
     this.classList.add('invalid');
 
+    // Add "regular" invalid elements to list
     [...this.elements].forEach((el) => {
       if (!el.checkValidity()) {
         invalidFields.push(el.name);
       }
     });
+
+    console.log({invalidElements})
+    invalidElements.forEach((el) => el.classList.add('invalid'));
+
     alertify.error(
-      `Please correct the following invalid fields: ${invalidFields}`,
+      `Please correct the following invalid fields: ${invalidFields.join(
+        ', ',
+      )}`,
     );
     return false;
   }

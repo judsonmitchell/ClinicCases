@@ -129,14 +129,17 @@ try {
 
 			$q = $dbh->prepare("UPDATE cm_journals SET `text` = :text, `reader` = :reader WHERE `id` = :id");
 
+			var_dump($readers);
 			if (is_array($readers)) {
 				$reader = implode(',', $readers) . ",";
 			} else {
-				$reader = '';
+				$reader = $readers;
 			}
+
 
 			$data = array('text' => $text, 'id' => $id, 'reader' => $reader);
 
+			var_dump($reader);
 			$q->execute($data);
 
 			$error = $q->errorInfo();

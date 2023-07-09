@@ -719,7 +719,7 @@ form.invalid input:invalid,
 form.invalid textarea:invalid,
 form.invalid select:invalid,
 form.invalid input.invalid,
-form.invalid .ss-main.invalid,
+form.invalid .ss-main.invalid .ss-multi-selected,
 form.invalid .ck-editor.invalid {
   border: 1px solid red;
   border-color: red;
@@ -955,16 +955,11 @@ form {
   margin-top: 2rem;
 }
 
-.journal_delete {
-  display: none;
-}
-
 .comment_delete {
   display: none;
   font-size: 1.1rem;
 }
 
-.can_delete .comment_delete,
-.can_delete .journal_delete {
+.can_delete .comment_delete {
   display: block;
 }/*# sourceMappingURL=journals.min.css.map */

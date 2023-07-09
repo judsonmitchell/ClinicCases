@@ -533,10 +533,17 @@ import { getClosest, live } from './live.js';
 
 let table;
 let ckEditor;
+let editCkEditor;
 let readerEl;
+let editReaderEl = document.querySelector('.edit_reader_select');
 let readerSlimSelect = new SlimSelect({
   select: '.reader_select',
 });
+let editReaderSlimSelect = editReaderEl
+  ? new SlimSelect({
+      select: '.edit_reader_select',
+    })
+  : null;
 ClassicEditor.create(document.querySelector('#editor'))
   .then((editor) => {
     ckEditor = editor;
@@ -545,6 +552,13 @@ ClassicEditor.create(document.querySelector('#editor'))
     console.error(error);
   });
 
+ClassicEditor.create(document.querySelector('#editEditor'))
+  .then((editor) => {
+    editCkEditor = editor;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 const resetAltInputs = () => {
   readerSlimSelect.setSelected([]);
   ckEditor.setData('');
@@ -826,4 +840,55 @@ live('click', 'comment_delete', (e, el) => {
     },
     null,
   );
+});
+
+live('click', 'journal_edit', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set('view', 'edit');
+  window.location.search = urlParams.toString();
+});
+
+const cancelEdit = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.delete('view');
+  window.location.search = urlParams.toString();
+};
+live('click', 'edit_journal_cancel', (e) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your progress',
+    cancelEdit,
+    null,
+  );
+});
+
+const submitEditJournalButton = document.querySelector('.edit_journal_submit');
+submitEditJournalButton.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const form = document.querySelector('#editJournalForm');
+  const content = editCkEditor.getData();
+  const editorEl = document.querySelector('#editJournalForm .ck-editor');
+  const readers = editReaderSlimSelect.selected();
+  const isValid = form.validate([
+    { value: content, name: 'text', el: editorEl },
+    { value: readers, name: 'readers', el: editReaderEl },
+  ]);
+
+  if (!isValid) return;
+  const values = getFormValues(form);
+  values.text = content;
+  values.readers = readers;
+  try {
+    const res = await processJournal({ type: 'edit', ...values });
+    console.log({ res });
+    if (res.error) {
+      throw new Error(res.message || 'Error editing journal.');
+    }
+
+    alertify.success('Journal edited!');
+    cancelEdit();
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
