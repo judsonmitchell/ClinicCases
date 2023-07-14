@@ -82,8 +82,7 @@
 				<?php if ($comments) {
 					$c_array = unserialize($comments);
 					foreach ($c_array as $key => $value) {
-
-
+						
 				?>
 						<div class="comment <?php if ($value['by'] == $_SESSION['login']) {
 																	echo "can_delete";

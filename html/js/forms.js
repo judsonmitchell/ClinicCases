@@ -103,7 +103,7 @@ HTMLFormElement.prototype.validate = function (arrs) {
   const invalidElements = [];
 
   // Check special fields (ckEditors and slimselects)
-  arrs.forEach((arr) => {
+  arrs?.forEach((arr) => {
     allElements.push(arr.el);
     if (!arr.value || !arr.value?.length) {
       invalidFields.push(arr.name);

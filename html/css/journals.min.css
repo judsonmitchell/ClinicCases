@@ -954,12 +954,10 @@ form {
   margin-left: auto;
   margin-top: 2rem;
 }
-
-.comment_delete {
+.journal_detail .comment button.comment_delete {
   display: none;
   font-size: 1.1rem;
 }
-
-.can_delete .comment_delete {
+.journal_detail .comment.can_delete .comment_delete {
   display: block;
 }/*# sourceMappingURL=journals.min.css.map */

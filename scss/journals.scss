@@ -103,18 +103,15 @@
       display: block;
       margin-left: auto;
       margin-top: 2rem;
+      &.comment_delete {
+        display: none;
+        font-size: 1.1rem;
+      }
     }
-  }
-}
-
-
-.comment_delete {
-  display: none;
-  font-size: 1.1rem;
-}
-
-.can_delete {
-  .comment_delete {
-    display: block;
+    &.can_delete {
+      .comment_delete {
+        display: block;
+      }
+    }
   }
 }

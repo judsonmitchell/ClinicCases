@@ -109,25 +109,27 @@ const submitNewPasswordForm = async (e) => {
   e.preventDefault();
   const passwordRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/);
   const newPasswordForm = document.getElementById('force_password_change');
-  const isValid = checkFormValidity(newPasswordForm);
   const values = getFormValues(newPasswordForm);
   const { new_pass, new_pass_check } = values;
   const passwordsMatch = new_pass == new_pass_check;
   const passwordIsStrong = passwordRegex.test(new_pass);
-  if (isValid != true || !passwordsMatch || !passwordIsStrong) {
+  if (!passwordIsStrong) {
     newPasswordForm.classList.add('invalid');
-    const message = !passwordsMatch
-      ? 'Passwords must match'
-      : !passwordIsStrong
-      ? 'Password is not strong enough'
-      : `Please correct the following fields: ${isValid}`;
-    alertify.error(message);
+    alertify.error('Password is not strong enough');
     return;
-  } else {
-    newPasswordForm.classList.remove('invalid');
+  }
+  if (!passwordsMatch) {
+    newPasswordForm.classList.add('invalid');
+    alertify.error('Passwords must match.');
+    return;
+  }
+  const isValid = newPasswordForm.validate();
+
+  if (!isValid) {
+    return;
   }
   try {
-    const res = await changePassword(values);
+    const res = await changePassword({ pass: new_pass, upgrade: true });
     if (res.error) {
       throw new Error(err.message);
     } else {
@@ -135,7 +137,7 @@ const submitNewPasswordForm = async (e) => {
       setTimeout(() => {
         const newHref = window.location.href
           .toLowerCase()
-          .replace('/index.php?i=new_pass.php', "/index.php?i=Home.php");
+          .replace('/index.php?i=new_pass.php', '/index.php?i=Home.php');
         window.location.href = newHref;
       }, 1000);
     }

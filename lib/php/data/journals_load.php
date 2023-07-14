@@ -23,7 +23,7 @@ function in_string($val, $string)
 $user = $_SESSION['login'];
 if ($_SESSION['permissions']['reads_journals'] == '1') {
 	$sql = "SELECT * FROM cm_journals WHERE reader LIKE '$user,%'
-			OR reader LIKE '%,$user,%' ORDER BY date_added DESC";
+	OR reader LIKE '%,$user,%' ORDER BY date_added DESC";
 } elseif ($_SESSION['permissions']['writes_journals'] == '1') {
 	$sql = "SELECT * FROM cm_journals WHERE username LIKE '$user' ORDER BY date_added DESC";
 } else {

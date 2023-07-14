@@ -8,7 +8,6 @@ import {
 import { getModal } from '../../lib/javascripts/modal.js';
 import { checkFormValidity, getFormValues, resetForm } from './forms.js';
 import { getClosest, live } from './live.js';
-
 // /* global notify, elPrint, ColReorder, router, rte_toolbar  */
 // var oTable;
 
@@ -718,7 +717,7 @@ submitJournalButton.addEventListener('click', async (e) => {
     const { newId } = res;
     const res2 = await processJournal({
       type: 'update_readers',
-      readers: Array.isArray(readers) ? readers : [readers],
+      readers: Array.isArray(readers) ? `${readers},` : [readers],
       id: newId,
     });
 
@@ -864,7 +863,7 @@ live('click', 'edit_journal_cancel', (e) => {
 });
 
 const submitEditJournalButton = document.querySelector('.edit_journal_submit');
-submitEditJournalButton.addEventListener('click', async (e) => {
+submitEditJournalButton?.addEventListener('click', async (e) => {
   e.preventDefault();
   const form = document.querySelector('#editJournalForm');
   const content = editCkEditor.getData();
