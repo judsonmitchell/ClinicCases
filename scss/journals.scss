@@ -12,11 +12,14 @@
   border-top: 3px solid $dark-blue;
 }
 .journal_detail {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  &:not(.pdf) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   background: white;
   z-index: 100;
   padding: 50px 30px;
@@ -112,6 +115,13 @@
       .comment_delete {
         display: block;
       }
+    }
+  }
+  &.pdf {
+    .journal_actions,
+    .comment.new,
+    .comment.can_delete .comment_delete {
+      display: none;
     }
   }
 }

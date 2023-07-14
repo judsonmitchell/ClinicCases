@@ -1,5 +1,5 @@
 <div class="journal_detail">
-	<div class="container ">
+	<div class="container">
 
 		<div class="journal_actions">
 			<div class="journal_group">
@@ -13,12 +13,12 @@
 
 					<button data-id="<?php echo $id; ?>" class="journal_delete">Delete</button>
 					<button class="journal_edit">Edit</button>
-					<button class="button--secondary print-button" data-print=".case_detail_panel_conflicts[data-id='<?php echo $id; ?>']" data-filename="Conflicts from <?php echo case_id_to_casename($dbh, $id); ?>">
+					<button class="button--secondary print-button" data-print=".journal_detail" data-filename="Conflicts from <?php echo case_id_to_casename($dbh, $id); ?>">
 						<img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
 					</button>
 				<?php } elseif ($view !== 'edit') { ?>
 
-					<button class="button--secondary print-button" data-print=".case_detail_panel_conflicts[data-id='<?php echo $id; ?>']" data-filename="Conflicts from <?php echo case_id_to_casename($dbh, $id); ?>">
+					<button class="button--secondary print-button" data-print=".journal_detail" data-filename="Journal from <?php echo username_to_fullname($dbh, $username) ?>">
 						<img src="html/ico/printer.svg" alt="Print Icon"> <span>&nbsp;Print</span>
 					</button> <?php } ?>
 			</div>
@@ -82,7 +82,7 @@
 				<?php if ($comments) {
 					$c_array = unserialize($comments);
 					foreach ($c_array as $key => $value) {
-						
+
 				?>
 						<div class="comment <?php if ($value['by'] == $_SESSION['login']) {
 																	echo "can_delete";
@@ -115,7 +115,10 @@
 
 					<div class="comment new">
 						<div class="comment_info">
+
 							<img class="thumbnail-mask" src="<?php echo return_thumbnail($dbh, $_SESSION['login']); ?>" border="0">
+							<h6 class="text-center"><?php echo username_to_fullname($dbh, $_SESSION['login']); ?></h6>
+
 
 							<form id="commentForm">
 								<textarea name="comment_text" required placeholder="Your comment" class="expand"></textarea>

@@ -851,14 +851,16 @@ form {
 }
 
 .journal_detail {
+  background: white;
+  z-index: 100;
+  padding: 50px 30px;
+}
+.journal_detail:not(.pdf) {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  z-index: 100;
-  padding: 50px 30px;
 }
 .journal_detail .journal_actions {
   display: flex;
@@ -960,4 +962,9 @@ form {
 }
 .journal_detail .comment.can_delete .comment_delete {
   display: block;
+}
+.journal_detail.pdf .journal_actions,
+.journal_detail.pdf .comment.new,
+.journal_detail.pdf .comment.can_delete .comment_delete {
+  display: none;
 }/*# sourceMappingURL=journals.min.css.map */

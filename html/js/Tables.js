@@ -64,9 +64,8 @@ class Table {
   _initDataToDefaultFacet() {
     const defaultFacet = this.facets.find((facet) => facet.default);
     const func = defaultFacet.filter;
-    this.filteredData = this.sortedData.filter((item) => {
-      return func(item);
-    });
+    this.filteredData = this.sortedData.filter(func);
+
   }
 
   _createTable() {

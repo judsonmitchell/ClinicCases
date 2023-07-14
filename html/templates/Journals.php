@@ -7,6 +7,8 @@
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script type="text/javascript" src="html/js/Tables.js "></script>
 <script src="html/js/Journals.js" type="module"></script>
+<script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
+<script src="html/js/print.js" type="module"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
 

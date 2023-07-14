@@ -627,9 +627,7 @@ const initJournalsTable = async () => {
       {
         label: 'Unread',
         value: 'active',
-        field: 'status',
         filter: (item) => {
-          console.log(item.read == false);
           return item.read == false;
         },
         default: true,
@@ -637,26 +635,22 @@ const initJournalsTable = async () => {
       {
         label: 'Read',
         value: 'inactive',
-        field: 'status',
         filter: (item) => {
           return item.read == true;
         },
       },
       {
         label: 'Archived',
-        value: 'all',
-        field: 'status',
-        filter: () => {
+        value: 'archived',
+        filter: (item) => {
+          console.log({ item });
           return item.archived == true;
         },
       },
       {
         label: 'All',
         value: 'all',
-        field: 'status',
-        filter: () => {
-          return true;
-        },
+        filter: (item) => item.id,
       },
     ],
     tableName: 'Journals',
@@ -880,7 +874,6 @@ submitEditJournalButton?.addEventListener('click', async (e) => {
   values.readers = readers;
   try {
     const res = await processJournal({ type: 'edit', ...values });
-    console.log({ res });
     if (res.error) {
       throw new Error(res.message || 'Error editing journal.');
     }
