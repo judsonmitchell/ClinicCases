@@ -8,6 +8,7 @@ import {
 import { getModal } from '../../lib/javascripts/modal.js';
 import { checkFormValidity, getFormValues, resetForm } from './forms.js';
 import { getClosest, live } from './live.js';
+import { getCookie, setCookie } from '../../lib/javascripts/cookies.js';
 // /* global notify, elPrint, ColReorder, router, rte_toolbar  */
 // var oTable;
 
@@ -681,6 +682,21 @@ cancelJournalButton.addEventListener('click', (e) => {
   );
 });
 
+const checkForRememberedJournalReaders = () => {
+  const readers = getCookie('CC_JOURNAL');
+
+  if (readers) {
+    const readersArr = readers.split(',');
+    readerSlimSelect.setSelected(readersArr);
+    const rememberEl = document.querySelector(
+      '#newJournalModal input[name="remember_choice"]',
+    );
+    if (rememberEl) {
+      rememberEl.checked = true;
+    }
+  }
+};
+
 const submitJournalButton = document.querySelector('.new_journal_submit');
 submitJournalButton.addEventListener('click', async (e) => {
   e.preventDefault();
@@ -705,6 +721,11 @@ submitJournalButton.addEventListener('click', async (e) => {
   const values = getFormValues(form);
   values.text = content;
   try {
+    if (values.remember_choice) {
+      setCookie('CC_JOURNAL', readers, 365);
+    } else {
+      setCookie('CC_JOURNAL', '', 365);
+    }
     const res = await processJournal({ type: 'new', ...values });
     if (res.error) {
       throw new Error(res.message || 'Error creating journal.');
@@ -725,6 +746,7 @@ submitJournalButton.addEventListener('click', async (e) => {
     modal.hide();
     resetForm(form);
     resetAltInputs();
+    checkForRememberedJournalReaders();
   } catch (err) {
     alertify.error(err.message);
   }
@@ -741,8 +763,11 @@ const createCanAddJournalButton = () => {
 
   return button;
 };
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   initJournalsTable();
+
   readerEl = document.querySelector('.reader_select');
   const journalId = new URLSearchParams(window.location.search).get(
     'journal_id',
@@ -750,6 +775,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (journalId) {
     const res = await processJournal({ type: 'mark_read', id: [journalId] });
   }
+  checkForRememberedJournalReaders();
 });
 
 const backToJournals = () => {

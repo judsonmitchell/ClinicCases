@@ -19,6 +19,8 @@ class Table {
   canAddButton;
   customActions;
 
+  // TODO make filteredData an observable?
+  // when it's empty, display "no data" message
   constructor({
     columns,
     data,
