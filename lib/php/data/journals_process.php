@@ -4,8 +4,7 @@ require('../auth/session_check.php');
 include '../../../db.php';
 include '../utilities/names.php';
 include '../users/user_data.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 
 try {
 

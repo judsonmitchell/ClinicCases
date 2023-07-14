@@ -607,16 +607,17 @@ const initJournalsTable = async () => {
     { name: 'Text', hidden: true, type: 'text', fieldName: 'text' },
   ];
 
-  //     const bulkActionsEl = document.createElement('div');
-  //     bulkActionsEl.innerHTML = `<div class="actions">
-  //     <div class="form__control form__control--select">
-  //       <select name="" class="bulk_action" id="">
-  //         <option value="" selected>With displayed users</option>
-  //         <option value="activate">Activate</option>
-  //         <option value="deactivate">Deactivate</option>
-  //       </select>
-  //     </div>
-  //   </div>`;
+  const bulkActionsEl = document.createElement('div');
+  bulkActionsEl.innerHTML = `<div class="actions">
+      <div class="form__control form__control--select p-0 m-0">
+        <select name="" class="bulk_action" id="">
+          <option value="" selected>With displayed users</option>
+          <option value="archive">Archive</option>
+          <option value="mark_read">Mark as read</option>
+          <option value="mark_unread">Mark as unread</option>
+        </select>
+      </div>
+    </div>`;
 
   // Custom table plugin initiation
   table = new Table({
@@ -656,7 +657,7 @@ const initJournalsTable = async () => {
     tableName: 'Journals',
     tableNameSingular: 'Journal',
     canAddButton,
-    // customActions: [bulkActionsEl],
+    customActions: [bulkActionsEl],
   });
   setUpRowClick();
 };
@@ -882,5 +883,27 @@ submitEditJournalButton?.addEventListener('click', async (e) => {
     cancelEdit();
   } catch (err) {
     alertify.error(err.message);
+  }
+});
+
+live('change', 'bulk_action', async (e, el) => {
+  const value = el.value;
+  if (!value) {
+    return;
+  }
+  const filteredData = table.filteredData;
+  const userIds = filteredData.map((journal) => journal.id);
+
+  try {
+    const res = await processJournal({ type: value, id: userIds });
+    console.log({ res });
+    if (res.error) {
+      throw new Error(res.message);
+    } else {
+      alertify.success(res.message);
+      reloadJournals();
+    }
+  } catch (e) {
+    alertify.error(e.message);
   }
 });

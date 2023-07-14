@@ -548,7 +548,7 @@ try {
 					$time_done = $d['time'];
 					$time_formatted = extract_date_time($d['time']);
 					$what = snippet(35, strip_tags($d['text']));
-					$follow_url = "index.php?i=Journals.php#journals/" . $j['id'];
+					$follow_url = "index.php?i=Journals.php&journal_id=" . $j['id'];
 					$mobile_url = '#'; //not supported
 					$casename = "(view here)";
 					$id = null;
