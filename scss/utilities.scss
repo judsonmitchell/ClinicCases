@@ -1,0 +1,13 @@
+@import './variables';
+@import './mixins';
+@import './layouts/content-with-sidebar';
+@import './layouts/modal';
+@import './tables';
+@import './form';
+
+.tab-pane {
+  width: auto;
+}
+.ss-single-selected {
+  margin: 0 !important;
+}

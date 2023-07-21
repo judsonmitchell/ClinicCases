@@ -51,6 +51,7 @@ else
 //1. Case activity by group
 //2. Case activity by individual (displays case notes)
 
+
 switch ($type) {
 	case 'user':
 
