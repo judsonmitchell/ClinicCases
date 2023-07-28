@@ -908,6 +908,10 @@ form {
   opacity: 1;
 }
 
+#content {
+  overflow-x: hidden;
+}
+
 .tab-pane {
   width: auto;
 }

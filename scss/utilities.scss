@@ -5,6 +5,10 @@
 @import './tables';
 @import './form';
 
+#content {
+  overflow-x: hidden;
+}
+
 .tab-pane {
   width: auto;
 }

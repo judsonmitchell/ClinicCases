@@ -166,18 +166,39 @@ switch ($type) {
 
 		$cols = array("username", "SUM(time)", "seconds");
 
+
 		$col_data = array(
-			array(
-				'sTitle' => 'Name'
+			json_encode(
+				array(
+
+					'name' => 'Name',
+					'hidden' => false,
+					'fieldName' => 'name',
+					'type' => 'string'
+				)
+
 			),
-			array(
-				'sTitle' => 'Time (hours)'
+			json_encode(
+				array(
+
+					'name' => 'Hours',
+					'hidden' => false,
+					'fieldName' => 'hours',
+					'type' => 'string'
+				)
 			),
-			array(
-				'sTitle' => 'Seconds',
-				'bVisible' => false
-			)
+			json_encode(
+				array(
+
+					'name' => 'Seconds',
+					'hidden' => false,
+					'fieldName' => 'seconds',
+					'type' => 'number'
+				)
+
+			),
 		);
+
 
 		if ($columns_only) {
 			$output['aoColumns'] = $col_data;
@@ -228,16 +249,35 @@ switch ($type) {
 		$cols = array("username", "SUM(time)", "seconds");
 
 		$col_data = array(
-			array(
-				'sTitle' => 'Name'
+			json_encode(
+				array(
+
+					'name' => 'Name',
+					'hidden' => false,
+					'fieldName' => 'name',
+					'type' => 'string'
+				)
+
 			),
-			array(
-				'sTitle' => 'Time (hours)'
+			json_encode(
+				array(
+
+					'name' => 'Hours',
+					'hidden' => false,
+					'fieldName' => 'hours',
+					'type' => 'string'
+				)
 			),
-			array(
-				'sTitle' => 'Seconds',
-				'bVisible' => false
-			)
+			json_encode(
+				array(
+
+					'name' => 'Seconds',
+					'hidden' => false,
+					'fieldName' => 'seconds',
+					'type' => 'number'
+				)
+
+			),
 		);
 
 		if ($columns_only) {
@@ -271,8 +311,8 @@ switch ($type) {
 
 				$output['aaData'][] = array(
 					'name' => $result['name'],
+					'hours' => $result['hours'],
 					'seconds' => $result['seconds'],
-					'hours' => $result['hours']
 				);
 			}
 
@@ -289,27 +329,71 @@ switch ($type) {
 
 		$cols = array("username", "case_id", "date", "description", "time", "seconds");
 
+
 		$col_data = array(
-			array(
-				'sTitle' => 'Name'
+			json_encode(
+				array(
+
+					'name' => 'Name',
+					'hidden' => false,
+					'fieldName' => 'name',
+					'type' => 'string'
+				)
+
 			),
-			array(
-				'sTitle' => 'Case'
+			json_encode(
+				array(
+
+					'name' => 'Case',
+					'hidden' => false,
+					'fieldName' => 'case_id',
+					'type' => 'string'
+				)
+
 			),
-			array(
-				'sTitle' => 'Date'
+			json_encode(
+				array(
+
+					'name' => 'Date',
+					'hidden' => false,
+					'fieldName' => 'date',
+					'type' => 'date'
+				)
+
 			),
-			array(
-				'sTitle' => 'Description'
+
+			json_encode(
+				array(
+
+					'name' => 'Hours',
+					'hidden' => false,
+					'fieldName' => 'hours',
+					'type' => 'string'
+				)
 			),
-			array(
-				'sTitle' => 'Time (hours)'
+			json_encode(
+				array(
+
+					'name' => 'Seconds',
+					'hidden' => false,
+					'fieldName' => 'seconds',
+					'type' => 'number'
+				)
+
 			),
-			array(
-				'sTitle' => 'Seconds',
-				'bVisible' => false
-			)
+			json_encode(
+				array(
+
+					'name' => 'Description',
+					'hidden' => false,
+					'fieldName' => 'description',
+					'type' => 'string'
+				)
+
+			),
 		);
+
+
 
 		if ($columns_only) {
 			$output['aoColumns'] = $col_data;
@@ -328,7 +412,7 @@ switch ($type) {
 
 				$rows = array();
 
-				$result['username'] = username_to_fullname($dbh, $result['username']);
+				$result['name'] = username_to_fullname($dbh, $result['username']);
 
 				$result['case_id'] = case_id_to_casename($dbh, $result['case_id']);
 
@@ -338,12 +422,15 @@ switch ($type) {
 
 				$result['time'] = convert_to_hours($result['time']);
 
-				foreach ($cols as $col) {
 
-					$rows[] = $result[$col];
-				}
-
-				$output['aaData'][] = $rows;
+				$output['aaData'][] = array(
+					'name' => $result['name'],
+					'case_id' => $result['case_id'],
+					'date' => $result['date'],
+					'hours' => $result['hours'],
+					'seconds' => $result['seconds'],
+					'description' => $result['description']
+				);
 			}
 
 			if ($q->rowCount() < 1) {
