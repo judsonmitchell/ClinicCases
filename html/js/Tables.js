@@ -385,7 +385,9 @@ class Table {
     });
     search.value = '';
     const facet = document.querySelector('[name="facets"]');
-    facet.value = this.facets.find((facet) => facet.default).value;
+    if (facet) {
+      facet.value = this.facets?.find((facet) => facet.default)?.value;
+    }
     const inputs = [
       ...document.querySelectorAll('.advanced-search__container input'),
       document.querySelectorAll('.advanced-search__container select'),
@@ -561,9 +563,9 @@ class Table {
     ];
     const inputsWithValue = inputs.filter((input) => input.value);
     const facetSelect = document.querySelector('[name="facets"]');
-    const facetValue = facetSelect.value;
-    const facet = this.facets.find((facet) => facet.value === facetValue);
-    const func = facet.filter;
+    const facetValue = facetSelect?.value;
+    const facet = this.facets?.find((facet) => facet.value === facetValue);
+    const func = facet?.filter;
     this.filteredData = [...this.sortedData];
     inputsWithValue.forEach((input) => {
       const type = input.type;
@@ -576,7 +578,7 @@ class Table {
         const selectValue = select.value;
         if (selectValue) {
           this.filteredData = this.filteredData.filter((item) => {
-            const isValidFacet = func(item);
+            const isValidFacet = func ? func(item) : true;
             if (selectValue == 'less_than') {
               return isValidFacet && item[fieldName] < value;
             }
@@ -588,12 +590,18 @@ class Table {
             }
           });
         }
+      } else if (type == 'number') {
+        this.filteredData = this.filteredData.filter((item) => {
+          const isValidFacet = func ? func(item) : true;
+          const isEqual = item[fieldName] == value;
+          return isValidFacet && isEqual;
+        });
       } else {
         const exp = new RegExp(`${value}`, 'gim');
 
         this.filteredData = this.filteredData.filter((item) => {
-          const isValidFacet = func(item);
-          const containsKeyword = item[fieldName].search(exp) > -1;
+          const isValidFacet = func ? func(item) : true;
+          const containsKeyword = item[fieldName]?.search(exp) > -1;
           return isValidFacet && containsKeyword;
         });
       }

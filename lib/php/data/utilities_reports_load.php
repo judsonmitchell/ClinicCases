@@ -420,7 +420,7 @@ switch ($type) {
 
 				$result['seconds'] = $result['time'];
 
-				$result['time'] = convert_to_hours($result['time']);
+				$result['hours'] = convert_to_hours($result['time']);
 
 
 				$output['aaData'][] = array(
