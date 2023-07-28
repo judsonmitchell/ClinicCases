@@ -237,48 +237,84 @@
   cursor: pointer;
 }
 
-#table_cases, #table_users, #table_journals {
+#table_cases,
+#table_users,
+#table_journals,
+#table_reports {
   width: 100%;
   margin-top: 2rem;
 }
+#table_cases .table__container,
+#table_users .table__container,
+#table_journals .table__container,
+#table_reports .table__container {
+  overflow-x: hidden;
+}
 @media screen and (max-width: 768px) {
-  #table_cases .table__container, #table_users .table__container, #table_journals .table__container {
+  #table_cases .table__container,
+  #table_users .table__container,
+  #table_journals .table__container,
+  #table_reports .table__container {
     overflow-x: scroll;
   }
 }
-#table_cases table, #table_users table, #table_journals table {
+#table_cases table,
+#table_users table,
+#table_journals table,
+#table_reports table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 @media screen and (max-width: 768px) {
-  #table_cases table, #table_users table, #table_journals table {
+  #table_cases table,
+  #table_users table,
+  #table_journals table,
+  #table_reports table {
     width: auto;
   }
 }
-#table_cases table .thumbnail-mask, #table_users table .thumbnail-mask, #table_journals table .thumbnail-mask {
+#table_cases table .thumbnail-mask,
+#table_users table .thumbnail-mask,
+#table_journals table .thumbnail-mask,
+#table_reports table .thumbnail-mask {
   max-width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   width: 30px;
 }
-#table_cases thead, #table_users thead, #table_journals thead {
+#table_cases thead,
+#table_users thead,
+#table_journals thead,
+#table_reports thead {
   border-bottom: 3px solid #a09cb0;
 }
-#table_cases thead tr, #table_users thead tr, #table_journals thead tr {
+#table_cases thead tr,
+#table_users thead tr,
+#table_journals thead tr,
+#table_reports thead tr {
   color: #2b50aa;
   font-weight: 600;
   position: relative;
 }
-#table_cases thead tr td, #table_users thead tr td, #table_journals thead tr td {
+#table_cases thead tr td,
+#table_users thead tr td,
+#table_journals thead tr td,
+#table_reports thead tr td {
   position: relative;
 }
 @media screen and (max-width: 768px) {
-  #table_cases thead tr td, #table_users thead tr td, #table_journals thead tr td {
+  #table_cases thead tr td,
+  #table_users thead tr td,
+  #table_journals thead tr td,
+  #table_reports thead tr td {
     padding-right: 3rem;
   }
 }
-#table_cases thead tr td::after, #table_users thead tr td::after, #table_journals thead tr td::after {
+#table_cases thead tr td::after,
+#table_users thead tr td::after,
+#table_journals thead tr td::after,
+#table_reports thead tr td::after {
   content: "";
   display: block;
   height: 20px;
@@ -290,22 +326,47 @@
   right: 3px;
   top: 10px;
 }
-#table_cases thead tr td.asc::after, #table_users thead tr td.asc::after, #table_journals thead tr td.asc::after {
+#table_cases thead tr td.asc::after,
+#table_users thead tr td.asc::after,
+#table_journals thead tr td.asc::after,
+#table_reports thead tr td.asc::after {
   background-image: url("../ico/asc.svg");
 }
-#table_cases thead tr td.desc::after, #table_users thead tr td.desc::after, #table_journals thead tr td.desc::after {
+#table_cases thead tr td.desc::after,
+#table_users thead tr td.desc::after,
+#table_journals thead tr td.desc::after,
+#table_reports thead tr td.desc::after {
   background-image: url("../ico/desc.svg");
 }
-#table_cases tr:hover, #table_users tr:hover, #table_journals tr:hover {
+#table_cases tr:hover,
+#table_users tr:hover,
+#table_journals tr:hover,
+#table_reports tr:hover {
   cursor: pointer;
 }
-#table_cases tr:nth-child(even), #table_users tr:nth-child(even), #table_journals tr:nth-child(even) {
+#table_cases tr:nth-child(even),
+#table_users tr:nth-child(even),
+#table_journals tr:nth-child(even),
+#table_reports tr:nth-child(even) {
   background-color: rgba(160, 156, 176, 0.3);
 }
-#table_cases td, #table_users td, #table_journals td {
+#table_cases td,
+#table_users td,
+#table_journals td,
+#table_reports td {
   border: 2px solid rgba(160, 156, 176, 0.3);
   padding: 1rem;
   white-space: nowrap;
+}
+#table_cases td[data-name=description],
+#table_users td[data-name=description],
+#table_journals td[data-name=description],
+#table_reports td[data-name=description] {
+  white-space: pre-wrap !important;
+}
+
+.pdf td[data-name=description] {
+  white-space: pre-wrap !important;
 }
 
 .table__controls {
@@ -499,6 +560,11 @@
     top: 1rem;
     right: 2rem;
   }
+}
+
+.table__cell {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .advanced-search__container {

@@ -46,6 +46,7 @@ class Table {
     this.canAddButton = canAddButton;
     this.customActions = customActions;
 
+    this.container.innerHTML = '';
     this._initDataToDefaultFacet();
     this._createFacetsAndSearch();
     this._createAddButton();
@@ -64,10 +65,10 @@ class Table {
   }
 
   _initDataToDefaultFacet() {
+    if (!this.facets?.length) return;
     const defaultFacet = this.facets.find((facet) => facet.default);
     const func = defaultFacet.filter;
     this.filteredData = this.sortedData.filter(func);
-
   }
 
   _createTable() {
@@ -189,10 +190,17 @@ class Table {
         cell.classList.add('table__cell');
         cell.setAttribute('data-col', valIndex);
         cell.setAttribute(
-          `data-${this.tableNameSingular?.toLowerCase()}id`,
+          `data-${this.tableNameSingular
+            ?.toLowerCase()
+            ?.replaceAll(' ', '_')}id`,
           item.id,
         );
-        cell.setAttribute('data-name', `${item.last_name}, ${item.first_name}`);
+        cell.setAttribute(
+          'data-name',
+          item.last_name
+            ? `${item.last_name}, ${item.first_name}`
+            : this.columns[valIndex].name?.toLowerCase(),
+        );
         if (this.columns[valIndex].hidden) cell.style.display = 'none';
       });
     });
@@ -354,9 +362,16 @@ class Table {
         var cell = row.insertCell(valIndex);
         cell.innerHTML = val;
         cell.setAttribute('data-col', valIndex);
-        if (this.columns[valIndex].hidden) cell.style.display = 'none';
+        cell.setAttribute(
+          'data-name',
+          this.columns[valIndex]?.name?.toLowerCase(),
+        );
+
+        if (this.columns[valIndex]?.hidden) cell.style.display = 'none';
       });
     });
+
+    console.log(wrapper);
 
     var worker = html2pdf().from(wrapper).save(this.tableName);
   }
@@ -472,22 +487,6 @@ class Table {
     this.topControls = wrapper;
     wrapper.classList.add('table__search');
     this.container.appendChild(wrapper);
-    const facetSelectControl = document.createElement('div');
-    const facetSelect = document.createElement('select');
-    facetSelect.addEventListener('change', () => {
-      const searchInput = document.querySelector('[name="search"]');
-      const keyword = searchInput?.value || '';
-      this._filter(keyword);
-      // this._resetResults();
-    });
-    facetSelect.setAttribute('name', 'facets');
-    facetSelectControl.classList.add('form__control', 'form__control--select');
-    this.facets.forEach((facet) => {
-      const option = document.createElement('option');
-      option.value = facet.value;
-      option.innerText = facet.label;
-      facetSelect.appendChild(option);
-    });
     const input = document.createElement('input');
     input.type = 'text';
     input.name = 'search';
@@ -495,8 +494,30 @@ class Table {
       const keywords = input.value;
       this._filter(keywords);
     });
-    facetSelectControl.appendChild(facetSelect);
-    wrapper.appendChild(facetSelectControl);
+    if (this.facents?.length) {
+      const facetSelectControl = document.createElement('div');
+      const facetSelect = document.createElement('select');
+      facetSelect.addEventListener('change', () => {
+        const searchInput = document.querySelector('[name="search"]');
+        const keyword = searchInput?.value || '';
+        this._filter(keyword);
+        // this._resetResults();
+      });
+      facetSelect.setAttribute('name', 'facets');
+      facetSelectControl.classList.add(
+        'form__control',
+        'form__control--select',
+      );
+      this.facets?.forEach((facet) => {
+        const option = document.createElement('option');
+        option.value = facet.value;
+        option.innerText = facet.label;
+        facetSelect.appendChild(option);
+      });
+      facetSelectControl.appendChild(facetSelect);
+      wrapper.appendChild(facetSelectControl);
+    }
+
     wrapper.appendChild(input);
   }
 
@@ -510,15 +531,16 @@ class Table {
   _filter(keywords) {
     let keywordArray = keywords.trim().split(' ');
     const facetSelect = document.querySelector('[name="facets"]');
-    const facetValue = facetSelect.value;
-    const facet = this.facets.find((facet) => facet.value === facetValue);
-    const func = facet.filter;
+
+    const facetValue = facetSelect?.value;
+    const facet = this.facets?.find((facet) => facet.value === facetValue);
+    const func = facet?.filter;
 
     this.filteredData = this.sortedData.filter((item) => {
       const keywordRegExpArray = keywordArray.map((word) => {
         return `(?=.*${word})`;
       });
-      const isValidFacet = func(item);
+      const isValidFacet = func ? func(item) : true;
       const exp = new RegExp(`${keywordRegExpArray.join('')}`, 'gim');
       const containsKeyword = Object.values(item).join('').search(exp) > -1;
       return isValidFacet && containsKeyword;

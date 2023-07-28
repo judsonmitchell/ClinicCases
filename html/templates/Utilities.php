@@ -11,7 +11,9 @@
 <script type="text/javascript" src="lib/javascripts/jquery.highlight-3.js"></script> -->
 <script src="lib/axios/axios.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
+<script src="lib/html2pdf/html2pdf.bundle.min.js"></script>
 <script src="html/js/forms.js" type="module"></script>
+<script type="text/javascript" src="html/js/Tables.js "></script>
 <script src="html/js/utilities.js" type="module"></script>
 
 <!-- CSS specific to this page -->
@@ -93,7 +95,9 @@
 
 				</form>
 
-				<div id="table_reports"></div>
+				<div id="table_reports">
+					<p class="fs-4 fw-bold text-center py-4">Select a user, group, or case to load reports.</p>
+				</div>
 			</div>
 			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade" id="openCases">

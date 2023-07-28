@@ -1,7 +1,13 @@
-#table_cases, #table_users, #table_journals {
+#table_cases,
+#table_users,
+#table_journals,
+#table_reports {
   width: 100%;
   margin-top: 2rem;
 
+  .table__container {
+    overflow-x: hidden;
+  }
   @media screen and (max-width: $tablet) {
     .table__container {
       overflow-x: scroll;
@@ -26,7 +32,7 @@
       color: $dark-blue;
       font-weight: 600;
       position: relative;
-   
+
       td {
         position: relative;
 
@@ -71,7 +77,17 @@
     padding: 1rem;
     white-space: nowrap;
   }
+  td[data-name='description'] {
+    white-space: pre-wrap !important;
+  }
 }
+
+.pdf {
+  td[data-name='description'] {
+    white-space: pre-wrap !important;
+  }
+}
+
 .table__controls {
   display: flex;
   flex-wrap: wrap;
@@ -145,7 +161,7 @@
   width: 100%;
   // align-items: stretch;
   align-items: center;
-  .form__control{
+  .form__control {
     margin: 1px 0;
     height: 4rem;
   }
@@ -222,10 +238,13 @@
     }
   }
 }
+.table__cell {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
 .advanced-search__container {
   display: flex;
-
 
   @media screen and (max-width: $tablet) {
     flex-direction: column;

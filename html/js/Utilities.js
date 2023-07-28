@@ -276,13 +276,32 @@ const getType = (val) => {
   if (val.includes('cse')) return 'case';
   return 'user';
 };
-
-const validateDates = (date_end, date_start) => {
-  const date_end_date = new Date(date_end);
-  const date_start_date = new Date(date_start);
-  if (date_end_date < date_start_date) return false;
-
-  return true;
+const loadTimeReportsTable = (data, columns) => {
+  const aoColumns = [
+    { name: 'Name', type: 'text', fieldName: 'name', hidden: false },
+    {
+      name: 'Time (hours)',
+      type: 'string',
+      hidden: false,
+      fieldName: 'hours',
+    },
+    {
+      name: 'Seconds',
+      type: 'number',
+      hidden: false,
+      fieldName: 'seconds',
+    },
+  ];
+  // Custom table plugin initiation
+  timeReportsTable = new Table({
+    columns,
+    data: data,
+    containerId: '#table_reports',
+    tableName: 'Time Reports',
+    tableNameSingular: 'Time Report',
+    // canAddButton,
+    // customActions: [bulkActionsEl],
+  });
 };
 const submitLoadTimeReports = async (e) => {
   e.preventDefault();
@@ -309,27 +328,22 @@ const submitLoadTimeReports = async (e) => {
 
   if (!isValid) return;
 
-  // const datesAreValid = validateDates(date_end, date_start);
-  // if (!datesAreValid) {
-  //   end_date_el.setAttribute('invalid', 'true');
-  //   form.classList.add('invalid');
-  //   alertify.error();
-  //   return;
-  // } else {
-  //   end_date_el.setAttribute('invalid', 'false');
-  //   form.classList.remove('invalid');
-  // }
-
   const val = selected;
   const type = getType(selected);
-  console.log({ val, selected });
   try {
     const res = await loadTimeReports({ type, val, date_end, date_start });
     console.log({ res });
+    if (res.error) {
+      throw new Error(res.message);
+    }
+    const jsonColumns = res?.aoColumns?.map((col) => JSON.parse(col));
+    console.log(jsonColumns);
+    loadTimeReportsTable(res.aaData, jsonColumns);
   } catch (err) {
     alertify.error(err.message);
   }
 };
+
 document.addEventListener('DOMContentLoaded', () => {
   timeReportsSlimSelect = new SlimSelect({
     select: '.time_reports_slim_select',
@@ -338,105 +352,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeReportsLoadButton = document.querySelector('.time_reports_load');
   timeReportsLoadButton.addEventListener('click', submitLoadTimeReports);
 });
-
-const initUtilitiesTables = async () => {
-  const timeReports = await loadTimeReports();
-  const aoColumns = [
-    { name: 'Id', hidden: true, type: 'text', fieldName: 'id' },
-    {
-      name: 'Face',
-      hidden: false,
-      type: 'img',
-      fieldName: 'picture_url',
-      noLabel: true,
-    },
-    {
-      name: 'First Name',
-      hidden: false,
-      type: 'text',
-      fieldName: 'first_name',
-    },
-    { name: 'Last Name', hidden: false, type: 'text', fieldName: 'last_name' },
-    { name: 'Email', hidden: true, type: 'text', fieldName: 'email' },
-    {
-      name: 'Mobile Phone',
-      hidden: true,
-      type: 'text',
-      fieldName: 'mobile_phone',
-    },
-    {
-      name: 'Office Phone',
-      hidden: true,
-      type: 'text',
-      fieldName: 'office_phone',
-    },
-    { name: 'Home Phone', hidden: true, type: 'text', fieldName: 'home_phone' },
-    { name: 'Group', hidden: false, type: 'text', fieldName: 'grp' },
-    { name: 'Username', hidden: false, type: 'text', fieldName: 'username' },
-    {
-      name: 'Supervisor',
-      hidden: false,
-      type: 'text',
-      fieldName: 'supervisors',
-    },
-    { name: 'Status', hidden: false, type: 'text', fieldName: 'status' },
-    { name: 'New', hidden: false, type: 'text', fieldName: 'new' },
-
-    {
-      name: 'Date Created',
-      hidden: false,
-      type: 'date',
-      fieldName: 'date_created',
-    },
-  ];
-
-  const bulkActionsEl = document.createElement('div');
-  bulkActionsEl.innerHTML = `<div class="actions">
-    <div class="form__control form__control--select">
-      <select name="" class="bulk_action" id="">
-        <option value="" selected>With displayed users</option>
-        <option value="activate">Activate</option>
-        <option value="deactivate">Deactivate</option>
-      </select>
-    </div>
-  </div>`;
-
-  // Custom table plugin initiation
-  table = new Table({
-    columns: aoColumns,
-    data: users.aaData,
-    containerId: '#table_users',
-    facets: [
-      {
-        label: 'Active Users',
-        value: 'active',
-        field: 'status',
-        filter: (item) => {
-          return item.status == 'active';
-        },
-        default: true,
-      },
-      {
-        label: 'Inactive Users',
-        value: 'inactive',
-        field: 'status',
-        filter: (item) => {
-          return item.status != 'active';
-        },
-      },
-      {
-        label: 'All Users',
-        value: 'all',
-        field: 'status',
-        filter: () => {
-          return true;
-        },
-      },
-    ],
-    tableName: 'Users',
-    tableNameSingular: 'User',
-    canAddButton,
-    customActions: [bulkActionsEl],
-  });
-  setUpRowClick();
-};
