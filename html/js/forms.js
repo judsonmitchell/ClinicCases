@@ -105,15 +105,23 @@ HTMLFormElement.prototype.validate = function (arrs) {
   // Check special fields (ckEditors and slimselects)
   arrs?.forEach((arr) => {
     allElements.push(arr.el);
-    if (!arr.value || !arr.value?.length) {
+    console.log({ arr });
+    if (!arr.condition) {
       invalidFields.push(arr.name);
       invalidElements.push(arr.el);
+      if (arr.message) {
+        alertify.error(arr.message);
+      }
+    } else {
     }
   });
 
   // If everything is valid, remove invalid class from everything and return
   if (isValid && !invalidFields.length) {
-    allElements.forEach((el) => el.classList.remove('invalid'));
+    allElements.forEach((el) => {
+      el.classList.remove('invalid');
+      el.removeAttribute('invalid');
+    });
     return true;
   } else {
     this.classList.add('invalid');
@@ -125,8 +133,10 @@ HTMLFormElement.prototype.validate = function (arrs) {
       }
     });
 
-    console.log({invalidElements})
-    invalidElements.forEach((el) => el.classList.add('invalid'));
+    invalidElements.forEach((el) => {
+      el.classList.add('invalid');
+      el?.setAttribute('invalid', true);
+    });
 
     alertify.error(
       `Please correct the following invalid fields: ${invalidFields.join(

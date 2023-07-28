@@ -276,17 +276,50 @@ const getType = (val) => {
   if (val.includes('cse')) return 'case';
   return 'user';
 };
+
+const validateDates = (date_end, date_start) => {
+  const date_end_date = new Date(date_end);
+  const date_start_date = new Date(date_start);
+  if (date_end_date < date_start_date) return false;
+
+  return true;
+};
 const submitLoadTimeReports = async (e) => {
   e.preventDefault();
   const form = document.querySelector('#timeReportsForm');
   const selected = timeReportsSlimSelect.selected();
+  const endDateEl = form.querySelector("[name='date_end']");
+  const { date_end, date_start } = getFormValues(form);
+
   const isValid = form.validate([
-    { name: 'type', value: selected, el: timeReportsSlimSelectEl },
+    {
+      name: 'type',
+      value: selected,
+      el: timeReportsSlimSelectEl,
+      condition: Boolean(selected),
+    },
+    {
+      name: 'end date',
+      value: date_end,
+      el: endDateEl,
+      message: 'End date must be before start date.',
+      condition: date_end >= date_start,
+    },
   ]);
 
   if (!isValid) return;
 
-  const { date_end, date_start } = getFormValues(form);
+  // const datesAreValid = validateDates(date_end, date_start);
+  // if (!datesAreValid) {
+  //   end_date_el.setAttribute('invalid', 'true');
+  //   form.classList.add('invalid');
+  //   alertify.error();
+  //   return;
+  // } else {
+  //   end_date_el.setAttribute('invalid', 'false');
+  //   form.classList.remove('invalid');
+  // }
+
   const val = selected;
   const type = getType(selected);
   console.log({ val, selected });
