@@ -1,6 +1,9 @@
 // //Scripts for utilities page
 
-import { loadTimeReports } from '../../lib/javascripts/axios.js';
+import {
+  loadReportsActvities,
+  loadTimeReports,
+} from '../../lib/javascripts/axios.js';
 import { getFormValues } from './forms.js';
 
 // /* global loadCaseNotes, notify */
@@ -277,6 +280,13 @@ const getType = (val) => {
   return 'user';
 };
 
+const loadCaseTimeActivityFeed = async () => {
+  const caseActivity = await loadReportsActvities({ type: 'case' });
+  const caseTimeActivityContainer = document.querySelector(
+    '#caseTimeActivityFeed',
+  );
+  caseTimeActivityContainer.innerHTML = caseActivity;
+};
 const loadNoDataDisplay = () => {
   const tableContainer = document.querySelector('#table_reports');
   tableContainer.innerHTML = `<div><p class="text-center p-2">No reports for match query.</p></div>`;
@@ -359,4 +369,5 @@ document.addEventListener('DOMContentLoaded', () => {
   timeReportsSlimSelectEl = document.querySelector('.time_reports_slim_select');
   const timeReportsLoadButton = document.querySelector('.time_reports_load');
   timeReportsLoadButton.addEventListener('click', submitLoadTimeReports);
+  loadCaseTimeActivityFeed();
 });

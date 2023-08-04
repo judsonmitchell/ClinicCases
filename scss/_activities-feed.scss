@@ -1,0 +1,35 @@
+.activities_stream {
+  padding: 20px;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+}
+.activity_card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 0px 10px;
+}
+.activity_card img {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  padding: 10px;
+  border: 1px solid $dark-blue;
+  border-radius: 100%;
+  margin: 20px 0;
+}
+.activity_card a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.activity_card .activity_text {
+  font-size: 18px;
+}
+.activity_card .activity_time {
+  margin: 5px 0;
+  color: $gray;
+}
+.activity_card .activity_what {
+  grid-column-start: 2;
+  text-align: left;
+}

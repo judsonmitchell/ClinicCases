@@ -1,10 +1,10 @@
 <div class="activities_stream">
 
-	<div class="activities_feed">
+	<!-- <div class="activities_feed">
 
 		<a href="feeds/rss.php?type=activities&amp;key=<?php echo $_SESSION['private_key']; ?>" target="_new"><img src="html/ico/rss.png" title="RSS Feed of Activity" border="0"></a>
 
-	</div>
+	</div> -->
 
 	<?php if (empty($activities)) {
 		echo "<p class='end'>There has been no activity in the last sixty days.  If you have just installed ClinicCases 8, it may take a while for this to start filling up.</p>";

@@ -10,14 +10,6 @@ try {
 	include(CC_PATH . '/lib/php/html/gen_select.php');
 	include(CC_PATH . '/lib/php/utilities/format_text.php');
 	include(CC_PATH . '/lib/php/users/user_data.php');
-	// require('../../php/auth/session_check.php');
-	// include('../../php/utilities/thumbnails.php');
-	// include('../../php/utilities/names.php');
-	// include('../../php/utilities/convert_times.php');
-	// include('../../php/auth/last_login.php');
-	// include('../../php/html/gen_select.php');
-	// include('../../php/utilities/format_text.php');
-	// include('../../php/users/user_data.php');
 
 	//function to sort the activities array by subkey - date
 	function sortBySubkey(&$array, $subkey, $sortType = SORT_DESC)

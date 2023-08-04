@@ -4,6 +4,7 @@
 @import './layouts/modal';
 @import './tables';
 @import './form';
+@import '../scss/activities-feed';
 
 #content {
   overflow-x: hidden;
@@ -14,4 +15,9 @@
 }
 .ss-single-selected {
   margin: 0 !important;
+}
+
+.activities_stream {
+  height: 200px;
+  overflow-y: scroll;
 }

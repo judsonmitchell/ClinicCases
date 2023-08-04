@@ -908,6 +908,49 @@ form {
   opacity: 1;
 }
 
+.activities_stream {
+  padding: 20px;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+}
+
+.activity_card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 0px 10px;
+}
+
+.activity_card img {
+  height: 50px;
+  width: 50px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  padding: 10px;
+  border: 1px solid #2b50aa;
+  border-radius: 100%;
+  margin: 20px 0;
+}
+
+.activity_card a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.activity_card .activity_text {
+  font-size: 18px;
+}
+
+.activity_card .activity_time {
+  margin: 5px 0;
+  color: #D8D8D8;
+}
+
+.activity_card .activity_what {
+  grid-column-start: 2;
+  text-align: left;
+}
+
 #content {
   overflow-x: hidden;
 }
@@ -918,4 +961,9 @@ form {
 
 .ss-single-selected {
   margin: 0 !important;
+}
+
+.activities_stream {
+  height: 200px;
+  overflow-y: scroll;
 }/*# sourceMappingURL=utilities.min.css.map */

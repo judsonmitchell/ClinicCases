@@ -57,7 +57,8 @@
 			<!-- SEARCH CASES -->
 			<div role="tabpane" class="tab-pane fade show active p-4" id="timeReports">
 				<!--CASES TABLE -->
-				<h2>Time Reports</h2>
+				<h2 class="fw-bold">Time Reports</h2>
+				<div id="caseTimeActivityFeed"></div>
 				<form id="timeReportsForm">
 
 					<div class="d-flex align-items-end">
