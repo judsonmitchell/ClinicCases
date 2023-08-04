@@ -44,12 +44,22 @@
 				<div class="nav-link active" data-bs-toggle="tab" data-bs-target="#timeReports" role='tab'>
 					<h2>Time Reports</h2>
 				</div>
-				<div class="nav-link" data-bs-toggle="tab" data-bs-target="#nonCaseTime" role='tab'>
-					<h2>Non-Case Time</h2>
-				</div>
-				<div class="nav-link" data-bs-toggle="tab" data-bs-target="#configuration" role='tab'>
-					<h2>Configuration</h2>
-				</div>
+
+				<?php if ($_SESSION['permissions']['add_case_notes'] == '1') { ?>
+
+					<div class="nav-link" data-bs-toggle="tab" data-bs-target="#nonCaseTime" role='tab'>
+						<h2>Non-Case Time</h2>
+					</div>
+				<?php } ?>
+
+				<?php if ($_SESSION['permissions']['can_configure'] == '1') { ?>
+
+					<div class="nav-link" data-bs-toggle="tab" data-bs-target="#configuration" role='tab'>
+						<h2>Configuration</h2>
+					</div>
+				<?php } ?>
+
+
 			</div>
 		</div>
 		<!--CONTENT -->
@@ -98,7 +108,6 @@
 					<p class="fs-4 fw-bold text-center py-4">Select a user, group, or case to load reports.</p>
 				</div>
 			</div>
-			<!--OPEN CASES-->
 			<div role='tabpane' class="tab-pane fade p-4" id="nonCaseTime">
 				<h2 class="fw-bold">Non-Case Time</h2>
 				<div id="nonCaseTimeContainer"></div>
@@ -106,6 +115,15 @@
 
 			</div>
 
+			<div role='tabpane' class="tab-pane fade p-4" id="configuration">
+				<h2 class="fw-bold">Configuration</h2>
+				<div id="configurationContainer">
+
+
+				</div>
+
+
+			</div>
 		</div>
 	</div>
 	<!-- <div id="content">

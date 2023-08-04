@@ -1,98 +1,128 @@
-<div class = "config_forms">
+<div class="config_forms">
 
-	<div class="config_item">
 
-		<div id="case">
+	<div id="case">
 
-			<a href="#" class="config_item_link closed">Change Case Types</a>
+		<button data-bs-toggle="modal" data-bs-target="#caseTypesConfig" class="config_item">Case Types</button>
 
-			<form name = "case_form" class = "config_form" data-type="case">
+		<div class="modal fade" id="caseTypesConfig" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="caseTypesConfigLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="caseTypesConfigLabel">Case Types</h5>
+					</div>
+					<div class="modal-body">
 
-				<p>
-					<label>Case Type Code</label>
-					<input name="case_code[]" class="cl_code" type="text" maxlength="4" title="Add a new case type code (4 letters max)">
+						<form name="case_form" class="config_form" data-type="case">
+							<div class="form__array">
+								<fieldset id="caseForm">
+									<legend>Phone</legend>
+									<div class="array__grid form-control__dual">
 
-					<label>Case Type</label>
-					<input name="case[]" type="text" class="val_add" title="Add a new case type"><a href="#" class="change_config add" title="Add a new case_type"><img src="html/ico/add.png"></a></p>
 
-				<?php foreach($case_types as $ct){extract($ct)?>
+										<div class="form__control">
+											<input id="case_code" name="case_code[]" class="cl_code" type="text" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<label for="case_code">Case Type Code</label>
 
-				<p>
-					<label>Case Type Code</label>
-					<input name="case_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($case_type_code,ENT_QUOTES,'UTF-8'); ?>" maxlength="4">
+										</div>
 
-					<label>Case Type</label>
-					<input name="case[]" type="text" value="<?php echo htmlspecialchars($type,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
+										<div class="form__control">
+											<input id="case_type" name="case[]" type="text" class="val_add" title="Add a new case type" placeholder=" ">
+											<label for="case_type">Case Type</label>
+										</div>
+										<button data-add="2" data-container="#caseForm" class="button__icon add-item-button">
+											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
+										</button>
+									</div>
+								</fieldset>
 
-					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($type,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
-				</p>
+							</div>
+							<p>
 
-				<?php } ?>
 
-			</form>
+							</p>
 
+							<?php foreach ($case_types as $ct) {
+								extract($ct) ?>
+
+								<p>
+									<label>Case Type Code</label>
+									<input name="case_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($case_type_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4">
+
+									<label>Case Type</label>
+									<input name="case[]" type="text" value="<?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
+
+									<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
+								</p>
+
+							<?php } ?>
+
+						</form>
+					</div>
+
+				</div>
+			</div>
 		</div>
+
 
 	</div>
 
-	<div class="config_item">
 
-		<div id="courts">
 
-			<a href="#" class="config_item_link closed">Change Courts</a>
+	<div id="courts">
 
-			<form name = "court_form" class = "config_form" data-type="court">
+		<button class="config_item">Courts</button>
+
+		<!-- <form name="court_form" class="config_form" data-type="court">
 
 				<p><input name="court[]" type="text" class="val_add" title="Add a new court"><a href="#" class="change_config add" title="Add a new court"><img src="html/ico/add.png"></a></p>
 
-				<?php foreach($courts as $c){extract($c)?>
+				<?php foreach ($courts as $c) {
+					extract($c) ?>
 
-				<p>
-					<input name="court[]" type="text" value="<?php echo htmlspecialchars($court,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
+					<p>
+						<input name="court[]" type="text" value="<?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
 
-					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($court,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
-				</p>
+						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
+					</p>
 
 				<?php } ?>
 
-			</form>
-
-		</div>
+			</form> -->
 
 	</div>
 
-	<div class="config_item">
 
-		<div id="dispo">
 
-			<a href="#" class="config_item_link closed">Change Dispositions</a>
+	<div id="dispo">
+		<button class="config_item">Dispositions</button>
 
-			<form name = "dispo_form" class = "config_form" data-type="dispo">
+
+		<!-- <form name="dispo_form" class="config_form" data-type="dispo">
 
 				<p><input name="dispo[]" type="text" class="val_add" title="Add a new disposition"><a href="#" class="change_config add"><img src="html/ico/add.png" title="Add a new disposition"></a></p>
 
-				<?php foreach($dispos as $d){extract($d)?>
+				<?php foreach ($dispos as $d) {
+					extract($d) ?>
 
-				<p>
-					<input name="dispo[]" type="text" value="<?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>" title="Delete <?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>">
-					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($dispo,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
-				</p>
+					<p>
+						<input name="dispo[]" type="text" value="<?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" title="Delete <?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>">
+						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
+					</p>
 
 				<?php } ?>
 
-			</form>
-
-		</div>
+			</form> -->
 
 	</div>
 
-	<div class="config_item">
 
-		<div id ="clinic">
 
-			<a href="#" class="config_item_link closed">Change Clinic Types</a>
+	<div id="clinic">
+		<button class="config_item">Clinic Types</button>
 
-			<form name = "clinic_form" class = "config_form config_form_multi" data-type="clinic">
+
+		<!-- <form name="clinic_form" class="config_form config_form_multi" data-type="clinic">
 
 				<p>
 					<label>Clinic Code</label>
@@ -102,46 +132,46 @@
 					<input name="clinic_name[]" type="text" class="val_add" title="Add a new clinic name"><a href="#" class="change_config add"><img src="html/ico/add.png" title="Add a new clinic name"></a>
 				</p>
 
-				<?php foreach($clinic_types as $ct){extract($ct)?>
+				<?php foreach ($clinic_types as $ct) {
+					extract($ct) ?>
 
-				<p>
-					<label>Clinic Code</label>
-					<input name="clinic_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($clinic_code,ENT_QUOTES,'UTF-8'); ?>" maxlength="4">
+					<p>
+						<label>Clinic Code</label>
+						<input name="clinic_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($clinic_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4">
 
-					<label>Clinic Name</label>
-					<input name="clinic_name[]" type="text" value="<?php echo htmlspecialchars($clinic_name,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
-					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($clinic_name,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
-				</p>
+						<label>Clinic Name</label>
+						<input name="clinic_name[]" type="text" value="<?php echo htmlspecialchars($clinic_name, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
+						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($clinic_name, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
+					</p>
 
 				<?php } ?>
 
-			</form>
-
-		</div>
+			</form> -->
 
 	</div>
 
-	<div class="config_item">
 
-		<div id="referral">
 
-			<a href="#" class="config_item_link closed">Change Referrals</a>
+	<div id="referral">
 
-			<form name="referral_form" class = "config_form" data-type="referral">
+		<button class="config_item">Referrals</button>
+
+
+		<!-- <form name="referral_form" class="config_form" data-type="referral">
 
 				<p><input name="referral[]" type="text" class="val_add" title="Add a new referral source"><a href="#" class="change_config add"><img src="html/ico/add.png" title="Add a new referral source"></a></p>
 
-				<?php foreach($referral as $f){extract($f)?>
+				<?php foreach ($referral as $f) {
+					extract($f) ?>
 
-				<p>
-					<input name="referral[]" type="text" value="<?php echo htmlspecialchars($referral,ENT_QUOTES,'UTF-8');?>" data-id="<?php echo $id; ?>">
-					<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($referral,ENT_QUOTES,'UTF-8');?>"><img src="html/ico/cancel.png"></a>
-				</p>
+					<p>
+						<input name="referral[]" type="text" value="<?php echo htmlspecialchars($referral, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
+						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($referral, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
+					</p>
 
 				<?php } ?>
-			</form>
+			</form> -->
 
-		</div>
 
 	</div>
 

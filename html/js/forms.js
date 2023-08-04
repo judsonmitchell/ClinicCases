@@ -41,13 +41,25 @@ const resetForm = (form) => {
 const addNewItem = (button) => {
   const containerId = button?.dataset?.container;
   const container = document.querySelector(containerId);
+  // Clone the dual form control
   const elementToClone = container.querySelector('.form-control__dual');
   const newElement = elementToClone.cloneNode(true);
+  // Reset the inputs' values and attributes
   const newElementInputs = newElement.querySelectorAll('input', 'select');
   newElementInputs.forEach((el) => {
     el.value = '';
     el.required = false;
   });
+
+  // replace all plus signs with delete signs
+  const allElements = container.querySelectorAll('.form-control__dual');
+  allElements.forEach((el) => {
+    const addItemButton = el.querySelector('.add-item-button');
+    addItemButton.remove();
+    // TODO create and append delete button with functionality
+  });
+
+  // add to the container
   container.append(newElement);
 };
 
@@ -88,10 +100,9 @@ const setFormValues = (form, values) => {
   });
 };
 
-live('click', 'add-item-button', (e) => {
-  const button = getClosest(e.target, '.add-item-button');
-  console.log(button);
-  addNewItem(button);
+live('click', 'add-item-button', (e, el) => {
+  e.preventDefault();
+  addNewItem(el);
 });
 
 // Create a custom method to check form validity

@@ -2,10 +2,12 @@
 
 import {
   loadCaseNotes,
+  loadConfiguration,
   loadReportsActvities,
   loadTimeReports,
 } from '../../lib/javascripts/axios.js';
-import { getFormValues } from './forms.js';
+import { addNewItem, getFormValues } from './forms.js';
+import { live } from './live.js';
 
 // /* global loadCaseNotes, notify */
 
@@ -286,6 +288,14 @@ const loadNonCaseTime = async () => {
   const nonCaseContainer = document.querySelector('#nonCaseTimeContainer');
   nonCaseContainer.innerHTML = nonCaseTime;
 };
+
+const loadConfigurationData = async () => {
+  const configuration = await loadConfiguration();
+  const configurationContainer = document.querySelector(
+    '#configurationContainer',
+  );
+  configurationContainer.innerHTML = configuration;
+};
 const loadCaseTimeActivityFeed = async () => {
   const caseActivity = await loadReportsActvities({ type: 'case' });
   const caseTimeActivityContainer = document.querySelector(
@@ -377,4 +387,10 @@ document.addEventListener('DOMContentLoaded', () => {
   timeReportsLoadButton.addEventListener('click', submitLoadTimeReports);
   loadCaseTimeActivityFeed();
   loadNonCaseTime();
+  loadConfigurationData();
+});
+
+live('click', 'add_case_config', (e, el) => {
+  e.preventDefault();
+  addNewItem(el);
 });
