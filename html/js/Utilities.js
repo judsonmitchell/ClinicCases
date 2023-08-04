@@ -276,6 +276,11 @@ const getType = (val) => {
   if (val.includes('cse')) return 'case';
   return 'user';
 };
+
+const loadNoDataDisplay = () => {
+  const tableContainer = document.querySelector('#table_reports');
+  tableContainer.innerHTML = `<div><p class="text-center p-2">No reports for match query.</p></div>`;
+};
 const loadTimeReportsTable = (data, columns) => {
   const aoColumns = [
     { name: 'Name', type: 'text', fieldName: 'name', hidden: false },
@@ -292,6 +297,10 @@ const loadTimeReportsTable = (data, columns) => {
       fieldName: 'seconds',
     },
   ];
+  if (!data?.length) {
+    loadNoDataDisplay();
+    return;
+  }
   // Custom table plugin initiation
   timeReportsTable = new Table({
     columns,
@@ -337,7 +346,6 @@ const submitLoadTimeReports = async (e) => {
       throw new Error(res.message);
     }
     const jsonColumns = res?.aoColumns?.map((col) => JSON.parse(col));
-    console.log(jsonColumns);
     loadTimeReportsTable(res.aaData, jsonColumns);
   } catch (err) {
     alertify.error(err.message);
