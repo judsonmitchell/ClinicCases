@@ -54,9 +54,7 @@
 		</div>
 		<!--CONTENT -->
 		<div id="content">
-			<!-- SEARCH CASES -->
 			<div role="tabpane" class="tab-pane fade show active p-4" id="timeReports">
-				<!--CASES TABLE -->
 				<h2 class="fw-bold">Time Reports</h2>
 				<div id="caseTimeActivityFeed"></div>
 				<form id="timeReportsForm">
@@ -101,27 +99,11 @@
 				</div>
 			</div>
 			<!--OPEN CASES-->
-			<div role='tabpane' class="tab-pane fade" id="openCases">
-				<div class="open-cases-container">
+			<div role='tabpane' class="tab-pane fade p-4" id="nonCaseTime">
+				<h2 class="fw-bold">Non-Case Time</h2>
+				<div id="nonCaseTimeContainer"></div>
 
 
-					<nav>
-						<div class="nav nav-tabs" id="openCasesTabs" role="tablist">
-							<!-- <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button> -->
-						</div>
-						<div id="openCasesTabsMobile">
-							<select name="openCasesTabs">
-
-							</select>
-							<button id="closeCaseTabMobile">
-								<img src="html/ico/times_circle.svg" alt="Close Case Button">
-								Close</button>
-						</div>
-					</nav>
-					<div class="tab-content" id="openCasesTabContent">
-					</div>
-
-				</div>
 			</div>
 
 		</div>

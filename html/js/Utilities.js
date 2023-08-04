@@ -1,6 +1,7 @@
 // //Scripts for utilities page
 
 import {
+  loadCaseNotes,
   loadReportsActvities,
   loadTimeReports,
 } from '../../lib/javascripts/axios.js';
@@ -280,6 +281,11 @@ const getType = (val) => {
   return 'user';
 };
 
+const loadNonCaseTime = async () => {
+  const nonCaseTime = await loadCaseNotes({ non_case: 'yes' });
+  const nonCaseContainer = document.querySelector('#nonCaseTimeContainer');
+  nonCaseContainer.innerHTML = nonCaseTime;
+};
 const loadCaseTimeActivityFeed = async () => {
   const caseActivity = await loadReportsActvities({ type: 'case' });
   const caseTimeActivityContainer = document.querySelector(
@@ -370,4 +376,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeReportsLoadButton = document.querySelector('.time_reports_load');
   timeReportsLoadButton.addEventListener('click', submitLoadTimeReports);
   loadCaseTimeActivityFeed();
+  loadNonCaseTime();
 });

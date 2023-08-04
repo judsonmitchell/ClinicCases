@@ -5,13 +5,15 @@
 @import './tables';
 @import './form';
 @import '../scss/activities-feed';
+@import '../scss/case-notes';
 
 #content {
   overflow-x: hidden;
 }
 
 .tab-pane {
-  width: auto;
+  width: 100%;
+  position: absolute;
 }
 .ss-single-selected {
   margin: 0 !important;

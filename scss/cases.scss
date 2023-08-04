@@ -5,6 +5,7 @@
 @import './layouts/modal';
 @import './tables';
 @import '../scss/views/_events';
+@import '../scss/case_notes';
 
 #content {
   #searchCases,
@@ -435,58 +436,6 @@
   label {
     margin: 0 1rem;
   }
-}
-
-.new_case_modal {
-  display: block;
-  .case_note_user_info {
-    display: flex;
-    align-items: center;
-    img {
-      max-width: 50px;
-    }
-  }
-  .case_note_inputs {
-    display: block;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    margin: 1rem 0rem;
-    .case_note_date {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-    .case_note_time_selector {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-      text-align: left;
-      margin-top: 4rem;
-      > * {
-        flex: 1;
-        &:not(:last-child) {
-          margin-right: 1rem;
-        }
-      }
-    }
-    .form__control {
-      margin: 4rem 0;
-      width: 100%;
-      textarea {
-        width: 100%;
-      }
-    }
-  }
-}
-
-.case_note_add_toolbar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 }
 
 // DOCUMENTS

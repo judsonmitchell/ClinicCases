@@ -951,12 +951,93 @@ form {
   text-align: left;
 }
 
+.case_toolbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+.case_toolbar div {
+  display: flex;
+  align-items: center;
+}
+.case_toolbar div > button {
+  margin: 0 1rem;
+}
+@media screen and (max-width: 992px) {
+  .case_toolbar {
+    flex-wrap: wrap;
+  }
+  .case_toolbar .form__control {
+    margin: 1rem;
+    width: 100%;
+  }
+}
+
+.new_case_modal .case_note_user_info {
+  display: flex;
+  align-items: center;
+}
+.new_case_modal .case_note_user_info img {
+  max-width: 50px;
+}
+.new_case_modal .case_note_inputs {
+  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin: 1rem 0rem;
+}
+.new_case_modal .case_note_inputs .case_note_date {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.new_case_modal .case_note_inputs .case_note_time_selector {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  margin-top: 4rem;
+}
+.new_case_modal .case_note_inputs .case_note_time_selector > * {
+  flex: 1;
+}
+.new_case_modal .case_note_inputs .case_note_time_selector > *:not(:last-child) {
+  margin-right: 1rem;
+}
+.new_case_modal .case_note_inputs .form__control {
+  margin: 4rem 0;
+  width: 100%;
+}
+.new_case_modal .case_note_inputs .form__control textarea {
+  width: 100%;
+}
+
+.case_note_add_toolbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.case_note_add_toolbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 #content {
   overflow-x: hidden;
 }
 
 .tab-pane {
-  width: auto;
+  width: 100%;
+  position: absolute;
 }
 
 .ss-single-selected {
