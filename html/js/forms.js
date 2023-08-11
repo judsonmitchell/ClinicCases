@@ -53,7 +53,6 @@ const getDeleteButton = (index) => {
 const addNewItem = (button) => {
   const containerId = button?.dataset?.container;
   const shouldPrepend = button?.dataset?.shouldprepend;
-  console.log({ shouldPrepend });
   const container = document.querySelector(containerId);
   // Clone the dual form control
   const elementToClone = button.closest('.form-control__dual');
@@ -69,6 +68,8 @@ const addNewItem = (button) => {
   const allElements = container.querySelectorAll('.form-control__dual');
   allElements.forEach((el, index) => {
     const addItemButton = el.querySelector('.add-item-button');
+    const inputs = el.querySelectorAll('input');
+    inputs.forEach((input) => input.setAttribute('required', true));
     addItemButton?.remove();
     if (!el.querySelector('.delete-item-button')) {
       const deleteItemButton = getDeleteButton(index);

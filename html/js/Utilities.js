@@ -394,3 +394,30 @@ live('click', 'add_case_config', (e, el) => {
   e.preventDefault();
   addNewItem(el);
 });
+
+live('click', 'case_types_submit', (e, el) => {
+  e.preventDefault();
+  const form = el.closest('form');
+  const isValid = form.validate();
+  console.log({ isValid });
+});
+
+live('change', 'cl_code', (e, el) => {
+  const valAdd = el.closest('.form-control__dual').querySelector('.val_add');
+  if (el.value) {
+    valAdd.setAttribute('required', true);
+  } else {
+    valAdd.removeAttribute('required');
+    valAdd.removeAttribute('invalid');
+  }
+});
+live('change', 'val_add', (e, el) => {
+  const clCode = el.closest('.form-control__dual').querySelector('.cl_code');
+
+  if (el.value) {
+    clCode.setAttribute('required', true);
+  } else {
+    clCode.removeAttribute('required');
+    clCode.removeAttribute('invalid');
+  }
+});

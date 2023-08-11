@@ -64,7 +64,7 @@
                 resetForm(form);
                 const newCaseModal = bootstrap.Modal.getInstance(document.querySelector('#newCaseModal'));
                 newCaseModal.hide();
-               
+
                 openCase(response.newId, `${formValues.last_name}, ${formValues.last_name}`);
             }
         } else {
