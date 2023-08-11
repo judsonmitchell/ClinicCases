@@ -38,11 +38,25 @@ const resetForm = (form) => {
   });
 };
 
+const getDeleteButton = (index) => {
+  const button = document.createElement('button');
+  button.dataset.container = '#caseForm';
+  button.dataset.add = index;
+  button.classList.add('button__icon');
+  button.classList.add('delete-item-button');
+
+  button.innerHTML = `
+  <img src="html/ico/delete.png" alt="Delete input">
+  `;
+  return button;
+};
 const addNewItem = (button) => {
   const containerId = button?.dataset?.container;
+  const shouldPrepend = button?.dataset?.shouldprepend;
+  console.log({ shouldPrepend });
   const container = document.querySelector(containerId);
   // Clone the dual form control
-  const elementToClone = container.querySelector('.form-control__dual');
+  const elementToClone = button.closest('.form-control__dual');
   const newElement = elementToClone.cloneNode(true);
   // Reset the inputs' values and attributes
   const newElementInputs = newElement.querySelectorAll('input', 'select');
@@ -53,14 +67,21 @@ const addNewItem = (button) => {
 
   // replace all plus signs with delete signs
   const allElements = container.querySelectorAll('.form-control__dual');
-  allElements.forEach((el) => {
+  allElements.forEach((el, index) => {
     const addItemButton = el.querySelector('.add-item-button');
-    addItemButton.remove();
-    // TODO create and append delete button with functionality
+    addItemButton?.remove();
+    if (!el.querySelector('.delete-item-button')) {
+      const deleteItemButton = getDeleteButton(index);
+      el.append(deleteItemButton);
+    }
   });
 
-  // add to the container
-  container.append(newElement);
+  if (shouldPrepend) {
+    container.insertBefore(newElement, container.firstChild);
+  } else {
+    // add to the container
+    container.append(newElement);
+  }
 };
 
 const getDualInputValues = (dualInputs) => {
@@ -100,11 +121,18 @@ const setFormValues = (form, values) => {
   });
 };
 
+const deleteItem = (el) => {
+  const button = el.closest('.form-control__dual');
+  button?.remove();
+};
 live('click', 'add-item-button', (e, el) => {
   e.preventDefault();
   addNewItem(el);
 });
-
+live('click', 'delete-item-button', (e, el) => {
+  e.preventDefault();
+  deleteItem(el);
+});
 // Create a custom method to check form validity
 HTMLFormElement.prototype.validate = function (arrs) {
   // Check regular fields

@@ -26,7 +26,7 @@
 <link type="text/css" href="lib/javascripts/chosen/chosen.css" rel="stylesheet" /> -->
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css">
-<link rel="stylesheet" href="html/css/utilities.min.css" />
+<link rel="stylesheet" href="html/css/utilities-page.min.css" />
 
 </head>
 

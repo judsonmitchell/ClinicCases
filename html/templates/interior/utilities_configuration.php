@@ -16,7 +16,6 @@
 						<form name="case_form" class="config_form" data-type="case">
 							<div class="form__array">
 								<fieldset id="caseForm">
-									<legend>Phone</legend>
 									<div class="array__grid form-control__dual">
 
 
@@ -30,32 +29,36 @@
 											<input id="case_type" name="case[]" type="text" class="val_add" title="Add a new case type" placeholder=" ">
 											<label for="case_type">Case Type</label>
 										</div>
-										<button data-add="2" data-container="#caseForm" class="button__icon add-item-button">
+										<button data-shouldprepend="true" data-container="#caseForm" class="button__icon add-item-button">
 											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
 										</button>
 									</div>
 								</fieldset>
 
+
+
+								<?php foreach ($case_types as $ct) {
+									extract($ct) ?>
+
+									<div class="array__grid form-control__dual">
+
+
+										<div class="form__control">
+											<input id="case_code" name="case_code[]" class="cl_code" type="text" maxlength="4" value="<?php echo htmlspecialchars($case_type_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<label for="case_code">Case Type Code</label>
+
+										</div>
+
+										<div class="form__control">
+											<input id="case_type" name="case[]" value="<?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" type="text" class="val_add" title="Add a new case type" placeholder=" ">
+											<label for="case_type">Case Type</label>
+										</div>
+										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
+
+									</div>
+
+								<?php } ?>
 							</div>
-							<p>
-
-
-							</p>
-
-							<?php foreach ($case_types as $ct) {
-								extract($ct) ?>
-
-								<p>
-									<label>Case Type Code</label>
-									<input name="case_code[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($case_type_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4">
-
-									<label>Case Type</label>
-									<input name="case[]" type="text" value="<?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
-
-									<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
-								</p>
-
-							<?php } ?>
 
 						</form>
 					</div>

@@ -1071,4 +1071,9 @@ form {
   text-align: center;
   width: 200px;
   font-weight: bold;
-}/*# sourceMappingURL=utilities.min.css.map */
+}
+
+.button__icon {
+  align-self: end;
+  padding-bottom: 1rem;
+}/*# sourceMappingURL=utilities-page.min.css.map */

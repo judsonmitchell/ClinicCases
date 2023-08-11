@@ -12,6 +12,9 @@
     flex-direction: column;
   }
 }
+.fade:not(.show) {
+  z-index: -1;
+}
 #content {
   grid-area: content;
   margin: 2rem;
@@ -94,13 +97,13 @@
         padding: 2rem;
       }
 
-      &.disabled{
+      &.disabled {
         display: none;
         @media screen and (max-width: $lg) {
           display: flex;
           cursor: not-allowed;
           color: lightgray;
-          h2{
+          h2 {
             color: lightgray;
           }
         }

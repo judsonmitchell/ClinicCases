@@ -55,6 +55,10 @@
   }
 }
 
+.fade:not(.show) {
+  z-index: -1;
+}
+
 #content {
   grid-area: content;
   margin: 2rem;
