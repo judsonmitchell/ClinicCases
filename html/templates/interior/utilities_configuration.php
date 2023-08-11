@@ -1,5 +1,5 @@
 <div class="config_forms">
-
+	<?php $totalCaseTypes = count($case_types) ?>
 
 	<div id="case">
 
@@ -20,13 +20,13 @@
 
 
 										<div class="form__control">
-											<input id="case_code" name="case_code[]" class="cl_code" type="text" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<input id="case_code" name="case_code_<?php echo $totalCaseTypes ?>" class="cl_code new" type="text" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
 											<label for="case_code">Case Type Code</label>
 
 										</div>
 
 										<div class="form__control">
-											<input id="case_type" name="case[]" type="text" class="val_add" title="Add a new case type" placeholder=" ">
+											<input id="case_type" name="case_<?php echo $totalCaseTypes ?>" type="text" class="val_add new" title="Add a new case type" placeholder=" ">
 											<label for="case_type">Case Type</label>
 										</div>
 										<button data-shouldprepend="true" data-container="#caseForm" class="button__icon add-item-button">
@@ -37,30 +37,38 @@
 
 
 
-								<?php foreach ($case_types as $ct) {
-									extract($ct) ?>
+								<?php
+								$count = 1;
+
+								foreach ($case_types as $ct) {
+									extract($ct);
+
+
+								?>
 
 									<div class="array__grid form-control__dual">
 
 
 										<div class="form__control">
-											<input required id="case_code" name="case_code[]" class="cl_code" type="text" maxlength="4" value="<?php echo htmlspecialchars($case_type_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<input required id="case_code" name="case_code_<?php echo $count ?>" class="cl_code" type="text" maxlength="4" value="<?php echo htmlspecialchars($case_type_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
 											<label for="case_code">Case Type Code</label>
 
 										</div>
 
 										<div class="form__control">
-											<input required id="case_type" name="case[]" value="<?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" type="text" class="val_add" title="Add a new case type" placeholder=" ">
+											<input required id="case_type" name="case_<?php echo $count ?>" value="<?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" type="text" class="val_add" title="Add a new case type" placeholder=" ">
 											<label for="case_type">Case Type</label>
 										</div>
 										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($type, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
 
 									</div>
 
-								<?php } ?>
+								<?php
+									$count = $count + 1;
+								} ?>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="dismiss">Cancel</button>
+								<button type="button" data-target="#caseTypesConfig" class="case_types_cancel">Cancel</button>
 								<button id="caseTypesSubmit" type="button" class="primary-button case_types_submit">Submit</button>
 							</div>
 

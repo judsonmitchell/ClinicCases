@@ -2,7 +2,7 @@ import { getClosest, live } from '../../html/js/live.js';
 
 const getFormValues = (form) => {
   const elements = [...form.elements];
-  const values = elements.reduce((obj, current) => {
+  const values = elements.reduce((obj, current, index) => {
     if (current.type === 'checkbox') {
       obj[current.name] = current.checked;
     } else {
@@ -54,18 +54,19 @@ const addNewItem = (button) => {
   const containerId = button?.dataset?.container;
   const shouldPrepend = button?.dataset?.shouldprepend;
   const container = document.querySelector(containerId);
-  // Clone the dual form control
+
   const elementToClone = button.closest('.form-control__dual');
   const newElement = elementToClone.cloneNode(true);
-  // Reset the inputs' values and attributes
+
+  const allElements = container.querySelectorAll('.form-control__dual');
+  const newSize = allElements.length + 1;
+
   const newElementInputs = newElement.querySelectorAll('input', 'select');
   newElementInputs.forEach((el) => {
     el.value = '';
     el.required = false;
+    el.name = el.name.replace(/_\d+$/, `_${newSize}`);
   });
-
-  // replace all plus signs with delete signs
-  const allElements = container.querySelectorAll('.form-control__dual');
   allElements.forEach((el, index) => {
     const addItemButton = el.querySelector('.add-item-button');
     const inputs = el.querySelectorAll('input');

@@ -6,6 +6,7 @@ import {
   loadReportsActvities,
   loadTimeReports,
 } from '../../lib/javascripts/axios.js';
+import { getModal } from '../../lib/javascripts/modal.js';
 import { addNewItem, getFormValues } from './forms.js';
 import { live } from './live.js';
 
@@ -399,7 +400,10 @@ live('click', 'case_types_submit', (e, el) => {
   e.preventDefault();
   const form = el.closest('form');
   const isValid = form.validate();
-  console.log({ isValid });
+  if (!isValid) return;
+
+  const values = getFormValues(form);
+  console.log({ values });
 });
 
 live('change', 'cl_code', (e, el) => {
@@ -420,4 +424,20 @@ live('change', 'val_add', (e, el) => {
     clCode.removeAttribute('required');
     clCode.removeAttribute('invalid');
   }
+});
+
+live('click', 'case_types_cancel', (e, el) => {
+  e.preventDefault();
+  alertify.confirm(
+    'Confirm',
+    'Are you sure you want to cancel? You will lose your data.',
+    () => {
+      const inputs = el.closest('form').querySelectorAll('.new');
+      inputs.forEach((input) => (input.value = ''));
+      const id = el.dataset.target;
+      const modal = getModal(`${id}`);
+      modal.hide();
+    },
+    null,
+  );
 });
