@@ -2,9 +2,11 @@
 session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
+$_POST = json_decode(file_get_contents('php://input'), true);
 
-function trim_value(&$value) { 
-    $value = trim($value); 
+function trim_value(&$value)
+{
+	$value = trim($value);
 }
 
 $type = $_POST['type'];
@@ -14,18 +16,16 @@ $result_errors = array();
 switch ($type) {
 	case 'court':
 		//if first array element is empty, delete it
-		if ($_POST['court'][0] == '')
-		{
+		if ($_POST['court'][0] == '') {
 			unset($_POST['court'][0]);
-		}
-		else
+		} else
 		//Array must start at index 1 for html purposes, so:
 		{
 			array_unshift($_POST['court'], '');
 			unset($_POST['court'][0]);
 		}
 
-        array_walk($_POST['court'],'trim_value');
+		array_walk($_POST['court'], 'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_courts`");
@@ -34,44 +34,47 @@ switch ($type) {
 
 		$error = $q->errorInfo();
 
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		//update db
 		foreach ($_POST['court'] as $key => $value) {
 			$update = $dbh->prepare('INSERT INTO cm_courts (`id`,`court`) VALUES (NULL,?)');
 
-			$update->bindParam(1,$value);
+			$update->bindParam(1, $value);
 
 			$update->execute();
 
 			$error = $update->errorInfo();
 
-			if ($error[1]){$result_errors[] = $error[1];}
+			if ($error[1]) {
+				$result_errors[] = $error[1];
+			}
 		}
 
 		//update column definition
 		$s = serialize($_POST['court']);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'court'");
-		$col_update->bindParam(1,$s);
+		$col_update->bindParam(1, $s);
 		$col_update->execute();
 		$error = $col_update->errorInfo();
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		break;
 
 	case 'dispo':
 		//if first array element is empty, delete it
-		if ($_POST['dispo'][0] == '')
-		{
+		if ($_POST['dispo'][0] == '') {
 			unset($_POST['dispo'][0]);
-		}
-		else
-		{
+		} else {
 			array_unshift($_POST['dispo'], '');
 			unset($_POST['dispo'][0]);
 		}
 
-        array_walk($_POST['dispo'],'trim_value');
+		array_walk($_POST['dispo'], 'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_dispos`");
@@ -80,38 +83,44 @@ switch ($type) {
 
 		$error = $q->errorInfo();
 
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		//update db
 		foreach ($_POST['dispo'] as $key => $value) {
 			$update = $dbh->prepare('INSERT INTO cm_dispos (`id`,`dispo`) VALUES (NULL,?)');
 
-			$update->bindParam(1,$value);
+			$update->bindParam(1, $value);
 
 			$update->execute();
 
 			$error = $update->errorInfo();
 
-			if ($error[1]){$result_errors[] = $error[1];}
+			if ($error[1]) {
+				$result_errors[] = $error[1];
+			}
 		}
 
 		//update column definition
 		$s = serialize($_POST['dispo']);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'dispo'");
-		$col_update->bindParam(1,$s);
+		$col_update->bindParam(1, $s);
 		$col_update->execute();
 		$error = $col_update->errorInfo();
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		break;
 
 	case 'case':
 		//if first array element is empty, delete it
-		if ($_POST['case'][0] == '')
-		{
+		if ($_POST['case'][0] == '') {
 			unset($_POST['case'][0]);
 			unset($_POST['case_code'][0]);
 		}
+
 
 
 		//clear old values
@@ -121,43 +130,48 @@ switch ($type) {
 
 		$error = $q->errorInfo();
 
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		//update db
-        array_walk($_POST['case'],'trim_value');
+		array_walk($_POST['case'], 'trim_value');
 		$cases = array_combine($_POST['case_code'], $_POST['case']);
 		foreach ($cases as $key => $value) {
 			$update = $dbh->prepare('INSERT INTO cm_case_types (`id`,`type`,`case_type_code`) VALUES (NULL,?,?)');
 
-			$update->bindParam(1,$value);
+			$update->bindParam(1, $value);
 
-			$update->bindParam(2,$key);
+			$update->bindParam(2, $key);
 
 			$update->execute();
 
 			$error = $update->errorInfo();
 
-			if ($error[1]){$result_errors[] = $error[1];}
+			if ($error[1]) {
+				$result_errors[] = $error[1];
+			}
 		}
 
 		//update column definition
 		$s = serialize($cases);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'case_type'");
-		$col_update->bindParam(1,$s);
+		$col_update->bindParam(1, $s);
 		$col_update->execute();
 		$error = $col_update->errorInfo();
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		break;
 
 	case 'clinic':
 		//if first array element is empty, delete it
-		if ($_POST['clinic_code'][0] == '')
-		{
+		if ($_POST['clinic_code'][0] == '') {
 			unset($_POST['clinic_code'][0]);
 			unset($_POST['clinic_name'][0]);
 		}
-        array_walk($_POST['clinic_name'],'trim_value');
+		array_walk($_POST['clinic_name'], 'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_clinic_type`");
@@ -166,45 +180,48 @@ switch ($type) {
 
 		$error = $q->errorInfo();
 
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		$clinics = array_combine($_POST['clinic_code'], $_POST['clinic_name']);
 
 		foreach ($clinics as $key => $value) {
 			$update = $dbh->prepare("INSERT INTO cm_clinic_type (`id`,`clinic_name`,`clinic_code`) VALUES (NULL,?,?)");
 
-			$update->bindParam(1,$value);
+			$update->bindParam(1, $value);
 
-			$update->bindParam(2,$key);
+			$update->bindParam(2, $key);
 
 			$update->execute();
 
 			$error = $update->errorInfo();
 
-			if ($error[1]){$result_errors[] = $error[1];}
+			if ($error[1]) {
+				$result_errors[] = $error[1];
+			}
 		}
 
 		$s = serialize($clinics);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'clinic_type'");
-		$col_update->bindParam(1,$s);
+		$col_update->bindParam(1, $s);
 		$col_update->execute();
 		$error = $col_update->errorInfo();
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		break;
 
 	case 'referral':
 		//if first array element is empty, delete it
-		if ($_POST['referral'][0] == '')
-		{
+		if ($_POST['referral'][0] == '') {
 			unset($_POST['referral'][0]);
-		}
-		else
-		{
+		} else {
 			array_unshift($_POST['referral'], '');
 			unset($_POST['referral'][0]);
 		}
-        array_walk($_POST['referral'],'trim_value');
+		array_walk($_POST['referral'], 'trim_value');
 
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_referral`");
@@ -213,39 +230,42 @@ switch ($type) {
 
 		$error = $q->errorInfo();
 
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		//update db
 		foreach ($_POST['referral'] as $key => $value) {
 			$update = $dbh->prepare('INSERT INTO cm_referral (`id`,`referral`) VALUES (NULL,?)');
 
-			$update->bindParam(1,$value);
+			$update->bindParam(1, $value);
 
 			$update->execute();
 
 			$error = $update->errorInfo();
 
-			if ($error[1]){$result_errors[] = $error[1];}
+			if ($error[1]) {
+				$result_errors[] = $error[1];
+			}
 		}
 
 		//update column definition
 		$s = serialize($_POST['referral']);
 		$col_update = $dbh->prepare("UPDATE cm_columns SET select_options = ? WHERE db_name = 'referral'");
-		$col_update->bindParam(1,$s);
+		$col_update->bindParam(1, $s);
 		$col_update->execute();
 		$error = $col_update->errorInfo();
-		if ($error[1]){$result_errors[] = $error[1];}
+		if ($error[1]) {
+			$result_errors[] = $error[1];
+		}
 
 		break;
 }
 
-if (count($result_errors) > 0)
-{
-	$response = array('error' => true,'message'=>'Sorry, there was an error');
+if (count($result_errors) > 0) {
+	$response = array('error' => true, 'message' => 'Sorry, there was an error');
 	echo json_encode($response);
-}
-else
-{
+} else {
 	switch ($type) {
 		case 'court':
 			$response = array('error' => false, "message" => 'Your courts have been updated.');
@@ -273,4 +293,3 @@ else
 			break;
 	}
 }
-

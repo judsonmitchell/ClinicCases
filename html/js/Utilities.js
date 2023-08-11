@@ -5,6 +5,7 @@ import {
   loadConfiguration,
   loadReportsActvities,
   loadTimeReports,
+  processUtilitiesConfiguration,
 } from '../../lib/javascripts/axios.js';
 import { getModal } from '../../lib/javascripts/modal.js';
 import { addNewItem, getFormValues } from './forms.js';
@@ -396,7 +397,7 @@ live('click', 'add_case_config', (e, el) => {
   addNewItem(el);
 });
 
-live('click', 'case_types_submit', (e, el) => {
+live('click', 'case_types_submit', async (e, el) => {
   e.preventDefault();
   const form = el.closest('form');
   const isValid = form.validate();
@@ -404,6 +405,19 @@ live('click', 'case_types_submit', (e, el) => {
 
   const values = getFormValues(form);
   console.log({ values });
+  const res = await processUtilitiesConfiguration({ type: 'case', ...values });
+  console.log(res);
+  if (res.error) {
+    throw new Error(res.message);
+  }
+
+  alertify.success(res.message);
+  const modal = getModal('#caseTypesConfig');
+  modal.hide();
+  try {
+  } catch (err) {
+    alertify.error(err.message);
+  }
 });
 
 live('change', 'cl_code', (e, el) => {

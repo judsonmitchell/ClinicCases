@@ -2,8 +2,15 @@ import { getClosest, live } from '../../html/js/live.js';
 
 const getFormValues = (form) => {
   const elements = [...form.elements];
-  const values = elements.reduce((obj, current, index) => {
-    if (current.type === 'checkbox') {
+  const values = elements.reduce((obj, current) => {
+    const isArray = current.name.includes('[]');
+    const nameWithoutBrackets = current.name.replace('[]', '');
+    if (isArray) {
+      if (!obj[nameWithoutBrackets]) {
+        obj[nameWithoutBrackets] = [];
+      }
+      obj[nameWithoutBrackets] = [...obj[nameWithoutBrackets], current.value];
+    } else if (current.type === 'checkbox') {
       obj[current.name] = current.checked;
     } else {
       obj[current.name] = current.value;
@@ -59,13 +66,11 @@ const addNewItem = (button) => {
   const newElement = elementToClone.cloneNode(true);
 
   const allElements = container.querySelectorAll('.form-control__dual');
-  const newSize = allElements.length + 1;
 
   const newElementInputs = newElement.querySelectorAll('input', 'select');
   newElementInputs.forEach((el) => {
     el.value = '';
     el.required = false;
-    el.name = el.name.replace(/_\d+$/, `_${newSize}`);
   });
   allElements.forEach((el, index) => {
     const addItemButton = el.querySelector('.add-item-button');
