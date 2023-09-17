@@ -193,29 +193,85 @@
 				</div>
 			</div>
 		</div>
-		<!-- <form name="dispo_form" class="config_form" data-type="dispo">
 
-				<p><input name="dispo[]" type="text" class="val_add" title="Add a new disposition"><a href="#" class="change_config add"><img src="html/ico/add.png" title="Add a new disposition"></a></p>
-
-				<?php foreach ($dispos as $d) {
-					extract($d) ?>
-
-					<p>
-						<input name="dispo[]" type="text" value="<?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" title="Delete <?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>">
-						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
-					</p>
-
-				<?php } ?>
-
-			</form> -->
 
 	</div>
 
 
 
 	<div id="clinic">
-		<button class="config_item">Clinic Types</button>
+		<button data-bs-toggle="modal" data-bs-target="#clinicTypesConfig" class="config_item">Clinic Types</button>
+		<div class="modal fade" id="clinicTypesConfig" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="clinicTypesConfigLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="clinicTypesConfigLabel">Clinic Types</h5>
+					</div>
+					<div class="modal-body">
 
+						<form name="case_form" class="config_form" data-type="clinic">
+							<div class="form__array">
+								<fieldset id="clinicForm">
+									<div class="array__grid form-control__dual">
+
+
+										<div class="form__control">
+											<input id="clinic_code" name="clinic_code[]" class="cl_code new" type="text" maxlength="4" title="Add a new clinic type code (4 letters max)" placeholder=" ">
+											<label for="clinic_code">Clinic Type Code</label>
+
+										</div>
+
+										<div class="form__control">
+											<input id="clinic_type" name="clinic_name[]" type="text" class="val_add new" title="Add a new clinic type" placeholder=" ">
+											<label for="clinic_type">Clinic Name</label>
+										</div>
+										<button data-shouldprepend="true" data-container="#clinicForm" class="button__icon add-item-button">
+											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
+										</button>
+									</div>
+								</fieldset>
+
+
+
+								<?php
+
+								foreach ($clinic_types as $ct) {
+									extract($ct);
+
+
+								?>
+
+									<div class="array__grid form-control__dual">
+
+
+										<div class="form__control">
+											<input required id="clinic_code" name="clinic_code[]" class="cl_code" type="text" maxlength="4" value="<?php echo htmlspecialchars($clinic_code, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4" title="Add a new clinic type code (4 letters max)" placeholder=" ">
+											<label for="case_code">Clinic Type Code</label>
+
+										</div>
+
+										<div class="form__control">
+											<input required id="clinic_type" name="clinic_name[]" value="<?php echo htmlspecialchars($clinic_name, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>" type="text" class="val_add" title="Add a new case type" placeholder=" ">
+											<label for="clinic_type">Case Type</label>
+										</div>
+										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($clinic_name, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
+
+									</div>
+
+								<?php
+								} ?>
+							</div>
+							<div class="modal-footer">
+								<button type="button" data-target="#clinicTypesConfig" class="config_cancel">Cancel</button>
+								<button id="clinicTypesSubmit" data-target="#clinicTypesConfig" type="button" class="primary-button config_submit">Submit</button>
+							</div>
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
 
 		<!-- <form name="clinic_form" class="config_form config_form_multi" data-type="clinic">
 
