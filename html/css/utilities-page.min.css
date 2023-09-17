@@ -1046,9 +1046,13 @@ form {
 
 #sidebar {
   border-bottom: 2px solid #a09cb0;
+  margin-bottom: 2px;
+}
+#sidebar .nav-tabs {
+  margin-bottom: 4px;
 }
 #sidebar .nav-link {
-  border: 1px solid #a09cb0;
+  background-color: rgba(160, 156, 176, 0.1);
 }
 
 .ss-single-selected {

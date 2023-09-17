@@ -17,9 +17,13 @@
 }
 
 #sidebar {
+  .nav-tabs {
+    margin-bottom: 4px;
+  }
   border-bottom: 2px solid $border-gray;
+  margin-bottom: 2px;
   .nav-link {
-    border: 1px solid $border-gray;
+    background-color: $light-background;
   }
 }
 .ss-single-selected {
