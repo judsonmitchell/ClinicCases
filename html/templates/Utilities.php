@@ -69,8 +69,8 @@
 				<div id="caseTimeActivityFeed"></div>
 				<form id="timeReportsForm">
 
-					<div class="d-flex align-items-end">
-						<div class="form__control form__control--select flex-grow-1 ">
+					<div class="d-flex align-items-end flex-wrap">
+						<div style="min-width: 200px;" class="form__control form__control--select flex-grow-1 ">
 
 							<select name="type" class="time_reports_slim_select p-0" placeholder="Select a group or case...">
 								<?php
@@ -81,7 +81,7 @@
 								?>
 
 							</select>
-							<label>Select a user, group, or case for which to load reports.</label>
+							<label>Select a user, group, or case.</label>
 						</div>
 
 						<?php

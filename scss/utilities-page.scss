@@ -15,6 +15,13 @@
   width: 100%;
   position: absolute;
 }
+
+#sidebar {
+  border-bottom: 2px solid $border-gray;
+  .nav-link {
+    border: 1px solid $border-gray;
+  }
+}
 .ss-single-selected {
   margin: 0 !important;
 }
@@ -56,4 +63,12 @@
 .button__icon {
   align-self: end;
   padding-bottom: 1rem;
+}
+
+#timeReportsForm {
+  .form__control {
+    @media screen and (max-width: $mobile) {
+      min-width: 50%;
+    }
+  }
 }

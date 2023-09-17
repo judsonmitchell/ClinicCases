@@ -1044,6 +1044,13 @@ form {
   position: absolute;
 }
 
+#sidebar {
+  border-bottom: 2px solid #a09cb0;
+}
+#sidebar .nav-link {
+  border: 1px solid #a09cb0;
+}
+
 .ss-single-selected {
   margin: 0 !important;
 }
@@ -1089,4 +1096,10 @@ form {
 .button__icon {
   align-self: end;
   padding-bottom: 1rem;
+}
+
+@media screen and (max-width: 576px) {
+  #timeReportsForm .form__control {
+    min-width: 50%;
+  }
 }/*# sourceMappingURL=utilities-page.min.css.map */
