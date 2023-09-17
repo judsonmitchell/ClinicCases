@@ -1061,6 +1061,19 @@ form {
   justify-content: center;
   align-items: center;
 }
+@media screen and (max-width: 768px) {
+  .config_forms {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 576px) {
+  .config_forms {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
 
 .config_item {
   border: 2px solid #2b50aa;

@@ -31,6 +31,16 @@
   gap: 4rem;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and (max-width: $mobile) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .config_item {
   border: 2px solid $dark-blue;
