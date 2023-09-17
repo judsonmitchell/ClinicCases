@@ -80,30 +80,62 @@
 	</div>
 
 
-
 	<div id="courts">
 
-		<button class="config_item">Courts</button>
+		<button data-bs-toggle="modal" data-bs-target="#courtsConfig" class="config_item">Courts</button>
+		<div class="modal fade" id="courtsConfig" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="caseTypesConfigLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="caseTypesConfigLabel">Courts</h5>
+					</div>
+					<div class="modal-body">
 
-		<!-- <form name="court_form" class="config_form" data-type="court">
+						<form name="case_form" class="config_form" data-type="case">
+							<div class="form__array">
+								<fieldset id="courseForm">
+									<div class="array__grid form-control__dual">
 
-				<p><input name="court[]" type="text" class="val_add" title="Add a new court"><a href="#" class="change_config add" title="Add a new court"><img src="html/ico/add.png"></a></p>
+										<div></div>
+										<div class="form__control">
+											<input id="case_code" name="court[]" class="cl_code val_add" type="text" maxlength="4" value="" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<label for="case_code">Court</label>
 
-				<?php foreach ($courts as $c) {
-					extract($c) ?>
+										</div>
 
-					<p>
-						<input name="court[]" type="text" value="<?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>" data-id="<?php echo $id; ?>">
+										<button data-shouldprepend="true" data-container="#courseForm" class="button__icon add-item-button">
+											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
+										</button>
+									</div>
+								</fieldset>
+								<?php
 
-						<a href="#" class="change_config" title="Delete <?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/cancel.png"></a>
-					</p>
+								foreach ($courts as $ct) {
+									extract($ct);
+								?>
+									<div class="array__grid form-control__dual">
+										<div></div>
 
-				<?php } ?>
+										<div class="form__control">
+											<input required id="case_code" name="court[]" class="cl_code" type="text" maxlength="4" value="<?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>" maxlength="4" title="Add a new case type code (4 letters max)" placeholder=" ">
+											<label for="case_code">Court</label>
 
-			</form> -->
-
+										</div>
+										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($court, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
+									</div>
+								<?php
+								} ?>
+							</div>
+							<div class="modal-footer">
+								<button type="button" data-target="#courtsConfig" class="courts_cancel">Cancel</button>
+								<button id="courtsSubmit" type="button" class="primary-button courts_submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
 
 
 	<div id="dispo">

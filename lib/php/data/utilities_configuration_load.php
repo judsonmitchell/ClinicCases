@@ -15,7 +15,7 @@ $q = $dbh->prepare("SELECT * FROM cm_case_types ORDER BY type ASC");
 
 $q->execute();
 
-$case_types= $q->fetchAll(PDO::FETCH_ASSOC);
+$case_types = $q->fetchAll(PDO::FETCH_ASSOC);
 
 //Get clinic types
 $q = $dbh->prepare("SELECT * FROM cm_clinic_type ORDER BY clinic_name ASC");
@@ -39,4 +39,3 @@ $q->execute();
 $referral = $q->fetchAll(PDO::FETCH_ASSOC);
 
 include '../../../html/templates/interior/utilities_configuration.php';
-

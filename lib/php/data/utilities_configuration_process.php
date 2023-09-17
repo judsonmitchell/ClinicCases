@@ -3,6 +3,9 @@ session_start();
 require('../auth/session_check.php');
 require('../../../db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 function trim_value(&$value)
 {
@@ -27,6 +30,7 @@ switch ($type) {
 
 		array_walk($_POST['court'], 'trim_value');
 
+
 		//clear old values
 		$q = $dbh->prepare("TRUNCATE TABLE  `cm_courts`");
 
@@ -35,16 +39,14 @@ switch ($type) {
 		$error = $q->errorInfo();
 
 		if ($error[1]) {
+			var_dump($error);
 			$result_errors[] = $error[1];
 		}
 
 		//update db
 		foreach ($_POST['court'] as $key => $value) {
-			$update = $dbh->prepare('INSERT INTO cm_courts (`id`,`court`) VALUES (NULL,?)');
-
-			$update->bindParam(1, $value);
-
-			$update->execute();
+			$update = $dbh->prepare('INSERT INTO cm_courts (`id`, `court`) VALUES (NULL, :value)');
+			$update->execute([':value' => $value]);
 
 			$error = $update->errorInfo();
 
