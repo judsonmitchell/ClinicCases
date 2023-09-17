@@ -406,6 +406,7 @@ const submitConfig = async (e, el) => {
   if (!isValid) return;
 
   const values = getFormValues(form);
+  console.log({ values });
   const res = await processUtilitiesConfiguration({ type, ...values });
   if (res.error) {
     throw new Error(res.message);

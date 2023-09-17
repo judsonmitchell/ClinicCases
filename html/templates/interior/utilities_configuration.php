@@ -305,8 +305,59 @@
 
 	<div id="referral">
 
-		<button class="config_item">Referrals</button>
+		<button data-bs-toggle="modal" data-bs-target="#referralsConfig" class="config_item">Referrals</button>
+		<div class="modal fade" id="referralsConfig" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="referralsConfigLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="caseTypesConfigLabel">Referrals</h5>
+					</div>
+					<div class="modal-body">
 
+						<form name="case_form" class="config_form" data-type="referral">
+							<div class="form__array">
+								<fieldset id="referralForm">
+									<div class="array__grid form-control__dual">
+
+										<div></div>
+										<div class="form__control">
+											<input id="referral" name="referral[]" class="cl_code val_add" type="text" value="" title="Add a referral" placeholder=" ">
+											<label for="referral">Referral</label>
+
+										</div>
+
+										<button data-shouldprepend="true" data-container="#referralForm" class="button__icon add-item-button">
+											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
+										</button>
+									</div>
+								</fieldset>
+								<?php
+
+								foreach ($referral as $ct) {
+									extract($ct);
+								?>
+									<div class="array__grid form-control__dual">
+										<div></div>
+
+										<div class="form__control">
+											<input required id="referral" name="referral[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($referral, ENT_QUOTES, 'UTF-8'); ?>" title="Add a new referral (4 letters max)" placeholder=" ">
+											<label for="referral">Referral</label>
+
+										</div>
+										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($referral, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
+									</div>
+								<?php
+								} ?>
+							</div>
+							<div class="modal-footer">
+								<button type="button" data-target="#referralsConfig" class="config_cancel">Cancel</button>
+								<button id="courtsSubmit" data-target="#referralsConfig" type="button" class="primary-button config_submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- <form name="referral_form" class="config_form" data-type="referral">
 
