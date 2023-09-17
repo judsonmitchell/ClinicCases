@@ -65,8 +65,8 @@
 								} ?>
 							</div>
 							<div class="modal-footer">
-								<button type="button" data-target="#caseTypesConfig" class="case_types_cancel">Cancel</button>
-								<button id="caseTypesSubmit" type="button" class="primary-button case_types_submit">Submit</button>
+								<button type="button" data-target="#caseTypesConfig" class="config_cancel">Cancel</button>
+								<button id="caseTypesSubmit" data-target="#caseTypesConfig" type="button" class="primary-button config_submit">Submit</button>
 							</div>
 
 						</form>
@@ -91,7 +91,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form name="case_form" class="config_form" data-type="case">
+						<form name="case_form" class="config_form" data-type="court">
 							<div class="form__array">
 								<fieldset id="courseForm">
 									<div class="array__grid form-control__dual">
@@ -127,8 +127,8 @@
 								} ?>
 							</div>
 							<div class="modal-footer">
-								<button type="button" data-target="#courtsConfig" class="courts_cancel">Cancel</button>
-								<button id="courtsSubmit" type="button" class="primary-button courts_submit">Submit</button>
+								<button type="button" data-target="#courtsConfig" class="config_cancel">Cancel</button>
+								<button id="courtsSubmit" data-target="#courtsConfig" type="button" class="primary-button config_submit">Submit</button>
 							</div>
 						</form>
 					</div>
@@ -139,9 +139,60 @@
 
 
 	<div id="dispo">
-		<button class="config_item">Dispositions</button>
+		<button data-bs-toggle="modal" data-bs-target="#disposConfig" class="config_item">Dispositions</button>
 
+		<div class="modal fade" id="disposConfig" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="disposConfigLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="caseTypesConfigLabel">Dispositions</h5>
+					</div>
+					<div class="modal-body">
 
+						<form name="case_form" class="config_form" data-type="dispo">
+							<div class="form__array">
+								<fieldset id="disposForm">
+									<div class="array__grid form-control__dual">
+
+										<div></div>
+										<div class="form__control">
+											<input id="case_code" name="dispo[]" class="cl_code val_add" type="text" value="" title="Add a new dispostion (4 letters max)" placeholder=" ">
+											<label for="case_code">Dispositions</label>
+
+										</div>
+
+										<button data-shouldprepend="true" data-container="#disposForm" class="button__icon add-item-button">
+											<img src="html/ico/add-item.svg" alt="Plus sign button to add another phone number">
+										</button>
+									</div>
+								</fieldset>
+								<?php
+
+								foreach ($dispos as $ct) {
+									extract($ct);
+								?>
+									<div class="array__grid form-control__dual">
+										<div></div>
+
+										<div class="form__control">
+											<input required id="case_code" name="dispo[]" class="cl_code" type="text" value="<?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>" title="Add a new disposition code (4 letters max)" placeholder=" ">
+											<label for="case_code">Disposition</label>
+
+										</div>
+										<button class="button__icon delete-item-button" title="Delete <?php echo htmlspecialchars($dispo, ENT_QUOTES, 'UTF-8'); ?>"><img src="html/ico/delete.png"></button>
+									</div>
+								<?php
+								} ?>
+							</div>
+							<div class="modal-footer">
+								<button type="button" data-target="#disposConfig" class="config_cancel">Cancel</button>
+								<button id="disposSubmit" data-target="#disposConfig" type="button" class="primary-button config_submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- <form name="dispo_form" class="config_form" data-type="dispo">
 
 				<p><input name="dispo[]" type="text" class="val_add" title="Add a new disposition"><a href="#" class="change_config add"><img src="html/ico/add.png" title="Add a new disposition"></a></p>

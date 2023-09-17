@@ -397,49 +397,30 @@ live('click', 'add_case_config', (e, el) => {
   addNewItem(el);
 });
 
-live('click', 'case_types_submit', async (e, el) => {
+const submitConfig = async (e, el) => {
   e.preventDefault();
   const form = el.closest('form');
+  const type = form.dataset.type;
+  const modalTarget = el.dataset.target;
   const isValid = form.validate();
   if (!isValid) return;
 
   const values = getFormValues(form);
-  const res = await processUtilitiesConfiguration({ type: 'case', ...values });
+  const res = await processUtilitiesConfiguration({ type, ...values });
   if (res.error) {
     throw new Error(res.message);
   }
 
   alertify.success(res.message);
-  const modal = getModal('#caseTypesConfig');
+  const modal = getModal(modalTarget);
   modal.hide();
   try {
   } catch (err) {
     alertify.error(err.message);
   }
-});
+};
 
-live('click', 'courts_submit', async (e, el) => {
-  e.preventDefault();
-  const form = el.closest('form');
-  const isValid = form.validate();
-  if (!isValid) return;
-
-  const values = getFormValues(form);
-  console.log({ values });
-  const res = await processUtilitiesConfiguration({ type: 'court', ...values });
-  console.log(res);
-  if (res.error) {
-    throw new Error(res.message);
-  }
-
-  alertify.success(res.message);
-  const modal = getModal('#courtsConfig');
-  modal.hide();
-  try {
-  } catch (err) {
-    alertify.error(err.message);
-  }
-});
+live('click', 'config_submit', submitConfig);
 
 live('change', 'cl_code', (e, el) => {
   const valAdd = el.closest('.form-control__dual').querySelector('.val_add');
@@ -476,5 +457,6 @@ const cancelForm = (e, el) => {
     null,
   );
 };
-live('click', 'case_types_cancel', cancelForm);
-live('click', 'courts_cancel', cancelForm);
+live('click', 'config_cancel', cancelForm);
+live('click', 'config_cancel', cancelForm);
+live('click', 'confic_cancel', cancelForm);
