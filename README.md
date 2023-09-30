@@ -1,5 +1,12 @@
 # ClinicCases
 
+# DEPRECATION NOTICE
+
+Development on ClinicCases has stopped.  There will be not further enhancement 
+or upgrades.  If you use this software, you should strongly consider moving to 
+another system.  Thanks to all of you who have supported this software over the
+years! 
+
 ClinicCases is an open source case management system designed
 specifically for law school clinics.  It uses PHP and MySQL.
 
